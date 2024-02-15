@@ -40,8 +40,6 @@ extension AmplifyBackendClientTypes {
     }
 }
 
-public enum AmplifyBackendClientTypes {}
-
 extension AmplifyBackendClientTypes {
     public enum AuthResources: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case identityPoolAndUserPool

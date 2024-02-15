@@ -1447,8 +1447,6 @@ extension CloudFrontClientTypes {
     }
 }
 
-public enum CloudFrontClientTypes {}
-
 extension CloudFrontClientTypes.CloudFrontOriginAccessIdentity {
 
     static func writingClosure(_ value: CloudFrontClientTypes.CloudFrontOriginAccessIdentity?, to writer: SmithyXML.Writer) throws {

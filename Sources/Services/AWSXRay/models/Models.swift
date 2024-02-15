@@ -9301,5 +9301,3 @@ extension XRayClientTypes {
     }
 
 }
-
-public enum XRayClientTypes {}

@@ -5012,8 +5012,6 @@ extension MigrationHubStrategyClientTypes {
 
 }
 
-public enum MigrationHubStrategyClientTypes {}
-
 extension MigrationHubStrategyClientTypes.NetworkInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case interfaceName

@@ -5342,8 +5342,6 @@ extension CannotListParentOfRootExceptionBody: Swift.Decodable {
     }
 }
 
-public enum CloudDirectoryClientTypes {}
-
 extension CloudDirectoryClientTypes {
     public enum ConsistencyLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case eventual

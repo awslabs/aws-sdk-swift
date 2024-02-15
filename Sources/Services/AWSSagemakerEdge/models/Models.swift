@@ -997,8 +997,6 @@ extension SagemakerEdgeClientTypes {
     }
 }
 
-public enum SagemakerEdgeClientTypes {}
-
 extension SendHeartbeatInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentMetrics = "AgentMetrics"

@@ -4668,8 +4668,6 @@ extension TimestreamWriteClientTypes {
     }
 }
 
-public enum TimestreamWriteClientTypes {}
-
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceARN = "ResourceARN"

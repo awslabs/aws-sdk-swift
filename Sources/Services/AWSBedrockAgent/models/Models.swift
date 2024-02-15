@@ -1876,8 +1876,6 @@ enum AssociateAgentKnowledgeBaseOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
-public enum BedrockAgentClientTypes {}
-
 extension BedrockAgentClientTypes.ChunkingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case chunkingStrategy

@@ -639,8 +639,6 @@ extension ComputeOptimizerClientTypes {
 
 }
 
-public enum ComputeOptimizerClientTypes {}
-
 extension ComputeOptimizerClientTypes.ContainerConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerName

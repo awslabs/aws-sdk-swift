@@ -6500,8 +6500,6 @@ extension SSMContactsClientTypes {
 
 }
 
-public enum SSMContactsClientTypes {}
-
 extension SendActivationCodeInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contactChannelId = "ContactChannelId"

@@ -2,8 +2,6 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum AmplifyClientTypes {}
-
 extension AmplifyClientTypes.App: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appArn

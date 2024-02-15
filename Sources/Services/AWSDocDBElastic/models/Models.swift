@@ -1283,8 +1283,6 @@ enum DeleteClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum DocDBElasticClientTypes {}
-
 extension GetClusterInput {
 
     static func urlPathProvider(_ value: GetClusterInput) -> Swift.String? {

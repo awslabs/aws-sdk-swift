@@ -6186,8 +6186,6 @@ extension NetworkFirewallClientTypes {
 
 }
 
-public enum NetworkFirewallClientTypes {}
-
 extension NetworkFirewallClientTypes {
     public enum OverrideAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dropToAlert

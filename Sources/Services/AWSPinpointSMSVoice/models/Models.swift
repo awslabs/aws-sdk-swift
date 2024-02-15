@@ -1144,8 +1144,6 @@ extension NotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum PinpointSMSVoiceClientTypes {}
-
 extension PinpointSMSVoiceClientTypes.PlainTextMessageType: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case languageCode = "LanguageCode"

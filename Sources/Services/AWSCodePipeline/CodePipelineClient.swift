@@ -1677,6 +1677,7 @@ extension CodePipelineClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `ConcurrentPipelineExecutionsLimitExceededException` : The pipeline has reached the limit for concurrent pipeline executions.
     /// - `ConflictException` : Your request cannot be handled because the pipeline is busy handling ongoing activities. Try again later.
     /// - `PipelineNotFoundException` : The pipeline was specified in an invalid format or cannot be found.
     /// - `ValidationException` : The validation was specified in an invalid format.

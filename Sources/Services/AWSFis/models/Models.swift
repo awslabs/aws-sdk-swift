@@ -3474,8 +3474,6 @@ extension FisClientTypes {
 
 }
 
-public enum FisClientTypes {}
-
 extension GetActionInput {
 
     static func urlPathProvider(_ value: GetActionInput) -> Swift.String? {

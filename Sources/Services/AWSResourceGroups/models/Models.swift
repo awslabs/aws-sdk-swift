@@ -2764,8 +2764,6 @@ extension ResourceGroupsClientTypes {
     }
 }
 
-public enum ResourceGroupsClientTypes {}
-
 extension ResourceGroupsClientTypes.ResourceIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceArn = "ResourceArn"

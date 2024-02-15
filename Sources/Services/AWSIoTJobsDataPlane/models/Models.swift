@@ -404,8 +404,6 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoTJobsDataPlaneClientTypes {}
-
 extension IoTJobsDataPlaneClientTypes.JobExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approximateSecondsBeforeTimedOut

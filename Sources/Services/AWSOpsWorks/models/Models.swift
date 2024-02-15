@@ -10300,8 +10300,6 @@ extension OpsWorksClientTypes {
 
 }
 
-public enum OpsWorksClientTypes {}
-
 extension OpsWorksClientTypes.Permission: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allowSsh = "AllowSsh"

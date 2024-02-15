@@ -15445,8 +15445,6 @@ extension SESv2ClientTypes {
     }
 }
 
-public enum SESv2ClientTypes {}
-
 extension SESv2ClientTypes.SOARecord: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminEmail = "AdminEmail"

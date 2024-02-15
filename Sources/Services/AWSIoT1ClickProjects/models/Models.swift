@@ -988,8 +988,6 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
-public enum IoT1ClickProjectsClientTypes {}
-
 extension ListPlacementsInput {
 
     static func queryItemProvider(_ value: ListPlacementsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

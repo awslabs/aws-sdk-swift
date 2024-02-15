@@ -2727,8 +2727,6 @@ enum CreateProfileOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum CustomerProfilesClientTypes {}
-
 extension CustomerProfilesClientTypes {
     public enum DataPullMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case complete

@@ -611,8 +611,6 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum Route53RecoveryClusterClientTypes {}
-
 extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlPanelArn = "ControlPanelArn"

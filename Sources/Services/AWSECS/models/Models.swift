@@ -592,7 +592,7 @@ extension ECSClientTypes.AwsVpcConfiguration: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// An object representing the networking details for a task or service.
+    /// An object representing the networking details for a task or service. For example awsvpcConfiguration={subnets=["subnet-12344321"],securityGroups=["sg-12344321"]}
     public struct AwsVpcConfiguration: Swift.Equatable {
         /// Whether the task's elastic network interface receives a public IP address. The default value is DISABLED.
         public var assignPublicIp: ECSClientTypes.AssignPublicIp?
@@ -2790,9 +2790,9 @@ extension ECSClientTypes {
         ///
         /// The max stop timeout value is 120 seconds and if the parameter is not specified, the default value of 30 seconds is used. For tasks that use the EC2 launch type, if the stopTimeout parameter isn't specified, the value set for the Amazon ECS container agent configuration variable ECS_CONTAINER_STOP_TIMEOUT is used. If neither the stopTimeout parameter or the ECS_CONTAINER_STOP_TIMEOUT agent configuration variable are set, then the default values of 30 seconds for Linux containers and 30 seconds on Windows containers are used. Your container instances require at least version 1.26.0 of the container agent to use a container stop timeout value. However, we recommend using the latest container agent version. For information about checking your agent version and updating to the latest version, see [Updating the Amazon ECS Container Agent](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html) in the Amazon Elastic Container Service Developer Guide. If you're using an Amazon ECS-optimized Linux AMI, your instance needs at least version 1.26.0-1 of the ecs-init package. If your container instances are launched from version 20190301 or later, then they contain the required versions of the container agent and ecs-init. For more information, see [Amazon ECS-optimized Linux AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html) in the Amazon Elastic Container Service Developer Guide. The valid values are 2-120 seconds.
         public var stopTimeout: Swift.Int?
-        /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --sysctl option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). For example, you can configure net.ipv4.tcp_keepalive_time setting to maintain longer lived connections. We don't recommended that you specify network-related systemControls parameters for multiple containers in a single task that also uses either the awsvpc or host network modes. For tasks that use the awsvpc network mode, the container that's started last determines which systemControls parameters take effect. For tasks that use the host network mode, it changes the container instance's namespaced kernel parameters as well as the containers. This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
+        /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --sysctl option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). For example, you can configure net.ipv4.tcp_keepalive_time setting to maintain longer lived connections.
         public var systemControls: [ECSClientTypes.SystemControl]?
-        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Valid naming values are displayed in the [Ulimit] data type. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 4096. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Valid naming values are displayed in the [Ulimit] data type. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
         public var ulimits: [ECSClientTypes.Ulimit]?
         /// The user to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
         ///
@@ -2935,6 +2935,9 @@ extension ECSClientTypes {
     /// * Linux platform version 1.3.0 or later.
     ///
     /// * Windows platform version 1.0.0 or later.
+    ///
+    ///
+    /// For more information about how to create a container dependency, see [Container dependency](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/example_task_definitions.html#example_task_definition-containerdependency) in the Amazon Elastic Container Service Developer Guide.
     public struct ContainerDependency: Swift.Equatable {
         /// The dependency condition of the container. The following are the available conditions and their behavior:
         ///
@@ -4175,7 +4178,7 @@ public struct CreateServiceInput: Swift.Equatable {
     public var enableExecuteCommand: Swift.Bool?
     /// The period of time, in seconds, that the Amazon ECS service scheduler ignores unhealthy Elastic Load Balancing target health checks after a task has first started. This is only used when your service is configured to use a load balancer. If your service has a load balancer defined and you don't specify a health check grace period value, the default value of 0 is used. If you do not use an Elastic Load Balancing, we recommend that you use the startPeriod in the task definition health check parameters. For more information, see [Health check](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_HealthCheck.html). If your service's tasks take a while to start and respond to Elastic Load Balancing health checks, you can specify a health check grace period of up to 2,147,483,647 seconds (about 69 years). During that time, the Amazon ECS service scheduler ignores health check status. This grace period can prevent the service scheduler from marking tasks as unhealthy and stopping them before they have time to come up.
     public var healthCheckGracePeriodSeconds: Swift.Int?
-    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html) in the Amazon ECS User Guide for Fargate. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
+    /// The infrastructure that you run your service on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS User Guide for Fargate. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A service can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted.
     public var launchType: ECSClientTypes.LaunchType?
     /// A load balancer object representing the load balancers to use with your service. For more information, see [Service load balancing](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-load-balancing.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the rolling update (ECS) deployment controller and using either an Application Load Balancer or Network Load Balancer, you must specify one or more target group ARNs to attach to the service. The service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles for Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide. If the service uses the CODE_DEPLOY deployment controller, the service is required to use either an Application Load Balancer or Network Load Balancer. When creating an CodeDeploy deployment group, you specify two target groups (referred to as a targetGroupPair). During a deployment, CodeDeploy determines which task set in your service has the status PRIMARY, and it associates one target group with it. Then, it also associates the other target group with the replacement task set. The load balancer can also have up to two listeners: a required listener for production traffic and an optional listener that you can use to perform validation tests with Lambda functions before routing production traffic to it. If you use the CODE_DEPLOY deployment controller, these values can be changed when updating the service. For Application Load Balancers and Network Load Balancers, this object must contain the load balancer target group ARN, the container name, and the container port to access from the load balancer. The container name must be as it appears in a container definition. The load balancer name parameter must be omitted. When a task from this service is placed on a container instance, the container instance and port combination is registered as a target in the target group that's specified here. For Classic Load Balancers, this object must contain the load balancer name, the container name , and the container port to access from the load balancer. The container name must be as it appears in a container definition. The target group ARN parameter must be omitted. When a task from this service is placed on a container instance, the container instance is registered with the load balancer that's specified here. Services with tasks that use the awsvpc network mode (for example, those with the Fargate launch type) only support Application Load Balancers and Network Load Balancers. Classic Load Balancers aren't supported. Also, when you create any target groups for these services, you must choose ip as the target type, not instance. This is because tasks that use the awsvpc network mode are associated with an elastic network interface, not an Amazon EC2 instance.
     public var loadBalancers: [ECSClientTypes.LoadBalancer]?
@@ -6125,7 +6128,7 @@ extension ECSClientTypes {
         /// * If a task has one or more essential containers with a health check defined, the service scheduler will wait for the task to reach a healthy status before counting it towards the minimum healthy percent total. A task is considered healthy when all essential containers within the task have passed their health checks. The amount of time the service scheduler can wait for is determined by the container health check settings.
         ///
         ///
-        /// For services are that do use a load balancer, the following should be noted:
+        /// For services that do use a load balancer, the following should be noted:
         ///
         /// * If a task has no essential containers with a health check defined, the service scheduler will wait for the load balancer target group health check to return a healthy status before counting the task towards the minimum healthy percent total.
         ///
@@ -8208,8 +8211,6 @@ extension ECSClientTypes {
 
 }
 
-public enum ECSClientTypes {}
-
 extension ECSClientTypes.EFSAuthorizationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointId
@@ -8504,7 +8505,7 @@ extension ECSClientTypes.EphemeralStorage: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide;. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
@@ -11882,7 +11883,7 @@ extension ECSClientTypes.LoadBalancer: Swift.Codable {
 extension ECSClientTypes {
     /// The load balancer configuration to use with a service or task set. When you add, update, or remove a load balancer configuration, Amazon ECS starts a new deployment with the updated Elastic Load Balancing configuration. This causes tasks to register to and deregister from load balancers. We recommend that you verify this on a test environment before you update the Elastic Load Balancing configuration. A service-linked role is required for services that use multiple target groups. For more information, see [Using service-linked roles](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html) in the Amazon Elastic Container Service Developer Guide.
     public struct LoadBalancer: Swift.Equatable {
-        /// The name of the container (as it appears in a container definition) to associate with the load balancer.
+        /// The name of the container (as it appears in a container definition) to associate with the load balancer. You need to specify the container name when configuring the target group for an Amazon ECS load balancer.
         public var containerName: Swift.String?
         /// The port on the container to associate with the load balancer. This port must correspond to a containerPort in the task definition the tasks in the service are using. For tasks that use the EC2 launch type, the container instance they're launched on must allow ingress traffic on the hostPort of the port mapping.
         public var containerPort: Swift.Int?
@@ -13623,7 +13624,27 @@ extension PutAccountSettingDefaultInput {
 }
 
 public struct PutAccountSettingDefaultInput: Swift.Equatable {
-    /// The resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the ENI limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the default wait time to retire a Fargate task due to required maintenance is affected. When you specify fargateFIPSMode for the name and enabled for the value, Fargate uses FIPS-140 compliant cryptographic algorithms on your tasks. For more information about FIPS-140 compliance with Fargate, see [ Amazon Web Services Fargate Federal Information Processing Standard (FIPS) 140-2 compliance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-fips-compliance.html) in the Amazon Elastic Container Service Developer Guide. When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to set the wait time to retire a Fargate task to the default. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide. The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
+    /// The resource name for which to modify the account setting. The following are the valid values for the account setting name.
+    ///
+    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * containerInsights - When modified, the default setting indicating whether Amazon Web Services CloudWatch Container Insights is turned on for your clusters is changed. If containerInsights is turned on, any new clusters that are created will have Container Insights turned on unless you disable it during cluster creation. For more information, see [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+    ///
+    /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
+    ///
+    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The account setting value for the specified principal ARN. Accepted values are enabled, disabled, on, and off. When you specify fargateTaskRetirementWaitPeriod for the name, the following are the valid values:
@@ -13748,7 +13769,27 @@ extension PutAccountSettingInput {
 }
 
 public struct PutAccountSettingInput: Swift.Equatable {
-    /// The Amazon ECS resource name for which to modify the account setting. If you specify serviceLongArnFormat, the ARN for your Amazon ECS services is affected. If you specify taskLongArnFormat, the ARN and resource ID for your Amazon ECS tasks is affected. If you specify containerInstanceLongArnFormat, the ARN and resource ID for your Amazon ECS container instances is affected. If you specify awsvpcTrunking, the elastic network interface (ENI) limit for your Amazon ECS container instances is affected. If you specify containerInsights, the default setting for Amazon Web Services CloudWatch Container Insights for your clusters is affected. If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected. If you specify tagResourceAuthorization, the opt-in option for tagging resources on creation is affected. For information about the opt-in timeline, see [Tagging authorization timeline](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-account-settings.html#tag-resources) in the Amazon ECS Developer Guide. If you specify fargateTaskRetirementWaitPeriod, the wait time to retire a Fargate task is affected. The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
+    /// The Amazon ECS account setting name to modify. The following are the valid values for the account setting name.
+    ///
+    /// * serviceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * taskLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * containerInstanceLongArnFormat - When modified, the Amazon Resource Name (ARN) and resource ID format of the resource type for a specified user, role, or the root user for an account is affected. The opt-in and opt-out account setting must be set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is defined by the opt-in status of the user or role that created the resource. You must turn on this setting to use Amazon ECS features such as resource tagging.
+    ///
+    /// * awsvpcTrunking - When modified, the elastic network interface (ENI) limit for any new container instances that support the feature is changed. If awsvpcTrunking is turned on, any new container instances that support the feature are launched have the increased ENI limits available to them. For more information, see [Elastic Network Interface Trunking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/container-instance-eni.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * containerInsights - When modified, the default setting indicating whether Amazon Web Services CloudWatch Container Insights is turned on for your clusters is changed. If containerInsights is turned on, any new clusters that are created will have Container Insights turned on unless you disable it during cluster creation. For more information, see [CloudWatch Container Insights](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cloudwatch-container-insights.html) in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// * dualStackIPv6 - When turned on, when using a VPC in dual stack mode, your tasks using the awsvpc network mode can have an IPv6 address assigned. For more information on using IPv6 with tasks launched on Amazon EC2 instances, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking-awsvpc.html#task-networking-vpc-dual-stack). For more information on using IPv6 with tasks launched on Fargate, see [Using a VPC in dual-stack mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-task-networking.html#fargate-task-networking-vpc-dual-stack).
+    ///
+    /// * fargateFIPSMode - If you specify fargateFIPSMode, Fargate FIPS 140 compliance is affected.
+    ///
+    /// * fargateTaskRetirementWaitPeriod - When Amazon Web Services determines that a security or infrastructure update is needed for an Amazon ECS task hosted on Fargate, the tasks need to be stopped and new tasks launched to replace them. Use fargateTaskRetirementWaitPeriod to configure the wait time to retire a Fargate task. For information about the Fargate tasks maintenance, see [Amazon Web Services Fargate task maintenance](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-maintenance.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * tagResourceAuthorization - Amazon ECS is introducing tagging authorization for resource creation. Users must have permissions for actions that create the resource, such as ecsCreateCluster. If tags are specified when you create a resource, Amazon Web Services performs additional authorization to verify if users or roles have permissions to create tags. Therefore, you must grant explicit permissions to use the ecs:TagResource action. For more information, see [Grant permission to tag resources on creation](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/supported-iam-actions-tagging.html) in the Amazon ECS Developer Guide.
+    ///
+    /// * guardDutyActivate - The guardDutyActivate parameter is read-only in Amazon ECS and indicates whether Amazon ECS Runtime Monitoring is enabled or disabled by your security administrator in your Amazon ECS account. Amazon GuardDuty controls this account setting on your behalf. For more information, see [Protecting Amazon ECS workloads with Amazon ECS Runtime Monitoring](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-guard-duty-integration.html).
     /// This member is required.
     public var name: ECSClientTypes.SettingName?
     /// The ARN of the principal, which can be a user, role, or the root user. If you specify the root user, it modifies the account setting for all users, roles, and the root user of the account unless a user or role explicitly overrides these settings. If this field is omitted, the setting is changed only for the authenticated user. You must use the root user when you set the Fargate wait time (fargateTaskRetirementWaitPeriod). Federated users assume the account setting of the root user and can't have explicit account settings set for them.
@@ -14524,7 +14565,7 @@ public struct RegisterTaskDefinitionInput: Swift.Equatable {
     ///
     /// * 16384 (16vCPU) - Available memory values: 32GB and 120 GB in 8 GB increments This option requires Linux platform 1.4.0 or later.
     public var cpu: Swift.String?
-    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Fargate task storage](https://docs.aws.amazon.com/AmazonECS/latest/userguide/using_data_volumes.html) in the Amazon ECS User Guide for Fargate. For tasks using the Fargate launch type, the task requires the following platforms:
+    /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate. For more information, see [Using data volumes in tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html) in the Amazon ECS Developer Guide. For tasks using the Fargate launch type, the task requires the following platforms:
     ///
     /// * Linux platform version 1.4.0 or later.
     ///
@@ -15287,7 +15328,7 @@ public struct RunTaskInput: Swift.Equatable {
     public var enableExecuteCommand: Swift.Bool?
     /// The name of the task group to associate with the task. The default value is the family name of the task definition (for example, family:my-family-name).
     public var group: Swift.String?
-    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/userguide/fargate-capacity-providers.html) in the Amazon ECS User Guide for Fargate. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
+    /// The infrastructure to run your standalone task on. For more information, see [Amazon ECS launch types](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/launch_types.html) in the Amazon Elastic Container Service Developer Guide. The FARGATE launch type runs your tasks on Fargate On-Demand infrastructure. Fargate Spot infrastructure is available for use but a capacity provider strategy must be used. For more information, see [Fargate capacity providers](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/fargate-capacity-providers.html) in the Amazon ECS Developer Guide. The EC2 launch type runs your tasks on Amazon EC2 instances registered to your cluster. The EXTERNAL launch type runs your tasks on your on-premises server or virtual machine (VM) capacity registered to your cluster. A task can use either a launch type or a capacity provider strategy. If a launchType is specified, the capacityProviderStrategy parameter must be omitted. When you use cluster auto scaling, you must specify capacityProviderStrategy and not launchType.
     public var launchType: ECSClientTypes.LaunchType?
     /// The network configuration for the task. This parameter is required for task definitions that use the awsvpc network mode to receive their own elastic network interface, and it isn't supported for other network modes. For more information, see [Task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide.
     public var networkConfiguration: ECSClientTypes.NetworkConfiguration?
@@ -15519,7 +15560,7 @@ extension RunTaskOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RunTaskOutput: Swift.Equatable {
-    /// Any failures associated with the call.
+    /// Any failures associated with the call. For information about how to address failures, see [Service event messages](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/service-event-messages.html#service-event-messages-list) and [API failure reasons](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html) in the Amazon Elastic Container Service Developer Guide.
     public var failures: [ECSClientTypes.Failure]?
     /// A full description of the tasks that were run. The tasks that were successfully placed on your cluster are described here.
     public var tasks: [ECSClientTypes.Task]?
@@ -16484,6 +16525,8 @@ extension ECSClientTypes.ServiceConnectService: Swift.Codable {
         case discoveryName
         case ingressPortOverride
         case portName
+        case timeout
+        case tls
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16502,6 +16545,12 @@ extension ECSClientTypes.ServiceConnectService: Swift.Codable {
         }
         if let portName = self.portName {
             try encodeContainer.encode(portName, forKey: .portName)
+        }
+        if let timeout = self.timeout {
+            try encodeContainer.encode(timeout, forKey: .timeout)
+        }
+        if let tls = self.tls {
+            try encodeContainer.encode(tls, forKey: .tls)
         }
     }
 
@@ -16524,6 +16573,10 @@ extension ECSClientTypes.ServiceConnectService: Swift.Codable {
         clientAliases = clientAliasesDecoded0
         let ingressPortOverrideDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .ingressPortOverride)
         ingressPortOverride = ingressPortOverrideDecoded
+        let timeoutDecoded = try containerValues.decodeIfPresent(ECSClientTypes.TimeoutConfiguration.self, forKey: .timeout)
+        timeout = timeoutDecoded
+        let tlsDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectTlsConfiguration.self, forKey: .tls)
+        tls = tlsDecoded
     }
 }
 
@@ -16539,18 +16592,26 @@ extension ECSClientTypes {
         /// The portName must match the name of one of the portMappings from all the containers in the task definition of this Amazon ECS service.
         /// This member is required.
         public var portName: Swift.String?
+        /// A reference to an object that represents the configured timeouts for Service Connect.
+        public var timeout: ECSClientTypes.TimeoutConfiguration?
+        /// A reference to an object that represents a Transport Layer Security (TLS) configuration.
+        public var tls: ECSClientTypes.ServiceConnectTlsConfiguration?
 
         public init(
             clientAliases: [ECSClientTypes.ServiceConnectClientAlias]? = nil,
             discoveryName: Swift.String? = nil,
             ingressPortOverride: Swift.Int? = nil,
-            portName: Swift.String? = nil
+            portName: Swift.String? = nil,
+            timeout: ECSClientTypes.TimeoutConfiguration? = nil,
+            tls: ECSClientTypes.ServiceConnectTlsConfiguration? = nil
         )
         {
             self.clientAliases = clientAliases
             self.discoveryName = discoveryName
             self.ingressPortOverride = ingressPortOverride
             self.portName = portName
+            self.timeout = timeout
+            self.tls = tls
         }
     }
 
@@ -16596,6 +16657,97 @@ extension ECSClientTypes {
         {
             self.discoveryArn = discoveryArn
             self.discoveryName = discoveryName
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectTlsCertificateAuthority: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case awsPcaAuthorityArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let awsPcaAuthorityArn = self.awsPcaAuthorityArn {
+            try encodeContainer.encode(awsPcaAuthorityArn, forKey: .awsPcaAuthorityArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let awsPcaAuthorityArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsPcaAuthorityArn)
+        awsPcaAuthorityArn = awsPcaAuthorityArnDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// An object that represents the Amazon Web Services Private Certificate Authority certificate.
+    public struct ServiceConnectTlsCertificateAuthority: Swift.Equatable {
+        /// The ARN of the Amazon Web Services Private Certificate Authority certificate.
+        public var awsPcaAuthorityArn: Swift.String?
+
+        public init(
+            awsPcaAuthorityArn: Swift.String? = nil
+        )
+        {
+            self.awsPcaAuthorityArn = awsPcaAuthorityArn
+        }
+    }
+
+}
+
+extension ECSClientTypes.ServiceConnectTlsConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issuerCertificateAuthority
+        case kmsKey
+        case roleArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issuerCertificateAuthority = self.issuerCertificateAuthority {
+            try encodeContainer.encode(issuerCertificateAuthority, forKey: .issuerCertificateAuthority)
+        }
+        if let kmsKey = self.kmsKey {
+            try encodeContainer.encode(kmsKey, forKey: .kmsKey)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issuerCertificateAuthorityDecoded = try containerValues.decodeIfPresent(ECSClientTypes.ServiceConnectTlsCertificateAuthority.self, forKey: .issuerCertificateAuthority)
+        issuerCertificateAuthority = issuerCertificateAuthorityDecoded
+        let kmsKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKey)
+        kmsKey = kmsKeyDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// An object that represents the configuration for Service Connect TLS.
+    public struct ServiceConnectTlsConfiguration: Swift.Equatable {
+        /// The signer certificate authority.
+        /// This member is required.
+        public var issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority?
+        /// The Amazon Web Services Key Management Service key.
+        public var kmsKey: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that's associated with the Service Connect TLS.
+        public var roleArn: Swift.String?
+
+        public init(
+            issuerCertificateAuthority: ECSClientTypes.ServiceConnectTlsCertificateAuthority? = nil,
+            kmsKey: Swift.String? = nil,
+            roleArn: Swift.String? = nil
+        )
+        {
+            self.issuerCertificateAuthority = issuerCertificateAuthority
+            self.kmsKey = kmsKey
+            self.roleArn = roleArn
         }
     }
 
@@ -17705,7 +17857,7 @@ extension StopTaskInput {
 public struct StopTaskInput: Swift.Equatable {
     /// The short name or full Amazon Resource Name (ARN) of the cluster that hosts the task to stop. If you do not specify a cluster, the default cluster is assumed.
     public var cluster: Swift.String?
-    /// An optional message specified when a task is stopped. For example, if you're using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent [DescribeTasks] API operations on this task. Up to 255 characters are allowed in this message.
+    /// An optional message specified when a task is stopped. For example, if you're using a custom scheduler, you can use this parameter to specify the reason for stopping the task here, and the message appears in subsequent [DescribeTasks] API operations on this task.
     public var reason: Swift.String?
     /// The task ID of the task to stop.
     /// This member is required.
@@ -18397,11 +18549,21 @@ extension ECSClientTypes.SystemControl: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --sysctl option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). We don't recommend that you specify network-related systemControls parameters for multiple containers in a single task. This task also uses either the awsvpc or host network mode. It does it for the following reasons.
+    /// A list of namespaced kernel parameters to set in the container. This parameter maps to Sysctls in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --sysctl option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). For example, you can configure net.ipv4.tcp_keepalive_time setting to maintain longer lived connections. We don't recommend that you specify network-related systemControls parameters for multiple containers in a single task that also uses either the awsvpc or host network mode. Doing this has the following disadvantages:
     ///
-    /// * For tasks that use the awsvpc network mode, if you set systemControls for any container, it applies to all containers in the task. If you set different systemControls for multiple containers in a single task, the container that's started last determines which systemControls take effect.
+    /// * For tasks that use the awsvpc network mode including Fargate, if you set systemControls for any container, it applies to all containers in the task. If you set different systemControls for multiple containers in a single task, the container that's started last determines which systemControls take effect.
     ///
-    /// * For tasks that use the host network mode, the systemControls parameter applies to the container instance's kernel parameter and that of all containers of any tasks running on that container instance.
+    /// * For tasks that use the host network mode, the network namespace systemControls aren't supported.
+    ///
+    ///
+    /// If you're setting an IPC resource namespace to use for the containers in the task, the following conditions apply to your system controls. For more information, see [IPC mode](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_definition_parameters.html#task_definition_ipcmode).
+    ///
+    /// * For tasks that use the host IPC mode, IPC namespace systemControls aren't supported.
+    ///
+    /// * For tasks that use the task IPC mode, IPC namespace systemControls values apply to all containers within a task.
+    ///
+    ///
+    /// This parameter is not supported for Windows containers. This parameter is only supported for tasks that are hosted on Fargate if the tasks are using platform version 1.4.0 or later (Linux). This isn't supported for Windows containers on Fargate.
     public struct SystemControl: Swift.Equatable {
         /// The namespaced kernel parameter to set a value for.
         public var namespace: Swift.String?
@@ -19118,19 +19280,7 @@ extension ECSClientTypes {
         public var startedAt: ClientRuntime.Date?
         /// The tag specified when a task is started. If an Amazon ECS service started the task, the startedBy parameter contains the deployment ID of that service.
         public var startedBy: Swift.String?
-        /// The stop code indicating why a task was stopped. The stoppedReason might contain additional details. For more information about stop code, see [Stopped tasks error codes](https://docs.aws.amazon.com/AmazonECS/latest/userguide/stopped-task-error-codes.html) in the Amazon ECS User Guide. The following are valid values:
-        ///
-        /// * TaskFailedToStart
-        ///
-        /// * EssentialContainerExited
-        ///
-        /// * UserInitiated
-        ///
-        /// * TerminationNotice
-        ///
-        /// * ServiceSchedulerInitiated
-        ///
-        /// * SpotInterruption
+        /// The stop code indicating why a task was stopped. The stoppedReason might contain additional details. For more information about stop code, see [Stopped tasks error codes](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/stopped-task-error-codes.html) in the Amazon ECS Developer Guide.
         public var stopCode: ECSClientTypes.TaskStopCode?
         /// The Unix timestamp for the time when the task was stopped. More specifically, it's for the time when the task transitioned from the RUNNING state to the STOPPED state.
         public var stoppedAt: ClientRuntime.Date?
@@ -20709,6 +20859,51 @@ extension ECSClientTypes {
 
 }
 
+extension ECSClientTypes.TimeoutConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case idleTimeoutSeconds
+        case perRequestTimeoutSeconds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let idleTimeoutSeconds = self.idleTimeoutSeconds {
+            try encodeContainer.encode(idleTimeoutSeconds, forKey: .idleTimeoutSeconds)
+        }
+        if let perRequestTimeoutSeconds = self.perRequestTimeoutSeconds {
+            try encodeContainer.encode(perRequestTimeoutSeconds, forKey: .perRequestTimeoutSeconds)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idleTimeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .idleTimeoutSeconds)
+        idleTimeoutSeconds = idleTimeoutSecondsDecoded
+        let perRequestTimeoutSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .perRequestTimeoutSeconds)
+        perRequestTimeoutSeconds = perRequestTimeoutSecondsDecoded
+    }
+}
+
+extension ECSClientTypes {
+    /// An object that represents the timeout configurations for Service Connect. If idleTimeout is set to a time that is less than perRequestTimeout, the connection will close when the idleTimeout is reached and not the perRequestTimeout.
+    public struct TimeoutConfiguration: Swift.Equatable {
+        /// The amount of time in seconds a connection will stay active while idle. A value of 0 can be set to disable idleTimeout. The idleTimeout default for HTTP/HTTP2/GRPC is 5 minutes. The idleTimeout default for TCP is 1 hour.
+        public var idleTimeoutSeconds: Swift.Int?
+        /// The amount of time waiting for the upstream to respond with a complete response per request. A value of 0 can be set to disable perRequestTimeout. perRequestTimeout can only be set if Service Connect appProtocol isn't TCP. Only idleTimeout is allowed for TCPappProtocol.
+        public var perRequestTimeoutSeconds: Swift.Int?
+
+        public init(
+            idleTimeoutSeconds: Swift.Int? = nil,
+            perRequestTimeoutSeconds: Swift.Int? = nil
+        )
+        {
+            self.idleTimeoutSeconds = idleTimeoutSeconds
+            self.perRequestTimeoutSeconds = perRequestTimeoutSeconds
+        }
+    }
+
+}
+
 extension ECSClientTypes.Tmpfs: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerPath
@@ -20842,7 +21037,7 @@ extension ECSClientTypes.Ulimit: Swift.Codable {
 }
 
 extension ECSClientTypes {
-    /// The ulimit settings to pass to the container. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 4096. You can specify the ulimit settings for a container in a task definition.
+    /// The ulimit settings to pass to the container. Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. You can specify the ulimit settings for a container in a task definition.
     public struct Ulimit: Swift.Equatable {
         /// The hard limit for the ulimit type.
         /// This member is required.

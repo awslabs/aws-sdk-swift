@@ -223,8 +223,6 @@ extension AppConfigClientTypes {
     }
 }
 
-public enum AppConfigClientTypes {}
-
 extension AppConfigClientTypes.Application: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"

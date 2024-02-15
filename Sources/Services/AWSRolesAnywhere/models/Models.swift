@@ -3287,8 +3287,6 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum RolesAnywhereClientTypes {}
-
 extension RolesAnywhereClientTypes.Source: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sourceData

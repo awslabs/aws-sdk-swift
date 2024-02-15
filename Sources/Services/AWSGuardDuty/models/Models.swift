@@ -10452,8 +10452,6 @@ enum GetUsageStatisticsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum GuardDutyClientTypes {}
-
 extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count = "count"

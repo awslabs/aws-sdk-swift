@@ -50,8 +50,6 @@ extension AccessAnalyzerClientTypes {
 
 }
 
-public enum AccessAnalyzerClientTypes {}
-
 extension AccessAnalyzerClientTypes {
     public enum AccessCheckPolicyType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case identityPolicy

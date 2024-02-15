@@ -7190,8 +7190,6 @@ extension LicenseManagerClientTypes {
     }
 }
 
-public enum LicenseManagerClientTypes {}
-
 extension LicenseManagerClientTypes.LicenseOperationFailure: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorMessage = "ErrorMessage"

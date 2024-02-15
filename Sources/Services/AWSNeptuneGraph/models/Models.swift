@@ -2,6 +2,63 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AccessDeniedException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AccessDeniedExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Raised in case of an authentication or authorization failure.
+public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// A message describing the problem.
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "AccessDeniedException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct AccessDeniedExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension AccessDeniedExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension CancelImportTaskInput {
 
     static func urlPathProvider(_ value: CancelImportTaskInput) -> Swift.String? {
@@ -64,7 +121,7 @@ public struct CancelImportTaskOutput: Swift.Equatable {
     /// The ARN of the IAM role that will allow access to the data that is to be imported.
     /// This member is required.
     public var roleArn: Swift.String?
-    /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot
+    /// A URL identifying to the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
     /// This member is required.
     public var source: Swift.String?
     /// Current status of the task. Status is CANCELLING when the import task is cancelled.
@@ -134,6 +191,79 @@ enum CancelImportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CancelQueryInput {
+
+    static func headerProvider(_ value: CancelQueryInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let graphIdentifier = value.graphIdentifier {
+            items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
+        }
+        return items
+    }
+}
+
+extension CancelQueryInput {
+
+    static func urlPathProvider(_ value: CancelQueryInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/queries/\(queryId.urlPercentEncoding())"
+    }
+}
+
+public struct CancelQueryInput: Swift.Equatable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// The unique identifier of the query to cancel.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        graphIdentifier: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    )
+    {
+        self.graphIdentifier = graphIdentifier
+        self.queryId = queryId
+    }
+}
+
+struct CancelQueryInputBody: Swift.Equatable {
+}
+
+extension CancelQueryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CancelQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelQueryOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -301,9 +431,9 @@ public struct CreateGraphInput: Swift.Equatable {
     /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
     /// This member is required.
     public var provisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs IAM authenticated. (true to enable, or false to disable.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
-    /// The number of replicas in other AZs. Min =0, Max = 2, Default =1
+    /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1.
     public var replicaCount: Swift.Int?
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
     public var tags: [Swift.String:Swift.String]?
@@ -447,7 +577,7 @@ public struct CreateGraphOutput: Swift.Equatable {
     public var name: Swift.String?
     /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
     public var provisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs IAM authenticated.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated.
     public var publicConnectivity: Swift.Bool?
     /// The number of replicas in other AZs.
     public var replicaCount: Swift.Int?
@@ -881,7 +1011,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Equatable {
     public var maxProvisionedMemory: Swift.Int?
     /// The minimum provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Default: 128
     public var minProvisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs IAM authenticated. (true to enable, or false to disable.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
     /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.
     public var replicaCount: Swift.Int?
@@ -1864,6 +1994,291 @@ enum DeletePrivateGraphEndpointOutputError: ClientRuntime.HttpResponseErrorBindi
     }
 }
 
+extension NeptuneGraphClientTypes.EdgeStructure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count
+        case edgeProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let edgeProperties = edgeProperties {
+            var edgePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeProperties)
+            for string0 in edgeProperties {
+                try edgePropertiesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+        let edgePropertiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .edgeProperties)
+        var edgePropertiesDecoded0:[Swift.String]? = nil
+        if let edgePropertiesContainer = edgePropertiesContainer {
+            edgePropertiesDecoded0 = [Swift.String]()
+            for string0 in edgePropertiesContainer {
+                if let string0 = string0 {
+                    edgePropertiesDecoded0?.append(string0)
+                }
+            }
+        }
+        edgeProperties = edgePropertiesDecoded0
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    /// Contains information about an edge in a Neptune Analytics graph.
+    public struct EdgeStructure: Swift.Equatable {
+        /// The number of instances of the edge in the graph.
+        public var count: Swift.Int?
+        /// A list of the properties associated with the edge.
+        public var edgeProperties: [Swift.String]?
+
+        public init(
+            count: Swift.Int? = nil,
+            edgeProperties: [Swift.String]? = nil
+        )
+        {
+            self.count = count
+            self.edgeProperties = edgeProperties
+        }
+    }
+
+}
+
+extension ExecuteQueryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case explainMode = "explain"
+        case language
+        case parameters
+        case planCache
+        case queryString = "query"
+        case queryTimeoutMilliseconds
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let explainMode = self.explainMode {
+            try encodeContainer.encode(explainMode.rawValue, forKey: .explainMode)
+        }
+        if let language = self.language {
+            try encodeContainer.encode(language.rawValue, forKey: .language)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, documentValuedMap0) in parameters {
+                try parametersContainer.encode(documentValuedMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let planCache = self.planCache {
+            try encodeContainer.encode(planCache.rawValue, forKey: .planCache)
+        }
+        if let queryString = self.queryString {
+            try encodeContainer.encode(queryString, forKey: .queryString)
+        }
+        if let queryTimeoutMilliseconds = self.queryTimeoutMilliseconds {
+            try encodeContainer.encode(queryTimeoutMilliseconds, forKey: .queryTimeoutMilliseconds)
+        }
+    }
+}
+
+extension ExecuteQueryInput {
+
+    static func headerProvider(_ value: ExecuteQueryInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let graphIdentifier = value.graphIdentifier {
+            items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
+        }
+        return items
+    }
+}
+
+extension ExecuteQueryInput {
+
+    static func urlPathProvider(_ value: ExecuteQueryInput) -> Swift.String? {
+        return "/queries"
+    }
+}
+
+public struct ExecuteQueryInput: Swift.Equatable {
+    /// The explain mode parameter returns a query explain instead of the actual query results. A query explain can be used to gather insights about the query execution such as planning decisions, time spent on each operator, solutions flowing etc.
+    public var explainMode: NeptuneGraphClientTypes.ExplainMode?
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// The query language the query is written in. Currently only openCypher is supported.
+    /// This member is required.
+    public var language: NeptuneGraphClientTypes.QueryLanguage?
+    /// The data parameters the query can use in JSON format. For example: {"name": "john", "age": 20}. (optional)
+    public var parameters: [Swift.String:ClientRuntime.Document]?
+    /// Query plan cache is a feature that saves the query plan and reuses it on successive executions of the same query. This reduces query latency, and works for both READ and UPDATE queries. The plan cache is an LRU cache with a 5 minute TTL and a capacity of 1000.
+    public var planCache: NeptuneGraphClientTypes.PlanCacheType?
+    /// The query string to be executed.
+    /// This member is required.
+    public var queryString: Swift.String?
+    /// Specifies the query timeout duration, in milliseconds. (optional)
+    public var queryTimeoutMilliseconds: Swift.Int?
+
+    public init(
+        explainMode: NeptuneGraphClientTypes.ExplainMode? = nil,
+        graphIdentifier: Swift.String? = nil,
+        language: NeptuneGraphClientTypes.QueryLanguage? = nil,
+        parameters: [Swift.String:ClientRuntime.Document]? = nil,
+        planCache: NeptuneGraphClientTypes.PlanCacheType? = nil,
+        queryString: Swift.String? = nil,
+        queryTimeoutMilliseconds: Swift.Int? = nil
+    )
+    {
+        self.explainMode = explainMode
+        self.graphIdentifier = graphIdentifier
+        self.language = language
+        self.parameters = parameters
+        self.planCache = planCache
+        self.queryString = queryString
+        self.queryTimeoutMilliseconds = queryTimeoutMilliseconds
+    }
+}
+
+struct ExecuteQueryInputBody: Swift.Equatable {
+    let queryString: Swift.String?
+    let language: NeptuneGraphClientTypes.QueryLanguage?
+    let parameters: [Swift.String:ClientRuntime.Document]?
+    let planCache: NeptuneGraphClientTypes.PlanCacheType?
+    let explainMode: NeptuneGraphClientTypes.ExplainMode?
+    let queryTimeoutMilliseconds: Swift.Int?
+}
+
+extension ExecuteQueryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case explainMode = "explain"
+        case language
+        case parameters
+        case planCache
+        case queryString = "query"
+        case queryTimeoutMilliseconds
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let languageDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.QueryLanguage.self, forKey: .language)
+        language = languageDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: ClientRuntime.Document?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:ClientRuntime.Document]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:ClientRuntime.Document]()
+            for (key0, document0) in parametersContainer {
+                if let document0 = document0 {
+                    parametersDecoded0?[key0] = document0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let planCacheDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.PlanCacheType.self, forKey: .planCache)
+        planCache = planCacheDecoded
+        let explainModeDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.ExplainMode.self, forKey: .explainMode)
+        explainMode = explainModeDecoded
+        let queryTimeoutMillisecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .queryTimeoutMilliseconds)
+        queryTimeoutMilliseconds = queryTimeoutMillisecondsDecoded
+    }
+}
+
+extension ExecuteQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        switch httpResponse.body {
+        case .data(let data):
+            self.payload = .data(data)
+        case .stream(let stream):
+            self.payload = .stream(stream)
+        case .noStream:
+            self.payload = nil
+        }
+    }
+}
+
+public struct ExecuteQueryOutput: Swift.Equatable {
+    /// The query results.
+    /// This member is required.
+    public var payload: ClientRuntime.ByteStream?
+
+    public init(
+        payload: ClientRuntime.ByteStream? = nil
+    )
+    {
+        self.payload = payload
+    }
+}
+
+struct ExecuteQueryOutputBody: Swift.Equatable {
+    let payload: ClientRuntime.ByteStream?
+}
+
+extension ExecuteQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case payload
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let payloadDecoded = try containerValues.decodeIfPresent(ClientRuntime.ByteStream.self, forKey: .payload)
+        payload = payloadDecoded
+    }
+}
+
+enum ExecuteQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnprocessableException": return try await UnprocessableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    public enum ExplainMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case details
+        case `static`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExplainMode] {
+            return [
+                .details,
+                .static,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .details: return "DETAILS"
+            case .static: return "STATIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExplainMode(rawValue: rawValue) ?? ExplainMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension NeptuneGraphClientTypes {
     public enum Format: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case csv
@@ -2274,6 +2689,137 @@ enum GetGraphSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetGraphSummaryInput {
+
+    static func headerProvider(_ value: GetGraphSummaryInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let graphIdentifier = value.graphIdentifier {
+            items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
+        }
+        return items
+    }
+}
+
+extension GetGraphSummaryInput {
+
+    static func queryItemProvider(_ value: GetGraphSummaryInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let mode = value.mode {
+            let modeQueryItem = ClientRuntime.SDKURLQueryItem(name: "mode".urlPercentEncoding(), value: Swift.String(mode.rawValue).urlPercentEncoding())
+            items.append(modeQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetGraphSummaryInput {
+
+    static func urlPathProvider(_ value: GetGraphSummaryInput) -> Swift.String? {
+        return "/summary"
+    }
+}
+
+public struct GetGraphSummaryInput: Swift.Equatable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// The summary mode can take one of two values: basic (the default), and detailed.
+    public var mode: NeptuneGraphClientTypes.GraphSummaryMode?
+
+    public init(
+        graphIdentifier: Swift.String? = nil,
+        mode: NeptuneGraphClientTypes.GraphSummaryMode? = nil
+    )
+    {
+        self.graphIdentifier = graphIdentifier
+        self.mode = mode
+    }
+}
+
+struct GetGraphSummaryInputBody: Swift.Equatable {
+}
+
+extension GetGraphSummaryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetGraphSummaryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGraphSummaryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.graphSummary = output.graphSummary
+            self.lastStatisticsComputationTime = output.lastStatisticsComputationTime
+            self.version = output.version
+        } else {
+            self.graphSummary = nil
+            self.lastStatisticsComputationTime = nil
+            self.version = nil
+        }
+    }
+}
+
+public struct GetGraphSummaryOutput: Swift.Equatable {
+    /// The graph summary.
+    public var graphSummary: NeptuneGraphClientTypes.GraphDataSummary?
+    /// The timestamp, in ISO 8601 format, of the time at which Neptune Analytics last computed statistics.
+    public var lastStatisticsComputationTime: ClientRuntime.Date?
+    /// Display the version of this tool.
+    public var version: Swift.String?
+
+    public init(
+        graphSummary: NeptuneGraphClientTypes.GraphDataSummary? = nil,
+        lastStatisticsComputationTime: ClientRuntime.Date? = nil,
+        version: Swift.String? = nil
+    )
+    {
+        self.graphSummary = graphSummary
+        self.lastStatisticsComputationTime = lastStatisticsComputationTime
+        self.version = version
+    }
+}
+
+struct GetGraphSummaryOutputBody: Swift.Equatable {
+    let version: Swift.String?
+    let lastStatisticsComputationTime: ClientRuntime.Date?
+    let graphSummary: NeptuneGraphClientTypes.GraphDataSummary?
+}
+
+extension GetGraphSummaryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case graphSummary
+        case lastStatisticsComputationTime
+        case version
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let versionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .version)
+        version = versionDecoded
+        let lastStatisticsComputationTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastStatisticsComputationTime)
+        lastStatisticsComputationTime = lastStatisticsComputationTimeDecoded
+        let graphSummaryDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.GraphDataSummary.self, forKey: .graphSummary)
+        graphSummary = graphSummaryDecoded
+    }
+}
+
+enum GetGraphSummaryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetImportTaskInput {
 
     static func urlPathProvider(_ value: GetImportTaskInput) -> Swift.String? {
@@ -2610,6 +3156,410 @@ enum GetPrivateGraphEndpointOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension GetQueryInput {
+
+    static func headerProvider(_ value: GetQueryInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let graphIdentifier = value.graphIdentifier {
+            items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
+        }
+        return items
+    }
+}
+
+extension GetQueryInput {
+
+    static func urlPathProvider(_ value: GetQueryInput) -> Swift.String? {
+        guard let queryId = value.queryId else {
+            return nil
+        }
+        return "/queries/\(queryId.urlPercentEncoding())"
+    }
+}
+
+public struct GetQueryInput: Swift.Equatable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// The ID of the query in question.
+    /// This member is required.
+    public var queryId: Swift.String?
+
+    public init(
+        graphIdentifier: Swift.String? = nil,
+        queryId: Swift.String? = nil
+    )
+    {
+        self.graphIdentifier = graphIdentifier
+        self.queryId = queryId
+    }
+}
+
+struct GetQueryInputBody: Swift.Equatable {
+}
+
+extension GetQueryInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetQueryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetQueryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.elapsed = output.elapsed
+            self.id = output.id
+            self.queryString = output.queryString
+            self.state = output.state
+            self.waited = output.waited
+        } else {
+            self.elapsed = nil
+            self.id = nil
+            self.queryString = nil
+            self.state = nil
+            self.waited = nil
+        }
+    }
+}
+
+public struct GetQueryOutput: Swift.Equatable {
+    /// The number of milliseconds the query has been running.
+    public var elapsed: Swift.Int?
+    /// The ID of the query in question.
+    public var id: Swift.String?
+    /// The query in question.
+    public var queryString: Swift.String?
+    /// State of the query.
+    public var state: NeptuneGraphClientTypes.QueryState?
+    /// Indicates how long the query waited, in milliseconds.
+    public var waited: Swift.Int?
+
+    public init(
+        elapsed: Swift.Int? = nil,
+        id: Swift.String? = nil,
+        queryString: Swift.String? = nil,
+        state: NeptuneGraphClientTypes.QueryState? = nil,
+        waited: Swift.Int? = nil
+    )
+    {
+        self.elapsed = elapsed
+        self.id = id
+        self.queryString = queryString
+        self.state = state
+        self.waited = waited
+    }
+}
+
+struct GetQueryOutputBody: Swift.Equatable {
+    let id: Swift.String?
+    let queryString: Swift.String?
+    let waited: Swift.Int?
+    let elapsed: Swift.Int?
+    let state: NeptuneGraphClientTypes.QueryState?
+}
+
+extension GetQueryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case elapsed
+        case id
+        case queryString
+        case state
+        case waited
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let waitedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waited)
+        waited = waitedDecoded
+        let elapsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsed)
+        elapsed = elapsedDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.QueryState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+enum GetQueryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes.GraphDataSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case edgeLabels
+        case edgeProperties
+        case edgeStructures
+        case nodeLabels
+        case nodeProperties
+        case nodeStructures
+        case numEdgeLabels
+        case numEdgeProperties
+        case numEdges
+        case numNodeLabels
+        case numNodeProperties
+        case numNodes
+        case totalEdgePropertyValues
+        case totalNodePropertyValues
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let edgeLabels = edgeLabels {
+            var edgeLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeLabels)
+            for string0 in edgeLabels {
+                try edgeLabelsContainer.encode(string0)
+            }
+        }
+        if let edgeProperties = edgeProperties {
+            var edgePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeProperties)
+            for longvaluedmap0 in edgeProperties {
+                var longvaluedmap0Container = edgePropertiesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, longValuedMap1) in longvaluedmap0 {
+                    try longvaluedmap0Container.encode(longValuedMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+        if let edgeStructures = edgeStructures {
+            var edgeStructuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .edgeStructures)
+            for edgestructure0 in edgeStructures {
+                try edgeStructuresContainer.encode(edgestructure0)
+            }
+        }
+        if let nodeLabels = nodeLabels {
+            var nodeLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeLabels)
+            for string0 in nodeLabels {
+                try nodeLabelsContainer.encode(string0)
+            }
+        }
+        if let nodeProperties = nodeProperties {
+            var nodePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeProperties)
+            for longvaluedmap0 in nodeProperties {
+                var longvaluedmap0Container = nodePropertiesContainer.nestedContainer(keyedBy: ClientRuntime.Key.self)
+                for (dictKey1, longValuedMap1) in longvaluedmap0 {
+                    try longvaluedmap0Container.encode(longValuedMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+        if let nodeStructures = nodeStructures {
+            var nodeStructuresContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeStructures)
+            for nodestructure0 in nodeStructures {
+                try nodeStructuresContainer.encode(nodestructure0)
+            }
+        }
+        if let numEdgeLabels = self.numEdgeLabels {
+            try encodeContainer.encode(numEdgeLabels, forKey: .numEdgeLabels)
+        }
+        if let numEdgeProperties = self.numEdgeProperties {
+            try encodeContainer.encode(numEdgeProperties, forKey: .numEdgeProperties)
+        }
+        if let numEdges = self.numEdges {
+            try encodeContainer.encode(numEdges, forKey: .numEdges)
+        }
+        if let numNodeLabels = self.numNodeLabels {
+            try encodeContainer.encode(numNodeLabels, forKey: .numNodeLabels)
+        }
+        if let numNodeProperties = self.numNodeProperties {
+            try encodeContainer.encode(numNodeProperties, forKey: .numNodeProperties)
+        }
+        if let numNodes = self.numNodes {
+            try encodeContainer.encode(numNodes, forKey: .numNodes)
+        }
+        if let totalEdgePropertyValues = self.totalEdgePropertyValues {
+            try encodeContainer.encode(totalEdgePropertyValues, forKey: .totalEdgePropertyValues)
+        }
+        if let totalNodePropertyValues = self.totalNodePropertyValues {
+            try encodeContainer.encode(totalNodePropertyValues, forKey: .totalNodePropertyValues)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let numNodesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numNodes)
+        numNodes = numNodesDecoded
+        let numEdgesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numEdges)
+        numEdges = numEdgesDecoded
+        let numNodeLabelsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numNodeLabels)
+        numNodeLabels = numNodeLabelsDecoded
+        let numEdgeLabelsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numEdgeLabels)
+        numEdgeLabels = numEdgeLabelsDecoded
+        let nodeLabelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .nodeLabels)
+        var nodeLabelsDecoded0:[Swift.String]? = nil
+        if let nodeLabelsContainer = nodeLabelsContainer {
+            nodeLabelsDecoded0 = [Swift.String]()
+            for string0 in nodeLabelsContainer {
+                if let string0 = string0 {
+                    nodeLabelsDecoded0?.append(string0)
+                }
+            }
+        }
+        nodeLabels = nodeLabelsDecoded0
+        let edgeLabelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .edgeLabels)
+        var edgeLabelsDecoded0:[Swift.String]? = nil
+        if let edgeLabelsContainer = edgeLabelsContainer {
+            edgeLabelsDecoded0 = [Swift.String]()
+            for string0 in edgeLabelsContainer {
+                if let string0 = string0 {
+                    edgeLabelsDecoded0?.append(string0)
+                }
+            }
+        }
+        edgeLabels = edgeLabelsDecoded0
+        let numNodePropertiesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numNodeProperties)
+        numNodeProperties = numNodePropertiesDecoded
+        let numEdgePropertiesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numEdgeProperties)
+        numEdgeProperties = numEdgePropertiesDecoded
+        let nodePropertiesContainer = try containerValues.decodeIfPresent([[Swift.String: Swift.Int?]?].self, forKey: .nodeProperties)
+        var nodePropertiesDecoded0:[[Swift.String:Swift.Int]]? = nil
+        if let nodePropertiesContainer = nodePropertiesContainer {
+            nodePropertiesDecoded0 = [[Swift.String:Swift.Int]]()
+            for map0 in nodePropertiesContainer {
+                var nodePropertiesContainerDecoded0: [Swift.String: Swift.Int]? = nil
+                if let map0 = map0 {
+                    nodePropertiesContainerDecoded0 = [Swift.String: Swift.Int]()
+                    for (key1, long1) in map0 {
+                        if let long1 = long1 {
+                            nodePropertiesContainerDecoded0?[key1] = long1
+                        }
+                    }
+                }
+                if let nodePropertiesContainerDecoded0 = nodePropertiesContainerDecoded0 {
+                    nodePropertiesDecoded0?.append(nodePropertiesContainerDecoded0)
+                }
+            }
+        }
+        nodeProperties = nodePropertiesDecoded0
+        let edgePropertiesContainer = try containerValues.decodeIfPresent([[Swift.String: Swift.Int?]?].self, forKey: .edgeProperties)
+        var edgePropertiesDecoded0:[[Swift.String:Swift.Int]]? = nil
+        if let edgePropertiesContainer = edgePropertiesContainer {
+            edgePropertiesDecoded0 = [[Swift.String:Swift.Int]]()
+            for map0 in edgePropertiesContainer {
+                var edgePropertiesContainerDecoded0: [Swift.String: Swift.Int]? = nil
+                if let map0 = map0 {
+                    edgePropertiesContainerDecoded0 = [Swift.String: Swift.Int]()
+                    for (key1, long1) in map0 {
+                        if let long1 = long1 {
+                            edgePropertiesContainerDecoded0?[key1] = long1
+                        }
+                    }
+                }
+                if let edgePropertiesContainerDecoded0 = edgePropertiesContainerDecoded0 {
+                    edgePropertiesDecoded0?.append(edgePropertiesContainerDecoded0)
+                }
+            }
+        }
+        edgeProperties = edgePropertiesDecoded0
+        let totalNodePropertyValuesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNodePropertyValues)
+        totalNodePropertyValues = totalNodePropertyValuesDecoded
+        let totalEdgePropertyValuesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalEdgePropertyValues)
+        totalEdgePropertyValues = totalEdgePropertyValuesDecoded
+        let nodeStructuresContainer = try containerValues.decodeIfPresent([NeptuneGraphClientTypes.NodeStructure?].self, forKey: .nodeStructures)
+        var nodeStructuresDecoded0:[NeptuneGraphClientTypes.NodeStructure]? = nil
+        if let nodeStructuresContainer = nodeStructuresContainer {
+            nodeStructuresDecoded0 = [NeptuneGraphClientTypes.NodeStructure]()
+            for structure0 in nodeStructuresContainer {
+                if let structure0 = structure0 {
+                    nodeStructuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        nodeStructures = nodeStructuresDecoded0
+        let edgeStructuresContainer = try containerValues.decodeIfPresent([NeptuneGraphClientTypes.EdgeStructure?].self, forKey: .edgeStructures)
+        var edgeStructuresDecoded0:[NeptuneGraphClientTypes.EdgeStructure]? = nil
+        if let edgeStructuresContainer = edgeStructuresContainer {
+            edgeStructuresDecoded0 = [NeptuneGraphClientTypes.EdgeStructure]()
+            for structure0 in edgeStructuresContainer {
+                if let structure0 = structure0 {
+                    edgeStructuresDecoded0?.append(structure0)
+                }
+            }
+        }
+        edgeStructures = edgeStructuresDecoded0
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    /// Summary information about the graph.
+    public struct GraphDataSummary: Swift.Equatable {
+        /// A list of the edge labels in the graph.
+        public var edgeLabels: [Swift.String]?
+        /// A list of the distinct edge properties in the graph, along with the count of edges where each property is used.
+        public var edgeProperties: [[Swift.String:Swift.Int]]?
+        /// This field is only present when the requested mode is DETAILED. It contains a list of edge structures.
+        public var edgeStructures: [NeptuneGraphClientTypes.EdgeStructure]?
+        /// A list of distinct node labels in the graph.
+        public var nodeLabels: [Swift.String]?
+        /// A list of the distinct node properties in the graph, along with the count of nodes where each property is used.
+        public var nodeProperties: [[Swift.String:Swift.Int]]?
+        /// This field is only present when the requested mode is DETAILED. It contains a list of node structures.
+        public var nodeStructures: [NeptuneGraphClientTypes.NodeStructure]?
+        /// The number of unique edge labels in the graph.
+        public var numEdgeLabels: Swift.Int?
+        /// The number of edge properties in the graph.
+        public var numEdgeProperties: Swift.Int?
+        /// The number of edges in the graph.
+        public var numEdges: Swift.Int?
+        /// The number of distinct node labels in the graph.
+        public var numNodeLabels: Swift.Int?
+        /// The number of distinct node properties in the graph.
+        public var numNodeProperties: Swift.Int?
+        /// The number of nodes in the graph.
+        public var numNodes: Swift.Int?
+        /// The total number of usages of all edge properties.
+        public var totalEdgePropertyValues: Swift.Int?
+        /// The total number of usages of all node properties.
+        public var totalNodePropertyValues: Swift.Int?
+
+        public init(
+            edgeLabels: [Swift.String]? = nil,
+            edgeProperties: [[Swift.String:Swift.Int]]? = nil,
+            edgeStructures: [NeptuneGraphClientTypes.EdgeStructure]? = nil,
+            nodeLabels: [Swift.String]? = nil,
+            nodeProperties: [[Swift.String:Swift.Int]]? = nil,
+            nodeStructures: [NeptuneGraphClientTypes.NodeStructure]? = nil,
+            numEdgeLabels: Swift.Int? = nil,
+            numEdgeProperties: Swift.Int? = nil,
+            numEdges: Swift.Int? = nil,
+            numNodeLabels: Swift.Int? = nil,
+            numNodeProperties: Swift.Int? = nil,
+            numNodes: Swift.Int? = nil,
+            totalEdgePropertyValues: Swift.Int? = nil,
+            totalNodePropertyValues: Swift.Int? = nil
+        )
+        {
+            self.edgeLabels = edgeLabels
+            self.edgeProperties = edgeProperties
+            self.edgeStructures = edgeStructures
+            self.nodeLabels = nodeLabels
+            self.nodeProperties = nodeProperties
+            self.nodeStructures = nodeStructures
+            self.numEdgeLabels = numEdgeLabels
+            self.numEdgeProperties = numEdgeProperties
+            self.numEdges = numEdges
+            self.numNodeLabels = numNodeLabels
+            self.numNodeProperties = numNodeProperties
+            self.numNodes = numNodes
+            self.totalEdgePropertyValues = totalEdgePropertyValues
+            self.totalNodePropertyValues = totalNodePropertyValues
+        }
+    }
+
+}
+
 extension NeptuneGraphClientTypes.GraphSnapshotSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -2881,6 +3831,38 @@ extension NeptuneGraphClientTypes {
         }
     }
 
+}
+
+extension NeptuneGraphClientTypes {
+    public enum GraphSummaryMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case basic
+        case detailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GraphSummaryMode] {
+            return [
+                .basic,
+                .detailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .basic: return "BASIC"
+            case .detailed: return "DETAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GraphSummaryMode(rawValue: rawValue) ?? GraphSummaryMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension NeptuneGraphClientTypes.ImportOptions: Swift.Codable {
@@ -3737,6 +4719,137 @@ enum ListPrivateGraphEndpointsOutputError: ClientRuntime.HttpResponseErrorBindin
     }
 }
 
+extension ListQueriesInput {
+
+    static func headerProvider(_ value: ListQueriesInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let graphIdentifier = value.graphIdentifier {
+            items.add(Header(name: "graphIdentifier", value: Swift.String(graphIdentifier)))
+        }
+        return items
+    }
+}
+
+extension ListQueriesInput {
+
+    static func queryItemProvider(_ value: ListQueriesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let maxResults = value.maxResults else {
+            let message = "Creating a URL Query Item failed. maxResults is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+        items.append(maxResultsQueryItem)
+        if let state = value.state {
+            let stateQueryItem = ClientRuntime.SDKURLQueryItem(name: "state".urlPercentEncoding(), value: Swift.String(state.rawValue).urlPercentEncoding())
+            items.append(stateQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListQueriesInput {
+
+    static func urlPathProvider(_ value: ListQueriesInput) -> Swift.String? {
+        return "/queries"
+    }
+}
+
+public struct ListQueriesInput: Swift.Equatable {
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// The maximum number of results to be fetched by the API.
+    /// This member is required.
+    public var maxResults: Swift.Int?
+    /// Filtered list of queries based on state.
+    public var state: NeptuneGraphClientTypes.QueryStateInput?
+
+    public init(
+        graphIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        state: NeptuneGraphClientTypes.QueryStateInput? = nil
+    )
+    {
+        self.graphIdentifier = graphIdentifier
+        self.maxResults = maxResults
+        self.state = state
+    }
+}
+
+struct ListQueriesInputBody: Swift.Equatable {
+}
+
+extension ListQueriesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListQueriesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListQueriesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.queries = output.queries
+        } else {
+            self.queries = nil
+        }
+    }
+}
+
+public struct ListQueriesOutput: Swift.Equatable {
+    /// A list of current openCypher queries.
+    /// This member is required.
+    public var queries: [NeptuneGraphClientTypes.QuerySummary]?
+
+    public init(
+        queries: [NeptuneGraphClientTypes.QuerySummary]? = nil
+    )
+    {
+        self.queries = queries
+    }
+}
+
+struct ListQueriesOutputBody: Swift.Equatable {
+    let queries: [NeptuneGraphClientTypes.QuerySummary]?
+}
+
+extension ListQueriesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case queries
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queriesContainer = try containerValues.decodeIfPresent([NeptuneGraphClientTypes.QuerySummary?].self, forKey: .queries)
+        var queriesDecoded0:[NeptuneGraphClientTypes.QuerySummary]? = nil
+        if let queriesContainer = queriesContainer {
+            queriesDecoded0 = [NeptuneGraphClientTypes.QuerySummary]()
+            for structure0 in queriesContainer {
+                if let structure0 = structure0 {
+                    queriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        queries = queriesDecoded0
+    }
+}
+
+enum ListQueriesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
@@ -3832,8 +4945,6 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum NeptuneGraphClientTypes {}
-
 extension NeptuneGraphClientTypes.NeptuneImportOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case preserveDefaultVertexLabels
@@ -3899,6 +5010,120 @@ extension NeptuneGraphClientTypes {
         }
     }
 
+}
+
+extension NeptuneGraphClientTypes.NodeStructure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count
+        case distinctOutgoingEdgeLabels
+        case nodeProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let count = self.count {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels {
+            var distinctOutgoingEdgeLabelsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .distinctOutgoingEdgeLabels)
+            for string0 in distinctOutgoingEdgeLabels {
+                try distinctOutgoingEdgeLabelsContainer.encode(string0)
+            }
+        }
+        if let nodeProperties = nodeProperties {
+            var nodePropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nodeProperties)
+            for string0 in nodeProperties {
+                try nodePropertiesContainer.encode(string0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count)
+        count = countDecoded
+        let nodePropertiesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .nodeProperties)
+        var nodePropertiesDecoded0:[Swift.String]? = nil
+        if let nodePropertiesContainer = nodePropertiesContainer {
+            nodePropertiesDecoded0 = [Swift.String]()
+            for string0 in nodePropertiesContainer {
+                if let string0 = string0 {
+                    nodePropertiesDecoded0?.append(string0)
+                }
+            }
+        }
+        nodeProperties = nodePropertiesDecoded0
+        let distinctOutgoingEdgeLabelsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .distinctOutgoingEdgeLabels)
+        var distinctOutgoingEdgeLabelsDecoded0:[Swift.String]? = nil
+        if let distinctOutgoingEdgeLabelsContainer = distinctOutgoingEdgeLabelsContainer {
+            distinctOutgoingEdgeLabelsDecoded0 = [Swift.String]()
+            for string0 in distinctOutgoingEdgeLabelsContainer {
+                if let string0 = string0 {
+                    distinctOutgoingEdgeLabelsDecoded0?.append(string0)
+                }
+            }
+        }
+        distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabelsDecoded0
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    /// Information about a node.
+    public struct NodeStructure: Swift.Equatable {
+        /// The number of instances of this node.
+        public var count: Swift.Int?
+        /// The outgoing edge labels associated with this node.
+        public var distinctOutgoingEdgeLabels: [Swift.String]?
+        /// Properties associated with this node.
+        public var nodeProperties: [Swift.String]?
+
+        public init(
+            count: Swift.Int? = nil,
+            distinctOutgoingEdgeLabels: [Swift.String]? = nil,
+            nodeProperties: [Swift.String]? = nil
+        )
+        {
+            self.count = count
+            self.distinctOutgoingEdgeLabels = distinctOutgoingEdgeLabels
+            self.nodeProperties = nodeProperties
+        }
+    }
+
+}
+
+extension NeptuneGraphClientTypes {
+    public enum PlanCacheType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PlanCacheType] {
+            return [
+                .auto,
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PlanCacheType(rawValue: rawValue) ?? PlanCacheType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension NeptuneGraphClientTypes {
@@ -4014,6 +5239,183 @@ extension NeptuneGraphClientTypes {
             self.subnetIds = subnetIds
             self.vpcEndpointId = vpcEndpointId
             self.vpcId = vpcId
+        }
+    }
+
+}
+
+extension NeptuneGraphClientTypes {
+    public enum QueryLanguage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case openCypher
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryLanguage] {
+            return [
+                .openCypher,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .openCypher: return "OPEN_CYPHER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryLanguage(rawValue: rawValue) ?? QueryLanguage.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    public enum QueryState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelling
+        case running
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryState] {
+            return [
+                .cancelling,
+                .running,
+                .waiting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelling: return "CANCELLING"
+            case .running: return "RUNNING"
+            case .waiting: return "WAITING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryState(rawValue: rawValue) ?? QueryState.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    public enum QueryStateInput: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case cancelling
+        case running
+        case waiting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [QueryStateInput] {
+            return [
+                .all,
+                .cancelling,
+                .running,
+                .waiting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "ALL"
+            case .cancelling: return "CANCELLING"
+            case .running: return "RUNNING"
+            case .waiting: return "WAITING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = QueryStateInput(rawValue: rawValue) ?? QueryStateInput.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension NeptuneGraphClientTypes.QuerySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case elapsed
+        case id
+        case queryString
+        case state
+        case waited
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let elapsed = self.elapsed {
+            try encodeContainer.encode(elapsed, forKey: .elapsed)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let queryString = self.queryString {
+            try encodeContainer.encode(queryString, forKey: .queryString)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+        if let waited = self.waited {
+            try encodeContainer.encode(waited, forKey: .waited)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let queryStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryString)
+        queryString = queryStringDecoded
+        let waitedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .waited)
+        waited = waitedDecoded
+        let elapsedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .elapsed)
+        elapsed = elapsedDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.QueryState.self, forKey: .state)
+        state = stateDecoded
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    /// Details of the query listed.
+    public struct QuerySummary: Swift.Equatable {
+        /// The running time of the query, in milliseconds.
+        public var elapsed: Swift.Int?
+        /// A string representation of the id of the query.
+        public var id: Swift.String?
+        /// The actual query text. The queryString may be truncated if the actual query string is too long.
+        public var queryString: Swift.String?
+        /// State of the query.
+        public var state: NeptuneGraphClientTypes.QueryState?
+        /// The amount of time, in milliseconds, the query has waited in the queue before being picked up by a worker thread.
+        public var waited: Swift.Int?
+
+        public init(
+            elapsed: Swift.Int? = nil,
+            id: Swift.String? = nil,
+            queryString: Swift.String? = nil,
+            state: NeptuneGraphClientTypes.QueryState? = nil,
+            waited: Swift.Int? = nil
+        )
+        {
+            self.elapsed = elapsed
+            self.id = id
+            self.queryString = queryString
+            self.state = state
+            self.waited = waited
         }
     }
 
@@ -4385,7 +5787,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Equatable {
     public var graphName: Swift.String?
     /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
     public var provisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs IAM authenticated. (true to enable, or false to disable).
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
     /// The number of replicas in other AZs. Min =0, Max = 2, Default =1
     public var replicaCount: Swift.Int?
@@ -4943,6 +6345,114 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension UnprocessableException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UnprocessableExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+            self.properties.reason = output.reason
+        } else {
+            self.properties.message = nil
+            self.properties.reason = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Request cannot be processed due to known reasons. Eg. partition full.
+public struct UnprocessableException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+        /// The reason for the unprocessable exception.
+        /// This member is required.
+        public internal(set) var reason: NeptuneGraphClientTypes.UnprocessableExceptionReason? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnprocessableException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil,
+        reason: NeptuneGraphClientTypes.UnprocessableExceptionReason? = nil
+    )
+    {
+        self.properties.message = message
+        self.properties.reason = reason
+    }
+}
+
+struct UnprocessableExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+    let reason: NeptuneGraphClientTypes.UnprocessableExceptionReason?
+}
+
+extension UnprocessableExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case reason
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.UnprocessableExceptionReason.self, forKey: .reason)
+        reason = reasonDecoded
+    }
+}
+
+extension NeptuneGraphClientTypes {
+    public enum UnprocessableExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case internalLimitExceeded
+        case memoryLimitExceeded
+        case partitionFull
+        case queryTimeout
+        case storageLimitExceeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UnprocessableExceptionReason] {
+            return [
+                .internalLimitExceeded,
+                .memoryLimitExceeded,
+                .partitionFull,
+                .queryTimeout,
+                .storageLimitExceeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .internalLimitExceeded: return "INTERNAL_LIMIT_EXCEEDED"
+            case .memoryLimitExceeded: return "MEMORY_LIMIT_EXCEEDED"
+            case .partitionFull: return "PARTITION_FULL"
+            case .queryTimeout: return "QUERY_TIMEOUT"
+            case .storageLimitExceeded: return "STORAGE_LIMIT_EXCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UnprocessableExceptionReason(rawValue: rawValue) ?? UnprocessableExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UntagResourceInput {
 
     static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -5059,7 +6569,7 @@ public struct UpdateGraphInput: Swift.Equatable {
     public var graphIdentifier: Swift.String?
     /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
     public var provisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs IAM authenticated. (true to enable, or false to disable.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
 
     public init(
@@ -5315,7 +6825,7 @@ extension ValidationException {
     }
 }
 
-/// A resource could not be validated
+/// A resource could not be validated.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {

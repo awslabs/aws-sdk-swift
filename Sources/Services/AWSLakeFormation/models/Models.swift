@@ -6507,8 +6507,6 @@ extension LakeFormationClientTypes {
 
 }
 
-public enum LakeFormationClientTypes {}
-
 extension LakeFormationClientTypes.LakeFormationOptInsInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case lastModified = "LastModified"

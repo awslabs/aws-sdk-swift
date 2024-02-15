@@ -9971,8 +9971,6 @@ extension LocationClientTypes {
 
 }
 
-public enum LocationClientTypes {}
-
 extension LocationClientTypes.MapConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customLayers = "CustomLayers"

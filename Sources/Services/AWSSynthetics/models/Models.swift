@@ -3991,8 +3991,6 @@ enum StopCanaryOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum SyntheticsClientTypes {}
-
 extension TagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "Tags"

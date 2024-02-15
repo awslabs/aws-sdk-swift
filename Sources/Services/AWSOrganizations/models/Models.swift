@@ -1437,7 +1437,7 @@ extension ConstraintViolationException {
 ///
 /// * MASTER_ACCOUNT_ADDRESS_DOES_NOT_MATCH_MARKETPLACE: To create an account in this organization, you first must migrate the organization's management account to the marketplace that corresponds to the management account's address. For example, accounts with India addresses must be associated with the AISPL marketplace. All accounts in an organization must be associated with the same marketplace.
 ///
-/// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services /> Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
+/// * MASTER_ACCOUNT_MISSING_BUSINESS_LICENSE: Applies only to the Amazon Web Services Regions in China. To create an organization, the master must have a valid business license. For more information, contact customer support.
 ///
 /// * MASTER_ACCOUNT_MISSING_CONTACT_INFO: To complete this operation, you must first provide a valid contact address and phone number for the management account. Then try the operation again.
 ///
@@ -2642,7 +2642,7 @@ extension CreatePolicyInput {
 }
 
 public struct CreatePolicyInput: Swift.Equatable {
-    /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter.
+    /// The policy text content to add to the new policy. The text that you supply must adhere to the rules of the policy type you specify in the Type parameter. The maximum size of a policy document depends on the policy's type. For more information, see [Maximum and minimum values](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values) in the Organizations User Guide.
     /// This member is required.
     public var content: Swift.String?
     /// An optional description to assign to the policy.
@@ -9623,8 +9623,6 @@ extension OrganizationalUnitNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum OrganizationsClientTypes {}
-
 extension OrganizationsClientTypes.Parent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"
@@ -11789,7 +11787,7 @@ extension UpdatePolicyInput {
 }
 
 public struct UpdatePolicyInput: Swift.Equatable {
-    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide.
+    /// If provided, the new content for the policy. The text must be correctly formatted JSON that complies with the syntax for the policy's type. For more information, see [SCP syntax](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_scps_syntax.html) in the Organizations User Guide. The maximum size of a policy document depends on the policy's type. For more information, see [Maximum and minimum values](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_reference_limits.html#min-max-values) in the Organizations User Guide.
     public var content: Swift.String?
     /// If provided, the new description for the policy.
     public var description: Swift.String?

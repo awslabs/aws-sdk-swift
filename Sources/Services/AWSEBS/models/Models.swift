@@ -499,8 +499,6 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
-public enum EBSClientTypes {}
-
 extension GetSnapshotBlockInput {
 
     static func queryItemProvider(_ value: GetSnapshotBlockInput) throws -> [ClientRuntime.SDKURLQueryItem] {

@@ -9525,5 +9525,3 @@ extension WorkSpacesWebClientTypes {
         }
     }
 }
-
-public enum WorkSpacesWebClientTypes {}

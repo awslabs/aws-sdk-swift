@@ -1376,8 +1376,6 @@ extension BillingconductorClientTypes {
 
 }
 
-public enum BillingconductorClientTypes {}
-
 extension BillingconductorClientTypes.ComputationPreference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case pricingPlanArn = "PricingPlanArn"

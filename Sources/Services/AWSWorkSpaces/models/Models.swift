@@ -7553,6 +7553,7 @@ extension DescribeWorkspacesInput: Swift.Encodable {
         case nextToken = "NextToken"
         case userName = "UserName"
         case workspaceIds = "WorkspaceIds"
+        case workspaceName = "WorkspaceName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7578,6 +7579,9 @@ extension DescribeWorkspacesInput: Swift.Encodable {
                 try workspaceIdsContainer.encode(workspaceid0)
             }
         }
+        if let workspaceName = self.workspaceName {
+            try encodeContainer.encode(workspaceName, forKey: .workspaceName)
+        }
     }
 }
 
@@ -7601,6 +7605,8 @@ public struct DescribeWorkspacesInput: Swift.Equatable {
     public var userName: Swift.String?
     /// The identifiers of the WorkSpaces. You cannot combine this parameter with any other filter. Because the [CreateWorkspaces] operation is asynchronous, the identifier it returns is not immediately available. If you immediately call [DescribeWorkspaces] with this identifier, no information is returned.
     public var workspaceIds: [Swift.String]?
+    /// The name of the user-decoupled WorkSpace.
+    public var workspaceName: Swift.String?
 
     public init(
         bundleId: Swift.String? = nil,
@@ -7608,7 +7614,8 @@ public struct DescribeWorkspacesInput: Swift.Equatable {
         limit: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         userName: Swift.String? = nil,
-        workspaceIds: [Swift.String]? = nil
+        workspaceIds: [Swift.String]? = nil,
+        workspaceName: Swift.String? = nil
     )
     {
         self.bundleId = bundleId
@@ -7617,6 +7624,7 @@ public struct DescribeWorkspacesInput: Swift.Equatable {
         self.nextToken = nextToken
         self.userName = userName
         self.workspaceIds = workspaceIds
+        self.workspaceName = workspaceName
     }
 }
 
@@ -7627,6 +7635,7 @@ struct DescribeWorkspacesInputBody: Swift.Equatable {
     let bundleId: Swift.String?
     let limit: Swift.Int?
     let nextToken: Swift.String?
+    let workspaceName: Swift.String?
 }
 
 extension DescribeWorkspacesInputBody: Swift.Decodable {
@@ -7637,6 +7646,7 @@ extension DescribeWorkspacesInputBody: Swift.Decodable {
         case nextToken = "NextToken"
         case userName = "UserName"
         case workspaceIds = "WorkspaceIds"
+        case workspaceName = "WorkspaceName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7662,6 +7672,8 @@ extension DescribeWorkspacesInputBody: Swift.Decodable {
         limit = limitDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let workspaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceName)
+        workspaceName = workspaceNameDecoded
     }
 }
 
@@ -14015,8 +14027,6 @@ extension WorkSpacesClientTypes {
     }
 }
 
-public enum WorkSpacesClientTypes {}
-
 extension WorkSpacesClientTypes.Workspace: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bundleId = "BundleId"
@@ -14036,6 +14046,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
         case volumeEncryptionKey = "VolumeEncryptionKey"
         case workspaceId = "WorkspaceId"
+        case workspaceName = "WorkspaceName"
         case workspaceProperties = "WorkspaceProperties"
     }
 
@@ -14101,6 +14112,9 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         if let workspaceId = self.workspaceId {
             try encodeContainer.encode(workspaceId, forKey: .workspaceId)
         }
+        if let workspaceName = self.workspaceName {
+            try encodeContainer.encode(workspaceName, forKey: .workspaceName)
+        }
         if let workspaceProperties = self.workspaceProperties {
             try encodeContainer.encode(workspaceProperties, forKey: .workspaceProperties)
         }
@@ -14134,6 +14148,8 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
         userVolumeEncryptionEnabled = userVolumeEncryptionEnabledDecoded
         let rootVolumeEncryptionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .rootVolumeEncryptionEnabled)
         rootVolumeEncryptionEnabled = rootVolumeEncryptionEnabledDecoded
+        let workspaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceName)
+        workspaceName = workspaceNameDecoded
         let workspacePropertiesDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.WorkspaceProperties.self, forKey: .workspaceProperties)
         workspaceProperties = workspacePropertiesDecoded
         let modificationStatesContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.ModificationState?].self, forKey: .modificationStates)
@@ -14211,6 +14227,8 @@ extension WorkSpacesClientTypes {
         public var volumeEncryptionKey: Swift.String?
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
+        /// The name of the user-decoupled WorkSpace.
+        public var workspaceName: Swift.String?
         /// The properties of the WorkSpace.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
@@ -14232,6 +14250,7 @@ extension WorkSpacesClientTypes {
             userVolumeEncryptionEnabled: Swift.Bool? = nil,
             volumeEncryptionKey: Swift.String? = nil,
             workspaceId: Swift.String? = nil,
+            workspaceName: Swift.String? = nil,
             workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
         )
         {
@@ -14252,6 +14271,7 @@ extension WorkSpacesClientTypes {
             self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
             self.volumeEncryptionKey = volumeEncryptionKey
             self.workspaceId = workspaceId
+            self.workspaceName = workspaceName
             self.workspaceProperties = workspaceProperties
         }
     }
@@ -15508,6 +15528,7 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
         case userName = "UserName"
         case userVolumeEncryptionEnabled = "UserVolumeEncryptionEnabled"
         case volumeEncryptionKey = "VolumeEncryptionKey"
+        case workspaceName = "WorkspaceName"
         case workspaceProperties = "WorkspaceProperties"
     }
 
@@ -15536,6 +15557,9 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
         }
         if let volumeEncryptionKey = self.volumeEncryptionKey {
             try encodeContainer.encode(volumeEncryptionKey, forKey: .volumeEncryptionKey)
+        }
+        if let workspaceName = self.workspaceName {
+            try encodeContainer.encode(workspaceName, forKey: .workspaceName)
         }
         if let workspaceProperties = self.workspaceProperties {
             try encodeContainer.encode(workspaceProperties, forKey: .workspaceProperties)
@@ -15569,6 +15593,8 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let workspaceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workspaceName)
+        workspaceName = workspaceNameDecoded
     }
 }
 
@@ -15585,13 +15611,15 @@ extension WorkSpacesClientTypes {
         public var rootVolumeEncryptionEnabled: Swift.Bool?
         /// The tags for the WorkSpace.
         public var tags: [WorkSpacesClientTypes.Tag]?
-        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace.
+        /// The user name of the user for the WorkSpace. This user name must exist in the Directory Service directory for the WorkSpace. The reserved keyword, [UNDEFINED], is used when creating user-decoupled WorkSpaces.
         /// This member is required.
         public var userName: Swift.String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public var userVolumeEncryptionEnabled: Swift.Bool?
         /// The ARN of the symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public var volumeEncryptionKey: Swift.String?
+        /// The name of the user-decoupled WorkSpace.
+        public var workspaceName: Swift.String?
         /// The WorkSpace properties.
         public var workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
 
@@ -15603,6 +15631,7 @@ extension WorkSpacesClientTypes {
             userName: Swift.String? = nil,
             userVolumeEncryptionEnabled: Swift.Bool? = nil,
             volumeEncryptionKey: Swift.String? = nil,
+            workspaceName: Swift.String? = nil,
             workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties? = nil
         )
         {
@@ -15613,6 +15642,7 @@ extension WorkSpacesClientTypes {
             self.userName = userName
             self.userVolumeEncryptionEnabled = userVolumeEncryptionEnabled
             self.volumeEncryptionKey = volumeEncryptionKey
+            self.workspaceName = workspaceName
             self.workspaceProperties = workspaceProperties
         }
     }

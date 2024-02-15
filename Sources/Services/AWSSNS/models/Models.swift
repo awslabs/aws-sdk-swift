@@ -4671,8 +4671,6 @@ extension SNSClientTypes {
     }
 }
 
-public enum SNSClientTypes {}
-
 extension SetEndpointAttributesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributes = "Attributes"

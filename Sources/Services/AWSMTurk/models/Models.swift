@@ -4838,8 +4838,6 @@ extension MTurkClientTypes {
 
 }
 
-public enum MTurkClientTypes {}
-
 extension MTurkClientTypes.NotificationSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination = "Destination"

@@ -5676,8 +5676,6 @@ extension SSMIncidentsClientTypes {
 
 }
 
-public enum SSMIncidentsClientTypes {}
-
 extension SSMIncidentsClientTypes {
     public enum ServiceCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ssmIncidents

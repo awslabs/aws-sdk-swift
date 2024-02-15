@@ -10466,5 +10466,3 @@ extension ValidationExceptionBody: Swift.Decodable {
         message = messageDecoded
     }
 }
-
-public enum WisdomClientTypes {}

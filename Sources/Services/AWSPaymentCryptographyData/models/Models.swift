@@ -2842,8 +2842,6 @@ extension PaymentCryptographyDataClientTypes {
     }
 }
 
-public enum PaymentCryptographyDataClientTypes {}
-
 extension PaymentCryptographyDataClientTypes {
     public enum PinBlockFormatForPinData: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case isoFormat0

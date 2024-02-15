@@ -9655,8 +9655,6 @@ extension ElastiCacheClientTypes {
 
 }
 
-public enum ElastiCacheClientTypes {}
-
 extension ElastiCacheClientTypes.Endpoint: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"

@@ -500,5 +500,3 @@ extension WorkMailMessageFlowClientTypes {
     }
 
 }
-
-public enum WorkMailMessageFlowClientTypes {}

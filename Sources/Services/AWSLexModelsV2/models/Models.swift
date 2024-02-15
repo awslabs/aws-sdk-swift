@@ -4737,6 +4737,145 @@ extension LexModelsV2ClientTypes {
 
 }
 
+extension LexModelsV2ClientTypes.BotAliasReplicaSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasId
+        case botAliasReplicationStatus
+        case botVersion
+        case creationDateTime
+        case failureReasons
+        case lastUpdatedDateTime
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botAliasId = self.botAliasId {
+            try encodeContainer.encode(botAliasId, forKey: .botAliasId)
+        }
+        if let botAliasReplicationStatus = self.botAliasReplicationStatus {
+            try encodeContainer.encode(botAliasReplicationStatus.rawValue, forKey: .botAliasReplicationStatus)
+        }
+        if let botVersion = self.botVersion {
+            try encodeContainer.encode(botVersion, forKey: .botVersion)
+        }
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for failurereason0 in failureReasons {
+                try failureReasonsContainer.encode(failurereason0)
+            }
+        }
+        if let lastUpdatedDateTime = self.lastUpdatedDateTime {
+            try encodeContainer.encodeTimestamp(lastUpdatedDateTime, format: .epochSeconds, forKey: .lastUpdatedDateTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botAliasIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botAliasId)
+        botAliasId = botAliasIdDecoded
+        let botAliasReplicationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotAliasReplicationStatus.self, forKey: .botAliasReplicationStatus)
+        botAliasReplicationStatus = botAliasReplicationStatusDecoded
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
+        lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains information about all the aliases replication statuses applicable for global resiliency.
+    public struct BotAliasReplicaSummary: Swift.Equatable {
+        /// The bot alias ID for all the alias bot replications.
+        public var botAliasId: Swift.String?
+        /// The replication statuses for all the alias bot replications.
+        public var botAliasReplicationStatus: LexModelsV2ClientTypes.BotAliasReplicationStatus?
+        /// The bot version for all the alias bot replications.
+        public var botVersion: Swift.String?
+        /// The creation time and date for all the alias bot replications.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The reasons for failure for the aliases bot replications.
+        public var failureReasons: [Swift.String]?
+        /// The last time and date updated for all the alias bot replications.
+        public var lastUpdatedDateTime: ClientRuntime.Date?
+
+        public init(
+            botAliasId: Swift.String? = nil,
+            botAliasReplicationStatus: LexModelsV2ClientTypes.BotAliasReplicationStatus? = nil,
+            botVersion: Swift.String? = nil,
+            creationDateTime: ClientRuntime.Date? = nil,
+            failureReasons: [Swift.String]? = nil,
+            lastUpdatedDateTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.botAliasId = botAliasId
+            self.botAliasReplicationStatus = botAliasReplicationStatus
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    /// The status of the operation to replicate the bot alias. Values: Creating, Updating, Available, Deleting, Failed.
+    public enum BotAliasReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case failed
+        case updating
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotAliasReplicationStatus] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .failed,
+                .updating,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case .updating: return "Updating"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BotAliasReplicationStatus(rawValue: rawValue) ?? BotAliasReplicationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension LexModelsV2ClientTypes {
     public enum BotAliasStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
@@ -6061,6 +6200,122 @@ extension LexModelsV2ClientTypes {
 }
 
 extension LexModelsV2ClientTypes {
+    /// The status of the operation to replicate the bot. Values: Enabling, Enabled, Deleting, Failed.
+    public enum BotReplicaStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleting
+        case enabled
+        case enabling
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotReplicaStatus] {
+            return [
+                .deleting,
+                .enabled,
+                .enabling,
+                .failed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleting: return "Deleting"
+            case .enabled: return "Enabled"
+            case .enabling: return "Enabling"
+            case .failed: return "Failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BotReplicaStatus(rawValue: rawValue) ?? BotReplicaStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.BotReplicaSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botReplicaStatus
+        case creationDateTime
+        case failureReasons
+        case replicaRegion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botReplicaStatus = self.botReplicaStatus {
+            try encodeContainer.encode(botReplicaStatus.rawValue, forKey: .botReplicaStatus)
+        }
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for failurereason0 in failureReasons {
+                try failureReasonsContainer.encode(failurereason0)
+            }
+        }
+        if let replicaRegion = self.replicaRegion {
+            try encodeContainer.encode(replicaRegion, forKey: .replicaRegion)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let botReplicaStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotReplicaStatus.self, forKey: .botReplicaStatus)
+        botReplicaStatus = botReplicaStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains summary information about all the replication statuses applicable for global resiliency.
+    public struct BotReplicaSummary: Swift.Equatable {
+        /// The operation status for the replicated bot applicable.
+        public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+        /// The creation time and date for the replicated bots.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The reasons for the failure for the replicated bot.
+        public var failureReasons: [Swift.String]?
+        /// The replica region used in the replication statuses summary.
+        public var replicaRegion: Swift.String?
+
+        public init(
+            botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
+            creationDateTime: ClientRuntime.Date? = nil,
+            failureReasons: [Swift.String]? = nil,
+            replicaRegion: Swift.String? = nil
+        )
+        {
+            self.botReplicaStatus = botReplicaStatus
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+            self.replicaRegion = replicaRegion
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
     public enum BotSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case botname
         case sdkUnknown(Swift.String)
@@ -6347,6 +6602,198 @@ extension LexModelsV2ClientTypes {
         }
     }
 
+}
+
+extension LexModelsV2ClientTypes {
+    public enum BotVersionReplicaSortAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case botversion
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotVersionReplicaSortAttribute] {
+            return [
+                .botversion,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .botversion: return "BotVersion"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BotVersionReplicaSortAttribute(rawValue: rawValue) ?? BotVersionReplicaSortAttribute.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LexModelsV2ClientTypes.BotVersionReplicaSortBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attribute
+        case order
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attribute = self.attribute {
+            try encodeContainer.encode(attribute.rawValue, forKey: .attribute)
+        }
+        if let order = self.order {
+            try encodeContainer.encode(order.rawValue, forKey: .order)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let attributeDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotVersionReplicaSortAttribute.self, forKey: .attribute)
+        attribute = attributeDecoded
+        let orderDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.SortOrder.self, forKey: .order)
+        order = orderDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// The sort category for the version replicated bots.
+    public struct BotVersionReplicaSortBy: Swift.Equatable {
+        /// The attribute of the sort category for the version replicated bots.
+        /// This member is required.
+        public var attribute: LexModelsV2ClientTypes.BotVersionReplicaSortAttribute?
+        /// The order of the sort category for the version replicated bots.
+        /// This member is required.
+        public var order: LexModelsV2ClientTypes.SortOrder?
+
+        public init(
+            attribute: LexModelsV2ClientTypes.BotVersionReplicaSortAttribute? = nil,
+            order: LexModelsV2ClientTypes.SortOrder? = nil
+        )
+        {
+            self.attribute = attribute
+            self.order = order
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.BotVersionReplicaSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botVersion
+        case botVersionReplicationStatus
+        case creationDateTime
+        case failureReasons
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let botVersion = self.botVersion {
+            try encodeContainer.encode(botVersion, forKey: .botVersion)
+        }
+        if let botVersionReplicationStatus = self.botVersionReplicationStatus {
+            try encodeContainer.encode(botVersionReplicationStatus.rawValue, forKey: .botVersionReplicationStatus)
+        }
+        if let creationDateTime = self.creationDateTime {
+            try encodeContainer.encodeTimestamp(creationDateTime, format: .epochSeconds, forKey: .creationDateTime)
+        }
+        if let failureReasons = failureReasons {
+            var failureReasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .failureReasons)
+            for failurereason0 in failureReasons {
+                try failureReasonsContainer.encode(failurereason0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botVersion)
+        botVersion = botVersionDecoded
+        let botVersionReplicationStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotVersionReplicationStatus.self, forKey: .botVersionReplicationStatus)
+        botVersionReplicationStatus = botVersionReplicationStatusDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains summary information for all the version replication statuses applicable for Global resiliency.
+    public struct BotVersionReplicaSummary: Swift.Equatable {
+        /// The bot version for the summary information for all the version replication statuses.
+        public var botVersion: Swift.String?
+        /// The version replication status for all the replicated bots.
+        public var botVersionReplicationStatus: LexModelsV2ClientTypes.BotVersionReplicationStatus?
+        /// The creation date and time of the replication status for all the replicated bots.
+        public var creationDateTime: ClientRuntime.Date?
+        /// The reasons for replication failure for all the replicated bots.
+        public var failureReasons: [Swift.String]?
+
+        public init(
+            botVersion: Swift.String? = nil,
+            botVersionReplicationStatus: LexModelsV2ClientTypes.BotVersionReplicationStatus? = nil,
+            creationDateTime: ClientRuntime.Date? = nil,
+            failureReasons: [Swift.String]? = nil
+        )
+        {
+            self.botVersion = botVersion
+            self.botVersionReplicationStatus = botVersionReplicationStatus
+            self.creationDateTime = creationDateTime
+            self.failureReasons = failureReasons
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes {
+    /// The status of the operation to replicate the bot version. Values: Creating, Available, Deleting, Failed.
+    public enum BotVersionReplicationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case available
+        case creating
+        case deleting
+        case failed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BotVersionReplicationStatus] {
+            return [
+                .available,
+                .creating,
+                .deleting,
+                .failed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .available: return "Available"
+            case .creating: return "Creating"
+            case .deleting: return "Deleting"
+            case .failed: return "Failed"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BotVersionReplicationStatus(rawValue: rawValue) ?? BotVersionReplicationStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension LexModelsV2ClientTypes {
@@ -8894,6 +9341,159 @@ extension CreateBotOutputBody: Swift.Decodable {
 }
 
 enum CreateBotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateBotReplicaInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicaRegion
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let replicaRegion = self.replicaRegion {
+            try encodeContainer.encode(replicaRegion, forKey: .replicaRegion)
+        }
+    }
+}
+
+extension CreateBotReplicaInput {
+
+    static func urlPathProvider(_ value: CreateBotReplicaInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas"
+    }
+}
+
+public struct CreateBotReplicaInput: Swift.Equatable {
+    /// The request for the unique bot ID of the source bot to be replicated in the secondary region.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The request for the secondary region that will be used in the replication of the source bot.
+    /// This member is required.
+    public var replicaRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.replicaRegion = replicaRegion
+    }
+}
+
+struct CreateBotReplicaInputBody: Swift.Equatable {
+    let replicaRegion: Swift.String?
+}
+
+extension CreateBotReplicaInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case replicaRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+    }
+}
+
+extension CreateBotReplicaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateBotReplicaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botReplicaStatus = output.botReplicaStatus
+            self.creationDateTime = output.creationDateTime
+            self.replicaRegion = output.replicaRegion
+            self.sourceRegion = output.sourceRegion
+        } else {
+            self.botId = nil
+            self.botReplicaStatus = nil
+            self.creationDateTime = nil
+            self.replicaRegion = nil
+            self.sourceRegion = nil
+        }
+    }
+}
+
+public struct CreateBotReplicaOutput: Swift.Equatable {
+    /// The unique bot ID of the replicated bot generated.
+    public var botId: Swift.String?
+    /// The operational status of the replicated bot generated.
+    public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+    /// The creation date and time of the replicated bot generated.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The region of the replicated bot generated.
+    public var replicaRegion: Swift.String?
+    /// The source region for the source bot used for the replicated bot generated.
+    public var sourceRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        replicaRegion: Swift.String? = nil,
+        sourceRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botReplicaStatus = botReplicaStatus
+        self.creationDateTime = creationDateTime
+        self.replicaRegion = replicaRegion
+        self.sourceRegion = sourceRegion
+    }
+}
+
+struct CreateBotReplicaOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let replicaRegion: Swift.String?
+    let sourceRegion: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+}
+
+extension CreateBotReplicaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botReplicaStatus
+        case creationDateTime
+        case replicaRegion
+        case sourceRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let botReplicaStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotReplicaStatus.self, forKey: .botReplicaStatus)
+        botReplicaStatus = botReplicaStatusDecoded
+    }
+}
+
+enum CreateBotReplicaOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -11895,6 +12495,122 @@ enum DeleteBotOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteBotReplicaInput {
+
+    static func urlPathProvider(_ value: DeleteBotReplicaInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let replicaRegion = value.replicaRegion else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas/\(replicaRegion.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteBotReplicaInput: Swift.Equatable {
+    /// The unique ID of the replicated bot to be deleted from the secondary region
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The secondary region of the replicated bot that will be deleted.
+    /// This member is required.
+    public var replicaRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.replicaRegion = replicaRegion
+    }
+}
+
+struct DeleteBotReplicaInputBody: Swift.Equatable {
+}
+
+extension DeleteBotReplicaInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteBotReplicaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteBotReplicaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botReplicaStatus = output.botReplicaStatus
+            self.replicaRegion = output.replicaRegion
+        } else {
+            self.botId = nil
+            self.botReplicaStatus = nil
+            self.replicaRegion = nil
+        }
+    }
+}
+
+public struct DeleteBotReplicaOutput: Swift.Equatable {
+    /// The unique bot ID of the replicated bot generated.
+    public var botId: Swift.String?
+    /// The operational status of the replicated bot generated.
+    public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+    /// The region of the replicated bot generated.
+    public var replicaRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
+        replicaRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botReplicaStatus = botReplicaStatus
+        self.replicaRegion = replicaRegion
+    }
+}
+
+struct DeleteBotReplicaOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let replicaRegion: Swift.String?
+    let botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+}
+
+extension DeleteBotReplicaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botReplicaStatus
+        case replicaRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let botReplicaStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotReplicaStatus.self, forKey: .botReplicaStatus)
+        botReplicaStatus = botReplicaStatusDecoded
+    }
+}
+
+enum DeleteBotReplicaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteBotVersionInput {
 
     static func queryItemProvider(_ value: DeleteBotVersionInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -13953,6 +14669,160 @@ enum DescribeBotRecommendationOutputError: ClientRuntime.HttpResponseErrorBindin
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DescribeBotReplicaInput {
+
+    static func urlPathProvider(_ value: DescribeBotReplicaInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let replicaRegion = value.replicaRegion else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas/\(replicaRegion.urlPercentEncoding())"
+    }
+}
+
+public struct DescribeBotReplicaInput: Swift.Equatable {
+    /// The request for the unique bot ID of the replicated bot being monitored.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The request for the region of the replicated bot being monitored.
+    /// This member is required.
+    public var replicaRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.replicaRegion = replicaRegion
+    }
+}
+
+struct DescribeBotReplicaInputBody: Swift.Equatable {
+}
+
+extension DescribeBotReplicaInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribeBotReplicaOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribeBotReplicaOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botReplicaStatus = output.botReplicaStatus
+            self.creationDateTime = output.creationDateTime
+            self.failureReasons = output.failureReasons
+            self.replicaRegion = output.replicaRegion
+            self.sourceRegion = output.sourceRegion
+        } else {
+            self.botId = nil
+            self.botReplicaStatus = nil
+            self.creationDateTime = nil
+            self.failureReasons = nil
+            self.replicaRegion = nil
+            self.sourceRegion = nil
+        }
+    }
+}
+
+public struct DescribeBotReplicaOutput: Swift.Equatable {
+    /// The unique bot ID of the replicated bot being monitored.
+    public var botId: Swift.String?
+    /// The operational status of the replicated bot being monitored.
+    public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+    /// The creation date and time of the replicated bot being monitored.
+    public var creationDateTime: ClientRuntime.Date?
+    /// The failure reasons the bot being monitored failed to replicate.
+    public var failureReasons: [Swift.String]?
+    /// The region of the replicated bot being monitored.
+    public var replicaRegion: Swift.String?
+    /// The source region of the replicated bot being monitored.
+    public var sourceRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus? = nil,
+        creationDateTime: ClientRuntime.Date? = nil,
+        failureReasons: [Swift.String]? = nil,
+        replicaRegion: Swift.String? = nil,
+        sourceRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botReplicaStatus = botReplicaStatus
+        self.creationDateTime = creationDateTime
+        self.failureReasons = failureReasons
+        self.replicaRegion = replicaRegion
+        self.sourceRegion = sourceRegion
+    }
+}
+
+struct DescribeBotReplicaOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let replicaRegion: Swift.String?
+    let sourceRegion: Swift.String?
+    let creationDateTime: ClientRuntime.Date?
+    let botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
+    let failureReasons: [Swift.String]?
+}
+
+extension DescribeBotReplicaOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botReplicaStatus
+        case creationDateTime
+        case failureReasons
+        case replicaRegion
+        case sourceRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
+        creationDateTime = creationDateTimeDecoded
+        let botReplicaStatusDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotReplicaStatus.self, forKey: .botReplicaStatus)
+        botReplicaStatus = botReplicaStatusDecoded
+        let failureReasonsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .failureReasons)
+        var failureReasonsDecoded0:[Swift.String]? = nil
+        if let failureReasonsContainer = failureReasonsContainer {
+            failureReasonsDecoded0 = [Swift.String]()
+            for string0 in failureReasonsContainer {
+                if let string0 = string0 {
+                    failureReasonsDecoded0?.append(string0)
+                }
+            }
+        }
+        failureReasons = failureReasonsDecoded0
+    }
+}
+
+enum DescribeBotReplicaOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -20400,8 +21270,6 @@ extension LexModelsV2ClientTypes {
 
 }
 
-public enum LexModelsV2ClientTypes {}
-
 extension LexModelsV2ClientTypes.LexTranscriptFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dateRangeFilter
@@ -20743,6 +21611,185 @@ enum ListAggregatedUtterancesOutputError: ClientRuntime.HttpResponseErrorBinding
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListBotAliasReplicasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListBotAliasReplicasInput {
+
+    static func urlPathProvider(_ value: ListBotAliasReplicasInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let replicaRegion = value.replicaRegion else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas/\(replicaRegion.urlPercentEncoding())/botaliases"
+    }
+}
+
+public struct ListBotAliasReplicasInput: Swift.Equatable {
+    /// The request for the unique bot ID of the replicated bot created from the source bot alias.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The request for maximum results to list the replicated bots created from the source bot alias.
+    public var maxResults: Swift.Int?
+    /// The request for the next token for the replicated bot created from the source bot alias.
+    public var nextToken: Swift.String?
+    /// The request for the secondary region of the replicated bot created from the source bot alias.
+    /// This member is required.
+    public var replicaRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.replicaRegion = replicaRegion
+    }
+}
+
+struct ListBotAliasReplicasInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListBotAliasReplicasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListBotAliasReplicasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBotAliasReplicasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botAliasReplicaSummaries = output.botAliasReplicaSummaries
+            self.botId = output.botId
+            self.nextToken = output.nextToken
+            self.replicaRegion = output.replicaRegion
+            self.sourceRegion = output.sourceRegion
+        } else {
+            self.botAliasReplicaSummaries = nil
+            self.botId = nil
+            self.nextToken = nil
+            self.replicaRegion = nil
+            self.sourceRegion = nil
+        }
+    }
+}
+
+public struct ListBotAliasReplicasOutput: Swift.Equatable {
+    /// The summary information of the replicated bot created from the source bot alias.
+    public var botAliasReplicaSummaries: [LexModelsV2ClientTypes.BotAliasReplicaSummary]?
+    /// The unique bot ID of the replicated bot created from the source bot alias.
+    public var botId: Swift.String?
+    /// The next token for the replicated bots created from the source bot alias.
+    public var nextToken: Swift.String?
+    /// The secondary region of the replicated bot created from the source bot alias.
+    public var replicaRegion: Swift.String?
+    /// The source region of the replicated bot created from the source bot alias.
+    public var sourceRegion: Swift.String?
+
+    public init(
+        botAliasReplicaSummaries: [LexModelsV2ClientTypes.BotAliasReplicaSummary]? = nil,
+        botId: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil,
+        sourceRegion: Swift.String? = nil
+    )
+    {
+        self.botAliasReplicaSummaries = botAliasReplicaSummaries
+        self.botId = botId
+        self.nextToken = nextToken
+        self.replicaRegion = replicaRegion
+        self.sourceRegion = sourceRegion
+    }
+}
+
+struct ListBotAliasReplicasOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let sourceRegion: Swift.String?
+    let replicaRegion: Swift.String?
+    let botAliasReplicaSummaries: [LexModelsV2ClientTypes.BotAliasReplicaSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListBotAliasReplicasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botAliasReplicaSummaries
+        case botId
+        case nextToken
+        case replicaRegion
+        case sourceRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let botAliasReplicaSummariesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotAliasReplicaSummary?].self, forKey: .botAliasReplicaSummaries)
+        var botAliasReplicaSummariesDecoded0:[LexModelsV2ClientTypes.BotAliasReplicaSummary]? = nil
+        if let botAliasReplicaSummariesContainer = botAliasReplicaSummariesContainer {
+            botAliasReplicaSummariesDecoded0 = [LexModelsV2ClientTypes.BotAliasReplicaSummary]()
+            for structure0 in botAliasReplicaSummariesContainer {
+                if let structure0 = structure0 {
+                    botAliasReplicaSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        botAliasReplicaSummaries = botAliasReplicaSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBotAliasReplicasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -21293,6 +22340,121 @@ enum ListBotRecommendationsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListBotReplicasInput {
+
+    static func urlPathProvider(_ value: ListBotReplicasInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas"
+    }
+}
+
+public struct ListBotReplicasInput: Swift.Equatable {
+    /// The request for the unique bot IDs in the list of replicated bots.
+    /// This member is required.
+    public var botId: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+    }
+}
+
+struct ListBotReplicasInputBody: Swift.Equatable {
+}
+
+extension ListBotReplicasInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListBotReplicasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBotReplicasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botReplicaSummaries = output.botReplicaSummaries
+            self.sourceRegion = output.sourceRegion
+        } else {
+            self.botId = nil
+            self.botReplicaSummaries = nil
+            self.sourceRegion = nil
+        }
+    }
+}
+
+public struct ListBotReplicasOutput: Swift.Equatable {
+    /// the unique bot IDs in the list of replicated bots.
+    public var botId: Swift.String?
+    /// The summary details for the replicated bots.
+    public var botReplicaSummaries: [LexModelsV2ClientTypes.BotReplicaSummary]?
+    /// The source region of the source bots in the list of replicated bots.
+    public var sourceRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botReplicaSummaries: [LexModelsV2ClientTypes.BotReplicaSummary]? = nil,
+        sourceRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botReplicaSummaries = botReplicaSummaries
+        self.sourceRegion = sourceRegion
+    }
+}
+
+struct ListBotReplicasOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let sourceRegion: Swift.String?
+    let botReplicaSummaries: [LexModelsV2ClientTypes.BotReplicaSummary]?
+}
+
+extension ListBotReplicasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botReplicaSummaries
+        case sourceRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let botReplicaSummariesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotReplicaSummary?].self, forKey: .botReplicaSummaries)
+        var botReplicaSummariesDecoded0:[LexModelsV2ClientTypes.BotReplicaSummary]? = nil
+        if let botReplicaSummariesContainer = botReplicaSummariesContainer {
+            botReplicaSummariesDecoded0 = [LexModelsV2ClientTypes.BotReplicaSummary]()
+            for structure0 in botReplicaSummariesContainer {
+                if let structure0 = structure0 {
+                    botReplicaSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        botReplicaSummaries = botReplicaSummariesDecoded0
+    }
+}
+
+enum ListBotReplicasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListBotResourceGenerationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -21485,6 +22647,197 @@ enum ListBotResourceGenerationsOutputError: ClientRuntime.HttpResponseErrorBindi
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListBotVersionReplicasInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy, forKey: .sortBy)
+        }
+    }
+}
+
+extension ListBotVersionReplicasInput {
+
+    static func urlPathProvider(_ value: ListBotVersionReplicasInput) -> Swift.String? {
+        guard let botId = value.botId else {
+            return nil
+        }
+        guard let replicaRegion = value.replicaRegion else {
+            return nil
+        }
+        return "/bots/\(botId.urlPercentEncoding())/replicas/\(replicaRegion.urlPercentEncoding())/botversions"
+    }
+}
+
+public struct ListBotVersionReplicasInput: Swift.Equatable {
+    /// The request for the unique ID in the list of replicated bots.
+    /// This member is required.
+    public var botId: Swift.String?
+    /// The maximum results given in the list of replicated bots.
+    public var maxResults: Swift.Int?
+    /// The next token given in the list of replicated bots.
+    public var nextToken: Swift.String?
+    /// The request for the region used in the list of replicated bots.
+    /// This member is required.
+    public var replicaRegion: Swift.String?
+    /// The requested sort category for the list of replicated bots.
+    public var sortBy: LexModelsV2ClientTypes.BotVersionReplicaSortBy?
+
+    public init(
+        botId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil,
+        sortBy: LexModelsV2ClientTypes.BotVersionReplicaSortBy? = nil
+    )
+    {
+        self.botId = botId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.replicaRegion = replicaRegion
+        self.sortBy = sortBy
+    }
+}
+
+struct ListBotVersionReplicasInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+    let sortBy: LexModelsV2ClientTypes.BotVersionReplicaSortBy?
+}
+
+extension ListBotVersionReplicasInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+        case sortBy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let sortByDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BotVersionReplicaSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+    }
+}
+
+extension ListBotVersionReplicasOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBotVersionReplicasOutputBody = try responseDecoder.decode(responseBody: data)
+            self.botId = output.botId
+            self.botVersionReplicaSummaries = output.botVersionReplicaSummaries
+            self.nextToken = output.nextToken
+            self.replicaRegion = output.replicaRegion
+            self.sourceRegion = output.sourceRegion
+        } else {
+            self.botId = nil
+            self.botVersionReplicaSummaries = nil
+            self.nextToken = nil
+            self.replicaRegion = nil
+            self.sourceRegion = nil
+        }
+    }
+}
+
+public struct ListBotVersionReplicasOutput: Swift.Equatable {
+    /// The unique ID of the bots in the list of replicated bots.
+    public var botId: Swift.String?
+    /// The information summary used for the replicated bots in the list of replicated bots.
+    public var botVersionReplicaSummaries: [LexModelsV2ClientTypes.BotVersionReplicaSummary]?
+    /// The next token used for the replicated bots in the list of replicated bots.
+    public var nextToken: Swift.String?
+    /// The region used for the replicated bots in the list of replicated bots.
+    public var replicaRegion: Swift.String?
+    /// The source region used for the bots in the list of replicated bots.
+    public var sourceRegion: Swift.String?
+
+    public init(
+        botId: Swift.String? = nil,
+        botVersionReplicaSummaries: [LexModelsV2ClientTypes.BotVersionReplicaSummary]? = nil,
+        nextToken: Swift.String? = nil,
+        replicaRegion: Swift.String? = nil,
+        sourceRegion: Swift.String? = nil
+    )
+    {
+        self.botId = botId
+        self.botVersionReplicaSummaries = botVersionReplicaSummaries
+        self.nextToken = nextToken
+        self.replicaRegion = replicaRegion
+        self.sourceRegion = sourceRegion
+    }
+}
+
+struct ListBotVersionReplicasOutputBody: Swift.Equatable {
+    let botId: Swift.String?
+    let sourceRegion: Swift.String?
+    let replicaRegion: Swift.String?
+    let botVersionReplicaSummaries: [LexModelsV2ClientTypes.BotVersionReplicaSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListBotVersionReplicasOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case botId
+        case botVersionReplicaSummaries
+        case nextToken
+        case replicaRegion
+        case sourceRegion
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let botIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .botId)
+        botId = botIdDecoded
+        let sourceRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceRegion)
+        sourceRegion = sourceRegionDecoded
+        let replicaRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .replicaRegion)
+        replicaRegion = replicaRegionDecoded
+        let botVersionReplicaSummariesContainer = try containerValues.decodeIfPresent([LexModelsV2ClientTypes.BotVersionReplicaSummary?].self, forKey: .botVersionReplicaSummaries)
+        var botVersionReplicaSummariesDecoded0:[LexModelsV2ClientTypes.BotVersionReplicaSummary]? = nil
+        if let botVersionReplicaSummariesContainer = botVersionReplicaSummariesContainer {
+            botVersionReplicaSummariesDecoded0 = [LexModelsV2ClientTypes.BotVersionReplicaSummary]()
+            for structure0 in botVersionReplicaSummariesContainer {
+                if let structure0 = structure0 {
+                    botVersionReplicaSummariesDecoded0?.append(structure0)
+                }
+            }
+        }
+        botVersionReplicaSummaries = botVersionReplicaSummariesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBotVersionReplicasOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

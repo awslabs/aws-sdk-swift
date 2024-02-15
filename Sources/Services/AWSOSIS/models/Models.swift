@@ -1499,8 +1499,6 @@ extension OSISClientTypes {
 
 }
 
-public enum OSISClientTypes {}
-
 extension OSISClientTypes.Pipeline: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bufferOptions = "BufferOptions"

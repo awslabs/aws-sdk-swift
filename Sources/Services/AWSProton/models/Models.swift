@@ -13023,8 +13023,6 @@ extension ProtonClientTypes {
 
 }
 
-public enum ProtonClientTypes {}
-
 extension ProtonClientTypes.ProvisionedResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case identifier

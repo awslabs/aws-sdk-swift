@@ -6783,8 +6783,6 @@ extension ValidationExceptionBody: Swift.Decodable {
     }
 }
 
-public enum VoiceIDClientTypes {}
-
 extension VoiceIDClientTypes.VoiceSpoofingRisk: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case riskScore = "RiskScore"

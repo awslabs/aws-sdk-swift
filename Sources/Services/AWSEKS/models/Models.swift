@@ -6676,8 +6676,6 @@ enum DisassociateIdentityProviderConfigOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-public enum EKSClientTypes {}
-
 extension EKSClientTypes.EksAnywhereSubscription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn

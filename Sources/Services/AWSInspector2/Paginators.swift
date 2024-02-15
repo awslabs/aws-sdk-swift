@@ -3,6 +3,42 @@
 import ClientRuntime
 
 extension Inspector2Client {
+    /// Paginate over `[GetCisScanResultDetailsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetCisScanResultDetailsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetCisScanResultDetailsOutput`
+    public func getCisScanResultDetailsPaginated(input: GetCisScanResultDetailsInput) -> ClientRuntime.PaginatorSequence<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput> {
+        return ClientRuntime.PaginatorSequence<GetCisScanResultDetailsInput, GetCisScanResultDetailsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getCisScanResultDetails(input:))
+    }
+}
+
+extension GetCisScanResultDetailsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetCisScanResultDetailsInput {
+        return GetCisScanResultDetailsInput(
+            accountId: self.accountId,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder,
+            targetResourceId: self.targetResourceId
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetCisScanResultDetailsInput, OperationStackOutput == GetCisScanResultDetailsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getCisScanResultDetailsPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.CisScanResultDetails]`
+    /// - Returns: `[Inspector2ClientTypes.CisScanResultDetails]`
+    public func scanResultDetails() async throws -> [Inspector2ClientTypes.CisScanResultDetails] {
+        return try await self.asyncCompactMap { item in item.scanResultDetails }
+    }
+}
+extension Inspector2Client {
     /// Paginate over `[ListAccountPermissionsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -31,6 +67,141 @@ extension PaginatorSequence where OperationStackInput == ListAccountPermissionsI
     /// - Returns: `[Inspector2ClientTypes.Permission]`
     public func permissions() async throws -> [Inspector2ClientTypes.Permission] {
         return try await self.asyncCompactMap { item in item.permissions }
+    }
+}
+extension Inspector2Client {
+    /// Paginate over `[ListCisScanConfigurationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCisScanConfigurationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCisScanConfigurationsOutput`
+    public func listCisScanConfigurationsPaginated(input: ListCisScanConfigurationsInput) -> ClientRuntime.PaginatorSequence<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCisScanConfigurationsInput, ListCisScanConfigurationsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCisScanConfigurations(input:))
+    }
+}
+
+extension ListCisScanConfigurationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCisScanConfigurationsInput {
+        return ListCisScanConfigurationsInput(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCisScanConfigurationsInput, OperationStackOutput == ListCisScanConfigurationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCisScanConfigurationsPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.CisScanConfiguration]`
+    /// - Returns: `[Inspector2ClientTypes.CisScanConfiguration]`
+    public func scanConfigurations() async throws -> [Inspector2ClientTypes.CisScanConfiguration] {
+        return try await self.asyncCompactMap { item in item.scanConfigurations }
+    }
+}
+extension Inspector2Client {
+    /// Paginate over `[ListCisScanResultsAggregatedByChecksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCisScanResultsAggregatedByChecksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCisScanResultsAggregatedByChecksOutput`
+    public func listCisScanResultsAggregatedByChecksPaginated(input: ListCisScanResultsAggregatedByChecksInput) -> ClientRuntime.PaginatorSequence<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput> {
+        return ClientRuntime.PaginatorSequence<ListCisScanResultsAggregatedByChecksInput, ListCisScanResultsAggregatedByChecksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCisScanResultsAggregatedByChecks(input:))
+    }
+}
+
+extension ListCisScanResultsAggregatedByChecksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCisScanResultsAggregatedByChecksInput {
+        return ListCisScanResultsAggregatedByChecksInput(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCisScanResultsAggregatedByChecksInput, OperationStackOutput == ListCisScanResultsAggregatedByChecksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCisScanResultsAggregatedByChecksPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.CisCheckAggregation]`
+    /// - Returns: `[Inspector2ClientTypes.CisCheckAggregation]`
+    public func checkAggregations() async throws -> [Inspector2ClientTypes.CisCheckAggregation] {
+        return try await self.asyncCompactMap { item in item.checkAggregations }
+    }
+}
+extension Inspector2Client {
+    /// Paginate over `[ListCisScanResultsAggregatedByTargetResourceOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCisScanResultsAggregatedByTargetResourceInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCisScanResultsAggregatedByTargetResourceOutput`
+    public func listCisScanResultsAggregatedByTargetResourcePaginated(input: ListCisScanResultsAggregatedByTargetResourceInput) -> ClientRuntime.PaginatorSequence<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput> {
+        return ClientRuntime.PaginatorSequence<ListCisScanResultsAggregatedByTargetResourceInput, ListCisScanResultsAggregatedByTargetResourceOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCisScanResultsAggregatedByTargetResource(input:))
+    }
+}
+
+extension ListCisScanResultsAggregatedByTargetResourceInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCisScanResultsAggregatedByTargetResourceInput {
+        return ListCisScanResultsAggregatedByTargetResourceInput(
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scanArn: self.scanArn,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCisScanResultsAggregatedByTargetResourceInput, OperationStackOutput == ListCisScanResultsAggregatedByTargetResourceOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCisScanResultsAggregatedByTargetResourcePaginated`
+    /// to access the nested member `[Inspector2ClientTypes.CisTargetResourceAggregation]`
+    /// - Returns: `[Inspector2ClientTypes.CisTargetResourceAggregation]`
+    public func targetResourceAggregations() async throws -> [Inspector2ClientTypes.CisTargetResourceAggregation] {
+        return try await self.asyncCompactMap { item in item.targetResourceAggregations }
+    }
+}
+extension Inspector2Client {
+    /// Paginate over `[ListCisScansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCisScansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCisScansOutput`
+    public func listCisScansPaginated(input: ListCisScansInput) -> ClientRuntime.PaginatorSequence<ListCisScansInput, ListCisScansOutput> {
+        return ClientRuntime.PaginatorSequence<ListCisScansInput, ListCisScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCisScans(input:))
+    }
+}
+
+extension ListCisScansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCisScansInput {
+        return ListCisScansInput(
+            detailLevel: self.detailLevel,
+            filterCriteria: self.filterCriteria,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sortBy: self.sortBy,
+            sortOrder: self.sortOrder
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCisScansInput, OperationStackOutput == ListCisScansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCisScansPaginated`
+    /// to access the nested member `[Inspector2ClientTypes.CisScan]`
+    /// - Returns: `[Inspector2ClientTypes.CisScan]`
+    public func scans() async throws -> [Inspector2ClientTypes.CisScan] {
+        return try await self.asyncCompactMap { item in item.scans }
     }
 }
 extension Inspector2Client {

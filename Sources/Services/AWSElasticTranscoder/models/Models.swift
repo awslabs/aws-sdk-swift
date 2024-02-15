@@ -1930,8 +1930,6 @@ extension ElasticTranscoderClientTypes {
 
 }
 
-public enum ElasticTranscoderClientTypes {}
-
 extension ElasticTranscoderClientTypes.Encryption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case initializationVector = "InitializationVector"

@@ -3569,8 +3569,6 @@ extension NotAuthorizedExceptionBody: Swift.Decodable {
     }
 }
 
-public enum PIClientTypes {}
-
 extension PIClientTypes.PerformanceInsightsMetric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dimensions = "Dimensions"

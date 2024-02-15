@@ -2717,8 +2717,6 @@ extension ResourceExplorer2ClientTypes {
 
 }
 
-public enum ResourceExplorer2ClientTypes {}
-
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),

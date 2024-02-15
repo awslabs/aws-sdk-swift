@@ -4581,8 +4581,6 @@ extension DatabaseMigrationClientTypes {
 
 }
 
-public enum DatabaseMigrationClientTypes {}
-
 extension DatabaseMigrationClientTypes {
     public enum DatabaseMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case babelfish

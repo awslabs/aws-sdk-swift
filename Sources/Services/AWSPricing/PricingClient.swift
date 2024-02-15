@@ -83,6 +83,7 @@ extension PricingClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : You've made too many requests exceeding service quotas.
     public func describeServices(input: DescribeServicesInput) async throws -> DescribeServicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -133,6 +134,7 @@ extension PricingClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : You've made too many requests exceeding service quotas.
     public func getAttributeValues(input: GetAttributeValuesInput) async throws -> GetAttributeValuesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -182,6 +184,7 @@ extension PricingClient {
     /// - `InternalErrorException` : An error on the server occurred during the processing of your request. Try again later.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : You've made too many requests exceeding service quotas.
     public func getPriceListFileUrl(input: GetPriceListFileUrlInput) async throws -> GetPriceListFileUrlOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -232,6 +235,7 @@ extension PricingClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : You've made too many requests exceeding service quotas.
     public func getProducts(input: GetProductsInput) async throws -> GetProductsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -283,6 +287,7 @@ extension PricingClient {
     /// - `InvalidNextTokenException` : The pagination token is invalid. Try again without a pagination token.
     /// - `InvalidParameterException` : One or more parameters had an invalid value.
     /// - `NotFoundException` : The requested resource can't be found.
+    /// - `ThrottlingException` : You've made too many requests exceeding service quotas.
     public func listPriceLists(input: ListPriceListsInput) async throws -> ListPriceListsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)

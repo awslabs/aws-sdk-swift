@@ -3096,8 +3096,6 @@ extension FinspacedataClientTypes {
     }
 }
 
-public enum FinspacedataClientTypes {}
-
 extension GetChangesetInput {
 
     static func urlPathProvider(_ value: GetChangesetInput) -> Swift.String? {

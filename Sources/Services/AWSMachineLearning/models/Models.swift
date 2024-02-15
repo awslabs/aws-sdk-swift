@@ -5927,8 +5927,6 @@ extension MachineLearningClientTypes {
     }
 }
 
-public enum MachineLearningClientTypes {}
-
 extension MachineLearningClientTypes.PerformanceMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case properties = "Properties"

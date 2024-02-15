@@ -6922,8 +6922,6 @@ enum PutFeedbackOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum QConnectClientTypes {}
-
 extension QueryAssistantInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "QueryAssistantInput(assistantId: \(Swift.String(describing: assistantId)), maxResults: \(Swift.String(describing: maxResults)), nextToken: \(Swift.String(describing: nextToken)), queryCondition: \(Swift.String(describing: queryCondition)), sessionId: \(Swift.String(describing: sessionId)), queryText: \"CONTENT_REDACTED\")"}

@@ -795,8 +795,6 @@ extension DLMClientTypes {
 
 }
 
-public enum DLMClientTypes {}
-
 extension DLMClientTypes {
     public enum DefaultPoliciesTypeValues: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all

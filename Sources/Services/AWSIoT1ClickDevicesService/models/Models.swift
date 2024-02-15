@@ -1083,8 +1083,6 @@ enum InvokeDeviceMethodOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum IoT1ClickDevicesClientTypes {}
-
 extension ListDeviceEventsInput {
 
     static func queryItemProvider(_ value: ListDeviceEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

@@ -53,6 +53,29 @@ extension ListBotAliasesInput: ClientRuntime.PaginateToken {
         )}
 }
 extension LexModelsV2Client {
+    /// Paginate over `[ListBotAliasReplicasOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotAliasReplicasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotAliasReplicasOutput`
+    public func listBotAliasReplicasPaginated(input: ListBotAliasReplicasInput) -> ClientRuntime.PaginatorSequence<ListBotAliasReplicasInput, ListBotAliasReplicasOutput> {
+        return ClientRuntime.PaginatorSequence<ListBotAliasReplicasInput, ListBotAliasReplicasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotAliasReplicas(input:))
+    }
+}
+
+extension ListBotAliasReplicasInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBotAliasReplicasInput {
+        return ListBotAliasReplicasInput(
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicaRegion: self.replicaRegion
+        )}
+}
+extension LexModelsV2Client {
     /// Paginate over `[ListBotLocalesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -146,6 +169,30 @@ extension ListBotsInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
+            sortBy: self.sortBy
+        )}
+}
+extension LexModelsV2Client {
+    /// Paginate over `[ListBotVersionReplicasOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListBotVersionReplicasInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListBotVersionReplicasOutput`
+    public func listBotVersionReplicasPaginated(input: ListBotVersionReplicasInput) -> ClientRuntime.PaginatorSequence<ListBotVersionReplicasInput, ListBotVersionReplicasOutput> {
+        return ClientRuntime.PaginatorSequence<ListBotVersionReplicasInput, ListBotVersionReplicasOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listBotVersionReplicas(input:))
+    }
+}
+
+extension ListBotVersionReplicasInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListBotVersionReplicasInput {
+        return ListBotVersionReplicasInput(
+            botId: self.botId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            replicaRegion: self.replicaRegion,
             sortBy: self.sortBy
         )}
 }

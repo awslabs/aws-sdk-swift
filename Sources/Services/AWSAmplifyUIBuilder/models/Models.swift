@@ -129,8 +129,6 @@ extension AmplifyUIBuilderClientTypes {
 
 }
 
-public enum AmplifyUIBuilderClientTypes {}
-
 extension AmplifyUIBuilderClientTypes.ApiConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case datastoreconfig = "dataStoreConfig"

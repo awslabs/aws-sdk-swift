@@ -1637,8 +1637,6 @@ public struct RegionDisabledException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-public enum STSClientTypes {}
-
 extension STSClientTypes.Tag: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"

@@ -36,7 +36,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
+    /// AAC Profile.
     public enum AacCodecProfile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hev1
         case hev2
@@ -114,7 +114,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
+    /// Rate Control Mode.
     public enum AacRateControlMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cbr
         case vbr
@@ -253,19 +253,19 @@ extension MediaConvertClientTypes {
         public var audioDescriptionBroadcasterMix: MediaConvertClientTypes.AacAudioDescriptionBroadcasterMix?
         /// Specify the average bitrate in bits per second. The set of valid values for this setting is: 6000, 8000, 10000, 12000, 14000, 16000, 20000, 24000, 28000, 32000, 40000, 48000, 56000, 64000, 80000, 96000, 112000, 128000, 160000, 192000, 224000, 256000, 288000, 320000, 384000, 448000, 512000, 576000, 640000, 768000, 896000, 1024000. The value you set is also constrained by the values that you choose for Profile, Bitrate control mode, and Sample rate. Default values depend on Bitrate control mode and Profile.
         public var bitrate: Swift.Int?
-        /// Specify the AAC profile. For the widest player compatibility and where higher bitrates are acceptable: Keep the default profile, LC (AAC-LC) For improved audio performance at lower bitrates: Choose HEV1 or HEV2. HEV1 (AAC-HE v1) adds spectral band replication to improve speech audio at low bitrates. HEV2 (AAC-HE v2) adds parametric stereo, which optimizes for encoding stereo audio at very low bitrates.
+        /// AAC Profile.
         public var codecProfile: MediaConvertClientTypes.AacCodecProfile?
         /// The Coding mode that you specify determines the number of audio channels and the audio channel layout metadata in your AAC output. Valid coding modes depend on the Rate control mode and Profile that you select. The following list shows the number of audio channels and channel layout for each coding mode. * 1.0 Audio Description (Receiver Mix): One channel, C. Includes audio description data from your stereo input. For more information see ETSI TS 101 154 Annex E. * 1.0 Mono: One channel, C. * 2.0 Stereo: Two channels, L, R. * 5.1 Surround: Six channels, C, L, R, Ls, Rs, LFE.
         public var codingMode: MediaConvertClientTypes.AacCodingMode?
-        /// Specify the AAC rate control mode. For a constant bitrate: Choose CBR. Your AAC output bitrate will be equal to the value that you choose for Bitrate. For a variable bitrate: Choose VBR. Your AAC output bitrate will vary according to your audio content and the value that you choose for Bitrate quality.
+        /// Rate Control Mode.
         public var rateControlMode: MediaConvertClientTypes.AacRateControlMode?
         /// Enables LATM/LOAS AAC output. Note that if you use LATM/LOAS AAC in an output, you must choose "No container" for the output container.
         public var rawFormat: MediaConvertClientTypes.AacRawFormat?
-        /// Specify the AAC sample rate in samples per second (Hz). Valid sample rates depend on the AAC profile and Coding mode that you select. For a list of supported sample rates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html
+        /// Specify the Sample rate in Hz. Valid sample rates depend on the Profile and Coding mode that you select. The following list shows valid sample rates for each Profile and Coding mode. * LC Profile, Coding mode 1.0, 2.0, and Receiver Mix: 8000, 12000, 16000, 22050, 24000, 32000, 44100, 48000, 88200, 96000. * LC Profile, Coding mode 5.1: 32000, 44100, 48000, 96000. * HEV1 Profile, Coding mode 1.0 and Receiver Mix: 22050, 24000, 32000, 44100, 48000. * HEV1 Profile, Coding mode 2.0 and 5.1: 32000, 44100, 48000, 96000. * HEV2 Profile, Coding mode 2.0: 22050, 24000, 32000, 44100, 48000.
         public var sampleRate: Swift.Int?
         /// Use MPEG-2 AAC instead of MPEG-4 AAC audio for raw or MPEG-2 Transport Stream containers.
         public var specification: MediaConvertClientTypes.AacSpecification?
-        /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
+        /// VBR Quality Level - Only used if rate_control_mode is VBR.
         public var vbrQuality: MediaConvertClientTypes.AacVbrQuality?
 
         public init(
@@ -328,7 +328,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Specify the quality of your variable bitrate (VBR) AAC audio. For a list of approximate VBR bitrates, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/aac-support.html#aac_vbr
+    /// VBR Quality Level - Only used if rate_control_mode is VBR.
     public enum AacVbrQuality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case high
         case low
@@ -9939,10 +9939,12 @@ extension DescribeEndpointsInput {
 }
 
 /// DescribeEndpointsRequest
+@available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
 public struct DescribeEndpointsInput: Swift.Equatable {
     /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
     public var maxResults: Swift.Int?
     /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
+    @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     public var mode: MediaConvertClientTypes.DescribeEndpointsMode?
     /// Use this string, provided with the response to a previous request, to request the next batch of endpoints.
     public var nextToken: Swift.String?
@@ -9985,6 +9987,7 @@ extension DescribeEndpointsInputBody: Swift.Decodable {
 
 extension MediaConvertClientTypes {
     /// Optional field, defaults to DEFAULT. Specify DEFAULT for this operation to return your endpoints if any exist, or to create an endpoint for you and return it if one doesn't already exist. Specify GET_ONLY to return your endpoints if any exist, or an empty list if none exist.
+    @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     public enum DescribeEndpointsMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
         case getOnly
@@ -10030,6 +10033,7 @@ extension DescribeEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
+@available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
 public struct DescribeEndpointsOutput: Swift.Equatable {
     /// List of endpoints
     public var endpoints: [MediaConvertClientTypes.Endpoint]?
@@ -24409,8 +24413,6 @@ extension MediaConvertClientTypes {
 
 }
 
-public enum MediaConvertClientTypes {}
-
 extension MediaConvertClientTypes.MinBottomRenditionSize: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case height = "height"
@@ -30012,6 +30014,8 @@ extension MediaConvertClientTypes {
 
 extension MediaConvertClientTypes.RemixSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioDescriptionAudioChannel = "audioDescriptionAudioChannel"
+        case audioDescriptionDataChannel = "audioDescriptionDataChannel"
         case channelMapping = "channelMapping"
         case channelsIn = "channelsIn"
         case channelsOut = "channelsOut"
@@ -30019,6 +30023,12 @@ extension MediaConvertClientTypes.RemixSettings: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioDescriptionAudioChannel = self.audioDescriptionAudioChannel {
+            try encodeContainer.encode(audioDescriptionAudioChannel, forKey: .audioDescriptionAudioChannel)
+        }
+        if let audioDescriptionDataChannel = self.audioDescriptionDataChannel {
+            try encodeContainer.encode(audioDescriptionDataChannel, forKey: .audioDescriptionDataChannel)
+        }
         if let channelMapping = self.channelMapping {
             try encodeContainer.encode(channelMapping, forKey: .channelMapping)
         }
@@ -30032,6 +30042,10 @@ extension MediaConvertClientTypes.RemixSettings: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let audioDescriptionAudioChannelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .audioDescriptionAudioChannel)
+        audioDescriptionAudioChannel = audioDescriptionAudioChannelDecoded
+        let audioDescriptionDataChannelDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .audioDescriptionDataChannel)
+        audioDescriptionDataChannel = audioDescriptionDataChannelDecoded
         let channelMappingDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.ChannelMapping.self, forKey: .channelMapping)
         channelMapping = channelMappingDecoded
         let channelsInDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .channelsIn)
@@ -30044,6 +30058,10 @@ extension MediaConvertClientTypes.RemixSettings: Swift.Codable {
 extension MediaConvertClientTypes {
     /// Use Manual audio remixing to adjust audio levels for each audio channel in each output of your job. With audio remixing, you can output more or fewer audio channels than your input audio source provides.
     public struct RemixSettings: Swift.Equatable {
+        /// Optionally specify the channel in your input that contains your audio description audio signal. MediaConvert mixes your audio signal across all output channels, while reducing their volume according to your data stream. When you specify an audio description audio channel, you must also specify an audio description data channel. For more information about audio description signals, see the BBC WHP 198 and 051 white papers.
+        public var audioDescriptionAudioChannel: Swift.Int?
+        /// Optionally specify the channel in your input that contains your audio description data stream. MediaConvert mixes your audio signal across all output channels, while reducing their volume according to your data stream. When you specify an audio description data channel, you must also specify an audio description audio channel. For more information about audio description signals, see the BBC WHP 198 and 051 white papers.
+        public var audioDescriptionDataChannel: Swift.Int?
         /// Channel mapping contains the group of fields that hold the remixing value for each channel, in dB. Specify remix values to indicate how much of the content from your input audio channel you want in your output audio channels. Each instance of the InputChannels or InputChannelsFineTune array specifies these values for one output channel. Use one instance of this array for each output channel. In the console, each array corresponds to a column in the graphical depiction of the mapping matrix. The rows of the graphical matrix correspond to input channels. Valid values are within the range from -60 (mute) through 6. A setting of 0 passes the input channel unchanged to the output channel (no attenuation or amplification). Use InputChannels or InputChannelsFineTune to specify your remix values. Don't use both.
         public var channelMapping: MediaConvertClientTypes.ChannelMapping?
         /// Specify the number of audio channels from your input that you want to use in your output. With remixing, you might combine or split the data in these channels, so the number of channels in your final output might be different. If you are doing both input channel mapping and output channel mapping, the number of output channels in your input mapping must be the same as the number of input channels in your output mapping.
@@ -30052,11 +30070,15 @@ extension MediaConvertClientTypes {
         public var channelsOut: Swift.Int?
 
         public init(
+            audioDescriptionAudioChannel: Swift.Int? = nil,
+            audioDescriptionDataChannel: Swift.Int? = nil,
             channelMapping: MediaConvertClientTypes.ChannelMapping? = nil,
             channelsIn: Swift.Int? = nil,
             channelsOut: Swift.Int? = nil
         )
         {
+            self.audioDescriptionAudioChannel = audioDescriptionAudioChannel
+            self.audioDescriptionDataChannel = audioDescriptionDataChannel
             self.channelMapping = channelMapping
             self.channelsIn = channelsIn
             self.channelsOut = channelsOut

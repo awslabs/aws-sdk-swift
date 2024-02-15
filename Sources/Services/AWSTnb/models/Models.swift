@@ -6177,8 +6177,6 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
-public enum TnbClientTypes {}
-
 extension TnbClientTypes.ToscaOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValue

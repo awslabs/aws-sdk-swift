@@ -1069,8 +1069,6 @@ extension BudgetsClientTypes {
 
 }
 
-public enum BudgetsClientTypes {}
-
 extension BudgetsClientTypes.CalculatedSpend: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actualSpend = "ActualSpend"

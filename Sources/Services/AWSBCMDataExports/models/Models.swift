@@ -2,8 +2,6 @@
 import AWSClientRuntime
 import ClientRuntime
 
-public enum BCMDataExportsClientTypes {}
-
 extension BCMDataExportsClientTypes.Column: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"

@@ -4264,8 +4264,6 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum SsmSapClientTypes {}
-
 extension StartApplicationRefreshInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationId = "ApplicationId"

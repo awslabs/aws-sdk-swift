@@ -422,6 +422,7 @@ extension AppSyncClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
@@ -801,6 +802,7 @@ extension AppSyncClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
@@ -1569,6 +1571,52 @@ extension AppSyncClient {
         return result
     }
 
+    /// Performs the `GetGraphqlApiEnvironmentVariables` operation on the `AWSDeepdishControlPlaneService` service.
+    ///
+    /// Retrieves the list of environmental variable key-value pairs associated with an API by its ID value.
+    ///
+    /// - Parameter GetGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    ///
+    /// - Returns: `GetGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
+    public func getGraphqlApiEnvironmentVariables(input: GetGraphqlApiEnvironmentVariablesInput) async throws -> GetGraphqlApiEnvironmentVariablesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGraphqlApiEnvironmentVariables")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetGraphqlApiEnvironmentVariablesInput, GetGraphqlApiEnvironmentVariablesOutput>(id: "getGraphqlApiEnvironmentVariables")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGraphqlApiEnvironmentVariablesInput, GetGraphqlApiEnvironmentVariablesOutput>(GetGraphqlApiEnvironmentVariablesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGraphqlApiEnvironmentVariablesInput, GetGraphqlApiEnvironmentVariablesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGraphqlApiEnvironmentVariablesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGraphqlApiEnvironmentVariablesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetGraphqlApiEnvironmentVariablesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGraphqlApiEnvironmentVariablesOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGraphqlApiEnvironmentVariablesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGraphqlApiEnvironmentVariablesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetIntrospectionSchema` operation on the `AWSDeepdishControlPlaneService` service.
     ///
     /// Retrieves the introspection schema for a GraphQL API.
@@ -2303,6 +2351,82 @@ extension AppSyncClient {
         return result
     }
 
+    /// Performs the `PutGraphqlApiEnvironmentVariables` operation on the `AWSDeepdishControlPlaneService` service.
+    ///
+    /// Creates a list of environmental variables in an API by its ID value. When creating an environmental variable, it must follow the constraints below:
+    ///
+    /// * Both JavaScript and VTL templates support environmental variables.
+    ///
+    /// * Environmental variables are not evaluated before function invocation.
+    ///
+    /// * Environmental variables only support string values.
+    ///
+    /// * Any defined value in an environmental variable is considered a string literal and not expanded.
+    ///
+    /// * Variable evaluations should ideally be performed in the function code.
+    ///
+    ///
+    /// When creating an environmental variable key-value pair, it must follow the additional constraints below:
+    ///
+    /// * Keys must begin with a letter.
+    ///
+    /// * Keys must be at least two characters long.
+    ///
+    /// * Keys can only contain letters, numbers, and the underscore character (_).
+    ///
+    /// * Values can be up to 512 characters long.
+    ///
+    /// * You can configure up to 50 key-value pairs in a GraphQL API.
+    ///
+    ///
+    /// You can create a list of environmental variables by adding it to the environmentVariables payload as a list in the format {"key1":"value1","key2":"value2", …}. Note that each call of the PutGraphqlApiEnvironmentVariables action will result in the overwriting of the existing environmental variable list of that API. This means the existing environmental variables will be lost. To avoid this, you must include all existing and new environmental variables in the list each time you call this action.
+    ///
+    /// - Parameter PutGraphqlApiEnvironmentVariablesInput : [no documentation found]
+    ///
+    /// - Returns: `PutGraphqlApiEnvironmentVariablesOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You don't have access to perform this operation on this resource.
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
+    /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
+    /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
+    /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.
+    /// - `UnauthorizedException` : You aren't authorized to perform this operation.
+    public func putGraphqlApiEnvironmentVariables(input: PutGraphqlApiEnvironmentVariablesInput) async throws -> PutGraphqlApiEnvironmentVariablesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .put)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "putGraphqlApiEnvironmentVariables")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withCredentialsProvider(value: config.credentialsProvider)
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "appsync")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>(id: "putGraphqlApiEnvironmentVariables")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>(PutGraphqlApiEnvironmentVariablesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<PutGraphqlApiEnvironmentVariablesOutput>(endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<PutGraphqlApiEnvironmentVariablesInput, PutGraphqlApiEnvironmentVariablesOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, PutGraphqlApiEnvironmentVariablesOutput>(options: config.retryStrategyOptions))
+        let sigv4Config = AWSClientRuntime.SigV4Config(unsignedBody: false, signingAlgorithm: .sigv4)
+        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutGraphqlApiEnvironmentVariablesOutput>(config: sigv4Config))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<PutGraphqlApiEnvironmentVariablesOutput>(responseClosure(decoder: decoder), responseErrorClosure(PutGraphqlApiEnvironmentVariablesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<PutGraphqlApiEnvironmentVariablesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `StartDataSourceIntrospection` operation on the `AWSDeepdishControlPlaneService` service.
     ///
     /// Creates a new introspection. Returns the introspectionId of the new introspection after its creation.
@@ -2752,6 +2876,7 @@ extension AppSyncClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `BadRequestException` : The request is not well formed. For example, a value is invalid or a required field is missing. Check the field values, and then try again.
     /// - `ConcurrentModificationException` : Another modification is in progress at this time and it must complete before you can make your change.
     /// - `InternalFailureException` : An internal AppSync error occurred. Try your request again.
     /// - `NotFoundException` : The resource specified in the request was not found. Check the resource, and then try again.

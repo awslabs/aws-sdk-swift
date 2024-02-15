@@ -1376,8 +1376,6 @@ enum DeleteApplicationOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum EMRServerlessClientTypes {}
-
 extension GetApplicationInput {
 
     static func urlPathProvider(_ value: GetApplicationInput) -> Swift.String? {

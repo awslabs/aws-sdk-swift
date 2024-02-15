@@ -4120,5 +4120,3 @@ extension WorkSpacesThinClientClientTypes {
         }
     }
 }
-
-public enum WorkSpacesThinClientClientTypes {}

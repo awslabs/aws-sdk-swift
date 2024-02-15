@@ -11670,8 +11670,6 @@ enum MarkAsArchivedOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum MgnClientTypes {}
-
 extension MgnClientTypes.NetworkInterface: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ips

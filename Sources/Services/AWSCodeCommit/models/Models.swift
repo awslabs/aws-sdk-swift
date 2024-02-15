@@ -3207,8 +3207,6 @@ extension ClientRequestTokenRequiredExceptionBody: Swift.Decodable {
     }
 }
 
-public enum CodeCommitClientTypes {}
-
 extension CodeCommitClientTypes.Comment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorArn

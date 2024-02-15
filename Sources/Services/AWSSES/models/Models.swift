@@ -7452,8 +7452,6 @@ extension SESClientTypes {
 
 }
 
-public enum SESClientTypes {}
-
 extension SESClientTypes.SNSAction: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case encoding = "Encoding"

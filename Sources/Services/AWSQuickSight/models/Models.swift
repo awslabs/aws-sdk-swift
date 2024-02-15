@@ -6521,6 +6521,7 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
         case contributionAnalysisDefaults = "ContributionAnalysisDefaults"
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case orientation = "Orientation"
         case referenceLines = "ReferenceLines"
@@ -6557,6 +6558,9 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -6642,6 +6646,8 @@ extension QuickSightClientTypes.BarChartConfiguration: Swift.Codable {
             }
         }
         contributionAnalysisDefaults = contributionAnalysisDefaultsDecoded0
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -6662,6 +6668,8 @@ extension QuickSightClientTypes {
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.BarChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The orientation of the bars in a bar chart visual. There are two valid values in this structure:
@@ -6693,6 +6701,7 @@ extension QuickSightClientTypes {
             contributionAnalysisDefaults: [QuickSightClientTypes.ContributionAnalysisDefault]? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.BarChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             orientation: QuickSightClientTypes.BarChartOrientation? = nil,
             referenceLines: [QuickSightClientTypes.ReferenceLine]? = nil,
@@ -6711,6 +6720,7 @@ extension QuickSightClientTypes {
             self.contributionAnalysisDefaults = contributionAnalysisDefaults
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.orientation = orientation
             self.referenceLines = referenceLines
@@ -7485,6 +7495,7 @@ extension QuickSightClientTypes.BoxPlotChartConfiguration: Swift.Codable {
         case categoryAxis = "CategoryAxis"
         case categoryLabelOptions = "CategoryLabelOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
         case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
@@ -7507,6 +7518,9 @@ extension QuickSightClientTypes.BoxPlotChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -7567,6 +7581,8 @@ extension QuickSightClientTypes.BoxPlotChartConfiguration: Swift.Codable {
         referenceLines = referenceLinesDecoded0
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -7581,6 +7597,8 @@ extension QuickSightClientTypes {
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.BoxPlotFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The options for the legend setup of a visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The label display options (grid line, range, scale, axis step) of a box plot category.
@@ -7601,6 +7619,7 @@ extension QuickSightClientTypes {
             categoryAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.BoxPlotFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             primaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             primaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
@@ -7614,6 +7633,7 @@ extension QuickSightClientTypes {
             self.categoryAxis = categoryAxis
             self.categoryLabelOptions = categoryLabelOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
             self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
@@ -10235,6 +10255,7 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         case categoryLabelOptions = "CategoryLabelOptions"
         case colorLabelOptions = "ColorLabelOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case lineDataLabels = "LineDataLabels"
         case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
@@ -10267,6 +10288,9 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -10351,6 +10375,8 @@ extension QuickSightClientTypes.ComboChartConfiguration: Swift.Codable {
         referenceLines = referenceLinesDecoded0
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -10375,6 +10401,8 @@ extension QuickSightClientTypes {
         public var colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.ComboChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The options that determine if visual data labels are displayed. The data label options for a line in a combo chart.
@@ -10405,6 +10433,7 @@ extension QuickSightClientTypes {
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.ComboChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             lineDataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             primaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
@@ -10424,6 +10453,7 @@ extension QuickSightClientTypes {
             self.categoryLabelOptions = categoryLabelOptions
             self.colorLabelOptions = colorLabelOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.lineDataLabels = lineDataLabels
             self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
@@ -11643,6 +11673,41 @@ extension QuickSightClientTypes {
             self = ConstantType(rawValue: rawValue) ?? ConstantType.sdkUnknown(rawValue)
         }
     }
+}
+
+extension QuickSightClientTypes.ContextMenuOption: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case availabilityStatus = "AvailabilityStatus"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let availabilityStatus = self.availabilityStatus {
+            try encodeContainer.encode(availabilityStatus.rawValue, forKey: .availabilityStatus)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let availabilityStatusDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DashboardBehavior.self, forKey: .availabilityStatus)
+        availabilityStatus = availabilityStatusDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The context menu options for a visual's interactions.
+    public struct ContextMenuOption: Swift.Equatable {
+        /// The availability status of the context menu options. If the value of this property is set to ENABLED, dashboard readers can interact with the context menu.
+        public var availabilityStatus: QuickSightClientTypes.DashboardBehavior?
+
+        public init(
+            availabilityStatus: QuickSightClientTypes.DashboardBehavior? = nil
+        )
+        {
+            self.availabilityStatus = availabilityStatus
+        }
+    }
+
 }
 
 extension QuickSightClientTypes.ContributionAnalysisDefault: Swift.Codable {
@@ -17240,6 +17305,7 @@ extension QuickSightClientTypes.CustomContentConfiguration: Swift.Codable {
         case contentType = "ContentType"
         case contentUrl = "ContentUrl"
         case imageScaling = "ImageScaling"
+        case interactions = "Interactions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -17253,6 +17319,9 @@ extension QuickSightClientTypes.CustomContentConfiguration: Swift.Codable {
         if let imageScaling = self.imageScaling {
             try encodeContainer.encode(imageScaling.rawValue, forKey: .imageScaling)
         }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -17263,6 +17332,8 @@ extension QuickSightClientTypes.CustomContentConfiguration: Swift.Codable {
         contentType = contentTypeDecoded
         let imageScalingDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CustomContentImageScalingConfiguration.self, forKey: .imageScaling)
         imageScaling = imageScalingDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -17275,16 +17346,20 @@ extension QuickSightClientTypes {
         public var contentUrl: Swift.String?
         /// The sizing options for the size of the custom content visual. This structure is required when the ContentType of the visual is 'IMAGE'.
         public var imageScaling: QuickSightClientTypes.CustomContentImageScalingConfiguration?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
 
         public init(
             contentType: QuickSightClientTypes.CustomContentType? = nil,
             contentUrl: Swift.String? = nil,
-            imageScaling: QuickSightClientTypes.CustomContentImageScalingConfiguration? = nil
+            imageScaling: QuickSightClientTypes.CustomContentImageScalingConfiguration? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil
         )
         {
             self.contentType = contentType
             self.contentUrl = contentUrl
             self.imageScaling = imageScaling
+            self.interactions = interactions
         }
     }
 
@@ -35166,6 +35241,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.FilledMapConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case mapStyleOptions = "MapStyleOptions"
         case sortConfiguration = "SortConfiguration"
@@ -35177,6 +35253,9 @@ extension QuickSightClientTypes.FilledMapConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -35209,6 +35288,8 @@ extension QuickSightClientTypes.FilledMapConfiguration: Swift.Codable {
         windowOptions = windowOptionsDecoded
         let mapStyleOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.GeospatialMapStyleOptions.self, forKey: .mapStyleOptions)
         mapStyleOptions = mapStyleOptionsDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -35217,6 +35298,8 @@ extension QuickSightClientTypes {
     public struct FilledMapConfiguration: Swift.Equatable {
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.FilledMapFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The map style options of the filled map visual.
@@ -35230,6 +35313,7 @@ extension QuickSightClientTypes {
 
         public init(
             fieldWells: QuickSightClientTypes.FilledMapFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             mapStyleOptions: QuickSightClientTypes.GeospatialMapStyleOptions? = nil,
             sortConfiguration: QuickSightClientTypes.FilledMapSortConfiguration? = nil,
@@ -35238,6 +35322,7 @@ extension QuickSightClientTypes {
         )
         {
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.mapStyleOptions = mapStyleOptions
             self.sortConfiguration = sortConfiguration
@@ -38367,6 +38452,7 @@ extension QuickSightClientTypes.FunnelChartConfiguration: Swift.Codable {
         case categoryLabelOptions = "CategoryLabelOptions"
         case dataLabelOptions = "DataLabelOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case sortConfiguration = "SortConfiguration"
         case tooltip = "Tooltip"
         case valueLabelOptions = "ValueLabelOptions"
@@ -38383,6 +38469,9 @@ extension QuickSightClientTypes.FunnelChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
@@ -38414,6 +38503,8 @@ extension QuickSightClientTypes.FunnelChartConfiguration: Swift.Codable {
         dataLabelOptions = dataLabelOptionsDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -38426,6 +38517,8 @@ extension QuickSightClientTypes {
         public var dataLabelOptions: QuickSightClientTypes.FunnelChartDataLabelOptions?
         /// The field well configuration of a FunnelChartVisual.
         public var fieldWells: QuickSightClientTypes.FunnelChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The sort configuration of a FunnelChartVisual.
         public var sortConfiguration: QuickSightClientTypes.FunnelChartSortConfiguration?
         /// The tooltip configuration of a FunnelChartVisual.
@@ -38439,6 +38532,7 @@ extension QuickSightClientTypes {
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             dataLabelOptions: QuickSightClientTypes.FunnelChartDataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.FunnelChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             sortConfiguration: QuickSightClientTypes.FunnelChartSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             valueLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
@@ -38448,6 +38542,7 @@ extension QuickSightClientTypes {
             self.categoryLabelOptions = categoryLabelOptions
             self.dataLabelOptions = dataLabelOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
             self.valueLabelOptions = valueLabelOptions
@@ -38927,6 +39022,7 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
         case gaugeChartOptions = "GaugeChartOptions"
+        case interactions = "Interactions"
         case tooltipOptions = "TooltipOptions"
         case visualPalette = "VisualPalette"
     }
@@ -38941,6 +39037,9 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
         }
         if let gaugeChartOptions = self.gaugeChartOptions {
             try encodeContainer.encode(gaugeChartOptions, forKey: .gaugeChartOptions)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let tooltipOptions = self.tooltipOptions {
             try encodeContainer.encode(tooltipOptions, forKey: .tooltipOptions)
@@ -38962,6 +39061,8 @@ extension QuickSightClientTypes.GaugeChartConfiguration: Swift.Codable {
         tooltipOptions = tooltipOptionsDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -38974,6 +39075,8 @@ extension QuickSightClientTypes {
         public var fieldWells: QuickSightClientTypes.GaugeChartFieldWells?
         /// The options that determine the presentation of the GaugeChartVisual.
         public var gaugeChartOptions: QuickSightClientTypes.GaugeChartOptions?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The tooltip configuration of a GaugeChartVisual.
         public var tooltipOptions: QuickSightClientTypes.TooltipOptions?
         /// The visual palette configuration of a GaugeChartVisual.
@@ -38983,6 +39086,7 @@ extension QuickSightClientTypes {
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.GaugeChartFieldWells? = nil,
             gaugeChartOptions: QuickSightClientTypes.GaugeChartOptions? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             tooltipOptions: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil
         )
@@ -38990,6 +39094,7 @@ extension QuickSightClientTypes {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.gaugeChartOptions = gaugeChartOptions
+            self.interactions = interactions
             self.tooltipOptions = tooltipOptions
             self.visualPalette = visualPalette
         }
@@ -40153,6 +40258,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.GeospatialMapConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case mapStyleOptions = "MapStyleOptions"
         case pointStyleOptions = "PointStyleOptions"
@@ -40165,6 +40271,9 @@ extension QuickSightClientTypes.GeospatialMapConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -40202,6 +40311,8 @@ extension QuickSightClientTypes.GeospatialMapConfiguration: Swift.Codable {
         pointStyleOptions = pointStyleOptionsDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -40210,6 +40321,8 @@ extension QuickSightClientTypes {
     public struct GeospatialMapConfiguration: Swift.Equatable {
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.GeospatialMapFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The map style options of the geospatial map.
@@ -40225,6 +40338,7 @@ extension QuickSightClientTypes {
 
         public init(
             fieldWells: QuickSightClientTypes.GeospatialMapFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             mapStyleOptions: QuickSightClientTypes.GeospatialMapStyleOptions? = nil,
             pointStyleOptions: QuickSightClientTypes.GeospatialPointStyleOptions? = nil,
@@ -40234,6 +40348,7 @@ extension QuickSightClientTypes {
         )
         {
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.mapStyleOptions = mapStyleOptions
             self.pointStyleOptions = pointStyleOptions
@@ -41812,6 +41927,7 @@ extension QuickSightClientTypes.HeatMapConfiguration: Swift.Codable {
         case columnLabelOptions = "ColumnLabelOptions"
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case rowLabelOptions = "RowLabelOptions"
         case sortConfiguration = "SortConfiguration"
@@ -41831,6 +41947,9 @@ extension QuickSightClientTypes.HeatMapConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -41864,6 +41983,8 @@ extension QuickSightClientTypes.HeatMapConfiguration: Swift.Codable {
         dataLabels = dataLabelsDecoded
         let tooltipDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TooltipOptions.self, forKey: .tooltip)
         tooltip = tooltipDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -41878,6 +41999,8 @@ extension QuickSightClientTypes {
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.HeatMapFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The label options of the row that is displayed in a heat map.
@@ -41892,6 +42015,7 @@ extension QuickSightClientTypes {
             columnLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.HeatMapFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             rowLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             sortConfiguration: QuickSightClientTypes.HeatMapSortConfiguration? = nil,
@@ -41902,6 +42026,7 @@ extension QuickSightClientTypes {
             self.columnLabelOptions = columnLabelOptions
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.rowLabelOptions = rowLabelOptions
             self.sortConfiguration = sortConfiguration
@@ -42294,6 +42419,7 @@ extension QuickSightClientTypes.HistogramConfiguration: Swift.Codable {
         case binOptions = "BinOptions"
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case tooltip = "Tooltip"
         case visualPalette = "VisualPalette"
         case xAxisDisplayOptions = "XAxisDisplayOptions"
@@ -42311,6 +42437,9 @@ extension QuickSightClientTypes.HistogramConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let tooltip = self.tooltip {
             try encodeContainer.encode(tooltip, forKey: .tooltip)
@@ -42347,6 +42476,8 @@ extension QuickSightClientTypes.HistogramConfiguration: Swift.Codable {
         tooltip = tooltipDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -42359,6 +42490,8 @@ extension QuickSightClientTypes {
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a histogram.
         public var fieldWells: QuickSightClientTypes.HistogramFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The tooltip configuration of a histogram.
         public var tooltip: QuickSightClientTypes.TooltipOptions?
         /// The visual palette configuration of a histogram.
@@ -42374,6 +42507,7 @@ extension QuickSightClientTypes {
             binOptions: QuickSightClientTypes.HistogramBinOptions? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.HistogramFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
             visualPalette: QuickSightClientTypes.VisualPalette? = nil,
             xAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
@@ -42384,6 +42518,7 @@ extension QuickSightClientTypes {
             self.binOptions = binOptions
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.tooltip = tooltip
             self.visualPalette = visualPalette
             self.xAxisDisplayOptions = xAxisDisplayOptions
@@ -43566,6 +43701,7 @@ extension QuickSightClientTypes.InsightConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computations = "Computations"
         case customNarrative = "CustomNarrative"
+        case interactions = "Interactions"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -43578,6 +43714,9 @@ extension QuickSightClientTypes.InsightConfiguration: Swift.Codable {
         }
         if let customNarrative = self.customNarrative {
             try encodeContainer.encode(customNarrative, forKey: .customNarrative)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
     }
 
@@ -43596,6 +43735,8 @@ extension QuickSightClientTypes.InsightConfiguration: Swift.Codable {
         computations = computationsDecoded0
         let customNarrativeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CustomNarrativeOptions.self, forKey: .customNarrative)
         customNarrative = customNarrativeDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -43606,14 +43747,18 @@ extension QuickSightClientTypes {
         public var computations: [QuickSightClientTypes.Computation]?
         /// The custom narrative of the insight visual.
         public var customNarrative: QuickSightClientTypes.CustomNarrativeOptions?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
 
         public init(
             computations: [QuickSightClientTypes.Computation]? = nil,
-            customNarrative: QuickSightClientTypes.CustomNarrativeOptions? = nil
+            customNarrative: QuickSightClientTypes.CustomNarrativeOptions? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil
         )
         {
             self.computations = computations
             self.customNarrative = customNarrative
+            self.interactions = interactions
         }
     }
 
@@ -44804,6 +44949,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.KPIConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case kpiOptions = "KPIOptions"
         case sortConfiguration = "SortConfiguration"
     }
@@ -44812,6 +44958,9 @@ extension QuickSightClientTypes.KPIConfiguration: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let kpiOptions = self.kpiOptions {
             try encodeContainer.encode(kpiOptions, forKey: .kpiOptions)
@@ -44829,6 +44978,8 @@ extension QuickSightClientTypes.KPIConfiguration: Swift.Codable {
         sortConfiguration = sortConfigurationDecoded
         let kpiOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.KPIOptions.self, forKey: .kpiOptions)
         kpiOptions = kpiOptionsDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -44837,6 +44988,8 @@ extension QuickSightClientTypes {
     public struct KPIConfiguration: Swift.Equatable {
         /// The field well configuration of a KPI visual.
         public var fieldWells: QuickSightClientTypes.KPIFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The options that determine the presentation of a KPI visual.
         public var kpiOptions: QuickSightClientTypes.KPIOptions?
         /// The sort configuration of a KPI visual.
@@ -44844,11 +44997,13 @@ extension QuickSightClientTypes {
 
         public init(
             fieldWells: QuickSightClientTypes.KPIFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             kpiOptions: QuickSightClientTypes.KPIOptions? = nil,
             sortConfiguration: QuickSightClientTypes.KPISortConfiguration? = nil
         )
         {
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.kpiOptions = kpiOptions
             self.sortConfiguration = sortConfiguration
         }
@@ -46010,6 +46165,7 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         case defaultSeriesSettings = "DefaultSeriesSettings"
         case fieldWells = "FieldWells"
         case forecastConfigurations = "ForecastConfigurations"
+        case interactions = "Interactions"
         case legend = "Legend"
         case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
         case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
@@ -46049,6 +46205,9 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
             for forecastconfiguration0 in forecastConfigurations {
                 try forecastConfigurationsContainer.encode(forecastconfiguration0)
             }
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -46181,6 +46340,8 @@ extension QuickSightClientTypes.LineChartConfiguration: Swift.Codable {
         contributionAnalysisDefaults = contributionAnalysisDefaultsDecoded0
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -46197,6 +46358,8 @@ extension QuickSightClientTypes {
         public var fieldWells: QuickSightClientTypes.LineChartFieldWells?
         /// The forecast configuration of a line chart.
         public var forecastConfigurations: [QuickSightClientTypes.ForecastConfiguration]?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend configuration of a line chart.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The series axis configuration of a line chart.
@@ -46234,6 +46397,7 @@ extension QuickSightClientTypes {
             defaultSeriesSettings: QuickSightClientTypes.LineChartDefaultSeriesSettings? = nil,
             fieldWells: QuickSightClientTypes.LineChartFieldWells? = nil,
             forecastConfigurations: [QuickSightClientTypes.ForecastConfiguration]? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             primaryYAxisDisplayOptions: QuickSightClientTypes.LineSeriesAxisDisplayOptions? = nil,
             primaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
@@ -46256,6 +46420,7 @@ extension QuickSightClientTypes {
             self.defaultSeriesSettings = defaultSeriesSettings
             self.fieldWells = fieldWells
             self.forecastConfigurations = forecastConfigurations
+            self.interactions = interactions
             self.legend = legend
             self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
             self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
@@ -56607,6 +56772,7 @@ extension QuickSightClientTypes.PieChartConfiguration: Swift.Codable {
         case dataLabels = "DataLabels"
         case donutOptions = "DonutOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case smallMultiplesOptions = "SmallMultiplesOptions"
         case sortConfiguration = "SortConfiguration"
@@ -56634,6 +56800,9 @@ extension QuickSightClientTypes.PieChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -56688,6 +56857,8 @@ extension QuickSightClientTypes.PieChartConfiguration: Swift.Codable {
             }
         }
         contributionAnalysisDefaults = contributionAnalysisDefaultsDecoded0
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -56704,6 +56875,8 @@ extension QuickSightClientTypes {
         public var donutOptions: QuickSightClientTypes.DonutOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.PieChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The small multiples setup for the visual.
@@ -56723,6 +56896,7 @@ extension QuickSightClientTypes {
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             donutOptions: QuickSightClientTypes.DonutOptions? = nil,
             fieldWells: QuickSightClientTypes.PieChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             smallMultiplesOptions: QuickSightClientTypes.SmallMultiplesOptions? = nil,
             sortConfiguration: QuickSightClientTypes.PieChartSortConfiguration? = nil,
@@ -56736,6 +56910,7 @@ extension QuickSightClientTypes {
             self.dataLabels = dataLabels
             self.donutOptions = donutOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.smallMultiplesOptions = smallMultiplesOptions
             self.sortConfiguration = sortConfiguration
@@ -57360,6 +57535,7 @@ extension QuickSightClientTypes.PivotTableConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldOptions = "FieldOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case paginatedReportOptions = "PaginatedReportOptions"
         case sortConfiguration = "SortConfiguration"
         case tableOptions = "TableOptions"
@@ -57373,6 +57549,9 @@ extension QuickSightClientTypes.PivotTableConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let paginatedReportOptions = self.paginatedReportOptions {
             try encodeContainer.encode(paginatedReportOptions, forKey: .paginatedReportOptions)
@@ -57402,6 +57581,8 @@ extension QuickSightClientTypes.PivotTableConfiguration: Swift.Codable {
         fieldOptions = fieldOptionsDecoded
         let paginatedReportOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.PivotTablePaginatedReportOptions.self, forKey: .paginatedReportOptions)
         paginatedReportOptions = paginatedReportOptionsDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -57412,6 +57593,8 @@ extension QuickSightClientTypes {
         public var fieldOptions: QuickSightClientTypes.PivotTableFieldOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.PivotTableFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The paginated report options for a pivot table visual.
         public var paginatedReportOptions: QuickSightClientTypes.PivotTablePaginatedReportOptions?
         /// The sort configuration for a PivotTableVisual.
@@ -57424,6 +57607,7 @@ extension QuickSightClientTypes {
         public init(
             fieldOptions: QuickSightClientTypes.PivotTableFieldOptions? = nil,
             fieldWells: QuickSightClientTypes.PivotTableFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             paginatedReportOptions: QuickSightClientTypes.PivotTablePaginatedReportOptions? = nil,
             sortConfiguration: QuickSightClientTypes.PivotTableSortConfiguration? = nil,
             tableOptions: QuickSightClientTypes.PivotTableOptions? = nil,
@@ -57432,6 +57616,7 @@ extension QuickSightClientTypes {
         {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
             self.tableOptions = tableOptions
@@ -59249,8 +59434,6 @@ extension QuickSightClientTypes {
 
 }
 
-public enum QuickSightClientTypes {}
-
 extension QuickSightUserNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -59489,6 +59672,7 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
         case colorAxis = "ColorAxis"
         case colorLabelOptions = "ColorLabelOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case shape = "Shape"
         case sortConfiguration = "SortConfiguration"
@@ -59527,6 +59711,9 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -59577,6 +59764,8 @@ extension QuickSightClientTypes.RadarChartConfiguration: Swift.Codable {
         legend = legendDecoded
         let axesRangeScaleDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RadarChartAxesRangeScale.self, forKey: .axesRangeScale)
         axesRangeScale = axesRangeScaleDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -59603,6 +59792,8 @@ extension QuickSightClientTypes {
         public var colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The field well configuration of a RadarChartVisual.
         public var fieldWells: QuickSightClientTypes.RadarChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The shape of the radar chart.
@@ -59625,6 +59816,7 @@ extension QuickSightClientTypes {
             colorAxis: QuickSightClientTypes.AxisDisplayOptions? = nil,
             colorLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.RadarChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             shape: QuickSightClientTypes.RadarChartShape? = nil,
             sortConfiguration: QuickSightClientTypes.RadarChartSortConfiguration? = nil,
@@ -59642,6 +59834,7 @@ extension QuickSightClientTypes {
             self.colorAxis = colorAxis
             self.colorLabelOptions = colorLabelOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.shape = shape
             self.sortConfiguration = sortConfiguration
@@ -63523,6 +63716,7 @@ extension QuickSightClientTypes.SankeyDiagramChartConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case sortConfiguration = "SortConfiguration"
     }
 
@@ -63533,6 +63727,9 @@ extension QuickSightClientTypes.SankeyDiagramChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
@@ -63547,6 +63744,8 @@ extension QuickSightClientTypes.SankeyDiagramChartConfiguration: Swift.Codable {
         sortConfiguration = sortConfigurationDecoded
         let dataLabelsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DataLabelOptions.self, forKey: .dataLabels)
         dataLabels = dataLabelsDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -63557,17 +63756,21 @@ extension QuickSightClientTypes {
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a sankey diagram.
         public var fieldWells: QuickSightClientTypes.SankeyDiagramFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The sort configuration of a sankey diagram.
         public var sortConfiguration: QuickSightClientTypes.SankeyDiagramSortConfiguration?
 
         public init(
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.SankeyDiagramFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             sortConfiguration: QuickSightClientTypes.SankeyDiagramSortConfiguration? = nil
         )
         {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.sortConfiguration = sortConfiguration
         }
     }
@@ -63903,6 +64106,7 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case sortConfiguration = "SortConfiguration"
         case tooltip = "Tooltip"
@@ -63920,6 +64124,9 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -63969,6 +64176,8 @@ extension QuickSightClientTypes.ScatterPlotConfiguration: Swift.Codable {
         tooltip = tooltipDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -63979,6 +64188,8 @@ extension QuickSightClientTypes {
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.ScatterPlotFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The sort configuration of a scatter plot.
@@ -63999,6 +64210,7 @@ extension QuickSightClientTypes {
         public init(
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.ScatterPlotFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             sortConfiguration: QuickSightClientTypes.ScatterPlotSortConfiguration? = nil,
             tooltip: QuickSightClientTypes.TooltipOptions? = nil,
@@ -64011,6 +64223,7 @@ extension QuickSightClientTypes {
         {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.sortConfiguration = sortConfiguration
             self.tooltip = tooltip
@@ -71176,6 +71389,7 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldOptions = "FieldOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case paginatedReportOptions = "PaginatedReportOptions"
         case sortConfiguration = "SortConfiguration"
         case tableInlineVisualizations = "TableInlineVisualizations"
@@ -71190,6 +71404,9 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let paginatedReportOptions = self.paginatedReportOptions {
             try encodeContainer.encode(paginatedReportOptions, forKey: .paginatedReportOptions)
@@ -71236,6 +71453,8 @@ extension QuickSightClientTypes.TableConfiguration: Swift.Codable {
             }
         }
         tableInlineVisualizations = tableInlineVisualizationsDecoded0
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -71246,6 +71465,8 @@ extension QuickSightClientTypes {
         public var fieldOptions: QuickSightClientTypes.TableFieldOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.TableFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The paginated report options for a table visual.
         public var paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions?
         /// The sort configuration for a TableVisual.
@@ -71260,6 +71481,7 @@ extension QuickSightClientTypes {
         public init(
             fieldOptions: QuickSightClientTypes.TableFieldOptions? = nil,
             fieldWells: QuickSightClientTypes.TableFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             paginatedReportOptions: QuickSightClientTypes.TablePaginatedReportOptions? = nil,
             sortConfiguration: QuickSightClientTypes.TableSortConfiguration? = nil,
             tableInlineVisualizations: [QuickSightClientTypes.TableInlineVisualization]? = nil,
@@ -71269,6 +71491,7 @@ extension QuickSightClientTypes {
         {
             self.fieldOptions = fieldOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.paginatedReportOptions = paginatedReportOptions
             self.sortConfiguration = sortConfiguration
             self.tableInlineVisualizations = tableInlineVisualizations
@@ -77878,6 +78101,7 @@ extension QuickSightClientTypes.TreeMapConfiguration: Swift.Codable {
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
         case groupLabelOptions = "GroupLabelOptions"
+        case interactions = "Interactions"
         case legend = "Legend"
         case sizeLabelOptions = "SizeLabelOptions"
         case sortConfiguration = "SortConfiguration"
@@ -77900,6 +78124,9 @@ extension QuickSightClientTypes.TreeMapConfiguration: Swift.Codable {
         }
         if let groupLabelOptions = self.groupLabelOptions {
             try encodeContainer.encode(groupLabelOptions, forKey: .groupLabelOptions)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -77935,6 +78162,8 @@ extension QuickSightClientTypes.TreeMapConfiguration: Swift.Codable {
         dataLabels = dataLabelsDecoded
         let tooltipDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TooltipOptions.self, forKey: .tooltip)
         tooltip = tooltipDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -77951,6 +78180,8 @@ extension QuickSightClientTypes {
         public var fieldWells: QuickSightClientTypes.TreeMapFieldWells?
         /// The label options (label text, label visibility) of the groups that are displayed in a tree map.
         public var groupLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend display setup of the visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The label options (label text, label visibility) of the sizes that are displayed in a tree map.
@@ -77966,6 +78197,7 @@ extension QuickSightClientTypes {
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.TreeMapFieldWells? = nil,
             groupLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             sizeLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             sortConfiguration: QuickSightClientTypes.TreeMapSortConfiguration? = nil,
@@ -77977,6 +78209,7 @@ extension QuickSightClientTypes {
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
             self.groupLabelOptions = groupLabelOptions
+            self.interactions = interactions
             self.legend = legend
             self.sizeLabelOptions = sizeLabelOptions
             self.sortConfiguration = sortConfiguration
@@ -81771,9 +82004,9 @@ public struct UpdateFolderPermissionsInput: Swift.Equatable {
     /// The ID of the folder.
     /// This member is required.
     public var folderId: Swift.String?
-    /// The permissions that you want to grant on a resource.
+    /// The permissions that you want to grant on a resource. Namespace ARNs are not supported Principal values for folder permissions.
     public var grantPermissions: [QuickSightClientTypes.ResourcePermission]?
-    /// The permissions that you want to revoke from a resource.
+    /// The permissions that you want to revoke from a resource. Namespace ARNs are not supported Principal values for folder permissions.
     public var revokePermissions: [QuickSightClientTypes.ResourcePermission]?
 
     public init(
@@ -86631,6 +86864,51 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.VisualInteractionOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contextMenuOption = "ContextMenuOption"
+        case visualMenuOption = "VisualMenuOption"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contextMenuOption = self.contextMenuOption {
+            try encodeContainer.encode(contextMenuOption, forKey: .contextMenuOption)
+        }
+        if let visualMenuOption = self.visualMenuOption {
+            try encodeContainer.encode(visualMenuOption, forKey: .visualMenuOption)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let visualMenuOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualMenuOption.self, forKey: .visualMenuOption)
+        visualMenuOption = visualMenuOptionDecoded
+        let contextMenuOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ContextMenuOption.self, forKey: .contextMenuOption)
+        contextMenuOption = contextMenuOptionDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The general visual interactions setup for visual publish options
+    public struct VisualInteractionOptions: Swift.Equatable {
+        /// The context menu options for a visual.
+        public var contextMenuOption: QuickSightClientTypes.ContextMenuOption?
+        /// The on-visual menu options for a visual.
+        public var visualMenuOption: QuickSightClientTypes.VisualMenuOption?
+
+        public init(
+            contextMenuOption: QuickSightClientTypes.ContextMenuOption? = nil,
+            visualMenuOption: QuickSightClientTypes.VisualMenuOption? = nil
+        )
+        {
+            self.contextMenuOption = contextMenuOption
+            self.visualMenuOption = visualMenuOption
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.VisualMenuOption: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityStatus = "AvailabilityStatus"
@@ -86940,12 +87218,49 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.WaterfallChartColorConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupColorConfiguration = "GroupColorConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupColorConfiguration = self.groupColorConfiguration {
+            try encodeContainer.encode(groupColorConfiguration, forKey: .groupColorConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupColorConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.WaterfallChartGroupColorConfiguration.self, forKey: .groupColorConfiguration)
+        groupColorConfiguration = groupColorConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color configuration of a waterfall visual.
+    public struct WaterfallChartColorConfiguration: Swift.Equatable {
+        /// The color configuration for individual groups within a waterfall visual.
+        public var groupColorConfiguration: QuickSightClientTypes.WaterfallChartGroupColorConfiguration?
+
+        public init(
+            groupColorConfiguration: QuickSightClientTypes.WaterfallChartGroupColorConfiguration? = nil
+        )
+        {
+            self.groupColorConfiguration = groupColorConfiguration
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.WaterfallChartConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case categoryAxisDisplayOptions = "CategoryAxisDisplayOptions"
         case categoryAxisLabelOptions = "CategoryAxisLabelOptions"
+        case colorConfiguration = "ColorConfiguration"
         case dataLabels = "DataLabels"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case legend = "Legend"
         case primaryYAxisDisplayOptions = "PrimaryYAxisDisplayOptions"
         case primaryYAxisLabelOptions = "PrimaryYAxisLabelOptions"
@@ -86962,11 +87277,17 @@ extension QuickSightClientTypes.WaterfallChartConfiguration: Swift.Codable {
         if let categoryAxisLabelOptions = self.categoryAxisLabelOptions {
             try encodeContainer.encode(categoryAxisLabelOptions, forKey: .categoryAxisLabelOptions)
         }
+        if let colorConfiguration = self.colorConfiguration {
+            try encodeContainer.encode(colorConfiguration, forKey: .colorConfiguration)
+        }
         if let dataLabels = self.dataLabels {
             try encodeContainer.encode(dataLabels, forKey: .dataLabels)
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let legend = self.legend {
             try encodeContainer.encode(legend, forKey: .legend)
@@ -87010,6 +87331,10 @@ extension QuickSightClientTypes.WaterfallChartConfiguration: Swift.Codable {
         dataLabels = dataLabelsDecoded
         let visualPaletteDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualPalette.self, forKey: .visualPalette)
         visualPalette = visualPaletteDecoded
+        let colorConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.WaterfallChartColorConfiguration.self, forKey: .colorConfiguration)
+        colorConfiguration = colorConfigurationDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -87020,10 +87345,14 @@ extension QuickSightClientTypes {
         public var categoryAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions?
         /// The options that determine the presentation of the category axis label.
         public var categoryAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
+        /// The color configuration of a waterfall visual.
+        public var colorConfiguration: QuickSightClientTypes.WaterfallChartColorConfiguration?
         /// The data label configuration of a waterfall visual.
         public var dataLabels: QuickSightClientTypes.DataLabelOptions?
         /// The field well configuration of a waterfall visual.
         public var fieldWells: QuickSightClientTypes.WaterfallChartFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The legend configuration of a waterfall visual.
         public var legend: QuickSightClientTypes.LegendOptions?
         /// The options that determine the presentation of the y-axis.
@@ -87040,8 +87369,10 @@ extension QuickSightClientTypes {
         public init(
             categoryAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             categoryAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
+            colorConfiguration: QuickSightClientTypes.WaterfallChartColorConfiguration? = nil,
             dataLabels: QuickSightClientTypes.DataLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.WaterfallChartFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             legend: QuickSightClientTypes.LegendOptions? = nil,
             primaryYAxisDisplayOptions: QuickSightClientTypes.AxisDisplayOptions? = nil,
             primaryYAxisLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
@@ -87052,8 +87383,10 @@ extension QuickSightClientTypes {
         {
             self.categoryAxisDisplayOptions = categoryAxisDisplayOptions
             self.categoryAxisLabelOptions = categoryAxisLabelOptions
+            self.colorConfiguration = colorConfiguration
             self.dataLabels = dataLabels
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.legend = legend
             self.primaryYAxisDisplayOptions = primaryYAxisDisplayOptions
             self.primaryYAxisLabelOptions = primaryYAxisLabelOptions
@@ -87095,6 +87428,61 @@ extension QuickSightClientTypes {
         )
         {
             self.waterfallChartAggregatedFieldWells = waterfallChartAggregatedFieldWells
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.WaterfallChartGroupColorConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case negativeBarColor = "NegativeBarColor"
+        case positiveBarColor = "PositiveBarColor"
+        case totalBarColor = "TotalBarColor"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let negativeBarColor = self.negativeBarColor {
+            try encodeContainer.encode(negativeBarColor, forKey: .negativeBarColor)
+        }
+        if let positiveBarColor = self.positiveBarColor {
+            try encodeContainer.encode(positiveBarColor, forKey: .positiveBarColor)
+        }
+        if let totalBarColor = self.totalBarColor {
+            try encodeContainer.encode(totalBarColor, forKey: .totalBarColor)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let positiveBarColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .positiveBarColor)
+        positiveBarColor = positiveBarColorDecoded
+        let negativeBarColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .negativeBarColor)
+        negativeBarColor = negativeBarColorDecoded
+        let totalBarColorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .totalBarColor)
+        totalBarColor = totalBarColorDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The color configuration for individual groups within a waterfall visual.
+    public struct WaterfallChartGroupColorConfiguration: Swift.Equatable {
+        /// Defines the color for the negative bars of a waterfall chart.
+        public var negativeBarColor: Swift.String?
+        /// Defines the color for the positive bars of a waterfall chart.
+        public var positiveBarColor: Swift.String?
+        /// Defines the color for the total bars of a waterfall chart.
+        public var totalBarColor: Swift.String?
+
+        public init(
+            negativeBarColor: Swift.String? = nil,
+            positiveBarColor: Swift.String? = nil,
+            totalBarColor: Swift.String? = nil
+        )
+        {
+            self.negativeBarColor = negativeBarColor
+            self.positiveBarColor = positiveBarColor
+            self.totalBarColor = totalBarColor
         }
     }
 
@@ -87512,6 +87900,7 @@ extension QuickSightClientTypes.WordCloudChartConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case categoryLabelOptions = "CategoryLabelOptions"
         case fieldWells = "FieldWells"
+        case interactions = "Interactions"
         case sortConfiguration = "SortConfiguration"
         case wordCloudOptions = "WordCloudOptions"
     }
@@ -87523,6 +87912,9 @@ extension QuickSightClientTypes.WordCloudChartConfiguration: Swift.Codable {
         }
         if let fieldWells = self.fieldWells {
             try encodeContainer.encode(fieldWells, forKey: .fieldWells)
+        }
+        if let interactions = self.interactions {
+            try encodeContainer.encode(interactions, forKey: .interactions)
         }
         if let sortConfiguration = self.sortConfiguration {
             try encodeContainer.encode(sortConfiguration, forKey: .sortConfiguration)
@@ -87542,6 +87934,8 @@ extension QuickSightClientTypes.WordCloudChartConfiguration: Swift.Codable {
         categoryLabelOptions = categoryLabelOptionsDecoded
         let wordCloudOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.WordCloudOptions.self, forKey: .wordCloudOptions)
         wordCloudOptions = wordCloudOptionsDecoded
+        let interactionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.VisualInteractionOptions.self, forKey: .interactions)
+        interactions = interactionsDecoded
     }
 }
 
@@ -87552,6 +87946,8 @@ extension QuickSightClientTypes {
         public var categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions?
         /// The field wells of the visual.
         public var fieldWells: QuickSightClientTypes.WordCloudFieldWells?
+        /// The general visual interactions setup for a visual.
+        public var interactions: QuickSightClientTypes.VisualInteractionOptions?
         /// The sort configuration of a word cloud visual.
         public var sortConfiguration: QuickSightClientTypes.WordCloudSortConfiguration?
         /// The options for a word cloud visual.
@@ -87560,12 +87956,14 @@ extension QuickSightClientTypes {
         public init(
             categoryLabelOptions: QuickSightClientTypes.ChartAxisLabelOptions? = nil,
             fieldWells: QuickSightClientTypes.WordCloudFieldWells? = nil,
+            interactions: QuickSightClientTypes.VisualInteractionOptions? = nil,
             sortConfiguration: QuickSightClientTypes.WordCloudSortConfiguration? = nil,
             wordCloudOptions: QuickSightClientTypes.WordCloudOptions? = nil
         )
         {
             self.categoryLabelOptions = categoryLabelOptions
             self.fieldWells = fieldWells
+            self.interactions = interactions
             self.sortConfiguration = sortConfiguration
             self.wordCloudOptions = wordCloudOptions
         }

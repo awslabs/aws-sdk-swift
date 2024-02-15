@@ -218,7 +218,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationAzureBlob` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for a Microsoft Azure Blob Storage container that DataSync can use as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
+    /// Creates a transfer location for a Microsoft Azure Blob Storage container. DataSync can use this location as a transfer source or destination. Before you begin, make sure you know [how DataSync accesses Azure Blob Storage](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access) and works with [access tiers](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-access-tiers) and [blob types](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#blob-types). You also need a [DataSync agent](https://docs.aws.amazon.com/datasync/latest/userguide/creating-azure-blob-location.html#azure-blob-creating-agent) that can connect to your container.
     ///
     /// - Parameter CreateLocationAzureBlobInput : [no documentation found]
     ///
@@ -265,7 +265,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationEfs` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an Amazon EFS file system that DataSync can access for a transfer. For more information, see [Creating a location for Amazon EFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html).
+    /// Creates a transfer location for an Amazon EFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses Amazon EFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-efs-location.html#create-efs-location-access).
     ///
     /// - Parameter CreateLocationEfsInput : CreateLocationEfsRequest
     ///
@@ -312,7 +312,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationFsxLustre` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an Amazon FSx for Lustre file system.
+    /// Creates a transfer location for an Amazon FSx for Lustre file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Lustre file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-lustre-location.html#create-lustre-location-access).
     ///
     /// - Parameter CreateLocationFsxLustreInput : [no documentation found]
     ///
@@ -359,7 +359,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationFsxOntap` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an Amazon FSx for NetApp ONTAP file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for ONTAP file system](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
+    /// Creates a transfer location for an Amazon FSx for NetApp ONTAP file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for ONTAP file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-ontap-location.html#create-ontap-location-access).
     ///
     /// - Parameter CreateLocationFsxOntapInput : [no documentation found]
     ///
@@ -406,7 +406,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationFsxOpenZfs` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an Amazon FSx for OpenZFS file system that DataSync can access for a transfer. For more information, see [Creating a location for FSx for OpenZFS](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
+    /// Creates a transfer location for an Amazon FSx for OpenZFS file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for OpenZFS file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-openzfs-location.html#create-openzfs-access). Request parameters related to SMB aren't supported with the CreateLocationFsxOpenZfs operation.
     ///
     /// - Parameter CreateLocationFsxOpenZfsInput : [no documentation found]
     ///
@@ -453,7 +453,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationFsxWindows` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an Amazon FSx for Windows File Server file system that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an FSx for Windows File Server](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
+    /// Creates a transfer location for an Amazon FSx for Windows File Server file system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses FSx for Windows File Server file systems](https://docs.aws.amazon.com/datasync/latest/userguide/create-fsx-location.html#create-fsx-location-access).
     ///
     /// - Parameter CreateLocationFsxWindowsInput : [no documentation found]
     ///
@@ -500,7 +500,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationHdfs` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for a Hadoop Distributed File System (HDFS).
+    /// Creates a transfer location for a Hadoop Distributed File System (HDFS). DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses HDFS clusters](https://docs.aws.amazon.com/datasync/latest/userguide/create-hdfs-location.html#accessing-hdfs).
     ///
     /// - Parameter CreateLocationHdfsInput : [no documentation found]
     ///
@@ -547,7 +547,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationNfs` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for a Network File System (NFS) file server that DataSync can use for a data transfer. For more information, see [Configuring transfers to or from an NFS file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html). If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
+    /// Creates a transfer location for a Network File System (NFS) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses NFS file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#accessing-nfs). If you're copying data to or from an Snowcone device, you can also use CreateLocationNfs to create your transfer location. For more information, see [Configuring transfers with Snowcone](https://docs.aws.amazon.com/datasync/latest/userguide/nfs-on-snowcone.html).
     ///
     /// - Parameter CreateLocationNfsInput : CreateLocationNfsRequest
     ///
@@ -594,7 +594,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationObjectStorage` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for an object storage system that DataSync can access for a transfer. For more information, see [Creating a location for object storage](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html).
+    /// Creates a transfer location for an object storage system. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand the [prerequisites](https://docs.aws.amazon.com/datasync/latest/userguide/create-object-location.html#create-object-location-prerequisites) for DataSync to work with object storage systems.
     ///
     /// - Parameter CreateLocationObjectStorageInput : CreateLocationObjectStorageRequest
     ///
@@ -641,14 +641,14 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationS3` operation on the `FmrsService` service.
     ///
-    /// A location is an endpoint for an Amazon S3 bucket. DataSync can use the location as a source or destination for copying data. Before you create your location, make sure that you read the following sections:
+    /// Creates a transfer location for an Amazon S3 bucket. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you read the following topics:
     ///
     /// * [Storage class considerations with Amazon S3 locations](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#using-storage-classes)
     ///
     /// * [Evaluating S3 request costs when using DataSync](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html#create-s3-location-s3-requests)
     ///
     ///
-    /// For more information, see [Creating an Amazon S3 location](https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli).
+    /// For more information, see [Configuring transfers with Amazon S3](https://docs.aws.amazon.com/datasync/latest/userguide/create-s3-location.html).
     ///
     /// - Parameter CreateLocationS3Input : CreateLocationS3Request
     ///
@@ -695,7 +695,7 @@ extension DataSyncClient {
 
     /// Performs the `CreateLocationSmb` operation on the `FmrsService` service.
     ///
-    /// Creates an endpoint for a Server Message Block (SMB) file server that DataSync can use for a data transfer. Before you begin, make sure that you understand how DataSync [accesses an SMB file server](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html).
+    /// Creates a transfer location for a Server Message Block (SMB) file server. DataSync can use this location as a source or destination for transferring data. Before you begin, make sure that you understand how DataSync [accesses SMB file servers](https://docs.aws.amazon.com/datasync/latest/userguide/create-smb-location.html#configuring-smb).
     ///
     /// - Parameter CreateLocationSmbInput : CreateLocationSmbRequest
     ///
@@ -836,7 +836,7 @@ extension DataSyncClient {
 
     /// Performs the `DeleteLocation` operation on the `FmrsService` service.
     ///
-    /// Deletes the configuration of a location used by DataSync.
+    /// Deletes a transfer location resource from DataSync.
     ///
     /// - Parameter DeleteLocationInput : DeleteLocation
     ///
@@ -883,7 +883,7 @@ extension DataSyncClient {
 
     /// Performs the `DeleteTask` operation on the `FmrsService` service.
     ///
-    /// Deletes an DataSync transfer task.
+    /// Deletes a transfer task resource from DataSync.
     ///
     /// - Parameter DeleteTaskInput : DeleteTask
     ///
@@ -1071,7 +1071,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationEfs` operation on the `FmrsService` service.
     ///
-    /// Returns metadata about your DataSync location for an Amazon EFS file system.
+    /// Provides details about how an DataSync transfer location for an Amazon EFS file system is configured.
     ///
     /// - Parameter DescribeLocationEfsInput : DescribeLocationEfsRequest
     ///
@@ -1118,7 +1118,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationFsxLustre` operation on the `FmrsService` service.
     ///
-    /// Provides details about how an DataSync location for an Amazon FSx for Lustre file system is configured.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for Lustre file system is configured.
     ///
     /// - Parameter DescribeLocationFsxLustreInput : [no documentation found]
     ///
@@ -1165,7 +1165,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationFsxOntap` operation on the `FmrsService` service.
     ///
-    /// Provides details about how an DataSync location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for NetApp ONTAP file system is configured. If your location uses SMB, the DescribeLocationFsxOntap operation doesn't actually return a Password.
     ///
     /// - Parameter DescribeLocationFsxOntapInput : [no documentation found]
     ///
@@ -1212,7 +1212,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationFsxOpenZfs` operation on the `FmrsService` service.
     ///
-    /// Provides details about how an DataSync location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for OpenZFS file system is configured. Response elements related to SMB aren't supported with the DescribeLocationFsxOpenZfs operation.
     ///
     /// - Parameter DescribeLocationFsxOpenZfsInput : [no documentation found]
     ///
@@ -1259,7 +1259,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationFsxWindows` operation on the `FmrsService` service.
     ///
-    /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
+    /// Provides details about how an DataSync transfer location for an Amazon FSx for Windows File Server file system is configured.
     ///
     /// - Parameter DescribeLocationFsxWindowsInput : [no documentation found]
     ///
@@ -1306,7 +1306,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationHdfs` operation on the `FmrsService` service.
     ///
-    /// Returns metadata, such as the authentication information about the Hadoop Distributed File System (HDFS) location.
+    /// Provides details about how an DataSync transfer location for a Hadoop Distributed File System (HDFS) is configured.
     ///
     /// - Parameter DescribeLocationHdfsInput : [no documentation found]
     ///
@@ -1400,7 +1400,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationObjectStorage` operation on the `FmrsService` service.
     ///
-    /// Returns metadata about your DataSync location for an object storage system.
+    /// Provides details about how an DataSync transfer location for an object storage system is configured.
     ///
     /// - Parameter DescribeLocationObjectStorageInput : DescribeLocationObjectStorageRequest
     ///
@@ -1447,7 +1447,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationS3` operation on the `FmrsService` service.
     ///
-    /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
+    /// Provides details about how an DataSync transfer location for an S3 bucket is configured.
     ///
     /// - Parameter DescribeLocationS3Input : DescribeLocationS3Request
     ///
@@ -1494,7 +1494,7 @@ extension DataSyncClient {
 
     /// Performs the `DescribeLocationSmb` operation on the `FmrsService` service.
     ///
-    /// Returns metadata, such as the path and user information about an SMB location.
+    /// Provides details about how an DataSync transfer location for a Server Message Block (SMB) file server is configured.
     ///
     /// - Parameter DescribeLocationSmbInput : DescribeLocationSmbRequest
     ///
@@ -2058,7 +2058,7 @@ extension DataSyncClient {
 
     /// Performs the `ListTaskExecutions` operation on the `FmrsService` service.
     ///
-    /// Returns a list of executed tasks.
+    /// Returns a list of executions for an DataSync transfer task.
     ///
     /// - Parameter ListTaskExecutionsInput : ListTaskExecutions
     ///
@@ -2811,7 +2811,7 @@ extension DataSyncClient {
 
     /// Performs the `UpdateTask` operation on the `FmrsService` service.
     ///
-    /// Updates the configuration of a DataSync transfer task.
+    /// Updates the configuration of an DataSync transfer task.
     ///
     /// - Parameter UpdateTaskInput : UpdateTaskResponse
     ///

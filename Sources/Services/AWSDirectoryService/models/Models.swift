@@ -5865,8 +5865,6 @@ extension DirectoryAlreadySharedExceptionBody: Swift.Decodable {
     }
 }
 
-public enum DirectoryClientTypes {}
-
 extension DirectoryClientTypes {
     public enum DirectoryConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`

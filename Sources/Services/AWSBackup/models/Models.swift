@@ -198,8 +198,6 @@ extension AlreadyExistsExceptionBody: Swift.Decodable {
     }
 }
 
-public enum BackupClientTypes {}
-
 extension BackupClientTypes.BackupJob: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"

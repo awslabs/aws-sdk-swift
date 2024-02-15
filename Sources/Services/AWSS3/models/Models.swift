@@ -20194,8 +20194,6 @@ extension S3ClientTypes {
 
 }
 
-public enum S3ClientTypes {}
-
 extension S3ClientTypes.S3KeyFilter {
 
     static func writingClosure(_ value: S3ClientTypes.S3KeyFilter?, to writer: SmithyXML.Writer) throws {

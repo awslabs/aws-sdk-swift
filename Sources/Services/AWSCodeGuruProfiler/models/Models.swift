@@ -881,8 +881,6 @@ extension CodeGuruProfilerClientTypes {
 
 }
 
-public enum CodeGuruProfilerClientTypes {}
-
 extension CodeGuruProfilerClientTypes {
     public enum ComputePlatform: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         /// Compute platform meant to used for AWS Lambda.

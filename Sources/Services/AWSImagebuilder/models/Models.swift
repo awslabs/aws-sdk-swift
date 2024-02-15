@@ -10737,8 +10737,6 @@ extension ImagebuilderClientTypes {
 
 }
 
-public enum ImagebuilderClientTypes {}
-
 extension ImportComponentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeDescription

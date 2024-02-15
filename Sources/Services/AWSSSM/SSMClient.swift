@@ -1856,7 +1856,7 @@ extension SSMClient {
 
     /// Performs the `DescribeAvailablePatches` operation on the `AmazonSSM` service.
     ///
-    /// Lists all patches eligible to be included in a patch baseline.
+    /// Lists all patches eligible to be included in a patch baseline. Currently, DescribeAvailablePatches supports only the Amazon Linux 1, Amazon Linux 2, and Windows Server operating systems.
     ///
     /// - Parameter DescribeAvailablePatchesInput : [no documentation found]
     ///

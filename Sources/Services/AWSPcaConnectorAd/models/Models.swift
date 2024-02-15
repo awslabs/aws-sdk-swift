@@ -4500,8 +4500,6 @@ enum ListTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum PcaConnectorAdClientTypes {}
-
 extension PcaConnectorAdClientTypes {
     public enum PrivateKeyAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ecdhP256

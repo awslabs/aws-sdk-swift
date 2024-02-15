@@ -1805,8 +1805,6 @@ enum BatchGetSchemaOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-public enum CleanRoomsClientTypes {}
-
 extension CleanRoomsClientTypes.Collaboration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn

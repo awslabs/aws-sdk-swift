@@ -12952,8 +12952,6 @@ enum ModifyGlobalClusterOutputError {
     }
 }
 
-public enum NeptuneClientTypes {}
-
 extension NeptuneClientTypes.OptionGroupMembership: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case optionGroupName = "OptionGroupName"

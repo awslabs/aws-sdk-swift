@@ -11247,8 +11247,6 @@ extension KMSNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
-public enum LambdaClientTypes {}
-
 extension LambdaClientTypes {
     public enum LastUpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case failed
