@@ -84,7 +84,12 @@ jobs:
       - name: Prepare Integration Tests
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
-        run: swift build --build-tests
+        run: |
+          set -o pipefail && \
+          NSUnbufferedIO=YES \
+          xcodebuild \
+            -list/
+            -destination 'platform=OS X'
       - name: Run Integration Tests
         run: |
           set -o pipefail && \
