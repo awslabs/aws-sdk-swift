@@ -86,7 +86,13 @@ jobs:
       - name: Build Integration Tests
         run: swift build --build-tests
       - name: Run Integration Tests
-        run: swift test
+        run: |
+          set -o pipefail && \
+          NSUnbufferedIO=YES xcodebuild \
+            -scheme aws-sdk-swift \
+            -destination 'platform=OS X' \
+            test 2>&1 \
+            | xcpretty
 
   linux:
     runs-on: ubuntu-latest
@@ -156,10 +162,4 @@ jobs:
       - name: Build Integration Tests
         run: swift build --build-tests
       - name: Run Integration Tests
-        run: |
-          set -o pipefail && \
-          NSUnbufferedIO=YES xcodebuild \
-            -scheme aws-sdk-swift \
-            -destination 'platform=OS X' \
-            test 2>&1 \
-            | xcpretty
+        run: swift test
