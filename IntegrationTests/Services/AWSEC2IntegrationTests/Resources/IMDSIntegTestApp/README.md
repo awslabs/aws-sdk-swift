@@ -2,7 +2,8 @@
 
 This package will be used to test aws-sdk-swift and IMDS credentials provider. The below steps will need to be excuted prior to running the integration test. The contents of this package are executed inside of an ECS cluster.
 
-Note: `./deploy-docker-to-ecr` only needs to be executed once per AWS account and if updates are needed to the underlying package versions.
+Note: `./deploy-docker-to-ecr` needs to be executed at least once per AWS account to set up docker image used by the integration test in AWS Elastic Container Registry (ECR).
+Also, execute it if underlying package versions need to be updated.
 
 How to use `./deploy-docker-to-ecr`:
 - Make sure you have permissions configured using aws configure and docker daemon running

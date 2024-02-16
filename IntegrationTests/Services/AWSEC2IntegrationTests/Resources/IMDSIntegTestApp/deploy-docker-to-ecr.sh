@@ -10,7 +10,7 @@ if [ "$#" -lt 1 ]; then
 fi
 
 # Assign variables
-REGION="${2:-us-east-1}" # default value of us-east-1
+REGION="${2:-us-west-2}" # default value of us-west-2
 REPO_NAME="${3:-imds-integ-test}" # default value of imds-integ-test
 ACCOUNT_ID="$1"
 ECR_URI="$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"

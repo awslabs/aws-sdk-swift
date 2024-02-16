@@ -11,117 +11,165 @@ import AWSIAM
 import AWSSTS
 import AWSCloudWatchLogs
 import AWSEC2
+import ClientRuntime
 
 class IMDSCredentialsProviderTests: XCTestCase {
     private let region = "us-west-2"
     private var ec2Client: EC2Client!
     private var iamClient: IAMClient!
     private var stsClient: STSClient!
-    private var instanceID: String!
+    private var cloudWatchLogClient: CloudWatchLogsClient!
+
+    // MARK: - SETUP & TEARDOWN
 
     override func setUp() async throws {
         ec2Client = try EC2Client(region: region)
         iamClient = try IAMClient(region: region)
         stsClient = try STSClient(region: region)
-        // Launch an EC2 instance with necessary configs
+        cloudWatchLogClient = try CloudWatchLogsClient(region: region)
+
+        // Launch the EC2 instance with necessary configs
         try await launchEC2Instance()
-        // Wait until instance finishes creating
-        
+        // Wait until instance is running
+        _ = try await ec2Client.waitUntilInstanceRunning(
+            options: WaiterOptions(maxWaitTime: 300),
+            input: DescribeInstancesInput(instanceIds: [ec2InstanceID])
+        )
     }
 
     override func tearDown() async throws {
         // Note - IAM role and docker image are kept for re-use.
         _ = try await ec2Client.terminateInstances(input: TerminateInstancesInput(
-            instanceIds: [instanceID]
+            instanceIds: [ec2InstanceID]
         ))
     }
 
+    // MARK: - TEST CASE
+
     func testIMDSCredentialsProvider() async throws {
-        // Check cloud watch logs every 30 seconds pass/fail test accordingly.
+        // Check CloudWatch logs for success / failure and pass / fail accordingly.
         
     }
 
     // MARK: - HELPER FUNCTIONS
 
+    private var ec2InstanceID: String!
+    private var securityGroupID: String!
+    private let securityGroupName = "imds-integ-test-security-group"
+    private var instanceProfileARN: String!
+    private let instanceProfileName = "imds-integ-test-instance-profile"
+    private var roleARN: String!
+    private let roleName = "imds-integ-test-role"
+    private let accessPolicyName = "imds-integ-test-access-policy"
+    private var al2AMIID: String!
+
     private func launchEC2Instance() async throws {
+        // Create role & create instance profile using that role
+        try await createInstanceProfile()
         // Create security group to use
         try await createSecurtyGroup()
         // Allow HTTP / HTTPS connections
-        try await addInboundRules()
+        try await addIngressRulesToSecurityGroup()
+        // Get newest Amazon Linux 2 AMI to use
+        al2AMIID = try await getAL2AMIID()
         // Create input for EC2::RunInstances
         let input = createRunInstancesInput()
+        // Launch EC2 instance
         let response = try await ec2Client.runInstances(input: input)
-        instanceID = response.instances?[0].instanceId
+        ec2InstanceID = response.instances?[0].instanceId
+    }
+
+    private func createInstanceProfile() async throws {
+        // Policy documents
+        let assumeRolePolicy = """
+        { "Version": "2012-10-17", "Statement": [ { 
+        "Effect": "Allow",
+        "Principal": { "Service": "ec2.amazonaws.com" },
+        "Action": "sts:AssumeRole" } ] }
+        """
+        let accessPolicy = """
+        { "Version": "2012-10-17", "Statement": [ {
+        "Effect": "Allow",
+        "Action": sts:GetCallerIdentity,
+        "Resource": ["*"] } ] }
+        """
+        // Create role
+        roleARN = try await iamClient.createRole(input: CreateRoleInput(
+            assumeRolePolicyDocument: assumeRolePolicy,
+            roleName: roleName
+        )).role?.arn
+        // Add in-line access policy to role
+        _ = try await iamClient.putRolePolicy(input: PutRolePolicyInput(
+            policyDocument: accessPolicy,
+            policyName: accessPolicyName,
+            roleName: roleName
+        ))
+        // Create instance profile
+        instanceProfileARN = try await iamClient.createInstanceProfile(input: CreateInstanceProfileInput(
+            instanceProfileName: instanceProfileName
+        )).instanceProfile?.arn
+        // Configure instance profile with role
+        _ = try await iamClient.addRoleToInstanceProfile(input: AddRoleToInstanceProfileInput(
+            instanceProfileName: instanceProfileName,
+            roleName: roleName
+        ))
     }
 
     private func createSecurtyGroup() async throws {
-        _ = try await ec2Client.createSecurityGroup(input: CreateSecurityGroupInput(
-            description: <#T##String?#>,
-            dryRun: <#T##Bool?#>,
-            groupName: <#T##String?#>,
-            tagSpecifications: <#T##[EC2ClientTypes.TagSpecification]?#>,
-            vpcId: <#T##String?#>
+        securityGroupID = try await ec2Client.createSecurityGroup(input: CreateSecurityGroupInput(
+            description: "Security group used for IMDS credentials provider integration test.",
+            groupName: securityGroupName
+        )).groupId
+    }
+
+    private func addIngressRulesToSecurityGroup() async throws {
+        _ = try await ec2Client.authorizeSecurityGroupIngress(input: AuthorizeSecurityGroupIngressInput(
+            groupId: securityGroupID,
+            ipPermissions: [
+                EC2ClientTypes.IpPermission(
+                    fromPort: 80,
+                    ipProtocol: "tcp",
+                    ipRanges: [EC2ClientTypes.IpRange(cidrIp: "0.0.0.0/0", description: "All HTTP")],
+                    toPort: 80
+                ),
+                EC2ClientTypes.IpPermission(
+                    fromPort: 443,
+                    ipProtocol: "tcp",
+                    ipRanges: [EC2ClientTypes.IpRange(cidrIp: "0.0.0.0/0", description: "All HTTPS")],
+                    toPort: 443
+                )
+            ]
         ))
     }
 
-    private func addInboundRules() async throws {
-        _ = try await ec2Client.authorizeSecurityGroupIngress(input: AuthorizeSecurityGroupIngressInput(
-            cidrIp: <#T##String?#>,
-            dryRun: <#T##Bool?#>,
-            fromPort: <#T##Int?#>,
-            groupId: <#T##String?#>,
-            groupName: <#T##String?#>,
-            ipPermissions: <#T##[EC2ClientTypes.IpPermission]?#>,
-            ipProtocol: <#T##String?#>,
-            sourceSecurityGroupName: <#T##String?#>,
-            sourceSecurityGroupOwnerId: <#T##String?#>,
-            tagSpecifications: <#T##[EC2ClientTypes.TagSpecification]?#>,
-            toPort: <#T##Int?#>
-        ))
+    private func getAL2AMIID() async throws -> String? {
+        return try await ec2Client.describeImages(input: DescribeImagesInput(
+            filters: [
+                EC2ClientTypes.Filter(name: "description", values: ["*Amazon Linux 2*"]),
+                EC2ClientTypes.Filter(name: "architecture", values: ["x86_64"]),
+                EC2ClientTypes.Filter(name: "image-type", values: ["machine"]),
+                EC2ClientTypes.Filter(name: "is-public", values: ["true"]),
+                EC2ClientTypes.Filter(name: "state", values: ["available"])
+            ],
+            owners: ["amazon"]
+        )).images?[0].imageId
     }
 
     private func createRunInstancesInput() -> RunInstancesInput {
         let input = RunInstancesInput(
-            additionalInfo: <#T##String?#>,
-            blockDeviceMappings: <#T##[EC2ClientTypes.BlockDeviceMapping]?#>,
-            capacityReservationSpecification: <#T##EC2ClientTypes.CapacityReservationSpecification?#>,
-            clientToken: <#T##String?#>,
-            cpuOptions: <#T##EC2ClientTypes.CpuOptionsRequest?#>,
-            creditSpecification: <#T##EC2ClientTypes.CreditSpecificationRequest?#>,
-            disableApiStop: <#T##Bool?#>,
-            disableApiTermination: <#T##Bool?#>,
-            dryRun: <#T##Bool?#>,
-            ebsOptimized: <#T##Bool?#>,
-            elasticGpuSpecification: <#T##[EC2ClientTypes.ElasticGpuSpecification]?#>,
-            elasticInferenceAccelerators: <#T##[EC2ClientTypes.ElasticInferenceAccelerator]?#>,
-            enablePrimaryIpv6: <#T##Bool?#>, enclaveOptions: <#T##EC2ClientTypes.EnclaveOptionsRequest?#>,
-            hibernationOptions: <#T##EC2ClientTypes.HibernationOptionsRequest?#>,
-            iamInstanceProfile: <#T##EC2ClientTypes.IamInstanceProfileSpecification?#>,
-            imageId: <#T##String?#>,
-            instanceInitiatedShutdownBehavior: <#T##EC2ClientTypes.ShutdownBehavior?#>,
-            instanceMarketOptions: <#T##EC2ClientTypes.InstanceMarketOptionsRequest?#>,
-            instanceType: <#T##EC2ClientTypes.InstanceType?#>,
-            ipv6AddressCount: <#T##Int?#>,
-            ipv6Addresses: <#T##[EC2ClientTypes.InstanceIpv6Address]?#>,
-            kernelId: <#T##String?#>,
-            keyName: <#T##String?#>,
-            launchTemplate: <#T##EC2ClientTypes.LaunchTemplateSpecification?#>,
-            licenseSpecifications: <#T##[EC2ClientTypes.LicenseConfigurationRequest]?#>,
-            maintenanceOptions: <#T##EC2ClientTypes.InstanceMaintenanceOptionsRequest?#>,
-            maxCount: <#T##Int?#>,
-            metadataOptions: <#T##EC2ClientTypes.InstanceMetadataOptionsRequest?#>,
-            minCount: <#T##Int?#>,
-            monitoring: <#T##EC2ClientTypes.RunInstancesMonitoringEnabled?#>,
-            networkInterfaces: <#T##[EC2ClientTypes.InstanceNetworkInterfaceSpecification]?#>,
-            placement: <#T##EC2ClientTypes.Placement?#>,
-            privateDnsNameOptions: <#T##EC2ClientTypes.PrivateDnsNameOptionsRequest?#>,
-            privateIpAddress: <#T##String?#>,
-            ramdiskId: <#T##String?#>,
-            securityGroupIds: <#T##[String]?#>,
-            securityGroups: <#T##[String]?#>,
-            subnetId: <#T##String?#>,
-            tagSpecifications: <#T##[EC2ClientTypes.TagSpecification]?#>,
-            userData: <#T##String?#>
+            iamInstanceProfile: EC2ClientTypes.IamInstanceProfileSpecification(
+                arn: instanceProfileARN,
+                name: instanceProfileName
+            ),
+            imageId: al2AMIID,
+            maxCount: 1,
+            // Hop limit must be 2 for containerized application in EC2 instance to reach IMDS.
+            metadataOptions: EC2ClientTypes.InstanceMetadataOptionsRequest(httpPutResponseHopLimit: 2),
+            minCount: 1,
+            securityGroups: [securityGroupName],
+            userData: """
+            
+            """
         )
         return input
     }
