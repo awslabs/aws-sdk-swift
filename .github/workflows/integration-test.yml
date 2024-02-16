@@ -85,23 +85,8 @@ jobs:
         run: ./scripts/ci_steps/prepare_integration_tests.sh
       - name: Build Integration Tests
         run: swift build --build-tests
-        #run: |
-        #  set -o pipefail && \
-        #  NSUnbufferedIO=YES \
-        #  xcodebuild \
-        #    -scheme aws-sdk-swift-Package \
-        #    -destination 'platform=OS X' \
-        #    build-for-testing 2>&1 \
-        #    | xcpretty
       - name: Run Integration Tests
         run: swift test
-        #run: |
-          #set -o pipefail && \
-          #NSUnbufferedIO=YES xcodebuild \
-            #-scheme aws-sdk-swift-Package \
-            #-destination 'platform=OS X' \
-            #test 2>&1 \
-            #| xcpretty
 
   linux:
     runs-on: ubuntu-latest
