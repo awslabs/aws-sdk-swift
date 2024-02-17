@@ -10920,6 +10920,8 @@ enum RestartSimulationJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum RoboMakerClientTypes {}
+
 extension RoboMakerClientTypes.Robot: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case architecture

@@ -8487,6 +8487,8 @@ extension IAMClientTypes {
 
 }
 
+public enum IAMClientTypes {}
+
 extension IAMClientTypes.InstanceProfile: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

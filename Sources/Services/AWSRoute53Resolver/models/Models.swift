@@ -11932,6 +11932,8 @@ extension ResourceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+public enum Route53ResolverClientTypes {}
+
 extension Route53ResolverClientTypes {
     public enum RuleTypeOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forward

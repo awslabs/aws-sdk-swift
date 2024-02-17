@@ -25231,6 +25231,8 @@ extension InvalidStateTransitionExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTClientTypes {}
+
 extension IoTClientTypes.IotAnalyticsAction: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchMode

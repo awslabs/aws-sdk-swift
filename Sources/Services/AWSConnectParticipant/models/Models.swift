@@ -392,6 +392,8 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ConnectParticipantClientTypes {}
+
 extension ConnectParticipantClientTypes.ConnectionCredentials: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionToken = "ConnectionToken"

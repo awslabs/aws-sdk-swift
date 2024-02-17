@@ -12377,6 +12377,8 @@ extension TransferClientTypes {
     }
 }
 
+public enum TransferClientTypes {}
+
 extension UntagResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

@@ -6576,6 +6576,8 @@ enum RetrieveDomainAuthCodeOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum Route53DomainsClientTypes {}
+
 extension Route53DomainsClientTypes.SortCondition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name = "Name"

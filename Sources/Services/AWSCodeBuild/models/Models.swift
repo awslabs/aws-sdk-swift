@@ -3024,6 +3024,8 @@ extension CodeBuildClientTypes {
 
 }
 
+public enum CodeBuildClientTypes {}
+
 extension CodeBuildClientTypes.CodeCoverage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branchCoveragePercentage

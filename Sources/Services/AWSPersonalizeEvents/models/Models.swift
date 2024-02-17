@@ -490,6 +490,8 @@ extension PersonalizeEventsClientTypes {
 
 }
 
+public enum PersonalizeEventsClientTypes {}
+
 extension PutActionInteractionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionInteractions

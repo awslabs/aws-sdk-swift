@@ -9623,6 +9623,8 @@ extension OrganizationalUnitNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum OrganizationsClientTypes {}
+
 extension OrganizationsClientTypes.Parent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case id = "Id"

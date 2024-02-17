@@ -1396,6 +1396,8 @@ extension PaginationTokenExpiredExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ResourceGroupsTaggingAPIClientTypes {}
+
 extension ResourceGroupsTaggingAPIClientTypes.ResourceTagMapping: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case complianceDetails = "ComplianceDetails"

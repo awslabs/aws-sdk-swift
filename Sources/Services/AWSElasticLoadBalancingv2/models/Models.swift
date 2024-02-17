@@ -4293,6 +4293,8 @@ public struct DuplicateTrustStoreNameException: ClientRuntime.ModeledError, AWSC
     }
 }
 
+public enum ElasticLoadBalancingv2ClientTypes {}
+
 extension ElasticLoadBalancingv2ClientTypes {
     public enum EnforceSecurityGroupInboundRulesOnPrivateLinkTrafficEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case off

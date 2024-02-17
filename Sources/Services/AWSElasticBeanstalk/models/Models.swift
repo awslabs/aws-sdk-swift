@@ -4827,6 +4827,8 @@ enum DisassociateEnvironmentOperationsRoleOutputError {
     }
 }
 
+public enum ElasticBeanstalkClientTypes {}
+
 extension ElasticBeanstalkServiceException {
 
     static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {

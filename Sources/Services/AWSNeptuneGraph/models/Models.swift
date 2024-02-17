@@ -4945,6 +4945,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum NeptuneGraphClientTypes {}
+
 extension NeptuneGraphClientTypes.NeptuneImportOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case preserveDefaultVertexLabels

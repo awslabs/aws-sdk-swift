@@ -95,6 +95,8 @@ extension AthenaClientTypes {
 
 }
 
+public enum AthenaClientTypes {}
+
 extension AthenaClientTypes.AthenaError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case errorCategory = "ErrorCategory"

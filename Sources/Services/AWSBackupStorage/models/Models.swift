@@ -145,6 +145,8 @@ extension BackupStorageClientTypes {
 
 }
 
+public enum BackupStorageClientTypes {}
+
 extension BackupStorageClientTypes.Chunk: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case checksum = "Checksum"

@@ -14768,6 +14768,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTSiteWiseClientTypes {}
+
 extension IoTSiteWiseClientTypes.JobConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fileFormat

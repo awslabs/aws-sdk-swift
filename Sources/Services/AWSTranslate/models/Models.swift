@@ -4561,6 +4561,8 @@ extension TooManyTagsExceptionBody: Swift.Decodable {
     }
 }
 
+public enum TranslateClientTypes {}
+
 extension TranslateDocumentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case document = "Document"

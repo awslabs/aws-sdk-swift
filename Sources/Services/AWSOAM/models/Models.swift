@@ -1983,6 +1983,8 @@ extension MissingRequiredParameterExceptionBody: Swift.Decodable {
     }
 }
 
+public enum OAMClientTypes {}
+
 extension PutSinkPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"

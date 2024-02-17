@@ -1708,6 +1708,8 @@ enum DisassociateLicenseOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum GrafanaClientTypes {}
+
 extension GrafanaClientTypes.IdpMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sdkUnknown

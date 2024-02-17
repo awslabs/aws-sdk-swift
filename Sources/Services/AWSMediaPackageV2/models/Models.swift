@@ -3872,6 +3872,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum MediaPackageV2ClientTypes {}
+
 extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"

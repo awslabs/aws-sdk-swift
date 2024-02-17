@@ -375,6 +375,8 @@ extension BatchClientTypes {
 
 }
 
+public enum BatchClientTypes {}
+
 extension BatchClientTypes {
     public enum CEState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled

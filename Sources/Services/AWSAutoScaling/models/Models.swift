@@ -904,6 +904,8 @@ enum AttachTrafficSourcesOutputError {
     }
 }
 
+public enum AutoScalingClientTypes {}
+
 extension AutoScalingClientTypes.AutoScalingGroup: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoScalingGroupARN = "AutoScalingGroupARN"

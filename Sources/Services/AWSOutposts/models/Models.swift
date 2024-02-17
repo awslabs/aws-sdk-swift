@@ -4231,6 +4231,8 @@ extension OutpostsClientTypes {
 
 }
 
+public enum OutpostsClientTypes {}
+
 extension OutpostsClientTypes {
     public enum PaymentOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case allUpfront

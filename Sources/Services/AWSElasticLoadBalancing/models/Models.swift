@@ -2712,6 +2712,8 @@ public struct DuplicateTagKeysException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+public enum ElasticLoadBalancingClientTypes {}
+
 extension EnableAvailabilityZonesForLoadBalancerInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case availabilityZones = "AvailabilityZones"

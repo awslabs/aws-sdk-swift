@@ -5035,6 +5035,8 @@ extension InvalidRequestExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IoTAnalyticsClientTypes {}
+
 extension IoTAnalyticsClientTypes.IotEventsDestinationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inputName

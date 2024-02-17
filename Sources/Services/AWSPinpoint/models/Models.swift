@@ -23920,6 +23920,8 @@ enum PhoneNumberValidateOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum PinpointClientTypes {}
+
 extension PinpointClientTypes.PublicEndpoint: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address = "Address"
