@@ -25862,6 +25862,8 @@ extension MediaLiveClientTypes {
 
 }
 
+public enum MediaLiveClientTypes {}
+
 extension MediaLiveClientTypes.MediaPackageGroupSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination = "destination"

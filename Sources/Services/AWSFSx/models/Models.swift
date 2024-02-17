@@ -10740,6 +10740,8 @@ extension FSxClientTypes {
     }
 }
 
+public enum FSxClientTypes {}
+
 extension FSxClientTypes.FileCache: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"

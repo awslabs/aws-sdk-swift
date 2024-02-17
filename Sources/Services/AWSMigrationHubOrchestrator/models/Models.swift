@@ -3905,6 +3905,8 @@ enum ListWorkflowsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum MigrationHubOrchestratorClientTypes {}
+
 extension MigrationHubOrchestratorClientTypes {
     public enum MigrationWorkflowStatusEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed

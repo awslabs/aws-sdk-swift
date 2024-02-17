@@ -34,6 +34,8 @@ extension CognitoIdentityClientTypes {
     }
 }
 
+public enum CognitoIdentityClientTypes {}
+
 extension CognitoIdentityClientTypes.CognitoIdentityProvider: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientId = "ClientId"

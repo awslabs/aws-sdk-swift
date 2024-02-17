@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum ACMPCAClientTypes {}
+
 extension ACMPCAClientTypes.ASN1Subject: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commonName = "CommonName"

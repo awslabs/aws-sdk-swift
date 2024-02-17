@@ -4759,6 +4759,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+public enum SecurityLakeClientTypes {}
+
 extension SecurityLakeClientTypes {
     public enum SourceCollectionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case collecting

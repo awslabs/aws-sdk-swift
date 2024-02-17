@@ -11121,6 +11121,8 @@ extension SSOAdminClientTypes {
 
 }
 
+public enum SSOAdminClientTypes {}
+
 extension SSOAdminClientTypes.ScopeDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedTargets = "AuthorizedTargets"

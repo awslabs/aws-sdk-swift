@@ -1410,6 +1410,8 @@ extension SupportAppClientTypes {
 
 }
 
+public enum SupportAppClientTypes {}
+
 extension UpdateSlackChannelConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelId

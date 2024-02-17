@@ -16144,3 +16144,5 @@ extension WorkMailClientTypes {
         }
     }
 }
+
+public enum WorkMailClientTypes {}

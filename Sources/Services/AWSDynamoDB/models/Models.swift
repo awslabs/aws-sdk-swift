@@ -6655,6 +6655,8 @@ extension DuplicateItemExceptionBody: Swift.Decodable {
     }
 }
 
+public enum DynamoDBClientTypes {}
+
 extension DynamoDBClientTypes.EnableKinesisStreamingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case approximateCreationDateTimePrecision = "ApproximateCreationDateTimePrecision"

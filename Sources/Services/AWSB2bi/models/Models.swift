@@ -58,6 +58,8 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+public enum B2biClientTypes {}
+
 extension B2biClientTypes.CapabilityConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case edi

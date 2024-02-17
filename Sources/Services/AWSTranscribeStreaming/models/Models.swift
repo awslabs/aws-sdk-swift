@@ -3475,6 +3475,8 @@ extension TranscribeStreamingClientTypes {
 
 }
 
+public enum TranscribeStreamingClientTypes {}
+
 extension TranscribeStreamingClientTypes.Transcript: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case results = "Results"

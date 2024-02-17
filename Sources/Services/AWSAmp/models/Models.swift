@@ -225,6 +225,8 @@ extension AmpClientTypes {
     }
 }
 
+public enum AmpClientTypes {}
+
 extension AmpClientTypes.AmpConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case workspaceArn

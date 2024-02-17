@@ -2079,6 +2079,8 @@ extension KeyspacesClientTypes {
 
 }
 
+public enum KeyspacesClientTypes {}
+
 extension ListKeyspacesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults

@@ -26619,6 +26619,8 @@ extension LightsailClientTypes {
 
 }
 
+public enum LightsailClientTypes {}
+
 extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ableToUpdateBundle

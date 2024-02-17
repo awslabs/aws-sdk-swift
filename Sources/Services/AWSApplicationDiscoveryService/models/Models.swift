@@ -289,6 +289,8 @@ extension ApplicationDiscoveryClientTypes {
     }
 }
 
+public enum ApplicationDiscoveryClientTypes {}
+
 extension AssociateConfigurationItemsToApplicationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationConfigurationId

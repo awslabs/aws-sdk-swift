@@ -9279,6 +9279,8 @@ enum GetThingRuntimeConfigurationOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
+public enum GreengrassClientTypes {}
+
 extension GreengrassClientTypes.GroupCertificateAuthorityProperties: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case groupCertificateAuthorityArn = "GroupCertificateAuthorityArn"

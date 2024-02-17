@@ -342,6 +342,8 @@ extension AppflowClientTypes {
 
 }
 
+public enum AppflowClientTypes {}
+
 extension AppflowClientTypes.AuthParameter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectorSuppliedValues

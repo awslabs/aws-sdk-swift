@@ -2233,6 +2233,8 @@ extension CodeDeployClientTypes {
 
 }
 
+public enum CodeDeployClientTypes {}
+
 extension CodeDeployClientTypes {
     public enum ComputePlatform: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ecs
