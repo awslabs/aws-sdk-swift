@@ -62,6 +62,11 @@ class IMDSCredentialsProviderTests: XCTestCase {
     private let roleName = "imds-integ-test-role"
     private let accessPolicyName = "imds-integ-test-access-policy"
     private var al2AMIID: String!
+    private var accountID: String!
+    private var ecrRepoURL: String!
+    private let dockerImageName = "imds-integ-test:latest"
+    private let cloudWatchLogGroupName = "imds-log-group"
+    private let cloudWatchLogStreamName = "imds-log-stream"
 
     private func launchEC2Instance() async throws {
         // Create role & create instance profile using that role
@@ -73,7 +78,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
         // Get newest Amazon Linux 2 AMI to use
         al2AMIID = try await getAL2AMIID()
         // Create input for EC2::RunInstances
-        let input = createRunInstancesInput()
+        let input = try await createRunInstancesInput()
         // Launch EC2 instance
         let response = try await ec2Client.runInstances(input: input)
         ec2InstanceID = response.instances?[0].instanceId
@@ -90,7 +95,12 @@ class IMDSCredentialsProviderTests: XCTestCase {
         let accessPolicy = """
         { "Version": "2012-10-17", "Statement": [ {
         "Effect": "Allow",
-        "Action": sts:GetCallerIdentity,
+        "Action": [ "sts:GetCallerIdentity",
+                    "ecr:GetAuthorizationToken",
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:DescribeLogStreams",
+                    "logs:PutLogEvents" ],
         "Resource": ["*"] } ] }
         """
         // Create role
@@ -155,7 +165,10 @@ class IMDSCredentialsProviderTests: XCTestCase {
         )).images?[0].imageId
     }
 
-    private func createRunInstancesInput() -> RunInstancesInput {
+    private func createRunInstancesInput() async throws -> RunInstancesInput {
+        accountID = try await stsClient.getCallerIdentity(input: GetCallerIdentityInput()).account
+        ecrRepoURL = "\(accountID).dkr.ecr.\(region).amazonaws.com"
+
         let input = RunInstancesInput(
             iamInstanceProfile: EC2ClientTypes.IamInstanceProfileSpecification(
                 arn: instanceProfileARN,
@@ -167,10 +180,32 @@ class IMDSCredentialsProviderTests: XCTestCase {
             metadataOptions: EC2ClientTypes.InstanceMetadataOptionsRequest(httpPutResponseHopLimit: 2),
             minCount: 1,
             securityGroups: [securityGroupName],
+            // A bash script that sets up docker and runs it is passed as user-data.
             userData: """
-            
+            #!/bin/bash
+            sudo yum update -y
+            sudo yum install docker -y
+            sudo systemctl start docker
+            sudo service awslogsd start
+            aws ecr get-login-password --region \(region) \
+                | docker login --username AWS --password-stdin \(ecrRepoURL)
+            sudo docker pull \(ecrRepoURL)/\(dockerImageName)
+            sudo docker run \
+                --log-driver=awslogs \
+                --log-opt awslogs-region=us-west-2 \
+                --log-opt awslogs-group=\(cloudWatchLogGroupName) \
+                --log-opt awslogs-stream=\(cloudWatchLogStreamName) \
+                --log-opt awslogs-create-group=true
+                \(ecrRepoURL)/\(dockerImageName)
             """
         )
         return input
+    }
+}
+
+private extension String.StringInterpolation {
+    /// Prints `Optional` values by only interpolating it if the value is set. `nil` is used as a fallback value to provide a clear output.
+    mutating func appendInterpolation<T: CustomStringConvertible>(_ value: T?) {
+        appendInterpolation(value ?? "nil" as CustomStringConvertible)
     }
 }
