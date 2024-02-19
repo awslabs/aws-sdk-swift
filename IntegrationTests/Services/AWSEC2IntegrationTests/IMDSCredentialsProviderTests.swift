@@ -47,6 +47,9 @@ class IMDSCredentialsProviderTests: XCTestCase {
     // MARK: - TEST CASE
 
     func testIMDSCredentialsProvider() async throws {
+        // Wait until log group gets created by shell script passed as user data to
+        // the EC2 launch instance process. Maximum wait: 20 minutes.
+        
         // Check CloudWatch logs for success / failure and pass / fail accordingly.
         
     }
@@ -200,6 +203,32 @@ class IMDSCredentialsProviderTests: XCTestCase {
             """
         )
         return input
+    }
+
+    // Same method from ECS credentials provider integration test.
+    private func checkLogsForKeyword(keyword: String) async throws -> Bool {
+        let logStreamsResp = try await cloudWatchLogClient.describeLogStreams(input: DescribeLogStreamsInput(
+            descending: true,
+            logGroupName: cloudWatchLogGroupName,
+            orderBy: .lasteventtime
+        ))
+
+        if let logStreamName = logStreamsResp.logStreams?.first?.logStreamName {
+            let logEventsResp = try await logsClient.getLogEvents(input: GetLogEventsInput(
+                logGroupName: cloudWatchLogGroupName,
+                logStreamName: cloudWatchLogStreamName
+            ))
+
+            print("Log Group name: \(cloudWatchLogGroupName)")
+            print("Log Stream name: \(cloudWatchLogStreamName)")
+
+            for event in logEventsResp.events ?? [] {
+                if let message = event.message, message.contains(keyword) {
+                    return true
+                }
+            }
+        }
+        return false
     }
 }
 
