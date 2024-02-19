@@ -19,6 +19,9 @@ class IMDSCredentialsProviderTests: XCTestCase {
     private var iamClient: IAMClient!
     private var stsClient: STSClient!
     private var cloudWatchLogClient: CloudWatchLogsClient!
+    private var maxWaitEC2InstanceCreation = 1200.0
+    private var maxWaitLogGroupCreation = 1200.0
+    private var maxWaitLogMessageFound = 600.0
 
     // MARK: - SETUP & TEARDOWN
 
@@ -28,30 +31,77 @@ class IMDSCredentialsProviderTests: XCTestCase {
         stsClient = try STSClient(region: region)
         cloudWatchLogClient = try CloudWatchLogsClient(region: region)
 
-        // Launch the EC2 instance with necessary configs
+        // Launch the EC2 instance with necessary configs.
         try await launchEC2Instance()
-        // Wait until instance is running
+        // Wait until instance is running.
         _ = try await ec2Client.waitUntilInstanceRunning(
-            options: WaiterOptions(maxWaitTime: 300),
+            options: WaiterOptions(maxWaitTime: maxWaitEC2InstanceCreation),
             input: DescribeInstancesInput(instanceIds: [ec2InstanceID])
         )
+        // Wait until cloud watch log group is created by shell script passed to EC2 instance at launch.
+        try await setUpCloudWatchLogs()
     }
 
+    // Note: IAM role and docker image in ECR private repo are kept for re-use.
     override func tearDown() async throws {
-        // Note - IAM role and docker image are kept for re-use.
+        // Delete EC2 instance
         _ = try await ec2Client.terminateInstances(input: TerminateInstancesInput(
             instanceIds: [ec2InstanceID]
         ))
+        // Delete cloud watch log group created for EC2 instance.
+        _ = try await cloudWatchLogClient.deleteLogGroup(
+            input: DeleteLogGroupInput(logGroupName: cloudWatchLogGroupName)
+        )
     }
 
     // MARK: - TEST CASE
 
     func testIMDSCredentialsProvider() async throws {
-        // Wait until log group gets created by shell script passed as user data to
-        // the EC2 launch instance process. Maximum wait: 20 minutes.
-        
-        // Check CloudWatch logs for success / failure and pass / fail accordingly.
-        
+        // Check CloudWatch logs for success / failure log and pass / fail the test accordingly.
+        var (statusLogFound, logsContainSuccessKeyword, logsContainFailureKeyword) = (false, false, false)
+        // Timer for waiting test app completion
+        let statusLogTimeLimitFlag = TimeLimitFlagActor()
+        let statusLogTimer = getTimer(
+            maxWait: maxWaitLogMessageFound,
+            timeLimitFlag: statusLogTimeLimitFlag
+        )
+        while (!(await statusLogTimeLimitFlag.timeLimitExceeded) && !statusLogFound) {
+            logsContainSuccessKeyword = try await checkLogsForKeyword(keyword: "imds-integration-test-success")
+            logsContainFailureKeyword = try await checkLogsForKeyword(keyword: "imds-integration-test-failure")
+            statusLogFound = logsContainSuccessKeyword || logsContainFailureKeyword
+            if statusLogFound {
+                // Kill timer if log message is found within time limit.
+                statusLogTimer.invalidate()
+            }
+        }
+        XCTAssertTrue(
+            logsContainSuccessKeyword,
+            "Logs did not contain the expected success keyword. Test failed!"
+        )
+    }
+
+    // MARK: - HELPER ACTOR & ERRORS
+
+    actor TimeLimitFlagActor {
+        var timeLimitExceeded = false
+
+        func setLimitExceeded() {
+            timeLimitExceeded = true
+        }
+    }
+
+    private func getTimer(maxWait: Double, timeLimitFlag: TimeLimitFlagActor) -> Timer {
+        return Timer.scheduledTimer(withTimeInterval: maxWait, repeats: false) { timer in
+            Task {
+                await timeLimitFlag.setLimitExceeded()
+            }
+            // Kill timer if time limit reached.
+            timer.invalidate()
+        }
+    }
+
+    private enum IMDSError: Error {
+        case logGroupCreationFailed(String)
     }
 
     // MARK: - HELPER FUNCTIONS
@@ -205,23 +255,42 @@ class IMDSCredentialsProviderTests: XCTestCase {
         return input
     }
 
-    // Same method from ECS credentials provider integration test.
+    private func setUpCloudWatchLogs() async throws {
+        let logGroupCreationTimeLimitFlag = TimeLimitFlagActor()
+        let logGroupCreationTimer = getTimer(
+            maxWait: maxWaitLogGroupCreation,
+            timeLimitFlag: logGroupCreationTimeLimitFlag
+        )
+        var logGroupInitialized = false
+        while (!(await logGroupCreationTimeLimitFlag.timeLimitExceeded) && !logGroupInitialized) {
+            // Check if log groups exists.
+            let logGroups = try await cloudWatchLogClient.describeLogGroups(
+                input: DescribeLogGroupsInput()
+            ).logGroups
+            if let logGroups, logGroups.contains(where: { $0.logGroupName == cloudWatchLogGroupName }) {
+                logGroupInitialized = true
+                // Kill timer if log group is created within time limit.
+                logGroupCreationTimer.invalidate()
+            }
+        }
+        // Throw if no log group was found within the time limit.
+        if (!logGroupInitialized) {
+            throw IMDSError.logGroupCreationFailed("No log group for the integration test was found.")
+        }
+    }
+
+    // Checks cloud watch logs for a keyword string.
     private func checkLogsForKeyword(keyword: String) async throws -> Bool {
         let logStreamsResp = try await cloudWatchLogClient.describeLogStreams(input: DescribeLogStreamsInput(
             descending: true,
             logGroupName: cloudWatchLogGroupName,
             orderBy: .lasteventtime
         ))
-
         if let logStreamName = logStreamsResp.logStreams?.first?.logStreamName {
-            let logEventsResp = try await logsClient.getLogEvents(input: GetLogEventsInput(
+            let logEventsResp = try await cloudWatchLogClient.getLogEvents(input: GetLogEventsInput(
                 logGroupName: cloudWatchLogGroupName,
                 logStreamName: cloudWatchLogStreamName
             ))
-
-            print("Log Group name: \(cloudWatchLogGroupName)")
-            print("Log Stream name: \(cloudWatchLogStreamName)")
-
             for event in logEventsResp.events ?? [] {
                 if let message = event.message, message.contains(keyword) {
                     return true

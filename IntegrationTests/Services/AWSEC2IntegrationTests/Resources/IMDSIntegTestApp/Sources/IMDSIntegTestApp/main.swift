@@ -9,7 +9,7 @@ import Foundation
 import AWSClientRuntime
 import AWSSTS
 
-var status = "failure"
+var status = "imds-integration-test-failure"
 
 func executeSTSTask() async throws {
     let clientConfig = try await STSClient.STSClientConfiguration(
@@ -26,7 +26,7 @@ func executeSTSTask() async throws {
     let isNotNil = response.account != nil && response.arn != nil && response.userId != nil
     let isNotEmpty = response.account != "" && response.arn != "" && response.userId != ""
     if isNotNil && isNotEmpty {
-        status = "success"
+        status = "imds-integration-test-success"
     }
 }
 
@@ -36,4 +36,4 @@ do {
 } catch {
     print ("IMDS integration test threw an exception: \(error.localizedDescription).")
 }
-print("IMDS integration test completed with \(status).")
+print("IMDS integration test completed with the status: \(status).")
