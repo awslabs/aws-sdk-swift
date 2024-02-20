@@ -222,9 +222,26 @@ class IMDSCredentialsProviderTests: XCTestCase {
         accountID = try await stsClient.getCallerIdentity(input: GetCallerIdentityInput()).account
         ecrRepoURL = "\(accountID).dkr.ecr.\(region).amazonaws.com"
 
+        let userDataScriptEncoded = """
+        #!/bin/bash
+        sudo yum update -y
+        sudo yum install docker -y
+        sudo systemctl start docker
+        sudo systemctl start awslogsd
+        aws ecr get-login-password --region \(region) \
+        | docker login --username AWS --password-stdin \(ecrRepoURL)
+        sudo docker pull \(ecrRepoURL)/\(dockerImageName)
+        sudo docker run \
+        --log-driver=awslogs \
+        --log-opt awslogs-region=us-west-2 \
+        --log-opt awslogs-group=\(cloudWatchLogGroupName) \
+        --log-opt awslogs-stream=\(cloudWatchLogStreamName) \
+        --log-opt awslogs-create-group=true
+        \(ecrRepoURL)/\(dockerImageName)
+        """.data(using: .utf8)?.base64EncodedString()
+
         let input = RunInstancesInput(
             iamInstanceProfile: EC2ClientTypes.IamInstanceProfileSpecification(
-                arn: instanceProfileARN,
                 name: instanceProfileName
             ),
             imageId: al2AMIID,
@@ -234,23 +251,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
             minCount: 1,
             securityGroups: [securityGroupName],
             // A bash script that sets up docker and runs it is passed as user-data.
-            userData: """
-            #!/bin/bash
-            sudo yum update -y
-            sudo yum install docker -y
-            sudo systemctl start docker
-            sudo service awslogsd start
-            aws ecr get-login-password --region \(region) \
-                | docker login --username AWS --password-stdin \(ecrRepoURL)
-            sudo docker pull \(ecrRepoURL)/\(dockerImageName)
-            sudo docker run \
-                --log-driver=awslogs \
-                --log-opt awslogs-region=us-west-2 \
-                --log-opt awslogs-group=\(cloudWatchLogGroupName) \
-                --log-opt awslogs-stream=\(cloudWatchLogStreamName) \
-                --log-opt awslogs-create-group=true
-                \(ecrRepoURL)/\(dockerImageName)
-            """
+            userData: userDataScriptEncoded
         )
         return input
     }
@@ -286,7 +287,8 @@ class IMDSCredentialsProviderTests: XCTestCase {
             logGroupName: cloudWatchLogGroupName,
             orderBy: .lasteventtime
         ))
-        if let logStreamName = logStreamsResp.logStreams?.first?.logStreamName {
+        if let logStreamName = logStreamsResp.logStreams?.first?.logStreamName,
+            logStreamName == cloudWatchLogStreamName {
             let logEventsResp = try await cloudWatchLogClient.getLogEvents(input: GetLogEventsInput(
                 logGroupName: cloudWatchLogGroupName,
                 logStreamName: cloudWatchLogStreamName
