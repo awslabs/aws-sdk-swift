@@ -73,10 +73,10 @@ public struct AWSUserAgentMetadata {
         self.frameworkMetadata = frameworkMetadata
     }
 
-    public static func fromConfig<ServiceSpecificConfiguration>(
+    public static func fromConfig(
         serviceID: String,
         version: String,
-        config: AWSClientConfiguration<ServiceSpecificConfiguration>
+        config: DefaultClientConfiguration & AWSDefaultClientConfiguration
     ) -> AWSUserAgentMetadata {
         let apiMetadata = APIMetadata(serviceID: serviceID, version: version)
         let sdkMetadata = SDKMetadata(version: apiMetadata.version)

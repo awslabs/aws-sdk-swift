@@ -8,6 +8,7 @@
 import XCTest
 import AWSKinesis
 import ClientRuntime
+import AWSClientRuntime
 
 class KinesisTests: XCTestCase {
 
