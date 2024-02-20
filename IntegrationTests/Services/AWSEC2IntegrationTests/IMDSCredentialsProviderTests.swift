@@ -73,6 +73,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
                 // Kill timer if log message is found within time limit.
                 statusLogTimer.invalidate()
             }
+            try await pauseFor(numSeconds: 10.0)
         }
         XCTAssertTrue(
             logsContainSuccessKeyword,
@@ -80,7 +81,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
         )
     }
 
-    // MARK: - HELPER ACTOR & ERRORS
+    // MARK: - HELPERS FOR TIMRE & ERROR ENUM
 
     actor TimeLimitFlagActor {
         var timeLimitExceeded = false
@@ -98,6 +99,10 @@ class IMDSCredentialsProviderTests: XCTestCase {
             // Kill timer if time limit reached.
             timer.invalidate()
         }
+    }
+
+    private func pauseFor(numSeconds: Double) async throws {
+        try await Task.sleep(nanoseconds: UInt64(numSeconds * 1_000_000_000))
     }
 
     private enum IMDSError: Error {
@@ -273,6 +278,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
                 // Kill timer if log group is created within time limit.
                 logGroupCreationTimer.invalidate()
             }
+            try await pauseFor(numSeconds: 10.0)
         }
         // Throw if no log group was found within the time limit.
         if (!logGroupInitialized) {
