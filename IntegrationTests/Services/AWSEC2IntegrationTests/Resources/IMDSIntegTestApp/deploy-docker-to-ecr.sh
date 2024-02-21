@@ -18,7 +18,7 @@ ECR_URI="$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"
 echo "Using region: $REGION, repo_name: $REPO_NAME, and account_id: $ACCOUNT_ID"
 
 # Authenticate
-$(aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI)
+$(aws --region $REGION ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI)
 
 # Check if ECR repo exists
 REPO_EXISTS=$(aws ecr describe-repositories --repository-names $REPO_NAME --region $REGION 2>&1 || true)

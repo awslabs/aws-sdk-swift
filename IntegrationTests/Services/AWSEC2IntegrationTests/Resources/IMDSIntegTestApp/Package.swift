@@ -9,7 +9,7 @@ let package = Package(
         .iOS(.v13)
     ],
     dependencies: [
-        .package(url: "https://github.com/awslabs/aws-sdk-swift.git", branch: "main"),
+        .package(url: "https://github.com/awslabs/aws-sdk-swift.git", branch: "feat/imds-credentials-provider"),
         .package(url: "https://github.com/smithy-lang/smithy-swift.git", branch: "main"),
         .package(url: "https://github.com/apple/swift-argument-parser.git", from: "1.0.0"),
     ],
