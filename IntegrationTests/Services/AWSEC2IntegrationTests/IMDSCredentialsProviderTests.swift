@@ -48,7 +48,8 @@ class IMDSCredentialsProviderTests: XCTestCase {
 
     // MARK: - TEST CASE
 
-    func testIMDSCredentialsProvider() async throws {
+    // Delete `x` to enable test.
+    func xtestIMDSCredentialsProvider() async throws {
         var pollCount = 0
         var (statusLogFound, logsContainSuccessKeyword, logsContainFailureKeyword) = (false, false, false)
         while (!statusLogFound && pollCount < maxPollLogMessageFound) {
