@@ -36,9 +36,16 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
-            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
+            .withIdentityResolver(
+                value: MyCustomCredentialsProvider(credentials: credentials),
+                schemeID: "aws.auth#sigv4"
+            )            
+            .withIdentityResolver(
+                value: MyCustomCredentialsProvider(credentials: credentials),
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
-        
+
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
             return AWSSigV4Signer()
         } signingConfig: {
@@ -66,7 +73,14 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let context = HttpContextBuilder().withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
-            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
+            .withIdentityResolver(
+                value: MyCustomCredentialsProvider(credentials: credentials),
+                schemeID: "aws.auth#sigv4"
+            )
+            .withIdentityResolver(
+                value: MyCustomCredentialsProvider(credentials: credentials),
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
         
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {

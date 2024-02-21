@@ -342,7 +342,8 @@ class Sigv4SigningTests: XCTestCase {
         let context = HttpContextBuilder()
             .withSigningName(value: "testservice")
             .withRegion(value: "us-east-1")
-            .withCredentialsProvider(value: credentialsProvider)
+            .withIdentityResolver(value: credentialsProvider, schemeID: "aws.auth#sigv4")
+            .withIdentityResolver(value: credentialsProvider, schemeID: "aws.auth#sigv4a")
             .build()
         
         let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())

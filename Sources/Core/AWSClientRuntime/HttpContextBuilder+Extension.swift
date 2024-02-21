@@ -10,10 +10,6 @@ import struct Foundation.Date
 import struct Foundation.TimeInterval
 
 extension HttpContext {
-    public func getCredentialsProvider() -> (any CredentialsProviding)? {
-        return attributes.get(key: AttributeKeys.credentialsProvider)
-    }
-
     public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
         return attributes.get(key: AttributeKeys.signingAlgorithm)
     }
@@ -21,8 +17,11 @@ extension HttpContext {
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
     public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
-        async throws -> AWSSigningConfig {
-        let credentials = try await getCredentialsProvider()?.getIdentity(identityProperties: Attributes())
+    async throws -> AWSSigningConfig {
+        let credentials = try await getIdentityResolvers()?.get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?.getIdentity(identityProperties: Attributes())
+        guard let credentials = credentials as? Credentials else {
+            fatalError("Failed to retrieve AWS credentials for signing event stream messages.")
+        }
         guard let service = getSigningName() else {
             fatalError("Signing name must not be nil, it must be set by the middleware during the request")
         }
@@ -79,12 +78,6 @@ extension HttpContext {
 
 extension HttpContextBuilder {
     @discardableResult
-    public func withCredentialsProvider(value: any CredentialsProviding) -> HttpContextBuilder {
-        self.attributes.set(key: AttributeKeys.credentialsProvider, value: value)
-        return self
-    }
-
-    @discardableResult
     public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> HttpContextBuilder {
         self.attributes.set(key: AttributeKeys.signingAlgorithm, value: value)
         return self
@@ -92,10 +85,8 @@ extension HttpContextBuilder {
 }
 
 extension AttributeKeys {
-    public static let credentialsProvider = AttributeKey<(any CredentialsProviding)>(name: "CredentialsProvider")
-    public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
-
     // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
+    public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
     public static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
     public static let signedBodyHeader = AttributeKey<AWSSignedBodyHeader>(name: "SignedBodyHeader")
     public static let useDoubleURIEncode = AttributeKey<Bool>(name: "UseDoubleURIEncode")
