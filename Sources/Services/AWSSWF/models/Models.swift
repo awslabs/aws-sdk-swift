@@ -9263,6 +9263,8 @@ enum RespondDecisionTaskCompletedOutputError: ClientRuntime.HttpResponseErrorBin
     }
 }
 
+public enum SWFClientTypes {}
+
 extension SWFClientTypes.ScheduleActivityTaskDecisionAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case activityId

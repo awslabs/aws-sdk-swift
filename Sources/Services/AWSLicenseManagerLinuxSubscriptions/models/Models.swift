@@ -393,6 +393,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum LicenseManagerLinuxSubscriptionsClientTypes {}
+
 extension LicenseManagerLinuxSubscriptionsClientTypes {
     public enum LinuxSubscriptionsDiscovery: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         /// Disabled LinuxSubscriptionsDiscovery

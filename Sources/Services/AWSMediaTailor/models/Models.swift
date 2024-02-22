@@ -6472,6 +6472,8 @@ extension MediaTailorClientTypes {
 
 }
 
+public enum MediaTailorClientTypes {}
+
 extension MediaTailorClientTypes {
     public enum MessageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case spliceInsert

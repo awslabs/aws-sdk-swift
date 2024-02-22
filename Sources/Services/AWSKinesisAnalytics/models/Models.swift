@@ -3301,6 +3301,8 @@ extension KinesisAnalyticsClientTypes {
 
 }
 
+public enum KinesisAnalyticsClientTypes {}
+
 extension KinesisAnalyticsClientTypes.KinesisFirehoseInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case resourceARN = "ResourceARN"

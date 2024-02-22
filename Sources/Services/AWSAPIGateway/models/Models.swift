@@ -2,6 +2,8 @@
 import AWSClientRuntime
 import ClientRuntime
 
+public enum APIGatewayClientTypes {}
+
 extension APIGatewayClientTypes.AccessLogSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationArn

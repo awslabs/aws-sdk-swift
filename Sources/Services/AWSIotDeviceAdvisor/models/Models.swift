@@ -1069,6 +1069,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IotDeviceAdvisorClientTypes {}
+
 extension ListSuiteDefinitionsInput {
 
     static func queryItemProvider(_ value: ListSuiteDefinitionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {

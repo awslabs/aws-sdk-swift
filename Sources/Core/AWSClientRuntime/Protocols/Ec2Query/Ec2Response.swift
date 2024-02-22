@@ -7,7 +7,7 @@
 
 import SmithyReadWrite
 import SmithyXML
-@testable import ClientRuntime
+import ClientRuntime
 
 public struct Ec2Response {
     public var errors: Ec2Errors?

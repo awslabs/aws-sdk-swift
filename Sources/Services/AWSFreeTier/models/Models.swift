@@ -227,6 +227,8 @@ extension FreeTierClientTypes {
 
 }
 
+public enum FreeTierClientTypes {}
+
 extension FreeTierClientTypes.FreeTierUsage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actualUsageAmount

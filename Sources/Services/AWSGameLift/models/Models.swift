@@ -11478,6 +11478,8 @@ extension GameLiftClientTypes {
     }
 }
 
+public enum GameLiftClientTypes {}
+
 extension GameLiftClientTypes.GameProperty: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"

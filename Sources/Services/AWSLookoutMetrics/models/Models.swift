@@ -6633,6 +6633,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum LookoutMetricsClientTypes {}
+
 extension LookoutMetricsClientTypes.Metric: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationFunction = "AggregationFunction"

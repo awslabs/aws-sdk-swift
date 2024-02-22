@@ -4346,6 +4346,8 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+public enum ConnectClientTypes {}
+
 extension ConnectClientTypes.ConnectionData: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attendee = "Attendee"

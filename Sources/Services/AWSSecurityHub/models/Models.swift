@@ -62152,6 +62152,8 @@ extension SecurityHubClientTypes {
 
 }
 
+public enum SecurityHubClientTypes {}
+
 extension SecurityHubClientTypes.SecurityHubPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabledStandardIdentifiers = "EnabledStandardIdentifiers"

@@ -4481,6 +4481,8 @@ enum DescribeStudioOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum EMRClientTypes {}
+
 extension EMRClientTypes.EbsBlockDevice: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case device = "Device"

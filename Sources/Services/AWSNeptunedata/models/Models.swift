@@ -7555,6 +7555,8 @@ extension NeptunedataClientTypes {
     }
 }
 
+public enum NeptunedataClientTypes {}
+
 extension NeptunedataClientTypes.NodeStructure: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case count

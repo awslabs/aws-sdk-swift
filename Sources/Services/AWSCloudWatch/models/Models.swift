@@ -391,6 +391,8 @@ extension CloudWatchClientTypes {
     }
 }
 
+public enum CloudWatchClientTypes {}
+
 extension CloudWatchClientTypes {
     public enum ComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case greaterthanorequaltothreshold

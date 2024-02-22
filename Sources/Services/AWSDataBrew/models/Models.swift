@@ -2106,6 +2106,8 @@ extension DataBrewClientTypes {
 
 }
 
+public enum DataBrewClientTypes {}
+
 extension DataBrewClientTypes.DataCatalogInputDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case catalogId = "CatalogId"

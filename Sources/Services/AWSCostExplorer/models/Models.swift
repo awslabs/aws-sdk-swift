@@ -1805,6 +1805,8 @@ extension CostExplorerClientTypes {
 
 }
 
+public enum CostExplorerClientTypes {}
+
 extension CostExplorerClientTypes.Coverage: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case coverageCost = "CoverageCost"

@@ -459,6 +459,8 @@ extension AppFabricClientTypes {
 
 }
 
+public enum AppFabricClientTypes {}
+
 extension AppFabricClientTypes.AuditLogDestinationConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination

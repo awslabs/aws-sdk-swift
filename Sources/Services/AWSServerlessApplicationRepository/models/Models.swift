@@ -3209,6 +3209,8 @@ extension ServerlessApplicationRepositoryClientTypes {
 
 }
 
+public enum ServerlessApplicationRepositoryClientTypes {}
+
 extension ServerlessApplicationRepositoryClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active

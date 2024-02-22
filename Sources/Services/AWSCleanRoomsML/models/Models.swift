@@ -898,6 +898,8 @@ extension CleanRoomsMLClientTypes {
     }
 }
 
+public enum CleanRoomsMLClientTypes {}
+
 extension CleanRoomsMLClientTypes.ColumnSchema: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case columnName

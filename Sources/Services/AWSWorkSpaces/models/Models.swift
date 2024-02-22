@@ -14027,6 +14027,8 @@ extension WorkSpacesClientTypes {
     }
 }
 
+public enum WorkSpacesClientTypes {}
+
 extension WorkSpacesClientTypes.Workspace: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bundleId = "BundleId"

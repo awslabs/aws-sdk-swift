@@ -5321,6 +5321,8 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+public enum MigrationHubRefactorSpacesClientTypes {}
+
 extension MigrationHubRefactorSpacesClientTypes {
     public enum NetworkFabricType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `none`

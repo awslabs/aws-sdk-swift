@@ -1910,6 +1910,8 @@ extension InternalServerExceptionBody: Swift.Decodable {
     }
 }
 
+public enum IvschatClientTypes {}
+
 extension ListLoggingConfigurationsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults

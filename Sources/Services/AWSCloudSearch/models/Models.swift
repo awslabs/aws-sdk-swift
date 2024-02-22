@@ -577,6 +577,8 @@ enum BuildSuggestersOutputError {
     }
 }
 
+public enum CloudSearchClientTypes {}
+
 extension CreateDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case domainName = "DomainName"

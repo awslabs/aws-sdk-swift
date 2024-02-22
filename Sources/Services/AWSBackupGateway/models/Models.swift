@@ -183,6 +183,8 @@ enum AssociateGatewayToServerOutputError: ClientRuntime.HttpResponseErrorBinding
     }
 }
 
+public enum BackupGatewayClientTypes {}
+
 extension BackupGatewayClientTypes {
     static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
         switch error.errorType {

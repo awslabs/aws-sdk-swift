@@ -8211,6 +8211,8 @@ extension ECSClientTypes {
 
 }
 
+public enum ECSClientTypes {}
+
 extension ECSClientTypes.EFSAuthorizationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessPointId

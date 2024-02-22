@@ -1980,6 +1980,8 @@ extension LexRuntimeV2ClientTypes {
     }
 }
 
+public enum LexRuntimeV2ClientTypes {}
+
 extension LexRuntimeV2ClientTypes.Message: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content

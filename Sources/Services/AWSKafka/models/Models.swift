@@ -6349,6 +6349,8 @@ extension KafkaClientTypes {
 
 }
 
+public enum KafkaClientTypes {}
+
 extension KafkaClientTypes.KafkaCluster: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case amazonMskCluster = "amazonMskCluster"

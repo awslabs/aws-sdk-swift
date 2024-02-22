@@ -13065,6 +13065,8 @@ extension S3ControlClientTypes {
     }
 }
 
+public enum S3ControlClientTypes {}
+
 extension S3ControlClientTypes.S3CopyObjectOperation {
 
     static func writingClosure(_ value: S3ControlClientTypes.S3CopyObjectOperation?, to writer: SmithyXML.Writer) throws {

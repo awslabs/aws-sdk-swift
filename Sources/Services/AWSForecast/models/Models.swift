@@ -9452,6 +9452,8 @@ extension ForecastClientTypes {
     }
 }
 
+public enum ForecastClientTypes {}
+
 extension ForecastClientTypes.ForecastExportJobSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime = "CreationTime"
