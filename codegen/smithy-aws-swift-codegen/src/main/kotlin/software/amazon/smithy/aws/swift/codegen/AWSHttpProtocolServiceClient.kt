@@ -51,9 +51,6 @@ class AWSHttpProtocolServiceClient(
             val properties: List<ConfigProperty> = ctx.integrations
                 .flatMap { it.clientConfigurations(ctx).flatMap { it.properties } }
 
-            writer.write("private let serviceName = \$S", AuthSchemeResolverGenerator.getSdkId(ctx))
-            writer.write("")
-
             renderConfigClassVariables(properties)
 
             renderPrivateConfigInitializer(properties)
@@ -77,14 +74,31 @@ class AWSHttpProtocolServiceClient(
     private fun renderConfigClassVariables(properties: List<ConfigProperty>) {
         properties
             .forEach {
-                writer.write("public var \$L: \$L", it.name, it.type)
-                writer.write("")
+                when (it.name) {
+                    "credentialsProvider" -> {
+                        writer.write("public var \$L: any \$L", it.name, it.type)
+                        writer.write("")
+                    }
+                    else -> {
+                        writer.write("public var \$L: \$L", it.name, it.type)
+                        writer.write("")
+                    }
+                }
             }
         writer.write("")
     }
 
     private fun renderPrivateConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("private init(\$L) {", "}", properties.joinToString(", ") { "_ ${it.name}: ${it.type}" }) {
+        writer.openBlock("private init(\$L) {", "}", properties.joinToString(", ") {
+            when (it.name) {
+                "credentialsProvider" -> {
+                    "_ ${it.name}: any ${it.type}"
+                }
+                else -> {
+                    "_ ${it.name}: ${it.type}"
+                }
+            }
+        }) {
             properties.forEach {
                 writer.write("self.\$L = \$L", it.name, it.name)
             }
@@ -95,7 +109,16 @@ class AWSHttpProtocolServiceClient(
     private fun renderSynchronousConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
             "public convenience init(\$L) throws {", "}",
-            properties.joinToString(", ") { "${it.name}: ${it.toOptionalType()} = nil" }
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "credentialsProvider" -> {
+                        "${it.name}: (any ${it.type})? = nil"
+                    }
+                    else -> {
+                        "${it.name}: ${it.toOptionalType()} = nil"
+                    }
+                }
+            }
         ) {
             writer.writeInline(
                 "self.init(\$L)",
@@ -121,7 +144,16 @@ class AWSHttpProtocolServiceClient(
     private fun renderAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
             "public convenience init(\$L) async throws {", "}",
-            properties.joinToString(", ") { "${it.name}: ${it.toOptionalType()} = nil" }
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "credentialsProvider" -> {
+                        "${it.name}: (any ${it.type})? = nil"
+                    }
+                    else -> {
+                        "${it.name}: ${it.toOptionalType()} = nil"
+                    }
+                }
+            }
         ) {
             writer.writeInline(
                 "self.init(\$L)",

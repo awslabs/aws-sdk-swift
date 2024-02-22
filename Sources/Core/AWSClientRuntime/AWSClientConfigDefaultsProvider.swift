@@ -101,9 +101,9 @@ public class AWSClientConfigDefaultsProvider {
         return RetryStrategyOptions(maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
     }
 
-    public static func authSchemes(_ serviceName: String) -> [ClientRuntime.AuthScheme] {
+    public static func authSchemes(_ clientName: String) -> [ClientRuntime.AuthScheme] {
         var supportedAuthSchemes: [ClientRuntime.AuthScheme] = [SigV4AuthScheme()]
-        if (["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceName)) {
+        if (["S3Client", "EventBridgeClient", "CloudFrontKeyValueStoreClient"].contains(clientName)) {
             supportedAuthSchemes.append(SigV4AAuthScheme())
         }
         return supportedAuthSchemes
