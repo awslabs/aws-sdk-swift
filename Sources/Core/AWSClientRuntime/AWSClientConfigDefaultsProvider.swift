@@ -103,7 +103,7 @@ public class AWSClientConfigDefaultsProvider {
 
     public static func authSchemes(_ clientName: String) -> [ClientRuntime.AuthScheme] {
         var supportedAuthSchemes: [ClientRuntime.AuthScheme] = [SigV4AuthScheme()]
-        if (["S3Client", "EventBridgeClient", "CloudFrontKeyValueStoreClient"].contains(clientName)) {
+        if ["S3Client", "EventBridgeClient", "CloudFrontKeyValueStoreClient"].contains(clientName) {
             supportedAuthSchemes.append(SigV4AAuthScheme())
         }
         return supportedAuthSchemes

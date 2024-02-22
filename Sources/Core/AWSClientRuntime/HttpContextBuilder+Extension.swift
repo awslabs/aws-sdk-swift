@@ -18,7 +18,9 @@ extension HttpContext {
     /// - Returns: `AWSSigningConfig` for the event stream message
     public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
     async throws -> AWSSigningConfig {
-        let credentials = try await getIdentityResolvers()?.get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?.getIdentity(identityProperties: Attributes())
+        let credentials = try await getIdentityResolvers()?
+            .get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?
+            .getIdentity(identityProperties: Attributes())
         guard let credentials = credentials as? Credentials else {
             fatalError("Failed to retrieve AWS credentials for signing event stream messages.")
         }
