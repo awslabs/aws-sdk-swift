@@ -328,15 +328,19 @@ extension DescribeKeyValueStoreOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeKeyValueStoreOutputBody = try responseDecoder.decode(responseBody: data)
             self.created = output.created
+            self.failureReason = output.failureReason
             self.itemCount = output.itemCount
             self.kvsARN = output.kvsARN
             self.lastModified = output.lastModified
+            self.status = output.status
             self.totalSizeInBytes = output.totalSizeInBytes
         } else {
             self.created = nil
+            self.failureReason = nil
             self.itemCount = nil
             self.kvsARN = nil
             self.lastModified = nil
+            self.status = nil
             self.totalSizeInBytes = nil
         }
     }
@@ -350,6 +354,8 @@ public struct DescribeKeyValueStoreOutput: Swift.Equatable {
     /// The version identifier for the current version of the Key Value Store.
     /// This member is required.
     public var eTag: Swift.String?
+    /// The reason for Key Value Store creation failure.
+    public var failureReason: Swift.String?
     /// Number of key value pairs in the Key Value Store.
     /// This member is required.
     public var itemCount: Swift.Int?
@@ -358,6 +364,8 @@ public struct DescribeKeyValueStoreOutput: Swift.Equatable {
     public var kvsARN: Swift.String?
     /// Date and time when the key value pairs in the Key Value Store was last modified.
     public var lastModified: ClientRuntime.Date?
+    /// The current status of the Key Value Store.
+    public var status: Swift.String?
     /// Total size of the Key Value Store in bytes.
     /// This member is required.
     public var totalSizeInBytes: Swift.Int?
@@ -365,17 +373,21 @@ public struct DescribeKeyValueStoreOutput: Swift.Equatable {
     public init(
         created: ClientRuntime.Date? = nil,
         eTag: Swift.String? = nil,
+        failureReason: Swift.String? = nil,
         itemCount: Swift.Int? = nil,
         kvsARN: Swift.String? = nil,
         lastModified: ClientRuntime.Date? = nil,
+        status: Swift.String? = nil,
         totalSizeInBytes: Swift.Int? = nil
     )
     {
         self.created = created
         self.eTag = eTag
+        self.failureReason = failureReason
         self.itemCount = itemCount
         self.kvsARN = kvsARN
         self.lastModified = lastModified
+        self.status = status
         self.totalSizeInBytes = totalSizeInBytes
     }
 }
@@ -386,14 +398,18 @@ struct DescribeKeyValueStoreOutputBody: Swift.Equatable {
     let kvsARN: Swift.String?
     let created: ClientRuntime.Date?
     let lastModified: ClientRuntime.Date?
+    let status: Swift.String?
+    let failureReason: Swift.String?
 }
 
 extension DescribeKeyValueStoreOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case created = "Created"
+        case failureReason = "FailureReason"
         case itemCount = "ItemCount"
         case kvsARN = "KvsARN"
         case lastModified = "LastModified"
+        case status = "Status"
         case totalSizeInBytes = "TotalSizeInBytes"
     }
 
@@ -409,6 +425,10 @@ extension DescribeKeyValueStoreOutputBody: Swift.Decodable {
         created = createdDecoded
         let lastModifiedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModified)
         lastModified = lastModifiedDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
+        status = statusDecoded
+        let failureReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .failureReason)
+        failureReason = failureReasonDecoded
     }
 }
 

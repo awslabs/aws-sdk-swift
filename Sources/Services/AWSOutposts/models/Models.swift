@@ -4912,7 +4912,6 @@ public struct StartConnectionInput: Swift.Equatable {
     /// This member is required.
     public var clientPublicKey: Swift.String?
     /// The serial number of the dongle.
-    /// This member is required.
     public var deviceSerialNumber: Swift.String?
     /// The device index of the network interface on the Outpost server.
     /// This member is required.

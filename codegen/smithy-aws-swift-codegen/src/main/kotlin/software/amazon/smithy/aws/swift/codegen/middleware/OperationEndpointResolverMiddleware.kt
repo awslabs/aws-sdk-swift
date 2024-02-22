@@ -75,7 +75,7 @@ class OperationEndpointResolverMiddleware(
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             writer.write("context.attributes.set(key: AttributeKey<EndpointParams>(name: \"EndpointParams\"), value: endpointParams)")
         }
-        val middlewareParamsString = "endpointResolver: config.serviceSpecific.endpointResolver, endpointParams: endpointParams"
+        val middlewareParamsString = "endpointResolver: config.endpointResolver, endpointParams: endpointParams"
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: \$N<\$N>($middlewareParamsString))", AWSServiceTypes.EndpointResolverMiddleware, output)
     }
 
@@ -113,10 +113,10 @@ class OperationEndpointResolverMiddleware(
             clientContextParam != null -> {
                 when {
                     param.default.isPresent -> {
-                        "config.serviceSpecific.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
+                        "config.${param.name.toString().toLowerCamelCase()} ?? ${param.defaultValueLiteral}"
                     }
                     else -> {
-                        return "config.serviceSpecific.${param.name.toString().toLowerCamelCase()}"
+                        return "config.${param.name.toString().toLowerCamelCase()}"
                     }
                 }
             }

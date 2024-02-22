@@ -182,7 +182,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var errorType: ManagedBlockchainQueryClientTypes.ErrorType?
         /// The container for the identifier of the owner.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
-        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
         public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
 
         public init(
@@ -304,7 +304,7 @@ extension ManagedBlockchainQueryClientTypes {
         /// The container for the identifier of the owner.
         /// This member is required.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
-        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
         /// This member is required.
         public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
 
@@ -464,7 +464,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
         /// The container for the identifier of the owner.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
-        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+        /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
         public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
 
         public init(
@@ -523,11 +523,13 @@ extension ManagedBlockchainQueryClientTypes {
 extension ManagedBlockchainQueryClientTypes {
     public enum ConfirmationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `final`
+        case nonfinal
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ConfirmationStatus] {
             return [
                 .final,
+                .nonfinal,
                 .sdkUnknown("")
             ]
         }
@@ -538,6 +540,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .final: return "FINAL"
+            case .nonfinal: return "NONFINAL"
             case let .sdkUnknown(s): return s
             }
         }
@@ -547,6 +550,54 @@ extension ManagedBlockchainQueryClientTypes {
             self = ConfirmationStatus(rawValue: rawValue) ?? ConfirmationStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case include
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let include = include {
+            var includeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .include)
+            for confirmationstatus0 in include {
+                try includeContainer.encode(confirmationstatus0.rawValue)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let includeContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.ConfirmationStatus?].self, forKey: .include)
+        var includeDecoded0:[ManagedBlockchainQueryClientTypes.ConfirmationStatus]? = nil
+        if let includeContainer = includeContainer {
+            includeDecoded0 = [ManagedBlockchainQueryClientTypes.ConfirmationStatus]()
+            for string0 in includeContainer {
+                if let string0 = string0 {
+                    includeDecoded0?.append(string0)
+                }
+            }
+        }
+        include = includeDecoded0
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// The container for the ConfirmationStatusFilter that filters for the [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality) of the results.
+    public struct ConfirmationStatusFilter: Swift.Equatable {
+        /// The container to determine whether to list results that have only reached [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality). Transactions that have reached finality are always part of the response.
+        /// This member is required.
+        public var include: [ManagedBlockchainQueryClientTypes.ConfirmationStatus]?
+
+        public init(
+            include: [ManagedBlockchainQueryClientTypes.ConfirmationStatus]? = nil
+        )
+        {
+            self.include = include
+        }
+    }
+
 }
 
 extension ManagedBlockchainQueryClientTypes.ContractFilter: Swift.Codable {
@@ -1018,7 +1069,7 @@ public struct GetTokenBalanceOutput: Swift.Equatable {
     public var lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
     /// The container for the identifier of the owner.
     public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
-    /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
 
     public init(
@@ -1302,7 +1353,7 @@ public struct ListAssetContractsInput: Swift.Equatable {
     /// Contains the filter parameter for the request.
     /// This member is required.
     public var contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
-    /// The maximum number of contracts to list.
+    /// The maximum number of contracts to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
@@ -1451,7 +1502,7 @@ extension ListTokenBalancesInput {
 }
 
 public struct ListTokenBalancesInput: Swift.Equatable {
-    /// The maximum number of token balances to return.
+    /// The maximum number of token balances to return. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
@@ -1611,7 +1662,7 @@ extension ListTransactionEventsInput {
 }
 
 public struct ListTransactionEventsInput: Swift.Equatable {
-    /// The maximum number of transaction events to list. Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of transaction events to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The blockchain network where the transaction events occurred.
     /// This member is required.
@@ -1742,6 +1793,7 @@ enum ListTransactionEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension ListTransactionsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address
+        case confirmationStatusFilter
         case fromBlockchainInstant
         case maxResults
         case network
@@ -1754,6 +1806,9 @@ extension ListTransactionsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let address = self.address {
             try encodeContainer.encode(address, forKey: .address)
+        }
+        if let confirmationStatusFilter = self.confirmationStatusFilter {
+            try encodeContainer.encode(confirmationStatusFilter, forKey: .confirmationStatusFilter)
         }
         if let fromBlockchainInstant = self.fromBlockchainInstant {
             try encodeContainer.encode(fromBlockchainInstant, forKey: .fromBlockchainInstant)
@@ -1787,22 +1842,25 @@ public struct ListTransactionsInput: Swift.Equatable {
     /// The address (either a contract or wallet), whose transactions are being requested.
     /// This member is required.
     public var address: Swift.String?
+    /// This filter is used to include transactions in the response that haven't reached [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality). Transactions that have reached finiality are always part of the response.
+    public var confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?
     /// The container for time.
     public var fromBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
-    /// The maximum number of transactions to list. Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of transactions to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The blockchain network where the transactions occurred.
     /// This member is required.
     public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
-    /// Sorts items in an ascending order if the first page starts at fromTime. Sorts items in a descending order if the first page starts at toTime.
+    /// The order by which the results will be sorted. If ASCENNDING is selected, the results will be ordered by fromTime.
     public var sort: ManagedBlockchainQueryClientTypes.ListTransactionsSort?
     /// The container for time.
     public var toBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
 
     public init(
         address: Swift.String? = nil,
+        confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter? = nil,
         fromBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
         maxResults: Swift.Int? = nil,
         network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
@@ -1812,6 +1870,7 @@ public struct ListTransactionsInput: Swift.Equatable {
     )
     {
         self.address = address
+        self.confirmationStatusFilter = confirmationStatusFilter
         self.fromBlockchainInstant = fromBlockchainInstant
         self.maxResults = maxResults
         self.network = network
@@ -1829,11 +1888,13 @@ struct ListTransactionsInputBody: Swift.Equatable {
     let sort: ManagedBlockchainQueryClientTypes.ListTransactionsSort?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
+    let confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?
 }
 
 extension ListTransactionsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case address
+        case confirmationStatusFilter
         case fromBlockchainInstant
         case maxResults
         case network
@@ -1858,6 +1919,8 @@ extension ListTransactionsInputBody: Swift.Decodable {
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
         maxResults = maxResultsDecoded
+        let confirmationStatusFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter.self, forKey: .confirmationStatusFilter)
+        confirmationStatusFilter = confirmationStatusFilterDecoded
     }
 }
 
@@ -2228,40 +2291,6 @@ extension ManagedBlockchainQueryClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = QueryTransactionEventType(rawValue: rawValue) ?? QueryTransactionEventType.sdkUnknown(rawValue)
-        }
-    }
-}
-
-extension ManagedBlockchainQueryClientTypes {
-    public enum QueryTransactionStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        /// The transaction completed on the blockchain, but failed
-        case failed
-        /// The transaction has been confirmed and is final in the blockchain
-        case `final`
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [QueryTransactionStatus] {
-            return [
-                .failed,
-                .final,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .failed: return "FAILED"
-            case .final: return "FINAL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = QueryTransactionStatus(rawValue: rawValue) ?? QueryTransactionStatus.sdkUnknown(rawValue)
         }
     }
 }
@@ -2762,14 +2791,14 @@ extension ManagedBlockchainQueryClientTypes.TokenIdentifier: Swift.Codable {
 }
 
 extension ManagedBlockchainQueryClientTypes {
-    /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC,ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
+    /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     public struct TokenIdentifier: Swift.Equatable {
         /// This is the token's contract address.
         public var contractAddress: Swift.String?
         /// The blockchain network of the token.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-        /// The unique identifier of the token. You must specify this container with btc for the native BTC token, and eth for the native ETH token. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format.
+        /// The unique identifier of the token. For native tokens, use the 3 character abbreviation that best matches your token. For example, btc for Bitcoin, eth for Ether, etc. For all other token types you must specify the tokenId in the 64 character hexadecimal tokenid format.
         public var tokenId: Swift.String?
 
         public init(
@@ -2802,7 +2831,6 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         case signaturer = "signatureR"
         case signatures = "signatureS"
         case signaturev = "signatureV"
-        case status
         case to
         case transactionFee
         case transactionHash
@@ -2855,9 +2883,6 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         if let signaturev = self.signaturev {
             try encodeContainer.encode(signaturev, forKey: .signaturev)
         }
-        if let status = self.status {
-            try encodeContainer.encode(status.rawValue, forKey: .status)
-        }
         if let to = self.to {
             try encodeContainer.encode(to, forKey: .to)
         }
@@ -2894,8 +2919,6 @@ extension ManagedBlockchainQueryClientTypes.Transaction: Swift.Codable {
         transactionIndex = transactionIndexDecoded
         let numberOfTransactionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfTransactions)
         numberOfTransactions = numberOfTransactionsDecoded
-        let statusDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryTransactionStatus.self, forKey: .status)
-        status = statusDecoded
         let toDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .to)
         to = toDecoded
         let fromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .from)
@@ -2962,13 +2985,6 @@ extension ManagedBlockchainQueryClientTypes {
         public var signatures: Swift.String?
         /// The signature of the transaction. The Z coordinate of a point V.
         public var signaturev: Swift.Int?
-        /// The status of the transaction. This property is deprecated. You must use the confirmationStatus and the executionStatus properties to determine if the status of the transaction is FINAL or FAILED.
-        ///
-        /// * Transactions with a status of FINAL will now have the confirmationStatus set to FINAL and the executionStatus set to SUCCEEDED.
-        ///
-        /// * Transactions with a status of FAILED will now have the confirmationStatus set to FINAL and the executionStatus set to FAILED.
-        @available(*, deprecated, message: "The status field in the GetTransaction response is deprecated and is replaced with the confirmationStatus and executionStatus fields.")
-        public var status: ManagedBlockchainQueryClientTypes.QueryTransactionStatus?
         /// The identifier of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
         /// This member is required.
         public var to: Swift.String?
@@ -3001,7 +3017,6 @@ extension ManagedBlockchainQueryClientTypes {
             signaturer: Swift.String? = nil,
             signatures: Swift.String? = nil,
             signaturev: Swift.Int? = nil,
-            status: ManagedBlockchainQueryClientTypes.QueryTransactionStatus? = nil,
             to: Swift.String? = nil,
             transactionFee: Swift.String? = nil,
             transactionHash: Swift.String? = nil,
@@ -3024,7 +3039,6 @@ extension ManagedBlockchainQueryClientTypes {
             self.signaturer = signaturer
             self.signatures = signatures
             self.signaturev = signaturev
-            self.status = status
             self.to = to
             self.transactionFee = transactionFee
             self.transactionHash = transactionHash
@@ -3166,6 +3180,7 @@ extension ManagedBlockchainQueryClientTypes {
 
 extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case confirmationStatus
         case network
         case transactionHash
         case transactionTimestamp
@@ -3173,6 +3188,9 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let confirmationStatus = self.confirmationStatus {
+            try encodeContainer.encode(confirmationStatus.rawValue, forKey: .confirmationStatus)
+        }
         if let network = self.network {
             try encodeContainer.encode(network.rawValue, forKey: .network)
         }
@@ -3192,12 +3210,16 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
         network = networkDecoded
         let transactionTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .transactionTimestamp)
         transactionTimestamp = transactionTimestampDecoded
+        let confirmationStatusDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ConfirmationStatus.self, forKey: .confirmationStatus)
+        confirmationStatus = confirmationStatusDecoded
     }
 }
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container of the transaction output.
     public struct TransactionOutputItem: Swift.Equatable {
+        /// Specifies whether to list transactions that have not reached Finality.
+        public var confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus?
         /// The blockchain network where the transaction occurred.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
@@ -3209,11 +3231,13 @@ extension ManagedBlockchainQueryClientTypes {
         public var transactionTimestamp: ClientRuntime.Date?
 
         public init(
+            confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             transactionHash: Swift.String? = nil,
             transactionTimestamp: ClientRuntime.Date? = nil
         )
         {
+            self.confirmationStatus = confirmationStatus
             self.network = network
             self.transactionHash = transactionHash
             self.transactionTimestamp = transactionTimestamp

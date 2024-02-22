@@ -712,6 +712,7 @@ extension IvsClientTypes.Channel: Swift.Codable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case playbackUrl
         case preset
         case recordingConfigurationArn
@@ -738,6 +739,9 @@ extension IvsClientTypes.Channel: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let playbackRestrictionPolicyArn = self.playbackRestrictionPolicyArn {
+            try encodeContainer.encode(playbackRestrictionPolicyArn, forKey: .playbackRestrictionPolicyArn)
         }
         if let playbackUrl = self.playbackUrl {
             try encodeContainer.encode(playbackUrl, forKey: .playbackUrl)
@@ -792,6 +796,8 @@ extension IvsClientTypes.Channel: Swift.Codable {
         insecureIngest = insecureIngestDecoded
         let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
         preset = presetDecoded
+        let playbackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackRestrictionPolicyArn)
+        playbackRestrictionPolicyArn = playbackRestrictionPolicyArnDecoded
     }
 }
 
@@ -810,11 +816,13 @@ extension IvsClientTypes {
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
         public var name: Swift.String?
+        /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
+        public var playbackRestrictionPolicyArn: Swift.String?
         /// Channel playback URL.
         public var playbackUrl: Swift.String?
         /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
         public var preset: IvsClientTypes.TranscodePreset?
-        /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
+        /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
@@ -828,6 +836,7 @@ extension IvsClientTypes {
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
+            playbackRestrictionPolicyArn: Swift.String? = nil,
             playbackUrl: Swift.String? = nil,
             preset: IvsClientTypes.TranscodePreset? = nil,
             recordingConfigurationArn: Swift.String? = nil,
@@ -841,6 +850,7 @@ extension IvsClientTypes {
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
+            self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.playbackUrl = playbackUrl
             self.preset = preset
             self.recordingConfigurationArn = recordingConfigurationArn
@@ -946,6 +956,7 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case preset
         case recordingConfigurationArn
         case tags
@@ -968,6 +979,9 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let playbackRestrictionPolicyArn = self.playbackRestrictionPolicyArn {
+            try encodeContainer.encode(playbackRestrictionPolicyArn, forKey: .playbackRestrictionPolicyArn)
         }
         if let preset = self.preset {
             try encodeContainer.encode(preset.rawValue, forKey: .preset)
@@ -1015,6 +1029,8 @@ extension IvsClientTypes.ChannelSummary: Swift.Codable {
         type = typeDecoded
         let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
         preset = presetDecoded
+        let playbackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackRestrictionPolicyArn)
+        playbackRestrictionPolicyArn = playbackRestrictionPolicyArnDecoded
     }
 }
 
@@ -1031,9 +1047,11 @@ extension IvsClientTypes {
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
         public var name: Swift.String?
+        /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
+        public var playbackRestrictionPolicyArn: Swift.String?
         /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
         public var preset: IvsClientTypes.TranscodePreset?
-        /// Recording-configuration ARN. A value other than an empty string indicates that recording is enabled. Default: "" (empty string, recording is disabled).
+        /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
@@ -1046,6 +1064,7 @@ extension IvsClientTypes {
             insecureIngest: Swift.Bool = false,
             latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
             name: Swift.String? = nil,
+            playbackRestrictionPolicyArn: Swift.String? = nil,
             preset: IvsClientTypes.TranscodePreset? = nil,
             recordingConfigurationArn: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
@@ -1057,6 +1076,7 @@ extension IvsClientTypes {
             self.insecureIngest = insecureIngest
             self.latencyMode = latencyMode
             self.name = name
+            self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
             self.preset = preset
             self.recordingConfigurationArn = recordingConfigurationArn
             self.tags = tags
@@ -1166,6 +1186,7 @@ extension CreateChannelInput: Swift.Encodable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case preset
         case recordingConfigurationArn
         case tags
@@ -1185,6 +1206,9 @@ extension CreateChannelInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let playbackRestrictionPolicyArn = self.playbackRestrictionPolicyArn {
+            try encodeContainer.encode(playbackRestrictionPolicyArn, forKey: .playbackRestrictionPolicyArn)
         }
         if let preset = self.preset {
             try encodeContainer.encode(preset.rawValue, forKey: .preset)
@@ -1220,9 +1244,11 @@ public struct CreateChannelInput: Swift.Equatable {
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?
+    /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. Default: "" (empty string, no playback restriction policy is applied).
+    public var playbackRestrictionPolicyArn: Swift.String?
     /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
     public var preset: IvsClientTypes.TranscodePreset?
-    /// Recording-configuration ARN. Default: "" (empty string, recording is disabled).
+    /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
     public var recordingConfigurationArn: Swift.String?
     /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
     public var tags: [Swift.String:Swift.String]?
@@ -1234,6 +1260,7 @@ public struct CreateChannelInput: Swift.Equatable {
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
+        playbackRestrictionPolicyArn: Swift.String? = nil,
         preset: IvsClientTypes.TranscodePreset? = nil,
         recordingConfigurationArn: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -1244,6 +1271,7 @@ public struct CreateChannelInput: Swift.Equatable {
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
+        self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
         self.preset = preset
         self.recordingConfigurationArn = recordingConfigurationArn
         self.tags = tags
@@ -1260,6 +1288,7 @@ struct CreateChannelInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let insecureIngest: Swift.Bool
     let preset: IvsClientTypes.TranscodePreset?
+    let playbackRestrictionPolicyArn: Swift.String?
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
@@ -1268,6 +1297,7 @@ extension CreateChannelInputBody: Swift.Decodable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case preset
         case recordingConfigurationArn
         case tags
@@ -1301,6 +1331,8 @@ extension CreateChannelInputBody: Swift.Decodable {
         insecureIngest = insecureIngestDecoded
         let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
         preset = presetDecoded
+        let playbackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackRestrictionPolicyArn)
+        playbackRestrictionPolicyArn = playbackRestrictionPolicyArnDecoded
     }
 }
 
@@ -1363,6 +1395,193 @@ enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePlaybackRestrictionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case enableStrictOriginEnforcement
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedCountries = allowedCountries {
+            var allowedCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedCountries)
+            for playbackrestrictionpolicyallowedcountry0 in allowedCountries {
+                try allowedCountriesContainer.encode(playbackrestrictionpolicyallowedcountry0)
+            }
+        }
+        if let allowedOrigins = allowedOrigins {
+            var allowedOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrigins)
+            for playbackrestrictionpolicyallowedorigin0 in allowedOrigins {
+                try allowedOriginsContainer.encode(playbackrestrictionpolicyallowedorigin0)
+            }
+        }
+        if let enableStrictOriginEnforcement = self.enableStrictOriginEnforcement {
+            try encodeContainer.encode(enableStrictOriginEnforcement, forKey: .enableStrictOriginEnforcement)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreatePlaybackRestrictionPolicyInput {
+
+    static func urlPathProvider(_ value: CreatePlaybackRestrictionPolicyInput) -> Swift.String? {
+        return "/CreatePlaybackRestrictionPolicy"
+    }
+}
+
+public struct CreatePlaybackRestrictionPolicyInput: Swift.Equatable {
+    /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes. Default: All countries (an empty array).
+    public var allowedCountries: [Swift.String]?
+    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin). Default: All origins (an empty array).
+    public var allowedOrigins: [Swift.String]?
+    /// Whether channel playback is constrained by origin site. Default: false.
+    public var enableStrictOriginEnforcement: Swift.Bool?
+    /// Playback-restriction-policy name. The value does not need to be unique.
+    public var name: Swift.String?
+    /// Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        allowedCountries: [Swift.String]? = nil,
+        allowedOrigins: [Swift.String]? = nil,
+        enableStrictOriginEnforcement: Swift.Bool? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.allowedCountries = allowedCountries
+        self.allowedOrigins = allowedOrigins
+        self.enableStrictOriginEnforcement = enableStrictOriginEnforcement
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreatePlaybackRestrictionPolicyInputBody: Swift.Equatable {
+    let allowedCountries: [Swift.String]?
+    let allowedOrigins: [Swift.String]?
+    let enableStrictOriginEnforcement: Swift.Bool?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreatePlaybackRestrictionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case enableStrictOriginEnforcement
+        case name
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowedCountriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedCountries)
+        var allowedCountriesDecoded0:[Swift.String]? = nil
+        if let allowedCountriesContainer = allowedCountriesContainer {
+            allowedCountriesDecoded0 = [Swift.String]()
+            for string0 in allowedCountriesContainer {
+                if let string0 = string0 {
+                    allowedCountriesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedCountries = allowedCountriesDecoded0
+        let allowedOriginsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedOrigins)
+        var allowedOriginsDecoded0:[Swift.String]? = nil
+        if let allowedOriginsContainer = allowedOriginsContainer {
+            allowedOriginsDecoded0 = [Swift.String]()
+            for string0 in allowedOriginsContainer {
+                if let string0 = string0 {
+                    allowedOriginsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedOrigins = allowedOriginsDecoded0
+        let enableStrictOriginEnforcementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableStrictOriginEnforcement)
+        enableStrictOriginEnforcement = enableStrictOriginEnforcementDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePlaybackRestrictionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePlaybackRestrictionPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.playbackRestrictionPolicy = output.playbackRestrictionPolicy
+        } else {
+            self.playbackRestrictionPolicy = nil
+        }
+    }
+}
+
+public struct CreatePlaybackRestrictionPolicyOutput: Swift.Equatable {
+    ///
+    public var playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+
+    public init(
+        playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
+    )
+    {
+        self.playbackRestrictionPolicy = playbackRestrictionPolicy
+    }
+}
+
+struct CreatePlaybackRestrictionPolicyOutputBody: Swift.Equatable {
+    let playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+}
+
+extension CreatePlaybackRestrictionPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case playbackRestrictionPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let playbackRestrictionPolicyDecoded = try containerValues.decodeIfPresent(IvsClientTypes.PlaybackRestrictionPolicy.self, forKey: .playbackRestrictionPolicy)
+        playbackRestrictionPolicy = playbackRestrictionPolicyDecoded
+    }
+}
+
+enum CreatePlaybackRestrictionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -1821,6 +2040,80 @@ enum DeletePlaybackKeyPairOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeletePlaybackRestrictionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension DeletePlaybackRestrictionPolicyInput {
+
+    static func urlPathProvider(_ value: DeletePlaybackRestrictionPolicyInput) -> Swift.String? {
+        return "/DeletePlaybackRestrictionPolicy"
+    }
+}
+
+public struct DeletePlaybackRestrictionPolicyInput: Swift.Equatable {
+    /// ARN of the playback restriction policy to be deleted.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct DeletePlaybackRestrictionPolicyInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension DeletePlaybackRestrictionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension DeletePlaybackRestrictionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeletePlaybackRestrictionPolicyOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeletePlaybackRestrictionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteRecordingConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -2200,6 +2493,109 @@ enum GetPlaybackKeyPairOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetPlaybackRestrictionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+}
+
+extension GetPlaybackRestrictionPolicyInput {
+
+    static func urlPathProvider(_ value: GetPlaybackRestrictionPolicyInput) -> Swift.String? {
+        return "/GetPlaybackRestrictionPolicy"
+    }
+}
+
+public struct GetPlaybackRestrictionPolicyInput: Swift.Equatable {
+    /// ARN of the playback restriction policy to be returned.
+    /// This member is required.
+    public var arn: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+    }
+}
+
+struct GetPlaybackRestrictionPolicyInputBody: Swift.Equatable {
+    let arn: Swift.String?
+}
+
+extension GetPlaybackRestrictionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension GetPlaybackRestrictionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetPlaybackRestrictionPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.playbackRestrictionPolicy = output.playbackRestrictionPolicy
+        } else {
+            self.playbackRestrictionPolicy = nil
+        }
+    }
+}
+
+public struct GetPlaybackRestrictionPolicyOutput: Swift.Equatable {
+    ///
+    public var playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+
+    public init(
+        playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
+    )
+    {
+        self.playbackRestrictionPolicy = playbackRestrictionPolicy
+    }
+}
+
+struct GetPlaybackRestrictionPolicyOutputBody: Swift.Equatable {
+    let playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+}
+
+extension GetPlaybackRestrictionPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case playbackRestrictionPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let playbackRestrictionPolicyDecoded = try containerValues.decodeIfPresent(IvsClientTypes.PlaybackRestrictionPolicy.self, forKey: .playbackRestrictionPolicy)
+        playbackRestrictionPolicy = playbackRestrictionPolicyDecoded
+    }
+}
+
+enum GetPlaybackRestrictionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -2875,6 +3271,7 @@ public enum IvsClientTypes {}
 extension ListChannelsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterByName
+        case filterByPlaybackRestrictionPolicyArn
         case filterByRecordingConfigurationArn
         case maxResults
         case nextToken
@@ -2884,6 +3281,9 @@ extension ListChannelsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let filterByName = self.filterByName {
             try encodeContainer.encode(filterByName, forKey: .filterByName)
+        }
+        if let filterByPlaybackRestrictionPolicyArn = self.filterByPlaybackRestrictionPolicyArn {
+            try encodeContainer.encode(filterByPlaybackRestrictionPolicyArn, forKey: .filterByPlaybackRestrictionPolicyArn)
         }
         if let filterByRecordingConfigurationArn = self.filterByRecordingConfigurationArn {
             try encodeContainer.encode(filterByRecordingConfigurationArn, forKey: .filterByRecordingConfigurationArn)
@@ -2907,6 +3307,8 @@ extension ListChannelsInput {
 public struct ListChannelsInput: Swift.Equatable {
     /// Filters the channel list to match the specified name.
     public var filterByName: Swift.String?
+    /// Filters the channel list to match the specified policy.
+    public var filterByPlaybackRestrictionPolicyArn: Swift.String?
     /// Filters the channel list to match the specified recording-configuration ARN.
     public var filterByRecordingConfigurationArn: Swift.String?
     /// Maximum number of channels to return. Default: 100.
@@ -2916,12 +3318,14 @@ public struct ListChannelsInput: Swift.Equatable {
 
     public init(
         filterByName: Swift.String? = nil,
+        filterByPlaybackRestrictionPolicyArn: Swift.String? = nil,
         filterByRecordingConfigurationArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.filterByName = filterByName
+        self.filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArn
         self.filterByRecordingConfigurationArn = filterByRecordingConfigurationArn
         self.maxResults = maxResults
         self.nextToken = nextToken
@@ -2931,6 +3335,7 @@ public struct ListChannelsInput: Swift.Equatable {
 struct ListChannelsInputBody: Swift.Equatable {
     let filterByName: Swift.String?
     let filterByRecordingConfigurationArn: Swift.String?
+    let filterByPlaybackRestrictionPolicyArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2938,6 +3343,7 @@ struct ListChannelsInputBody: Swift.Equatable {
 extension ListChannelsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filterByName
+        case filterByPlaybackRestrictionPolicyArn
         case filterByRecordingConfigurationArn
         case maxResults
         case nextToken
@@ -2949,6 +3355,8 @@ extension ListChannelsInputBody: Swift.Decodable {
         filterByName = filterByNameDecoded
         let filterByRecordingConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterByRecordingConfigurationArn)
         filterByRecordingConfigurationArn = filterByRecordingConfigurationArnDecoded
+        let filterByPlaybackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterByPlaybackRestrictionPolicyArn)
+        filterByPlaybackRestrictionPolicyArn = filterByPlaybackRestrictionPolicyArnDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
         let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
@@ -3155,6 +3563,140 @@ enum ListPlaybackKeyPairsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListPlaybackRestrictionPoliciesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListPlaybackRestrictionPoliciesInput {
+
+    static func urlPathProvider(_ value: ListPlaybackRestrictionPoliciesInput) -> Swift.String? {
+        return "/ListPlaybackRestrictionPolicies"
+    }
+}
+
+public struct ListPlaybackRestrictionPoliciesInput: Swift.Equatable {
+    /// Maximum number of policies to return. Default: 1.
+    public var maxResults: Swift.Int?
+    /// The first policy to retrieve. This is used for pagination; see the nextToken response field.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListPlaybackRestrictionPoliciesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListPlaybackRestrictionPoliciesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListPlaybackRestrictionPoliciesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPlaybackRestrictionPoliciesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.playbackRestrictionPolicies = output.playbackRestrictionPolicies
+        } else {
+            self.nextToken = nil
+            self.playbackRestrictionPolicies = nil
+        }
+    }
+}
+
+public struct ListPlaybackRestrictionPoliciesOutput: Swift.Equatable {
+    /// If there are more channels than maxResults, use nextToken in the request to get the next set.
+    public var nextToken: Swift.String?
+    /// List of the matching policies.
+    /// This member is required.
+    public var playbackRestrictionPolicies: [IvsClientTypes.PlaybackRestrictionPolicySummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        playbackRestrictionPolicies: [IvsClientTypes.PlaybackRestrictionPolicySummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.playbackRestrictionPolicies = playbackRestrictionPolicies
+    }
+}
+
+struct ListPlaybackRestrictionPoliciesOutputBody: Swift.Equatable {
+    let playbackRestrictionPolicies: [IvsClientTypes.PlaybackRestrictionPolicySummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPlaybackRestrictionPoliciesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case playbackRestrictionPolicies
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let playbackRestrictionPoliciesContainer = try containerValues.decodeIfPresent([IvsClientTypes.PlaybackRestrictionPolicySummary?].self, forKey: .playbackRestrictionPolicies)
+        var playbackRestrictionPoliciesDecoded0:[IvsClientTypes.PlaybackRestrictionPolicySummary]? = nil
+        if let playbackRestrictionPoliciesContainer = playbackRestrictionPoliciesContainer {
+            playbackRestrictionPoliciesDecoded0 = [IvsClientTypes.PlaybackRestrictionPolicySummary]()
+            for structure0 in playbackRestrictionPoliciesContainer {
+                if let structure0 = structure0 {
+                    playbackRestrictionPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        playbackRestrictionPolicies = playbackRestrictionPoliciesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPlaybackRestrictionPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -4018,6 +4560,254 @@ extension IvsClientTypes {
         )
         {
             self.arn = arn
+            self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+extension IvsClientTypes.PlaybackRestrictionPolicy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case arn
+        case enableStrictOriginEnforcement
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedCountries = allowedCountries {
+            var allowedCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedCountries)
+            for playbackrestrictionpolicyallowedcountry0 in allowedCountries {
+                try allowedCountriesContainer.encode(playbackrestrictionpolicyallowedcountry0)
+            }
+        }
+        if let allowedOrigins = allowedOrigins {
+            var allowedOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrigins)
+            for playbackrestrictionpolicyallowedorigin0 in allowedOrigins {
+                try allowedOriginsContainer.encode(playbackrestrictionpolicyallowedorigin0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let enableStrictOriginEnforcement = self.enableStrictOriginEnforcement {
+            try encodeContainer.encode(enableStrictOriginEnforcement, forKey: .enableStrictOriginEnforcement)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let allowedCountriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedCountries)
+        var allowedCountriesDecoded0:[Swift.String]? = nil
+        if let allowedCountriesContainer = allowedCountriesContainer {
+            allowedCountriesDecoded0 = [Swift.String]()
+            for string0 in allowedCountriesContainer {
+                if let string0 = string0 {
+                    allowedCountriesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedCountries = allowedCountriesDecoded0
+        let allowedOriginsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedOrigins)
+        var allowedOriginsDecoded0:[Swift.String]? = nil
+        if let allowedOriginsContainer = allowedOriginsContainer {
+            allowedOriginsDecoded0 = [Swift.String]()
+            for string0 in allowedOriginsContainer {
+                if let string0 = string0 {
+                    allowedOriginsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedOrigins = allowedOriginsDecoded0
+        let enableStrictOriginEnforcementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableStrictOriginEnforcement)
+        enableStrictOriginEnforcement = enableStrictOriginEnforcementDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IvsClientTypes {
+    /// An object representing a policy to constrain playback by country and/or origin sites.
+    public struct PlaybackRestrictionPolicy: Swift.Equatable {
+        /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes. Default: All countries (an empty array).
+        /// This member is required.
+        public var allowedCountries: [Swift.String]?
+        /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin). Default: All origins (an empty array).
+        /// This member is required.
+        public var allowedOrigins: [Swift.String]?
+        /// Playback-restriction-policy ARN
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Whether channel playback is constrained by origin site. Default: false.
+        public var enableStrictOriginEnforcement: Swift.Bool?
+        /// Playback-restriction-policy name. The value does not need to be unique.
+        public var name: Swift.String?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            allowedCountries: [Swift.String]? = nil,
+            allowedOrigins: [Swift.String]? = nil,
+            arn: Swift.String? = nil,
+            enableStrictOriginEnforcement: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.allowedCountries = allowedCountries
+            self.allowedOrigins = allowedOrigins
+            self.arn = arn
+            self.enableStrictOriginEnforcement = enableStrictOriginEnforcement
+            self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+extension IvsClientTypes.PlaybackRestrictionPolicySummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case arn
+        case enableStrictOriginEnforcement
+        case name
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedCountries = allowedCountries {
+            var allowedCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedCountries)
+            for playbackrestrictionpolicyallowedcountry0 in allowedCountries {
+                try allowedCountriesContainer.encode(playbackrestrictionpolicyallowedcountry0)
+            }
+        }
+        if let allowedOrigins = allowedOrigins {
+            var allowedOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrigins)
+            for playbackrestrictionpolicyallowedorigin0 in allowedOrigins {
+                try allowedOriginsContainer.encode(playbackrestrictionpolicyallowedorigin0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let enableStrictOriginEnforcement = self.enableStrictOriginEnforcement {
+            try encodeContainer.encode(enableStrictOriginEnforcement, forKey: .enableStrictOriginEnforcement)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let allowedCountriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedCountries)
+        var allowedCountriesDecoded0:[Swift.String]? = nil
+        if let allowedCountriesContainer = allowedCountriesContainer {
+            allowedCountriesDecoded0 = [Swift.String]()
+            for string0 in allowedCountriesContainer {
+                if let string0 = string0 {
+                    allowedCountriesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedCountries = allowedCountriesDecoded0
+        let allowedOriginsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedOrigins)
+        var allowedOriginsDecoded0:[Swift.String]? = nil
+        if let allowedOriginsContainer = allowedOriginsContainer {
+            allowedOriginsDecoded0 = [Swift.String]()
+            for string0 in allowedOriginsContainer {
+                if let string0 = string0 {
+                    allowedOriginsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedOrigins = allowedOriginsDecoded0
+        let enableStrictOriginEnforcementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableStrictOriginEnforcement)
+        enableStrictOriginEnforcement = enableStrictOriginEnforcementDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension IvsClientTypes {
+    /// Summary information about a PlaybackRestrictionPolicy.
+    public struct PlaybackRestrictionPolicySummary: Swift.Equatable {
+        /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes. Default: All countries (an empty array).
+        /// This member is required.
+        public var allowedCountries: [Swift.String]?
+        /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin). Default: All origins (an empty array).
+        /// This member is required.
+        public var allowedOrigins: [Swift.String]?
+        /// Playback-restriction-policy ARN
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Whether channel playback is constrained by origin site. Default: false.
+        public var enableStrictOriginEnforcement: Swift.Bool?
+        /// Playback-restriction-policy name. The value does not need to be unique.
+        public var name: Swift.String?
+        /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            allowedCountries: [Swift.String]? = nil,
+            allowedOrigins: [Swift.String]? = nil,
+            arn: Swift.String? = nil,
+            enableStrictOriginEnforcement: Swift.Bool? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.allowedCountries = allowedCountries
+            self.allowedOrigins = allowedOrigins
+            self.arn = arn
+            self.enableStrictOriginEnforcement = enableStrictOriginEnforcement
             self.name = name
             self.tags = tags
         }
@@ -5970,6 +6760,7 @@ extension UpdateChannelInput: Swift.Encodable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case preset
         case recordingConfigurationArn
         case type
@@ -5991,6 +6782,9 @@ extension UpdateChannelInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let playbackRestrictionPolicyArn = self.playbackRestrictionPolicyArn {
+            try encodeContainer.encode(playbackRestrictionPolicyArn, forKey: .playbackRestrictionPolicyArn)
         }
         if let preset = self.preset {
             try encodeContainer.encode(preset.rawValue, forKey: .preset)
@@ -6023,9 +6817,11 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?
+    /// Playback-restriction-policy ARN. A valid ARN value here both specifies the ARN and enables playback restriction. If this is set to an empty string, playback restriction policy is disabled.
+    public var playbackRestrictionPolicyArn: Swift.String?
     /// Optional transcode preset for the channel. This is selectable only for ADVANCED_HD and ADVANCED_SD channel types. For those channel types, the default preset is HIGHER_BANDWIDTH_DELIVERY. For other channel types (BASIC and STANDARD), preset is the empty string ("").
     public var preset: IvsClientTypes.TranscodePreset?
-    /// Recording-configuration ARN. If this is set to an empty string, recording is disabled. A value other than an empty string indicates that recording is enabled
+    /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. If this is set to an empty string, recording is disabled.
     public var recordingConfigurationArn: Swift.String?
     /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
     public var type: IvsClientTypes.ChannelType?
@@ -6036,6 +6832,7 @@ public struct UpdateChannelInput: Swift.Equatable {
         insecureIngest: Swift.Bool = false,
         latencyMode: IvsClientTypes.ChannelLatencyMode? = nil,
         name: Swift.String? = nil,
+        playbackRestrictionPolicyArn: Swift.String? = nil,
         preset: IvsClientTypes.TranscodePreset? = nil,
         recordingConfigurationArn: Swift.String? = nil,
         type: IvsClientTypes.ChannelType? = nil
@@ -6046,6 +6843,7 @@ public struct UpdateChannelInput: Swift.Equatable {
         self.insecureIngest = insecureIngest
         self.latencyMode = latencyMode
         self.name = name
+        self.playbackRestrictionPolicyArn = playbackRestrictionPolicyArn
         self.preset = preset
         self.recordingConfigurationArn = recordingConfigurationArn
         self.type = type
@@ -6061,6 +6859,7 @@ struct UpdateChannelInputBody: Swift.Equatable {
     let recordingConfigurationArn: Swift.String?
     let insecureIngest: Swift.Bool
     let preset: IvsClientTypes.TranscodePreset?
+    let playbackRestrictionPolicyArn: Swift.String?
 }
 
 extension UpdateChannelInputBody: Swift.Decodable {
@@ -6070,6 +6869,7 @@ extension UpdateChannelInputBody: Swift.Decodable {
         case insecureIngest
         case latencyMode
         case name
+        case playbackRestrictionPolicyArn
         case preset
         case recordingConfigurationArn
         case type
@@ -6093,6 +6893,8 @@ extension UpdateChannelInputBody: Swift.Decodable {
         insecureIngest = insecureIngestDecoded
         let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
         preset = presetDecoded
+        let playbackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackRestrictionPolicyArn)
+        playbackRestrictionPolicyArn = playbackRestrictionPolicyArnDecoded
     }
 }
 
@@ -6109,7 +6911,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateChannelOutput: Swift.Equatable {
-    /// Object specifying a channel.
+    /// Object specifying the updated channel.
     public var channel: IvsClientTypes.Channel?
 
     public init(
@@ -6137,6 +6939,182 @@ extension UpdateChannelOutputBody: Swift.Decodable {
 }
 
 enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PendingVerification": return try await PendingVerification(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePlaybackRestrictionPolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case arn
+        case enableStrictOriginEnforcement
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedCountries = allowedCountries {
+            var allowedCountriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedCountries)
+            for playbackrestrictionpolicyallowedcountry0 in allowedCountries {
+                try allowedCountriesContainer.encode(playbackrestrictionpolicyallowedcountry0)
+            }
+        }
+        if let allowedOrigins = allowedOrigins {
+            var allowedOriginsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .allowedOrigins)
+            for playbackrestrictionpolicyallowedorigin0 in allowedOrigins {
+                try allowedOriginsContainer.encode(playbackrestrictionpolicyallowedorigin0)
+            }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let enableStrictOriginEnforcement = self.enableStrictOriginEnforcement {
+            try encodeContainer.encode(enableStrictOriginEnforcement, forKey: .enableStrictOriginEnforcement)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdatePlaybackRestrictionPolicyInput {
+
+    static func urlPathProvider(_ value: UpdatePlaybackRestrictionPolicyInput) -> Swift.String? {
+        return "/UpdatePlaybackRestrictionPolicy"
+    }
+}
+
+public struct UpdatePlaybackRestrictionPolicyInput: Swift.Equatable {
+    /// A list of country codes that control geoblocking restriction. Allowed values are the officially assigned [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes. Default: All countries (an empty array).
+    public var allowedCountries: [Swift.String]?
+    /// A list of origin sites that control CORS restriction. Allowed values are the same as valid values of the Origin header defined at [https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Origin). Default: All origins (an empty array).
+    public var allowedOrigins: [Swift.String]?
+    /// ARN of the playback-restriction-policy to be updated.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// Whether channel playback is constrained by origin site. Default: false.
+    public var enableStrictOriginEnforcement: Swift.Bool?
+    /// Playback-restriction-policy name. The value does not need to be unique.
+    public var name: Swift.String?
+
+    public init(
+        allowedCountries: [Swift.String]? = nil,
+        allowedOrigins: [Swift.String]? = nil,
+        arn: Swift.String? = nil,
+        enableStrictOriginEnforcement: Swift.Bool? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.allowedCountries = allowedCountries
+        self.allowedOrigins = allowedOrigins
+        self.arn = arn
+        self.enableStrictOriginEnforcement = enableStrictOriginEnforcement
+        self.name = name
+    }
+}
+
+struct UpdatePlaybackRestrictionPolicyInputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let allowedCountries: [Swift.String]?
+    let allowedOrigins: [Swift.String]?
+    let enableStrictOriginEnforcement: Swift.Bool?
+    let name: Swift.String?
+}
+
+extension UpdatePlaybackRestrictionPolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedCountries
+        case allowedOrigins
+        case arn
+        case enableStrictOriginEnforcement
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let allowedCountriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedCountries)
+        var allowedCountriesDecoded0:[Swift.String]? = nil
+        if let allowedCountriesContainer = allowedCountriesContainer {
+            allowedCountriesDecoded0 = [Swift.String]()
+            for string0 in allowedCountriesContainer {
+                if let string0 = string0 {
+                    allowedCountriesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedCountries = allowedCountriesDecoded0
+        let allowedOriginsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedOrigins)
+        var allowedOriginsDecoded0:[Swift.String]? = nil
+        if let allowedOriginsContainer = allowedOriginsContainer {
+            allowedOriginsDecoded0 = [Swift.String]()
+            for string0 in allowedOriginsContainer {
+                if let string0 = string0 {
+                    allowedOriginsDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedOrigins = allowedOriginsDecoded0
+        let enableStrictOriginEnforcementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableStrictOriginEnforcement)
+        enableStrictOriginEnforcement = enableStrictOriginEnforcementDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdatePlaybackRestrictionPolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePlaybackRestrictionPolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.playbackRestrictionPolicy = output.playbackRestrictionPolicy
+        } else {
+            self.playbackRestrictionPolicy = nil
+        }
+    }
+}
+
+public struct UpdatePlaybackRestrictionPolicyOutput: Swift.Equatable {
+    /// Object specifying the updated policy.
+    public var playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+
+    public init(
+        playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy? = nil
+    )
+    {
+        self.playbackRestrictionPolicy = playbackRestrictionPolicy
+    }
+}
+
+struct UpdatePlaybackRestrictionPolicyOutputBody: Swift.Equatable {
+    let playbackRestrictionPolicy: IvsClientTypes.PlaybackRestrictionPolicy?
+}
+
+extension UpdatePlaybackRestrictionPolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case playbackRestrictionPolicy
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let playbackRestrictionPolicyDecoded = try containerValues.decodeIfPresent(IvsClientTypes.PlaybackRestrictionPolicy.self, forKey: .playbackRestrictionPolicy)
+        playbackRestrictionPolicy = playbackRestrictionPolicyDecoded
+    }
+}
+
+enum UpdatePlaybackRestrictionPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

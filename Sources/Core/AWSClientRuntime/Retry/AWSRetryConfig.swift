@@ -7,7 +7,7 @@
 
 import struct ClientRuntime.RetryStrategyOptions
 
-enum AWSRetryConfig {
+public enum AWSRetryConfig {
 
     /// Determines the retry mode to be used from the given config.  If none can be determined, `legacy` will be used as a default.
     /// - Parameters:

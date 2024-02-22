@@ -8,6 +8,7 @@
 import XCTest
 import AWSSQS
 import ClientRuntime
+import AWSClientRuntime
 
 /// Tests AWS SQS queue creation and deletion.
 class SQSTests: XCTestCase {
@@ -18,7 +19,7 @@ class SQSTests: XCTestCase {
     private let region = "us-west-2"
 
     override func setUp() async throws {
-        client = try SQSClient(region: region)
+        self.client = try SQSClient(region: "us-west-1")
         queueName = "integration-test-queue-\(UUID().uuidString)"
     }
 

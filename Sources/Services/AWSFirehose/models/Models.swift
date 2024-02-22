@@ -1481,6 +1481,7 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
         case mskSourceConfiguration = "MSKSourceConfiguration"
         case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
         case s3DestinationConfiguration = "S3DestinationConfiguration"
+        case snowflakeDestinationConfiguration = "SnowflakeDestinationConfiguration"
         case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
         case tags = "Tags"
     }
@@ -1522,6 +1523,9 @@ extension CreateDeliveryStreamInput: Swift.Encodable {
         }
         if let s3DestinationConfiguration = self.s3DestinationConfiguration {
             try encodeContainer.encode(s3DestinationConfiguration, forKey: .s3DestinationConfiguration)
+        }
+        if let snowflakeDestinationConfiguration = self.snowflakeDestinationConfiguration {
+            try encodeContainer.encode(snowflakeDestinationConfiguration, forKey: .snowflakeDestinationConfiguration)
         }
         if let splunkDestinationConfiguration = self.splunkDestinationConfiguration {
             try encodeContainer.encode(splunkDestinationConfiguration, forKey: .splunkDestinationConfiguration)
@@ -1573,6 +1577,8 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
     /// [Deprecated] The destination in Amazon S3. You can specify only one destination.
     @available(*, deprecated)
     public var s3DestinationConfiguration: FirehoseClientTypes.S3DestinationConfiguration?
+    /// Configure Snowflake destination
+    public var snowflakeDestinationConfiguration: FirehoseClientTypes.SnowflakeDestinationConfiguration?
     /// The destination in Splunk. You can specify only one destination.
     public var splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration?
     /// A set of tags to assign to the delivery stream. A tag is a key-value pair that you can define and assign to Amazon Web Services resources. Tags are metadata. For example, you can add friendly names and descriptions or other types of information that can help you distinguish the delivery stream. For more information about tags, see [Using Cost Allocation Tags](https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html) in the Amazon Web Services Billing and Cost Management User Guide. You can specify up to 50 tags when creating a delivery stream.
@@ -1591,6 +1597,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
         mskSourceConfiguration: FirehoseClientTypes.MSKSourceConfiguration? = nil,
         redshiftDestinationConfiguration: FirehoseClientTypes.RedshiftDestinationConfiguration? = nil,
         s3DestinationConfiguration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+        snowflakeDestinationConfiguration: FirehoseClientTypes.SnowflakeDestinationConfiguration? = nil,
         splunkDestinationConfiguration: FirehoseClientTypes.SplunkDestinationConfiguration? = nil,
         tags: [FirehoseClientTypes.Tag]? = nil
     )
@@ -1607,6 +1614,7 @@ public struct CreateDeliveryStreamInput: Swift.Equatable {
         self.mskSourceConfiguration = mskSourceConfiguration
         self.redshiftDestinationConfiguration = redshiftDestinationConfiguration
         self.s3DestinationConfiguration = s3DestinationConfiguration
+        self.snowflakeDestinationConfiguration = snowflakeDestinationConfiguration
         self.splunkDestinationConfiguration = splunkDestinationConfiguration
         self.tags = tags
     }
@@ -1627,6 +1635,7 @@ struct CreateDeliveryStreamInputBody: Swift.Equatable {
     let tags: [FirehoseClientTypes.Tag]?
     let amazonOpenSearchServerlessDestinationConfiguration: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationConfiguration?
     let mskSourceConfiguration: FirehoseClientTypes.MSKSourceConfiguration?
+    let snowflakeDestinationConfiguration: FirehoseClientTypes.SnowflakeDestinationConfiguration?
 }
 
 extension CreateDeliveryStreamInputBody: Swift.Decodable {
@@ -1643,6 +1652,7 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
         case mskSourceConfiguration = "MSKSourceConfiguration"
         case redshiftDestinationConfiguration = "RedshiftDestinationConfiguration"
         case s3DestinationConfiguration = "S3DestinationConfiguration"
+        case snowflakeDestinationConfiguration = "SnowflakeDestinationConfiguration"
         case splunkDestinationConfiguration = "SplunkDestinationConfiguration"
         case tags = "Tags"
     }
@@ -1686,6 +1696,8 @@ extension CreateDeliveryStreamInputBody: Swift.Decodable {
         amazonOpenSearchServerlessDestinationConfiguration = amazonOpenSearchServerlessDestinationConfigurationDecoded
         let mskSourceConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.MSKSourceConfiguration.self, forKey: .mskSourceConfiguration)
         mskSourceConfiguration = mskSourceConfigurationDecoded
+        let snowflakeDestinationConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDestinationConfiguration.self, forKey: .snowflakeDestinationConfiguration)
+        snowflakeDestinationConfiguration = snowflakeDestinationConfigurationDecoded
     }
 }
 
@@ -2573,6 +2585,7 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
         case httpEndpointDestinationDescription = "HttpEndpointDestinationDescription"
         case redshiftDestinationDescription = "RedshiftDestinationDescription"
         case s3DestinationDescription = "S3DestinationDescription"
+        case snowflakeDestinationDescription = "SnowflakeDestinationDescription"
         case splunkDestinationDescription = "SplunkDestinationDescription"
     }
 
@@ -2602,6 +2615,9 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
         if let s3DestinationDescription = self.s3DestinationDescription {
             try encodeContainer.encode(s3DestinationDescription, forKey: .s3DestinationDescription)
         }
+        if let snowflakeDestinationDescription = self.snowflakeDestinationDescription {
+            try encodeContainer.encode(snowflakeDestinationDescription, forKey: .snowflakeDestinationDescription)
+        }
         if let splunkDestinationDescription = self.splunkDestinationDescription {
             try encodeContainer.encode(splunkDestinationDescription, forKey: .splunkDestinationDescription)
         }
@@ -2625,6 +2641,8 @@ extension FirehoseClientTypes.DestinationDescription: Swift.Codable {
         splunkDestinationDescription = splunkDestinationDescriptionDecoded
         let httpEndpointDestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.HttpEndpointDestinationDescription.self, forKey: .httpEndpointDestinationDescription)
         httpEndpointDestinationDescription = httpEndpointDestinationDescriptionDecoded
+        let snowflakeDestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDestinationDescription.self, forKey: .snowflakeDestinationDescription)
+        snowflakeDestinationDescription = snowflakeDestinationDescriptionDecoded
         let amazonOpenSearchServerlessDestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationDescription.self, forKey: .amazonOpenSearchServerlessDestinationDescription)
         amazonOpenSearchServerlessDestinationDescription = amazonOpenSearchServerlessDestinationDescriptionDecoded
     }
@@ -2650,6 +2668,8 @@ extension FirehoseClientTypes {
         public var redshiftDestinationDescription: FirehoseClientTypes.RedshiftDestinationDescription?
         /// [Deprecated] The destination in Amazon S3.
         public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// Optional description for the destination
+        public var snowflakeDestinationDescription: FirehoseClientTypes.SnowflakeDestinationDescription?
         /// The destination in Splunk.
         public var splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription?
 
@@ -2662,6 +2682,7 @@ extension FirehoseClientTypes {
             httpEndpointDestinationDescription: FirehoseClientTypes.HttpEndpointDestinationDescription? = nil,
             redshiftDestinationDescription: FirehoseClientTypes.RedshiftDestinationDescription? = nil,
             s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            snowflakeDestinationDescription: FirehoseClientTypes.SnowflakeDestinationDescription? = nil,
             splunkDestinationDescription: FirehoseClientTypes.SplunkDestinationDescription? = nil
         )
         {
@@ -2673,6 +2694,7 @@ extension FirehoseClientTypes {
             self.httpEndpointDestinationDescription = httpEndpointDestinationDescription
             self.redshiftDestinationDescription = redshiftDestinationDescription
             self.s3DestinationDescription = s3DestinationDescription
+            self.snowflakeDestinationDescription = snowflakeDestinationDescription
             self.splunkDestinationDescription = splunkDestinationDescription
         }
     }
@@ -7880,6 +7902,807 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+extension FirehoseClientTypes {
+    public enum SnowflakeDataLoadingOption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case jsonMapping
+        case variantContentAndMetadataMapping
+        case variantContentMapping
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnowflakeDataLoadingOption] {
+            return [
+                .jsonMapping,
+                .variantContentAndMetadataMapping,
+                .variantContentMapping,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .jsonMapping: return "JSON_MAPPING"
+            case .variantContentAndMetadataMapping: return "VARIANT_CONTENT_AND_METADATA_MAPPING"
+            case .variantContentMapping: return "VARIANT_CONTENT_MAPPING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnowflakeDataLoadingOption(rawValue: rawValue) ?? SnowflakeDataLoadingOption.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountUrl = "AccountUrl"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case contentColumnName = "ContentColumnName"
+        case dataLoadingOption = "DataLoadingOption"
+        case database = "Database"
+        case keyPassphrase = "KeyPassphrase"
+        case metaDataColumnName = "MetaDataColumnName"
+        case privateKey = "PrivateKey"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3BackupMode = "S3BackupMode"
+        case s3Configuration = "S3Configuration"
+        case schema = "Schema"
+        case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
+        case snowflakeVpcConfiguration = "SnowflakeVpcConfiguration"
+        case table = "Table"
+        case user = "User"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountUrl = self.accountUrl {
+            try encodeContainer.encode(accountUrl, forKey: .accountUrl)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let contentColumnName = self.contentColumnName {
+            try encodeContainer.encode(contentColumnName, forKey: .contentColumnName)
+        }
+        if let dataLoadingOption = self.dataLoadingOption {
+            try encodeContainer.encode(dataLoadingOption.rawValue, forKey: .dataLoadingOption)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let keyPassphrase = self.keyPassphrase {
+            try encodeContainer.encode(keyPassphrase, forKey: .keyPassphrase)
+        }
+        if let metaDataColumnName = self.metaDataColumnName {
+            try encodeContainer.encode(metaDataColumnName, forKey: .metaDataColumnName)
+        }
+        if let privateKey = self.privateKey {
+            try encodeContainer.encode(privateKey, forKey: .privateKey)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3BackupMode = self.s3BackupMode {
+            try encodeContainer.encode(s3BackupMode.rawValue, forKey: .s3BackupMode)
+        }
+        if let s3Configuration = self.s3Configuration {
+            try encodeContainer.encode(s3Configuration, forKey: .s3Configuration)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let snowflakeRoleConfiguration = self.snowflakeRoleConfiguration {
+            try encodeContainer.encode(snowflakeRoleConfiguration, forKey: .snowflakeRoleConfiguration)
+        }
+        if let snowflakeVpcConfiguration = self.snowflakeVpcConfiguration {
+            try encodeContainer.encode(snowflakeVpcConfiguration, forKey: .snowflakeVpcConfiguration)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountUrl)
+        accountUrl = accountUrlDecoded
+        let privateKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateKey)
+        privateKey = privateKeyDecoded
+        let keyPassphraseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPassphrase)
+        keyPassphrase = keyPassphraseDecoded
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let snowflakeRoleConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRoleConfiguration.self, forKey: .snowflakeRoleConfiguration)
+        snowflakeRoleConfiguration = snowflakeRoleConfigurationDecoded
+        let dataLoadingOptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDataLoadingOption.self, forKey: .dataLoadingOption)
+        dataLoadingOption = dataLoadingOptionDecoded
+        let metaDataColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metaDataColumnName)
+        metaDataColumnName = metaDataColumnNameDecoded
+        let contentColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentColumnName)
+        contentColumnName = contentColumnNameDecoded
+        let snowflakeVpcConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeVpcConfiguration.self, forKey: .snowflakeVpcConfiguration)
+        snowflakeVpcConfiguration = snowflakeVpcConfigurationDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3BackupModeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeS3BackupMode.self, forKey: .s3BackupMode)
+        s3BackupMode = s3BackupModeDecoded
+        let s3ConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationConfiguration.self, forKey: .s3Configuration)
+        s3Configuration = s3ConfigurationDecoded
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnowflakeDestinationConfiguration(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Configuration: \(Swift.String(describing: s3Configuration)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+}
+
+extension FirehoseClientTypes {
+    /// Configure Snowflake destination
+    public struct SnowflakeDestinationConfiguration: Swift.Equatable {
+        /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
+        /// This member is required.
+        public var accountUrl: Swift.String?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The name of the record content column
+        public var contentColumnName: Swift.String?
+        /// Choose to load JSON keys mapped to table column names or choose to split the JSON payload where content is mapped to a record content column and source metadata is mapped to a record metadata column.
+        public var dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption?
+        /// All data in Snowflake is maintained in databases.
+        /// This member is required.
+        public var database: Swift.String?
+        /// Passphrase to decrypt the private key when the key is encrypted. For information, see [Using Key Pair Authentication & Key Rotation](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation).
+        public var keyPassphrase: Swift.String?
+        /// The name of the record metadata column
+        public var metaDataColumnName: Swift.String?
+        /// The private key used to encrypt your Snowflake client. For information, see [Using Key Pair Authentication & Key Rotation](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation).
+        /// This member is required.
+        public var privateKey: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The time period where Kinesis Data Firehose will retry sending data to the chosen HTTP endpoint.
+        public var retryOptions: FirehoseClientTypes.SnowflakeRetryOptions?
+        /// The Amazon Resource Name (ARN) of the Snowflake role
+        /// This member is required.
+        public var roleARN: Swift.String?
+        /// Choose an S3 backup mode
+        public var s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode?
+        /// Describes the configuration of a destination in Amazon S3.
+        /// This member is required.
+        public var s3Configuration: FirehoseClientTypes.S3DestinationConfiguration?
+        /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
+        /// This member is required.
+        public var schema: Swift.String?
+        /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
+        public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
+        /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
+        public var snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration?
+        /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
+        /// This member is required.
+        public var table: Swift.String?
+        /// User login name for the Snowflake account.
+        /// This member is required.
+        public var user: Swift.String?
+
+        public init(
+            accountUrl: Swift.String? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            contentColumnName: Swift.String? = nil,
+            dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption? = nil,
+            database: Swift.String? = nil,
+            keyPassphrase: Swift.String? = nil,
+            metaDataColumnName: Swift.String? = nil,
+            privateKey: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.SnowflakeRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
+            s3Configuration: FirehoseClientTypes.S3DestinationConfiguration? = nil,
+            schema: Swift.String? = nil,
+            snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
+            snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
+            table: Swift.String? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.accountUrl = accountUrl
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.contentColumnName = contentColumnName
+            self.dataLoadingOption = dataLoadingOption
+            self.database = database
+            self.keyPassphrase = keyPassphrase
+            self.metaDataColumnName = metaDataColumnName
+            self.privateKey = privateKey
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Configuration = s3Configuration
+            self.schema = schema
+            self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
+            self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
+            self.table = table
+            self.user = user
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountUrl = "AccountUrl"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case contentColumnName = "ContentColumnName"
+        case dataLoadingOption = "DataLoadingOption"
+        case database = "Database"
+        case metaDataColumnName = "MetaDataColumnName"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3BackupMode = "S3BackupMode"
+        case s3DestinationDescription = "S3DestinationDescription"
+        case schema = "Schema"
+        case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
+        case snowflakeVpcConfiguration = "SnowflakeVpcConfiguration"
+        case table = "Table"
+        case user = "User"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountUrl = self.accountUrl {
+            try encodeContainer.encode(accountUrl, forKey: .accountUrl)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let contentColumnName = self.contentColumnName {
+            try encodeContainer.encode(contentColumnName, forKey: .contentColumnName)
+        }
+        if let dataLoadingOption = self.dataLoadingOption {
+            try encodeContainer.encode(dataLoadingOption.rawValue, forKey: .dataLoadingOption)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let metaDataColumnName = self.metaDataColumnName {
+            try encodeContainer.encode(metaDataColumnName, forKey: .metaDataColumnName)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3BackupMode = self.s3BackupMode {
+            try encodeContainer.encode(s3BackupMode.rawValue, forKey: .s3BackupMode)
+        }
+        if let s3DestinationDescription = self.s3DestinationDescription {
+            try encodeContainer.encode(s3DestinationDescription, forKey: .s3DestinationDescription)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let snowflakeRoleConfiguration = self.snowflakeRoleConfiguration {
+            try encodeContainer.encode(snowflakeRoleConfiguration, forKey: .snowflakeRoleConfiguration)
+        }
+        if let snowflakeVpcConfiguration = self.snowflakeVpcConfiguration {
+            try encodeContainer.encode(snowflakeVpcConfiguration, forKey: .snowflakeVpcConfiguration)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountUrl)
+        accountUrl = accountUrlDecoded
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let snowflakeRoleConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRoleConfiguration.self, forKey: .snowflakeRoleConfiguration)
+        snowflakeRoleConfiguration = snowflakeRoleConfigurationDecoded
+        let dataLoadingOptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDataLoadingOption.self, forKey: .dataLoadingOption)
+        dataLoadingOption = dataLoadingOptionDecoded
+        let metaDataColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metaDataColumnName)
+        metaDataColumnName = metaDataColumnNameDecoded
+        let contentColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentColumnName)
+        contentColumnName = contentColumnNameDecoded
+        let snowflakeVpcConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeVpcConfiguration.self, forKey: .snowflakeVpcConfiguration)
+        snowflakeVpcConfiguration = snowflakeVpcConfigurationDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3BackupModeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeS3BackupMode.self, forKey: .s3BackupMode)
+        s3BackupMode = s3BackupModeDecoded
+        let s3DestinationDescriptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationDescription.self, forKey: .s3DestinationDescription)
+        s3DestinationDescription = s3DestinationDescriptionDecoded
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationDescription: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnowflakeDestinationDescription(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3DestinationDescription: \(Swift.String(describing: s3DestinationDescription)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), snowflakeVpcConfiguration: \(Swift.String(describing: snowflakeVpcConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+}
+
+extension FirehoseClientTypes {
+    /// Optional Snowflake destination description
+    public struct SnowflakeDestinationDescription: Swift.Equatable {
+        /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
+        public var accountUrl: Swift.String?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The name of the record content column
+        public var contentColumnName: Swift.String?
+        /// Choose to load JSON keys mapped to table column names or choose to split the JSON payload where content is mapped to a record content column and source metadata is mapped to a record metadata column.
+        public var dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption?
+        /// All data in Snowflake is maintained in databases.
+        public var database: Swift.String?
+        /// The name of the record metadata column
+        public var metaDataColumnName: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// The time period where Kinesis Data Firehose will retry sending data to the chosen HTTP endpoint.
+        public var retryOptions: FirehoseClientTypes.SnowflakeRetryOptions?
+        /// The Amazon Resource Name (ARN) of the Snowflake role
+        public var roleARN: Swift.String?
+        /// Choose an S3 backup mode
+        public var s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode?
+        /// Describes a destination in Amazon S3.
+        public var s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription?
+        /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
+        public var schema: Swift.String?
+        /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
+        public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
+        /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
+        public var snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration?
+        /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
+        public var table: Swift.String?
+        /// User login name for the Snowflake account.
+        public var user: Swift.String?
+
+        public init(
+            accountUrl: Swift.String? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            contentColumnName: Swift.String? = nil,
+            dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption? = nil,
+            database: Swift.String? = nil,
+            metaDataColumnName: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.SnowflakeRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
+            s3DestinationDescription: FirehoseClientTypes.S3DestinationDescription? = nil,
+            schema: Swift.String? = nil,
+            snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
+            snowflakeVpcConfiguration: FirehoseClientTypes.SnowflakeVpcConfiguration? = nil,
+            table: Swift.String? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.accountUrl = accountUrl
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.contentColumnName = contentColumnName
+            self.dataLoadingOption = dataLoadingOption
+            self.database = database
+            self.metaDataColumnName = metaDataColumnName
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3DestinationDescription = s3DestinationDescription
+            self.schema = schema
+            self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
+            self.snowflakeVpcConfiguration = snowflakeVpcConfiguration
+            self.table = table
+            self.user = user
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationUpdate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountUrl = "AccountUrl"
+        case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
+        case contentColumnName = "ContentColumnName"
+        case dataLoadingOption = "DataLoadingOption"
+        case database = "Database"
+        case keyPassphrase = "KeyPassphrase"
+        case metaDataColumnName = "MetaDataColumnName"
+        case privateKey = "PrivateKey"
+        case processingConfiguration = "ProcessingConfiguration"
+        case retryOptions = "RetryOptions"
+        case roleARN = "RoleARN"
+        case s3BackupMode = "S3BackupMode"
+        case s3Update = "S3Update"
+        case schema = "Schema"
+        case snowflakeRoleConfiguration = "SnowflakeRoleConfiguration"
+        case table = "Table"
+        case user = "User"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountUrl = self.accountUrl {
+            try encodeContainer.encode(accountUrl, forKey: .accountUrl)
+        }
+        if let cloudWatchLoggingOptions = self.cloudWatchLoggingOptions {
+            try encodeContainer.encode(cloudWatchLoggingOptions, forKey: .cloudWatchLoggingOptions)
+        }
+        if let contentColumnName = self.contentColumnName {
+            try encodeContainer.encode(contentColumnName, forKey: .contentColumnName)
+        }
+        if let dataLoadingOption = self.dataLoadingOption {
+            try encodeContainer.encode(dataLoadingOption.rawValue, forKey: .dataLoadingOption)
+        }
+        if let database = self.database {
+            try encodeContainer.encode(database, forKey: .database)
+        }
+        if let keyPassphrase = self.keyPassphrase {
+            try encodeContainer.encode(keyPassphrase, forKey: .keyPassphrase)
+        }
+        if let metaDataColumnName = self.metaDataColumnName {
+            try encodeContainer.encode(metaDataColumnName, forKey: .metaDataColumnName)
+        }
+        if let privateKey = self.privateKey {
+            try encodeContainer.encode(privateKey, forKey: .privateKey)
+        }
+        if let processingConfiguration = self.processingConfiguration {
+            try encodeContainer.encode(processingConfiguration, forKey: .processingConfiguration)
+        }
+        if let retryOptions = self.retryOptions {
+            try encodeContainer.encode(retryOptions, forKey: .retryOptions)
+        }
+        if let roleARN = self.roleARN {
+            try encodeContainer.encode(roleARN, forKey: .roleARN)
+        }
+        if let s3BackupMode = self.s3BackupMode {
+            try encodeContainer.encode(s3BackupMode.rawValue, forKey: .s3BackupMode)
+        }
+        if let s3Update = self.s3Update {
+            try encodeContainer.encode(s3Update, forKey: .s3Update)
+        }
+        if let schema = self.schema {
+            try encodeContainer.encode(schema, forKey: .schema)
+        }
+        if let snowflakeRoleConfiguration = self.snowflakeRoleConfiguration {
+            try encodeContainer.encode(snowflakeRoleConfiguration, forKey: .snowflakeRoleConfiguration)
+        }
+        if let table = self.table {
+            try encodeContainer.encode(table, forKey: .table)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountUrl)
+        accountUrl = accountUrlDecoded
+        let privateKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateKey)
+        privateKey = privateKeyDecoded
+        let keyPassphraseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyPassphrase)
+        keyPassphrase = keyPassphraseDecoded
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let databaseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .database)
+        database = databaseDecoded
+        let schemaDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schema)
+        schema = schemaDecoded
+        let tableDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .table)
+        table = tableDecoded
+        let snowflakeRoleConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRoleConfiguration.self, forKey: .snowflakeRoleConfiguration)
+        snowflakeRoleConfiguration = snowflakeRoleConfigurationDecoded
+        let dataLoadingOptionDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDataLoadingOption.self, forKey: .dataLoadingOption)
+        dataLoadingOption = dataLoadingOptionDecoded
+        let metaDataColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metaDataColumnName)
+        metaDataColumnName = metaDataColumnNameDecoded
+        let contentColumnNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentColumnName)
+        contentColumnName = contentColumnNameDecoded
+        let cloudWatchLoggingOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.CloudWatchLoggingOptions.self, forKey: .cloudWatchLoggingOptions)
+        cloudWatchLoggingOptions = cloudWatchLoggingOptionsDecoded
+        let processingConfigurationDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.ProcessingConfiguration.self, forKey: .processingConfiguration)
+        processingConfiguration = processingConfigurationDecoded
+        let roleARNDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleARN)
+        roleARN = roleARNDecoded
+        let retryOptionsDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeRetryOptions.self, forKey: .retryOptions)
+        retryOptions = retryOptionsDecoded
+        let s3BackupModeDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeS3BackupMode.self, forKey: .s3BackupMode)
+        s3BackupMode = s3BackupModeDecoded
+        let s3UpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.S3DestinationUpdate.self, forKey: .s3Update)
+        s3Update = s3UpdateDecoded
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeDestinationUpdate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnowflakeDestinationUpdate(cloudWatchLoggingOptions: \(Swift.String(describing: cloudWatchLoggingOptions)), dataLoadingOption: \(Swift.String(describing: dataLoadingOption)), processingConfiguration: \(Swift.String(describing: processingConfiguration)), retryOptions: \(Swift.String(describing: retryOptions)), roleARN: \(Swift.String(describing: roleARN)), s3BackupMode: \(Swift.String(describing: s3BackupMode)), s3Update: \(Swift.String(describing: s3Update)), snowflakeRoleConfiguration: \(Swift.String(describing: snowflakeRoleConfiguration)), accountUrl: \"CONTENT_REDACTED\", contentColumnName: \"CONTENT_REDACTED\", database: \"CONTENT_REDACTED\", keyPassphrase: \"CONTENT_REDACTED\", metaDataColumnName: \"CONTENT_REDACTED\", privateKey: \"CONTENT_REDACTED\", schema: \"CONTENT_REDACTED\", table: \"CONTENT_REDACTED\", user: \"CONTENT_REDACTED\")"}
+}
+
+extension FirehoseClientTypes {
+    /// Update to configuration settings
+    public struct SnowflakeDestinationUpdate: Swift.Equatable {
+        /// URL for accessing your Snowflake account. This URL must include your [account identifier](https://docs.snowflake.com/en/user-guide/admin-account-identifier). Note that the protocol (https://) and port number are optional.
+        public var accountUrl: Swift.String?
+        /// Describes the Amazon CloudWatch logging options for your delivery stream.
+        public var cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions?
+        /// The name of the content metadata column
+        public var contentColumnName: Swift.String?
+        /// JSON keys mapped to table column names or choose to split the JSON payload where content is mapped to a record content column and source metadata is mapped to a record metadata column.
+        public var dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption?
+        /// All data in Snowflake is maintained in databases.
+        public var database: Swift.String?
+        /// Passphrase to decrypt the private key when the key is encrypted. For information, see [Using Key Pair Authentication & Key Rotation](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation).
+        public var keyPassphrase: Swift.String?
+        /// The name of the record metadata column
+        public var metaDataColumnName: Swift.String?
+        /// The private key used to encrypt your Snowflake client. For information, see [Using Key Pair Authentication & Key Rotation](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-streaming-configuration#using-key-pair-authentication-key-rotation).
+        public var privateKey: Swift.String?
+        /// Describes a data processing configuration.
+        public var processingConfiguration: FirehoseClientTypes.ProcessingConfiguration?
+        /// Specify how long Kinesis Data Firehose retries sending data to the New Relic HTTP endpoint. After sending data, Kinesis Data Firehose first waits for an acknowledgment from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t arrive within the acknowledgment timeout period, Kinesis Data Firehose starts the retry duration counter. It keeps retrying until the retry duration expires. After that, Kinesis Data Firehose considers it a data delivery failure and backs up the data to your Amazon S3 bucket. Every time that Kinesis Data Firehose sends data to the HTTP endpoint (either the initial attempt or a retry), it restarts the acknowledgement timeout counter and waits for an acknowledgement from the HTTP endpoint. Even if the retry duration expires, Kinesis Data Firehose still waits for the acknowledgment until it receives it or the acknowledgement timeout period is reached. If the acknowledgment times out, Kinesis Data Firehose determines whether there's time left in the retry counter. If there is time left, it retries again and repeats the logic until it receives an acknowledgment or determines that the retry time has expired. If you don't want Kinesis Data Firehose to retry sending data, set this value to 0.
+        public var retryOptions: FirehoseClientTypes.SnowflakeRetryOptions?
+        /// The Amazon Resource Name (ARN) of the Snowflake role
+        public var roleARN: Swift.String?
+        /// Choose an S3 backup mode
+        public var s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode?
+        /// Describes an update for a destination in Amazon S3.
+        public var s3Update: FirehoseClientTypes.S3DestinationUpdate?
+        /// Each database consists of one or more schemas, which are logical groupings of database objects, such as tables and views
+        public var schema: Swift.String?
+        /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
+        public var snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration?
+        /// All data in Snowflake is stored in database tables, logically structured as collections of columns and rows.
+        public var table: Swift.String?
+        /// User login name for the Snowflake account.
+        public var user: Swift.String?
+
+        public init(
+            accountUrl: Swift.String? = nil,
+            cloudWatchLoggingOptions: FirehoseClientTypes.CloudWatchLoggingOptions? = nil,
+            contentColumnName: Swift.String? = nil,
+            dataLoadingOption: FirehoseClientTypes.SnowflakeDataLoadingOption? = nil,
+            database: Swift.String? = nil,
+            keyPassphrase: Swift.String? = nil,
+            metaDataColumnName: Swift.String? = nil,
+            privateKey: Swift.String? = nil,
+            processingConfiguration: FirehoseClientTypes.ProcessingConfiguration? = nil,
+            retryOptions: FirehoseClientTypes.SnowflakeRetryOptions? = nil,
+            roleARN: Swift.String? = nil,
+            s3BackupMode: FirehoseClientTypes.SnowflakeS3BackupMode? = nil,
+            s3Update: FirehoseClientTypes.S3DestinationUpdate? = nil,
+            schema: Swift.String? = nil,
+            snowflakeRoleConfiguration: FirehoseClientTypes.SnowflakeRoleConfiguration? = nil,
+            table: Swift.String? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.accountUrl = accountUrl
+            self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
+            self.contentColumnName = contentColumnName
+            self.dataLoadingOption = dataLoadingOption
+            self.database = database
+            self.keyPassphrase = keyPassphrase
+            self.metaDataColumnName = metaDataColumnName
+            self.privateKey = privateKey
+            self.processingConfiguration = processingConfiguration
+            self.retryOptions = retryOptions
+            self.roleARN = roleARN
+            self.s3BackupMode = s3BackupMode
+            self.s3Update = s3Update
+            self.schema = schema
+            self.snowflakeRoleConfiguration = snowflakeRoleConfiguration
+            self.table = table
+            self.user = user
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.SnowflakeRetryOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case durationInSeconds = "DurationInSeconds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let durationInSeconds = self.durationInSeconds {
+            try encodeContainer.encode(durationInSeconds, forKey: .durationInSeconds)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let durationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationInSeconds)
+        durationInSeconds = durationInSecondsDecoded
+    }
+}
+
+extension FirehoseClientTypes {
+    /// Specify how long Kinesis Data Firehose retries sending data to the New Relic HTTP endpoint. After sending data, Kinesis Data Firehose first waits for an acknowledgment from the HTTP endpoint. If an error occurs or the acknowledgment doesn’t arrive within the acknowledgment timeout period, Kinesis Data Firehose starts the retry duration counter. It keeps retrying until the retry duration expires. After that, Kinesis Data Firehose considers it a data delivery failure and backs up the data to your Amazon S3 bucket. Every time that Kinesis Data Firehose sends data to the HTTP endpoint (either the initial attempt or a retry), it restarts the acknowledgement timeout counter and waits for an acknowledgement from the HTTP endpoint. Even if the retry duration expires, Kinesis Data Firehose still waits for the acknowledgment until it receives it or the acknowledgement timeout period is reached. If the acknowledgment times out, Kinesis Data Firehose determines whether there's time left in the retry counter. If there is time left, it retries again and repeats the logic until it receives an acknowledgment or determines that the retry time has expired. If you don't want Kinesis Data Firehose to retry sending data, set this value to 0.
+    public struct SnowflakeRetryOptions: Swift.Equatable {
+        /// the time period where Kinesis Data Firehose will retry sending data to the chosen HTTP endpoint.
+        public var durationInSeconds: Swift.Int?
+
+        public init(
+            durationInSeconds: Swift.Int? = nil
+        )
+        {
+            self.durationInSeconds = durationInSeconds
+        }
+    }
+
+}
+
+extension FirehoseClientTypes.SnowflakeRoleConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabled = "Enabled"
+        case snowflakeRole = "SnowflakeRole"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabled = self.enabled {
+            try encodeContainer.encode(enabled, forKey: .enabled)
+        }
+        if let snowflakeRole = self.snowflakeRole {
+            try encodeContainer.encode(snowflakeRole, forKey: .snowflakeRole)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
+        enabled = enabledDecoded
+        let snowflakeRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .snowflakeRole)
+        snowflakeRole = snowflakeRoleDecoded
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeRoleConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnowflakeRoleConfiguration(enabled: \(Swift.String(describing: enabled)), snowflakeRole: \"CONTENT_REDACTED\")"}
+}
+
+extension FirehoseClientTypes {
+    /// Optionally configure a Snowflake role. Otherwise the default user role will be used.
+    public struct SnowflakeRoleConfiguration: Swift.Equatable {
+        /// Enable Snowflake role
+        public var enabled: Swift.Bool?
+        /// The Snowflake role you wish to configure
+        public var snowflakeRole: Swift.String?
+
+        public init(
+            enabled: Swift.Bool? = nil,
+            snowflakeRole: Swift.String? = nil
+        )
+        {
+            self.enabled = enabled
+            self.snowflakeRole = snowflakeRole
+        }
+    }
+
+}
+
+extension FirehoseClientTypes {
+    public enum SnowflakeS3BackupMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alldata
+        case faileddataonly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnowflakeS3BackupMode] {
+            return [
+                .alldata,
+                .faileddataonly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alldata: return "AllData"
+            case .faileddataonly: return "FailedDataOnly"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnowflakeS3BackupMode(rawValue: rawValue) ?? SnowflakeS3BackupMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeVpcConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case privateLinkVpceId = "PrivateLinkVpceId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let privateLinkVpceId = self.privateLinkVpceId {
+            try encodeContainer.encode(privateLinkVpceId, forKey: .privateLinkVpceId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let privateLinkVpceIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .privateLinkVpceId)
+        privateLinkVpceId = privateLinkVpceIdDecoded
+    }
+}
+
+extension FirehoseClientTypes.SnowflakeVpcConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SnowflakeVpcConfiguration(privateLinkVpceId: \"CONTENT_REDACTED\")"}
+}
+
+extension FirehoseClientTypes {
+    /// Configure a Snowflake VPC
+    public struct SnowflakeVpcConfiguration: Swift.Equatable {
+        /// The VPCE ID for Firehose to privately connect with Snowflake. The ID format is com.amazonaws.vpce.[region].vpce-svc-<[id]>. For more information, see [Amazon PrivateLink & Snowflake](https://docs.snowflake.com/en/user-guide/admin-security-privatelink)
+        /// This member is required.
+        public var privateLinkVpceId: Swift.String?
+
+        public init(
+            privateLinkVpceId: Swift.String? = nil
+        )
+        {
+            self.privateLinkVpceId = privateLinkVpceId
+        }
+    }
+
+}
+
 extension FirehoseClientTypes.SourceDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case kinesisStreamSourceDescription = "KinesisStreamSourceDescription"
@@ -8829,6 +9652,7 @@ extension UpdateDestinationInput: Swift.Encodable {
         case httpEndpointDestinationUpdate = "HttpEndpointDestinationUpdate"
         case redshiftDestinationUpdate = "RedshiftDestinationUpdate"
         case s3DestinationUpdate = "S3DestinationUpdate"
+        case snowflakeDestinationUpdate = "SnowflakeDestinationUpdate"
         case splunkDestinationUpdate = "SplunkDestinationUpdate"
     }
 
@@ -8863,6 +9687,9 @@ extension UpdateDestinationInput: Swift.Encodable {
         }
         if let s3DestinationUpdate = self.s3DestinationUpdate {
             try encodeContainer.encode(s3DestinationUpdate, forKey: .s3DestinationUpdate)
+        }
+        if let snowflakeDestinationUpdate = self.snowflakeDestinationUpdate {
+            try encodeContainer.encode(snowflakeDestinationUpdate, forKey: .snowflakeDestinationUpdate)
         }
         if let splunkDestinationUpdate = self.splunkDestinationUpdate {
             try encodeContainer.encode(splunkDestinationUpdate, forKey: .splunkDestinationUpdate)
@@ -8902,6 +9729,8 @@ public struct UpdateDestinationInput: Swift.Equatable {
     /// [Deprecated] Describes an update for a destination in Amazon S3.
     @available(*, deprecated)
     public var s3DestinationUpdate: FirehoseClientTypes.S3DestinationUpdate?
+    /// Update to the Snowflake destination condiguration settings
+    public var snowflakeDestinationUpdate: FirehoseClientTypes.SnowflakeDestinationUpdate?
     /// Describes an update for a destination in Splunk.
     public var splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
 
@@ -8916,6 +9745,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
         httpEndpointDestinationUpdate: FirehoseClientTypes.HttpEndpointDestinationUpdate? = nil,
         redshiftDestinationUpdate: FirehoseClientTypes.RedshiftDestinationUpdate? = nil,
         s3DestinationUpdate: FirehoseClientTypes.S3DestinationUpdate? = nil,
+        snowflakeDestinationUpdate: FirehoseClientTypes.SnowflakeDestinationUpdate? = nil,
         splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate? = nil
     )
     {
@@ -8929,6 +9759,7 @@ public struct UpdateDestinationInput: Swift.Equatable {
         self.httpEndpointDestinationUpdate = httpEndpointDestinationUpdate
         self.redshiftDestinationUpdate = redshiftDestinationUpdate
         self.s3DestinationUpdate = s3DestinationUpdate
+        self.snowflakeDestinationUpdate = snowflakeDestinationUpdate
         self.splunkDestinationUpdate = splunkDestinationUpdate
     }
 }
@@ -8945,6 +9776,7 @@ struct UpdateDestinationInputBody: Swift.Equatable {
     let splunkDestinationUpdate: FirehoseClientTypes.SplunkDestinationUpdate?
     let httpEndpointDestinationUpdate: FirehoseClientTypes.HttpEndpointDestinationUpdate?
     let amazonOpenSearchServerlessDestinationUpdate: FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate?
+    let snowflakeDestinationUpdate: FirehoseClientTypes.SnowflakeDestinationUpdate?
 }
 
 extension UpdateDestinationInputBody: Swift.Decodable {
@@ -8959,6 +9791,7 @@ extension UpdateDestinationInputBody: Swift.Decodable {
         case httpEndpointDestinationUpdate = "HttpEndpointDestinationUpdate"
         case redshiftDestinationUpdate = "RedshiftDestinationUpdate"
         case s3DestinationUpdate = "S3DestinationUpdate"
+        case snowflakeDestinationUpdate = "SnowflakeDestinationUpdate"
         case splunkDestinationUpdate = "SplunkDestinationUpdate"
     }
 
@@ -8986,6 +9819,8 @@ extension UpdateDestinationInputBody: Swift.Decodable {
         httpEndpointDestinationUpdate = httpEndpointDestinationUpdateDecoded
         let amazonOpenSearchServerlessDestinationUpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.AmazonOpenSearchServerlessDestinationUpdate.self, forKey: .amazonOpenSearchServerlessDestinationUpdate)
         amazonOpenSearchServerlessDestinationUpdate = amazonOpenSearchServerlessDestinationUpdateDecoded
+        let snowflakeDestinationUpdateDecoded = try containerValues.decodeIfPresent(FirehoseClientTypes.SnowflakeDestinationUpdate.self, forKey: .snowflakeDestinationUpdate)
+        snowflakeDestinationUpdate = snowflakeDestinationUpdateDecoded
     }
 }
 

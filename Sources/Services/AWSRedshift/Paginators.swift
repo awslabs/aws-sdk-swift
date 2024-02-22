@@ -1153,3 +1153,35 @@ extension PaginatorSequence where OperationStackInput == GetReservedNodeExchange
         return try await self.asyncCompactMap { item in item.reservedNodeOfferings }
     }
 }
+extension RedshiftClient {
+    /// Paginate over `[ListRecommendationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListRecommendationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListRecommendationsOutput`
+    public func listRecommendationsPaginated(input: ListRecommendationsInput) -> ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListRecommendationsInput, ListRecommendationsOutput>(input: input, inputKey: \.marker, outputKey: \.marker, paginationFunction: self.listRecommendations(input:))
+    }
+}
+
+extension ListRecommendationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListRecommendationsInput {
+        return ListRecommendationsInput(
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords,
+            namespaceArn: self.namespaceArn
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListRecommendationsInput, OperationStackOutput == ListRecommendationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listRecommendationsPaginated`
+    /// to access the nested member `[RedshiftClientTypes.Recommendation]`
+    /// - Returns: `[RedshiftClientTypes.Recommendation]`
+    public func recommendations() async throws -> [RedshiftClientTypes.Recommendation] {
+        return try await self.asyncCompactMap { item in item.recommendations }
+    }
+}

@@ -13,7 +13,6 @@ import software.amazon.smithy.rulesengine.language.syntax.parameters.ParameterTy
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.boxed
 import software.amazon.smithy.swift.codegen.model.defaultValue
@@ -61,7 +60,7 @@ class EndpointParamsGenerator(private val endpointRules: EndpointRuleSet?) {
             val memberName = param.name.toString().toLowerCamelCase()
             val memberSymbol = param.toSymbol()
             val optional = if (param.isRequired) "" else "?"
-            param.documentation.getOrNull()?.let { writer.write("/// $it") }
+            param.documentation.orElse(null)?.let { writer.write("/// $it") }
             writer.write("public let \$L: \$L$optional", memberName, memberSymbol)
         }
     }

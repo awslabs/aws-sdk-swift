@@ -115,6 +115,7 @@ extension ListTransactionsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListTransactionsInput {
         return ListTransactionsInput(
             address: self.address,
+            confirmationStatusFilter: self.confirmationStatusFilter,
             fromBlockchainInstant: self.fromBlockchainInstant,
             maxResults: self.maxResults,
             network: self.network,

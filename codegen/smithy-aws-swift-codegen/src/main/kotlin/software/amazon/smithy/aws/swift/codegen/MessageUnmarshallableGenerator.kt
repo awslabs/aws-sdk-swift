@@ -138,6 +138,7 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                 "extension ${streamSymbol.fullName}: \$N {", "}",
                 ClientRuntimeTypes.Serde.MessageUnmarshallable
             ) {
+                writer.write("")
                 writer.openBlock(
                     "public init(message: \$N, decoder: \$N) throws {", "}",
                     ClientRuntimeTypes.EventStream.Message,

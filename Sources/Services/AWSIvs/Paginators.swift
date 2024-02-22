@@ -20,6 +20,7 @@ extension ListChannelsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListChannelsInput {
         return ListChannelsInput(
             filterByName: self.filterByName,
+            filterByPlaybackRestrictionPolicyArn: self.filterByPlaybackRestrictionPolicyArn,
             filterByRecordingConfigurationArn: self.filterByRecordingConfigurationArn,
             maxResults: self.maxResults,
             nextToken: token
@@ -42,6 +43,27 @@ extension IvsClient {
 extension ListPlaybackKeyPairsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListPlaybackKeyPairsInput {
         return ListPlaybackKeyPairsInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+extension IvsClient {
+    /// Paginate over `[ListPlaybackRestrictionPoliciesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListPlaybackRestrictionPoliciesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListPlaybackRestrictionPoliciesOutput`
+    public func listPlaybackRestrictionPoliciesPaginated(input: ListPlaybackRestrictionPoliciesInput) -> ClientRuntime.PaginatorSequence<ListPlaybackRestrictionPoliciesInput, ListPlaybackRestrictionPoliciesOutput> {
+        return ClientRuntime.PaginatorSequence<ListPlaybackRestrictionPoliciesInput, ListPlaybackRestrictionPoliciesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listPlaybackRestrictionPolicies(input:))
+    }
+}
+
+extension ListPlaybackRestrictionPoliciesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListPlaybackRestrictionPoliciesInput {
+        return ListPlaybackRestrictionPoliciesInput(
             maxResults: self.maxResults,
             nextToken: token
         )}

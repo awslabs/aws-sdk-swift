@@ -5,37 +5,37 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-import ClientRuntime
+import class SmithyXML.Reader
 
 public struct RestXMLError {
-    public let errorCode: String?
-    public let requestId: String?
+    public let code: String
     public let message: String?
+    public let requestID: String?
 
-    public init(httpResponse: HttpResponse) async throws {
-        guard let data = try await httpResponse.body.readData() else {
-            errorCode = nil
-            requestId = nil
-            message = nil
-            return
-        }
-        do {
-            let decoded: ErrorResponseContainer<RestXMLErrorPayload>
-            decoded = try XMLDecoder().decode(responseBody: data)
-            self.errorCode = decoded.error.errorCode
-            self.message = decoded.error.message
-            self.requestId = decoded.requestId
-        } catch {
-            let decoded: RestXMLErrorNoErrorWrappingPayload = try XMLDecoder().decode(responseBody: data)
-            self.errorCode = decoded.errorCode
-            self.message = decoded.message
-            self.requestId = decoded.requestId
-        }
+    public static func errorBodyReader(responseReader: Reader, noErrorWrapping: Bool) -> Reader {
+        noErrorWrapping ? responseReader : responseReader["Error"]
     }
 
-    public init(errorCode: String? = nil, requestId: String? = nil, message: String? = nil) {
-        self.errorCode = errorCode
-        self.requestId = requestId
+    public init(responseReader: Reader, noErrorWrapping: Bool) throws {
+        let reader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
+        let code: String? = try reader["Code"].readIfPresent()
+        let message: String? = try reader["Message"].readIfPresent()
+        let requestID: String? = try responseReader["RequestId"].readIfPresent()
+        guard let code else {
+            throw RestXMLDecodeError.missingRequiredData
+        }
+        self.code = code
         self.message = message
+        self.requestID = requestID
     }
+
+    public init(code: String, message: String?, requestID: String?) {
+        self.code = code
+        self.message = message
+        self.requestID = requestID
+    }
+}
+
+public enum RestXMLDecodeError: Error {
+    case missingRequiredData
 }

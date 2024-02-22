@@ -509,7 +509,7 @@ extension CheckDomainAvailabilityOutput: ClientRuntime.HttpResponseBinding {
 
 /// The CheckDomainAvailability response includes the following elements.
 public struct CheckDomainAvailabilityOutput: Swift.Equatable {
-    /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
+    /// Whether the domain name is available for registering. You can register only domains designated as AVAILABLE. Valid values: AVAILABLE The domain name is available. AVAILABLE_RESERVED The domain name is reserved under specific conditions. AVAILABLE_PREORDER The domain name is available and can be preordered. DONT_KNOW The TLD registry didn't reply with a definitive answer about whether the domain name is available. Route 53 can return this response for a variety of reasons, for example, the registry is performing maintenance. Try again later. INVALID_NAME_FOR_TLD The TLD isn't valid. For example, it can contain characters that aren't allowed. PENDING The TLD registry didn't return a response in the expected amount of time. When the response is delayed, it usually takes just a few extra seconds. You can resubmit the request immediately. RESERVED The domain name has been reserved for another person or organization. UNAVAILABLE The domain name is not available. UNAVAILABLE_PREMIUM The domain name is not available. UNAVAILABLE_RESTRICTED The domain name is forbidden.
     public var availability: Route53DomainsClientTypes.DomainAvailability?
 
     public init(
@@ -2448,6 +2448,8 @@ extension Route53DomainsClientTypes {
         case availablePreorder
         case availableReserved
         case dontKnow
+        case invalidNameForTld
+        case pending
         case reserved
         case unavailable
         case unavailablePremium
@@ -2460,6 +2462,8 @@ extension Route53DomainsClientTypes {
                 .availablePreorder,
                 .availableReserved,
                 .dontKnow,
+                .invalidNameForTld,
+                .pending,
                 .reserved,
                 .unavailable,
                 .unavailablePremium,
@@ -2477,6 +2481,8 @@ extension Route53DomainsClientTypes {
             case .availablePreorder: return "AVAILABLE_PREORDER"
             case .availableReserved: return "AVAILABLE_RESERVED"
             case .dontKnow: return "DONT_KNOW"
+            case .invalidNameForTld: return "INVALID_NAME_FOR_TLD"
+            case .pending: return "PENDING"
             case .reserved: return "RESERVED"
             case .unavailable: return "UNAVAILABLE"
             case .unavailablePremium: return "UNAVAILABLE_PREMIUM"
@@ -2765,7 +2771,7 @@ extension Route53DomainsClientTypes.DomainTransferability: Swift.Codable {
 extension Route53DomainsClientTypes {
     /// A complex type that contains information about whether the specified domain can be transferred to Route 53.
     public struct DomainTransferability: Swift.Equatable {
-        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+        /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
         public var transferable: Route53DomainsClientTypes.Transferable?
 
         public init(
@@ -3816,7 +3822,7 @@ extension GetDomainDetailInputBody: Swift.Decodable {
 
 extension GetDomainDetailOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetDomainDetailOutput(adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), dnssecKeys: \(Swift.String(describing: dnssecKeys)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), abuseContactEmail: \"CONTENT_REDACTED\", abuseContactPhone: \"CONTENT_REDACTED\", adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "GetDomainDetailOutput(adminPrivacy: \(Swift.String(describing: adminPrivacy)), autoRenew: \(Swift.String(describing: autoRenew)), billingPrivacy: \(Swift.String(describing: billingPrivacy)), creationDate: \(Swift.String(describing: creationDate)), dnsSec: \(Swift.String(describing: dnsSec)), dnssecKeys: \(Swift.String(describing: dnssecKeys)), domainName: \(Swift.String(describing: domainName)), expirationDate: \(Swift.String(describing: expirationDate)), nameservers: \(Swift.String(describing: nameservers)), registrantPrivacy: \(Swift.String(describing: registrantPrivacy)), registrarName: \(Swift.String(describing: registrarName)), registrarUrl: \(Swift.String(describing: registrarUrl)), registryDomainId: \(Swift.String(describing: registryDomainId)), reseller: \(Swift.String(describing: reseller)), statusList: \(Swift.String(describing: statusList)), techPrivacy: \(Swift.String(describing: techPrivacy)), updatedDate: \(Swift.String(describing: updatedDate)), whoIsServer: \(Swift.String(describing: whoIsServer)), abuseContactEmail: \"CONTENT_REDACTED\", abuseContactPhone: \"CONTENT_REDACTED\", adminContact: \"CONTENT_REDACTED\", billingContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension GetDomainDetailOutput: ClientRuntime.HttpResponseBinding {
@@ -3829,6 +3835,8 @@ extension GetDomainDetailOutput: ClientRuntime.HttpResponseBinding {
             self.adminContact = output.adminContact
             self.adminPrivacy = output.adminPrivacy
             self.autoRenew = output.autoRenew
+            self.billingContact = output.billingContact
+            self.billingPrivacy = output.billingPrivacy
             self.creationDate = output.creationDate
             self.dnsSec = output.dnsSec
             self.dnssecKeys = output.dnssecKeys
@@ -3852,6 +3860,8 @@ extension GetDomainDetailOutput: ClientRuntime.HttpResponseBinding {
             self.adminContact = nil
             self.adminPrivacy = nil
             self.autoRenew = nil
+            self.billingContact = nil
+            self.billingPrivacy = nil
             self.creationDate = nil
             self.dnsSec = nil
             self.dnssecKeys = nil
@@ -3881,10 +3891,14 @@ public struct GetDomainDetailOutput: Swift.Equatable {
     public var abuseContactPhone: Swift.String?
     /// Provides details about the domain administrative contact.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
-    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the admin contact.
+    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the admin contact.
     public var adminPrivacy: Swift.Bool?
     /// Specifies whether the domain registration is set to renew automatically.
     public var autoRenew: Swift.Bool?
+    /// Provides details about the domain billing contact.
+    public var billingContact: Route53DomainsClientTypes.ContactDetail?
+    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the billing contact.
+    public var billingPrivacy: Swift.Bool?
     /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
     public var creationDate: ClientRuntime.Date?
     /// Deprecated.
@@ -3899,9 +3913,9 @@ public struct GetDomainDetailOutput: Swift.Equatable {
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
     /// Provides details about the domain registrant.
     public var registrantContact: Route53DomainsClientTypes.ContactDetail?
-    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
+    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
     public var registrantPrivacy: Swift.Bool?
-    /// Name of the registrar of the domain as identified in the registry. Domains with a .com, .net, or .org TLD are registered by Amazon Registrar. All other domains are registered by our registrar associate, Gandi. The value for domains that are registered by Gandi is "GANDI SAS".
+    /// Name of the registrar of the domain as identified in the registry.
     public var registrarName: Swift.String?
     /// Web address of the registrar.
     public var registrarUrl: Swift.String?
@@ -3913,7 +3927,7 @@ public struct GetDomainDetailOutput: Swift.Equatable {
     public var statusList: [Swift.String]?
     /// Provides details about the domain technical contact.
     public var techContact: Route53DomainsClientTypes.ContactDetail?
-    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If the value is false, WHOIS queries return the information that you entered for the technical contact.
+    /// Specifies whether contact information is concealed from WHOIS queries. If the value is true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If the value is false, WHOIS queries return the information that you entered for the technical contact.
     public var techPrivacy: Swift.Bool?
     /// The last updated date of the domain as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
     public var updatedDate: ClientRuntime.Date?
@@ -3926,6 +3940,8 @@ public struct GetDomainDetailOutput: Swift.Equatable {
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         adminPrivacy: Swift.Bool? = nil,
         autoRenew: Swift.Bool? = nil,
+        billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
+        billingPrivacy: Swift.Bool? = nil,
         creationDate: ClientRuntime.Date? = nil,
         dnsSec: Swift.String? = nil,
         dnssecKeys: [Route53DomainsClientTypes.DnssecKey]? = nil,
@@ -3950,6 +3966,8 @@ public struct GetDomainDetailOutput: Swift.Equatable {
         self.adminContact = adminContact
         self.adminPrivacy = adminPrivacy
         self.autoRenew = autoRenew
+        self.billingContact = billingContact
+        self.billingPrivacy = billingPrivacy
         self.creationDate = creationDate
         self.dnsSec = dnsSec
         self.dnssecKeys = dnssecKeys
@@ -3993,6 +4011,8 @@ struct GetDomainDetailOutputBody: Swift.Equatable {
     let dnsSec: Swift.String?
     let statusList: [Swift.String]?
     let dnssecKeys: [Route53DomainsClientTypes.DnssecKey]?
+    let billingContact: Route53DomainsClientTypes.ContactDetail?
+    let billingPrivacy: Swift.Bool?
 }
 
 extension GetDomainDetailOutputBody: Swift.Decodable {
@@ -4002,6 +4022,8 @@ extension GetDomainDetailOutputBody: Swift.Decodable {
         case adminContact = "AdminContact"
         case adminPrivacy = "AdminPrivacy"
         case autoRenew = "AutoRenew"
+        case billingContact = "BillingContact"
+        case billingPrivacy = "BillingPrivacy"
         case creationDate = "CreationDate"
         case dnsSec = "DnsSec"
         case dnssecKeys = "DnssecKeys"
@@ -4094,6 +4116,10 @@ extension GetDomainDetailOutputBody: Swift.Decodable {
             }
         }
         dnssecKeys = dnssecKeysDecoded0
+        let billingContactDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ContactDetail.self, forKey: .billingContact)
+        billingContact = billingContactDecoded
+        let billingPrivacyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .billingPrivacy)
+        billingPrivacy = billingPrivacyDecoded
     }
 }
 
@@ -5479,9 +5505,11 @@ extension Route53DomainsClientTypes {
         case internalTransferOutDomain
         case pushDomain
         case registerDomain
+        case releaseToGandi
         case removeDnssec
         case renewDomain
         case transferInDomain
+        case transferOnRenew
         case transferOutDomain
         case updateDomainContact
         case updateNameserver
@@ -5501,9 +5529,11 @@ extension Route53DomainsClientTypes {
                 .internalTransferOutDomain,
                 .pushDomain,
                 .registerDomain,
+                .releaseToGandi,
                 .removeDnssec,
                 .renewDomain,
                 .transferInDomain,
+                .transferOnRenew,
                 .transferOutDomain,
                 .updateDomainContact,
                 .updateNameserver,
@@ -5528,9 +5558,11 @@ extension Route53DomainsClientTypes {
             case .internalTransferOutDomain: return "INTERNAL_TRANSFER_OUT_DOMAIN"
             case .pushDomain: return "PUSH_DOMAIN"
             case .registerDomain: return "REGISTER_DOMAIN"
+            case .releaseToGandi: return "RELEASE_TO_GANDI"
             case .removeDnssec: return "REMOVE_DNSSEC"
             case .renewDomain: return "RENEW_DOMAIN"
             case .transferInDomain: return "TRANSFER_IN_DOMAIN"
+            case .transferOnRenew: return "TRANSFER_ON_RENEW"
             case .transferOutDomain: return "TRANSFER_OUT_DOMAIN"
             case .updateDomainContact: return "UPDATE_DOMAIN_CONTACT"
             case .updateNameserver: return "UPDATE_NAMESERVER"
@@ -5749,17 +5781,19 @@ extension Route53DomainsClientTypes {
 
 extension RegisterDomainInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RegisterDomainInput(autoRenew: \(Swift.String(describing: autoRenew)), domainName: \(Swift.String(describing: domainName)), durationInYears: \(Swift.String(describing: durationInYears)), idnLangCode: \(Swift.String(describing: idnLangCode)), privacyProtectAdminContact: \(Swift.String(describing: privacyProtectAdminContact)), privacyProtectRegistrantContact: \(Swift.String(describing: privacyProtectRegistrantContact)), privacyProtectTechContact: \(Swift.String(describing: privacyProtectTechContact)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "RegisterDomainInput(autoRenew: \(Swift.String(describing: autoRenew)), domainName: \(Swift.String(describing: domainName)), durationInYears: \(Swift.String(describing: durationInYears)), idnLangCode: \(Swift.String(describing: idnLangCode)), privacyProtectAdminContact: \(Swift.String(describing: privacyProtectAdminContact)), privacyProtectBillingContact: \(Swift.String(describing: privacyProtectBillingContact)), privacyProtectRegistrantContact: \(Swift.String(describing: privacyProtectRegistrantContact)), privacyProtectTechContact: \(Swift.String(describing: privacyProtectTechContact)), adminContact: \"CONTENT_REDACTED\", billingContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension RegisterDomainInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
         case autoRenew = "AutoRenew"
+        case billingContact = "BillingContact"
         case domainName = "DomainName"
         case durationInYears = "DurationInYears"
         case idnLangCode = "IdnLangCode"
         case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+        case privacyProtectBillingContact = "PrivacyProtectBillingContact"
         case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
         case privacyProtectTechContact = "PrivacyProtectTechContact"
         case registrantContact = "RegistrantContact"
@@ -5774,6 +5808,9 @@ extension RegisterDomainInput: Swift.Encodable {
         if let autoRenew = self.autoRenew {
             try encodeContainer.encode(autoRenew, forKey: .autoRenew)
         }
+        if let billingContact = self.billingContact {
+            try encodeContainer.encode(billingContact, forKey: .billingContact)
+        }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
         }
@@ -5785,6 +5822,9 @@ extension RegisterDomainInput: Swift.Encodable {
         }
         if let privacyProtectAdminContact = self.privacyProtectAdminContact {
             try encodeContainer.encode(privacyProtectAdminContact, forKey: .privacyProtectAdminContact)
+        }
+        if let privacyProtectBillingContact = self.privacyProtectBillingContact {
+            try encodeContainer.encode(privacyProtectBillingContact, forKey: .privacyProtectBillingContact)
         }
         if let privacyProtectRegistrantContact = self.privacyProtectRegistrantContact {
             try encodeContainer.encode(privacyProtectRegistrantContact, forKey: .privacyProtectRegistrantContact)
@@ -5815,6 +5855,8 @@ public struct RegisterDomainInput: Swift.Equatable {
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
     /// Indicates whether the domain will be automatically renewed (true) or not (false). Auto renewal only takes effect after the account is charged. Default: true
     public var autoRenew: Swift.Bool?
+    /// Provides detailed contact information. For information about the values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
+    public var billingContact: Route53DomainsClientTypes.ContactDetail?
     /// The domain name that you want to register. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -5834,11 +5876,13 @@ public struct RegisterDomainInput: Swift.Equatable {
     public var durationInYears: Swift.Int?
     /// Reserved for future use.
     public var idnLangCode: Swift.String?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts. Default: true
     public var privacyProtectAdminContact: Swift.Bool?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the billing contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
+    public var privacyProtectBillingContact: Swift.Bool?
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts. Default: true
     public var privacyProtectRegistrantContact: Swift.Bool?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts. Default: true
     public var privacyProtectTechContact: Swift.Bool?
     /// Provides detailed contact information. For information about the values that you specify for each element, see [ContactDetail](https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html).
     /// This member is required.
@@ -5850,10 +5894,12 @@ public struct RegisterDomainInput: Swift.Equatable {
     public init(
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         autoRenew: Swift.Bool? = nil,
+        billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil,
         idnLangCode: Swift.String? = nil,
         privacyProtectAdminContact: Swift.Bool? = nil,
+        privacyProtectBillingContact: Swift.Bool? = nil,
         privacyProtectRegistrantContact: Swift.Bool? = nil,
         privacyProtectTechContact: Swift.Bool? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
@@ -5862,10 +5908,12 @@ public struct RegisterDomainInput: Swift.Equatable {
     {
         self.adminContact = adminContact
         self.autoRenew = autoRenew
+        self.billingContact = billingContact
         self.domainName = domainName
         self.durationInYears = durationInYears
         self.idnLangCode = idnLangCode
         self.privacyProtectAdminContact = privacyProtectAdminContact
+        self.privacyProtectBillingContact = privacyProtectBillingContact
         self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
         self.privacyProtectTechContact = privacyProtectTechContact
         self.registrantContact = registrantContact
@@ -5884,16 +5932,20 @@ struct RegisterDomainInputBody: Swift.Equatable {
     let privacyProtectAdminContact: Swift.Bool?
     let privacyProtectRegistrantContact: Swift.Bool?
     let privacyProtectTechContact: Swift.Bool?
+    let billingContact: Route53DomainsClientTypes.ContactDetail?
+    let privacyProtectBillingContact: Swift.Bool?
 }
 
 extension RegisterDomainInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
         case autoRenew = "AutoRenew"
+        case billingContact = "BillingContact"
         case domainName = "DomainName"
         case durationInYears = "DurationInYears"
         case idnLangCode = "IdnLangCode"
         case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+        case privacyProtectBillingContact = "PrivacyProtectBillingContact"
         case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
         case privacyProtectTechContact = "PrivacyProtectTechContact"
         case registrantContact = "RegistrantContact"
@@ -5922,6 +5974,10 @@ extension RegisterDomainInputBody: Swift.Decodable {
         privacyProtectRegistrantContact = privacyProtectRegistrantContactDecoded
         let privacyProtectTechContactDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privacyProtectTechContact)
         privacyProtectTechContact = privacyProtectTechContactDecoded
+        let billingContactDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ContactDetail.self, forKey: .billingContact)
+        billingContact = billingContactDecoded
+        let privacyProtectBillingContactDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privacyProtectBillingContact)
+        privacyProtectBillingContact = privacyProtectBillingContactDecoded
     }
 }
 
@@ -6745,7 +6801,7 @@ extension Route53DomainsClientTypes {
 
 extension TransferDomainInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "TransferDomainInput(autoRenew: \(Swift.String(describing: autoRenew)), domainName: \(Swift.String(describing: domainName)), durationInYears: \(Swift.String(describing: durationInYears)), idnLangCode: \(Swift.String(describing: idnLangCode)), nameservers: \(Swift.String(describing: nameservers)), privacyProtectAdminContact: \(Swift.String(describing: privacyProtectAdminContact)), privacyProtectRegistrantContact: \(Swift.String(describing: privacyProtectRegistrantContact)), privacyProtectTechContact: \(Swift.String(describing: privacyProtectTechContact)), adminContact: \"CONTENT_REDACTED\", authCode: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "TransferDomainInput(autoRenew: \(Swift.String(describing: autoRenew)), domainName: \(Swift.String(describing: domainName)), durationInYears: \(Swift.String(describing: durationInYears)), idnLangCode: \(Swift.String(describing: idnLangCode)), nameservers: \(Swift.String(describing: nameservers)), privacyProtectAdminContact: \(Swift.String(describing: privacyProtectAdminContact)), privacyProtectBillingContact: \(Swift.String(describing: privacyProtectBillingContact)), privacyProtectRegistrantContact: \(Swift.String(describing: privacyProtectRegistrantContact)), privacyProtectTechContact: \(Swift.String(describing: privacyProtectTechContact)), adminContact: \"CONTENT_REDACTED\", authCode: \"CONTENT_REDACTED\", billingContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension TransferDomainInput: Swift.Encodable {
@@ -6753,11 +6809,13 @@ extension TransferDomainInput: Swift.Encodable {
         case adminContact = "AdminContact"
         case authCode = "AuthCode"
         case autoRenew = "AutoRenew"
+        case billingContact = "BillingContact"
         case domainName = "DomainName"
         case durationInYears = "DurationInYears"
         case idnLangCode = "IdnLangCode"
         case nameservers = "Nameservers"
         case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+        case privacyProtectBillingContact = "PrivacyProtectBillingContact"
         case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
         case privacyProtectTechContact = "PrivacyProtectTechContact"
         case registrantContact = "RegistrantContact"
@@ -6774,6 +6832,9 @@ extension TransferDomainInput: Swift.Encodable {
         }
         if let autoRenew = self.autoRenew {
             try encodeContainer.encode(autoRenew, forKey: .autoRenew)
+        }
+        if let billingContact = self.billingContact {
+            try encodeContainer.encode(billingContact, forKey: .billingContact)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -6792,6 +6853,9 @@ extension TransferDomainInput: Swift.Encodable {
         }
         if let privacyProtectAdminContact = self.privacyProtectAdminContact {
             try encodeContainer.encode(privacyProtectAdminContact, forKey: .privacyProtectAdminContact)
+        }
+        if let privacyProtectBillingContact = self.privacyProtectBillingContact {
+            try encodeContainer.encode(privacyProtectBillingContact, forKey: .privacyProtectBillingContact)
         }
         if let privacyProtectRegistrantContact = self.privacyProtectRegistrantContact {
             try encodeContainer.encode(privacyProtectRegistrantContact, forKey: .privacyProtectRegistrantContact)
@@ -6824,6 +6888,8 @@ public struct TransferDomainInput: Swift.Equatable {
     public var authCode: Swift.String?
     /// Indicates whether the domain will be automatically renewed (true) or not (false). Auto renewal only takes effect after the account is charged. Default: true
     public var autoRenew: Swift.Bool?
+    /// Provides detailed contact information.
+    public var billingContact: Route53DomainsClientTypes.ContactDetail?
     /// The name of the domain that you want to transfer to Route 53. The top-level domain (TLD), such as .com, must be a TLD that Route 53 supports. For a list of supported TLDs, see [Domains that You Can Register with Amazon Route 53](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html) in the Amazon Route 53 Developer Guide. The domain name can contain only the following characters:
     ///
     /// * Letters a through z. Domain names are not case sensitive.
@@ -6844,9 +6910,11 @@ public struct TransferDomainInput: Swift.Equatable {
     public var nameservers: [Route53DomainsClientTypes.Nameserver]?
     /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information for the registrar, the phrase "REDACTED FOR PRIVACY", or "On behalf of owner.". While some domains may allow different privacy settings per contact, we recommend specifying the same privacy setting for all contacts. Default: true
     public var privacyProtectAdminContact: Swift.Bool?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the billing contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
+    public var privacyProtectBillingContact: Swift.Bool?
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts. Default: true
     public var privacyProtectRegistrantContact: Swift.Bool?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts. Default: true
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts. Default: true
     public var privacyProtectTechContact: Swift.Bool?
     /// Provides detailed contact information.
     /// This member is required.
@@ -6859,11 +6927,13 @@ public struct TransferDomainInput: Swift.Equatable {
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
         authCode: Swift.String? = nil,
         autoRenew: Swift.Bool? = nil,
+        billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
         domainName: Swift.String? = nil,
         durationInYears: Swift.Int? = nil,
         idnLangCode: Swift.String? = nil,
         nameservers: [Route53DomainsClientTypes.Nameserver]? = nil,
         privacyProtectAdminContact: Swift.Bool? = nil,
+        privacyProtectBillingContact: Swift.Bool? = nil,
         privacyProtectRegistrantContact: Swift.Bool? = nil,
         privacyProtectTechContact: Swift.Bool? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
@@ -6873,11 +6943,13 @@ public struct TransferDomainInput: Swift.Equatable {
         self.adminContact = adminContact
         self.authCode = authCode
         self.autoRenew = autoRenew
+        self.billingContact = billingContact
         self.domainName = domainName
         self.durationInYears = durationInYears
         self.idnLangCode = idnLangCode
         self.nameservers = nameservers
         self.privacyProtectAdminContact = privacyProtectAdminContact
+        self.privacyProtectBillingContact = privacyProtectBillingContact
         self.privacyProtectRegistrantContact = privacyProtectRegistrantContact
         self.privacyProtectTechContact = privacyProtectTechContact
         self.registrantContact = registrantContact
@@ -6898,6 +6970,8 @@ struct TransferDomainInputBody: Swift.Equatable {
     let privacyProtectAdminContact: Swift.Bool?
     let privacyProtectRegistrantContact: Swift.Bool?
     let privacyProtectTechContact: Swift.Bool?
+    let billingContact: Route53DomainsClientTypes.ContactDetail?
+    let privacyProtectBillingContact: Swift.Bool?
 }
 
 extension TransferDomainInputBody: Swift.Decodable {
@@ -6905,11 +6979,13 @@ extension TransferDomainInputBody: Swift.Decodable {
         case adminContact = "AdminContact"
         case authCode = "AuthCode"
         case autoRenew = "AutoRenew"
+        case billingContact = "BillingContact"
         case domainName = "DomainName"
         case durationInYears = "DurationInYears"
         case idnLangCode = "IdnLangCode"
         case nameservers = "Nameservers"
         case privacyProtectAdminContact = "PrivacyProtectAdminContact"
+        case privacyProtectBillingContact = "PrivacyProtectBillingContact"
         case privacyProtectRegistrantContact = "PrivacyProtectRegistrantContact"
         case privacyProtectTechContact = "PrivacyProtectTechContact"
         case registrantContact = "RegistrantContact"
@@ -6951,6 +7027,10 @@ extension TransferDomainInputBody: Swift.Decodable {
         privacyProtectRegistrantContact = privacyProtectRegistrantContactDecoded
         let privacyProtectTechContactDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privacyProtectTechContact)
         privacyProtectTechContact = privacyProtectTechContactDecoded
+        let billingContactDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ContactDetail.self, forKey: .billingContact)
+        billingContact = billingContactDecoded
+        let privacyProtectBillingContactDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privacyProtectBillingContact)
+        privacyProtectBillingContact = privacyProtectBillingContactDecoded
     }
 }
 
@@ -7145,7 +7225,7 @@ enum TransferDomainToAnotherAwsAccountOutputError: ClientRuntime.HttpResponseErr
 }
 
 extension Route53DomainsClientTypes {
-    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT the domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
+    /// Whether the domain name can be transferred to Route 53. You can transfer only domains that have a value of TRANSFERABLE or Transferable. Valid values: TRANSFERABLE The domain name can be transferred to Route 53. UNTRANSFERRABLE The domain name can't be transferred to Route 53. DONT_KNOW Reserved for future use. DOMAIN_IN_OWN_ACCOUNT The domain already exists in the current Amazon Web Services account. DOMAIN_IN_ANOTHER_ACCOUNT The domain exists in another Amazon Web Services account. PREMIUM_DOMAIN Premium domain transfer is not supported.
     public enum Transferable: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case domainInAnotherAccount
         case domainInOwnAccount
@@ -7247,12 +7327,13 @@ extension UnsupportedTLDBody: Swift.Decodable {
 
 extension UpdateDomainContactInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDomainContactInput(consent: \(Swift.String(describing: consent)), domainName: \(Swift.String(describing: domainName)), adminContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
+        "UpdateDomainContactInput(consent: \(Swift.String(describing: consent)), domainName: \(Swift.String(describing: domainName)), adminContact: \"CONTENT_REDACTED\", billingContact: \"CONTENT_REDACTED\", registrantContact: \"CONTENT_REDACTED\", techContact: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateDomainContactInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
+        case billingContact = "BillingContact"
         case consent = "Consent"
         case domainName = "DomainName"
         case registrantContact = "RegistrantContact"
@@ -7263,6 +7344,9 @@ extension UpdateDomainContactInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adminContact = self.adminContact {
             try encodeContainer.encode(adminContact, forKey: .adminContact)
+        }
+        if let billingContact = self.billingContact {
+            try encodeContainer.encode(billingContact, forKey: .billingContact)
         }
         if let consent = self.consent {
             try encodeContainer.encode(consent, forKey: .consent)
@@ -7290,6 +7374,8 @@ extension UpdateDomainContactInput {
 public struct UpdateDomainContactInput: Swift.Equatable {
     /// Provides detailed contact information.
     public var adminContact: Route53DomainsClientTypes.ContactDetail?
+    /// Provides detailed contact information.
+    public var billingContact: Route53DomainsClientTypes.ContactDetail?
     /// Customer's consent for the owner change request. Required if the domain is not free (consent price is more than $0.00).
     public var consent: Route53DomainsClientTypes.Consent?
     /// The name of the domain that you want to update contact information for.
@@ -7302,6 +7388,7 @@ public struct UpdateDomainContactInput: Swift.Equatable {
 
     public init(
         adminContact: Route53DomainsClientTypes.ContactDetail? = nil,
+        billingContact: Route53DomainsClientTypes.ContactDetail? = nil,
         consent: Route53DomainsClientTypes.Consent? = nil,
         domainName: Swift.String? = nil,
         registrantContact: Route53DomainsClientTypes.ContactDetail? = nil,
@@ -7309,6 +7396,7 @@ public struct UpdateDomainContactInput: Swift.Equatable {
     )
     {
         self.adminContact = adminContact
+        self.billingContact = billingContact
         self.consent = consent
         self.domainName = domainName
         self.registrantContact = registrantContact
@@ -7322,11 +7410,13 @@ struct UpdateDomainContactInputBody: Swift.Equatable {
     let registrantContact: Route53DomainsClientTypes.ContactDetail?
     let techContact: Route53DomainsClientTypes.ContactDetail?
     let consent: Route53DomainsClientTypes.Consent?
+    let billingContact: Route53DomainsClientTypes.ContactDetail?
 }
 
 extension UpdateDomainContactInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminContact = "AdminContact"
+        case billingContact = "BillingContact"
         case consent = "Consent"
         case domainName = "DomainName"
         case registrantContact = "RegistrantContact"
@@ -7345,6 +7435,8 @@ extension UpdateDomainContactInputBody: Swift.Decodable {
         techContact = techContactDecoded
         let consentDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.Consent.self, forKey: .consent)
         consent = consentDecoded
+        let billingContactDecoded = try containerValues.decodeIfPresent(Route53DomainsClientTypes.ContactDetail.self, forKey: .billingContact)
+        billingContact = billingContactDecoded
     }
 }
 
@@ -7407,6 +7499,7 @@ enum UpdateDomainContactOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateDomainContactPrivacyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminPrivacy = "AdminPrivacy"
+        case billingPrivacy = "BillingPrivacy"
         case domainName = "DomainName"
         case registrantPrivacy = "RegistrantPrivacy"
         case techPrivacy = "TechPrivacy"
@@ -7416,6 +7509,9 @@ extension UpdateDomainContactPrivacyInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let adminPrivacy = self.adminPrivacy {
             try encodeContainer.encode(adminPrivacy, forKey: .adminPrivacy)
+        }
+        if let billingPrivacy = self.billingPrivacy {
+            try encodeContainer.encode(billingPrivacy, forKey: .billingPrivacy)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -7438,24 +7534,28 @@ extension UpdateDomainContactPrivacyInput {
 
 /// The UpdateDomainContactPrivacy request includes the following elements.
 public struct UpdateDomainContactPrivacyInput: Swift.Equatable {
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the admin contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     public var adminPrivacy: Swift.Bool?
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the billing contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
+    public var billingPrivacy: Swift.Bool?
     /// The name of the domain that you want to update the privacy setting for.
     /// This member is required.
     public var domainName: Swift.String?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     public var registrantPrivacy: Swift.Bool?
-    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, registrant, and technical contacts.
+    /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar or for our registrar associate, Gandi. If you specify false, WHOIS queries return the information that you entered for the technical contact. You must specify the same privacy setting for the administrative, billing, registrant, and technical contacts.
     public var techPrivacy: Swift.Bool?
 
     public init(
         adminPrivacy: Swift.Bool? = nil,
+        billingPrivacy: Swift.Bool? = nil,
         domainName: Swift.String? = nil,
         registrantPrivacy: Swift.Bool? = nil,
         techPrivacy: Swift.Bool? = nil
     )
     {
         self.adminPrivacy = adminPrivacy
+        self.billingPrivacy = billingPrivacy
         self.domainName = domainName
         self.registrantPrivacy = registrantPrivacy
         self.techPrivacy = techPrivacy
@@ -7467,11 +7567,13 @@ struct UpdateDomainContactPrivacyInputBody: Swift.Equatable {
     let adminPrivacy: Swift.Bool?
     let registrantPrivacy: Swift.Bool?
     let techPrivacy: Swift.Bool?
+    let billingPrivacy: Swift.Bool?
 }
 
 extension UpdateDomainContactPrivacyInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminPrivacy = "AdminPrivacy"
+        case billingPrivacy = "BillingPrivacy"
         case domainName = "DomainName"
         case registrantPrivacy = "RegistrantPrivacy"
         case techPrivacy = "TechPrivacy"
@@ -7487,6 +7589,8 @@ extension UpdateDomainContactPrivacyInputBody: Swift.Decodable {
         registrantPrivacy = registrantPrivacyDecoded
         let techPrivacyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .techPrivacy)
         techPrivacy = techPrivacyDecoded
+        let billingPrivacyDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .billingPrivacy)
+        billingPrivacy = billingPrivacyDecoded
     }
 }
 

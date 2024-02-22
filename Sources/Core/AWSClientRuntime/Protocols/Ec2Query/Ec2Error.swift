@@ -5,12 +5,19 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-public struct Ec2Error: Decodable {
-    public let code: String
-    public let message: String
+import SmithyReadWrite
+import SmithyXML
 
-    enum CodingKeys: String, CodingKey {
-        case code = "Code"
-        case message = "Message"
+public struct Ec2Error {
+    public var code: String?
+    public var message: String?
+
+    static var readingClosure: ReadingClosure<Ec2Error, Reader> {
+        return { reader in
+            var value = Ec2Error()
+            value.code = try reader["Code"].readIfPresent()
+            value.message = try reader["Message"].readIfPresent()
+            return value
+        }
     }
 }

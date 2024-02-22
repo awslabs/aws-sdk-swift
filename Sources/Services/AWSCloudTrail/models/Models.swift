@@ -601,7 +601,7 @@ extension CloudTrailClientTypes {
         public var endsWith: [Swift.String]?
         /// An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public var equals: [Swift.String]?
-        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the field is used only for selecting events as filtering is not supported. For CloudTrail event records, supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN. For event data stores for Config configuration items, Audit Manager evidence, or non-Amazon Web Services events, the only supported field is eventCategory.
+        /// A field in a CloudTrail event record on which to filter events to be logged. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the field is used only for selecting events as filtering is not supported. For CloudTrail management events, supported fields include readOnly, eventCategory, and eventSource. For CloudTrail data events, supported fields include readOnly, eventCategory, eventName, resources.type, and resources.ARN. For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
         ///
         /// * readOnly - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both read and write events. A value of true logs only read events. A value of false logs only write events.
         ///
@@ -611,9 +611,14 @@ extension CloudTrailClientTypes {
         ///
         /// * eventCategory - This is required and must be set to Equals.
         ///
-        /// * For CloudTrail event records, the value must be Management or Data.
+        /// * For CloudTrail management events, the value must be Management.
         ///
-        /// * For CloudTrail Insights event records, the value must be Insight.
+        /// * For CloudTrail data events, the value must be Data.
+        ///
+        ///
+        /// The following are used only for event data stores:
+        ///
+        /// * For CloudTrail Insights events, the value must be Insight.
         ///
         /// * For Config configuration items, the value must be ConfigurationItem.
         ///
@@ -631,6 +636,16 @@ extension CloudTrailClientTypes {
         /// * AWS::Lambda::Function
         ///
         /// * AWS::S3::Object
+        ///
+        /// * AWS::B2BI::Transformer
+        ///
+        /// * AWS::Bedrock::AgentAlias
+        ///
+        /// * AWS::Bedrock::KnowledgeBase
+        ///
+        /// * AWS::Cassandra::Table
+        ///
+        /// * AWS::CloudFront::KeyValueStore
         ///
         /// * AWS::CloudTrail::Channel
         ///
@@ -652,6 +667,10 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::GuardDuty::Detector
         ///
+        /// * AWS::IoTTwinMaker::Entity
+        ///
+        /// * AWS::IoTTwinMaker::Workspace
+        ///
         /// * AWS::KendraRanking::ExecutionPlan
         ///
         /// * AWS::KinesisVideo::Stream
@@ -662,7 +681,19 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::MedicalImaging::Datastore
         ///
+        /// * AWS::NeptuneGraph::Graph
+        ///
         /// * AWS::PCAConnectorAD::Connector
+        ///
+        /// * AWS::QBusiness::Application
+        ///
+        /// * AWS::QBusiness::DataSource
+        ///
+        /// * AWS::QBusiness::Index
+        ///
+        /// * AWS::QBusiness::WebExperience
+        ///
+        /// * AWS::RDS::DBCluster
         ///
         /// * AWS::SageMaker::Endpoint
         ///
@@ -670,9 +701,17 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::SageMaker::FeatureGroup
         ///
+        /// * AWS::ServiceDiscovery::Namespace
+        ///
+        /// * AWS::ServiceDiscovery::Service
+        ///
+        /// * AWS::SCN::Instance
+        ///
         /// * AWS::SNS::PlatformEndpoint
         ///
         /// * AWS::SNS::Topic
+        ///
+        /// * AWS::SQS::Queue
         ///
         /// * AWS::S3::AccessPoint
         ///
@@ -681,6 +720,10 @@ extension CloudTrailClientTypes {
         /// * AWS::S3Outposts::Object
         ///
         /// * AWS::SSMMessages::ControlChannel
+        ///
+        /// * AWS::ThinClient::Device
+        ///
+        /// * AWS::ThinClient::Environment
         ///
         /// * AWS::Timestream::Database
         ///
@@ -706,6 +749,31 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::lambda:::function:
+        ///
+        ///
+        /// When resources.type equals AWS::B2BI::Transformer, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::b2bi:::transformer/
+        ///
+        ///
+        /// When resources.type equals AWS::Bedrock::AgentAlias, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::bedrock:::agent-alias//
+        ///
+        ///
+        /// When resources.type equals AWS::Bedrock::KnowledgeBase, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::bedrock:::knowledge-base/
+        ///
+        ///
+        /// When resources.type equals AWS::Cassandra::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::cassandra:::/keyspace//table/
+        ///
+        ///
+        /// When resources.type equals AWS::CloudFront::KeyValueStore, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::cloudfront:::key-value-store/
         ///
         ///
         /// When resources.type equals AWS::CloudTrail::Channel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -758,6 +826,16 @@ extension CloudTrailClientTypes {
         /// * arn::guardduty:::detector/
         ///
         ///
+        /// When resources.type equals AWS::IoTTwinMaker::Entity, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iottwinmaker:::workspace//entity/
+        ///
+        ///
+        /// When resources.type equals AWS::IoTTwinMaker::Workspace, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iottwinmaker:::workspace/
+        ///
+        ///
         /// When resources.type equals AWS::KendraRanking::ExecutionPlan, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::kendra-ranking:::rescore-execution-plan/
@@ -765,7 +843,7 @@ extension CloudTrailClientTypes {
         ///
         /// When resources.type equals AWS::KinesisVideo::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
-        /// * arn::kinesisvideo:::stream/
+        /// * arn::kinesisvideo:::stream//
         ///
         ///
         /// When resources.type equals AWS::ManagedBlockchain::Network, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -783,9 +861,39 @@ extension CloudTrailClientTypes {
         /// * arn::medical-imaging:::datastore/
         ///
         ///
+        /// When resources.type equals AWS::NeptuneGraph::Graph, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::neptune-graph:::graph/
+        ///
+        ///
         /// When resources.type equals AWS::PCAConnectorAD::Connector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::pca-connector-ad:::connector/
+        ///
+        ///
+        /// When resources.type equals AWS::QBusiness::Application, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::qbusiness:::application/
+        ///
+        ///
+        /// When resources.type equals AWS::QBusiness::DataSource, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::qbusiness:::application//index//data-source/
+        ///
+        ///
+        /// When resources.type equals AWS::QBusiness::Index, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::qbusiness:::application//index/
+        ///
+        ///
+        /// When resources.type equals AWS::QBusiness::WebExperience, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::qbusiness:::application//web-experience/
+        ///
+        ///
+        /// When resources.type equals AWS::RDS::DBCluster, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::rds:::cluster/
         ///
         ///
         /// When resources.type equals AWS::SageMaker::Endpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -803,6 +911,21 @@ extension CloudTrailClientTypes {
         /// * arn::sagemaker:::feature-group/
         ///
         ///
+        /// When resources.type equals AWS::SCN::Instance, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::scn:::instance/
+        ///
+        ///
+        /// When resources.type equals AWS::ServiceDiscovery::Namespace, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::servicediscovery:::namespace/
+        ///
+        ///
+        /// When resources.type equals AWS::ServiceDiscovery::Service, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::servicediscovery:::service/
+        ///
+        ///
         /// When resources.type equals AWS::SNS::PlatformEndpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sns:::endpoint///
@@ -811,6 +934,11 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::SNS::Topic, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sns:::
+        ///
+        ///
+        /// When resources.type equals AWS::SQS::Queue, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::sqs:::
         ///
         ///
         /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
@@ -833,6 +961,16 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::ssmmessages:::control-channel/
+        ///
+        ///
+        /// When resources.type equals AWS::ThinClient::Device, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::thinclient:::device/
+        ///
+        ///
+        /// When resources.type equals AWS::ThinClient::Environment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::thinclient:::environment/
         ///
         ///
         /// When resources.type equals AWS::Timestream::Database, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -2468,7 +2606,7 @@ extension CreateTrailInput {
 
 /// Specifies the settings for each trail.
 public struct CreateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn. Only the management account can configure a CloudWatch Logs log group for an organization trail.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?
@@ -2882,63 +3020,7 @@ extension CloudTrailClientTypes {
         /// * AWS::S3::Object
         ///
         ///
-        /// The following resource types are also available through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
-        ///
-        /// * AWS::CloudTrail::Channel
-        ///
-        /// * AWS::CodeWhisperer::Customization
-        ///
-        /// * AWS::CodeWhisperer::Profile
-        ///
-        /// * AWS::Cognito::IdentityPool
-        ///
-        /// * AWS::DynamoDB::Stream
-        ///
-        /// * AWS::EC2::Snapshot
-        ///
-        /// * AWS::EMRWAL::Workspace
-        ///
-        /// * AWS::FinSpace::Environment
-        ///
-        /// * AWS::Glue::Table
-        ///
-        /// * AWS::GuardDuty::Detector
-        ///
-        /// * AWS::KendraRanking::ExecutionPlan
-        ///
-        /// * AWS::KinesisVideo::Stream
-        ///
-        /// * AWS::ManagedBlockchain::Network
-        ///
-        /// * AWS::ManagedBlockchain::Node
-        ///
-        /// * AWS::MedicalImaging::Datastore
-        ///
-        /// * AWS::PCAConnectorAD::Connector
-        ///
-        /// * AWS::SageMaker::Endpoint
-        ///
-        /// * AWS::SageMaker::ExperimentTrialComponent
-        ///
-        /// * AWS::SageMaker::FeatureGroup
-        ///
-        /// * AWS::SNS::PlatformEndpoint
-        ///
-        /// * AWS::SNS::Topic
-        ///
-        /// * AWS::S3::AccessPoint
-        ///
-        /// * AWS::S3ObjectLambda::AccessPoint
-        ///
-        /// * AWS::S3Outposts::Object
-        ///
-        /// * AWS::SSMMessages::ControlChannel
-        ///
-        /// * AWS::Timestream::Database
-        ///
-        /// * AWS::Timestream::Table
-        ///
-        /// * AWS::VerifiedPermissions::PolicyStore
+        /// Additional resource types are available through advanced event selectors. For more information about these additional resource types, see [AdvancedFieldSelector](https://docs.aws.amazon.com/awscloudtrail/latest/APIReference/API_AdvancedFieldSelector.html).
         public var type: Swift.String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.
         ///
@@ -3837,7 +3919,7 @@ extension CloudTrailClientTypes {
         /// For channels used for a CloudTrail Lake integration, the location is the ARN of an event data store that receives events from a channel. For service-linked channels, the location is the name of the Amazon Web Services service.
         /// This member is required.
         public var location: Swift.String?
-        /// The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EventDataStore. For service-linked channels, the value is AWS_SERVICE.
+        /// The type of destination for events arriving from a channel. For channels used for a CloudTrail Lake integration, the value is EVENT_DATA_STORE. For service-linked channels, the value is AWS_SERVICE.
         /// This member is required.
         public var type: CloudTrailClientTypes.DestinationType?
 
@@ -7359,6 +7441,38 @@ extension CloudTrailClientTypes {
     }
 }
 
+extension CloudTrailClientTypes {
+    public enum InsightsMetricDataType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fillWithZeros
+        case nonZeroData
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsightsMetricDataType] {
+            return [
+                .fillWithZeros,
+                .nonZeroData,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fillWithZeros: return "FillWithZeros"
+            case .nonZeroData: return "NonZeroData"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InsightsMetricDataType(rawValue: rawValue) ?? InsightsMetricDataType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InsufficientDependencyServiceAccessPermissionException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9787,6 +9901,296 @@ enum ListImportsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "EventDataStoreARNInvalid": return try await EventDataStoreARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListInsightsMetricDataInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataType = "DataType"
+        case endTime = "EndTime"
+        case errorCode = "ErrorCode"
+        case eventName = "EventName"
+        case eventSource = "EventSource"
+        case insightType = "InsightType"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case period = "Period"
+        case startTime = "StartTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataType = self.dataType {
+            try encodeContainer.encode(dataType.rawValue, forKey: .dataType)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
+        }
+        if let errorCode = self.errorCode {
+            try encodeContainer.encode(errorCode, forKey: .errorCode)
+        }
+        if let eventName = self.eventName {
+            try encodeContainer.encode(eventName, forKey: .eventName)
+        }
+        if let eventSource = self.eventSource {
+            try encodeContainer.encode(eventSource, forKey: .eventSource)
+        }
+        if let insightType = self.insightType {
+            try encodeContainer.encode(insightType.rawValue, forKey: .insightType)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let period = self.period {
+            try encodeContainer.encode(period, forKey: .period)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
+        }
+    }
+}
+
+extension ListInsightsMetricDataInput {
+
+    static func urlPathProvider(_ value: ListInsightsMetricDataInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListInsightsMetricDataInput: Swift.Equatable {
+    /// Type of datapoints to return. Valid values are NonZeroData and FillWithZeros. The default is NonZeroData.
+    public var dataType: CloudTrailClientTypes.InsightsMetricDataType?
+    /// Specifies, in UTC, the end time for time-series data. The value specified is exclusive; results include data points up to the specified time stamp. The default is the time of request.
+    public var endTime: ClientRuntime.Date?
+    /// Conditionally required if the InsightType parameter is set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
+    public var errorCode: Swift.String?
+    /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
+    /// This member is required.
+    public var eventName: Swift.String?
+    /// The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com.
+    /// This member is required.
+    public var eventSource: Swift.String?
+    /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
+    /// This member is required.
+    public var insightType: CloudTrailClientTypes.InsightType?
+    /// The maximum number of datapoints to return. Valid values are integers from 1 to 21600. The default value is 21600.
+    public var maxResults: Swift.Int?
+    /// Returned if all datapoints can't be returned in a single call. For example, due to reaching MaxResults. Add this parameter to the request to continue retrieving results starting from the last evaluated point.
+    public var nextToken: Swift.String?
+    /// Granularity of data to retrieve, in seconds. Valid values are 60, 300, and 3600. If you specify any other value, you will get an error. The default is 3600 seconds.
+    public var period: Swift.Int?
+    /// Specifies, in UTC, the start time for time-series data. The value specified is inclusive; results include data points with the specified time stamp. The default is 90 days before the time of request.
+    public var startTime: ClientRuntime.Date?
+
+    public init(
+        dataType: CloudTrailClientTypes.InsightsMetricDataType? = nil,
+        endTime: ClientRuntime.Date? = nil,
+        errorCode: Swift.String? = nil,
+        eventName: Swift.String? = nil,
+        eventSource: Swift.String? = nil,
+        insightType: CloudTrailClientTypes.InsightType? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.dataType = dataType
+        self.endTime = endTime
+        self.errorCode = errorCode
+        self.eventName = eventName
+        self.eventSource = eventSource
+        self.insightType = insightType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.period = period
+        self.startTime = startTime
+    }
+}
+
+struct ListInsightsMetricDataInputBody: Swift.Equatable {
+    let eventSource: Swift.String?
+    let eventName: Swift.String?
+    let insightType: CloudTrailClientTypes.InsightType?
+    let errorCode: Swift.String?
+    let startTime: ClientRuntime.Date?
+    let endTime: ClientRuntime.Date?
+    let period: Swift.Int?
+    let dataType: CloudTrailClientTypes.InsightsMetricDataType?
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension ListInsightsMetricDataInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataType = "DataType"
+        case endTime = "EndTime"
+        case errorCode = "ErrorCode"
+        case eventName = "EventName"
+        case eventSource = "EventSource"
+        case insightType = "InsightType"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case period = "Period"
+        case startTime = "StartTime"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSource)
+        eventSource = eventSourceDecoded
+        let eventNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventName)
+        eventName = eventNameDecoded
+        let insightTypeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.InsightType.self, forKey: .insightType)
+        insightType = insightTypeDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let dataTypeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.InsightsMetricDataType.self, forKey: .dataType)
+        dataType = dataTypeDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension ListInsightsMetricDataOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListInsightsMetricDataOutputBody = try responseDecoder.decode(responseBody: data)
+            self.errorCode = output.errorCode
+            self.eventName = output.eventName
+            self.eventSource = output.eventSource
+            self.insightType = output.insightType
+            self.nextToken = output.nextToken
+            self.timestamps = output.timestamps
+            self.values = output.values
+        } else {
+            self.errorCode = nil
+            self.eventName = nil
+            self.eventSource = nil
+            self.insightType = nil
+            self.nextToken = nil
+            self.timestamps = nil
+            self.values = nil
+        }
+    }
+}
+
+public struct ListInsightsMetricDataOutput: Swift.Equatable {
+    /// Only returned if InsightType parameter was set to ApiErrorRateInsight. If returning metrics for the ApiErrorRateInsight Insights type, this is the error to retrieve data for. For example, AccessDenied.
+    public var errorCode: Swift.String?
+    /// The name of the event, typically the Amazon Web Services API on which unusual levels of activity were recorded.
+    public var eventName: Swift.String?
+    /// The Amazon Web Services service to which the request was made, such as iam.amazonaws.com or s3.amazonaws.com.
+    public var eventSource: Swift.String?
+    /// The type of CloudTrail Insights event, which is either ApiCallRateInsight or ApiErrorRateInsight. The ApiCallRateInsight Insights type analyzes write-only management API calls that are aggregated per minute against a baseline API call volume. The ApiErrorRateInsight Insights type analyzes management API calls that result in error codes.
+    public var insightType: CloudTrailClientTypes.InsightType?
+    /// Only returned if the full results could not be returned in a single query. You can set the NextToken parameter in the next request to this value to continue retrieval.
+    public var nextToken: Swift.String?
+    /// List of timestamps at intervals corresponding to the specified time period.
+    public var timestamps: [ClientRuntime.Date]?
+    /// List of values representing the API call rate or error rate at each timestamp. The number of values is equal to the number of timestamps.
+    public var values: [Swift.Double]?
+
+    public init(
+        errorCode: Swift.String? = nil,
+        eventName: Swift.String? = nil,
+        eventSource: Swift.String? = nil,
+        insightType: CloudTrailClientTypes.InsightType? = nil,
+        nextToken: Swift.String? = nil,
+        timestamps: [ClientRuntime.Date]? = nil,
+        values: [Swift.Double]? = nil
+    )
+    {
+        self.errorCode = errorCode
+        self.eventName = eventName
+        self.eventSource = eventSource
+        self.insightType = insightType
+        self.nextToken = nextToken
+        self.timestamps = timestamps
+        self.values = values
+    }
+}
+
+struct ListInsightsMetricDataOutputBody: Swift.Equatable {
+    let eventSource: Swift.String?
+    let eventName: Swift.String?
+    let insightType: CloudTrailClientTypes.InsightType?
+    let errorCode: Swift.String?
+    let timestamps: [ClientRuntime.Date]?
+    let values: [Swift.Double]?
+    let nextToken: Swift.String?
+}
+
+extension ListInsightsMetricDataOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCode = "ErrorCode"
+        case eventName = "EventName"
+        case eventSource = "EventSource"
+        case insightType = "InsightType"
+        case nextToken = "NextToken"
+        case timestamps = "Timestamps"
+        case values = "Values"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventSource)
+        eventSource = eventSourceDecoded
+        let eventNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventName)
+        eventName = eventNameDecoded
+        let insightTypeDecoded = try containerValues.decodeIfPresent(CloudTrailClientTypes.InsightType.self, forKey: .insightType)
+        insightType = insightTypeDecoded
+        let errorCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorCode)
+        errorCode = errorCodeDecoded
+        let timestampsContainer = try containerValues.decodeIfPresent([ClientRuntime.Date?].self, forKey: .timestamps)
+        var timestampsDecoded0:[ClientRuntime.Date]? = nil
+        if let timestampsContainer = timestampsContainer {
+            timestampsDecoded0 = [ClientRuntime.Date]()
+            for timestamp0 in timestampsContainer {
+                if let timestamp0 = timestamp0 {
+                    timestampsDecoded0?.append(timestamp0)
+                }
+            }
+        }
+        timestamps = timestampsDecoded0
+        let valuesContainer = try containerValues.decodeIfPresent([Swift.Double?].self, forKey: .values)
+        var valuesDecoded0:[Swift.Double]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [Swift.Double]()
+            for double0 in valuesContainer {
+                if let double0 = double0 {
+                    valuesDecoded0?.append(double0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInsightsMetricDataOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
             case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -15237,7 +15641,7 @@ extension UpdateTrailInput {
 
 /// Specifies settings to update for the trail.
 public struct UpdateTrailInput: Swift.Equatable {
-    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn. Only the management account can configure a CloudWatch Logs log group for an organization trail.
+    /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs are delivered. You must use a log group that exists in your account. Not required unless you specify CloudWatchLogsRoleArn.
     public var cloudWatchLogsLogGroupArn: Swift.String?
     /// Specifies the role for the CloudWatch Logs endpoint to assume to write to a user's log group. You must use a role that exists in your account.
     public var cloudWatchLogsRoleArn: Swift.String?

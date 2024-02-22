@@ -135,7 +135,8 @@ extension DescribeWorkspacesInput: ClientRuntime.PaginateToken {
             limit: self.limit,
             nextToken: token,
             userName: self.userName,
-            workspaceIds: self.workspaceIds
+            workspaceIds: self.workspaceIds,
+            workspaceName: self.workspaceName
         )}
 }
 

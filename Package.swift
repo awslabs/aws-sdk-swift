@@ -136,6 +136,8 @@ func addIntegrationTestTarget(_ name: String) {
         ]
     case "AWSS3":
         additionalDependencies = ["AWSSSOAdmin"]
+    case "AWSSTS":
+        additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     default:
         break
     }
@@ -230,7 +232,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.39.0",
+    clientRuntimeVersion: "0.41.0",
     crtVersion: "0.26.0"
 )
 
@@ -625,6 +627,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSMediaConvert",
     "AWSS3",
     "AWSSQS",
+    "AWSSTS",
     "AWSTranscribeStreaming",
 ]
 

@@ -874,6 +874,7 @@ extension CodePipelineClientTypes.ActionExecutionDetail: Swift.Codable {
         case stageName
         case startTime
         case status
+        case updatedBy
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -908,6 +909,9 @@ extension CodePipelineClientTypes.ActionExecutionDetail: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
+        if let updatedBy = self.updatedBy {
+            try encodeContainer.encode(updatedBy, forKey: .updatedBy)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -926,6 +930,8 @@ extension CodePipelineClientTypes.ActionExecutionDetail: Swift.Codable {
         startTime = startTimeDecoded
         let lastUpdateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdateTime)
         lastUpdateTime = lastUpdateTimeDecoded
+        let updatedByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .updatedBy)
+        updatedBy = updatedByDecoded
         let statusDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ActionExecutionStatus.self, forKey: .status)
         status = statusDecoded
         let inputDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ActionExecutionInput.self, forKey: .input)
@@ -958,6 +964,8 @@ extension CodePipelineClientTypes {
         public var startTime: ClientRuntime.Date?
         /// The status of the action execution. Status categories are InProgress, Succeeded, and Failed.
         public var status: CodePipelineClientTypes.ActionExecutionStatus?
+        /// The ARN of the user who changed the pipeline execution details.
+        public var updatedBy: Swift.String?
 
         public init(
             actionExecutionId: Swift.String? = nil,
@@ -969,7 +977,8 @@ extension CodePipelineClientTypes {
             pipelineVersion: Swift.Int? = nil,
             stageName: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
-            status: CodePipelineClientTypes.ActionExecutionStatus? = nil
+            status: CodePipelineClientTypes.ActionExecutionStatus? = nil,
+            updatedBy: Swift.String? = nil
         )
         {
             self.actionExecutionId = actionExecutionId
@@ -982,6 +991,7 @@ extension CodePipelineClientTypes {
             self.stageName = stageName
             self.startTime = startTime
             self.status = status
+            self.updatedBy = updatedBy
         }
     }
 
@@ -989,11 +999,15 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionExecutionFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case latestInPipelineExecution
         case pipelineExecutionId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let latestInPipelineExecution = self.latestInPipelineExecution {
+            try encodeContainer.encode(latestInPipelineExecution, forKey: .latestInPipelineExecution)
+        }
         if let pipelineExecutionId = self.pipelineExecutionId {
             try encodeContainer.encode(pipelineExecutionId, forKey: .pipelineExecutionId)
         }
@@ -1003,19 +1017,25 @@ extension CodePipelineClientTypes.ActionExecutionFilter: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let pipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineExecutionId)
         pipelineExecutionId = pipelineExecutionIdDecoded
+        let latestInPipelineExecutionDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.LatestInPipelineExecutionFilter.self, forKey: .latestInPipelineExecution)
+        latestInPipelineExecution = latestInPipelineExecutionDecoded
     }
 }
 
 extension CodePipelineClientTypes {
     /// Filter values for the action execution.
     public struct ActionExecutionFilter: Swift.Equatable {
+        /// The latest execution in the pipeline. Filtering on the latest execution is available for executions run on or after February 08, 2024.
+        public var latestInPipelineExecution: CodePipelineClientTypes.LatestInPipelineExecutionFilter?
         /// The pipeline execution ID used to filter action execution history.
         public var pipelineExecutionId: Swift.String?
 
         public init(
+            latestInPipelineExecution: CodePipelineClientTypes.LatestInPipelineExecutionFilter? = nil,
             pipelineExecutionId: Swift.String? = nil
         )
         {
+            self.latestInPipelineExecution = latestInPipelineExecution
             self.pipelineExecutionId = pipelineExecutionId
         }
     }
@@ -1234,6 +1254,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.ActionExecutionResult: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorDetails
         case externalExecutionId
         case externalExecutionSummary
         case externalExecutionUrl
@@ -1241,6 +1262,9 @@ extension CodePipelineClientTypes.ActionExecutionResult: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorDetails = self.errorDetails {
+            try encodeContainer.encode(errorDetails, forKey: .errorDetails)
+        }
         if let externalExecutionId = self.externalExecutionId {
             try encodeContainer.encode(externalExecutionId, forKey: .externalExecutionId)
         }
@@ -1260,12 +1284,16 @@ extension CodePipelineClientTypes.ActionExecutionResult: Swift.Codable {
         externalExecutionSummary = externalExecutionSummaryDecoded
         let externalExecutionUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .externalExecutionUrl)
         externalExecutionUrl = externalExecutionUrlDecoded
+        let errorDetailsDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ErrorDetails.self, forKey: .errorDetails)
+        errorDetails = errorDetailsDecoded
     }
 }
 
 extension CodePipelineClientTypes {
     /// Execution result information, such as the external execution ID.
     public struct ActionExecutionResult: Swift.Equatable {
+        /// Represents information about an error in CodePipeline.
+        public var errorDetails: CodePipelineClientTypes.ErrorDetails?
         /// The action provider's external ID for the action execution.
         public var externalExecutionId: Swift.String?
         /// The action provider's summary for the action execution.
@@ -1274,11 +1302,13 @@ extension CodePipelineClientTypes {
         public var externalExecutionUrl: Swift.String?
 
         public init(
+            errorDetails: CodePipelineClientTypes.ErrorDetails? = nil,
             externalExecutionId: Swift.String? = nil,
             externalExecutionSummary: Swift.String? = nil,
             externalExecutionUrl: Swift.String? = nil
         )
         {
+            self.errorDetails = errorDetails
             self.externalExecutionId = externalExecutionId
             self.externalExecutionSummary = externalExecutionSummary
             self.externalExecutionUrl = externalExecutionUrl
@@ -3019,6 +3049,61 @@ extension ConcurrentModificationExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConcurrentPipelineExecutionsLimitExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConcurrentPipelineExecutionsLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The pipeline has reached the limit for concurrent pipeline executions.
+public struct ConcurrentPipelineExecutionsLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentPipelineExecutionsLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConcurrentPipelineExecutionsLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConcurrentPipelineExecutionsLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4286,6 +4371,41 @@ extension CodePipelineClientTypes {
 
 }
 
+extension CodePipelineClientTypes {
+    public enum ExecutionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case parallel
+        case queued
+        case superseded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ExecutionMode] {
+            return [
+                .parallel,
+                .queued,
+                .superseded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .parallel: return "PARALLEL"
+            case .queued: return "QUEUED"
+            case .superseded: return "SUPERSEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ExecutionMode(rawValue: rawValue) ?? ExecutionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CodePipelineClientTypes.ExecutionTrigger: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case triggerDetail
@@ -5277,14 +5397,90 @@ enum GetThirdPartyJobDetailsOutputError: ClientRuntime.HttpResponseErrorBinding 
     }
 }
 
+extension CodePipelineClientTypes.GitBranchFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludes
+        case includes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludes = excludes {
+            var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
+            for gitbranchnamepattern0 in excludes {
+                try excludesContainer.encode(gitbranchnamepattern0)
+            }
+        }
+        if let includes = includes {
+            var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
+            for gitbranchnamepattern0 in includes {
+                try includesContainer.encode(gitbranchnamepattern0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let includesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includes)
+        var includesDecoded0:[Swift.String]? = nil
+        if let includesContainer = includesContainer {
+            includesDecoded0 = [Swift.String]()
+            for string0 in includesContainer {
+                if let string0 = string0 {
+                    includesDecoded0?.append(string0)
+                }
+            }
+        }
+        includes = includesDecoded0
+        let excludesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludes)
+        var excludesDecoded0:[Swift.String]? = nil
+        if let excludesContainer = excludesContainer {
+            excludesDecoded0 = [Swift.String]()
+            for string0 in excludesContainer {
+                if let string0 = string0 {
+                    excludesDecoded0?.append(string0)
+                }
+            }
+        }
+        excludes = excludesDecoded0
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The Git repository branches specified as filter criteria to start the pipeline.
+    public struct GitBranchFilterCriteria: Swift.Equatable {
+        /// The list of patterns of Git branches that, when a commit is pushed, are to be excluded from starting the pipeline.
+        public var excludes: [Swift.String]?
+        /// The list of patterns of Git branches that, when a commit is pushed, are to be included as criteria that starts the pipeline.
+        public var includes: [Swift.String]?
+
+        public init(
+            excludes: [Swift.String]? = nil,
+            includes: [Swift.String]? = nil
+        )
+        {
+            self.excludes = excludes
+            self.includes = includes
+        }
+    }
+
+}
+
 extension CodePipelineClientTypes.GitConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pullRequest
         case push
         case sourceActionName
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pullRequest = pullRequest {
+            var pullRequestContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pullRequest)
+            for gitpullrequestfilter0 in pullRequest {
+                try pullRequestContainer.encode(gitpullrequestfilter0)
+            }
+        }
         if let push = push {
             var pushContainer = encodeContainer.nestedUnkeyedContainer(forKey: .push)
             for gitpushfilter0 in push {
@@ -5311,23 +5507,38 @@ extension CodePipelineClientTypes.GitConfiguration: Swift.Codable {
             }
         }
         push = pushDecoded0
+        let pullRequestContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.GitPullRequestFilter?].self, forKey: .pullRequest)
+        var pullRequestDecoded0:[CodePipelineClientTypes.GitPullRequestFilter]? = nil
+        if let pullRequestContainer = pullRequestContainer {
+            pullRequestDecoded0 = [CodePipelineClientTypes.GitPullRequestFilter]()
+            for structure0 in pullRequestContainer {
+                if let structure0 = structure0 {
+                    pullRequestDecoded0?.append(structure0)
+                }
+            }
+        }
+        pullRequest = pullRequestDecoded0
     }
 }
 
 extension CodePipelineClientTypes {
-    /// A type of trigger configuration for Git-based source actions. You can specify the Git configuration trigger type for all third-party Git-based source actions that are supported by the CodeStarSourceConnection action type. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+    /// A type of trigger configuration for Git-based source actions. You can specify the Git configuration trigger type for all third-party Git-based source actions that are supported by the CodeStarSourceConnection action type.
     public struct GitConfiguration: Swift.Equatable {
-        /// The field where the repository event that will start the pipeline, such as pushing Git tags, is specified with details. Git tags is the only supported event type.
+        /// The field where the repository event that will start the pipeline is specified as pull requests.
+        public var pullRequest: [CodePipelineClientTypes.GitPullRequestFilter]?
+        /// The field where the repository event that will start the pipeline, such as pushing Git tags, is specified with details.
         public var push: [CodePipelineClientTypes.GitPushFilter]?
         /// The name of the pipeline source action where the trigger configuration, such as Git tags, is specified. The trigger configuration will start the pipeline upon the specified change only. You can only specify one trigger configuration per source action.
         /// This member is required.
         public var sourceActionName: Swift.String?
 
         public init(
+            pullRequest: [CodePipelineClientTypes.GitPullRequestFilter]? = nil,
             push: [CodePipelineClientTypes.GitPushFilter]? = nil,
             sourceActionName: Swift.String? = nil
         )
         {
+            self.pullRequest = pullRequest
             self.push = push
             self.sourceActionName = sourceActionName
         }
@@ -5335,13 +5546,192 @@ extension CodePipelineClientTypes {
 
 }
 
+extension CodePipelineClientTypes.GitFilePathFilterCriteria: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case excludes
+        case includes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let excludes = excludes {
+            var excludesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .excludes)
+            for gitfilepathpattern0 in excludes {
+                try excludesContainer.encode(gitfilepathpattern0)
+            }
+        }
+        if let includes = includes {
+            var includesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includes)
+            for gitfilepathpattern0 in includes {
+                try includesContainer.encode(gitfilepathpattern0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let includesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includes)
+        var includesDecoded0:[Swift.String]? = nil
+        if let includesContainer = includesContainer {
+            includesDecoded0 = [Swift.String]()
+            for string0 in includesContainer {
+                if let string0 = string0 {
+                    includesDecoded0?.append(string0)
+                }
+            }
+        }
+        includes = includesDecoded0
+        let excludesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .excludes)
+        var excludesDecoded0:[Swift.String]? = nil
+        if let excludesContainer = excludesContainer {
+            excludesDecoded0 = [Swift.String]()
+            for string0 in excludesContainer {
+                if let string0 = string0 {
+                    excludesDecoded0?.append(string0)
+                }
+            }
+        }
+        excludes = excludesDecoded0
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The Git repository file paths specified as filter criteria to start the pipeline.
+    public struct GitFilePathFilterCriteria: Swift.Equatable {
+        /// The list of patterns of Git repository file paths that, when a commit is pushed, are to be excluded from starting the pipeline.
+        public var excludes: [Swift.String]?
+        /// The list of patterns of Git repository file paths that, when a commit is pushed, are to be included as criteria that starts the pipeline.
+        public var includes: [Swift.String]?
+
+        public init(
+            excludes: [Swift.String]? = nil,
+            includes: [Swift.String]? = nil
+        )
+        {
+            self.excludes = excludes
+            self.includes = includes
+        }
+    }
+
+}
+
+extension CodePipelineClientTypes {
+    public enum GitPullRequestEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case closed
+        case `open`
+        case updated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GitPullRequestEventType] {
+            return [
+                .closed,
+                .open,
+                .updated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .closed: return "CLOSED"
+            case .open: return "OPEN"
+            case .updated: return "UPDATED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GitPullRequestEventType(rawValue: rawValue) ?? GitPullRequestEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodePipelineClientTypes.GitPullRequestFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branches
+        case events
+        case filePaths
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branches = self.branches {
+            try encodeContainer.encode(branches, forKey: .branches)
+        }
+        if let events = events {
+            var eventsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .events)
+            for gitpullrequesteventtype0 in events {
+                try eventsContainer.encode(gitpullrequesteventtype0.rawValue)
+            }
+        }
+        if let filePaths = self.filePaths {
+            try encodeContainer.encode(filePaths, forKey: .filePaths)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventsContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.GitPullRequestEventType?].self, forKey: .events)
+        var eventsDecoded0:[CodePipelineClientTypes.GitPullRequestEventType]? = nil
+        if let eventsContainer = eventsContainer {
+            eventsDecoded0 = [CodePipelineClientTypes.GitPullRequestEventType]()
+            for enum0 in eventsContainer {
+                if let enum0 = enum0 {
+                    eventsDecoded0?.append(enum0)
+                }
+            }
+        }
+        events = eventsDecoded0
+        let branchesDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.GitBranchFilterCriteria.self, forKey: .branches)
+        branches = branchesDecoded
+        let filePathsDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.GitFilePathFilterCriteria.self, forKey: .filePaths)
+        filePaths = filePathsDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The event criteria for the pull request trigger configuration, such as the lists of branches or file paths to include and exclude.
+    public struct GitPullRequestFilter: Swift.Equatable {
+        /// The field that specifies to filter on branches for the pull request trigger configuration.
+        public var branches: CodePipelineClientTypes.GitBranchFilterCriteria?
+        /// The field that specifies which pull request events to filter on (opened, updated, closed) for the trigger configuration.
+        public var events: [CodePipelineClientTypes.GitPullRequestEventType]?
+        /// The field that specifies to filter on file paths for the pull request trigger configuration.
+        public var filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria?
+
+        public init(
+            branches: CodePipelineClientTypes.GitBranchFilterCriteria? = nil,
+            events: [CodePipelineClientTypes.GitPullRequestEventType]? = nil,
+            filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria? = nil
+        )
+        {
+            self.branches = branches
+            self.events = events
+            self.filePaths = filePaths
+        }
+    }
+
+}
+
 extension CodePipelineClientTypes.GitPushFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case branches
+        case filePaths
         case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let branches = self.branches {
+            try encodeContainer.encode(branches, forKey: .branches)
+        }
+        if let filePaths = self.filePaths {
+            try encodeContainer.encode(filePaths, forKey: .filePaths)
+        }
         if let tags = self.tags {
             try encodeContainer.encode(tags, forKey: .tags)
         }
@@ -5351,19 +5741,31 @@ extension CodePipelineClientTypes.GitPushFilter: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagsDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.GitTagFilterCriteria.self, forKey: .tags)
         tags = tagsDecoded
+        let branchesDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.GitBranchFilterCriteria.self, forKey: .branches)
+        branches = branchesDecoded
+        let filePathsDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.GitFilePathFilterCriteria.self, forKey: .filePaths)
+        filePaths = filePathsDecoded
     }
 }
 
 extension CodePipelineClientTypes {
     /// The event criteria that specify when a specified repository event will start the pipeline for the specified trigger configuration, such as the lists of Git tags to include and exclude.
     public struct GitPushFilter: Swift.Equatable {
+        /// The field that specifies to filter on branches for the push trigger configuration.
+        public var branches: CodePipelineClientTypes.GitBranchFilterCriteria?
+        /// The field that specifies to filter on file paths for the push trigger configuration.
+        public var filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria?
         /// The field that contains the details for the Git tags trigger configuration.
         public var tags: CodePipelineClientTypes.GitTagFilterCriteria?
 
         public init(
+            branches: CodePipelineClientTypes.GitBranchFilterCriteria? = nil,
+            filePaths: CodePipelineClientTypes.GitFilePathFilterCriteria? = nil,
             tags: CodePipelineClientTypes.GitTagFilterCriteria? = nil
         )
         {
+            self.branches = branches
+            self.filePaths = filePaths
             self.tags = tags
         }
     }
@@ -6719,6 +7121,57 @@ extension CodePipelineClientTypes {
 
 }
 
+extension CodePipelineClientTypes.LatestInPipelineExecutionFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineExecutionId
+        case startTimeRange
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineExecutionId = self.pipelineExecutionId {
+            try encodeContainer.encode(pipelineExecutionId, forKey: .pipelineExecutionId)
+        }
+        if let startTimeRange = self.startTimeRange {
+            try encodeContainer.encode(startTimeRange.rawValue, forKey: .startTimeRange)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineExecutionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipelineExecutionId)
+        pipelineExecutionId = pipelineExecutionIdDecoded
+        let startTimeRangeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.StartTimeRange.self, forKey: .startTimeRange)
+        startTimeRange = startTimeRangeDecoded
+    }
+}
+
+extension CodePipelineClientTypes {
+    /// The field that specifies to filter on the latest execution in the pipeline. Filtering on the latest execution is available for executions run on or after February 08, 2024.
+    public struct LatestInPipelineExecutionFilter: Swift.Equatable {
+        /// The execution ID for the latest execution in the pipeline.
+        /// This member is required.
+        public var pipelineExecutionId: Swift.String?
+        /// The start time to filter on for the latest execution in the pipeline. Valid options:
+        ///
+        /// * All
+        ///
+        /// * Latest
+        /// This member is required.
+        public var startTimeRange: CodePipelineClientTypes.StartTimeRange?
+
+        public init(
+            pipelineExecutionId: Swift.String? = nil,
+            startTimeRange: CodePipelineClientTypes.StartTimeRange? = nil
+        )
+        {
+            self.pipelineExecutionId = pipelineExecutionId
+            self.startTimeRange = startTimeRange
+        }
+    }
+
+}
+
 extension LimitExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -7971,6 +8424,7 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactStore
         case artifactStores
+        case executionMode
         case name
         case pipelineType
         case roleArn
@@ -7990,6 +8444,9 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
             for (dictKey0, artifactStoreMap0) in artifactStores {
                 try artifactStoresContainer.encode(artifactStoreMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let executionMode = self.executionMode {
+            try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -8055,19 +8512,10 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
         stages = stagesDecoded0
         let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version)
         version = versionDecoded
+        let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
+        executionMode = executionModeDecoded
         let pipelineTypeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineType.self, forKey: .pipelineType)
         pipelineType = pipelineTypeDecoded
-        let triggersContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.PipelineTriggerDeclaration?].self, forKey: .triggers)
-        var triggersDecoded0:[CodePipelineClientTypes.PipelineTriggerDeclaration]? = nil
-        if let triggersContainer = triggersContainer {
-            triggersDecoded0 = [CodePipelineClientTypes.PipelineTriggerDeclaration]()
-            for structure0 in triggersContainer {
-                if let structure0 = structure0 {
-                    triggersDecoded0?.append(structure0)
-                }
-            }
-        }
-        triggers = triggersDecoded0
         let variablesContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.PipelineVariableDeclaration?].self, forKey: .variables)
         var variablesDecoded0:[CodePipelineClientTypes.PipelineVariableDeclaration]? = nil
         if let variablesContainer = variablesContainer {
@@ -8079,6 +8527,17 @@ extension CodePipelineClientTypes.PipelineDeclaration: Swift.Codable {
             }
         }
         variables = variablesDecoded0
+        let triggersContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.PipelineTriggerDeclaration?].self, forKey: .triggers)
+        var triggersDecoded0:[CodePipelineClientTypes.PipelineTriggerDeclaration]? = nil
+        if let triggersContainer = triggersContainer {
+            triggersDecoded0 = [CodePipelineClientTypes.PipelineTriggerDeclaration]()
+            for structure0 in triggersContainer {
+                if let structure0 = structure0 {
+                    triggersDecoded0?.append(structure0)
+                }
+            }
+        }
+        triggers = triggersDecoded0
     }
 }
 
@@ -8089,6 +8548,8 @@ extension CodePipelineClientTypes {
         public var artifactStore: CodePipelineClientTypes.ArtifactStore?
         /// A mapping of artifactStore objects and their corresponding Amazon Web Services Regions. There must be an artifact store for the pipeline Region and for each cross-region action in the pipeline. You must include either artifactStore or artifactStores in your pipeline, but you cannot use both. If you create a cross-region action in your pipeline, you must use artifactStores.
         public var artifactStores: [Swift.String:CodePipelineClientTypes.ArtifactStore]?
+        /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
+        public var executionMode: CodePipelineClientTypes.ExecutionMode?
         /// The name of the pipeline.
         /// This member is required.
         public var name: Swift.String?
@@ -8099,7 +8560,7 @@ extension CodePipelineClientTypes {
         /// * V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.
         ///
         ///
-        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html). V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](http://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html).
         public var pipelineType: CodePipelineClientTypes.PipelineType?
         /// The Amazon Resource Name (ARN) for CodePipeline to use to either perform actions with no actionRoleArn, or to use to assume roles for actions with an actionRoleArn.
         /// This member is required.
@@ -8117,6 +8578,7 @@ extension CodePipelineClientTypes {
         public init(
             artifactStore: CodePipelineClientTypes.ArtifactStore? = nil,
             artifactStores: [Swift.String:CodePipelineClientTypes.ArtifactStore]? = nil,
+            executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
             name: Swift.String? = nil,
             pipelineType: CodePipelineClientTypes.PipelineType? = nil,
             roleArn: Swift.String? = nil,
@@ -8128,6 +8590,7 @@ extension CodePipelineClientTypes {
         {
             self.artifactStore = artifactStore
             self.artifactStores = artifactStores
+            self.executionMode = executionMode
             self.name = name
             self.pipelineType = pipelineType
             self.roleArn = roleArn
@@ -8143,6 +8606,7 @@ extension CodePipelineClientTypes {
 extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case artifactRevisions
+        case executionMode
         case pipelineExecutionId
         case pipelineName
         case pipelineVersion
@@ -8159,6 +8623,9 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
             for artifactrevision0 in artifactRevisions {
                 try artifactRevisionsContainer.encode(artifactrevision0)
             }
+        }
+        if let executionMode = self.executionMode {
+            try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
         }
         if let pipelineExecutionId = self.pipelineExecutionId {
             try encodeContainer.encode(pipelineExecutionId, forKey: .pipelineExecutionId)
@@ -8209,8 +8676,6 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
             }
         }
         artifactRevisions = artifactRevisionsDecoded0
-        let triggerDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionTrigger.self, forKey: .trigger)
-        trigger = triggerDecoded
         let variablesContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.ResolvedPipelineVariable?].self, forKey: .variables)
         var variablesDecoded0:[CodePipelineClientTypes.ResolvedPipelineVariable]? = nil
         if let variablesContainer = variablesContainer {
@@ -8222,6 +8687,10 @@ extension CodePipelineClientTypes.PipelineExecution: Swift.Codable {
             }
         }
         variables = variablesDecoded0
+        let triggerDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionTrigger.self, forKey: .trigger)
+        trigger = triggerDecoded
+        let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
+        executionMode = executionModeDecoded
     }
 }
 
@@ -8230,6 +8699,8 @@ extension CodePipelineClientTypes {
     public struct PipelineExecution: Swift.Equatable {
         /// A list of ArtifactRevision objects included in a pipeline execution.
         public var artifactRevisions: [CodePipelineClientTypes.ArtifactRevision]?
+        /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
+        public var executionMode: CodePipelineClientTypes.ExecutionMode?
         /// The ID of the pipeline execution.
         public var pipelineExecutionId: Swift.String?
         /// The name of the pipeline with the specified pipeline execution.
@@ -8261,6 +8732,7 @@ extension CodePipelineClientTypes {
 
         public init(
             artifactRevisions: [CodePipelineClientTypes.ArtifactRevision]? = nil,
+            executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
             pipelineExecutionId: Swift.String? = nil,
             pipelineName: Swift.String? = nil,
             pipelineVersion: Swift.Int? = nil,
@@ -8271,6 +8743,7 @@ extension CodePipelineClientTypes {
         )
         {
             self.artifactRevisions = artifactRevisions
+            self.executionMode = executionMode
             self.pipelineExecutionId = pipelineExecutionId
             self.pipelineName = pipelineName
             self.pipelineVersion = pipelineVersion
@@ -8443,6 +8916,7 @@ extension CodePipelineClientTypes {
 
 extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionMode
         case lastUpdateTime
         case pipelineExecutionId
         case sourceRevisions
@@ -8454,6 +8928,9 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionMode = self.executionMode {
+            try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
+        }
         if let lastUpdateTime = self.lastUpdateTime {
             try encodeContainer.encodeTimestamp(lastUpdateTime, format: .epochSeconds, forKey: .lastUpdateTime)
         }
@@ -8505,12 +8982,16 @@ extension CodePipelineClientTypes.PipelineExecutionSummary: Swift.Codable {
         trigger = triggerDecoded
         let stopTriggerDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.StopExecutionTrigger.self, forKey: .stopTrigger)
         stopTrigger = stopTriggerDecoded
+        let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
+        executionMode = executionModeDecoded
     }
 }
 
 extension CodePipelineClientTypes {
     /// Summary information about a pipeline execution.
     public struct PipelineExecutionSummary: Swift.Equatable {
+        /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
+        public var executionMode: CodePipelineClientTypes.ExecutionMode?
         /// The date and time of the last change to the pipeline execution, in timestamp format.
         public var lastUpdateTime: ClientRuntime.Date?
         /// The ID of the pipeline execution.
@@ -8539,6 +9020,7 @@ extension CodePipelineClientTypes {
         public var trigger: CodePipelineClientTypes.ExecutionTrigger?
 
         public init(
+            executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
             lastUpdateTime: ClientRuntime.Date? = nil,
             pipelineExecutionId: Swift.String? = nil,
             sourceRevisions: [CodePipelineClientTypes.SourceRevision]? = nil,
@@ -8548,6 +9030,7 @@ extension CodePipelineClientTypes {
             trigger: CodePipelineClientTypes.ExecutionTrigger? = nil
         )
         {
+            self.executionMode = executionMode
             self.lastUpdateTime = lastUpdateTime
             self.pipelineExecutionId = pipelineExecutionId
             self.sourceRevisions = sourceRevisions
@@ -8740,6 +9223,7 @@ extension PipelineNotFoundExceptionBody: Swift.Decodable {
 extension CodePipelineClientTypes.PipelineSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case created
+        case executionMode
         case name
         case pipelineType
         case updated
@@ -8750,6 +9234,9 @@ extension CodePipelineClientTypes.PipelineSummary: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let created = self.created {
             try encodeContainer.encodeTimestamp(created, format: .epochSeconds, forKey: .created)
+        }
+        if let executionMode = self.executionMode {
+            try encodeContainer.encode(executionMode.rawValue, forKey: .executionMode)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -8773,6 +9260,8 @@ extension CodePipelineClientTypes.PipelineSummary: Swift.Codable {
         version = versionDecoded
         let pipelineTypeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.PipelineType.self, forKey: .pipelineType)
         pipelineType = pipelineTypeDecoded
+        let executionModeDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.ExecutionMode.self, forKey: .executionMode)
+        executionMode = executionModeDecoded
         let createdDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .created)
         created = createdDecoded
         let updatedDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updated)
@@ -8785,6 +9274,8 @@ extension CodePipelineClientTypes {
     public struct PipelineSummary: Swift.Equatable {
         /// The date and time the pipeline was created, in timestamp format.
         public var created: ClientRuntime.Date?
+        /// The method that the pipeline will use to handle multiple executions. The default mode is SUPERSEDED.
+        public var executionMode: CodePipelineClientTypes.ExecutionMode?
         /// The name of the pipeline.
         public var name: Swift.String?
         /// CodePipeline provides the following pipeline types, which differ in characteristics and price, so that you can tailor your pipeline features and cost to the needs of your applications.
@@ -8794,7 +9285,7 @@ extension CodePipelineClientTypes {
         /// * V2 type pipelines have the same structure as a V1 type, along with additional parameters for release safety and trigger configuration.
         ///
         ///
-        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](https://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html). V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+        /// Including V2 parameters, such as triggers on Git tags, in the pipeline JSON when creating or updating a pipeline will result in the pipeline having the V2 type of pipeline and the associated costs. For information about pricing for CodePipeline, see [Pricing](http://aws.amazon.com/codepipeline/pricing/). For information about which type of pipeline to choose, see [What type of pipeline is right for me?](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types-planning.html).
         public var pipelineType: CodePipelineClientTypes.PipelineType?
         /// The date and time of the last update to the pipeline, in timestamp format.
         public var updated: ClientRuntime.Date?
@@ -8803,6 +9294,7 @@ extension CodePipelineClientTypes {
 
         public init(
             created: ClientRuntime.Date? = nil,
+            executionMode: CodePipelineClientTypes.ExecutionMode? = nil,
             name: Swift.String? = nil,
             pipelineType: CodePipelineClientTypes.PipelineType? = nil,
             updated: ClientRuntime.Date? = nil,
@@ -8810,6 +9302,7 @@ extension CodePipelineClientTypes {
         )
         {
             self.created = created
+            self.executionMode = executionMode
             self.name = name
             self.pipelineType = pipelineType
             self.updated = updated
@@ -8845,7 +9338,7 @@ extension CodePipelineClientTypes.PipelineTriggerDeclaration: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// Represents information about the specified trigger configuration, such as the filter criteria and the source stage for the action that contains the trigger. This is only supported for the CodeStarSourceConnection action type. When a trigger configuration is specified, default change detection for repository and branch commits is disabled. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+    /// Represents information about the specified trigger configuration, such as the filter criteria and the source stage for the action that contains the trigger. This is only supported for the CodeStarSourceConnection action type. When a trigger configuration is specified, default change detection for repository and branch commits is disabled.
     public struct PipelineTriggerDeclaration: Swift.Equatable {
         /// Provides the filter criteria and the source stage for the repository event that starts the pipeline, such as Git tags.
         /// This member is required.
@@ -8953,7 +9446,7 @@ extension CodePipelineClientTypes.PipelineVariable: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// A pipeline-level variable used for a pipeline execution. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+    /// A pipeline-level variable used for a pipeline execution.
     public struct PipelineVariable: Swift.Equatable {
         /// The name of a pipeline-level variable.
         /// This member is required.
@@ -9006,7 +9499,7 @@ extension CodePipelineClientTypes.PipelineVariableDeclaration: Swift.Codable {
 }
 
 extension CodePipelineClientTypes {
-    /// A variable declared at the pipeline level. V2 type pipelines, along with triggers on Git tags and pipeline-level variables, are not currently supported for CloudFormation and CDK resources in CodePipeline. For more information about V2 type pipelines, see [Pipeline types](https://docs.aws.amazon.com/codepipeline/latest/userguide/pipeline-types.html) in the CodePipeline User Guide.
+    /// A variable declared at the pipeline level.
     public struct PipelineVariableDeclaration: Swift.Equatable {
         /// The value of a pipeline-level variable.
         public var defaultValue: Swift.String?
@@ -11223,6 +11716,7 @@ extension CodePipelineClientTypes.StageState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionStates
         case inboundExecution
+        case inboundExecutions
         case inboundTransitionState
         case latestExecution
         case stageName
@@ -11238,6 +11732,12 @@ extension CodePipelineClientTypes.StageState: Swift.Codable {
         }
         if let inboundExecution = self.inboundExecution {
             try encodeContainer.encode(inboundExecution, forKey: .inboundExecution)
+        }
+        if let inboundExecutions = inboundExecutions {
+            var inboundExecutionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .inboundExecutions)
+            for stageexecution0 in inboundExecutions {
+                try inboundExecutionsContainer.encode(stageexecution0)
+            }
         }
         if let inboundTransitionState = self.inboundTransitionState {
             try encodeContainer.encode(inboundTransitionState, forKey: .inboundTransitionState)
@@ -11256,6 +11756,17 @@ extension CodePipelineClientTypes.StageState: Swift.Codable {
         stageName = stageNameDecoded
         let inboundExecutionDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.StageExecution.self, forKey: .inboundExecution)
         inboundExecution = inboundExecutionDecoded
+        let inboundExecutionsContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.StageExecution?].self, forKey: .inboundExecutions)
+        var inboundExecutionsDecoded0:[CodePipelineClientTypes.StageExecution]? = nil
+        if let inboundExecutionsContainer = inboundExecutionsContainer {
+            inboundExecutionsDecoded0 = [CodePipelineClientTypes.StageExecution]()
+            for structure0 in inboundExecutionsContainer {
+                if let structure0 = structure0 {
+                    inboundExecutionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        inboundExecutions = inboundExecutionsDecoded0
         let inboundTransitionStateDecoded = try containerValues.decodeIfPresent(CodePipelineClientTypes.TransitionState.self, forKey: .inboundTransitionState)
         inboundTransitionState = inboundTransitionStateDecoded
         let actionStatesContainer = try containerValues.decodeIfPresent([CodePipelineClientTypes.ActionState?].self, forKey: .actionStates)
@@ -11281,6 +11792,8 @@ extension CodePipelineClientTypes {
         public var actionStates: [CodePipelineClientTypes.ActionState]?
         /// Represents information about the run of a stage.
         public var inboundExecution: CodePipelineClientTypes.StageExecution?
+        /// The inbound executions for a stage.
+        public var inboundExecutions: [CodePipelineClientTypes.StageExecution]?
         /// The state of the inbound transition, which is either enabled or disabled.
         public var inboundTransitionState: CodePipelineClientTypes.TransitionState?
         /// Information about the latest execution in the stage, including its ID and status.
@@ -11291,6 +11804,7 @@ extension CodePipelineClientTypes {
         public init(
             actionStates: [CodePipelineClientTypes.ActionState]? = nil,
             inboundExecution: CodePipelineClientTypes.StageExecution? = nil,
+            inboundExecutions: [CodePipelineClientTypes.StageExecution]? = nil,
             inboundTransitionState: CodePipelineClientTypes.TransitionState? = nil,
             latestExecution: CodePipelineClientTypes.StageExecution? = nil,
             stageName: Swift.String? = nil
@@ -11298,6 +11812,7 @@ extension CodePipelineClientTypes {
         {
             self.actionStates = actionStates
             self.inboundExecution = inboundExecution
+            self.inboundExecutions = inboundExecutions
             self.inboundTransitionState = inboundTransitionState
             self.latestExecution = latestExecution
             self.stageName = stageName
@@ -11494,10 +12009,43 @@ enum StartPipelineExecutionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConcurrentPipelineExecutionsLimitExceededException": return try await ConcurrentPipelineExecutionsLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PipelineNotFoundException": return try await PipelineNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CodePipelineClientTypes {
+    public enum StartTimeRange: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case all
+        case latest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StartTimeRange] {
+            return [
+                .all,
+                .latest,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .all: return "All"
+            case .latest: return "Latest"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StartTimeRange(rawValue: rawValue) ?? StartTimeRange.sdkUnknown(rawValue)
         }
     }
 }

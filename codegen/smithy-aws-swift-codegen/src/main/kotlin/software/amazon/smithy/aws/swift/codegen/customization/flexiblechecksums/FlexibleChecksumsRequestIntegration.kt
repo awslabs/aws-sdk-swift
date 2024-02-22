@@ -7,7 +7,6 @@ import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.getOrNull
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
@@ -28,11 +27,11 @@ class FlexibleChecksumsRequestIntegration : SwiftIntegration {
         operationShape: OperationShape,
         operationMiddleware: OperationMiddleware,
     ) {
-        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).getOrNull()
-        val input = operationShape.input.getOrNull()?.let { ctx.model.expectShape<StructureShape>(it) }
+        val httpChecksumTrait = operationShape.getTrait(HttpChecksumTrait::class.java).orElse(null)
+        val input = operationShape.input.orElse(null)?.let { ctx.model.expectShape<StructureShape>(it) }
 
         val useFlexibleChecksum = (httpChecksumTrait != null) &&
-            (httpChecksumTrait.requestAlgorithmMember?.getOrNull() != null) &&
+            (httpChecksumTrait.requestAlgorithmMember?.orElse(null) != null) &&
             (input?.memberNames?.any { it == httpChecksumTrait.requestAlgorithmMember.get() } == true)
 
         if (useFlexibleChecksum) {
@@ -54,7 +53,7 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
     override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
         val inputShapeName = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, ctx.model, op).name
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
-        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).getOrNull()
+        val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
         // Convert algorithmNames list to a Swift array representation

@@ -8612,6 +8612,7 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         case dataProtectionStatus
         case inheritedProperties
         case kmsKeyId
+        case logGroupArn
         case logGroupClass
         case logGroupName
         case metricFilterCount
@@ -8638,6 +8639,9 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let logGroupArn = self.logGroupArn {
+            try encodeContainer.encode(logGroupArn, forKey: .logGroupArn)
         }
         if let logGroupClass = self.logGroupClass {
             try encodeContainer.encode(logGroupClass.rawValue, forKey: .logGroupClass)
@@ -8687,13 +8691,15 @@ extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
         inheritedProperties = inheritedPropertiesDecoded0
         let logGroupClassDecoded = try containerValues.decodeIfPresent(CloudWatchLogsClientTypes.LogGroupClass.self, forKey: .logGroupClass)
         logGroupClass = logGroupClassDecoded
+        let logGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logGroupArn)
+        logGroupArn = logGroupArnDecoded
     }
 }
 
 extension CloudWatchLogsClientTypes {
     /// Represents a log group.
     public struct LogGroup: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the log group.
+        /// The Amazon Resource Name (ARN) of the log group. This version of the ARN includes a trailing :* after the log group name. Use this version to refer to the ARN in IAM policies when specifying permissions for most API actions. The exception is when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html). The permissions for those three actions require the ARN version that doesn't include a trailing :*.
         public var arn: Swift.String?
         /// The creation time of the log group, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC.
         public var creationTime: Swift.Int?
@@ -8703,6 +8709,14 @@ extension CloudWatchLogsClientTypes {
         public var inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]?
         /// The Amazon Resource Name (ARN) of the KMS key to use when encrypting log data.
         public var kmsKeyId: Swift.String?
+        /// The Amazon Resource Name (ARN) of the log group. This version of the ARN doesn't include a trailing :* after the log group name. Use this version to refer to the ARN in the following situations:
+        ///
+        /// * In the logGroupIdentifier input field in many CloudWatch Logs APIs.
+        ///
+        /// * In the resourceArn field in tagging APIs
+        ///
+        /// * In IAM policies, when specifying permissions for [TagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_TagResource.html), [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_UntagResource.html), and [ListTagsForResource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_ListTagsForResource.html).
+        public var logGroupArn: Swift.String?
         /// This specifies the log group class for this log group. There are two classes:
         ///
         /// * The Standard log class supports all CloudWatch Logs features.
@@ -8727,6 +8741,7 @@ extension CloudWatchLogsClientTypes {
             dataProtectionStatus: CloudWatchLogsClientTypes.DataProtectionStatus? = nil,
             inheritedProperties: [CloudWatchLogsClientTypes.InheritedProperty]? = nil,
             kmsKeyId: Swift.String? = nil,
+            logGroupArn: Swift.String? = nil,
             logGroupClass: CloudWatchLogsClientTypes.LogGroupClass? = nil,
             logGroupName: Swift.String? = nil,
             metricFilterCount: Swift.Int? = nil,
@@ -8739,6 +8754,7 @@ extension CloudWatchLogsClientTypes {
             self.dataProtectionStatus = dataProtectionStatus
             self.inheritedProperties = inheritedProperties
             self.kmsKeyId = kmsKeyId
+            self.logGroupArn = logGroupArn
             self.logGroupClass = logGroupClass
             self.logGroupName = logGroupName
             self.metricFilterCount = metricFilterCount
@@ -10207,7 +10223,7 @@ extension PutDeliverySourceInput {
 }
 
 public struct PutDeliverySourceInput: Swift.Equatable {
-    /// Defines the type of log that the source is sending. For valid values for this parameter, see the documentation for the source service.
+    /// Defines the type of log that the source is sending. For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
     /// This member is required.
     public var logType: Swift.String?
     /// A name for this delivery source. This name must be unique for all delivery sources in your account.
@@ -12494,7 +12510,7 @@ extension StartLiveTailOutput: ClientRuntime.HttpResponseBinding {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
         if case let .stream(stream) = httpResponse.body, let responseDecoder = decoder {
             let messageDecoder = AWSClientRuntime.AWSEventStream.AWSMessageDecoder()
-            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream>(stream: stream, messageDecoder: messageDecoder, responseDecoder: responseDecoder)
+            let decoderStream = ClientRuntime.EventStream.DefaultMessageDecoderStream<CloudWatchLogsClientTypes.StartLiveTailResponseStream>(stream: stream, messageDecoder: messageDecoder, unmarshalClosure: jsonUnmarshalClosure(responseDecoder: responseDecoder))
             self.responseStream = decoderStream.toAsyncStream()
         } else {
             self.responseStream = nil

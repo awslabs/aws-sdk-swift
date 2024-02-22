@@ -11,6 +11,7 @@ import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
+import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -74,43 +75,43 @@ class AWSEc2QueryHttpResponseBindingErrorGenerator : HttpResponseBindingErrorGen
                 addImport(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
                 addImport(SwiftDependency.CLIENT_RUNTIME.target)
 
-                openBlock(
-                    "enum \$L: \$N {",
-                    "}",
-                    operationErrorName,
-                    ClientRuntimeTypes.Http.HttpResponseErrorBinding
-                ) {
+                openBlock("enum \$L {", "}", operationErrorName) {
+                    writer.addImport(SwiftDependency.SMITHY_XML.target)
+                    writer.write("")
                     openBlock(
-                        "static func makeError(httpResponse: \$N, decoder: \$D) async throws -> \$N {", "}",
-                        ClientRuntimeTypes.Http.HttpResponse,
-                        ClientRuntimeTypes.Serde.ResponseDecoder,
-                        SwiftTypes.Error
+                        "static var httpBinding: \$N<\$N> {", "}",
+                        ClientRuntimeTypes.Http.HTTPResponseErrorBinding,
+                        SmithyXMLTypes.Reader,
                     ) {
-                        write("let ec2QueryError = try await Ec2QueryError(httpResponse: httpResponse)")
-
-                        if (ctx.service.errors.isNotEmpty()) {
-                            write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
-                            write("if let error = serviceError { return error }")
-                        }
-
-                        openBlock("switch ec2QueryError.errorCode {", "}") {
-                            val errorShapes = op.errors
-                                .map { ctx.model.expectShape(it) as StructureShape }
-                                .toSet()
-                                .sorted()
-                            errorShapes.forEach { errorShape ->
-                                var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
-                                var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                        writer.openBlock("{ httpResponse, responseDocumentClosure in", "}") {
+                            if (ctx.service.errors.isNotEmpty()) {
+                                write("let serviceError = try await ${ctx.symbolProvider.toSymbol(ctx.service).name}Types.makeServiceError(httpResponse, decoder, ec2QueryError)")
+                                write("if let error = serviceError { return error }")
+                            }
+                            writer.write("let responseReader = try await responseDocumentClosure(httpResponse)")
+                            writer.write("let reader = responseReader[\"Errors\"][\"Error\"]")
+                            writer.write("let requestID: String? = try responseReader[\"RequestId\"].readIfPresent()")
+                            writer.write("let errorCode: String? = try reader[\"Code\"].readIfPresent()")
+                            writer.write("let message: String? = try reader[\"Message\"].readIfPresent()")
+                            openBlock("switch errorCode {", "}") {
+                                val errorShapes = op.errors
+                                    .map { ctx.model.expectShape(it) as StructureShape }
+                                    .toSet()
+                                    .sorted()
+                                errorShapes.forEach { errorShape ->
+                                    var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)
+                                    var errorShapeType = ctx.symbolProvider.toSymbol(errorShape).name
+                                    write(
+                                        "case \$S: return try await \$L.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)",
+                                        errorShapeName,
+                                        errorShapeType
+                                    )
+                                }
                                 write(
-                                    "case \$S: return try await \$L(httpResponse: httpResponse, decoder: decoder, message: ec2QueryError.message, requestID: ec2QueryError.requestId)",
-                                    errorShapeName,
-                                    errorShapeType
+                                    "default: return try await \$N.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)",
+                                    unknownServiceErrorSymbol
                                 )
                             }
-                            write(
-                                "default: return try await \$N.makeError(httpResponse: httpResponse, message: ec2QueryError.message, requestID: ec2QueryError.requestId, typeName: ec2QueryError.errorCode)",
-                                unknownServiceErrorSymbol
-                            )
                         }
                     }
                 }
