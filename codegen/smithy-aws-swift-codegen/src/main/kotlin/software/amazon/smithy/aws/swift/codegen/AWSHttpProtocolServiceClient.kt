@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
-import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
@@ -89,16 +88,20 @@ class AWSHttpProtocolServiceClient(
     }
 
     private fun renderPrivateConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("private init(\$L) {", "}", properties.joinToString(", ") {
-            when (it.name) {
-                "credentialsProvider" -> {
-                    "_ ${it.name}: any ${it.type}"
-                }
-                else -> {
-                    "_ ${it.name}: ${it.type}"
+        writer.openBlock(
+            "private init(\$L) {",
+            "}",
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "credentialsProvider" -> {
+                        "_ ${it.name}: any ${it.type}"
+                    }
+                    else -> {
+                        "_ ${it.name}: ${it.type}"
+                    }
                 }
             }
-        }) {
+        ) {
             properties.forEach {
                 writer.write("self.\$L = \$L", it.name, it.name)
             }
