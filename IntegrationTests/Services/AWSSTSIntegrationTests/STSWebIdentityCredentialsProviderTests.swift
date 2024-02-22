@@ -15,7 +15,7 @@ import Foundation
 
 /// Tests STS web identity credentials provider using STS::getCallerIdentity.
 class STSWebIdentityCredentialsProviderTests: XCTestCase {
-    private let region = "us-west-2"
+    private let region = "us-east-1"
 
     // MARK: - The client used by test case
 
