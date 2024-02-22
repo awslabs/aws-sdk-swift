@@ -27,8 +27,8 @@ public class AWSClientConfigDefaultsProvider {
     public static let clientLogMode: ClientLogMode = RuntimeConfigType.defaultClientLogMode
 
     public static func credentialsProvider(
-        _ credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil) throws -> CredentialsProviding {
-        let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
+        _ credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil) throws -> any CredentialsProviding {
+        let resolvedCredentialsProvider: any AWSClientRuntime.CredentialsProviding
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
         if let credentialsProvider = credentialsProvider {
             resolvedCredentialsProvider = credentialsProvider
@@ -99,5 +99,13 @@ public class AWSClientConfigDefaultsProvider {
         }
 
         return RetryStrategyOptions(maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
+    }
+
+    public static func authSchemes(_ serviceName: String) -> [ClientRuntime.AuthScheme] {
+        var supportedAuthSchemes: [ClientRuntime.AuthScheme] = [SigV4AuthScheme()]
+        if (["S3", "EventBridge", "CloudFront KeyValueStore"].contains(serviceName)) {
+            supportedAuthSchemes.append(SigV4AAuthScheme())
+        }
+        return supportedAuthSchemes
     }
 }

@@ -9,15 +9,15 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.ServiceTypes
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class RulesBasedAuthSchemeResolverGenerator {
+    private val AUTH_SCHEME_RESOLVER = "AuthSchemeResolver"
     fun render(ctx: ProtocolGenerator.GenerationContext) {
         val rootNamespace = ctx.settings.moduleName
 
-        ctx.delegator.useFileWriter("./$rootNamespace/${ClientRuntimeTypes.Core.AuthSchemeResolver.name}.swift") {
+        ctx.delegator.useFileWriter("./$rootNamespace/$AUTH_SCHEME_RESOLVER.swift") {
             renderServiceSpecificDefaultResolver(ctx, it)
             it.write("")
             it.addImport(SwiftDependency.CLIENT_RUNTIME.target)
@@ -27,8 +27,8 @@ class RulesBasedAuthSchemeResolverGenerator {
 
     private fun renderServiceSpecificDefaultResolver(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val serviceSpecificDefaultResolverName = "Default$sdkId${ClientRuntimeTypes.Core.AuthSchemeResolver.name}"
-        val serviceSpecificAuthResolverProtocol = sdkId + ClientRuntimeTypes.Core.AuthSchemeResolver.name
+        val serviceSpecificDefaultResolverName = "Default$sdkId$AUTH_SCHEME_RESOLVER"
+        val serviceSpecificAuthResolverProtocol = sdkId + AUTH_SCHEME_RESOLVER
 
         writer.apply {
             writer.openBlock(
@@ -41,7 +41,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 write("")
                 renderConstructParametersMethod(
                     ctx,
-                    sdkId + ClientRuntimeTypes.Core.AuthSchemeResolverParameters.name,
+                    sdkId + ClientRuntimeTypes.Auth.AuthSchemeResolverParams.name,
                     writer
                 )
             }
@@ -50,13 +50,13 @@ class RulesBasedAuthSchemeResolverGenerator {
 
     private fun renderResolveAuthSchemeMethod(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val serviceParamsName = sdkId + ClientRuntimeTypes.Core.AuthSchemeResolverParameters.name
+        val serviceParamsName = sdkId + ClientRuntimeTypes.Auth.AuthSchemeResolverParams.name
 
         writer.apply {
             openBlock(
                 "public func resolveAuthScheme(params: \$L) throws -> [AuthOption] {",
                 "}",
-                ServiceTypes.AuthSchemeResolverParams
+                ClientRuntimeTypes.Auth.AuthSchemeResolverParams
             ) {
                 // Return value of array of auth options
                 write("var validAuthOptions = [AuthOption]()")
@@ -77,7 +77,7 @@ class RulesBasedAuthSchemeResolverGenerator {
                 openBlock("guard let authSchemes = endpoint.authSchemes() else {", "}") {
                     // Call internal modeled model-based auth scheme resolver as fall-back if no auth schemes
                     // are returned by endpoint resolver.
-                    write("return try InternalModeled${sdkId + ClientRuntimeTypes.Core.AuthSchemeResolver.name}().resolveAuthScheme(params: params)")
+                    write("return try InternalModeled${sdkId + AUTH_SCHEME_RESOLVER}().resolveAuthScheme(params: params)")
                 }
                 writer.write("let schemes = try authSchemes.map { (input) -> AWSClientRuntime.AuthScheme in try AWSClientRuntime.AuthScheme(from: input) }")
                 // If endpoint resolver returned auth schemes, iterate over them and save each as valid auth option to return
@@ -117,7 +117,7 @@ class RulesBasedAuthSchemeResolverGenerator {
             openBlock(
                 "public func constructParameters(context: HttpContext) throws -> \$L {",
                 "}",
-                ServiceTypes.AuthSchemeResolverParams
+                ClientRuntimeTypes.Auth.AuthSchemeResolverParams
             ) {
                 openBlock("guard let opName = context.getOperation() else {", "}") {
                     write("throw ClientError.dataNotFound(\"Operation name not configured in middleware context for auth scheme resolver params construction.\")")

@@ -6,8 +6,11 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
+import software.amazon.smithy.swift.codegen.config.DefaultProvider
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -47,6 +50,9 @@ class AWSHttpProtocolServiceClient(
         ) {
             val properties: List<ConfigProperty> = ctx.integrations
                 .flatMap { it.clientConfigurations(ctx).flatMap { it.properties } }
+
+            writer.write("private let serviceName = \$S", AuthSchemeResolverGenerator.getSdkId(ctx))
+            writer.write("")
 
             renderConfigClassVariables(properties)
 
@@ -94,10 +100,17 @@ class AWSHttpProtocolServiceClient(
             writer.writeInline(
                 "self.init(\$L)",
                 properties.joinToString(", ") {
-                    if (it.default?.isAsync == true) {
-                        it.name
-                    } else {
-                        it.default?.render(it.name) ?: it.name
+                    when (it.name) {
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
+                        }
+                        else -> {
+                            if (it.default?.isAsync == true) {
+                                it.name
+                            } else {
+                                it.default?.render(it.name) ?: it.name
+                            }
+                        }
                     }
                 }
             )
@@ -113,7 +126,12 @@ class AWSHttpProtocolServiceClient(
             writer.writeInline(
                 "self.init(\$L)",
                 properties.joinToString(", ") {
-                    it.default?.render() ?: it.name
+                    when (it.name) {
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
+                        }
+                        else -> { it.default?.render() ?: it.name }
+                    }
                 }
             )
         }
@@ -134,6 +152,9 @@ class AWSHttpProtocolServiceClient(
                         }
                         "credentialsProvider" -> {
                             "try AWSClientConfigDefaultsProvider.credentialsProvider()"
+                        }
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.value
                         }
                         else -> {
                             it.default?.render() ?: "nil"
@@ -157,4 +178,10 @@ class AWSHttpProtocolServiceClient(
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
     }
+
+    private val authSchemeResolverDefaultProvider = DefaultProvider(
+        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+        false,
+        false
+    )
 }

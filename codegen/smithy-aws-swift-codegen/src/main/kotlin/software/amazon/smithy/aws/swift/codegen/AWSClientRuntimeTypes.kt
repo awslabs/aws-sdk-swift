@@ -30,11 +30,6 @@ object AWSClientRuntimeTypes {
         }
     }
 
-    object Signing {
-        val SigV4Config = runtimeSymbol("SigV4Config")
-        val SigV4Middleware = runtimeSymbol("SigV4Middleware")
-    }
-
     object Core {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata")
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
