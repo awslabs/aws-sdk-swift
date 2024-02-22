@@ -139,7 +139,7 @@ enum AbortMultipartUploadOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchUpload": return try await NoSuchUpload.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -1642,7 +1642,7 @@ enum CompleteMultipartUploadOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -2379,7 +2379,7 @@ enum CopyObjectOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "ObjectNotInActiveTierError": return try await ObjectNotInActiveTierError.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -2685,7 +2685,7 @@ enum CreateBucketOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "BucketAlreadyExists": return try await BucketAlreadyExists.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 case "BucketAlreadyOwnedByYou": return try await BucketAlreadyOwnedByYou.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
@@ -3195,7 +3195,7 @@ enum CreateMultipartUploadOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3279,7 +3279,7 @@ enum CreateSessionOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -3480,7 +3480,7 @@ enum DeleteBucketAnalyticsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3551,7 +3551,7 @@ enum DeleteBucketCorsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3622,7 +3622,7 @@ enum DeleteBucketEncryptionOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3724,7 +3724,7 @@ enum DeleteBucketIntelligentTieringConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3806,7 +3806,7 @@ enum DeleteBucketInventoryConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3877,7 +3877,7 @@ enum DeleteBucketLifecycleOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3959,7 +3959,7 @@ enum DeleteBucketMetricsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -3986,7 +3986,7 @@ enum DeleteBucketOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4057,7 +4057,7 @@ enum DeleteBucketOwnershipControlsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4128,7 +4128,7 @@ enum DeleteBucketPolicyOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4199,7 +4199,7 @@ enum DeleteBucketReplicationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4270,7 +4270,7 @@ enum DeleteBucketTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4341,7 +4341,7 @@ enum DeleteBucketWebsiteOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4596,7 +4596,7 @@ enum DeleteObjectOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4694,7 +4694,7 @@ enum DeleteObjectTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4840,7 +4840,7 @@ enum DeleteObjectsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -4911,7 +4911,7 @@ enum DeletePublicAccessBlockOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -6767,7 +6767,7 @@ enum GetBucketAccelerateConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -6854,7 +6854,7 @@ enum GetBucketAclOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -6948,7 +6948,7 @@ enum GetBucketAnalyticsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7030,7 +7030,7 @@ enum GetBucketCorsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7112,7 +7112,7 @@ enum GetBucketEncryptionOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7191,7 +7191,7 @@ enum GetBucketIntelligentTieringConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7285,7 +7285,7 @@ enum GetBucketInventoryConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7367,7 +7367,7 @@ enum GetBucketLifecycleConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7449,7 +7449,7 @@ enum GetBucketLocationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7531,7 +7531,7 @@ enum GetBucketLoggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7625,7 +7625,7 @@ enum GetBucketMetricsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7723,7 +7723,7 @@ enum GetBucketNotificationConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7805,7 +7805,7 @@ enum GetBucketOwnershipControlsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7889,7 +7889,7 @@ enum GetBucketPolicyOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -7971,7 +7971,7 @@ enum GetBucketPolicyStatusOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8053,7 +8053,7 @@ enum GetBucketReplicationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8135,7 +8135,7 @@ enum GetBucketRequestPaymentOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8218,7 +8218,7 @@ enum GetBucketTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8305,7 +8305,7 @@ enum GetBucketVersioningOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8402,7 +8402,7 @@ enum GetBucketWebsiteOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -8520,7 +8520,7 @@ enum GetObjectAclOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -8725,7 +8725,7 @@ enum GetObjectAttributesOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -9288,7 +9288,7 @@ enum GetObjectLegalHoldOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -9370,7 +9370,7 @@ enum GetObjectLockConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -9677,7 +9677,7 @@ enum GetObjectOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "InvalidObjectState": return try await InvalidObjectState.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
@@ -9784,7 +9784,7 @@ enum GetObjectRetentionOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -9897,7 +9897,7 @@ enum GetObjectTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -10006,7 +10006,7 @@ enum GetObjectTorrentOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -10088,7 +10088,7 @@ enum GetPublicAccessBlockOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -10333,7 +10333,7 @@ enum HeadBucketOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NotFound": return try await NotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -10797,7 +10797,7 @@ enum HeadObjectOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NotFound": return try await NotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -12119,7 +12119,7 @@ enum ListBucketAnalyticsConfigurationsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12210,7 +12210,7 @@ enum ListBucketIntelligentTieringConfigurationsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12316,7 +12316,7 @@ enum ListBucketInventoryConfigurationsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12422,7 +12422,7 @@ enum ListBucketMetricsConfigurationsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12486,7 +12486,7 @@ enum ListBucketsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12569,7 +12569,7 @@ enum ListDirectoryBucketsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12772,7 +12772,7 @@ enum ListMultipartUploadsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -12985,7 +12985,7 @@ enum ListObjectVersionsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -13175,7 +13175,7 @@ enum ListObjectsOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -13401,7 +13401,7 @@ enum ListObjectsV2OutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchBucket": return try await NoSuchBucket.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -13628,7 +13628,7 @@ enum ListPartsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16028,7 +16028,7 @@ enum PutBucketAccelerateConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16166,7 +16166,7 @@ enum PutBucketAclOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16260,7 +16260,7 @@ enum PutBucketAnalyticsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16357,7 +16357,7 @@ enum PutBucketCorsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16454,7 +16454,7 @@ enum PutBucketEncryptionOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16533,7 +16533,7 @@ enum PutBucketIntelligentTieringConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16627,7 +16627,7 @@ enum PutBucketInventoryConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16716,7 +16716,7 @@ enum PutBucketLifecycleConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16813,7 +16813,7 @@ enum PutBucketLoggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16907,7 +16907,7 @@ enum PutBucketMetricsConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -16997,7 +16997,7 @@ enum PutBucketNotificationConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17087,7 +17087,7 @@ enum PutBucketOwnershipControlsOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17202,7 +17202,7 @@ enum PutBucketPolicyOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17306,7 +17306,7 @@ enum PutBucketReplicationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17403,7 +17403,7 @@ enum PutBucketRequestPaymentOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17500,7 +17500,7 @@ enum PutBucketTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17604,7 +17604,7 @@ enum PutBucketVersioningOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17701,7 +17701,7 @@ enum PutBucketWebsiteOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -17874,7 +17874,7 @@ enum PutObjectAclOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "NoSuchKey": return try await NoSuchKey.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -18449,7 +18449,7 @@ enum PutObjectLegalHoldOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -18570,7 +18570,7 @@ enum PutObjectLockConfigurationOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -18704,7 +18704,7 @@ enum PutObjectOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -18841,7 +18841,7 @@ enum PutObjectRetentionOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -18972,7 +18972,7 @@ enum PutObjectTaggingOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -19069,7 +19069,7 @@ enum PutPublicAccessBlockOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -20008,7 +20008,7 @@ enum RestoreObjectOutputError {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: true)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 case "ObjectAlreadyInActiveTierError": return try await ObjectAlreadyInActiveTierError.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
@@ -20629,7 +20629,7 @@ enum SelectObjectContentOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -22028,7 +22028,7 @@ enum UploadPartCopyOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -22350,7 +22350,7 @@ enum UploadPartOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
@@ -22820,7 +22820,7 @@ enum WriteGetObjectResponseOutputError {
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: true)
+            let restXMLError = try await AWSClientRuntime.RestXMLError.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: true)
             switch restXMLError.code {
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, requestID2: httpResponse.requestId2, typeName: restXMLError.code)
             }
