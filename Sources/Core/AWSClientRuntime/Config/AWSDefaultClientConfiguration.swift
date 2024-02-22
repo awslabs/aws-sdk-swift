@@ -9,7 +9,7 @@ public protocol AWSDefaultClientConfiguration {
     /// The credentials provider to be used for AWS credentials.
     ///
     /// If no credentials provider is supplied, the SDK will look for credentials in the environment, then in the `~/.aws/credentials` file.
-    var credentialsProvider: CredentialsProviding { get set }
+    var credentialsProvider: any CredentialsProviding { get set }
 
     /// Specifies whether FIPS endpoints should be used.
     var useFIPS: Bool? { get set }
