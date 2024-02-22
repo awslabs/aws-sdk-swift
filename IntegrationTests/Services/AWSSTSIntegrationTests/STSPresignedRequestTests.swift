@@ -31,14 +31,6 @@ class STSPresignedRequestTests: XCTestCase {
             return
         }
         let httpResponse = try await stsConfig.httpClientEngine.send(request: presignedRequest)
-        let output = try await GetCallerIdentityOutput(httpResponse: httpResponse, decoder: XMLDecoder())
-
-        let userID = String(describing: output.userId)
-        let account = String(describing: output.account)
-
-        XCTAssertNotNil(userID, "User ID should not be nil.")
-        XCTAssertTrue(!userID.isEmpty)
-        XCTAssertNotNil(account, "Account ID should not be nil.")
-        XCTAssertTrue(!account.isEmpty)
+        XCTAssertEqual(httpResponse.statusCode.rawValue, 200)
     }
 }
