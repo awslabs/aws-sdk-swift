@@ -9,6 +9,9 @@ on:
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
+permissions:
+  issues: write
+  
 jobs:
   codegen-build-test:
     runs-on: macos-14-xlarge
