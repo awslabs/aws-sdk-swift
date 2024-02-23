@@ -10,6 +10,11 @@ typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrateg
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider {
+    public static let clientsThatUseSigV4A = [
+        "CloudFrontKeyValueStoreClient",
+        "EventBridgeClient",
+        "S3Client"
+    ]
 
     public static let httpClientEngine: HTTPClient = RuntimeConfigType.makeClient(
         httpClientConfiguration: RuntimeConfigType.defaultHttpClientConfiguration)
@@ -103,7 +108,7 @@ public class AWSClientConfigDefaultsProvider {
 
     public static func authSchemes(_ clientName: String) -> [ClientRuntime.AuthScheme] {
         var supportedAuthSchemes: [ClientRuntime.AuthScheme] = [SigV4AuthScheme()]
-        if ["S3Client", "EventBridgeClient", "CloudFrontKeyValueStoreClient"].contains(clientName) {
+        if clientsThatUseSigV4A.contains(clientName) {
             supportedAuthSchemes.append(SigV4AAuthScheme())
         }
         return supportedAuthSchemes
