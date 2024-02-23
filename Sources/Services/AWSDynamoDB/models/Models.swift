@@ -2,6 +2,38 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension DynamoDBClientTypes {
+    public enum ApproximateCreationDateTimePrecision: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case microsecond
+        case millisecond
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApproximateCreationDateTimePrecision] {
+            return [
+                .microsecond,
+                .millisecond,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .microsecond: return "MICROSECOND"
+            case .millisecond: return "MILLISECOND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApproximateCreationDateTimePrecision(rawValue: rawValue) ?? ApproximateCreationDateTimePrecision.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DynamoDBClientTypes.ArchivalSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case archivalBackupArn = "ArchivalBackupArn"
@@ -6372,6 +6404,7 @@ extension DynamoDBClientTypes {
         case disabling
         case enableFailed
         case enabling
+        case updating
         case sdkUnknown(Swift.String)
 
         public static var allCases: [DestinationStatus] {
@@ -6381,6 +6414,7 @@ extension DynamoDBClientTypes {
                 .disabling,
                 .enableFailed,
                 .enabling,
+                .updating,
                 .sdkUnknown("")
             ]
         }
@@ -6395,6 +6429,7 @@ extension DynamoDBClientTypes {
             case .disabling: return "DISABLING"
             case .enableFailed: return "ENABLE_FAILED"
             case .enabling: return "ENABLING"
+            case .updating: return "UPDATING"
             case let .sdkUnknown(s): return s
             }
         }
@@ -6408,12 +6443,16 @@ extension DynamoDBClientTypes {
 
 extension DisableKinesisStreamingDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableKinesisStreamingConfiguration = self.enableKinesisStreamingConfiguration {
+            try encodeContainer.encode(enableKinesisStreamingConfiguration, forKey: .enableKinesisStreamingConfiguration)
+        }
         if let streamArn = self.streamArn {
             try encodeContainer.encode(streamArn, forKey: .streamArn)
         }
@@ -6431,6 +6470,8 @@ extension DisableKinesisStreamingDestinationInput {
 }
 
 public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
+    /// The source for the Kinesis streaming information that is being enabled.
+    public var enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
     /// The ARN for a Kinesis data stream.
     /// This member is required.
     public var streamArn: Swift.String?
@@ -6439,10 +6480,12 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
     public var tableName: Swift.String?
 
     public init(
+        enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
     {
+        self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
     }
@@ -6451,10 +6494,12 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
 struct DisableKinesisStreamingDestinationInputBody: Swift.Equatable {
     let tableName: Swift.String?
     let streamArn: Swift.String?
+    let enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
 }
 
 extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
@@ -6465,6 +6510,8 @@ extension DisableKinesisStreamingDestinationInputBody: Swift.Decodable {
         tableName = tableNameDecoded
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
+        let enableKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.EnableKinesisStreamingConfiguration.self, forKey: .enableKinesisStreamingConfiguration)
+        enableKinesisStreamingConfiguration = enableKinesisStreamingConfigurationDecoded
     }
 }
 
@@ -6474,10 +6521,12 @@ extension DisableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBi
             let responseDecoder = decoder {
             let output: DisableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
+            self.enableKinesisStreamingConfiguration = output.enableKinesisStreamingConfiguration
             self.streamArn = output.streamArn
             self.tableName = output.tableName
         } else {
             self.destinationStatus = nil
+            self.enableKinesisStreamingConfiguration = nil
             self.streamArn = nil
             self.tableName = nil
         }
@@ -6487,6 +6536,8 @@ extension DisableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBi
 public struct DisableKinesisStreamingDestinationOutput: Swift.Equatable {
     /// The current status of the replication.
     public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    /// The destination for the Kinesis streaming information that is being enabled.
+    public var enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
     /// The ARN for the specific Kinesis data stream.
     public var streamArn: Swift.String?
     /// The name of the table being modified.
@@ -6494,11 +6545,13 @@ public struct DisableKinesisStreamingDestinationOutput: Swift.Equatable {
 
     public init(
         destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
+        enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
     {
         self.destinationStatus = destinationStatus
+        self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
     }
@@ -6508,11 +6561,13 @@ struct DisableKinesisStreamingDestinationOutputBody: Swift.Equatable {
     let tableName: Swift.String?
     let streamArn: Swift.String?
     let destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    let enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
 }
 
 extension DisableKinesisStreamingDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationStatus = "DestinationStatus"
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
@@ -6525,6 +6580,8 @@ extension DisableKinesisStreamingDestinationOutputBody: Swift.Decodable {
         streamArn = streamArnDecoded
         let destinationStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.DestinationStatus.self, forKey: .destinationStatus)
         destinationStatus = destinationStatusDecoded
+        let enableKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.EnableKinesisStreamingConfiguration.self, forKey: .enableKinesisStreamingConfiguration)
+        enableKinesisStreamingConfiguration = enableKinesisStreamingConfigurationDecoded
     }
 }
 
@@ -6600,14 +6657,53 @@ extension DuplicateItemExceptionBody: Swift.Decodable {
 
 public enum DynamoDBClientTypes {}
 
+extension DynamoDBClientTypes.EnableKinesisStreamingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateCreationDateTimePrecision = "ApproximateCreationDateTimePrecision"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approximateCreationDateTimePrecision = self.approximateCreationDateTimePrecision {
+            try encodeContainer.encode(approximateCreationDateTimePrecision.rawValue, forKey: .approximateCreationDateTimePrecision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approximateCreationDateTimePrecisionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ApproximateCreationDateTimePrecision.self, forKey: .approximateCreationDateTimePrecision)
+        approximateCreationDateTimePrecision = approximateCreationDateTimePrecisionDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Enables setting the configuration for Kinesis Streaming.
+    public struct EnableKinesisStreamingConfiguration: Swift.Equatable {
+        /// Toggle for the precision of Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND.
+        public var approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision?
+
+        public init(
+            approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision? = nil
+        )
+        {
+            self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
+        }
+    }
+
+}
+
 extension EnableKinesisStreamingDestinationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableKinesisStreamingConfiguration = self.enableKinesisStreamingConfiguration {
+            try encodeContainer.encode(enableKinesisStreamingConfiguration, forKey: .enableKinesisStreamingConfiguration)
+        }
         if let streamArn = self.streamArn {
             try encodeContainer.encode(streamArn, forKey: .streamArn)
         }
@@ -6625,6 +6721,8 @@ extension EnableKinesisStreamingDestinationInput {
 }
 
 public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
+    /// The source for the Kinesis streaming information that is being enabled.
+    public var enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
     /// The ARN for a Kinesis data stream.
     /// This member is required.
     public var streamArn: Swift.String?
@@ -6633,10 +6731,12 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
     public var tableName: Swift.String?
 
     public init(
+        enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
     {
+        self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
     }
@@ -6645,10 +6745,12 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
 struct EnableKinesisStreamingDestinationInputBody: Swift.Equatable {
     let tableName: Swift.String?
     let streamArn: Swift.String?
+    let enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
 }
 
 extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
@@ -6659,6 +6761,8 @@ extension EnableKinesisStreamingDestinationInputBody: Swift.Decodable {
         tableName = tableNameDecoded
         let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
         streamArn = streamArnDecoded
+        let enableKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.EnableKinesisStreamingConfiguration.self, forKey: .enableKinesisStreamingConfiguration)
+        enableKinesisStreamingConfiguration = enableKinesisStreamingConfigurationDecoded
     }
 }
 
@@ -6668,10 +6772,12 @@ extension EnableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBin
             let responseDecoder = decoder {
             let output: EnableKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
             self.destinationStatus = output.destinationStatus
+            self.enableKinesisStreamingConfiguration = output.enableKinesisStreamingConfiguration
             self.streamArn = output.streamArn
             self.tableName = output.tableName
         } else {
             self.destinationStatus = nil
+            self.enableKinesisStreamingConfiguration = nil
             self.streamArn = nil
             self.tableName = nil
         }
@@ -6681,6 +6787,8 @@ extension EnableKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBin
 public struct EnableKinesisStreamingDestinationOutput: Swift.Equatable {
     /// The current status of the replication.
     public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    /// The destination for the Kinesis streaming information that is being enabled.
+    public var enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
     /// The ARN for the specific Kinesis data stream.
     public var streamArn: Swift.String?
     /// The name of the table being modified.
@@ -6688,11 +6796,13 @@ public struct EnableKinesisStreamingDestinationOutput: Swift.Equatable {
 
     public init(
         destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
+        enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration? = nil,
         streamArn: Swift.String? = nil,
         tableName: Swift.String? = nil
     )
     {
         self.destinationStatus = destinationStatus
+        self.enableKinesisStreamingConfiguration = enableKinesisStreamingConfiguration
         self.streamArn = streamArn
         self.tableName = tableName
     }
@@ -6702,11 +6812,13 @@ struct EnableKinesisStreamingDestinationOutputBody: Swift.Equatable {
     let tableName: Swift.String?
     let streamArn: Swift.String?
     let destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    let enableKinesisStreamingConfiguration: DynamoDBClientTypes.EnableKinesisStreamingConfiguration?
 }
 
 extension EnableKinesisStreamingDestinationOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationStatus = "DestinationStatus"
+        case enableKinesisStreamingConfiguration = "EnableKinesisStreamingConfiguration"
         case streamArn = "StreamArn"
         case tableName = "TableName"
     }
@@ -6719,6 +6831,8 @@ extension EnableKinesisStreamingDestinationOutputBody: Swift.Decodable {
         streamArn = streamArnDecoded
         let destinationStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.DestinationStatus.self, forKey: .destinationStatus)
         destinationStatus = destinationStatusDecoded
+        let enableKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.EnableKinesisStreamingConfiguration.self, forKey: .enableKinesisStreamingConfiguration)
+        enableKinesisStreamingConfiguration = enableKinesisStreamingConfigurationDecoded
     }
 }
 
@@ -10851,6 +10965,7 @@ extension DynamoDBClientTypes {
 
 extension DynamoDBClientTypes.KinesisDataStreamDestination: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateCreationDateTimePrecision = "ApproximateCreationDateTimePrecision"
         case destinationStatus = "DestinationStatus"
         case destinationStatusDescription = "DestinationStatusDescription"
         case streamArn = "StreamArn"
@@ -10858,6 +10973,9 @@ extension DynamoDBClientTypes.KinesisDataStreamDestination: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approximateCreationDateTimePrecision = self.approximateCreationDateTimePrecision {
+            try encodeContainer.encode(approximateCreationDateTimePrecision.rawValue, forKey: .approximateCreationDateTimePrecision)
+        }
         if let destinationStatus = self.destinationStatus {
             try encodeContainer.encode(destinationStatus.rawValue, forKey: .destinationStatus)
         }
@@ -10877,12 +10995,16 @@ extension DynamoDBClientTypes.KinesisDataStreamDestination: Swift.Codable {
         destinationStatus = destinationStatusDecoded
         let destinationStatusDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .destinationStatusDescription)
         destinationStatusDescription = destinationStatusDescriptionDecoded
+        let approximateCreationDateTimePrecisionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ApproximateCreationDateTimePrecision.self, forKey: .approximateCreationDateTimePrecision)
+        approximateCreationDateTimePrecision = approximateCreationDateTimePrecisionDecoded
     }
 }
 
 extension DynamoDBClientTypes {
     /// Describes a Kinesis data stream destination.
     public struct KinesisDataStreamDestination: Swift.Equatable {
+        /// The precision of the Kinesis data stream timestamp. The values are either MILLISECOND or MICROSECOND.
+        public var approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision?
         /// The current status of replication.
         public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
         /// The human-readable string that corresponds to the replica status.
@@ -10891,11 +11013,13 @@ extension DynamoDBClientTypes {
         public var streamArn: Swift.String?
 
         public init(
+            approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision? = nil,
             destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
             destinationStatusDescription: Swift.String? = nil,
             streamArn: Swift.String? = nil
         )
         {
+            self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
             self.destinationStatus = destinationStatus
             self.destinationStatusDescription = destinationStatusDescription
             self.streamArn = streamArn
@@ -12281,13 +12405,13 @@ extension DynamoDBClientTypes.ParameterizedStatement: Swift.Codable {
 }
 
 extension DynamoDBClientTypes {
-    /// Represents a PartiQL statment that uses parameters.
+    /// Represents a PartiQL statement that uses parameters.
     public struct ParameterizedStatement: Swift.Equatable {
         /// The parameter values.
         public var parameters: [DynamoDBClientTypes.AttributeValue]?
         /// An optional parameter that returns the item attributes for a PartiQL ParameterizedStatement operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// A PartiQL statment that uses parameters.
+        /// A PartiQL statement that uses parameters.
         /// This member is required.
         public var statement: Swift.String?
 
@@ -20302,6 +20426,200 @@ enum UpdateItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TransactionConflictException": return try await TransactionConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DynamoDBClientTypes.UpdateKinesisStreamingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximateCreationDateTimePrecision = "ApproximateCreationDateTimePrecision"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approximateCreationDateTimePrecision = self.approximateCreationDateTimePrecision {
+            try encodeContainer.encode(approximateCreationDateTimePrecision.rawValue, forKey: .approximateCreationDateTimePrecision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let approximateCreationDateTimePrecisionDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.ApproximateCreationDateTimePrecision.self, forKey: .approximateCreationDateTimePrecision)
+        approximateCreationDateTimePrecision = approximateCreationDateTimePrecisionDecoded
+    }
+}
+
+extension DynamoDBClientTypes {
+    /// Enables updating the configuration for Kinesis Streaming.
+    public struct UpdateKinesisStreamingConfiguration: Swift.Equatable {
+        /// Enables updating the precision of Kinesis data stream timestamp.
+        public var approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision?
+
+        public init(
+            approximateCreationDateTimePrecision: DynamoDBClientTypes.ApproximateCreationDateTimePrecision? = nil
+        )
+        {
+            self.approximateCreationDateTimePrecision = approximateCreationDateTimePrecision
+        }
+    }
+
+}
+
+extension UpdateKinesisStreamingDestinationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamArn = "StreamArn"
+        case tableName = "TableName"
+        case updateKinesisStreamingConfiguration = "UpdateKinesisStreamingConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamArn = self.streamArn {
+            try encodeContainer.encode(streamArn, forKey: .streamArn)
+        }
+        if let tableName = self.tableName {
+            try encodeContainer.encode(tableName, forKey: .tableName)
+        }
+        if let updateKinesisStreamingConfiguration = self.updateKinesisStreamingConfiguration {
+            try encodeContainer.encode(updateKinesisStreamingConfiguration, forKey: .updateKinesisStreamingConfiguration)
+        }
+    }
+}
+
+extension UpdateKinesisStreamingDestinationInput {
+
+    static func urlPathProvider(_ value: UpdateKinesisStreamingDestinationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateKinesisStreamingDestinationInput: Swift.Equatable {
+    /// The ARN for the Kinesis stream input.
+    /// This member is required.
+    public var streamArn: Swift.String?
+    /// The table name for the Kinesis streaming destination input.
+    /// This member is required.
+    public var tableName: Swift.String?
+    /// The command to update the Kinesis stream configuration.
+    public var updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?
+
+    public init(
+        streamArn: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration? = nil
+    )
+    {
+        self.streamArn = streamArn
+        self.tableName = tableName
+        self.updateKinesisStreamingConfiguration = updateKinesisStreamingConfiguration
+    }
+}
+
+struct UpdateKinesisStreamingDestinationInputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let streamArn: Swift.String?
+    let updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?
+}
+
+extension UpdateKinesisStreamingDestinationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamArn = "StreamArn"
+        case tableName = "TableName"
+        case updateKinesisStreamingConfiguration = "UpdateKinesisStreamingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
+        streamArn = streamArnDecoded
+        let updateKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.UpdateKinesisStreamingConfiguration.self, forKey: .updateKinesisStreamingConfiguration)
+        updateKinesisStreamingConfiguration = updateKinesisStreamingConfigurationDecoded
+    }
+}
+
+extension UpdateKinesisStreamingDestinationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateKinesisStreamingDestinationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.destinationStatus = output.destinationStatus
+            self.streamArn = output.streamArn
+            self.tableName = output.tableName
+            self.updateKinesisStreamingConfiguration = output.updateKinesisStreamingConfiguration
+        } else {
+            self.destinationStatus = nil
+            self.streamArn = nil
+            self.tableName = nil
+            self.updateKinesisStreamingConfiguration = nil
+        }
+    }
+}
+
+public struct UpdateKinesisStreamingDestinationOutput: Swift.Equatable {
+    /// The status of the attempt to update the Kinesis streaming destination output.
+    public var destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    /// The ARN for the Kinesis stream input.
+    public var streamArn: Swift.String?
+    /// The table name for the Kinesis streaming destination output.
+    public var tableName: Swift.String?
+    /// The command to update the Kinesis streaming destination configuration.
+    public var updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?
+
+    public init(
+        destinationStatus: DynamoDBClientTypes.DestinationStatus? = nil,
+        streamArn: Swift.String? = nil,
+        tableName: Swift.String? = nil,
+        updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration? = nil
+    )
+    {
+        self.destinationStatus = destinationStatus
+        self.streamArn = streamArn
+        self.tableName = tableName
+        self.updateKinesisStreamingConfiguration = updateKinesisStreamingConfiguration
+    }
+}
+
+struct UpdateKinesisStreamingDestinationOutputBody: Swift.Equatable {
+    let tableName: Swift.String?
+    let streamArn: Swift.String?
+    let destinationStatus: DynamoDBClientTypes.DestinationStatus?
+    let updateKinesisStreamingConfiguration: DynamoDBClientTypes.UpdateKinesisStreamingConfiguration?
+}
+
+extension UpdateKinesisStreamingDestinationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinationStatus = "DestinationStatus"
+        case streamArn = "StreamArn"
+        case tableName = "TableName"
+        case updateKinesisStreamingConfiguration = "UpdateKinesisStreamingConfiguration"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tableNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tableName)
+        tableName = tableNameDecoded
+        let streamArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamArn)
+        streamArn = streamArnDecoded
+        let destinationStatusDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.DestinationStatus.self, forKey: .destinationStatus)
+        destinationStatus = destinationStatusDecoded
+        let updateKinesisStreamingConfigurationDecoded = try containerValues.decodeIfPresent(DynamoDBClientTypes.UpdateKinesisStreamingConfiguration.self, forKey: .updateKinesisStreamingConfiguration)
+        updateKinesisStreamingConfiguration = updateKinesisStreamingConfigurationDecoded
+    }
+}
+
+enum UpdateKinesisStreamingDestinationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

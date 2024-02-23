@@ -74,7 +74,7 @@ class S3ErrorTests: S3XCTestCase {
         do {
             let credentials = Credentials(accessKey: "AKIDEXAMPLE", secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY")
             let credentialsProvider = try StaticCredentialsProvider(credentials)
-            let config = try S3Client.S3ClientConfiguration(region: region, credentialsProvider: credentialsProvider)
+            let config = try await S3Client.S3ClientConfiguration(credentialsProvider: credentialsProvider, region: region)
             let input = GetObjectInput(bucket: bucketName, key: UUID().uuidString)
             _ = try await S3Client(config: config).getObject(input: input)
             XCTFail("Request should not have succeeded")

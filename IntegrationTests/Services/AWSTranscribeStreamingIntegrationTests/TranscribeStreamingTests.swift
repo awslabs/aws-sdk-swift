@@ -70,6 +70,6 @@ final class TranscribeStreamingTests: XCTestCase {
             }
         }
 
-        XCTAssertEqual("Hello transcribed streaming from Swift S. D. K.", fullMessage)
+        XCTAssertEqual("Hello transcribed streaming from swift sdk.", fullMessage)
     }
 }

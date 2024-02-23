@@ -4550,7 +4550,7 @@ extension Route53ClientTypes.GeoProximityLocation {
 }
 
 extension Route53ClientTypes {
-    /// (Resource record sets only): A complex type that lets you control how Amazon Route 53 responds to DNS queries based on the geographic origin of the query and your resources. Only one of , LocalZoneGroup, Coordinates, or Amazon Web ServicesRegion is allowed per request at a time. For more information about geoproximity routing, see [Geoproximity routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html) in the Amazon Route 53 Developer Guide.
+    /// (Resource record sets only): A complex type that lets you specify where your resources are located. Only one of LocalZoneGroup, Coordinates, or Amazon Web ServicesRegion is allowed per request at a time. For more information about geoproximity routing, see [Geoproximity routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html) in the Amazon Route 53 Developer Guide.
     public struct GeoProximityLocation: Swift.Equatable {
         /// The Amazon Web Services Region the resource you are directing DNS traffic to, is in.
         public var awsRegion: Swift.String?

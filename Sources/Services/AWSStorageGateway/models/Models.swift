@@ -9675,6 +9675,7 @@ extension StorageGatewayClientTypes {
 
 extension StorageGatewayClientTypes.GatewayInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deprecationDate = "DeprecationDate"
         case ec2InstanceId = "Ec2InstanceId"
         case ec2InstanceRegion = "Ec2InstanceRegion"
         case gatewayARN = "GatewayARN"
@@ -9684,10 +9685,14 @@ extension StorageGatewayClientTypes.GatewayInfo: Swift.Codable {
         case gatewayType = "GatewayType"
         case hostEnvironment = "HostEnvironment"
         case hostEnvironmentId = "HostEnvironmentId"
+        case softwareVersion = "SoftwareVersion"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let deprecationDate = self.deprecationDate {
+            try encodeContainer.encode(deprecationDate, forKey: .deprecationDate)
+        }
         if let ec2InstanceId = self.ec2InstanceId {
             try encodeContainer.encode(ec2InstanceId, forKey: .ec2InstanceId)
         }
@@ -9715,6 +9720,9 @@ extension StorageGatewayClientTypes.GatewayInfo: Swift.Codable {
         if let hostEnvironmentId = self.hostEnvironmentId {
             try encodeContainer.encode(hostEnvironmentId, forKey: .hostEnvironmentId)
         }
+        if let softwareVersion = self.softwareVersion {
+            try encodeContainer.encode(softwareVersion, forKey: .softwareVersion)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9737,12 +9745,18 @@ extension StorageGatewayClientTypes.GatewayInfo: Swift.Codable {
         hostEnvironment = hostEnvironmentDecoded
         let hostEnvironmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hostEnvironmentId)
         hostEnvironmentId = hostEnvironmentIdDecoded
+        let deprecationDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .deprecationDate)
+        deprecationDate = deprecationDateDecoded
+        let softwareVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .softwareVersion)
+        softwareVersion = softwareVersionDecoded
     }
 }
 
 extension StorageGatewayClientTypes {
     /// Describes a gateway object.
     public struct GatewayInfo: Swift.Equatable {
+        /// Date after which this gateway will not receive software updates for new features and bug fixes.
+        public var deprecationDate: Swift.String?
         /// The ID of the Amazon EC2 instance that was used to launch the gateway.
         public var ec2InstanceId: Swift.String?
         /// The Amazon Web Services Region where the Amazon EC2 instance is located.
@@ -9761,8 +9775,11 @@ extension StorageGatewayClientTypes {
         public var hostEnvironment: StorageGatewayClientTypes.HostEnvironment?
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public var hostEnvironmentId: Swift.String?
+        /// The version number of the software running on the gateway appliance.
+        public var softwareVersion: Swift.String?
 
         public init(
+            deprecationDate: Swift.String? = nil,
             ec2InstanceId: Swift.String? = nil,
             ec2InstanceRegion: Swift.String? = nil,
             gatewayARN: Swift.String? = nil,
@@ -9771,9 +9788,11 @@ extension StorageGatewayClientTypes {
             gatewayOperationalState: Swift.String? = nil,
             gatewayType: Swift.String? = nil,
             hostEnvironment: StorageGatewayClientTypes.HostEnvironment? = nil,
-            hostEnvironmentId: Swift.String? = nil
+            hostEnvironmentId: Swift.String? = nil,
+            softwareVersion: Swift.String? = nil
         )
         {
+            self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
             self.gatewayARN = gatewayARN
@@ -9783,6 +9802,7 @@ extension StorageGatewayClientTypes {
             self.gatewayType = gatewayType
             self.hostEnvironment = hostEnvironment
             self.hostEnvironmentId = hostEnvironmentId
+            self.softwareVersion = softwareVersion
         }
     }
 

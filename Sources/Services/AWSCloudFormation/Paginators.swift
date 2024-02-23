@@ -174,6 +174,36 @@ extension PaginatorSequence where OperationStackInput == ListExportsInput, Opera
     }
 }
 extension CloudFormationClient {
+    /// Paginate over `[ListGeneratedTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListGeneratedTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListGeneratedTemplatesOutput`
+    public func listGeneratedTemplatesPaginated(input: ListGeneratedTemplatesInput) -> ClientRuntime.PaginatorSequence<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListGeneratedTemplatesInput, ListGeneratedTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listGeneratedTemplates(input:))
+    }
+}
+
+extension ListGeneratedTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListGeneratedTemplatesInput {
+        return ListGeneratedTemplatesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListGeneratedTemplatesInput, OperationStackOutput == ListGeneratedTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listGeneratedTemplatesPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.TemplateSummary]`
+    /// - Returns: `[CloudFormationClientTypes.TemplateSummary]`
+    public func summaries() async throws -> [CloudFormationClientTypes.TemplateSummary] {
+        return try await self.asyncCompactMap { item in item.summaries }
+    }
+}
+extension CloudFormationClient {
     /// Paginate over `[ListImportsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -201,6 +231,103 @@ extension PaginatorSequence where OperationStackInput == ListImportsInput, Opera
     /// - Returns: `[Swift.String]`
     public func imports() async throws -> [Swift.String] {
         return try await self.asyncCompactMap { item in item.imports }
+    }
+}
+extension CloudFormationClient {
+    /// Paginate over `[ListResourceScanRelatedResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceScanRelatedResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceScanRelatedResourcesOutput`
+    public func listResourceScanRelatedResourcesPaginated(input: ListResourceScanRelatedResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceScanRelatedResourcesInput, ListResourceScanRelatedResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceScanRelatedResources(input:))
+    }
+}
+
+extension ListResourceScanRelatedResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceScanRelatedResourcesInput {
+        return ListResourceScanRelatedResourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceScanId: self.resourceScanId,
+            resources: self.resources
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceScanRelatedResourcesInput, OperationStackOutput == ListResourceScanRelatedResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceScanRelatedResourcesPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.ScannedResource]`
+    /// - Returns: `[CloudFormationClientTypes.ScannedResource]`
+    public func relatedResources() async throws -> [CloudFormationClientTypes.ScannedResource] {
+        return try await self.asyncCompactMap { item in item.relatedResources }
+    }
+}
+extension CloudFormationClient {
+    /// Paginate over `[ListResourceScanResourcesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceScanResourcesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceScanResourcesOutput`
+    public func listResourceScanResourcesPaginated(input: ListResourceScanResourcesInput) -> ClientRuntime.PaginatorSequence<ListResourceScanResourcesInput, ListResourceScanResourcesOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceScanResourcesInput, ListResourceScanResourcesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceScanResources(input:))
+    }
+}
+
+extension ListResourceScanResourcesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceScanResourcesInput {
+        return ListResourceScanResourcesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceIdentifier: self.resourceIdentifier,
+            resourceScanId: self.resourceScanId,
+            resourceTypePrefix: self.resourceTypePrefix,
+            tagKey: self.tagKey,
+            tagValue: self.tagValue
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceScanResourcesInput, OperationStackOutput == ListResourceScanResourcesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceScanResourcesPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.ScannedResource]`
+    /// - Returns: `[CloudFormationClientTypes.ScannedResource]`
+    public func resources() async throws -> [CloudFormationClientTypes.ScannedResource] {
+        return try await self.asyncCompactMap { item in item.resources }
+    }
+}
+extension CloudFormationClient {
+    /// Paginate over `[ListResourceScansOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListResourceScansInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListResourceScansOutput`
+    public func listResourceScansPaginated(input: ListResourceScansInput) -> ClientRuntime.PaginatorSequence<ListResourceScansInput, ListResourceScansOutput> {
+        return ClientRuntime.PaginatorSequence<ListResourceScansInput, ListResourceScansOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listResourceScans(input:))
+    }
+}
+
+extension ListResourceScansInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListResourceScansInput {
+        return ListResourceScansInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListResourceScansInput, OperationStackOutput == ListResourceScansOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listResourceScansPaginated`
+    /// to access the nested member `[CloudFormationClientTypes.ResourceScanSummary]`
+    /// - Returns: `[CloudFormationClientTypes.ResourceScanSummary]`
+    public func resourceScanSummaries() async throws -> [CloudFormationClientTypes.ResourceScanSummary] {
+        return try await self.asyncCompactMap { item in item.resourceScanSummaries }
     }
 }
 extension CloudFormationClient {

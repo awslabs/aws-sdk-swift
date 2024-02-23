@@ -3248,7 +3248,7 @@ public struct CreateBlueGreenDeploymentInput: Swift.Equatable {
     public var tags: [RDSClientTypes.Tag]?
     /// The DB cluster parameter group associated with the Aurora DB cluster in the green environment. To test parameter changes, specify a DB cluster parameter group that is different from the one associated with the source DB cluster.
     public var targetDBClusterParameterGroupName: Swift.String?
-    /// Specify the DB instance class for the databases in the green environment.
+    /// Specify the DB instance class for the databases in the green environment. This parameter only applies to RDS DB instances, because DB instances within an Aurora DB cluster can have multiple different instance classes. If you're creating a blue/green deployment from an Aurora DB cluster, don't specify this parameter. After the green environment is created, you can individually modify the instance classes of the DB instances within the green DB cluster.
     public var targetDBInstanceClass: Swift.String?
     /// The DB parameter group associated with the DB instance in the green environment. To test parameter changes, specify a DB parameter group that is different from the one associated with the source DB instance.
     public var targetDBParameterGroupName: Swift.String?
@@ -3929,6 +3929,7 @@ extension CreateDBClusterInput: Swift.Encodable {
         case enableGlobalWriteForwarding = "EnableGlobalWriteForwarding"
         case enableHttpEndpoint = "EnableHttpEndpoint"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+        case enableLimitlessDatabase = "EnableLimitlessDatabase"
         case enableLocalWriteForwarding = "EnableLocalWriteForwarding"
         case enablePerformanceInsights = "EnablePerformanceInsights"
         case engine = "Engine"
@@ -4041,6 +4042,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         }
         if let enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication {
             try container.encode(enableIAMDatabaseAuthentication, forKey: ClientRuntime.Key("EnableIAMDatabaseAuthentication"))
+        }
+        if let enableLimitlessDatabase = enableLimitlessDatabase {
+            try container.encode(enableLimitlessDatabase, forKey: ClientRuntime.Key("EnableLimitlessDatabase"))
         }
         if let enableLocalWriteForwarding = enableLocalWriteForwarding {
             try container.encode(enableLocalWriteForwarding, forKey: ClientRuntime.Key("EnableLocalWriteForwarding"))
@@ -4248,6 +4252,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+    public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
     /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
@@ -4437,6 +4443,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         enableGlobalWriteForwarding: Swift.Bool? = nil,
         enableHttpEndpoint: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enableLimitlessDatabase: Swift.Bool? = nil,
         enableLocalWriteForwarding: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         engine: Swift.String? = nil,
@@ -4490,6 +4497,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.enableGlobalWriteForwarding = enableGlobalWriteForwarding
         self.enableHttpEndpoint = enableHttpEndpoint
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enableLimitlessDatabase = enableLimitlessDatabase
         self.enableLocalWriteForwarding = enableLocalWriteForwarding
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engine = engine
@@ -4568,6 +4576,7 @@ enum CreateDBClusterOutputError {
                 case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DomainNotFoundFault": return try await DomainNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InsufficientDBInstanceCapacity": return try await InsufficientDBInstanceCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -7062,6 +7071,181 @@ enum CreateDBSecurityGroupOutputError {
     }
 }
 
+extension CreateDBShardGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeRedundancy = "ComputeRedundancy"
+        case dbClusterIdentifier = "DBClusterIdentifier"
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+        case maxACU = "MaxACU"
+        case publiclyAccessible = "PubliclyAccessible"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let computeRedundancy = computeRedundancy {
+            try container.encode(computeRedundancy, forKey: ClientRuntime.Key("ComputeRedundancy"))
+        }
+        if let dbClusterIdentifier = dbClusterIdentifier {
+            try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
+        }
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        if let maxACU = maxACU {
+            try container.encode(maxACU, forKey: ClientRuntime.Key("MaxACU"))
+        }
+        if let publiclyAccessible = publiclyAccessible {
+            try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        try container.encode("CreateDBShardGroup", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateDBShardGroupInput {
+
+    static func urlPathProvider(_ value: CreateDBShardGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateDBShardGroupInput: Swift.Equatable {
+    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    ///
+    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    ///
+    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    public var computeRedundancy: Swift.Int?
+    /// The name of the primary DB cluster for the DB shard group.
+    /// This member is required.
+    public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB shard group.
+    /// This member is required.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    /// This member is required.
+    public var maxACU: Swift.Double?
+    /// Specifies whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access is not permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. Default: The default behavior varies depending on whether DBSubnetGroupName is specified. If DBSubnetGroupName isn't specified, and PubliclyAccessible isn't specified, the following applies:
+    ///
+    /// * If the default VPC in the target Region doesn’t have an internet gateway attached to it, the DB shard group is private.
+    ///
+    /// * If the default VPC in the target Region has an internet gateway attached to it, the DB shard group is public.
+    ///
+    ///
+    /// If DBSubnetGroupName is specified, and PubliclyAccessible isn't specified, the following applies:
+    ///
+    /// * If the subnets are part of a VPC that doesn’t have an internet gateway attached to it, the DB shard group is private.
+    ///
+    /// * If the subnets are part of a VPC that has an internet gateway attached to it, the DB shard group is public.
+    public var publiclyAccessible: Swift.Bool?
+
+    public init(
+        computeRedundancy: Swift.Int? = nil,
+        dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupIdentifier: Swift.String? = nil,
+        maxACU: Swift.Double? = nil,
+        publiclyAccessible: Swift.Bool? = nil
+    )
+    {
+        self.computeRedundancy = computeRedundancy
+        self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.maxACU = maxACU
+        self.publiclyAccessible = publiclyAccessible
+    }
+}
+
+extension CreateDBShardGroupOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateDBShardGroupOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["CreateDBShardGroupResult"]
+            var value = CreateDBShardGroupOutput()
+            value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
+            value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+            value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
+            value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
+            value.endpoint = try reader["Endpoint"].readIfPresent()
+            value.maxACU = try reader["MaxACU"].readIfPresent()
+            value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct CreateDBShardGroupOutput: Swift.Equatable {
+    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    ///
+    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    ///
+    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    public var computeRedundancy: Swift.Int?
+    /// The name of the primary DB cluster for the DB shard group.
+    public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB shard group.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
+    public var dbShardGroupResourceId: Swift.String?
+    /// The connection endpoint for the DB shard group.
+    public var endpoint: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var maxACU: Swift.Double?
+    /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
+    public var publiclyAccessible: Swift.Bool?
+    /// The status of the DB shard group.
+    public var status: Swift.String?
+
+    public init(
+        computeRedundancy: Swift.Int? = nil,
+        dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupIdentifier: Swift.String? = nil,
+        dbShardGroupResourceId: Swift.String? = nil,
+        endpoint: Swift.String? = nil,
+        maxACU: Swift.Double? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.computeRedundancy = computeRedundancy
+        self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.dbShardGroupResourceId = dbShardGroupResourceId
+        self.endpoint = endpoint
+        self.maxACU = maxACU
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+    }
+}
+
+enum CreateDBShardGroupOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "DBShardGroupAlreadyExists": return try await DBShardGroupAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidMaxAcu": return try await InvalidMaxAcuFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidVPCNetworkStateFault": return try await InvalidVPCNetworkStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "MaxDBShardGroupLimitReached": return try await MaxDBShardGroupLimitReached.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "UnsupportedDBEngineVersion": return try await UnsupportedDBEngineVersionFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension CreateDBSnapshotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -7396,7 +7580,7 @@ public struct CreateEventSubscriptionInput: Swift.Equatable {
     public var enabled: Swift.Bool?
     /// A list of event categories for a particular source type (SourceType) that you want to subscribe to. You can see a list of the categories for a given source type in the "Amazon RDS event categories and event messages" section of the [ Amazon RDS User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Events.Messages.html) or the [ Amazon Aurora User Guide ](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Events.Messages.html). You can also see this list by using the DescribeEventCategories operation.
     public var eventCategories: [Swift.String]?
-    /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. The ARN is created by Amazon SNS when you create a topic and subscribe to it.
+    /// The Amazon Resource Name (ARN) of the SNS topic created for event notification. SNS automatically creates the ARN when you create a topic and subscribe to it. RDS doesn't support FIFO (first in, first out) topics. For more information, see [Message ordering and deduplication (FIFO topics)](https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html) in the Amazon Simple Notification Service Developer Guide.
     /// This member is required.
     public var snsTopicArn: Swift.String?
     /// The list of identifiers of the event sources for which events are returned. If not specified, then all sources are included in the response. An identifier must begin with a letter and must contain only ASCII letters, digits, and hyphens. It can't end with a hyphen or contain two consecutive hyphens. Constraints:
@@ -8413,6 +8597,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         case iops = "Iops"
         case kmsKeyId = "KmsKeyId"
         case latestRestorableTime = "LatestRestorableTime"
+        case limitlessDatabase = "LimitlessDatabase"
         case localWriteForwardingStatus = "LocalWriteForwardingStatus"
         case masterUserSecret = "MasterUserSecret"
         case masterUsername = "MasterUsername"
@@ -8652,6 +8837,9 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         if let latestRestorableTime = latestRestorableTime {
             try container.encodeTimestamp(latestRestorableTime, format: .dateTime, forKey: ClientRuntime.Key("LatestRestorableTime"))
         }
+        if let limitlessDatabase = limitlessDatabase {
+            try container.encode(limitlessDatabase, forKey: ClientRuntime.Key("LimitlessDatabase"))
+        }
         if let localWriteForwardingStatus = localWriteForwardingStatus {
             try container.encode(localWriteForwardingStatus, forKey: ClientRuntime.Key("LocalWriteForwardingStatus"))
         }
@@ -8854,6 +9042,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
             value.ioOptimizedNextAllowedModificationTime = try reader["IOOptimizedNextAllowedModificationTime"].readTimestampIfPresent(format: .dateTime)
             value.localWriteForwardingStatus = try reader["LocalWriteForwardingStatus"].readIfPresent()
             value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+            value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(readingClosure: RDSClientTypes.LimitlessDatabase.readingClosure)
             return value
         }
     }
@@ -8958,6 +9147,8 @@ extension RDSClientTypes {
         public var kmsKeyId: Swift.String?
         /// The latest time to which a database can be restored with point-in-time restore.
         public var latestRestorableTime: ClientRuntime.Date?
+        /// The details for Aurora Limitless Database.
+        public var limitlessDatabase: RDSClientTypes.LimitlessDatabase?
         /// Indicates whether an Aurora DB cluster has in-cluster write forwarding enabled, not enabled, requested, or is in the process of enabling it.
         public var localWriteForwardingStatus: RDSClientTypes.LocalWriteForwardingStatus?
         /// The secret managed by RDS in Amazon Web Services Secrets Manager for the master user password. For more information, see [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-secrets-manager.html) in the Amazon RDS User Guide and [Password management with Amazon Web Services Secrets Manager](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/rds-secrets-manager.html) in the Amazon Aurora User Guide.
@@ -9073,6 +9264,7 @@ extension RDSClientTypes {
             iops: Swift.Int? = nil,
             kmsKeyId: Swift.String? = nil,
             latestRestorableTime: ClientRuntime.Date? = nil,
+            limitlessDatabase: RDSClientTypes.LimitlessDatabase? = nil,
             localWriteForwardingStatus: RDSClientTypes.LocalWriteForwardingStatus? = nil,
             masterUserSecret: RDSClientTypes.MasterUserSecret? = nil,
             masterUsername: Swift.String? = nil,
@@ -9151,6 +9343,7 @@ extension RDSClientTypes {
             self.iops = iops
             self.kmsKeyId = kmsKeyId
             self.latestRestorableTime = latestRestorableTime
+            self.limitlessDatabase = limitlessDatabase
             self.localWriteForwardingStatus = localWriteForwardingStatus
             self.masterUserSecret = masterUserSecret
             self.masterUsername = masterUsername
@@ -14813,6 +15006,184 @@ public struct DBSecurityGroupQuotaExceededFault: ClientRuntime.ModeledError, AWS
     }
 }
 
+extension RDSClientTypes.DBShardGroup: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case computeRedundancy = "ComputeRedundancy"
+        case dbClusterIdentifier = "DBClusterIdentifier"
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+        case dbShardGroupResourceId = "DBShardGroupResourceId"
+        case endpoint = "Endpoint"
+        case maxACU = "MaxACU"
+        case publiclyAccessible = "PubliclyAccessible"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let computeRedundancy = computeRedundancy {
+            try container.encode(computeRedundancy, forKey: ClientRuntime.Key("ComputeRedundancy"))
+        }
+        if let dbClusterIdentifier = dbClusterIdentifier {
+            try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
+        }
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        if let dbShardGroupResourceId = dbShardGroupResourceId {
+            try container.encode(dbShardGroupResourceId, forKey: ClientRuntime.Key("DBShardGroupResourceId"))
+        }
+        if let endpoint = endpoint {
+            try container.encode(endpoint, forKey: ClientRuntime.Key("Endpoint"))
+        }
+        if let maxACU = maxACU {
+            try container.encode(maxACU, forKey: ClientRuntime.Key("MaxACU"))
+        }
+        if let publiclyAccessible = publiclyAccessible {
+            try container.encode(publiclyAccessible, forKey: ClientRuntime.Key("PubliclyAccessible"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<RDSClientTypes.DBShardGroup, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = RDSClientTypes.DBShardGroup()
+            value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
+            value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
+            value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+            value.maxACU = try reader["MaxACU"].readIfPresent()
+            value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+            value.endpoint = try reader["Endpoint"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension RDSClientTypes {
+    public struct DBShardGroup: Swift.Equatable {
+        /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+        ///
+        /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+        ///
+        /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+        ///
+        /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+        public var computeRedundancy: Swift.Int?
+        /// The name of the primary DB cluster for the DB shard group.
+        public var dbClusterIdentifier: Swift.String?
+        /// The name of the DB shard group.
+        public var dbShardGroupIdentifier: Swift.String?
+        /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
+        public var dbShardGroupResourceId: Swift.String?
+        /// The connection endpoint for the DB shard group.
+        public var endpoint: Swift.String?
+        /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+        public var maxACU: Swift.Double?
+        /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
+        public var publiclyAccessible: Swift.Bool?
+        /// The status of the DB shard group.
+        public var status: Swift.String?
+
+        public init(
+            computeRedundancy: Swift.Int? = nil,
+            dbClusterIdentifier: Swift.String? = nil,
+            dbShardGroupIdentifier: Swift.String? = nil,
+            dbShardGroupResourceId: Swift.String? = nil,
+            endpoint: Swift.String? = nil,
+            maxACU: Swift.Double? = nil,
+            publiclyAccessible: Swift.Bool? = nil,
+            status: Swift.String? = nil
+        )
+        {
+            self.computeRedundancy = computeRedundancy
+            self.dbClusterIdentifier = dbClusterIdentifier
+            self.dbShardGroupIdentifier = dbShardGroupIdentifier
+            self.dbShardGroupResourceId = dbShardGroupResourceId
+            self.endpoint = endpoint
+            self.maxACU = maxACU
+            self.publiclyAccessible = publiclyAccessible
+            self.status = status
+        }
+    }
+
+}
+
+extension DBShardGroupAlreadyExistsFault {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = DBShardGroupAlreadyExistsFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The specified DB shard group name must be unique in your Amazon Web Services account in the specified Amazon Web Services Region.
+public struct DBShardGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBShardGroupAlreadyExists" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension DBShardGroupNotFoundFault {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = DBShardGroupNotFoundFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The specified DB shard group name wasn't found.
+public struct DBShardGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "DBShardGroupNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension RDSClientTypes.DBSnapshot: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
@@ -17255,6 +17626,126 @@ enum DeleteDBSecurityGroupOutputError {
     }
 }
 
+extension DeleteDBShardGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        try container.encode("DeleteDBShardGroup", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteDBShardGroupInput {
+
+    static func urlPathProvider(_ value: DeleteDBShardGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteDBShardGroupInput: Swift.Equatable {
+    /// Teh name of the DB shard group to delete.
+    /// This member is required.
+    public var dbShardGroupIdentifier: Swift.String?
+
+    public init(
+        dbShardGroupIdentifier: Swift.String? = nil
+    )
+    {
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+    }
+}
+
+extension DeleteDBShardGroupOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteDBShardGroupOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["DeleteDBShardGroupResult"]
+            var value = DeleteDBShardGroupOutput()
+            value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
+            value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+            value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
+            value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
+            value.endpoint = try reader["Endpoint"].readIfPresent()
+            value.maxACU = try reader["MaxACU"].readIfPresent()
+            value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct DeleteDBShardGroupOutput: Swift.Equatable {
+    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    ///
+    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    ///
+    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    public var computeRedundancy: Swift.Int?
+    /// The name of the primary DB cluster for the DB shard group.
+    public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB shard group.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
+    public var dbShardGroupResourceId: Swift.String?
+    /// The connection endpoint for the DB shard group.
+    public var endpoint: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var maxACU: Swift.Double?
+    /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
+    public var publiclyAccessible: Swift.Bool?
+    /// The status of the DB shard group.
+    public var status: Swift.String?
+
+    public init(
+        computeRedundancy: Swift.Int? = nil,
+        dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupIdentifier: Swift.String? = nil,
+        dbShardGroupResourceId: Swift.String? = nil,
+        endpoint: Swift.String? = nil,
+        maxACU: Swift.Double? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.computeRedundancy = computeRedundancy
+        self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.dbShardGroupResourceId = dbShardGroupResourceId
+        self.endpoint = endpoint
+        self.maxACU = maxACU
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+    }
+}
+
+enum DeleteDBShardGroupOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBShardGroupNotFound": return try await DBShardGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBShardGroupState": return try await InvalidDBShardGroupStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension DeleteDBSnapshotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbSnapshotIdentifier = "DBSnapshotIdentifier"
@@ -19275,7 +19766,7 @@ public struct DescribeDBClustersInput: Swift.Equatable {
     public var includeShared: Swift.Bool?
     /// An optional pagination token provided by a previous DescribeDBClusters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100
     public var maxRecords: Swift.Int?
 
     public init(
@@ -21075,6 +21566,123 @@ enum DescribeDBSecurityGroupsOutputError {
             let message: String? = try reader["Message"].readIfPresent()
             switch code {
                 case "DBSecurityGroupNotFound": return try await DBSecurityGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension DescribeDBShardGroupsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+        case filters = "Filters"
+        case marker = "Marker"
+        case maxRecords = "MaxRecords"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        if let filters = filters {
+            if !filters.isEmpty {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                for (index0, filter0) in filters.enumerated() {
+                    try filtersContainer.encode(filter0, forKey: ClientRuntime.Key("Filter.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var filtersContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Filters"))
+                try filtersContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let marker = marker {
+            try container.encode(marker, forKey: ClientRuntime.Key("Marker"))
+        }
+        if let maxRecords = maxRecords {
+            try container.encode(maxRecords, forKey: ClientRuntime.Key("MaxRecords"))
+        }
+        try container.encode("DescribeDBShardGroups", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeDBShardGroupsInput {
+
+    static func urlPathProvider(_ value: DescribeDBShardGroupsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeDBShardGroupsInput: Swift.Equatable {
+    /// The user-supplied DB shard group identifier or the Amazon Resource Name (ARN) of the DB shard group. If this parameter is specified, information for only the specific DB shard group is returned. This parameter isn't case-sensitive. Constraints:
+    ///
+    /// * If supplied, must match an existing DB shard group identifier.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// A filter that specifies one or more DB shard groups to describe.
+    public var filters: [RDSClientTypes.Filter]?
+    /// An optional pagination token provided by a previous DescribeDBShardGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
+    public var marker: Swift.String?
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 100
+    public var maxRecords: Swift.Int?
+
+    public init(
+        dbShardGroupIdentifier: Swift.String? = nil,
+        filters: [RDSClientTypes.Filter]? = nil,
+        marker: Swift.String? = nil,
+        maxRecords: Swift.Int? = nil
+    )
+    {
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.filters = filters
+        self.marker = marker
+        self.maxRecords = maxRecords
+    }
+}
+
+extension DescribeDBShardGroupsOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DescribeDBShardGroupsOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["DescribeDBShardGroupsResult"]
+            var value = DescribeDBShardGroupsOutput()
+            value.dbShardGroups = try reader["DBShardGroups"].readListIfPresent(memberReadingClosure: RDSClientTypes.DBShardGroup.readingClosure, memberNodeInfo: "DBShardGroup", isFlattened: false)
+            value.marker = try reader["Marker"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct DescribeDBShardGroupsOutput: Swift.Equatable {
+    /// Contains a list of DB shard groups for the user.
+    public var dbShardGroups: [RDSClientTypes.DBShardGroup]?
+    /// A pagination token that can be used in a later DescribeDBClusters request.
+    public var marker: Swift.String?
+
+    public init(
+        dbShardGroups: [RDSClientTypes.DBShardGroup]? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.dbShardGroups = dbShardGroups
+        self.marker = marker
+    }
+}
+
+enum DescribeDBShardGroupsOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "DBShardGroupNotFound": return try await DBShardGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
             }
         }
@@ -27329,6 +27937,42 @@ public struct InvalidDBSecurityGroupStateFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
+extension InvalidDBShardGroupStateFault {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = InvalidDBShardGroupStateFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The DB shard group must be in the available state.
+public struct InvalidDBShardGroupStateFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidDBShardGroupState" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension InvalidDBSnapshotStateFault {
 
     static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
@@ -27689,6 +28333,42 @@ public struct InvalidIntegrationStateFault: ClientRuntime.ModeledError, AWSClien
     }
 }
 
+extension InvalidMaxAcuFault {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = InvalidMaxAcuFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The maximum capacity of the DB shard group must be 48-7168 Aurora capacity units (ACUs).
+public struct InvalidMaxAcuFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InvalidMaxAcu" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension InvalidOptionGroupStateFault {
 
     static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
@@ -27979,6 +28659,103 @@ public struct KMSKeyNotAccessibleFault: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
+extension RDSClientTypes.LimitlessDatabase: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case minRequiredACU = "MinRequiredACU"
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let minRequiredACU = minRequiredACU {
+            try container.encode(minRequiredACU, forKey: ClientRuntime.Key("MinRequiredACU"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<RDSClientTypes.LimitlessDatabase, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = RDSClientTypes.LimitlessDatabase()
+            value.status = try reader["Status"].readIfPresent()
+            value.minRequiredACU = try reader["MinRequiredACU"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension RDSClientTypes {
+    /// Contains details for Aurora Limitless Database.
+    public struct LimitlessDatabase: Swift.Equatable {
+        /// The minimum required capacity for Aurora Limitless Database in Aurora capacity units (ACUs).
+        public var minRequiredACU: Swift.Double?
+        /// The status of Aurora Limitless Database.
+        public var status: RDSClientTypes.LimitlessDatabaseStatus?
+
+        public init(
+            minRequiredACU: Swift.Double? = nil,
+            status: RDSClientTypes.LimitlessDatabaseStatus? = nil
+        )
+        {
+            self.minRequiredACU = minRequiredACU
+            self.status = status
+        }
+    }
+
+}
+
+extension RDSClientTypes {
+    public enum LimitlessDatabaseStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case disabled
+        case disabling
+        case enabled
+        case enabling
+        case error
+        case modifyingMaxCapacity
+        case notInUse
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [LimitlessDatabaseStatus] {
+            return [
+                .active,
+                .disabled,
+                .disabling,
+                .enabled,
+                .enabling,
+                .error,
+                .modifyingMaxCapacity,
+                .notInUse,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "active"
+            case .disabled: return "disabled"
+            case .disabling: return "disabling"
+            case .enabled: return "enabled"
+            case .enabling: return "enabling"
+            case .error: return "error"
+            case .modifyingMaxCapacity: return "modifying-max-capacity"
+            case .notInUse: return "not-in-use"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = LimitlessDatabaseStatus(rawValue: rawValue) ?? LimitlessDatabaseStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListTagsForResourceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters = "Filters"
@@ -28186,6 +28963,42 @@ extension RDSClientTypes {
         }
     }
 
+}
+
+extension MaxDBShardGroupLimitReached {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = MaxDBShardGroupLimitReached()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The maximum number of DB shard groups for your Amazon Web Services account in the specified Amazon Web Services Region has been reached.
+public struct MaxDBShardGroupLimitReached: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MaxDBShardGroupLimitReached" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
 }
 
 extension RDSClientTypes.Metric: Swift.Encodable {
@@ -29184,6 +29997,7 @@ extension ModifyDBClusterInput: Swift.Encodable {
         case enableGlobalWriteForwarding = "EnableGlobalWriteForwarding"
         case enableHttpEndpoint = "EnableHttpEndpoint"
         case enableIAMDatabaseAuthentication = "EnableIAMDatabaseAuthentication"
+        case enableLimitlessDatabase = "EnableLimitlessDatabase"
         case enableLocalWriteForwarding = "EnableLocalWriteForwarding"
         case enablePerformanceInsights = "EnablePerformanceInsights"
         case engineMode = "EngineMode"
@@ -29270,6 +30084,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         }
         if let enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication {
             try container.encode(enableIAMDatabaseAuthentication, forKey: ClientRuntime.Key("EnableIAMDatabaseAuthentication"))
+        }
+        if let enableLimitlessDatabase = enableLimitlessDatabase {
+            try container.encode(enableLimitlessDatabase, forKey: ClientRuntime.Key("EnableLimitlessDatabase"))
         }
         if let enableLocalWriteForwarding = enableLocalWriteForwarding {
             try container.encode(enableLocalWriteForwarding, forKey: ClientRuntime.Key("EnableLocalWriteForwarding"))
@@ -29429,6 +30246,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     public var enableHttpEndpoint: Swift.Bool?
     /// Specifies whether to enable mapping of Amazon Web Services Identity and Access Management (IAM) accounts to database accounts. By default, mapping isn't enabled. For more information, see [ IAM Database Authentication](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.IAMDBAuth.html) in the Amazon Aurora User Guide. Valid for Cluster Type: Aurora DB clusters only
     public var enableIAMDatabaseAuthentication: Swift.Bool?
+    /// Specifies whether to enable Aurora Limitless Database. You must enable Aurora Limitless Database to create a DB shard group. Valid for: Aurora DB clusters only
+    public var enableLimitlessDatabase: Swift.Bool?
     /// Specifies whether read replicas can forward write operations to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances. Valid for: Aurora DB clusters only
     public var enableLocalWriteForwarding: Swift.Bool?
     /// Specifies whether to turn on Performance Insights for the DB cluster. For more information, see [ Using Amazon Performance Insights](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters only
@@ -29559,6 +30378,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         enableGlobalWriteForwarding: Swift.Bool? = nil,
         enableHttpEndpoint: Swift.Bool? = nil,
         enableIAMDatabaseAuthentication: Swift.Bool? = nil,
+        enableLimitlessDatabase: Swift.Bool? = nil,
         enableLocalWriteForwarding: Swift.Bool? = nil,
         enablePerformanceInsights: Swift.Bool? = nil,
         engineMode: Swift.String? = nil,
@@ -29604,6 +30424,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.enableGlobalWriteForwarding = enableGlobalWriteForwarding
         self.enableHttpEndpoint = enableHttpEndpoint
         self.enableIAMDatabaseAuthentication = enableIAMDatabaseAuthentication
+        self.enableLimitlessDatabase = enableLimitlessDatabase
         self.enableLocalWriteForwarding = enableLocalWriteForwarding
         self.enablePerformanceInsights = enablePerformanceInsights
         self.engineMode = engineMode
@@ -31284,6 +32105,135 @@ enum ModifyDBRecommendationOutputError {
             let code: String? = try reader["Code"].readIfPresent()
             let message: String? = try reader["Message"].readIfPresent()
             switch code {
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension ModifyDBShardGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+        case maxACU = "MaxACU"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        if let maxACU = maxACU {
+            try container.encode(maxACU, forKey: ClientRuntime.Key("MaxACU"))
+        }
+        try container.encode("ModifyDBShardGroup", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyDBShardGroupInput {
+
+    static func urlPathProvider(_ value: ModifyDBShardGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyDBShardGroupInput: Swift.Equatable {
+    /// The name of the DB shard group to modify.
+    /// This member is required.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var maxACU: Swift.Double?
+
+    public init(
+        dbShardGroupIdentifier: Swift.String? = nil,
+        maxACU: Swift.Double? = nil
+    )
+    {
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.maxACU = maxACU
+    }
+}
+
+extension ModifyDBShardGroupOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ModifyDBShardGroupOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ModifyDBShardGroupResult"]
+            var value = ModifyDBShardGroupOutput()
+            value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
+            value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+            value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
+            value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
+            value.endpoint = try reader["Endpoint"].readIfPresent()
+            value.maxACU = try reader["MaxACU"].readIfPresent()
+            value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct ModifyDBShardGroupOutput: Swift.Equatable {
+    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    ///
+    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    ///
+    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    public var computeRedundancy: Swift.Int?
+    /// The name of the primary DB cluster for the DB shard group.
+    public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB shard group.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
+    public var dbShardGroupResourceId: Swift.String?
+    /// The connection endpoint for the DB shard group.
+    public var endpoint: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var maxACU: Swift.Double?
+    /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
+    public var publiclyAccessible: Swift.Bool?
+    /// The status of the DB shard group.
+    public var status: Swift.String?
+
+    public init(
+        computeRedundancy: Swift.Int? = nil,
+        dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupIdentifier: Swift.String? = nil,
+        dbShardGroupResourceId: Swift.String? = nil,
+        endpoint: Swift.String? = nil,
+        maxACU: Swift.Double? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.computeRedundancy = computeRedundancy
+        self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.dbShardGroupResourceId = dbShardGroupResourceId
+        self.endpoint = endpoint
+        self.maxACU = maxACU
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+    }
+}
+
+enum ModifyDBShardGroupOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBShardGroupAlreadyExists": return try await DBShardGroupAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "DBShardGroupNotFound": return try await DBShardGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidMaxAcu": return try await InvalidMaxAcuFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
             }
         }
@@ -35088,6 +36038,125 @@ enum RebootDBInstanceOutputError {
     }
 }
 
+extension RebootDBShardGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dbShardGroupIdentifier = "DBShardGroupIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dbShardGroupIdentifier = dbShardGroupIdentifier {
+            try container.encode(dbShardGroupIdentifier, forKey: ClientRuntime.Key("DBShardGroupIdentifier"))
+        }
+        try container.encode("RebootDBShardGroup", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension RebootDBShardGroupInput {
+
+    static func urlPathProvider(_ value: RebootDBShardGroupInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct RebootDBShardGroupInput: Swift.Equatable {
+    /// The name of the DB shard group to reboot.
+    /// This member is required.
+    public var dbShardGroupIdentifier: Swift.String?
+
+    public init(
+        dbShardGroupIdentifier: Swift.String? = nil
+    )
+    {
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+    }
+}
+
+extension RebootDBShardGroupOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<RebootDBShardGroupOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["RebootDBShardGroupResult"]
+            var value = RebootDBShardGroupOutput()
+            value.computeRedundancy = try reader["ComputeRedundancy"].readIfPresent()
+            value.dbClusterIdentifier = try reader["DBClusterIdentifier"].readIfPresent()
+            value.dbShardGroupIdentifier = try reader["DBShardGroupIdentifier"].readIfPresent()
+            value.dbShardGroupResourceId = try reader["DBShardGroupResourceId"].readIfPresent()
+            value.endpoint = try reader["Endpoint"].readIfPresent()
+            value.maxACU = try reader["MaxACU"].readIfPresent()
+            value.publiclyAccessible = try reader["PubliclyAccessible"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct RebootDBShardGroupOutput: Swift.Equatable {
+    /// Specifies whether to create standby instances for the DB shard group. Valid values are the following:
+    ///
+    /// * 0 - Creates a single, primary DB instance for each physical shard. This is the default value, and the only one supported for the preview.
+    ///
+    /// * 1 - Creates a primary DB instance and a standby instance in a different Availability Zone (AZ) for each physical shard.
+    ///
+    /// * 2 - Creates a primary DB instance and two standby instances in different AZs for each physical shard.
+    public var computeRedundancy: Swift.Int?
+    /// The name of the primary DB cluster for the DB shard group.
+    public var dbClusterIdentifier: Swift.String?
+    /// The name of the DB shard group.
+    public var dbShardGroupIdentifier: Swift.String?
+    /// The Amazon Web Services Region-unique, immutable identifier for the DB shard group.
+    public var dbShardGroupResourceId: Swift.String?
+    /// The connection endpoint for the DB shard group.
+    public var endpoint: Swift.String?
+    /// The maximum capacity of the DB shard group in Aurora capacity units (ACUs).
+    public var maxACU: Swift.Double?
+    /// Indicates whether the DB shard group is publicly accessible. When the DB shard group is publicly accessible, its Domain Name System (DNS) endpoint resolves to the private IP address from within the DB shard group's virtual private cloud (VPC). It resolves to the public IP address from outside of the DB shard group's VPC. Access to the DB shard group is ultimately controlled by the security group it uses. That public access isn't permitted if the security group assigned to the DB shard group doesn't permit it. When the DB shard group isn't publicly accessible, it is an internal DB shard group with a DNS name that resolves to a private IP address. For more information, see [CreateDBShardGroup]. This setting is only for Aurora Limitless Database.
+    public var publiclyAccessible: Swift.Bool?
+    /// The status of the DB shard group.
+    public var status: Swift.String?
+
+    public init(
+        computeRedundancy: Swift.Int? = nil,
+        dbClusterIdentifier: Swift.String? = nil,
+        dbShardGroupIdentifier: Swift.String? = nil,
+        dbShardGroupResourceId: Swift.String? = nil,
+        endpoint: Swift.String? = nil,
+        maxACU: Swift.Double? = nil,
+        publiclyAccessible: Swift.Bool? = nil,
+        status: Swift.String? = nil
+    )
+    {
+        self.computeRedundancy = computeRedundancy
+        self.dbClusterIdentifier = dbClusterIdentifier
+        self.dbShardGroupIdentifier = dbShardGroupIdentifier
+        self.dbShardGroupResourceId = dbShardGroupResourceId
+        self.endpoint = endpoint
+        self.maxACU = maxACU
+        self.publiclyAccessible = publiclyAccessible
+        self.status = status
+    }
+}
+
+enum RebootDBShardGroupOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBShardGroupNotFound": return try await DBShardGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBShardGroupState": return try await InvalidDBShardGroupStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension RDSClientTypes.RecommendedAction: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionId = "ActionId"
@@ -37643,6 +38712,7 @@ enum RestoreDBClusterFromSnapshotOutputError {
                 case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DomainNotFoundFault": return try await DomainNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientDBClusterCapacityFault": return try await InsufficientDBClusterCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InsufficientDBInstanceCapacity": return try await InsufficientDBInstanceCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -38066,6 +39136,7 @@ enum RestoreDBClusterToPointInTimeOutputError {
                 case "DBSubnetGroupNotFoundFault": return try await DBSubnetGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DomainNotFoundFault": return try await DomainNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientDBClusterCapacityFault": return try await InsufficientDBClusterCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InsufficientDBInstanceCapacity": return try await InsufficientDBInstanceCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientStorageClusterCapacity": return try await InsufficientStorageClusterCapacityFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBClusterSnapshotStateFault": return try await InvalidDBClusterSnapshotStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -43023,6 +44094,42 @@ extension RDSClientTypes {
         }
     }
 
+}
+
+extension UnsupportedDBEngineVersionFault {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = UnsupportedDBEngineVersionFault()
+        value.properties.message = try reader["message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The specified DB engine version isn't supported for Aurora Limitless Database.
+public struct UnsupportedDBEngineVersionFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "UnsupportedDBEngineVersion" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
 }
 
 extension RDSClientTypes.UpgradeTarget: Swift.Encodable {

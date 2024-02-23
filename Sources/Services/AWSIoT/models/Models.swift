@@ -7553,6 +7553,7 @@ extension CreateDomainConfigurationInput: Swift.Encodable {
         case authorizerConfig
         case domainName
         case serverCertificateArns
+        case serverCertificateConfig
         case serviceType
         case tags
         case tlsConfig
@@ -7572,6 +7573,9 @@ extension CreateDomainConfigurationInput: Swift.Encodable {
             for acmcertificatearn0 in serverCertificateArns {
                 try serverCertificateArnsContainer.encode(acmcertificatearn0)
             }
+        }
+        if let serverCertificateConfig = self.serverCertificateConfig {
+            try encodeContainer.encode(serverCertificateConfig, forKey: .serverCertificateConfig)
         }
         if let serviceType = self.serviceType {
             try encodeContainer.encode(serviceType.rawValue, forKey: .serviceType)
@@ -7611,6 +7615,8 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
     public var domainName: Swift.String?
     /// The ARNs of the certificates that IoT passes to the device during the TLS handshake. Currently you can specify only one certificate ARN. This value is not required for Amazon Web Services-managed domains.
     public var serverCertificateArns: [Swift.String]?
+    /// The server certificate configuration.
+    public var serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
     /// The type of service delivered by the endpoint. Amazon Web Services IoT Core currently supports only the DATA service type.
     public var serviceType: IoTClientTypes.ServiceType?
     /// Metadata which can be used to manage the domain configuration. For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
@@ -7625,6 +7631,7 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
         domainConfigurationName: Swift.String? = nil,
         domainName: Swift.String? = nil,
         serverCertificateArns: [Swift.String]? = nil,
+        serverCertificateConfig: IoTClientTypes.ServerCertificateConfig? = nil,
         serviceType: IoTClientTypes.ServiceType? = nil,
         tags: [IoTClientTypes.Tag]? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil,
@@ -7635,6 +7642,7 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
         self.domainConfigurationName = domainConfigurationName
         self.domainName = domainName
         self.serverCertificateArns = serverCertificateArns
+        self.serverCertificateConfig = serverCertificateConfig
         self.serviceType = serviceType
         self.tags = tags
         self.tlsConfig = tlsConfig
@@ -7650,6 +7658,7 @@ struct CreateDomainConfigurationInputBody: Swift.Equatable {
     let serviceType: IoTClientTypes.ServiceType?
     let tags: [IoTClientTypes.Tag]?
     let tlsConfig: IoTClientTypes.TlsConfig?
+    let serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
 }
 
 extension CreateDomainConfigurationInputBody: Swift.Decodable {
@@ -7657,6 +7666,7 @@ extension CreateDomainConfigurationInputBody: Swift.Decodable {
         case authorizerConfig
         case domainName
         case serverCertificateArns
+        case serverCertificateConfig
         case serviceType
         case tags
         case tlsConfig
@@ -7697,6 +7707,8 @@ extension CreateDomainConfigurationInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
         tlsConfig = tlsConfigDecoded
+        let serverCertificateConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.ServerCertificateConfig.self, forKey: .serverCertificateConfig)
+        serverCertificateConfig = serverCertificateConfigDecoded
     }
 }
 
@@ -16610,6 +16622,7 @@ extension DescribeDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.domainName = output.domainName
             self.domainType = output.domainType
             self.lastStatusChangeDate = output.lastStatusChangeDate
+            self.serverCertificateConfig = output.serverCertificateConfig
             self.serverCertificates = output.serverCertificates
             self.serviceType = output.serviceType
             self.tlsConfig = output.tlsConfig
@@ -16621,6 +16634,7 @@ extension DescribeDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.domainName = nil
             self.domainType = nil
             self.lastStatusChangeDate = nil
+            self.serverCertificateConfig = nil
             self.serverCertificates = nil
             self.serviceType = nil
             self.tlsConfig = nil
@@ -16643,6 +16657,8 @@ public struct DescribeDomainConfigurationOutput: Swift.Equatable {
     public var domainType: IoTClientTypes.DomainType?
     /// The date and time the domain configuration's status was last changed.
     public var lastStatusChangeDate: ClientRuntime.Date?
+    /// The server certificate configuration.
+    public var serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
     /// A list containing summary information about the server certificate included in the domain configuration.
     public var serverCertificates: [IoTClientTypes.ServerCertificateSummary]?
     /// The type of service delivered by the endpoint.
@@ -16658,6 +16674,7 @@ public struct DescribeDomainConfigurationOutput: Swift.Equatable {
         domainName: Swift.String? = nil,
         domainType: IoTClientTypes.DomainType? = nil,
         lastStatusChangeDate: ClientRuntime.Date? = nil,
+        serverCertificateConfig: IoTClientTypes.ServerCertificateConfig? = nil,
         serverCertificates: [IoTClientTypes.ServerCertificateSummary]? = nil,
         serviceType: IoTClientTypes.ServiceType? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil
@@ -16670,6 +16687,7 @@ public struct DescribeDomainConfigurationOutput: Swift.Equatable {
         self.domainName = domainName
         self.domainType = domainType
         self.lastStatusChangeDate = lastStatusChangeDate
+        self.serverCertificateConfig = serverCertificateConfig
         self.serverCertificates = serverCertificates
         self.serviceType = serviceType
         self.tlsConfig = tlsConfig
@@ -16687,6 +16705,7 @@ struct DescribeDomainConfigurationOutputBody: Swift.Equatable {
     let domainType: IoTClientTypes.DomainType?
     let lastStatusChangeDate: ClientRuntime.Date?
     let tlsConfig: IoTClientTypes.TlsConfig?
+    let serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
 }
 
 extension DescribeDomainConfigurationOutputBody: Swift.Decodable {
@@ -16698,6 +16717,7 @@ extension DescribeDomainConfigurationOutputBody: Swift.Decodable {
         case domainName
         case domainType
         case lastStatusChangeDate
+        case serverCertificateConfig
         case serverCertificates
         case serviceType
         case tlsConfig
@@ -16734,6 +16754,8 @@ extension DescribeDomainConfigurationOutputBody: Swift.Decodable {
         lastStatusChangeDate = lastStatusChangeDateDecoded
         let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
         tlsConfig = tlsConfigDecoded
+        let serverCertificateConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.ServerCertificateConfig.self, forKey: .serverCertificateConfig)
+        serverCertificateConfig = serverCertificateConfigDecoded
     }
 }
 
@@ -41083,6 +41105,41 @@ extension IoTClientTypes {
 
 }
 
+extension IoTClientTypes.ServerCertificateConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enableOCSPCheck
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enableOCSPCheck = self.enableOCSPCheck {
+            try encodeContainer.encode(enableOCSPCheck, forKey: .enableOCSPCheck)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enableOCSPCheckDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableOCSPCheck)
+        enableOCSPCheck = enableOCSPCheckDecoded
+    }
+}
+
+extension IoTClientTypes {
+    /// The server certificate configuration.
+    public struct ServerCertificateConfig: Swift.Equatable {
+        /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-domain-ocsp-config.html) from Amazon Web Services IoT Core Developer Guide.
+        public var enableOCSPCheck: Swift.Bool?
+
+        public init(
+            enableOCSPCheck: Swift.Bool? = nil
+        )
+        {
+            self.enableOCSPCheck = enableOCSPCheck
+        }
+    }
+
+}
+
 extension IoTClientTypes {
     public enum ServerCertificateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case invalid
@@ -47875,6 +47932,7 @@ extension UpdateDomainConfigurationInput: Swift.Encodable {
         case authorizerConfig
         case domainConfigurationStatus
         case removeAuthorizerConfig
+        case serverCertificateConfig
         case tlsConfig
     }
 
@@ -47888,6 +47946,9 @@ extension UpdateDomainConfigurationInput: Swift.Encodable {
         }
         if let removeAuthorizerConfig = self.removeAuthorizerConfig {
             try encodeContainer.encode(removeAuthorizerConfig, forKey: .removeAuthorizerConfig)
+        }
+        if let serverCertificateConfig = self.serverCertificateConfig {
+            try encodeContainer.encode(serverCertificateConfig, forKey: .serverCertificateConfig)
         }
         if let tlsConfig = self.tlsConfig {
             try encodeContainer.encode(tlsConfig, forKey: .tlsConfig)
@@ -47915,6 +47976,8 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
     public var domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     /// Removes the authorization configuration from a domain.
     public var removeAuthorizerConfig: Swift.Bool?
+    /// The server certificate configuration.
+    public var serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
     /// An object that specifies the TLS configuration for a domain.
     public var tlsConfig: IoTClientTypes.TlsConfig?
 
@@ -47923,6 +47986,7 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
         domainConfigurationName: Swift.String? = nil,
         domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus? = nil,
         removeAuthorizerConfig: Swift.Bool? = nil,
+        serverCertificateConfig: IoTClientTypes.ServerCertificateConfig? = nil,
         tlsConfig: IoTClientTypes.TlsConfig? = nil
     )
     {
@@ -47930,6 +47994,7 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
         self.domainConfigurationName = domainConfigurationName
         self.domainConfigurationStatus = domainConfigurationStatus
         self.removeAuthorizerConfig = removeAuthorizerConfig
+        self.serverCertificateConfig = serverCertificateConfig
         self.tlsConfig = tlsConfig
     }
 }
@@ -47939,6 +48004,7 @@ struct UpdateDomainConfigurationInputBody: Swift.Equatable {
     let domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     let removeAuthorizerConfig: Swift.Bool?
     let tlsConfig: IoTClientTypes.TlsConfig?
+    let serverCertificateConfig: IoTClientTypes.ServerCertificateConfig?
 }
 
 extension UpdateDomainConfigurationInputBody: Swift.Decodable {
@@ -47946,6 +48012,7 @@ extension UpdateDomainConfigurationInputBody: Swift.Decodable {
         case authorizerConfig
         case domainConfigurationStatus
         case removeAuthorizerConfig
+        case serverCertificateConfig
         case tlsConfig
     }
 
@@ -47959,6 +48026,8 @@ extension UpdateDomainConfigurationInputBody: Swift.Decodable {
         removeAuthorizerConfig = removeAuthorizerConfigDecoded
         let tlsConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.TlsConfig.self, forKey: .tlsConfig)
         tlsConfig = tlsConfigDecoded
+        let serverCertificateConfigDecoded = try containerValues.decodeIfPresent(IoTClientTypes.ServerCertificateConfig.self, forKey: .serverCertificateConfig)
+        serverCertificateConfig = serverCertificateConfigDecoded
     }
 }
 

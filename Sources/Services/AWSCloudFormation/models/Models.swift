@@ -1558,6 +1558,42 @@ extension CloudFormationClientTypes {
     }
 }
 
+extension ConcurrentResourcesLimitExceededException {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = ConcurrentResourcesLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// No more than 5 generated templates can be in an InProgress or Pending status at one time. This error is also returned if a generated template that is in an InProgress or Pending status is attempted to be updated or deleted.
+public struct ConcurrentResourcesLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConcurrentResourcesLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
 extension ContinueUpdateRollbackInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -1979,6 +2015,118 @@ enum CreateChangeSetOutputError {
             switch code {
                 case "AlreadyExistsException": return try await AlreadyExistsException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InsufficientCapabilitiesException": return try await InsufficientCapabilitiesException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "LimitExceededException": return try await LimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension CreateGeneratedTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generatedTemplateName = "GeneratedTemplateName"
+        case resources = "Resources"
+        case stackName = "StackName"
+        case templateConfiguration = "TemplateConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        if let resources = resources {
+            if !resources.isEmpty {
+                var resourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Resources"))
+                for (index0, resourcedefinition0) in resources.enumerated() {
+                    try resourcesContainer.encode(resourcedefinition0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var resourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Resources"))
+                try resourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let stackName = stackName {
+            try container.encode(stackName, forKey: ClientRuntime.Key("StackName"))
+        }
+        if let templateConfiguration = templateConfiguration {
+            try container.encode(templateConfiguration, forKey: ClientRuntime.Key("TemplateConfiguration"))
+        }
+        try container.encode("CreateGeneratedTemplate", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension CreateGeneratedTemplateInput {
+
+    static func urlPathProvider(_ value: CreateGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateGeneratedTemplateInput: Swift.Equatable {
+    /// The name assigned to the generated template.
+    /// This member is required.
+    public var generatedTemplateName: Swift.String?
+    /// An optional list of resources to be included in the generated template. If no resources are specified,the template will be created without any resources. Resources can be added to the template using the UpdateGeneratedTemplate API action.
+    public var resources: [CloudFormationClientTypes.ResourceDefinition]?
+    /// An optional name or ARN of a stack to use as the base stack for the generated template.
+    public var stackName: Swift.String?
+    /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy.
+    public var templateConfiguration: CloudFormationClientTypes.TemplateConfiguration?
+
+    public init(
+        generatedTemplateName: Swift.String? = nil,
+        resources: [CloudFormationClientTypes.ResourceDefinition]? = nil,
+        stackName: Swift.String? = nil,
+        templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil
+    )
+    {
+        self.generatedTemplateName = generatedTemplateName
+        self.resources = resources
+        self.stackName = stackName
+        self.templateConfiguration = templateConfiguration
+    }
+}
+
+extension CreateGeneratedTemplateOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<CreateGeneratedTemplateOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["CreateGeneratedTemplateResult"]
+            var value = CreateGeneratedTemplateOutput()
+            value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct CreateGeneratedTemplateOutput: Swift.Equatable {
+    /// The ID of the generated template.
+    public var generatedTemplateId: Swift.String?
+
+    public init(
+        generatedTemplateId: Swift.String? = nil
+    )
+    {
+        self.generatedTemplateId = generatedTemplateId
+    }
+}
+
+enum CreateGeneratedTemplateOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "AlreadyExistsException": return try await AlreadyExistsException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "ConcurrentResourcesLimitExceeded": return try await ConcurrentResourcesLimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "LimitExceededException": return try await LimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
             }
@@ -2969,6 +3117,73 @@ enum DeleteChangeSetOutputError {
     }
 }
 
+extension DeleteGeneratedTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generatedTemplateName = "GeneratedTemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        try container.encode("DeleteGeneratedTemplate", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DeleteGeneratedTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteGeneratedTemplateInput: Swift.Equatable {
+    /// The name or Amazon Resource Name (ARN) of a generated template.
+    /// This member is required.
+    public var generatedTemplateName: Swift.String?
+
+    public init(
+        generatedTemplateName: Swift.String? = nil
+    )
+    {
+        self.generatedTemplateName = generatedTemplateName
+    }
+}
+
+extension DeleteGeneratedTemplateOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DeleteGeneratedTemplateOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            return DeleteGeneratedTemplateOutput()
+        }
+    }
+}
+
+public struct DeleteGeneratedTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteGeneratedTemplateOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ConcurrentResourcesLimitExceeded": return try await ConcurrentResourcesLimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "GeneratedTemplateNotFound": return try await GeneratedTemplateNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension DeleteStackInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
@@ -3936,6 +4151,149 @@ enum DescribeChangeSetOutputError {
     }
 }
 
+extension DescribeGeneratedTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generatedTemplateName = "GeneratedTemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        try container.encode("DescribeGeneratedTemplate", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeGeneratedTemplateInput {
+
+    static func urlPathProvider(_ value: DescribeGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeGeneratedTemplateInput: Swift.Equatable {
+    /// The name or Amazon Resource Name (ARN) of a generated template.
+    /// This member is required.
+    public var generatedTemplateName: Swift.String?
+
+    public init(
+        generatedTemplateName: Swift.String? = nil
+    )
+    {
+        self.generatedTemplateName = generatedTemplateName
+    }
+}
+
+extension DescribeGeneratedTemplateOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DescribeGeneratedTemplateOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["DescribeGeneratedTemplateResult"]
+            var value = DescribeGeneratedTemplateOutput()
+            value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
+            value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
+            value.generatedTemplateName = try reader["GeneratedTemplateName"].readIfPresent()
+            value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: .dateTime)
+            value.progress = try reader["Progress"].readIfPresent(readingClosure: CloudFormationClientTypes.TemplateProgress.readingClosure)
+            value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceDetail.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            value.stackId = try reader["StackId"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            value.statusReason = try reader["StatusReason"].readIfPresent()
+            value.templateConfiguration = try reader["TemplateConfiguration"].readIfPresent(readingClosure: CloudFormationClientTypes.TemplateConfiguration.readingClosure)
+            value.totalWarnings = try reader["TotalWarnings"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct DescribeGeneratedTemplateOutput: Swift.Equatable {
+    /// The time the generated template was created.
+    public var creationTime: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
+    public var generatedTemplateId: Swift.String?
+    /// The name of the generated template.
+    public var generatedTemplateName: Swift.String?
+    /// The time the generated template was last updated.
+    public var lastUpdatedTime: ClientRuntime.Date?
+    /// An object describing the progress of the template generation.
+    public var progress: CloudFormationClientTypes.TemplateProgress?
+    /// A list of objects describing the details of the resources in the template generation.
+    public var resources: [CloudFormationClientTypes.ResourceDetail]?
+    /// The stack ARN of the base stack if a base stack was provided when generating the template.
+    public var stackId: Swift.String?
+    /// The status of the template generation. Supported values are:
+    ///
+    /// * CreatePending - the creation of the template is pending.
+    ///
+    /// * CreateInProgress - the creation of the template is in progress.
+    ///
+    /// * DeletePending - the deletion of the template is pending.
+    ///
+    /// * DeleteInProgress - the deletion of the template is in progress.
+    ///
+    /// * UpdatePending - the update of the template is pending.
+    ///
+    /// * UpdateInProgress - the update of the template is in progress.
+    ///
+    /// * Failed - the template operation failed.
+    ///
+    /// * Complete - the template operation is complete.
+    public var status: CloudFormationClientTypes.GeneratedTemplateStatus?
+    /// The reason for the current template generation status. This will provide more details if a failure happened.
+    public var statusReason: Swift.String?
+    /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy.
+    public var templateConfiguration: CloudFormationClientTypes.TemplateConfiguration?
+    /// The number of warnings generated for this template. The warnings are found in the details of each of the resources in the template.
+    public var totalWarnings: Swift.Int?
+
+    public init(
+        creationTime: ClientRuntime.Date? = nil,
+        generatedTemplateId: Swift.String? = nil,
+        generatedTemplateName: Swift.String? = nil,
+        lastUpdatedTime: ClientRuntime.Date? = nil,
+        progress: CloudFormationClientTypes.TemplateProgress? = nil,
+        resources: [CloudFormationClientTypes.ResourceDetail]? = nil,
+        stackId: Swift.String? = nil,
+        status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
+        statusReason: Swift.String? = nil,
+        templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil,
+        totalWarnings: Swift.Int? = nil
+    )
+    {
+        self.creationTime = creationTime
+        self.generatedTemplateId = generatedTemplateId
+        self.generatedTemplateName = generatedTemplateName
+        self.lastUpdatedTime = lastUpdatedTime
+        self.progress = progress
+        self.resources = resources
+        self.stackId = stackId
+        self.status = status
+        self.statusReason = statusReason
+        self.templateConfiguration = templateConfiguration
+        self.totalWarnings = totalWarnings
+    }
+}
+
+enum DescribeGeneratedTemplateOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "GeneratedTemplateNotFound": return try await GeneratedTemplateNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension DescribeOrganizationsAccessInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callAs = "CallAs"
@@ -4102,6 +4460,123 @@ enum DescribePublisherOutputError {
             let message: String? = try reader["Message"].readIfPresent()
             switch code {
                 case "CFNRegistryException": return try await CFNRegistryException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension DescribeResourceScanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceScanId = "ResourceScanId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceScanId = resourceScanId {
+            try container.encode(resourceScanId, forKey: ClientRuntime.Key("ResourceScanId"))
+        }
+        try container.encode("DescribeResourceScan", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension DescribeResourceScanInput {
+
+    static func urlPathProvider(_ value: DescribeResourceScanInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DescribeResourceScanInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource scan.
+    /// This member is required.
+    public var resourceScanId: Swift.String?
+
+    public init(
+        resourceScanId: Swift.String? = nil
+    )
+    {
+        self.resourceScanId = resourceScanId
+    }
+}
+
+extension DescribeResourceScanOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<DescribeResourceScanOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["DescribeResourceScanResult"]
+            var value = DescribeResourceScanOutput()
+            value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .dateTime)
+            value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+            value.resourceScanId = try reader["ResourceScanId"].readIfPresent()
+            value.resourceTypes = try reader["ResourceTypes"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            value.resourcesRead = try reader["ResourcesRead"].readIfPresent()
+            value.resourcesScanned = try reader["ResourcesScanned"].readIfPresent()
+            value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .dateTime)
+            value.status = try reader["Status"].readIfPresent()
+            value.statusReason = try reader["StatusReason"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct DescribeResourceScanOutput: Swift.Equatable {
+    /// The time that the resource scan was finished.
+    public var endTime: ClientRuntime.Date?
+    /// The percentage of the resource scan that has been completed.
+    public var percentageCompleted: Swift.Double?
+    /// The Amazon Resource Name (ARN) of the resource scan. The format is arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}. An example is arn:aws:cloudformation:us-east-1:123456789012:resourceScan/f5b490f7-7ed4-428a-aa06-31ff25db0772 .
+    public var resourceScanId: Swift.String?
+    /// The list of resource types for the specified scan. Resource types are only available for scans with a Status set to COMPLETE or FAILED .
+    public var resourceTypes: [Swift.String]?
+    /// The number of resources that were read. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED . This field may be 0 if the resource scan failed with a ResourceScanLimitExceededException.
+    public var resourcesRead: Swift.Int?
+    /// The number of resources that were listed. This is only available for scans with a Status set to COMPLETE, EXPIRED, or FAILED .
+    public var resourcesScanned: Swift.Int?
+    /// The time that the resource scan was started.
+    public var startTime: ClientRuntime.Date?
+    /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
+    public var status: CloudFormationClientTypes.ResourceScanStatus?
+    /// The reason for the resource scan status, providing more information if a failure happened.
+    public var statusReason: Swift.String?
+
+    public init(
+        endTime: ClientRuntime.Date? = nil,
+        percentageCompleted: Swift.Double? = nil,
+        resourceScanId: Swift.String? = nil,
+        resourceTypes: [Swift.String]? = nil,
+        resourcesRead: Swift.Int? = nil,
+        resourcesScanned: Swift.Int? = nil,
+        startTime: ClientRuntime.Date? = nil,
+        status: CloudFormationClientTypes.ResourceScanStatus? = nil,
+        statusReason: Swift.String? = nil
+    )
+    {
+        self.endTime = endTime
+        self.percentageCompleted = percentageCompleted
+        self.resourceScanId = resourceScanId
+        self.resourceTypes = resourceTypes
+        self.resourcesRead = resourcesRead
+        self.resourcesScanned = resourcesScanned
+        self.startTime = startTime
+        self.status = status
+        self.statusReason = statusReason
+    }
+}
+
+enum DescribeResourceScanOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ResourceScanNotFound": return try await ResourceScanNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
             }
         }
@@ -6079,6 +6554,304 @@ extension CloudFormationClientTypes {
 
 }
 
+extension CloudFormationClientTypes {
+    public enum GeneratedTemplateDeletionPolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedTemplateDeletionPolicy] {
+            return [
+                .delete,
+                .retain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GeneratedTemplateDeletionPolicy(rawValue: rawValue) ?? GeneratedTemplateDeletionPolicy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GeneratedTemplateNotFoundException {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = GeneratedTemplateNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The generated template was not found.
+public struct GeneratedTemplateNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "GeneratedTemplateNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum GeneratedTemplateResourceStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case failed
+        case inProgress
+        case pending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedTemplateResourceStatus] {
+            return [
+                .complete,
+                .failed,
+                .inProgress,
+                .pending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GeneratedTemplateResourceStatus(rawValue: rawValue) ?? GeneratedTemplateResourceStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum GeneratedTemplateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case createInProgress
+        case createPending
+        case deleteInProgress
+        case deletePending
+        case failed
+        case updateInProgress
+        case updatePending
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedTemplateStatus] {
+            return [
+                .complete,
+                .createInProgress,
+                .createPending,
+                .deleteInProgress,
+                .deletePending,
+                .failed,
+                .updateInProgress,
+                .updatePending,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .createPending: return "CREATE_PENDING"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .deletePending: return "DELETE_PENDING"
+            case .failed: return "FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updatePending: return "UPDATE_PENDING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GeneratedTemplateStatus(rawValue: rawValue) ?? GeneratedTemplateStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum GeneratedTemplateUpdateReplacePolicy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case retain
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [GeneratedTemplateUpdateReplacePolicy] {
+            return [
+                .delete,
+                .retain,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "DELETE"
+            case .retain: return "RETAIN"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = GeneratedTemplateUpdateReplacePolicy(rawValue: rawValue) ?? GeneratedTemplateUpdateReplacePolicy.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetGeneratedTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case format = "Format"
+        case generatedTemplateName = "GeneratedTemplateName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let format = format {
+            try container.encode(format, forKey: ClientRuntime.Key("Format"))
+        }
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        try container.encode("GetGeneratedTemplate", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension GetGeneratedTemplateInput {
+
+    static func urlPathProvider(_ value: GetGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetGeneratedTemplateInput: Swift.Equatable {
+    /// The language to use to retrieve for the generated template. Supported values are:
+    ///
+    /// * JSON
+    ///
+    /// * YAML
+    public var format: CloudFormationClientTypes.TemplateFormat?
+    /// The name or Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
+    /// This member is required.
+    public var generatedTemplateName: Swift.String?
+
+    public init(
+        format: CloudFormationClientTypes.TemplateFormat? = nil,
+        generatedTemplateName: Swift.String? = nil
+    )
+    {
+        self.format = format
+        self.generatedTemplateName = generatedTemplateName
+    }
+}
+
+extension GetGeneratedTemplateOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetGeneratedTemplateOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["GetGeneratedTemplateResult"]
+            var value = GetGeneratedTemplateOutput()
+            value.status = try reader["Status"].readIfPresent()
+            value.templateBody = try reader["TemplateBody"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct GetGeneratedTemplateOutput: Swift.Equatable {
+    /// The status of the template generation. Supported values are:
+    ///
+    /// * CreatePending - the creation of the template is pending.
+    ///
+    /// * CreateInProgress - the creation of the template is in progress.
+    ///
+    /// * DeletePending - the deletion of the template is pending.
+    ///
+    /// * DeleteInProgress - the deletion of the template is in progress.
+    ///
+    /// * UpdatePending - the update of the template is pending.
+    ///
+    /// * UpdateInProgress - the update of the template is in progress.
+    ///
+    /// * Failed - the template operation failed.
+    ///
+    /// * Complete - the template operation is complete.
+    public var status: CloudFormationClientTypes.GeneratedTemplateStatus?
+    /// The template body of the generated template, in the language specified by the Language parameter.
+    public var templateBody: Swift.String?
+
+    public init(
+        status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
+        templateBody: Swift.String? = nil
+    )
+    {
+        self.status = status
+        self.templateBody = templateBody
+    }
+}
+
+enum GetGeneratedTemplateOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "GeneratedTemplateNotFound": return try await GeneratedTemplateNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension GetStackPolicyInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case stackName = "StackName"
@@ -7180,6 +7953,94 @@ enum ListExportsOutputError {
     }
 }
 
+extension ListGeneratedTemplatesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        try container.encode("ListGeneratedTemplates", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListGeneratedTemplatesInput {
+
+    static func urlPathProvider(_ value: ListGeneratedTemplatesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListGeneratedTemplatesInput: Swift.Equatable {
+    /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListGeneratedTemplates API action will return at most 50 results in each response. The maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// A string that identifies the next page of resource scan results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListGeneratedTemplatesOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListGeneratedTemplatesOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListGeneratedTemplatesResult"]
+            var value = ListGeneratedTemplatesOutput()
+            value.nextToken = try reader["NextToken"].readIfPresent()
+            value.summaries = try reader["Summaries"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.TemplateSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListGeneratedTemplatesOutput: Swift.Equatable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListGeneratedTemplates again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
+    public var nextToken: Swift.String?
+    /// A list of summaries of the generated templates.
+    public var summaries: [CloudFormationClientTypes.TemplateSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summaries: [CloudFormationClientTypes.TemplateSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.summaries = summaries
+    }
+}
+
+enum ListGeneratedTemplatesOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension ListImportsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exportName = "ExportName"
@@ -7254,6 +8115,342 @@ public struct ListImportsOutput: Swift.Equatable {
 }
 
 enum ListImportsOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension ListResourceScanRelatedResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceScanId = "ResourceScanId"
+        case resources = "Resources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let resourceScanId = resourceScanId {
+            try container.encode(resourceScanId, forKey: ClientRuntime.Key("ResourceScanId"))
+        }
+        if let resources = resources {
+            if !resources.isEmpty {
+                var resourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Resources"))
+                for (index0, scannedresourceidentifier0) in resources.enumerated() {
+                    try resourcesContainer.encode(scannedresourceidentifier0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var resourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Resources"))
+                try resourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        try container.encode("ListResourceScanRelatedResources", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListResourceScanRelatedResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourceScanRelatedResourcesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListResourceScanRelatedResourcesInput: Swift.Equatable {
+    /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanRelatedResources API action will return up to 100 results in each response. The maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// A string that identifies the next page of resource scan results.
+    public var nextToken: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource scan.
+    /// This member is required.
+    public var resourceScanId: Swift.String?
+    /// The list of resources for which you want to get the related resources. Up to 100 resources can be provided.
+    /// This member is required.
+    public var resources: [CloudFormationClientTypes.ScannedResourceIdentifier]?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceScanId: Swift.String? = nil,
+        resources: [CloudFormationClientTypes.ScannedResourceIdentifier]? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceScanId = resourceScanId
+        self.resources = resources
+    }
+}
+
+extension ListResourceScanRelatedResourcesOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListResourceScanRelatedResourcesOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListResourceScanRelatedResourcesResult"]
+            var value = ListResourceScanRelatedResourcesOutput()
+            value.nextToken = try reader["NextToken"].readIfPresent()
+            value.relatedResources = try reader["RelatedResources"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ScannedResource.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListResourceScanRelatedResourcesOutput: Swift.Equatable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResourceScanRelatedResources again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
+    public var nextToken: Swift.String?
+    /// List of up to MaxResults resources in the specified resource scan related to the specified resources.
+    public var relatedResources: [CloudFormationClientTypes.ScannedResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        relatedResources: [CloudFormationClientTypes.ScannedResource]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.relatedResources = relatedResources
+    }
+}
+
+enum ListResourceScanRelatedResourcesOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ResourceScanInProgress": return try await ResourceScanInProgressException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "ResourceScanNotFound": return try await ResourceScanNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension ListResourceScanResourcesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case resourceIdentifier = "ResourceIdentifier"
+        case resourceScanId = "ResourceScanId"
+        case resourceTypePrefix = "ResourceTypePrefix"
+        case tagKey = "TagKey"
+        case tagValue = "TagValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let resourceIdentifier = resourceIdentifier {
+            try container.encode(resourceIdentifier, forKey: ClientRuntime.Key("ResourceIdentifier"))
+        }
+        if let resourceScanId = resourceScanId {
+            try container.encode(resourceScanId, forKey: ClientRuntime.Key("ResourceScanId"))
+        }
+        if let resourceTypePrefix = resourceTypePrefix {
+            try container.encode(resourceTypePrefix, forKey: ClientRuntime.Key("ResourceTypePrefix"))
+        }
+        if let tagKey = tagKey {
+            try container.encode(tagKey, forKey: ClientRuntime.Key("TagKey"))
+        }
+        if let tagValue = tagValue {
+            try container.encode(tagValue, forKey: ClientRuntime.Key("TagValue"))
+        }
+        try container.encode("ListResourceScanResources", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListResourceScanResourcesInput {
+
+    static func urlPathProvider(_ value: ListResourceScanResourcesInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListResourceScanResourcesInput: Swift.Equatable {
+    /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. By default the ListResourceScanResources API action will return at most 100 results in each response. The maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// A string that identifies the next page of resource scan results.
+    public var nextToken: Swift.String?
+    /// If specified, the returned resources will have the specified resource identifier (or one of them in the case where the resource has multiple identifiers).
+    public var resourceIdentifier: Swift.String?
+    /// The Amazon Resource Name (ARN) of the resource scan.
+    /// This member is required.
+    public var resourceScanId: Swift.String?
+    /// If specified, the returned resources will be of any of the resource types with the specified prefix.
+    public var resourceTypePrefix: Swift.String?
+    /// If specified, the returned resources will have a matching tag key.
+    public var tagKey: Swift.String?
+    /// If specified, the returned resources will have a matching tag value.
+    public var tagValue: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        resourceIdentifier: Swift.String? = nil,
+        resourceScanId: Swift.String? = nil,
+        resourceTypePrefix: Swift.String? = nil,
+        tagKey: Swift.String? = nil,
+        tagValue: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.resourceIdentifier = resourceIdentifier
+        self.resourceScanId = resourceScanId
+        self.resourceTypePrefix = resourceTypePrefix
+        self.tagKey = tagKey
+        self.tagValue = tagValue
+    }
+}
+
+extension ListResourceScanResourcesOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListResourceScanResourcesOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListResourceScanResourcesResult"]
+            var value = ListResourceScanResourcesOutput()
+            value.nextToken = try reader["NextToken"].readIfPresent()
+            value.resources = try reader["Resources"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ScannedResource.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListResourceScanResourcesOutput: Swift.Equatable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResourceScanResources again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
+    public var nextToken: Swift.String?
+    /// List of up to MaxResults resources in the specified resource scan that match all of the specified filters.
+    public var resources: [CloudFormationClientTypes.ScannedResource]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resources: [CloudFormationClientTypes.ScannedResource]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resources = resources
+    }
+}
+
+enum ListResourceScanResourcesOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ResourceScanInProgress": return try await ResourceScanInProgressException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "ResourceScanNotFound": return try await ResourceScanNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension ListResourceScansInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        try container.encode("ListResourceScans", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListResourceScansInput {
+
+    static func urlPathProvider(_ value: ListResourceScansInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListResourceScansInput: Swift.Equatable {
+    /// If the number of available results exceeds this maximum, the response includes a NextToken value that you can use for the NextToken parameter to get the next set of results. The default value is 10. The maximum value is 100.
+    public var maxResults: Swift.Int?
+    /// A string that identifies the next page of resource scan results.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+extension ListResourceScansOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListResourceScansOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListResourceScansResult"]
+            var value = ListResourceScansOutput()
+            value.nextToken = try reader["NextToken"].readIfPresent()
+            value.resourceScanSummaries = try reader["ResourceScanSummaries"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceScanSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListResourceScansOutput: Swift.Equatable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call ListResourceScans again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
+    public var nextToken: Swift.String?
+    /// The list of scans returned.
+    public var resourceScanSummaries: [CloudFormationClientTypes.ResourceScanSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        resourceScanSummaries: [CloudFormationClientTypes.ResourceScanSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.resourceScanSummaries = resourceScanSummaries
+    }
+}
+
+enum ListResourceScansOutputError {
 
     static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
@@ -10493,6 +11690,174 @@ extension CloudFormationClientTypes {
 
 }
 
+extension CloudFormationClientTypes.ResourceDefinition: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logicalResourceId = "LogicalResourceId"
+        case resourceIdentifier = "ResourceIdentifier"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let logicalResourceId = logicalResourceId {
+            try container.encode(logicalResourceId, forKey: ClientRuntime.Key("LogicalResourceId"))
+        }
+        if let resourceIdentifier = resourceIdentifier {
+            var resourceIdentifierContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ResourceIdentifier"))
+            for (index0, element0) in resourceIdentifier.sorted(by: { $0.key < $1.key }).enumerated() {
+                let resourceidentifierpropertykeyKey0 = element0.key
+                let resourceidentifierpropertyvalueValue0 = element0.value
+                var entryContainer0 = resourceIdentifierContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(resourceidentifierpropertykeyKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(resourceidentifierpropertyvalueValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let resourceType = resourceType {
+            try container.encode(resourceType, forKey: ClientRuntime.Key("ResourceType"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.ResourceDefinition, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.ResourceDefinition()
+            value.resourceType = try reader["ResourceType"].readIfPresent()
+            value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+            value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// A resource included in a generated template. This data type is used with the CreateGeneratedTemplate and UpdateGeneratedTemplate API actions.
+    public struct ResourceDefinition: Swift.Equatable {
+        /// The logical resource id for this resource in the generated template.
+        public var logicalResourceId: Swift.String?
+        /// A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
+        /// This member is required.
+        public var resourceIdentifier: [Swift.String:Swift.String]?
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) in the CloudFormation User Guide
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            logicalResourceId: Swift.String? = nil,
+            resourceIdentifier: [Swift.String:Swift.String]? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.logicalResourceId = logicalResourceId
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes.ResourceDetail: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case logicalResourceId = "LogicalResourceId"
+        case resourceIdentifier = "ResourceIdentifier"
+        case resourceStatus = "ResourceStatus"
+        case resourceStatusReason = "ResourceStatusReason"
+        case resourceType = "ResourceType"
+        case warnings = "Warnings"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let logicalResourceId = logicalResourceId {
+            try container.encode(logicalResourceId, forKey: ClientRuntime.Key("LogicalResourceId"))
+        }
+        if let resourceIdentifier = resourceIdentifier {
+            var resourceIdentifierContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ResourceIdentifier"))
+            for (index0, element0) in resourceIdentifier.sorted(by: { $0.key < $1.key }).enumerated() {
+                let resourceidentifierpropertykeyKey0 = element0.key
+                let resourceidentifierpropertyvalueValue0 = element0.value
+                var entryContainer0 = resourceIdentifierContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(resourceidentifierpropertykeyKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(resourceidentifierpropertyvalueValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let resourceStatus = resourceStatus {
+            try container.encode(resourceStatus, forKey: ClientRuntime.Key("ResourceStatus"))
+        }
+        if let resourceStatusReason = resourceStatusReason {
+            try container.encode(resourceStatusReason, forKey: ClientRuntime.Key("ResourceStatusReason"))
+        }
+        if let resourceType = resourceType {
+            try container.encode(resourceType, forKey: ClientRuntime.Key("ResourceType"))
+        }
+        if let warnings = warnings {
+            if !warnings.isEmpty {
+                var warningsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Warnings"))
+                for (index0, warningdetail0) in warnings.enumerated() {
+                    try warningsContainer.encode(warningdetail0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var warningsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Warnings"))
+                try warningsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.ResourceDetail, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.ResourceDetail()
+            value.resourceType = try reader["ResourceType"].readIfPresent()
+            value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
+            value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            value.resourceStatus = try reader["ResourceStatus"].readIfPresent()
+            value.resourceStatusReason = try reader["ResourceStatusReason"].readIfPresent()
+            value.warnings = try reader["Warnings"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.WarningDetail.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// Details about a resource in a generated template
+    public struct ResourceDetail: Swift.Equatable {
+        /// The logical id for this resource in the final generated template.
+        public var logicalResourceId: Swift.String?
+        /// A list of up to 256 key-value pairs that identifies the resource in the generated template. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
+        public var resourceIdentifier: [Swift.String:Swift.String]?
+        /// Status of the processing of a resource in a generated template. InProgress The resource processing is still in progress. Complete The resource processing is complete. Pending The resource processing is pending. Failed The resource processing has failed.
+        public var resourceStatus: CloudFormationClientTypes.GeneratedTemplateResourceStatus?
+        /// The reason for the resource detail, providing more information if a failure happened.
+        public var resourceStatusReason: Swift.String?
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        public var resourceType: Swift.String?
+        /// The warnings generated for this resource.
+        public var warnings: [CloudFormationClientTypes.WarningDetail]?
+
+        public init(
+            logicalResourceId: Swift.String? = nil,
+            resourceIdentifier: [Swift.String:Swift.String]? = nil,
+            resourceStatus: CloudFormationClientTypes.GeneratedTemplateResourceStatus? = nil,
+            resourceStatusReason: Swift.String? = nil,
+            resourceType: Swift.String? = nil,
+            warnings: [CloudFormationClientTypes.WarningDetail]? = nil
+        )
+        {
+            self.logicalResourceId = logicalResourceId
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceStatus = resourceStatus
+            self.resourceStatusReason = resourceStatusReason
+            self.resourceType = resourceType
+            self.warnings = warnings
+        }
+    }
+
+}
+
 extension CloudFormationClientTypes.ResourceIdentifierSummary: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logicalResourceIds = "LogicalResourceIds"
@@ -10562,6 +11927,241 @@ extension CloudFormationClientTypes {
             self.logicalResourceIds = logicalResourceIds
             self.resourceIdentifiers = resourceIdentifiers
             self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension ResourceScanInProgressException {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = ResourceScanInProgressException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// A resource scan is currently in progress. Only one can be run at a time for an account in a Region.
+public struct ResourceScanInProgressException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceScanInProgress" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension ResourceScanLimitExceededException {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = ResourceScanLimitExceededException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The limit on resource scans has been exceeded. Reasons include:
+///
+/// * Exceeded the daily quota for resource scans.
+///
+/// * A resource scan recently failed. You must wait 10 minutes before starting a new resource scan.
+///
+/// * The last resource scan failed after exceeding 100,000 resources. When this happens, you must wait 24 hours before starting a new resource scan.
+public struct ResourceScanLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceScanLimitExceeded" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension ResourceScanNotFoundException {
+
+    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+        var value = ResourceScanNotFoundException()
+        value.properties.message = try reader["Message"].readIfPresent()
+        value.httpResponse = httpResponse
+        value.requestID = requestID
+        value.message = message
+        return value
+    }
+}
+
+/// The resource scan was not found.
+public struct ResourceScanNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceScanNotFound" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+extension CloudFormationClientTypes {
+    public enum ResourceScanStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case complete
+        case expired
+        case failed
+        case inProgress
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResourceScanStatus] {
+            return [
+                .complete,
+                .expired,
+                .failed,
+                .inProgress,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .complete: return "COMPLETE"
+            case .expired: return "EXPIRED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResourceScanStatus(rawValue: rawValue) ?? ResourceScanStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFormationClientTypes.ResourceScanSummary: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime = "EndTime"
+        case percentageCompleted = "PercentageCompleted"
+        case resourceScanId = "ResourceScanId"
+        case startTime = "StartTime"
+        case status = "Status"
+        case statusReason = "StatusReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let endTime = endTime {
+            try container.encodeTimestamp(endTime, format: .dateTime, forKey: ClientRuntime.Key("EndTime"))
+        }
+        if let percentageCompleted = percentageCompleted {
+            try container.encode(percentageCompleted, forKey: ClientRuntime.Key("PercentageCompleted"))
+        }
+        if let resourceScanId = resourceScanId {
+            try container.encode(resourceScanId, forKey: ClientRuntime.Key("ResourceScanId"))
+        }
+        if let startTime = startTime {
+            try container.encodeTimestamp(startTime, format: .dateTime, forKey: ClientRuntime.Key("StartTime"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let statusReason = statusReason {
+            try container.encode(statusReason, forKey: ClientRuntime.Key("StatusReason"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.ResourceScanSummary, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.ResourceScanSummary()
+            value.resourceScanId = try reader["ResourceScanId"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            value.statusReason = try reader["StatusReason"].readIfPresent()
+            value.startTime = try reader["StartTime"].readTimestampIfPresent(format: .dateTime)
+            value.endTime = try reader["EndTime"].readTimestampIfPresent(format: .dateTime)
+            value.percentageCompleted = try reader["PercentageCompleted"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// A summary of the resource scan. This is returned by the ListResourceScan API action.
+    public struct ResourceScanSummary: Swift.Equatable {
+        /// The time that the resource scan was finished.
+        public var endTime: ClientRuntime.Date?
+        /// The percentage of the resource scan that has been completed.
+        public var percentageCompleted: Swift.Double?
+        /// The Amazon Resource Name (ARN) of the resource scan.
+        public var resourceScanId: Swift.String?
+        /// The time that the resource scan was started.
+        public var startTime: ClientRuntime.Date?
+        /// Status of the resource scan. INPROGRESS The resource scan is still in progress. COMPLETE The resource scan is complete. EXPIRED The resource scan has expired. FAILED The resource scan has failed.
+        public var status: CloudFormationClientTypes.ResourceScanStatus?
+        /// The reason for the resource scan status, providing more information if a failure happened.
+        public var statusReason: Swift.String?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            percentageCompleted: Swift.Double? = nil,
+            resourceScanId: Swift.String? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: CloudFormationClientTypes.ResourceScanStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.percentageCompleted = percentageCompleted
+            self.resourceScanId = resourceScanId
+            self.startTime = startTime
+            self.status = status
+            self.statusReason = statusReason
         }
     }
 
@@ -11025,6 +12625,129 @@ extension CloudFormationClientTypes {
         {
             self.arn = arn
             self.type = type
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes.ScannedResource: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case managedByStack = "ManagedByStack"
+        case resourceIdentifier = "ResourceIdentifier"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let managedByStack = managedByStack {
+            try container.encode(managedByStack, forKey: ClientRuntime.Key("ManagedByStack"))
+        }
+        if let resourceIdentifier = resourceIdentifier {
+            var resourceIdentifierContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ResourceIdentifier"))
+            for (index0, element0) in resourceIdentifier.sorted(by: { $0.key < $1.key }).enumerated() {
+                let jazzresourceidentifierpropertykeyKey0 = element0.key
+                let jazzresourceidentifierpropertyvalueValue0 = element0.value
+                var entryContainer0 = resourceIdentifierContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(jazzresourceidentifierpropertykeyKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(jazzresourceidentifierpropertyvalueValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let resourceType = resourceType {
+            try container.encode(resourceType, forKey: ClientRuntime.Key("ResourceType"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.ScannedResource, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.ScannedResource()
+            value.resourceType = try reader["ResourceType"].readIfPresent()
+            value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            value.managedByStack = try reader["ManagedByStack"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// A scanned resource returned by ListResourceScanResources or ListResourceScanRelatedResources.
+    public struct ScannedResource: Swift.Equatable {
+        /// If true, the resource is managed by a CloudFormation stack.
+        public var managedByStack: Swift.Bool?
+        /// A list of up to 256 key-value pairs that identifies for the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
+        public var resourceIdentifier: [Swift.String:Swift.String]?
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        public var resourceType: Swift.String?
+
+        public init(
+            managedByStack: Swift.Bool? = nil,
+            resourceIdentifier: [Swift.String:Swift.String]? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.managedByStack = managedByStack
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes.ScannedResourceIdentifier: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceIdentifier = "ResourceIdentifier"
+        case resourceType = "ResourceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourceIdentifier = resourceIdentifier {
+            var resourceIdentifierContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ResourceIdentifier"))
+            for (index0, element0) in resourceIdentifier.sorted(by: { $0.key < $1.key }).enumerated() {
+                let jazzresourceidentifierpropertykeyKey0 = element0.key
+                let jazzresourceidentifierpropertyvalueValue0 = element0.value
+                var entryContainer0 = resourceIdentifierContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("entry.\(index0.advanced(by: 1))"))
+                var keyContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("key"))
+                try keyContainer0.encode(jazzresourceidentifierpropertykeyKey0, forKey: ClientRuntime.Key(""))
+                var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
+                try valueContainer0.encode(jazzresourceidentifierpropertyvalueValue0, forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let resourceType = resourceType {
+            try container.encode(resourceType, forKey: ClientRuntime.Key("ResourceType"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.ScannedResourceIdentifier, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.ScannedResourceIdentifier()
+            value.resourceType = try reader["ResourceType"].readIfPresent()
+            value.resourceIdentifier = try reader["ResourceIdentifier"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// Identifies a scanned resource. This is used with the ListResourceScanRelatedResources API action.
+    public struct ScannedResourceIdentifier: Swift.Equatable {
+        /// A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
+        /// This member is required.
+        public var resourceIdentifier: [Swift.String:Swift.String]?
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        /// This member is required.
+        public var resourceType: Swift.String?
+
+        public init(
+            resourceIdentifier: [Swift.String:Swift.String]? = nil,
+            resourceType: Swift.String? = nil
+        )
+        {
+            self.resourceIdentifier = resourceIdentifier
+            self.resourceType = resourceType
         }
     }
 
@@ -14269,7 +15992,7 @@ extension CloudFormationClientTypes {
         public var maxConcurrentPercentage: Swift.Int?
         /// The concurrency type of deploying StackSets operations in Regions, could be in parallel or one Region at a time.
         public var regionConcurrencyType: CloudFormationClientTypes.RegionConcurrencyType?
-        /// The order of the Regions where you want to perform the stack operation.
+        /// The order of the Regions where you want to perform the stack operation. RegionOrder isn't followed if AutoDeployment is enabled.
         public var regionOrder: [Swift.String]?
 
         public init(
@@ -15039,6 +16762,83 @@ public struct StaleRequestException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
+extension StartResourceScanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let clientRequestToken = clientRequestToken {
+            try container.encode(clientRequestToken, forKey: ClientRuntime.Key("ClientRequestToken"))
+        }
+        try container.encode("StartResourceScan", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension StartResourceScanInput {
+
+    static func urlPathProvider(_ value: StartResourceScanInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartResourceScanInput: Swift.Equatable {
+    /// A unique identifier for this StartResourceScan request. Specify this token if you plan to retry requests so that CloudFormation knows that you're not attempting to start a new resource scan.
+    public var clientRequestToken: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+    }
+}
+
+extension StartResourceScanOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<StartResourceScanOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["StartResourceScanResult"]
+            var value = StartResourceScanOutput()
+            value.resourceScanId = try reader["ResourceScanId"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct StartResourceScanOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource scan. The format is arn:${Partition}:cloudformation:${Region}:${Account}:resourceScan/${Id}. An example is arn:aws:cloudformation:us-east-1:123456789012:resourceScan/f5b490f7-7ed4-428a-aa06-31ff25db0772 .
+    public var resourceScanId: Swift.String?
+
+    public init(
+        resourceScanId: Swift.String? = nil
+    )
+    {
+        self.resourceScanId = resourceScanId
+    }
+}
+
+enum StartResourceScanOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "ResourceScanInProgress": return try await ResourceScanInProgressException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "ResourceScanLimitExceeded": return try await ResourceScanLimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension StopStackSetOperationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callAs = "CallAs"
@@ -15177,6 +16977,99 @@ extension CloudFormationClientTypes {
 
 }
 
+extension CloudFormationClientTypes.TemplateConfiguration: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case deletionPolicy = "DeletionPolicy"
+        case updateReplacePolicy = "UpdateReplacePolicy"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let deletionPolicy = deletionPolicy {
+            try container.encode(deletionPolicy, forKey: ClientRuntime.Key("DeletionPolicy"))
+        }
+        if let updateReplacePolicy = updateReplacePolicy {
+            try container.encode(updateReplacePolicy, forKey: ClientRuntime.Key("UpdateReplacePolicy"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.TemplateConfiguration, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.TemplateConfiguration()
+            value.deletionPolicy = try reader["DeletionPolicy"].readIfPresent()
+            value.updateReplacePolicy = try reader["UpdateReplacePolicy"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// The configuration details of a generated template.
+    public struct TemplateConfiguration: Swift.Equatable {
+        /// The DeletionPolicy assigned to resources in the generated template. Supported values are:
+        ///
+        /// * DELETE - delete all resources when the stack is deleted.
+        ///
+        /// * RETAIN - retain all resources when the stack is deleted.
+        ///
+        ///
+        /// For more information, see [DeletionPolicy] attribute(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) in the CloudFormation User Guide.
+        public var deletionPolicy: CloudFormationClientTypes.GeneratedTemplateDeletionPolicy?
+        /// The UpdateReplacePolicy assigned to resources in the generated template. Supported values are:
+        ///
+        /// * DELETE - delete all resources when the resource is replaced during an update operation.
+        ///
+        /// * RETAIN - retain all resources when the resource is replaced during an update operation.
+        ///
+        ///
+        /// For more information, see [UpdateReplacePolicy] attribute(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) in the CloudFormation User Guide.
+        public var updateReplacePolicy: CloudFormationClientTypes.GeneratedTemplateUpdateReplacePolicy?
+
+        public init(
+            deletionPolicy: CloudFormationClientTypes.GeneratedTemplateDeletionPolicy? = nil,
+            updateReplacePolicy: CloudFormationClientTypes.GeneratedTemplateUpdateReplacePolicy? = nil
+        )
+        {
+            self.deletionPolicy = deletionPolicy
+            self.updateReplacePolicy = updateReplacePolicy
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes {
+    public enum TemplateFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case json
+        case yaml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TemplateFormat] {
+            return [
+                .json,
+                .yaml,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .json: return "JSON"
+            case .yaml: return "YAML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TemplateFormat(rawValue: rawValue) ?? TemplateFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudFormationClientTypes.TemplateParameter: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case defaultValue = "DefaultValue"
@@ -15242,6 +17135,71 @@ extension CloudFormationClientTypes {
 
 }
 
+extension CloudFormationClientTypes.TemplateProgress: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourcesFailed = "ResourcesFailed"
+        case resourcesPending = "ResourcesPending"
+        case resourcesProcessing = "ResourcesProcessing"
+        case resourcesSucceeded = "ResourcesSucceeded"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let resourcesFailed = resourcesFailed {
+            try container.encode(resourcesFailed, forKey: ClientRuntime.Key("ResourcesFailed"))
+        }
+        if let resourcesPending = resourcesPending {
+            try container.encode(resourcesPending, forKey: ClientRuntime.Key("ResourcesPending"))
+        }
+        if let resourcesProcessing = resourcesProcessing {
+            try container.encode(resourcesProcessing, forKey: ClientRuntime.Key("ResourcesProcessing"))
+        }
+        if let resourcesSucceeded = resourcesSucceeded {
+            try container.encode(resourcesSucceeded, forKey: ClientRuntime.Key("ResourcesSucceeded"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.TemplateProgress, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.TemplateProgress()
+            value.resourcesSucceeded = try reader["ResourcesSucceeded"].readIfPresent()
+            value.resourcesFailed = try reader["ResourcesFailed"].readIfPresent()
+            value.resourcesProcessing = try reader["ResourcesProcessing"].readIfPresent()
+            value.resourcesPending = try reader["ResourcesPending"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// A summary of the progress of the template generation.
+    public struct TemplateProgress: Swift.Equatable {
+        /// The number of resources that failed the template generation.
+        public var resourcesFailed: Swift.Int?
+        /// The number of resources that are still pending the template generation.
+        public var resourcesPending: Swift.Int?
+        /// The number of resources that are in-process for the template generation.
+        public var resourcesProcessing: Swift.Int?
+        /// The number of resources that succeeded the template generation.
+        public var resourcesSucceeded: Swift.Int?
+
+        public init(
+            resourcesFailed: Swift.Int? = nil,
+            resourcesPending: Swift.Int? = nil,
+            resourcesProcessing: Swift.Int? = nil,
+            resourcesSucceeded: Swift.Int? = nil
+        )
+        {
+            self.resourcesFailed = resourcesFailed
+            self.resourcesPending = resourcesPending
+            self.resourcesProcessing = resourcesProcessing
+            self.resourcesSucceeded = resourcesSucceeded
+        }
+    }
+
+}
+
 extension CloudFormationClientTypes {
     public enum TemplateStage: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case original
@@ -15272,6 +17230,114 @@ extension CloudFormationClientTypes {
             self = TemplateStage(rawValue: rawValue) ?? TemplateStage.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CloudFormationClientTypes.TemplateSummary: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case creationTime = "CreationTime"
+        case generatedTemplateId = "GeneratedTemplateId"
+        case generatedTemplateName = "GeneratedTemplateName"
+        case lastUpdatedTime = "LastUpdatedTime"
+        case numberOfResources = "NumberOfResources"
+        case status = "Status"
+        case statusReason = "StatusReason"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let creationTime = creationTime {
+            try container.encodeTimestamp(creationTime, format: .dateTime, forKey: ClientRuntime.Key("CreationTime"))
+        }
+        if let generatedTemplateId = generatedTemplateId {
+            try container.encode(generatedTemplateId, forKey: ClientRuntime.Key("GeneratedTemplateId"))
+        }
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        if let lastUpdatedTime = lastUpdatedTime {
+            try container.encodeTimestamp(lastUpdatedTime, format: .dateTime, forKey: ClientRuntime.Key("LastUpdatedTime"))
+        }
+        if let numberOfResources = numberOfResources {
+            try container.encode(numberOfResources, forKey: ClientRuntime.Key("NumberOfResources"))
+        }
+        if let status = status {
+            try container.encode(status, forKey: ClientRuntime.Key("Status"))
+        }
+        if let statusReason = statusReason {
+            try container.encode(statusReason, forKey: ClientRuntime.Key("StatusReason"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.TemplateSummary, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.TemplateSummary()
+            value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
+            value.generatedTemplateName = try reader["GeneratedTemplateName"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            value.statusReason = try reader["StatusReason"].readIfPresent()
+            value.creationTime = try reader["CreationTime"].readTimestampIfPresent(format: .dateTime)
+            value.lastUpdatedTime = try reader["LastUpdatedTime"].readTimestampIfPresent(format: .dateTime)
+            value.numberOfResources = try reader["NumberOfResources"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// The summary of a generated template.
+    public struct TemplateSummary: Swift.Equatable {
+        /// The time the generated template was created.
+        public var creationTime: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
+        public var generatedTemplateId: Swift.String?
+        /// The name of the generated template.
+        public var generatedTemplateName: Swift.String?
+        /// The time the generated template was last updated.
+        public var lastUpdatedTime: ClientRuntime.Date?
+        /// The number of resources in the generated template. This is a total of resources in pending, in-progress, completed, and failed states.
+        public var numberOfResources: Swift.Int?
+        /// The status of the template generation. Supported values are:
+        ///
+        /// * CreatePending - the creation of the template is pending.
+        ///
+        /// * CreateInProgress - the creation of the template is in progress.
+        ///
+        /// * DeletePending - the deletion of the template is pending.
+        ///
+        /// * DeleteInProgress - the deletion of the template is in progress.
+        ///
+        /// * UpdatePending - the update of the template is pending.
+        ///
+        /// * UpdateInProgress - the update of the template is in progress.
+        ///
+        /// * Failed - the template operation failed.
+        ///
+        /// * Complete - the template operation is complete.
+        public var status: CloudFormationClientTypes.GeneratedTemplateStatus?
+        /// The reason for the current template generation status. This will provide more details if a failure happened.
+        public var statusReason: Swift.String?
+
+        public init(
+            creationTime: ClientRuntime.Date? = nil,
+            generatedTemplateId: Swift.String? = nil,
+            generatedTemplateName: Swift.String? = nil,
+            lastUpdatedTime: ClientRuntime.Date? = nil,
+            numberOfResources: Swift.Int? = nil,
+            status: CloudFormationClientTypes.GeneratedTemplateStatus? = nil,
+            statusReason: Swift.String? = nil
+        )
+        {
+            self.creationTime = creationTime
+            self.generatedTemplateId = generatedTemplateId
+            self.generatedTemplateName = generatedTemplateName
+            self.lastUpdatedTime = lastUpdatedTime
+            self.numberOfResources = numberOfResources
+            self.status = status
+            self.statusReason = statusReason
+        }
+    }
+
 }
 
 extension CloudFormationClientTypes.TemplateSummaryConfig: Swift.Encodable {
@@ -16100,6 +18166,143 @@ extension CloudFormationClientTypes {
         }
     }
 
+}
+
+extension UpdateGeneratedTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addResources = "AddResources"
+        case generatedTemplateName = "GeneratedTemplateName"
+        case newGeneratedTemplateName = "NewGeneratedTemplateName"
+        case refreshAllResources = "RefreshAllResources"
+        case removeResources = "RemoveResources"
+        case templateConfiguration = "TemplateConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let addResources = addResources {
+            if !addResources.isEmpty {
+                var addResourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AddResources"))
+                for (index0, resourcedefinition0) in addResources.enumerated() {
+                    try addResourcesContainer.encode(resourcedefinition0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var addResourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("AddResources"))
+                try addResourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let generatedTemplateName = generatedTemplateName {
+            try container.encode(generatedTemplateName, forKey: ClientRuntime.Key("GeneratedTemplateName"))
+        }
+        if let newGeneratedTemplateName = newGeneratedTemplateName {
+            try container.encode(newGeneratedTemplateName, forKey: ClientRuntime.Key("NewGeneratedTemplateName"))
+        }
+        if let refreshAllResources = refreshAllResources {
+            try container.encode(refreshAllResources, forKey: ClientRuntime.Key("RefreshAllResources"))
+        }
+        if let removeResources = removeResources {
+            if !removeResources.isEmpty {
+                var removeResourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RemoveResources"))
+                for (index0, logicalresourceid0) in removeResources.enumerated() {
+                    try removeResourcesContainer.encode(logicalresourceid0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var removeResourcesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("RemoveResources"))
+                try removeResourcesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let templateConfiguration = templateConfiguration {
+            try container.encode(templateConfiguration, forKey: ClientRuntime.Key("TemplateConfiguration"))
+        }
+        try container.encode("UpdateGeneratedTemplate", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension UpdateGeneratedTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateGeneratedTemplateInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct UpdateGeneratedTemplateInput: Swift.Equatable {
+    /// An optional list of resources to be added to the generated template.
+    public var addResources: [CloudFormationClientTypes.ResourceDefinition]?
+    /// The name or Amazon Resource Name (ARN) of a generated template.
+    /// This member is required.
+    public var generatedTemplateName: Swift.String?
+    /// An optional new name to assign to the generated template.
+    public var newGeneratedTemplateName: Swift.String?
+    /// If true, update the resource properties in the generated template with their current live state. This feature is useful when the resource properties in your generated a template does not reflect the live state of the resource properties. This happens when a user update the resource properties after generating a template.
+    public var refreshAllResources: Swift.Bool?
+    /// A list of logical ids for resources to remove from the generated template.
+    public var removeResources: [Swift.String]?
+    /// The configuration details of the generated template, including the DeletionPolicy and UpdateReplacePolicy.
+    public var templateConfiguration: CloudFormationClientTypes.TemplateConfiguration?
+
+    public init(
+        addResources: [CloudFormationClientTypes.ResourceDefinition]? = nil,
+        generatedTemplateName: Swift.String? = nil,
+        newGeneratedTemplateName: Swift.String? = nil,
+        refreshAllResources: Swift.Bool? = nil,
+        removeResources: [Swift.String]? = nil,
+        templateConfiguration: CloudFormationClientTypes.TemplateConfiguration? = nil
+    )
+    {
+        self.addResources = addResources
+        self.generatedTemplateName = generatedTemplateName
+        self.newGeneratedTemplateName = newGeneratedTemplateName
+        self.refreshAllResources = refreshAllResources
+        self.removeResources = removeResources
+        self.templateConfiguration = templateConfiguration
+    }
+}
+
+extension UpdateGeneratedTemplateOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<UpdateGeneratedTemplateOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["UpdateGeneratedTemplateResult"]
+            var value = UpdateGeneratedTemplateOutput()
+            value.generatedTemplateId = try reader["GeneratedTemplateId"].readIfPresent()
+            return value
+        }
+    }
+}
+
+public struct UpdateGeneratedTemplateOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the generated template. The format is arn:${Partition}:cloudformation:${Region}:${Account}:generatedtemplate/${Id}. For example, arn:aws:cloudformation:us-east-1:123456789012:generatedtemplate/2e8465c1-9a80-43ea-a3a3-4f2d692fe6dc .
+    public var generatedTemplateId: Swift.String?
+
+    public init(
+        generatedTemplateId: Swift.String? = nil
+    )
+    {
+        self.generatedTemplateId = generatedTemplateId
+    }
+}
+
+enum UpdateGeneratedTemplateOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "AlreadyExistsException": return try await AlreadyExistsException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "GeneratedTemplateNotFound": return try await GeneratedTemplateNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "LimitExceededException": return try await LimitExceededException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
 }
 
 extension UpdateStackInput: Swift.Encodable {
@@ -17145,6 +19348,162 @@ extension CloudFormationClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Visibility(rawValue: rawValue) ?? Visibility.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CloudFormationClientTypes.WarningDetail: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case properties = "Properties"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let properties = properties {
+            if !properties.isEmpty {
+                var propertiesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Properties"))
+                for (index0, warningproperty0) in properties.enumerated() {
+                    try propertiesContainer.encode(warningproperty0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var propertiesContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Properties"))
+                try propertiesContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+        if let type = type {
+            try container.encode(type, forKey: ClientRuntime.Key("Type"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.WarningDetail, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.WarningDetail()
+            value.type = try reader["Type"].readIfPresent()
+            value.properties = try reader["Properties"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.WarningProperty.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// The warnings generated for a specific resource for this generated template.
+    public struct WarningDetail: Swift.Equatable {
+        /// The properties of the resource that are impacted by this warning.
+        public var properties: [CloudFormationClientTypes.WarningProperty]?
+        /// The type of this warning. For more information, see [IaC generator and write-only properties](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-write-only-properties.html) in the CloudFormation User Guide.
+        ///
+        /// * MUTUALLY_EXCLUSIVE_PROPERTIES - The resource requires mutually-exclusive write-only properties. The IaC generator selects one set of mutually exclusive properties and converts the included properties into parameters. The parameter names have a suffix OneOf and the parameter descriptions indicate that the corresponding property can be replaced with other exclusive properties.
+        ///
+        /// * UNSUPPORTED_PROPERTIES - Unsupported properties are present in the resource. One example of unsupported properties would be a required write-only property that is an array, because a parameter cannot be an array. Another example is an optional write-only property.
+        ///
+        /// * MUTUALLY_EXCLUSIVE_TYPES - One or more required write-only properties are found in the resource, and the type of that property can be any of several types.
+        ///
+        ///
+        /// Currently the resource and property reference documentation does not indicate if a property uses a type of oneOf or anyOf. You need to look at the resource provider schema.
+        public var type: CloudFormationClientTypes.WarningType?
+
+        public init(
+            properties: [CloudFormationClientTypes.WarningProperty]? = nil,
+            type: CloudFormationClientTypes.WarningType? = nil
+        )
+        {
+            self.properties = properties
+            self.type = type
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes.WarningProperty: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "Description"
+        case propertyPath = "PropertyPath"
+        case `required` = "Required"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let propertyPath = propertyPath {
+            try container.encode(propertyPath, forKey: ClientRuntime.Key("PropertyPath"))
+        }
+        if let `required` = `required` {
+            try container.encode(`required`, forKey: ClientRuntime.Key("Required"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.WarningProperty, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.WarningProperty()
+            value.propertyPath = try reader["PropertyPath"].readIfPresent()
+            value.`required` = try reader["Required"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// A specific property that is impacted by a warning.
+    public struct WarningProperty: Swift.Equatable {
+        /// The description of the property from the resource provider schema.
+        public var description: Swift.String?
+        /// The path of the property. For example, if this is for the S3Bucket member of the Code property, the property path would be Code/S3Bucket.
+        public var propertyPath: Swift.String?
+        /// If true, the specified property is required.
+        public var `required`: Swift.Bool?
+
+        public init(
+            description: Swift.String? = nil,
+            propertyPath: Swift.String? = nil,
+            `required`: Swift.Bool? = nil
+        )
+        {
+            self.description = description
+            self.propertyPath = propertyPath
+            self.`required` = `required`
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes {
+    public enum WarningType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mutuallyExclusiveProperties
+        case mutuallyExclusiveTypes
+        case unsupportedProperties
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WarningType] {
+            return [
+                .mutuallyExclusiveProperties,
+                .mutuallyExclusiveTypes,
+                .unsupportedProperties,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mutuallyExclusiveProperties: return "MUTUALLY_EXCLUSIVE_PROPERTIES"
+            case .mutuallyExclusiveTypes: return "MUTUALLY_EXCLUSIVE_TYPES"
+            case .unsupportedProperties: return "UNSUPPORTED_PROPERTIES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WarningType(rawValue: rawValue) ?? WarningType.sdkUnknown(rawValue)
         }
     }
 }

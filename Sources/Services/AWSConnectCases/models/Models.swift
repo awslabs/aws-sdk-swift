@@ -58,6 +58,324 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConnectCasesClientTypes.AuditEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventId
+        case fields
+        case performedBy
+        case performedTime
+        case relatedItemType
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventId = self.eventId {
+            try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let fields = fields {
+            var fieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .fields)
+            for auditeventfield0 in fields {
+                guard let auditeventfield0 = auditeventfield0 else {
+                    try fieldsContainer.encodeNil()
+                    continue
+                }
+                try fieldsContainer.encode(auditeventfield0)
+            }
+        }
+        if let performedBy = self.performedBy {
+            try encodeContainer.encode(performedBy, forKey: .performedBy)
+        }
+        if let performedTime = self.performedTime {
+            try encodeContainer.encodeTimestamp(performedTime, format: .dateTime, forKey: .performedTime)
+        }
+        if let relatedItemType = self.relatedItemType {
+            try encodeContainer.encode(relatedItemType.rawValue, forKey: .relatedItemType)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
+        eventId = eventIdDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.AuditEventType.self, forKey: .type)
+        type = typeDecoded
+        let relatedItemTypeDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.RelatedItemType.self, forKey: .relatedItemType)
+        relatedItemType = relatedItemTypeDecoded
+        let performedTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .performedTime)
+        performedTime = performedTimeDecoded
+        let fieldsContainer = try containerValues.decodeIfPresent([ConnectCasesClientTypes.AuditEventField?].self, forKey: .fields)
+        var fieldsDecoded0:[ConnectCasesClientTypes.AuditEventField?]? = nil
+        if let fieldsContainer = fieldsContainer {
+            fieldsDecoded0 = [ConnectCasesClientTypes.AuditEventField?]()
+            for structure0 in fieldsContainer {
+                fieldsDecoded0?.append(structure0)
+            }
+        }
+        fields = fieldsDecoded0
+        let performedByDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.AuditEventPerformedBy.self, forKey: .performedBy)
+        performedBy = performedByDecoded
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// Represents the content of a particular audit event.
+    public struct AuditEvent: Swift.Equatable {
+        /// Unique identifier of a case audit history event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// A list of Case Audit History event fields.
+        /// This member is required.
+        public var fields: [ConnectCasesClientTypes.AuditEventField?]?
+        /// Information of the user which performed the audit.
+        public var performedBy: ConnectCasesClientTypes.AuditEventPerformedBy?
+        /// Time at which an Audit History event took place.
+        /// This member is required.
+        public var performedTime: ClientRuntime.Date?
+        /// The Type of the related item.
+        public var relatedItemType: ConnectCasesClientTypes.RelatedItemType?
+        /// The Type of an audit history event.
+        /// This member is required.
+        public var type: ConnectCasesClientTypes.AuditEventType?
+
+        public init(
+            eventId: Swift.String? = nil,
+            fields: [ConnectCasesClientTypes.AuditEventField?]? = nil,
+            performedBy: ConnectCasesClientTypes.AuditEventPerformedBy? = nil,
+            performedTime: ClientRuntime.Date? = nil,
+            relatedItemType: ConnectCasesClientTypes.RelatedItemType? = nil,
+            type: ConnectCasesClientTypes.AuditEventType? = nil
+        )
+        {
+            self.eventId = eventId
+            self.fields = fields
+            self.performedBy = performedBy
+            self.performedTime = performedTime
+            self.relatedItemType = relatedItemType
+            self.type = type
+        }
+    }
+
+}
+
+extension ConnectCasesClientTypes.AuditEventField: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventFieldId
+        case newValue
+        case oldValue
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let eventFieldId = self.eventFieldId {
+            try encodeContainer.encode(eventFieldId, forKey: .eventFieldId)
+        }
+        if let newValue = self.newValue {
+            try encodeContainer.encode(newValue, forKey: .newValue)
+        }
+        if let oldValue = self.oldValue {
+            try encodeContainer.encode(oldValue, forKey: .oldValue)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventFieldIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventFieldId)
+        eventFieldId = eventFieldIdDecoded
+        let oldValueDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.AuditEventFieldValueUnion.self, forKey: .oldValue)
+        oldValue = oldValueDecoded
+        let newValueDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.AuditEventFieldValueUnion.self, forKey: .newValue)
+        newValue = newValueDecoded
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// Fields for audit event.
+    public struct AuditEventField: Swift.Equatable {
+        /// Unique identifier of field in an Audit History entry.
+        /// This member is required.
+        public var eventFieldId: Swift.String?
+        /// Union of potential field value types.
+        /// This member is required.
+        public var newValue: ConnectCasesClientTypes.AuditEventFieldValueUnion?
+        /// Union of potential field value types.
+        public var oldValue: ConnectCasesClientTypes.AuditEventFieldValueUnion?
+
+        public init(
+            eventFieldId: Swift.String? = nil,
+            newValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil,
+            oldValue: ConnectCasesClientTypes.AuditEventFieldValueUnion? = nil
+        )
+        {
+            self.eventFieldId = eventFieldId
+            self.newValue = newValue
+            self.oldValue = oldValue
+        }
+    }
+
+}
+
+extension ConnectCasesClientTypes.AuditEventFieldValueUnion: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case booleanvalue = "booleanValue"
+        case doublevalue = "doubleValue"
+        case emptyvalue = "emptyValue"
+        case sdkUnknown
+        case stringvalue = "stringValue"
+        case userarnvalue = "userArnValue"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .booleanvalue(booleanvalue):
+                try container.encode(booleanvalue, forKey: .booleanvalue)
+            case let .doublevalue(doublevalue):
+                try container.encode(doublevalue, forKey: .doublevalue)
+            case let .emptyvalue(emptyvalue):
+                try container.encode(emptyvalue, forKey: .emptyvalue)
+            case let .stringvalue(stringvalue):
+                try container.encode(stringvalue, forKey: .stringvalue)
+            case let .userarnvalue(userarnvalue):
+                try container.encode(userarnvalue, forKey: .userarnvalue)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let stringvalueDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .stringvalue)
+        if let stringvalue = stringvalueDecoded {
+            self = .stringvalue(stringvalue)
+            return
+        }
+        let doublevalueDecoded = try values.decodeIfPresent(Swift.Double.self, forKey: .doublevalue)
+        if let doublevalue = doublevalueDecoded {
+            self = .doublevalue(doublevalue)
+            return
+        }
+        let booleanvalueDecoded = try values.decodeIfPresent(Swift.Bool.self, forKey: .booleanvalue)
+        if let booleanvalue = booleanvalueDecoded {
+            self = .booleanvalue(booleanvalue)
+            return
+        }
+        let emptyvalueDecoded = try values.decodeIfPresent(ConnectCasesClientTypes.EmptyFieldValue.self, forKey: .emptyvalue)
+        if let emptyvalue = emptyvalueDecoded {
+            self = .emptyvalue(emptyvalue)
+            return
+        }
+        let userarnvalueDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .userarnvalue)
+        if let userarnvalue = userarnvalueDecoded {
+            self = .userarnvalue(userarnvalue)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// Object to store union of Field values. This data type is a UNION, so only one of the following members can be specified when used or returned.
+    public enum AuditEventFieldValueUnion: Swift.Equatable {
+        /// Can be either null, or have a String value type. Only one value can be provided.
+        case stringvalue(Swift.String)
+        /// Can be either null, or have a Double value type. Only one value can be provided.
+        case doublevalue(Swift.Double)
+        /// Can be either null, or have a Boolean value type. Only one value can be provided.
+        case booleanvalue(Swift.Bool)
+        /// An empty value. You cannot set EmptyFieldValue on a field that is required on a case template. This structure will never have any data members. It signifies an empty value on a case field.
+        case emptyvalue(ConnectCasesClientTypes.EmptyFieldValue)
+        /// Can be either null, or have a String value type formatted as an ARN. Only one value can be provided.
+        case userarnvalue(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension ConnectCasesClientTypes.AuditEventPerformedBy: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case iamPrincipalArn
+        case user
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let iamPrincipalArn = self.iamPrincipalArn {
+            try encodeContainer.encode(iamPrincipalArn, forKey: .iamPrincipalArn)
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.UserUnion.self, forKey: .user)
+        user = userDecoded
+        let iamPrincipalArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamPrincipalArn)
+        iamPrincipalArn = iamPrincipalArnDecoded
+    }
+}
+
+extension ConnectCasesClientTypes {
+    /// Information of the user which performed the audit.
+    public struct AuditEventPerformedBy: Swift.Equatable {
+        /// Unique identifier of an IAM role.
+        /// This member is required.
+        public var iamPrincipalArn: Swift.String?
+        /// Represents the identity of the person who performed the action.
+        public var user: ConnectCasesClientTypes.UserUnion?
+
+        public init(
+            iamPrincipalArn: Swift.String? = nil,
+            user: ConnectCasesClientTypes.UserUnion? = nil
+        )
+        {
+            self.iamPrincipalArn = iamPrincipalArn
+            self.user = user
+        }
+    }
+
+}
+
+extension ConnectCasesClientTypes {
+    public enum AuditEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case caseCreated
+        case caseUpdated
+        case relatedItemCreated
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AuditEventType] {
+            return [
+                .caseCreated,
+                .caseUpdated,
+                .relatedItemCreated,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .caseCreated: return "Case.Created"
+            case .caseUpdated: return "Case.Updated"
+            case .relatedItemCreated: return "RelatedItem.Created"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AuditEventType(rawValue: rawValue) ?? AuditEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ConnectCasesClientTypes.BasicLayout: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case moreInfo
@@ -894,6 +1212,7 @@ extension CreateCaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case fields
+        case performedBy
         case templateId
     }
 
@@ -907,6 +1226,9 @@ extension CreateCaseInput: Swift.Encodable {
             for fieldvalue0 in fields {
                 try fieldsContainer.encode(fieldvalue0)
             }
+        }
+        if let performedBy = self.performedBy {
+            try encodeContainer.encode(performedBy, forKey: .performedBy)
         }
         if let templateId = self.templateId {
             try encodeContainer.encode(templateId, forKey: .templateId)
@@ -933,6 +1255,8 @@ public struct CreateCaseInput: Swift.Equatable {
     /// An array of objects with field ID (matching ListFields/DescribeField) and value union data.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldValue]?
+    /// Represents the identity of the person who performed the action.
+    public var performedBy: ConnectCasesClientTypes.UserUnion?
     /// A unique identifier of a template.
     /// This member is required.
     public var templateId: Swift.String?
@@ -941,12 +1265,14 @@ public struct CreateCaseInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         domainId: Swift.String? = nil,
         fields: [ConnectCasesClientTypes.FieldValue]? = nil,
+        performedBy: ConnectCasesClientTypes.UserUnion? = nil,
         templateId: Swift.String? = nil
     )
     {
         self.clientToken = clientToken
         self.domainId = domainId
         self.fields = fields
+        self.performedBy = performedBy
         self.templateId = templateId
     }
 }
@@ -955,12 +1281,14 @@ struct CreateCaseInputBody: Swift.Equatable {
     let templateId: Swift.String?
     let fields: [ConnectCasesClientTypes.FieldValue]?
     let clientToken: Swift.String?
+    let performedBy: ConnectCasesClientTypes.UserUnion?
 }
 
 extension CreateCaseInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case fields
+        case performedBy
         case templateId
     }
 
@@ -981,6 +1309,8 @@ extension CreateCaseInputBody: Swift.Decodable {
         fields = fieldsDecoded0
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded
+        let performedByDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.UserUnion.self, forKey: .performedBy)
+        performedBy = performedByDecoded
     }
 }
 
@@ -2586,6 +2916,7 @@ extension ConnectCasesClientTypes {
         case singleSelect
         case text
         case url
+        case user
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FieldType] {
@@ -2596,6 +2927,7 @@ extension ConnectCasesClientTypes {
                 .singleSelect,
                 .text,
                 .url,
+                .user,
                 .sdkUnknown("")
             ]
         }
@@ -2611,6 +2943,7 @@ extension ConnectCasesClientTypes {
             case .singleSelect: return "SingleSelect"
             case .text: return "Text"
             case .url: return "Url"
+            case .user: return "User"
             case let .sdkUnknown(s): return s
             }
         }
@@ -2676,6 +3009,7 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
         case emptyvalue = "emptyValue"
         case sdkUnknown
         case stringvalue = "stringValue"
+        case userarnvalue = "userArnValue"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2689,6 +3023,8 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
                 try container.encode(emptyvalue, forKey: .emptyvalue)
             case let .stringvalue(stringvalue):
                 try container.encode(stringvalue, forKey: .stringvalue)
+            case let .userarnvalue(userarnvalue):
+                try container.encode(userarnvalue, forKey: .userarnvalue)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -2716,12 +3052,17 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
             self = .emptyvalue(emptyvalue)
             return
         }
+        let userarnvalueDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .userarnvalue)
+        if let userarnvalue = userarnvalueDecoded {
+            self = .userarnvalue(userarnvalue)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
 
 extension ConnectCasesClientTypes {
-    /// Object to store union of Field values.
+    /// Object to store union of Field values. The Summary system field accepts 1500 characters while all other fields accept 500 characters.
     public enum FieldValueUnion: Swift.Equatable {
         /// String value type.
         case stringvalue(Swift.String)
@@ -2731,9 +3072,160 @@ extension ConnectCasesClientTypes {
         case booleanvalue(Swift.Bool)
         /// An empty value.
         case emptyvalue(ConnectCasesClientTypes.EmptyFieldValue)
+        /// Represents the user that performed the audit.
+        case userarnvalue(Swift.String)
         case sdkUnknown(Swift.String)
     }
 
+}
+
+extension GetCaseAuditEventsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension GetCaseAuditEventsInput {
+
+    static func urlPathProvider(_ value: GetCaseAuditEventsInput) -> Swift.String? {
+        guard let domainId = value.domainId else {
+            return nil
+        }
+        guard let caseId = value.caseId else {
+            return nil
+        }
+        return "/domains/\(domainId.urlPercentEncoding())/cases/\(caseId.urlPercentEncoding())/audit-history"
+    }
+}
+
+public struct GetCaseAuditEventsInput: Swift.Equatable {
+    /// A unique identifier of the case.
+    /// This member is required.
+    public var caseId: Swift.String?
+    /// The unique identifier of the Cases domain.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The maximum number of audit events to return. The current maximum supported value is 25. This is also the default when no other value is provided.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        caseId: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.caseId = caseId
+        self.domainId = domainId
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct GetCaseAuditEventsInputBody: Swift.Equatable {
+    let maxResults: Swift.Int?
+    let nextToken: Swift.String?
+}
+
+extension GetCaseAuditEventsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+extension GetCaseAuditEventsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCaseAuditEventsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.auditEvents = output.auditEvents
+            self.nextToken = output.nextToken
+        } else {
+            self.auditEvents = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetCaseAuditEventsOutput: Swift.Equatable {
+    /// A list of case audits where each represents a particular edit of the case.
+    /// This member is required.
+    public var auditEvents: [ConnectCasesClientTypes.AuditEvent?]?
+    /// The token for the next set of results. This is null if there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        auditEvents: [ConnectCasesClientTypes.AuditEvent?]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.auditEvents = auditEvents
+        self.nextToken = nextToken
+    }
+}
+
+struct GetCaseAuditEventsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let auditEvents: [ConnectCasesClientTypes.AuditEvent?]?
+}
+
+extension GetCaseAuditEventsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case auditEvents
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let auditEventsContainer = try containerValues.decodeIfPresent([ConnectCasesClientTypes.AuditEvent?].self, forKey: .auditEvents)
+        var auditEventsDecoded0:[ConnectCasesClientTypes.AuditEvent?]? = nil
+        if let auditEventsContainer = auditEventsContainer {
+            auditEventsDecoded0 = [ConnectCasesClientTypes.AuditEvent?]()
+            for structure0 in auditEventsContainer {
+                auditEventsDecoded0?.append(structure0)
+            }
+        }
+        auditEvents = auditEventsDecoded0
+    }
+}
+
+enum GetCaseAuditEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension GetCaseEventConfigurationInput {
@@ -6270,6 +6762,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateCaseInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fields
+        case performedBy
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6279,6 +6772,9 @@ extension UpdateCaseInput: Swift.Encodable {
             for fieldvalue0 in fields {
                 try fieldsContainer.encode(fieldvalue0)
             }
+        }
+        if let performedBy = self.performedBy {
+            try encodeContainer.encode(performedBy, forKey: .performedBy)
         }
     }
 }
@@ -6306,26 +6802,32 @@ public struct UpdateCaseInput: Swift.Equatable {
     /// An array of objects with fieldId (matching ListFields/DescribeField) and value union data, structured identical to CreateCase.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldValue]?
+    /// Represents the identity of the person who performed the action.
+    public var performedBy: ConnectCasesClientTypes.UserUnion?
 
     public init(
         caseId: Swift.String? = nil,
         domainId: Swift.String? = nil,
-        fields: [ConnectCasesClientTypes.FieldValue]? = nil
+        fields: [ConnectCasesClientTypes.FieldValue]? = nil,
+        performedBy: ConnectCasesClientTypes.UserUnion? = nil
     )
     {
         self.caseId = caseId
         self.domainId = domainId
         self.fields = fields
+        self.performedBy = performedBy
     }
 }
 
 struct UpdateCaseInputBody: Swift.Equatable {
     let fields: [ConnectCasesClientTypes.FieldValue]?
+    let performedBy: ConnectCasesClientTypes.UserUnion?
 }
 
 extension UpdateCaseInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fields
+        case performedBy
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -6341,6 +6843,8 @@ extension UpdateCaseInputBody: Swift.Decodable {
             }
         }
         fields = fieldsDecoded0
+        let performedByDecoded = try containerValues.decodeIfPresent(ConnectCasesClientTypes.UserUnion.self, forKey: .performedBy)
+        performedBy = performedByDecoded
     }
 }
 

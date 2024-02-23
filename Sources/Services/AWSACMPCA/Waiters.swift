@@ -55,7 +55,7 @@ extension ACMPCAClient {
                 return (error as? ServiceError)?.typeName == "RequestInProgressException"
             }),
         ]
-        return try WaiterConfiguration<GetCertificateInput, GetCertificateOutput>(acceptors: acceptors, minDelay: 3.0, maxDelay: 120.0)
+        return try WaiterConfiguration<GetCertificateInput, GetCertificateOutput>(acceptors: acceptors, minDelay: 1.0, maxDelay: 120.0)
     }
 
     /// Initiates waiting for the CertificateIssued event on the getCertificate operation.

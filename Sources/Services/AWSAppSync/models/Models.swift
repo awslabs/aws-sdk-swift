@@ -197,6 +197,7 @@ extension AppSyncClientTypes.ApiCache: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiCachingBehavior
         case atRestEncryptionEnabled
+        case healthMetricsConfig
         case status
         case transitEncryptionEnabled
         case ttl
@@ -210,6 +211,9 @@ extension AppSyncClientTypes.ApiCache: Swift.Codable {
         }
         if atRestEncryptionEnabled != false {
             try encodeContainer.encode(atRestEncryptionEnabled, forKey: .atRestEncryptionEnabled)
+        }
+        if let healthMetricsConfig = self.healthMetricsConfig {
+            try encodeContainer.encode(healthMetricsConfig.rawValue, forKey: .healthMetricsConfig)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -239,6 +243,8 @@ extension AppSyncClientTypes.ApiCache: Swift.Codable {
         type = typeDecoded
         let statusDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ApiCacheStatus.self, forKey: .status)
         status = statusDecoded
+        let healthMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CacheHealthMetricsConfig.self, forKey: .healthMetricsConfig)
+        healthMetricsConfig = healthMetricsConfigDecoded
     }
 }
 
@@ -253,6 +259,15 @@ extension AppSyncClientTypes {
         public var apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
         /// At-rest encryption flag for cache. You cannot update this setting after creation.
         public var atRestEncryptionEnabled: Swift.Bool
+        /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
+        ///
+        /// * NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.
+        ///
+        /// * EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.
+        ///
+        ///
+        /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
+        public var healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
         /// The cache instance status.
         ///
         /// * AVAILABLE: The instance is available for use.
@@ -308,6 +323,7 @@ extension AppSyncClientTypes {
         public init(
             apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
             atRestEncryptionEnabled: Swift.Bool = false,
+            healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
             status: AppSyncClientTypes.ApiCacheStatus? = nil,
             transitEncryptionEnabled: Swift.Bool = false,
             ttl: Swift.Int = 0,
@@ -316,6 +332,7 @@ extension AppSyncClientTypes {
         {
             self.apiCachingBehavior = apiCachingBehavior
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
+            self.healthMetricsConfig = healthMetricsConfig
             self.status = status
             self.transitEncryptionEnabled = transitEncryptionEnabled
             self.ttl = ttl
@@ -1508,6 +1525,38 @@ extension AppSyncClientTypes {
     }
 }
 
+extension AppSyncClientTypes {
+    public enum CacheHealthMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CacheHealthMetricsConfig] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CacheHealthMetricsConfig(rawValue: rawValue) ?? CacheHealthMetricsConfig.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension AppSyncClientTypes.CachingConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cachingKeys
@@ -1862,6 +1911,7 @@ extension CreateApiCacheInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiCachingBehavior
         case atRestEncryptionEnabled
+        case healthMetricsConfig
         case transitEncryptionEnabled
         case ttl
         case type
@@ -1874,6 +1924,9 @@ extension CreateApiCacheInput: Swift.Encodable {
         }
         if let atRestEncryptionEnabled = self.atRestEncryptionEnabled {
             try encodeContainer.encode(atRestEncryptionEnabled, forKey: .atRestEncryptionEnabled)
+        }
+        if let healthMetricsConfig = self.healthMetricsConfig {
+            try encodeContainer.encode(healthMetricsConfig.rawValue, forKey: .healthMetricsConfig)
         }
         if let transitEncryptionEnabled = self.transitEncryptionEnabled {
             try encodeContainer.encode(transitEncryptionEnabled, forKey: .transitEncryptionEnabled)
@@ -1911,6 +1964,15 @@ public struct CreateApiCacheInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// At-rest encryption flag for cache. You cannot update this setting after creation.
     public var atRestEncryptionEnabled: Swift.Bool?
+    /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
+    ///
+    /// * NetworkBandwidthOutAllowanceExceeded: The number of times a specified GraphQL operation was called.
+    ///
+    /// * EngineCPUUtilization: The number of GraphQL errors that occurred during a specified GraphQL operation.
+    ///
+    ///
+    /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
+    public var healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
     /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
     public var transitEncryptionEnabled: Swift.Bool?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
@@ -1957,6 +2019,7 @@ public struct CreateApiCacheInput: Swift.Equatable {
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
         atRestEncryptionEnabled: Swift.Bool? = nil,
+        healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
         transitEncryptionEnabled: Swift.Bool? = nil,
         ttl: Swift.Int? = nil,
         type: AppSyncClientTypes.ApiCacheType? = nil
@@ -1965,6 +2028,7 @@ public struct CreateApiCacheInput: Swift.Equatable {
         self.apiCachingBehavior = apiCachingBehavior
         self.apiId = apiId
         self.atRestEncryptionEnabled = atRestEncryptionEnabled
+        self.healthMetricsConfig = healthMetricsConfig
         self.transitEncryptionEnabled = transitEncryptionEnabled
         self.ttl = ttl
         self.type = type
@@ -1977,12 +2041,14 @@ struct CreateApiCacheInputBody: Swift.Equatable {
     let atRestEncryptionEnabled: Swift.Bool?
     let apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     let type: AppSyncClientTypes.ApiCacheType?
+    let healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
 }
 
 extension CreateApiCacheInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiCachingBehavior
         case atRestEncryptionEnabled
+        case healthMetricsConfig
         case transitEncryptionEnabled
         case ttl
         case type
@@ -2000,6 +2066,8 @@ extension CreateApiCacheInputBody: Swift.Decodable {
         apiCachingBehavior = apiCachingBehaviorDecoded
         let typeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ApiCacheType.self, forKey: .type)
         type = typeDecoded
+        let healthMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CacheHealthMetricsConfig.self, forKey: .healthMetricsConfig)
+        healthMetricsConfig = healthMetricsConfigDecoded
     }
 }
 
@@ -2192,6 +2260,7 @@ extension CreateDataSourceInput: Swift.Encodable {
         case eventBridgeConfig
         case httpConfig
         case lambdaConfig
+        case metricsConfig
         case name
         case openSearchServiceConfig
         case relationalDatabaseConfig
@@ -2218,6 +2287,9 @@ extension CreateDataSourceInput: Swift.Encodable {
         }
         if let lambdaConfig = self.lambdaConfig {
             try encodeContainer.encode(lambdaConfig, forKey: .lambdaConfig)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -2263,6 +2335,8 @@ public struct CreateDataSourceInput: Swift.Equatable {
     public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     /// Lambda settings.
     public var lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig?
+    /// Enables or disables enhanced data source metrics for specified data sources. Note that metricsConfig won't be used unless the dataSourceLevelMetricsBehavior value is set to PER_DATA_SOURCE_METRICS. If the dataSourceLevelMetricsBehavior is set to FULL_REQUEST_DATA_SOURCE_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+    public var metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig?
     /// A user-supplied name for the DataSource.
     /// This member is required.
     public var name: Swift.String?
@@ -2284,6 +2358,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
         httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
         lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
+        metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig? = nil,
         name: Swift.String? = nil,
         openSearchServiceConfig: AppSyncClientTypes.OpenSearchServiceDataSourceConfig? = nil,
         relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
@@ -2298,6 +2373,7 @@ public struct CreateDataSourceInput: Swift.Equatable {
         self.eventBridgeConfig = eventBridgeConfig
         self.httpConfig = httpConfig
         self.lambdaConfig = lambdaConfig
+        self.metricsConfig = metricsConfig
         self.name = name
         self.openSearchServiceConfig = openSearchServiceConfig
         self.relationalDatabaseConfig = relationalDatabaseConfig
@@ -2318,6 +2394,7 @@ struct CreateDataSourceInputBody: Swift.Equatable {
     let httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     let relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig?
     let eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
+    let metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig?
 }
 
 extension CreateDataSourceInputBody: Swift.Decodable {
@@ -2328,6 +2405,7 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         case eventBridgeConfig
         case httpConfig
         case lambdaConfig
+        case metricsConfig
         case name
         case openSearchServiceConfig
         case relationalDatabaseConfig
@@ -2359,6 +2437,8 @@ extension CreateDataSourceInputBody: Swift.Decodable {
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
         let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
         eventBridgeConfig = eventBridgeConfigDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 
@@ -2755,6 +2835,7 @@ enum CreateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2769,6 +2850,7 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         case additionalAuthenticationProviders
         case apiType
         case authenticationType
+        case enhancedMetricsConfig
         case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
@@ -2797,6 +2879,9 @@ extension CreateGraphqlApiInput: Swift.Encodable {
         }
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let enhancedMetricsConfig = self.enhancedMetricsConfig {
+            try encodeContainer.encode(enhancedMetricsConfig, forKey: .enhancedMetricsConfig)
         }
         if let introspectionConfig = self.introspectionConfig {
             try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
@@ -2858,6 +2943,8 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
     /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
     /// This member is required.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
+    /// The enhancedMetricsConfig object.
+    public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
     /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
     public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     /// Configuration for Lambda function authorization.
@@ -2890,6 +2977,7 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
         apiType: AppSyncClientTypes.GraphQLApiType? = nil,
         authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
+        enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig? = nil,
         introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
         logConfig: AppSyncClientTypes.LogConfig? = nil,
@@ -2908,6 +2996,7 @@ public struct CreateGraphqlApiInput: Swift.Equatable {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiType = apiType
         self.authenticationType = authenticationType
+        self.enhancedMetricsConfig = enhancedMetricsConfig
         self.introspectionConfig = introspectionConfig
         self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
         self.logConfig = logConfig
@@ -2941,6 +3030,7 @@ struct CreateGraphqlApiInputBody: Swift.Equatable {
     let introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     let queryDepthLimit: Swift.Int?
     let resolverCountLimit: Swift.Int?
+    let enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
 }
 
 extension CreateGraphqlApiInputBody: Swift.Decodable {
@@ -2948,6 +3038,7 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
         case additionalAuthenticationProviders
         case apiType
         case authenticationType
+        case enhancedMetricsConfig
         case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
@@ -3015,6 +3106,8 @@ extension CreateGraphqlApiInputBody: Swift.Decodable {
         queryDepthLimit = queryDepthLimitDecoded
         let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit)
         resolverCountLimit = resolverCountLimitDecoded
+        let enhancedMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EnhancedMetricsConfig.self, forKey: .enhancedMetricsConfig)
+        enhancedMetricsConfig = enhancedMetricsConfigDecoded
     }
 }
 
@@ -3082,6 +3175,7 @@ extension CreateResolverInput: Swift.Encodable {
         case fieldName
         case kind
         case maxBatchSize
+        case metricsConfig
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
@@ -3108,6 +3202,9 @@ extension CreateResolverInput: Swift.Encodable {
         }
         if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let pipelineConfig = self.pipelineConfig {
             try encodeContainer.encode(pipelineConfig, forKey: .pipelineConfig)
@@ -3161,6 +3258,8 @@ public struct CreateResolverInput: Swift.Equatable {
     public var kind: AppSyncClientTypes.ResolverKind?
     /// The maximum batching size for a resolver.
     public var maxBatchSize: Swift.Int?
+    /// Enables or disables enhanced resolver metrics for specified resolvers. Note that metricsConfig won't be used unless the resolverLevelMetricsBehavior value is set to PER_RESOLVER_METRICS. If the resolverLevelMetricsBehavior is set to FULL_REQUEST_RESOLVER_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+    public var metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig?
     /// The PipelineConfig.
     public var pipelineConfig: AppSyncClientTypes.PipelineConfig?
     /// The mapping template to use for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -3183,6 +3282,7 @@ public struct CreateResolverInput: Swift.Equatable {
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
         maxBatchSize: Swift.Int? = nil,
+        metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -3198,6 +3298,7 @@ public struct CreateResolverInput: Swift.Equatable {
         self.fieldName = fieldName
         self.kind = kind
         self.maxBatchSize = maxBatchSize
+        self.metricsConfig = metricsConfig
         self.pipelineConfig = pipelineConfig
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
@@ -3219,6 +3320,7 @@ struct CreateResolverInputBody: Swift.Equatable {
     let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
+    let metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig?
 }
 
 extension CreateResolverInputBody: Swift.Decodable {
@@ -3229,6 +3331,7 @@ extension CreateResolverInputBody: Swift.Decodable {
         case fieldName
         case kind
         case maxBatchSize
+        case metricsConfig
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
@@ -3260,6 +3363,8 @@ extension CreateResolverInputBody: Swift.Decodable {
         runtime = runtimeDecoded
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ResolverLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 
@@ -3452,6 +3557,7 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         case eventBridgeConfig
         case httpConfig
         case lambdaConfig
+        case metricsConfig
         case name
         case openSearchServiceConfig
         case relationalDatabaseConfig
@@ -3481,6 +3587,9 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         }
         if let lambdaConfig = self.lambdaConfig {
             try encodeContainer.encode(lambdaConfig, forKey: .lambdaConfig)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3525,6 +3634,8 @@ extension AppSyncClientTypes.DataSource: Swift.Codable {
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
         let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
         eventBridgeConfig = eventBridgeConfigDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 
@@ -3545,6 +3656,8 @@ extension AppSyncClientTypes {
         public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
         /// Lambda settings.
         public var lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig?
+        /// Enables or disables enhanced data source metrics for specified data sources. Note that metricsConfig won't be used unless the dataSourceLevelMetricsBehavior value is set to PER_DATA_SOURCE_METRICS. If the dataSourceLevelMetricsBehavior is set to FULL_REQUEST_DATA_SOURCE_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+        public var metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig?
         /// The name of the data source.
         public var name: Swift.String?
         /// Amazon OpenSearch Service settings.
@@ -3580,6 +3693,7 @@ extension AppSyncClientTypes {
             eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
             httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
             lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
+            metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig? = nil,
             name: Swift.String? = nil,
             openSearchServiceConfig: AppSyncClientTypes.OpenSearchServiceDataSourceConfig? = nil,
             relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
@@ -3594,6 +3708,7 @@ extension AppSyncClientTypes {
             self.eventBridgeConfig = eventBridgeConfig
             self.httpConfig = httpConfig
             self.lambdaConfig = lambdaConfig
+            self.metricsConfig = metricsConfig
             self.name = name
             self.openSearchServiceConfig = openSearchServiceConfig
             self.relationalDatabaseConfig = relationalDatabaseConfig
@@ -3991,6 +4106,70 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+    public enum DataSourceLevelMetricsBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullRequestDataSourceMetrics
+        case perDataSourceMetrics
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceLevelMetricsBehavior] {
+            return [
+                .fullRequestDataSourceMetrics,
+                .perDataSourceMetrics,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullRequestDataSourceMetrics: return "FULL_REQUEST_DATA_SOURCE_METRICS"
+            case .perDataSourceMetrics: return "PER_DATA_SOURCE_METRICS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataSourceLevelMetricsBehavior(rawValue: rawValue) ?? DataSourceLevelMetricsBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+    public enum DataSourceLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataSourceLevelMetricsConfig] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataSourceLevelMetricsConfig(rawValue: rawValue) ?? DataSourceLevelMetricsConfig.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
     public enum DataSourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case amazonDynamodb
         case amazonElasticsearch
@@ -4372,6 +4551,7 @@ enum DeleteFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -5073,6 +5253,150 @@ extension AppSyncClientTypes {
         {
             self.awsRegion = awsRegion
             self.endpoint = endpoint
+        }
+    }
+
+}
+
+extension AppSyncClientTypes.EnhancedMetricsConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataSourceLevelMetricsBehavior
+        case operationLevelMetricsConfig
+        case resolverLevelMetricsBehavior
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dataSourceLevelMetricsBehavior = self.dataSourceLevelMetricsBehavior {
+            try encodeContainer.encode(dataSourceLevelMetricsBehavior.rawValue, forKey: .dataSourceLevelMetricsBehavior)
+        }
+        if let operationLevelMetricsConfig = self.operationLevelMetricsConfig {
+            try encodeContainer.encode(operationLevelMetricsConfig.rawValue, forKey: .operationLevelMetricsConfig)
+        }
+        if let resolverLevelMetricsBehavior = self.resolverLevelMetricsBehavior {
+            try encodeContainer.encode(resolverLevelMetricsBehavior.rawValue, forKey: .resolverLevelMetricsBehavior)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resolverLevelMetricsBehaviorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ResolverLevelMetricsBehavior.self, forKey: .resolverLevelMetricsBehavior)
+        resolverLevelMetricsBehavior = resolverLevelMetricsBehaviorDecoded
+        let dataSourceLevelMetricsBehaviorDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceLevelMetricsBehavior.self, forKey: .dataSourceLevelMetricsBehavior)
+        dataSourceLevelMetricsBehavior = dataSourceLevelMetricsBehaviorDecoded
+        let operationLevelMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.OperationLevelMetricsConfig.self, forKey: .operationLevelMetricsConfig)
+        operationLevelMetricsConfig = operationLevelMetricsConfigDecoded
+    }
+}
+
+extension AppSyncClientTypes {
+    /// Enables and controls the enhanced metrics feature. Enhanced metrics emit granular data on API usage and performance such as AppSync request and error counts, latency, and cache hits/misses. All enhanced metric data is sent to your CloudWatch account, and you can configure the types of data that will be sent. Enhanced metrics can be configured at the resolver, data source, and operation levels. EnhancedMetricsConfig contains three required parameters, each controlling one of these categories:
+    ///
+    /// * resolverLevelMetricsBehavior: Controls how resolver metrics will be emitted to CloudWatch. Resolver metrics include:
+    ///
+    /// * GraphQL errors: The number of GraphQL errors that occurred.
+    ///
+    /// * Requests: The number of invocations that occurred during a request.
+    ///
+    /// * Latency: The time to complete a resolver invocation.
+    ///
+    /// * Cache hits: The number of cache hits during a request.
+    ///
+    /// * Cache misses: The number of cache misses during a request.
+    ///
+    ///
+    /// These metrics can be emitted to CloudWatch per resolver or for all resolvers in the request. Metrics will be recorded by API ID and resolver name. resolverLevelMetricsBehavior accepts one of these values at a time:
+    ///
+    /// * FULL_REQUEST_RESOLVER_METRICS: Records and emits metric data for all resolvers in the request.
+    ///
+    /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricConfig value set to ENABLED.
+    ///
+    ///
+    ///
+    ///
+    /// * dataSourceLevelMetricsBehavior: Controls how data source metrics will be emitted to CloudWatch. Data source metrics include:
+    ///
+    /// * Requests: The number of invocations that occured during a request.
+    ///
+    /// * Latency: The time to complete a data source invocation.
+    ///
+    /// * Errors: The number of errors that occurred during a data source invocation.
+    ///
+    ///
+    /// These metrics can be emitted to CloudWatch per data source or for all data sources in the request. Metrics will be recorded by API ID and data source name. dataSourceLevelMetricsBehavior accepts one of these values at a time:
+    ///
+    /// * FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.
+    ///
+    /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricConfig value set to ENABLED.
+    ///
+    ///
+    ///
+    ///
+    /// * operationLevelMetricsConfig: Controls how operation metrics will be emitted to CloudWatch. Operation metrics include:
+    ///
+    /// * Requests: The number of times a specified GraphQL operation was called.
+    ///
+    /// * GraphQL errors: The number of GraphQL errors that occurred during a specified GraphQL operation.
+    ///
+    ///
+    /// Metrics will be recorded by API ID and operation name. You can set the value to ENABLED or DISABLED.
+    public struct EnhancedMetricsConfig: Swift.Equatable {
+        /// Controls how data source metrics will be emitted to CloudWatch. Data source metrics include:
+        ///
+        /// * Requests: The number of invocations that occured during a request.
+        ///
+        /// * Latency: The time to complete a data source invocation.
+        ///
+        /// * Errors: The number of errors that occurred during a data source invocation.
+        ///
+        ///
+        /// These metrics can be emitted to CloudWatch per data source or for all data sources in the request. Metrics will be recorded by API ID and data source name. dataSourceLevelMetricsBehavior accepts one of these values at a time:
+        ///
+        /// * FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.
+        ///
+        /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricConfig value set to ENABLED.
+        /// This member is required.
+        public var dataSourceLevelMetricsBehavior: AppSyncClientTypes.DataSourceLevelMetricsBehavior?
+        /// Controls how operation metrics will be emitted to CloudWatch. Operation metrics include:
+        ///
+        /// * Requests: The number of times a specified GraphQL operation was called.
+        ///
+        /// * GraphQL errors: The number of GraphQL errors that occurred during a specified GraphQL operation.
+        ///
+        ///
+        /// Metrics will be recorded by API ID and operation name. You can set the value to ENABLED or DISABLED.
+        /// This member is required.
+        public var operationLevelMetricsConfig: AppSyncClientTypes.OperationLevelMetricsConfig?
+        /// Controls how resolver metrics will be emitted to CloudWatch. Resolver metrics include:
+        ///
+        /// * GraphQL errors: The number of GraphQL errors that occurred.
+        ///
+        /// * Requests: The number of invocations that occurred during a request.
+        ///
+        /// * Latency: The time to complete a resolver invocation.
+        ///
+        /// * Cache hits: The number of cache hits during a request.
+        ///
+        /// * Cache misses: The number of cache misses during a request.
+        ///
+        ///
+        /// These metrics can be emitted to CloudWatch per resolver or for all resolvers in the request. Metrics will be recorded by API ID and resolver name. resolverLevelMetricsBehavior accepts one of these values at a time:
+        ///
+        /// * FULL_REQUEST_RESOLVER_METRICS: Records and emits metric data for all resolvers in the request.
+        ///
+        /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricConfig value set to ENABLED.
+        /// This member is required.
+        public var resolverLevelMetricsBehavior: AppSyncClientTypes.ResolverLevelMetricsBehavior?
+
+        public init(
+            dataSourceLevelMetricsBehavior: AppSyncClientTypes.DataSourceLevelMetricsBehavior? = nil,
+            operationLevelMetricsConfig: AppSyncClientTypes.OperationLevelMetricsConfig? = nil,
+            resolverLevelMetricsBehavior: AppSyncClientTypes.ResolverLevelMetricsBehavior? = nil
+        )
+        {
+            self.dataSourceLevelMetricsBehavior = dataSourceLevelMetricsBehavior
+            self.operationLevelMetricsConfig = operationLevelMetricsConfig
+            self.resolverLevelMetricsBehavior = resolverLevelMetricsBehavior
         }
     }
 
@@ -6354,6 +6678,102 @@ enum GetFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetGraphqlApiEnvironmentVariablesInput {
+
+    static func urlPathProvider(_ value: GetGraphqlApiEnvironmentVariablesInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v1/apis/\(apiId.urlPercentEncoding())/environmentVariables"
+    }
+}
+
+public struct GetGraphqlApiEnvironmentVariablesInput: Swift.Equatable {
+    /// The ID of the API from which the environmental variable list will be retrieved.
+    /// This member is required.
+    public var apiId: Swift.String?
+
+    public init(
+        apiId: Swift.String? = nil
+    )
+    {
+        self.apiId = apiId
+    }
+}
+
+struct GetGraphqlApiEnvironmentVariablesInputBody: Swift.Equatable {
+}
+
+extension GetGraphqlApiEnvironmentVariablesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetGraphqlApiEnvironmentVariablesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGraphqlApiEnvironmentVariablesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentVariables = output.environmentVariables
+        } else {
+            self.environmentVariables = nil
+        }
+    }
+}
+
+public struct GetGraphqlApiEnvironmentVariablesOutput: Swift.Equatable {
+    /// The payload containing each environmental variable in the "key" : "value" format.
+    public var environmentVariables: [Swift.String:Swift.String]?
+
+    public init(
+        environmentVariables: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.environmentVariables = environmentVariables
+    }
+}
+
+struct GetGraphqlApiEnvironmentVariablesOutputBody: Swift.Equatable {
+    let environmentVariables: [Swift.String:Swift.String]?
+}
+
+extension GetGraphqlApiEnvironmentVariablesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentVariables
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentVariablesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .environmentVariables)
+        var environmentVariablesDecoded0: [Swift.String:Swift.String]? = nil
+        if let environmentVariablesContainer = environmentVariablesContainer {
+            environmentVariablesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, environmentvariablevalue0) in environmentVariablesContainer {
+                if let environmentvariablevalue0 = environmentvariablevalue0 {
+                    environmentVariablesDecoded0?[key0] = environmentvariablevalue0
+                }
+            }
+        }
+        environmentVariables = environmentVariablesDecoded0
+    }
+}
+
+enum GetGraphqlApiEnvironmentVariablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetGraphqlApiInput {
 
     static func urlPathProvider(_ value: GetGraphqlApiInput) -> Swift.String? {
@@ -7119,6 +7539,7 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         case arn
         case authenticationType
         case dns
+        case enhancedMetricsConfig
         case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
@@ -7162,6 +7583,9 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
             for (dictKey0, mapOfStringToString0) in dns {
                 try dnsContainer.encode(mapOfStringToString0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let enhancedMetricsConfig = self.enhancedMetricsConfig {
+            try encodeContainer.encode(enhancedMetricsConfig, forKey: .enhancedMetricsConfig)
         }
         if let introspectionConfig = self.introspectionConfig {
             try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
@@ -7301,6 +7725,8 @@ extension AppSyncClientTypes.GraphqlApi: Swift.Codable {
         queryDepthLimit = queryDepthLimitDecoded
         let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit) ?? 0
         resolverCountLimit = resolverCountLimitDecoded
+        let enhancedMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EnhancedMetricsConfig.self, forKey: .enhancedMetricsConfig)
+        enhancedMetricsConfig = enhancedMetricsConfigDecoded
     }
 }
 
@@ -7319,6 +7745,8 @@ extension AppSyncClientTypes {
         public var authenticationType: AppSyncClientTypes.AuthenticationType?
         /// The DNS records for the API.
         public var dns: [Swift.String:Swift.String]?
+        /// The enhancedMetricsConfig object.
+        public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
         /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
         public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
         /// Configuration for Lambda function authorization.
@@ -7359,6 +7787,7 @@ extension AppSyncClientTypes {
             arn: Swift.String? = nil,
             authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
             dns: [Swift.String:Swift.String]? = nil,
+            enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig? = nil,
             introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
             lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
             logConfig: AppSyncClientTypes.LogConfig? = nil,
@@ -7383,6 +7812,7 @@ extension AppSyncClientTypes {
             self.arn = arn
             self.authenticationType = authenticationType
             self.dns = dns
+            self.enhancedMetricsConfig = enhancedMetricsConfig
             self.introspectionConfig = introspectionConfig
             self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
             self.logConfig = logConfig
@@ -9439,6 +9869,38 @@ extension AppSyncClientTypes {
 }
 
 extension AppSyncClientTypes {
+    public enum OperationLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [OperationLevelMetricsConfig] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = OperationLevelMetricsConfig(rawValue: rawValue) ?? OperationLevelMetricsConfig.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
     public enum OutputType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case json
         case sdl
@@ -9547,6 +10009,153 @@ extension AppSyncClientTypes {
         }
     }
 
+}
+
+extension PutGraphqlApiEnvironmentVariablesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentVariables
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let environmentVariables = environmentVariables {
+            var environmentVariablesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .environmentVariables)
+            for (dictKey0, environmentVariableMap0) in environmentVariables {
+                try environmentVariablesContainer.encode(environmentVariableMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension PutGraphqlApiEnvironmentVariablesInput {
+
+    static func urlPathProvider(_ value: PutGraphqlApiEnvironmentVariablesInput) -> Swift.String? {
+        guard let apiId = value.apiId else {
+            return nil
+        }
+        return "/v1/apis/\(apiId.urlPercentEncoding())/environmentVariables"
+    }
+}
+
+public struct PutGraphqlApiEnvironmentVariablesInput: Swift.Equatable {
+    /// The ID of the API to which the environmental variable list will be written.
+    /// This member is required.
+    public var apiId: Swift.String?
+    /// The list of environmental variables to add to the API. When creating an environmental variable key-value pair, it must follow the additional constraints below:
+    ///
+    /// * Keys must begin with a letter.
+    ///
+    /// * Keys must be at least two characters long.
+    ///
+    /// * Keys can only contain letters, numbers, and the underscore character (_).
+    ///
+    /// * Values can be up to 512 characters long.
+    ///
+    /// * You can configure up to 50 key-value pairs in a GraphQL API.
+    ///
+    ///
+    /// You can create a list of environmental variables by adding it to the environmentVariables payload as a list in the format {"key1":"value1","key2":"value2", …}. Note that each call of the PutGraphqlApiEnvironmentVariables action will result in the overwriting of the existing environmental variable list of that API. This means the existing environmental variables will be lost. To avoid this, you must include all existing and new environmental variables in the list each time you call this action.
+    /// This member is required.
+    public var environmentVariables: [Swift.String:Swift.String]?
+
+    public init(
+        apiId: Swift.String? = nil,
+        environmentVariables: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.apiId = apiId
+        self.environmentVariables = environmentVariables
+    }
+}
+
+struct PutGraphqlApiEnvironmentVariablesInputBody: Swift.Equatable {
+    let environmentVariables: [Swift.String:Swift.String]?
+}
+
+extension PutGraphqlApiEnvironmentVariablesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentVariables
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentVariablesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .environmentVariables)
+        var environmentVariablesDecoded0: [Swift.String:Swift.String]? = nil
+        if let environmentVariablesContainer = environmentVariablesContainer {
+            environmentVariablesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, environmentvariablevalue0) in environmentVariablesContainer {
+                if let environmentvariablevalue0 = environmentvariablevalue0 {
+                    environmentVariablesDecoded0?[key0] = environmentvariablevalue0
+                }
+            }
+        }
+        environmentVariables = environmentVariablesDecoded0
+    }
+}
+
+extension PutGraphqlApiEnvironmentVariablesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutGraphqlApiEnvironmentVariablesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.environmentVariables = output.environmentVariables
+        } else {
+            self.environmentVariables = nil
+        }
+    }
+}
+
+public struct PutGraphqlApiEnvironmentVariablesOutput: Swift.Equatable {
+    /// The payload containing each environmental variable in the "key" : "value" format.
+    public var environmentVariables: [Swift.String:Swift.String]?
+
+    public init(
+        environmentVariables: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.environmentVariables = environmentVariables
+    }
+}
+
+struct PutGraphqlApiEnvironmentVariablesOutputBody: Swift.Equatable {
+    let environmentVariables: [Swift.String:Swift.String]?
+}
+
+extension PutGraphqlApiEnvironmentVariablesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case environmentVariables
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let environmentVariablesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .environmentVariables)
+        var environmentVariablesDecoded0: [Swift.String:Swift.String]? = nil
+        if let environmentVariablesContainer = environmentVariablesContainer {
+            environmentVariablesDecoded0 = [Swift.String:Swift.String]()
+            for (key0, environmentvariablevalue0) in environmentVariablesContainer {
+                if let environmentvariablevalue0 = environmentvariablevalue0 {
+                    environmentVariablesDecoded0?[key0] = environmentvariablevalue0
+                }
+            }
+        }
+        environmentVariables = environmentVariablesDecoded0
+    }
+}
+
+enum PutGraphqlApiEnvironmentVariablesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension AppSyncClientTypes.RdsDataApiConfig: Swift.Codable {
@@ -9766,6 +10375,7 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         case fieldName
         case kind
         case maxBatchSize
+        case metricsConfig
         case pipelineConfig
         case requestMappingTemplate
         case resolverArn
@@ -9794,6 +10404,9 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         }
         if maxBatchSize != 0 {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let pipelineConfig = self.pipelineConfig {
             try encodeContainer.encode(pipelineConfig, forKey: .pipelineConfig)
@@ -9846,6 +10459,8 @@ extension AppSyncClientTypes.Resolver: Swift.Codable {
         runtime = runtimeDecoded
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ResolverLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 
@@ -9868,6 +10483,8 @@ extension AppSyncClientTypes {
         public var kind: AppSyncClientTypes.ResolverKind?
         /// The maximum batching size for a resolver.
         public var maxBatchSize: Swift.Int
+        /// Enables or disables enhanced resolver metrics for specified resolvers. Note that metricsConfig won't be used unless the resolverLevelMetricsBehavior value is set to PER_RESOLVER_METRICS. If the resolverLevelMetricsBehavior is set to FULL_REQUEST_RESOLVER_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+        public var metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig?
         /// The PipelineConfig.
         public var pipelineConfig: AppSyncClientTypes.PipelineConfig?
         /// The request mapping template.
@@ -9890,6 +10507,7 @@ extension AppSyncClientTypes {
             fieldName: Swift.String? = nil,
             kind: AppSyncClientTypes.ResolverKind? = nil,
             maxBatchSize: Swift.Int = 0,
+            metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig? = nil,
             pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
             requestMappingTemplate: Swift.String? = nil,
             resolverArn: Swift.String? = nil,
@@ -9905,6 +10523,7 @@ extension AppSyncClientTypes {
             self.fieldName = fieldName
             self.kind = kind
             self.maxBatchSize = maxBatchSize
+            self.metricsConfig = metricsConfig
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.resolverArn = resolverArn
@@ -9945,6 +10564,70 @@ extension AppSyncClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ResolverKind(rawValue: rawValue) ?? ResolverKind.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+    public enum ResolverLevelMetricsBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case fullRequestResolverMetrics
+        case perResolverMetrics
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResolverLevelMetricsBehavior] {
+            return [
+                .fullRequestResolverMetrics,
+                .perResolverMetrics,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .fullRequestResolverMetrics: return "FULL_REQUEST_RESOLVER_METRICS"
+            case .perResolverMetrics: return "PER_RESOLVER_METRICS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResolverLevelMetricsBehavior(rawValue: rawValue) ?? ResolverLevelMetricsBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension AppSyncClientTypes {
+    public enum ResolverLevelMetricsConfig: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResolverLevelMetricsConfig] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResolverLevelMetricsConfig(rawValue: rawValue) ?? ResolverLevelMetricsConfig.sdkUnknown(rawValue)
         }
     }
 }
@@ -11027,6 +11710,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateApiCacheInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiCachingBehavior
+        case healthMetricsConfig
         case ttl
         case type
     }
@@ -11035,6 +11719,9 @@ extension UpdateApiCacheInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let apiCachingBehavior = self.apiCachingBehavior {
             try encodeContainer.encode(apiCachingBehavior.rawValue, forKey: .apiCachingBehavior)
+        }
+        if let healthMetricsConfig = self.healthMetricsConfig {
+            try encodeContainer.encode(healthMetricsConfig.rawValue, forKey: .healthMetricsConfig)
         }
         if let ttl = self.ttl {
             try encodeContainer.encode(ttl, forKey: .ttl)
@@ -11067,6 +11754,15 @@ public struct UpdateApiCacheInput: Swift.Equatable {
     /// The GraphQL API ID.
     /// This member is required.
     public var apiId: Swift.String?
+    /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
+    ///
+    /// * NetworkBandwidthOutAllowanceExceeded: The number of times a specified GraphQL operation was called.
+    ///
+    /// * EngineCPUUtilization: The number of GraphQL errors that occurred during a specified GraphQL operation.
+    ///
+    ///
+    /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
+    public var healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
     /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
     /// This member is required.
     public var ttl: Swift.Int?
@@ -11110,12 +11806,14 @@ public struct UpdateApiCacheInput: Swift.Equatable {
     public init(
         apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior? = nil,
         apiId: Swift.String? = nil,
+        healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig? = nil,
         ttl: Swift.Int? = nil,
         type: AppSyncClientTypes.ApiCacheType? = nil
     )
     {
         self.apiCachingBehavior = apiCachingBehavior
         self.apiId = apiId
+        self.healthMetricsConfig = healthMetricsConfig
         self.ttl = ttl
         self.type = type
     }
@@ -11125,11 +11823,13 @@ struct UpdateApiCacheInputBody: Swift.Equatable {
     let ttl: Swift.Int?
     let apiCachingBehavior: AppSyncClientTypes.ApiCachingBehavior?
     let type: AppSyncClientTypes.ApiCacheType?
+    let healthMetricsConfig: AppSyncClientTypes.CacheHealthMetricsConfig?
 }
 
 extension UpdateApiCacheInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case apiCachingBehavior
+        case healthMetricsConfig
         case ttl
         case type
     }
@@ -11142,6 +11842,8 @@ extension UpdateApiCacheInputBody: Swift.Decodable {
         apiCachingBehavior = apiCachingBehaviorDecoded
         let typeDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ApiCacheType.self, forKey: .type)
         type = typeDecoded
+        let healthMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.CacheHealthMetricsConfig.self, forKey: .healthMetricsConfig)
+        healthMetricsConfig = healthMetricsConfigDecoded
     }
 }
 
@@ -11341,6 +12043,7 @@ extension UpdateDataSourceInput: Swift.Encodable {
         case eventBridgeConfig
         case httpConfig
         case lambdaConfig
+        case metricsConfig
         case openSearchServiceConfig
         case relationalDatabaseConfig
         case serviceRoleArn
@@ -11366,6 +12069,9 @@ extension UpdateDataSourceInput: Swift.Encodable {
         }
         if let lambdaConfig = self.lambdaConfig {
             try encodeContainer.encode(lambdaConfig, forKey: .lambdaConfig)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let openSearchServiceConfig = self.openSearchServiceConfig {
             try encodeContainer.encode(openSearchServiceConfig, forKey: .openSearchServiceConfig)
@@ -11411,6 +12117,8 @@ public struct UpdateDataSourceInput: Swift.Equatable {
     public var httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     /// The new Lambda configuration.
     public var lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig?
+    /// Enables or disables enhanced data source metrics for specified data sources. Note that metricsConfig won't be used unless the dataSourceLevelMetricsBehavior value is set to PER_DATA_SOURCE_METRICS. If the dataSourceLevelMetricsBehavior is set to FULL_REQUEST_DATA_SOURCE_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+    public var metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig?
     /// The new name for the data source.
     /// This member is required.
     public var name: Swift.String?
@@ -11432,6 +12140,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
         eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig? = nil,
         httpConfig: AppSyncClientTypes.HttpDataSourceConfig? = nil,
         lambdaConfig: AppSyncClientTypes.LambdaDataSourceConfig? = nil,
+        metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig? = nil,
         name: Swift.String? = nil,
         openSearchServiceConfig: AppSyncClientTypes.OpenSearchServiceDataSourceConfig? = nil,
         relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig? = nil,
@@ -11446,6 +12155,7 @@ public struct UpdateDataSourceInput: Swift.Equatable {
         self.eventBridgeConfig = eventBridgeConfig
         self.httpConfig = httpConfig
         self.lambdaConfig = lambdaConfig
+        self.metricsConfig = metricsConfig
         self.name = name
         self.openSearchServiceConfig = openSearchServiceConfig
         self.relationalDatabaseConfig = relationalDatabaseConfig
@@ -11465,6 +12175,7 @@ struct UpdateDataSourceInputBody: Swift.Equatable {
     let httpConfig: AppSyncClientTypes.HttpDataSourceConfig?
     let relationalDatabaseConfig: AppSyncClientTypes.RelationalDatabaseDataSourceConfig?
     let eventBridgeConfig: AppSyncClientTypes.EventBridgeDataSourceConfig?
+    let metricsConfig: AppSyncClientTypes.DataSourceLevelMetricsConfig?
 }
 
 extension UpdateDataSourceInputBody: Swift.Decodable {
@@ -11475,6 +12186,7 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         case eventBridgeConfig
         case httpConfig
         case lambdaConfig
+        case metricsConfig
         case openSearchServiceConfig
         case relationalDatabaseConfig
         case serviceRoleArn
@@ -11503,6 +12215,8 @@ extension UpdateDataSourceInputBody: Swift.Decodable {
         relationalDatabaseConfig = relationalDatabaseConfigDecoded
         let eventBridgeConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EventBridgeDataSourceConfig.self, forKey: .eventBridgeConfig)
         eventBridgeConfig = eventBridgeConfigDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.DataSourceLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 
@@ -11891,6 +12605,7 @@ enum UpdateFunctionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalFailureException": return try await InternalFailureException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -11904,6 +12619,7 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAuthenticationProviders
         case authenticationType
+        case enhancedMetricsConfig
         case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
@@ -11927,6 +12643,9 @@ extension UpdateGraphqlApiInput: Swift.Encodable {
         }
         if let authenticationType = self.authenticationType {
             try encodeContainer.encode(authenticationType.rawValue, forKey: .authenticationType)
+        }
+        if let enhancedMetricsConfig = self.enhancedMetricsConfig {
+            try encodeContainer.encode(enhancedMetricsConfig, forKey: .enhancedMetricsConfig)
         }
         if let introspectionConfig = self.introspectionConfig {
             try encodeContainer.encode(introspectionConfig.rawValue, forKey: .introspectionConfig)
@@ -11982,6 +12701,8 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// The new authentication type for the GraphqlApi object.
     public var authenticationType: AppSyncClientTypes.AuthenticationType?
+    /// The enhancedMetricsConfig object.
+    public var enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
     /// Sets the value of the GraphQL API to enable (ENABLED) or disable (DISABLED) introspection. If no value is provided, the introspection configuration will be set to ENABLED by default. This field will produce an error if the operation attempts to use the introspection feature while this field is disabled. For more information about introspection, see [GraphQL introspection](https://graphql.org/learn/introspection/).
     public var introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     /// Configuration for Lambda function authorization.
@@ -12010,6 +12731,7 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
         additionalAuthenticationProviders: [AppSyncClientTypes.AdditionalAuthenticationProvider]? = nil,
         apiId: Swift.String? = nil,
         authenticationType: AppSyncClientTypes.AuthenticationType? = nil,
+        enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig? = nil,
         introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig? = nil,
         lambdaAuthorizerConfig: AppSyncClientTypes.LambdaAuthorizerConfig? = nil,
         logConfig: AppSyncClientTypes.LogConfig? = nil,
@@ -12026,6 +12748,7 @@ public struct UpdateGraphqlApiInput: Swift.Equatable {
         self.additionalAuthenticationProviders = additionalAuthenticationProviders
         self.apiId = apiId
         self.authenticationType = authenticationType
+        self.enhancedMetricsConfig = enhancedMetricsConfig
         self.introspectionConfig = introspectionConfig
         self.lambdaAuthorizerConfig = lambdaAuthorizerConfig
         self.logConfig = logConfig
@@ -12054,12 +12777,14 @@ struct UpdateGraphqlApiInputBody: Swift.Equatable {
     let introspectionConfig: AppSyncClientTypes.GraphQLApiIntrospectionConfig?
     let queryDepthLimit: Swift.Int?
     let resolverCountLimit: Swift.Int?
+    let enhancedMetricsConfig: AppSyncClientTypes.EnhancedMetricsConfig?
 }
 
 extension UpdateGraphqlApiInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalAuthenticationProviders
         case authenticationType
+        case enhancedMetricsConfig
         case introspectionConfig
         case lambdaAuthorizerConfig
         case logConfig
@@ -12110,6 +12835,8 @@ extension UpdateGraphqlApiInputBody: Swift.Decodable {
         queryDepthLimit = queryDepthLimitDecoded
         let resolverCountLimitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .resolverCountLimit)
         resolverCountLimit = resolverCountLimitDecoded
+        let enhancedMetricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.EnhancedMetricsConfig.self, forKey: .enhancedMetricsConfig)
+        enhancedMetricsConfig = enhancedMetricsConfigDecoded
     }
 }
 
@@ -12176,6 +12903,7 @@ extension UpdateResolverInput: Swift.Encodable {
         case dataSourceName
         case kind
         case maxBatchSize
+        case metricsConfig
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
@@ -12199,6 +12927,9 @@ extension UpdateResolverInput: Swift.Encodable {
         }
         if let maxBatchSize = self.maxBatchSize {
             try encodeContainer.encode(maxBatchSize, forKey: .maxBatchSize)
+        }
+        if let metricsConfig = self.metricsConfig {
+            try encodeContainer.encode(metricsConfig.rawValue, forKey: .metricsConfig)
         }
         if let pipelineConfig = self.pipelineConfig {
             try encodeContainer.encode(pipelineConfig, forKey: .pipelineConfig)
@@ -12255,6 +12986,8 @@ public struct UpdateResolverInput: Swift.Equatable {
     public var kind: AppSyncClientTypes.ResolverKind?
     /// The maximum batching size for a resolver.
     public var maxBatchSize: Swift.Int?
+    /// Enables or disables enhanced resolver metrics for specified resolvers. Note that metricsConfig won't be used unless the resolverLevelMetricsBehavior value is set to PER_RESOLVER_METRICS. If the resolverLevelMetricsBehavior is set to FULL_REQUEST_RESOLVER_METRICS instead, metricsConfig will be ignored. However, you can still set its value. metricsConfig can be ENABLED or DISABLED.
+    public var metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig?
     /// The PipelineConfig.
     public var pipelineConfig: AppSyncClientTypes.PipelineConfig?
     /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -12277,6 +13010,7 @@ public struct UpdateResolverInput: Swift.Equatable {
         fieldName: Swift.String? = nil,
         kind: AppSyncClientTypes.ResolverKind? = nil,
         maxBatchSize: Swift.Int? = nil,
+        metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig? = nil,
         pipelineConfig: AppSyncClientTypes.PipelineConfig? = nil,
         requestMappingTemplate: Swift.String? = nil,
         responseMappingTemplate: Swift.String? = nil,
@@ -12292,6 +13026,7 @@ public struct UpdateResolverInput: Swift.Equatable {
         self.fieldName = fieldName
         self.kind = kind
         self.maxBatchSize = maxBatchSize
+        self.metricsConfig = metricsConfig
         self.pipelineConfig = pipelineConfig
         self.requestMappingTemplate = requestMappingTemplate
         self.responseMappingTemplate = responseMappingTemplate
@@ -12312,6 +13047,7 @@ struct UpdateResolverInputBody: Swift.Equatable {
     let maxBatchSize: Swift.Int?
     let runtime: AppSyncClientTypes.AppSyncRuntime?
     let code: Swift.String?
+    let metricsConfig: AppSyncClientTypes.ResolverLevelMetricsConfig?
 }
 
 extension UpdateResolverInputBody: Swift.Decodable {
@@ -12321,6 +13057,7 @@ extension UpdateResolverInputBody: Swift.Decodable {
         case dataSourceName
         case kind
         case maxBatchSize
+        case metricsConfig
         case pipelineConfig
         case requestMappingTemplate
         case responseMappingTemplate
@@ -12350,6 +13087,8 @@ extension UpdateResolverInputBody: Swift.Decodable {
         runtime = runtimeDecoded
         let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
         code = codeDecoded
+        let metricsConfigDecoded = try containerValues.decodeIfPresent(AppSyncClientTypes.ResolverLevelMetricsConfig.self, forKey: .metricsConfig)
+        metricsConfig = metricsConfigDecoded
     }
 }
 

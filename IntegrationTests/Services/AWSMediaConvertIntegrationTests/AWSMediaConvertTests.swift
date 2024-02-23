@@ -25,7 +25,7 @@ class AWSMediaConvertTests: XCTestCase {
         }
 
         // Create a client, configured to use the endpoint you just retrieved.
-        let config = try MediaConvertClient.MediaConvertClientConfiguration(region: region, endpoint: endpoint)
+        let config = try await MediaConvertClient.MediaConvertClientConfiguration(region: region, signingRegion: region, endpoint: endpoint)
         let client = MediaConvertClient(config: config)
 
         let name = "Android TV Template"

@@ -1150,7 +1150,7 @@ extension BatchClientTypes.ComputeResource: Swift.Codable {
 extension BatchClientTypes {
     /// An object that represents an Batch compute resource. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide.
     public struct ComputeResource: Swift.Equatable {
-        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT (default) Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html), additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if not enough instances of the best fitting instance type can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT (default) Batch selects an instance type that best fits the needs of the jobs with a preference for the lowest-cost instance type. If additional instances of the selected instance type aren't available, Batch waits for the additional instances to be available. If there aren't enough instances available or the user is reaching [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html), additional jobs aren't run until the currently running jobs are completed. This allocation strategy keeps costs lower but can limit scaling. If you're using Spot Fleets with BEST_FIT, the Spot Fleet IAM Role must be specified. Compute resources that use a BEST_FIT allocation strategy don't support infrastructure updates and can't update some parameters. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var allocationStrategy: BatchClientTypes.CRAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, then the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. If you leave this field empty, the default value is 100% of the On-Demand price. For most use cases, we recommend leaving this field empty. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
@@ -1163,13 +1163,13 @@ extension BatchClientTypes {
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         @available(*, deprecated, message: "This field is deprecated, use ec2Configuration[].imageIdOverride instead.")
         public var imageId: Swift.String?
-        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. This parameter is required for Amazon EC2 instances types. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
         /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment. Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
         public var instanceTypes: [Swift.String]?
         /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment] API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
-        /// The maximum number of vCPUs that a compute environment can support. With BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. For example, no more than a single instance from among those specified in your compute environment is allocated.
+        /// The maximum number of vCPUs that a compute environment can support. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         /// This member is required.
         public var maxvCpus: Swift.Int?
         /// The minimum number of vCPUs that a compute environment should maintain (even if the compute environment is DISABLED). This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
@@ -1409,7 +1409,7 @@ extension BatchClientTypes.ComputeResourceUpdate: Swift.Codable {
 extension BatchClientTypes {
     /// An object that represents the attributes of a compute environment that can be updated. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
     public struct ComputeResourceUpdate: Swift.Equatable {
-        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. With both BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, and SPOT_PRICE_CAPACITY_OPTIMIZED strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
+        /// The allocation strategy to use for the compute resource if there's not enough instances of the best fitting instance type that can be allocated. This might be because of availability of the instance type in the Region or [Amazon EC2 service limits](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html). For more information, see [Allocation strategies](https://docs.aws.amazon.com/batch/latest/userguide/allocation-strategies.html) in the Batch User Guide. When updating a compute environment, changing the allocation strategy requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. BEST_FIT isn't supported when updating a compute environment. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. BEST_FIT_PROGRESSIVE Batch selects additional instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types with lower cost vCPUs. If additional instances of the previously selected instance types aren't available, Batch selects new instance types. SPOT_CAPACITY_OPTIMIZED Batch selects one or more instance types that are large enough to meet the requirements of the jobs in the queue. Its preference is for instance types that are less likely to be interrupted. This allocation strategy is only available for Spot Instance compute resources. SPOT_PRICE_CAPACITY_OPTIMIZED The price and capacity optimized allocation strategy looks at both price and capacity to select the Spot Instance pools that are the least likely to be interrupted and have the lowest possible price. This allocation strategy is only available for Spot Instance compute resources. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var allocationStrategy: BatchClientTypes.CRUpdateAllocationStrategy?
         /// The maximum percentage that a Spot Instance price can be when compared with the On-Demand price for that instance type before instances are launched. For example, if your maximum percentage is 20%, the Spot price must be less than 20% of the current On-Demand price for that Amazon EC2 instance. You always pay the lowest (market) price and never more than your maximum percentage. For most use cases, we recommend leaving this field empty. When updating a compute environment, changing the bid percentage requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var bidPercentage: Swift.Int?
@@ -1421,13 +1421,13 @@ extension BatchClientTypes {
         public var ec2KeyPair: Swift.String?
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageId: Swift.String?
-        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The Amazon ECS instance profile applied to Amazon EC2 instances in a compute environment. Required for Amazon EC2 instances. You can specify the short name or full Amazon Resource Name (ARN) of an instance profile. For example,  ecsInstanceRole  or arn:aws:iam:::instance-profile/ecsInstanceRole . For more information, see [Amazon ECS instance role](https://docs.aws.amazon.com/batch/latest/userguide/instance_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var instanceRole: Swift.String?
         /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment. Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
         public var instanceTypes: [Swift.String]?
         /// The updated launch template to use for your compute resources. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. To remove the custom launch template and use the default launch template, set launchTemplateId or launchTemplateName member of the launch template specification to an empty string. Removing the launch template from a compute environment will not remove the AMI specified in the launch template. In order to update the AMI specified in a launch template, the updateToLatestImageVersion parameter must be set to true. When updating a compute environment, changing the launch template requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
-        /// The maximum number of Amazon EC2 vCPUs that an environment can reach. With BEST_FIT_PROGRESSIVE, SPOT_CAPACITY_OPTIMIZED, and SPOT_PRICE_CAPACITY_OPTIMIZED allocation strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance. That is, no more than a single instance from among those specified in your compute environment.
+        /// The maximum number of Amazon EC2 vCPUs that an environment can reach. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         public var maxvCpus: Swift.Int?
         /// The minimum number of vCPUs that an environment should maintain (even if the compute environment is DISABLED). This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var minvCpus: Swift.Int?
@@ -1508,6 +1508,7 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         case privileged
         case readonlyRootFilesystem
         case reason
+        case repositoryCredentials
         case resourceRequirements
         case runtimePlatform
         case secrets
@@ -1591,6 +1592,9 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         }
         if let reason = self.reason {
             try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let repositoryCredentials = self.repositoryCredentials {
+            try encodeContainer.encode(repositoryCredentials, forKey: .repositoryCredentials)
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
@@ -1760,6 +1764,8 @@ extension BatchClientTypes.ContainerDetail: Swift.Codable {
         ephemeralStorage = ephemeralStorageDecoded
         let runtimePlatformDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RuntimePlatform.self, forKey: .runtimePlatform)
         runtimePlatform = runtimePlatformDecoded
+        let repositoryCredentialsDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RepositoryCredentials.self, forKey: .repositoryCredentials)
+        repositoryCredentials = repositoryCredentialsDecoded
     }
 }
 
@@ -1806,6 +1812,8 @@ extension BatchClientTypes {
         public var readonlyRootFilesystem: Swift.Bool?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
+        /// The private repository authentication credentials to use.
+        public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
         /// The type and amount of resources to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// An object that represents the compute environment architecture for Batch jobs on Fargate.
@@ -1844,6 +1852,7 @@ extension BatchClientTypes {
             privileged: Swift.Bool? = nil,
             readonlyRootFilesystem: Swift.Bool? = nil,
             reason: Swift.String? = nil,
+            repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
@@ -1874,6 +1883,7 @@ extension BatchClientTypes {
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
             self.reason = reason
+            self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.runtimePlatform = runtimePlatform
             self.secrets = secrets
@@ -2027,6 +2037,7 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         case networkConfiguration
         case privileged
         case readonlyRootFilesystem
+        case repositoryCredentials
         case resourceRequirements
         case runtimePlatform
         case secrets
@@ -2091,6 +2102,9 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         }
         if let readonlyRootFilesystem = self.readonlyRootFilesystem {
             try encodeContainer.encode(readonlyRootFilesystem, forKey: .readonlyRootFilesystem)
+        }
+        if let repositoryCredentials = self.repositoryCredentials {
+            try encodeContainer.encode(repositoryCredentials, forKey: .repositoryCredentials)
         }
         if let resourceRequirements = resourceRequirements {
             var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
@@ -2236,6 +2250,8 @@ extension BatchClientTypes.ContainerProperties: Swift.Codable {
         ephemeralStorage = ephemeralStorageDecoded
         let runtimePlatformDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RuntimePlatform.self, forKey: .runtimePlatform)
         runtimePlatform = runtimePlatformDecoded
+        let repositoryCredentialsDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RepositoryCredentials.self, forKey: .repositoryCredentials)
+        repositoryCredentials = repositoryCredentialsDecoded
     }
 }
 
@@ -2252,7 +2268,7 @@ extension BatchClientTypes {
         public var executionRoleArn: Swift.String?
         /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
         public var fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration?
-        /// The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . It can be 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/), and number signs (#). This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the IMAGE parameter of [docker run](https://docs.docker.com/engine/reference/run/). Docker image architecture must match the processor architecture of the compute resources that they're scheduled on. For example, ARM-based Docker images can only run on ARM-based compute resources.
+        /// Required. The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . It can be 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/), and number signs (#). This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the IMAGE parameter of [docker run](https://docs.docker.com/engine/reference/run/). Docker image architecture must match the processor architecture of the compute resources that they're scheduled on. For example, ARM-based Docker images can only run on ARM-based compute resources.
         ///
         /// * Images in Amazon ECR Public repositories use the full registry/repository[:tag] or registry/repository[@digest] naming conventions. For example, public.ecr.aws/registry_alias/my-web-app:latest .
         ///
@@ -2283,6 +2299,8 @@ extension BatchClientTypes {
         public var privileged: Swift.Bool?
         /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --read-only option to docker run.
         public var readonlyRootFilesystem: Swift.Bool?
+        /// The private repository authentication credentials to use.
+        public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
         /// The type and amount of resources to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
         /// An object that represents the compute environment architecture for Batch jobs on Fargate.
@@ -2315,6 +2333,7 @@ extension BatchClientTypes {
             networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
             privileged: Swift.Bool? = nil,
             readonlyRootFilesystem: Swift.Bool? = nil,
+            repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
             resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
             runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
             secrets: [BatchClientTypes.Secret]? = nil,
@@ -2339,6 +2358,7 @@ extension BatchClientTypes {
             self.networkConfiguration = networkConfiguration
             self.privileged = privileged
             self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.repositoryCredentials = repositoryCredentials
             self.resourceRequirements = resourceRequirements
             self.runtimePlatform = runtimePlatform
             self.secrets = secrets
@@ -3441,7 +3461,7 @@ extension DescribeJobDefinitionsInput {
 public struct DescribeJobDefinitionsInput: Swift.Equatable {
     /// The name of the job definition to describe.
     public var jobDefinitionName: Swift.String?
-    /// A list of up to 100 job definitions. Each entry in the list can either be an ARN in the format arn:aws:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision} or a short version using the form ${JobDefinitionName}:${Revision}.
+    /// A list of up to 100 job definitions. Each entry in the list can either be an ARN in the format arn:aws:batch:${Region}:${Account}:job-definition/${JobDefinitionName}:${Revision} or a short version using the form ${JobDefinitionName}:${Revision}. This parameter can't be used with other parameters.
     public var jobDefinitions: [Swift.String]?
     /// The maximum number of results returned by DescribeJobDefinitions in paginated output. When this parameter is used, DescribeJobDefinitions only returns maxResults results in a single page and a nextToken response element. The remaining results of the initial request can be seen by sending another DescribeJobDefinitions request with the returned nextToken value. This value can be between 1 and 100. If this parameter isn't used, then DescribeJobDefinitions returns up to 100 results and a nextToken value if applicable.
     public var maxResults: Swift.Int?
@@ -4306,7 +4326,7 @@ extension BatchClientTypes {
         public var imageIdOverride: Swift.String?
         /// The Kubernetes version for the compute environment. If you don't specify a value, the latest version that Batch supports is used.
         public var imageKubernetesVersion: Swift.String?
-        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
+        /// The image type to match with the instance type to select an AMI. The supported values are different for ECS and EKS resources. ECS If the imageIdOverride parameter isn't specified, then a recent [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami) (ECS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon ECS optimized AMI for that image type that's supported by Batch is used. ECS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#al2ami): Default for all non-GPU instance families. ECS_AL2_NVIDIA [Amazon Linux 2 (GPU)](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#gpuami): Default for all GPU instance families (for example P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types. ECS_AL2023 [Amazon Linux 2023](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html): Batch supports Amazon Linux 2023. Amazon Linux 2023 does not support A1 instances. ECS_AL1 [Amazon Linux](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#alami). Amazon Linux has reached the end-of-life of standard support. For more information, see [Amazon Linux AMI](http://aws.amazon.com/amazon-linux-ami/). EKS If the imageIdOverride parameter isn't specified, then a recent [Amazon EKS-optimized Amazon Linux AMI](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html) (EKS_AL2) is used. If a new image type is specified in an update, but neither an imageId nor a imageIdOverride parameter is specified, then the latest Amazon EKS optimized AMI for that image type that Batch supports is used. EKS_AL2 [Amazon Linux 2](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all non-GPU instance families. EKS_AL2_NVIDIA [Amazon Linux 2 (accelerated)](https://docs.aws.amazon.com/eks/latest/userguide/eks-optimized-ami.html): Default for all GPU instance families (for example, P4 and G4) and can be used for all non Amazon Web Services Graviton-based instance types.
         /// This member is required.
         public var imageType: Swift.String?
 
@@ -6003,7 +6023,7 @@ extension BatchClientTypes.FairsharePolicy: Swift.Codable {
 extension BatchClientTypes {
     /// The fair share policy for a scheduling policy.
     public struct FairsharePolicy: Swift.Equatable {
-        /// A value used to reserve some of the available maximum vCPU for fair share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares  is the number of active fair share identifiers. For example, a computeReservation value of 50 indicates that Batchreserves 50% of the maximum available vCPU if there's only one fair share identifier. It reserves 25% if there are two fair share identifiers. It reserves 12.5% if there are three fair share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one fair share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three fair share identifiers. The minimum value is 0 and the maximum value is 99.
+        /// A value used to reserve some of the available maximum vCPU for fair share identifiers that aren't already used. The reserved ratio is (computeReservation/100)^ActiveFairShares  where  ActiveFairShares  is the number of active fair share identifiers. For example, a computeReservation value of 50 indicates that Batch reserves 50% of the maximum available vCPU if there's only one fair share identifier. It reserves 25% if there are two fair share identifiers. It reserves 12.5% if there are three fair share identifiers. A computeReservation value of 25 indicates that Batch should reserve 25% of the maximum available vCPU if there's only one fair share identifier, 6.25% if there are two fair share identifiers, and 1.56% if there are three fair share identifiers. The minimum value is 0 and the maximum value is 99.
         public var computeReservation: Swift.Int?
         /// The amount of time (in seconds) to use to calculate a fair share percentage for each fair share identifier in use. A value of zero (0) indicates that only current usage is measured. The decay allows for more recently run jobs to have more weight than jobs that ran earlier. The maximum supported value is 604800 (1 week).
         public var shareDecaySeconds: Swift.Int?
@@ -6776,7 +6796,7 @@ extension BatchClientTypes {
         public var schedulingPriority: Swift.Int?
         /// The share identifier for the job.
         public var shareIdentifier: Swift.String?
-        /// The Unix timestamp (in milliseconds) for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state. This parameter isn't provided for child jobs of array jobs or multi-node parallel jobs.
+        /// The Unix timestamp (in milliseconds) for when the job was started. More specifically, it's when the job transitioned from the STARTING state to the RUNNING state.
         /// This member is required.
         public var startedAt: Swift.Int?
         /// The current status for the job. If your jobs don't progress to STARTING, see [Jobs stuck in RUNNABLE status](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#job_stuck_in_runnable) in the troubleshooting section of the Batch User Guide.
@@ -8093,7 +8113,7 @@ extension BatchClientTypes.MountPoint: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// Details for a Docker volume mount point that's used in a job's container properties. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/reference/api/docker_remote_api_v1.19/#create-a-container) section of the Docker Remote API and the --volume option to docker run.
+    /// Details for a Docker volume mount point that's used in a job's container properties. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.43/#tag/Container/operation/ContainerCreate) section of the Docker Remote API and the --volume option to docker run.
     public struct MountPoint: Swift.Equatable {
         /// The path on the container where the host volume is mounted.
         public var containerPath: Swift.String?
@@ -8889,6 +8909,42 @@ enum RegisterJobDefinitionOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension BatchClientTypes.RepositoryCredentials: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case credentialsParameter
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let credentialsParameter = self.credentialsParameter {
+            try encodeContainer.encode(credentialsParameter, forKey: .credentialsParameter)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let credentialsParameterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .credentialsParameter)
+        credentialsParameter = credentialsParameterDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// The repository credentials for private registry authentication.
+    public struct RepositoryCredentials: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the secret containing the private repository credentials.
+        /// This member is required.
+        public var credentialsParameter: Swift.String?
+
+        public init(
+            credentialsParameter: Swift.String? = nil
+        )
+        {
+            self.credentialsParameter = credentialsParameter
+        }
+    }
+
+}
+
 extension BatchClientTypes.ResourceRequirement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case type
@@ -9088,9 +9144,9 @@ extension BatchClientTypes.RuntimePlatform: Swift.Codable {
 extension BatchClientTypes {
     /// An object that represents the compute environment architecture for Batch jobs on Fargate.
     public struct RuntimePlatform: Swift.Equatable {
-        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64. This parameter must be set to X86_64 for Windows containers.
+        /// The vCPU architecture. The default value is X86_64. Valid values are X86_64 and ARM64. This parameter must be set to X86_64 for Windows containers. Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public var cpuArchitecture: Swift.String?
-        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL. The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration. The Batch Scheduler checks before registering a task definition with Fargate. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next is checked until a Windows-based compute environment is found. Fargate Spot is not supported for Windows-based containers on Fargate. A job queue will be blocked if a Fargate Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
+        /// The operating system for the compute environment. Valid values are: LINUX (default), WINDOWS_SERVER_2019_CORE, WINDOWS_SERVER_2019_FULL, WINDOWS_SERVER_2022_CORE, and WINDOWS_SERVER_2022_FULL. The following parameters can’t be set for Windows containers: linuxParameters, privileged, user, ulimits, readonlyRootFilesystem, and efsVolumeConfiguration. The Batch Scheduler checks the compute environments that are attached to the job queue before registering a task definition with Fargate. In this scenario, the job queue is where the job is submitted. If the job requires a Windows container and the first compute environment is LINUX, the compute environment is skipped and the next compute environment is checked until a Windows-based compute environment is found. Fargate Spot is not supported for ARM64 and Windows-based containers on Fargate. A job queue will be blocked if a Fargate ARM64 or Windows job is submitted to a job queue with only Fargate Spot compute environments. However, you can attach both FARGATE and FARGATE_SPOT compute environments to the same job queue.
         public var operatingSystemFamily: Swift.String?
 
         public init(
@@ -9487,7 +9543,7 @@ public struct SubmitJobInput: Swift.Equatable {
     public var propagateTags: Swift.Bool?
     /// The retry strategy to use for failed jobs from this [SubmitJob] operation. When a retry strategy is specified here, it overrides the retry strategy defined in the job definition.
     public var retryStrategy: BatchClientTypes.RetryStrategy?
-    /// The scheduling priority for the job. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition. The minimum supported value is 0 and the maximum supported value is 9999.
+    /// The scheduling priority for the job. This only affects jobs in job queues with a fair share policy. Jobs with a higher scheduling priority are scheduled before jobs with a lower scheduling priority. This overrides any scheduling priority in the job definition and works only within a single share identifier. The minimum supported value is 0 and the maximum supported value is 9999.
     public var schedulingPriorityOverride: Swift.Int?
     /// The share identifier for the job. Don't specify this parameter if the job queue doesn't have a scheduling policy. If the job queue has a scheduling policy, then this parameter must be specified. This string is limited to 255 alphanumeric characters, and can be followed by an asterisk (*).
     public var shareIdentifier: Swift.String?
@@ -9983,12 +10039,12 @@ extension BatchClientTypes.Ulimit: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// The ulimit settings to pass to the container. This object isn't applicable to jobs that are running on Fargate resources.
+    /// The ulimit settings to pass to the container. For more information, see [Ulimit](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_Ulimit.html). This object isn't applicable to jobs that are running on Fargate resources.
     public struct Ulimit: Swift.Equatable {
         /// The hard limit for the ulimit type.
         /// This member is required.
         public var hardLimit: Swift.Int?
-        /// The type of the ulimit.
+        /// The type of the ulimit. Valid values are: core | cpu | data | fsize | locks | memlock | msgqueue | nice | nofile | nproc | rss | rtprio | rttime | sigpending | stack.
         /// This member is required.
         public var name: Swift.String?
         /// The soft limit for the ulimit type.
