@@ -244,7 +244,7 @@ class AWSHttpProtocolServiceClient(
 
     private val authSchemesDefaultProvider = DefaultProvider(
         getModeledAuthSchemesSupportedBySDK(),
-        isThrowable =  false,
+        isThrowable = false,
         isAsync = false
     )
 
