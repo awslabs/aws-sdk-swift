@@ -228,18 +228,18 @@ class AWSHttpProtocolServiceClient(
 
     private fun getModeledAuthSchemesSupportedBySDK(): String {
         val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-        val authSchemeListBuilder = StringBuilder()
+        var authSchemeList = arrayOf<String>()
 
         val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
         val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
 
-        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
-            authSchemeListBuilder.append("SigV4AAuthScheme()")
-        }
         if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
-            authSchemeListBuilder.append(", SigV4AuthScheme()")
+            authSchemeList += "SigV4AuthScheme()"
         }
-        return "[$authSchemeListBuilder]"
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
+            authSchemeList += "SigV4AAuthScheme()"
+        }
+        return "[${authSchemeList.joinToString(", ")}]"
     }
 
     private val authSchemesDefaultProvider = DefaultProvider(
