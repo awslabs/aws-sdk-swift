@@ -5,7 +5,10 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.traits.auth.SigV4ATrait
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
@@ -130,6 +133,9 @@ class AWSHttpProtocolServiceClient(
                         "authSchemeResolver" -> {
                             authSchemeResolverDefaultProvider.render("authSchemeResolver")
                         }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.render("authSchemes")
+                        }
                         else -> {
                             if (it.default?.isAsync == true) {
                                 it.name
@@ -165,6 +171,9 @@ class AWSHttpProtocolServiceClient(
                         "authSchemeResolver" -> {
                             authSchemeResolverDefaultProvider.render("authSchemeResolver")
                         }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.render("authSchemes")
+                        }
                         else -> { it.default?.render() ?: it.name }
                     }
                 }
@@ -191,6 +200,9 @@ class AWSHttpProtocolServiceClient(
                         "authSchemeResolver" -> {
                             authSchemeResolverDefaultProvider.value
                         }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.value
+                        }
                         else -> {
                             it.default?.render() ?: "nil"
                         }
@@ -213,6 +225,28 @@ class AWSHttpProtocolServiceClient(
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
     }
+
+    private fun getModeledAuthSchemesSupportedBySDK(): String {
+        val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
+        val authSchemeListBuilder = StringBuilder()
+
+        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
+        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
+
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
+            authSchemeListBuilder.append("SigV4AAuthScheme()")
+        }
+        if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
+            authSchemeListBuilder.append(", SigV4AuthScheme()")
+        }
+        return "[$authSchemeListBuilder]"
+    }
+
+    private val authSchemesDefaultProvider = DefaultProvider(
+        getModeledAuthSchemesSupportedBySDK(),
+        isThrowable =  false,
+        isAsync = false
+    )
 
     private val authSchemeResolverDefaultProvider = DefaultProvider(
         "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",

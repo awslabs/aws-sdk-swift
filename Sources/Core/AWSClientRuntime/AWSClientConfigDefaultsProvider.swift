@@ -105,12 +105,4 @@ public class AWSClientConfigDefaultsProvider {
 
         return RetryStrategyOptions(maxRetriesBase: resolvedMaxAttempts - 1, rateLimitingMode: resolvedRateLimitingMode)
     }
-
-    public static func authSchemes(_ clientName: String) -> [ClientRuntime.AuthScheme] {
-        var supportedAuthSchemes: [ClientRuntime.AuthScheme] = [SigV4AuthScheme()]
-        if clientsThatUseSigV4A.contains(clientName) {
-            supportedAuthSchemes.append(SigV4AAuthScheme())
-        }
-        return supportedAuthSchemes
-    }
 }
