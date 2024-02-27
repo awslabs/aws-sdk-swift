@@ -77,7 +77,7 @@ class AWSHttpProtocolServiceClient(
         properties
             .forEach {
                 when (it.name) {
-                    "credentialsProvider" -> {
+                    "awsCredentialIdentityResolver" -> {
                         writer.write("public var \$L: any \$L", it.name, it.type)
                         writer.write("")
                     }
@@ -96,7 +96,7 @@ class AWSHttpProtocolServiceClient(
             "}",
             properties.joinToString(", ") {
                 when (it.name) {
-                    "credentialsProvider" -> {
+                    "awsCredentialIdentityResolver" -> {
                         "_ ${it.name}: any ${it.type}"
                     }
                     else -> {
@@ -117,7 +117,7 @@ class AWSHttpProtocolServiceClient(
             "public convenience init(\$L) throws {", "}",
             properties.joinToString(", ") {
                 when (it.name) {
-                    "credentialsProvider" -> {
+                    "awsCredentialIdentityResolver" -> {
                         "${it.name}: (any ${it.type})? = nil"
                     }
                     else -> {
@@ -155,7 +155,7 @@ class AWSHttpProtocolServiceClient(
             "public convenience init(\$L) async throws {", "}",
             properties.joinToString(", ") {
                 when (it.name) {
-                    "credentialsProvider" -> {
+                    "awsCredentialIdentityResolver" -> {
                         "${it.name}: (any ${it.type})? = nil"
                     }
                     else -> {
@@ -194,8 +194,8 @@ class AWSHttpProtocolServiceClient(
                         "region", "signingRegion" -> {
                             "region"
                         }
-                        "credentialsProvider" -> {
-                            "try AWSClientConfigDefaultsProvider.credentialsProvider()"
+                        "awsCredentialIdentityResolver" -> {
+                            "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
                         }
                         "authSchemeResolver" -> {
                             authSchemeResolverDefaultProvider.value

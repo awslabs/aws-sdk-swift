@@ -35,7 +35,7 @@ object AWSClientRuntimeTypes {
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
-        val CredentialsProviding = runtimeSymbol("CredentialsProviding")
+        val AWSCredentialIdentityResolver = runtimeSymbol("AWSCredentialIdentityResolver")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")
         val AWSEndpoint = runtimeSymbol("AWSEndpoint")
         val Partition = runtimeSymbol("Partition")

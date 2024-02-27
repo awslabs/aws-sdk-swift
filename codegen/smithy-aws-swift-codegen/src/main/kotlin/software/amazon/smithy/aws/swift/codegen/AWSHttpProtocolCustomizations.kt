@@ -24,8 +24,8 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
 
         // FIXME handle indentation properly or do swift formatting after the fact
-        writer.write("  .withIdentityResolver(value: config.credentialsProvider, schemeID: \$S)", "aws.auth#sigv4")
-        writer.write("  .withIdentityResolver(value: config.credentialsProvider, schemeID: \$S)", "aws.auth#sigv4a")
+        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
+        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         writer.write("  .withRegion(value: config.region)")
         if (SigV4Utils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
             val signingName = SigV4Utils.signingServiceName(serviceShape)

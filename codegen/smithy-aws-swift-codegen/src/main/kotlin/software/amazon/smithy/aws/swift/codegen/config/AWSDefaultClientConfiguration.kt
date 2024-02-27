@@ -23,7 +23,7 @@ class AWSDefaultClientConfiguration : ClientConfiguration {
             ConfigProperty("useFIPS", SwiftTypes.Bool.toNullable()),
             ConfigProperty("useDualStack", SwiftTypes.Bool.toNullable()),
             ConfigProperty("appID", SwiftTypes.String.toNullable(), "AWSClientConfigDefaultsProvider.appID()", true),
-            ConfigProperty("credentialsProvider", AWSClientRuntimeTypes.Core.CredentialsProviding, "AWSClientConfigDefaultsProvider.credentialsProvider(credentialsProvider)", true),
+            ConfigProperty("awsCredentialIdentityResolver", AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver, "AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver)", true),
             ConfigProperty("awsRetryMode", AWSClientRuntimeTypes.Core.AWSRetryMode, "AWSClientConfigDefaultsProvider.retryMode()", true),
         )
 }
