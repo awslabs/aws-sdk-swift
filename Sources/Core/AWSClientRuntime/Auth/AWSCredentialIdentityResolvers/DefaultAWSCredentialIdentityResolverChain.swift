@@ -9,6 +9,9 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
+// swiftlint:disable type_name
+// ^ Required to mute swiftlint warning about type name being too long.
+
 /// A credential identity resolver that uses the default AWS credential identity resolver chain used by most AWS SDKs.
 /// This is the default resolver when no credential identity resolver is provided by the user.
 ///
@@ -37,3 +40,5 @@ public struct DefaultAWSCredentialIdentityResolverChain: AWSCredentialIdentityRe
         ))
     }
 }
+
+// swiftlint:enable type_name

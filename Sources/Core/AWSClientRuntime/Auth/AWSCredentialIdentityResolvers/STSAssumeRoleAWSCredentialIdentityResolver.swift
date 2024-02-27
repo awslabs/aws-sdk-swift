@@ -9,6 +9,9 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
+// swiftlint:disable type_name
+// ^ Required to mute swiftlint warning about type name being too long.
+
 /// A credential identity resolver that uses another resolver to assume a role from the AWS Security Token Service (STS).
 ///
 /// When asked to resolve credentials, this resolver will first invoke the inner credential identity resolver to get AWS credentials for STS.
@@ -41,3 +44,5 @@ public struct STSAssumeRoleAWSCredentialIdentityResolver: AWSCredentialIdentityR
         ))
     }
 }
+
+// swiftlint:enable type_name

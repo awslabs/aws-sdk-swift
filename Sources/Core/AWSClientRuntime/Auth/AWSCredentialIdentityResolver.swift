@@ -9,14 +9,15 @@ import ClientRuntime
 import class AwsCommonRuntimeKit.CredentialsProvider
 
 /// A type that can provide credentials for authenticating with an AWS service
-public protocol AWSCredentialIdentityResolver: IdentityResolver 
+public protocol AWSCredentialIdentityResolver: IdentityResolver
 where IdentityT == AWSCredentialIdentity {}
 
 extension AWSCredentialIdentityResolver {
     /// Returns the underlying `AwsCommonRuntimeKit.CredentialsProvider`.
-    /// If `self` is not backed by a `AwsCommonRuntimeKit.CredentialsProvider` then this wraps `self` in a `CustomCredentialsProvider` which will create a `AwsCommonRuntimeKit.CredentialsProvider`.
+    /// If `self` is not backed by a `AwsCommonRuntimeKit.CredentialsProvider` then this wraps `self` in a `CustomAWSCredentialIdentityResolver` which will create a `AwsCommonRuntimeKit.CredentialsProvider`.
     func getCRTAWSCredentialIdentityResolver() throws -> AwsCommonRuntimeKit.CredentialsProvider {
-        let providerSourcedByCRT = try self as? (any AWSCredentialIdentityResolvedByCRT) ?? CustomAWSCredentialIdentityResolver(self)
+        let providerSourcedByCRT = try self as? (any AWSCredentialIdentityResolvedByCRT)
+        ?? CustomAWSCredentialIdentityResolver(self)
         return providerSourcedByCRT.crtAWSCredentialIdentityResolver
     }
 

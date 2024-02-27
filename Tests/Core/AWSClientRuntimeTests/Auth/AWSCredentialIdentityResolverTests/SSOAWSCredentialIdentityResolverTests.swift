@@ -15,7 +15,7 @@ class SSOAWSCredentialIdentityResolverTests: XCTestCase {
     let configPath = Bundle.module.path(forResource: "sso_tests", ofType: nil)!
     let credentialsPath = Bundle.module.path(forResource: "credentials", ofType: nil)!
     
-    func testCreateCredentialsProviderSSONonexistentProfile() async throws {
+    func testCreateSSOAWSCredentialIdentityResolverNonexistentProfile() async throws {
         XCTAssertThrowsError(try SSOAWSCredentialIdentityResolver(
             profileName: "PROFILE_NOT_IN_SSO_TESTS_CONFIG_FILE",
             configFilePath: configPath,
@@ -24,7 +24,7 @@ class SSOAWSCredentialIdentityResolverTests: XCTestCase {
         )
     }
     
-    func testCreateCredentialsProviderSSOLegacyProfile() async throws {
+    func testCreateSSOAWSCredentialIdentityResolverLegacyProfile() async throws {
         _ = try SSOAWSCredentialIdentityResolver(
             profileName: "user",
             configFilePath: configPath,
@@ -33,7 +33,7 @@ class SSOAWSCredentialIdentityResolverTests: XCTestCase {
         // SUCCESS: creation didn't throw error
     }
     
-    func testCreateCredentialsProviderSSOTokenProviderProfile() async throws {
+    func testCreateSSOAWSCredentialIdentityResolverTokenProviderProfile() async throws {
         _ = try SSOAWSCredentialIdentityResolver(
             profileName: "dev",
             configFilePath: configPath,

@@ -9,6 +9,9 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
+// swiftlint:disable type_name
+// ^ Required to mute swiftlint warning about type name being too long.
+
 /// A credential identity resolver that exchanges a Web Identity Token for credentials from the AWS Security Token Service (STS).
 ///
 /// It depends on the following values sourced from either environment variables or the configuration file"
@@ -54,3 +57,5 @@ public struct STSWebIdentityAWSCredentialIdentityResolver: AWSCredentialIdentity
         ))
     }
 }
+
+// swiftlint:enable type_name

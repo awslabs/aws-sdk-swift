@@ -313,15 +313,21 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        let credentialsProvider = try! StaticAWSCredentialIdentityResolver(
+        let staticAWSCredentialIdentityResolver = try! StaticAWSCredentialIdentityResolver(
             credentials
         )
         
         let context = HttpContextBuilder()
             .withSigningName(value: "testservice")
             .withRegion(value: "us-east-1")
-            .withIdentityResolver(value: credentialsProvider, schemeID: "aws.auth#sigv4")
-            .withIdentityResolver(value: credentialsProvider, schemeID: "aws.auth#sigv4a")
+            .withIdentityResolver(
+                value: staticAWSCredentialIdentityResolver,
+                schemeID: "aws.auth#sigv4"
+            )
+            .withIdentityResolver(
+                value: staticAWSCredentialIdentityResolver,
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
         
         let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())
