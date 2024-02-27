@@ -62,7 +62,9 @@ public class CustomSigningPropertiesSetter {
      */
     private func shouldForceUnsignedBody(flow: FlowType, serviceName: String, opName: String) -> Bool {
         let serviceQualifies = forceUnsignedBodyForPresigningURL.keys.contains(serviceName)
-        return serviceQualifies && (flow == .PRESIGN_URL) && forceUnsignedBodyForPresigningURL[serviceName]!.contains(opName)
+        return serviceQualifies
+        && (flow == .PRESIGN_URL)
+        && forceUnsignedBodyForPresigningURL[serviceName]!.contains(opName)
     }
 
     // Sets S3-specific flags on the signing properties.
