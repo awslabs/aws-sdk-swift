@@ -11,7 +11,7 @@ import ClientRuntime
 // Service-specific signing properties customization setter.
 public class CustomSigningPropertiesSetter {
     // Services that require signing properties customizations.
-    private let services = ["S3", "Glacier", "S3 Control"]
+    private let servicesWithCustomizations = ["S3", "Glacier", "S3 Control"]
     // List of services that use signed body heaader.
     private let usesSignedBodyHeader = ["S3", "Glacier", "S3 Control"]
     // Map of service::operation that use unsigned body for presign URL flow.
@@ -23,7 +23,7 @@ public class CustomSigningPropertiesSetter {
         signingProperties: inout Attributes,
         context: HttpContext
     ) throws {
-        guard services.contains(context.getServiceName()) else {
+        guard servicesWithCustomizations.contains(context.getServiceName()) else {
             return
         }
         guard let operationName = context.getOperation() else {
@@ -36,7 +36,7 @@ public class CustomSigningPropertiesSetter {
             serviceName: serviceName,
             opName: operationName
         )
-        let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) ?? false || shouldForceUnsignedBody
+        let unsignedBody = (signingProperties.get(key: AttributeKeys.unsignedBody) ?? false) || shouldForceUnsignedBody
         signingProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
 
         // Set signedBodyHeader flag
@@ -72,6 +72,5 @@ public class CustomSigningPropertiesSetter {
         signingProperties.set(key: AttributeKeys.useDoubleURIEncode, value: !serviceIsS3)
         // Set shouldNormalizeURIPath to false IFF service is S3
         signingProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: !serviceIsS3)
-        signingProperties.set(key: AttributeKeys.omitSessionToken, value: false)
     }
 }
