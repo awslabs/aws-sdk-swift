@@ -20,121 +20,121 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
             TestContextGenerator.getFileContents(context.manifest, "Example/AuthSchemeResolver.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
-            """
-            public struct S3AuthSchemeResolverParameters: ClientRuntime.AuthSchemeResolverParameters {
-                public let operation: String
-            }
+"""
+public struct S3AuthSchemeResolverParameters: ClientRuntime.AuthSchemeResolverParameters {
+    public let operation: String
+}
 
-            public protocol S3AuthSchemeResolver: ClientRuntime.AuthSchemeResolver {
-                // Intentionally empty.
-                // This is the parent protocol that all auth scheme resolver implementations of
-                // the service S3 must conform to.
-            }
+public protocol S3AuthSchemeResolver: ClientRuntime.AuthSchemeResolver {
+    // Intentionally empty.
+    // This is the parent protocol that all auth scheme resolver implementations of
+    // the service S3 must conform to.
+}
 
-            private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
-                public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
-                    var validAuthOptions = [AuthOption]()
-                    guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
-                        throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
-                    }
-                    switch serviceParams.operation {
-                        case "onlyHttpApiKeyAuth":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
-                        case "onlyHttpApiKeyAuthOptional":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
-                        case "onlyHttpBearerAuth":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
-                        case "onlyHttpBearerAuthOptional":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
-                        case "onlyHttpApiKeyAndBearerAuth":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
-                        case "onlyHttpApiKeyAndBearerAuthReversed":
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
-                        case "onlySigv4Auth":
-                            var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
-                            guard let region = serviceParams.region else {
-                                throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
-                            }
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
-                            validAuthOptions.append(sigV4Option)
-                        case "onlySigv4AuthOptional":
-                            var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
-                            guard let region = serviceParams.region else {
-                                throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
-                            }
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
-                            validAuthOptions.append(sigV4Option)
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
-                        case "onlyCustomAuth":
-                            validAuthOptions.append(AuthOption(schemeID: "com.test#customAuth"))
-                        case "onlyCustomAuthOptional":
-                            validAuthOptions.append(AuthOption(schemeID: "com.test#customAuth"))
-                            validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
-                        default:
-                            var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
-                            guard let region = serviceParams.region else {
-                                throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
-                            }
-                            sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
-                            validAuthOptions.append(sigV4Option)
-                    }
-                    return validAuthOptions
+private struct InternalModeledS3AuthSchemeResolver: S3AuthSchemeResolver {
+    public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
+        var validAuthOptions = [AuthOption]()
+        guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
+            throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
+        }
+        switch serviceParams.operation {
+            case "onlyHttpApiKeyAuth":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+            case "onlyHttpApiKeyAuthOptional":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
+            case "onlyHttpBearerAuth":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+            case "onlyHttpBearerAuthOptional":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
+            case "onlyHttpApiKeyAndBearerAuth":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+            case "onlyHttpApiKeyAndBearerAuthReversed":
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpBearerAuth"))
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#httpApiKeyAuth"))
+            case "onlySigv4Auth":
+                var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                guard let region = serviceParams.region else {
+                    throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
-
-                public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
-                    return try DefaultS3AuthSchemeResolver().constructParameters(context: context)
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                validAuthOptions.append(sigV4Option)
+            case "onlySigv4AuthOptional":
+                var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                guard let region = serviceParams.region else {
+                    throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
                 }
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                validAuthOptions.append(sigV4Option)
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
+            case "onlyCustomAuth":
+                validAuthOptions.append(AuthOption(schemeID: "com.test#customAuth"))
+            case "onlyCustomAuthOptional":
+                validAuthOptions.append(AuthOption(schemeID: "com.test#customAuth"))
+                validAuthOptions.append(AuthOption(schemeID: "smithy.api#noAuth"))
+            default:
+                var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: "weather")
+                guard let region = serviceParams.region else {
+                    throw ClientError.authError("Missing region in auth scheme parameters for SigV4 auth scheme.")
+                }
+                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: region)
+                validAuthOptions.append(sigV4Option)
+        }
+        return validAuthOptions
+    }
+
+    public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
+        return try DefaultS3AuthSchemeResolver().constructParameters(context: context)
+    }
+}
+
+public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
+    public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
+        var validAuthOptions = [AuthOption]()
+        guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
+            throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
+        }
+        let endpointParams = EndpointParams(authSchemeParams: serviceParams)
+        let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
+        guard let authSchemes = endpoint.authSchemes() else {
+            return try InternalModeledS3AuthSchemeResolver().resolveAuthScheme(params: params)
+        }
+        let schemes = try authSchemes.map { (input) -> AWSClientRuntime.AuthScheme in try AWSClientRuntime.AuthScheme(from: input) }
+        for scheme in schemes {
+            switch scheme {
+                case .sigV4(let param):
+                    var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
+                    sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
+                    sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegion)
+                    validAuthOptions.append(sigV4Option)
+                case .sigV4A(let param):
+                    var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4a")
+                    sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
+                    sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])
+                    validAuthOptions.append(sigV4Option)
+                default:
+                    throw ClientError.authError("Unknown auth scheme name: \(scheme.name)")
             }
+        }
+        return validAuthOptions
+    }
 
-            public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
-                public func resolveAuthScheme(params: ClientRuntime.AuthSchemeResolverParameters) throws -> [AuthOption] {
-                    var validAuthOptions = [AuthOption]()
-                    guard let serviceParams = params as? S3AuthSchemeResolverParameters else {
-                        throw ClientError.authError("Service specific auth scheme parameters type must be passed to auth scheme resolver.")
-                    }
-                    let endpointParams = EndpointParams(authSchemeParams: serviceParams)
-                    let endpoint = try DefaultEndpointResolver().resolve(params: endpointParams)
-                    guard let authSchemes = endpoint.authSchemes() else {
-                        return try InternalModeledS3AuthSchemeResolver().resolveAuthScheme(params: params)
-                    }
-                    let schemes = try authSchemes.map { (input) -> AWSClientRuntime.AuthScheme in try AWSClientRuntime.AuthScheme(from: input) }
-                    for scheme in schemes {
-                        switch scheme {
-                            case .sigV4(let param):
-                                var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4")
-                                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
-                                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegion)
-                                validAuthOptions.append(sigV4Option)
-                            case .sigV4A(let param):
-                                var sigV4Option = AuthOption(schemeID: "aws.auth#sigv4a")
-                                sigV4Option.signingProperties.set(key: AttributeKeys.signingName, value: param.signingName)
-                                sigV4Option.signingProperties.set(key: AttributeKeys.signingRegion, value: param.signingRegionSet?[0])
-                                validAuthOptions.append(sigV4Option)
-                            default:
-                                throw ClientError.authError("Unknown auth scheme name: \(scheme.name)")
-                        }
-                    }
-                    return validAuthOptions
-                }
-
-                public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
-                    guard let opName = context.getOperation() else {
-                        throw ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
-                    }
-                    guard let endpointParam = context.attributes.get(key: AttributeKey<EndpointParams>(name: "EndpointParams")) else {
-                        throw ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
-                    }
-                    return S3AuthSchemeResolverParameters(operation: opName)
-                }
-            }
-            """.trimIndent()
+    public func constructParameters(context: HttpContext) throws -> ClientRuntime.AuthSchemeResolverParameters {
+        guard let opName = context.getOperation() else {
+            throw ClientError.dataNotFound("Operation name not configured in middleware context for auth scheme resolver params construction.")
+        }
+        guard let endpointParam = context.attributes.get(key: AttributeKey<EndpointParams>(name: "EndpointParams")) else {
+            throw ClientError.dataNotFound("Endpoint param not configured in middleware context for rules-based auth scheme resolver params construction.")
+        }
+        return S3AuthSchemeResolverParameters(operation: opName)
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

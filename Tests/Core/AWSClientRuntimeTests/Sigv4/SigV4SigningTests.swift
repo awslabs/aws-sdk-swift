@@ -21,10 +21,7 @@ class Sigv4SigningTests: XCTestCase {
     // Test success case
     func testSignRequestSuccess() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -55,12 +52,9 @@ class Sigv4SigningTests: XCTestCase {
     }
 
     // Test exception cases
-    func testSignRequestMissingBidirecitonalSteamingFlag() async throws {
+    func testSignRequestMissingBidirectionalStreamingFlag() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -96,10 +90,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testSignRequestWrongTypeOfIdentity() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -136,10 +127,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testSignRequestMissingUnsignedBodyFlag() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -175,10 +163,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testSignRequestMissingSigningName() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -214,10 +199,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testSignRequestMissingSigningRegion() async throws {
         let dateString = "2024-01-16T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -289,11 +271,7 @@ class Sigv4SigningTests: XCTestCase {
 
     func testPresigner() async throws {
         let dateString = "2015-08-30T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
-
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
