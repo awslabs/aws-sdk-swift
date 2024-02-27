@@ -39,36 +39,23 @@ public struct SigV4AAuthScheme: ClientRuntime.AuthScheme {
         // AWSSignatureType.requestQueryParams is only used for presign URL flow.
         // Out of the AWSSignatureType enum cases, only two are used. .requestHeaders and .requestQueryParams.
         // .requestHeaders is the deafult signing used for AWS operations.
-        let serviceName = context.getServiceName()
         let isPresignURLFlow = context.getFlowType() == .PRESIGN_URL
         updatedSigningProperties.set(
             key: AttributeKeys.signatureType,
             value: isPresignURLFlow ? .requestQueryParams : .requestHeaders
         )
 
-        // Operation name is guaranteed to be in middleware context from generic codegen, but check just in case.
-        guard let operationName = context.getOperation() else {
-            throw ClientError.dataNotFound("Operation name must be configured on middleware context.")
-        }
-
-        // Set unsignedBody flag
-        let shouldForceUnsignedBody = SigV4Util.shouldForceUnsignedBody(
-            flow: context.getFlowType(),
-            serviceName: serviceName,
-            opName: operationName
-        )
-        let unsignedBody = context.hasUnsignedPayloadTrait() || shouldForceUnsignedBody
+        // Set unsignedBody to true IFF operation had unsigned payload trait.
+        let unsignedBody = context.hasUnsignedPayloadTrait()
         updatedSigningProperties.set(key: AttributeKeys.unsignedBody, value: unsignedBody)
 
-        // Set signedBodyHeader flag
-        let useSignedBodyHeader = SigV4Util.serviceUsesSignedBodyHeader(serviceName: serviceName) && !unsignedBody
-        updatedSigningProperties.set(
-            key: AttributeKeys.signedBodyHeader,
-            value: useSignedBodyHeader ? .contentSha256 : AWSSignedBodyHeader.none
-        )
+        // Set default values.
+        updatedSigningProperties.set(key: AttributeKeys.signedBodyHeader, value: AWSSignedBodyHeader.none)
+        updatedSigningProperties.set(key: AttributeKeys.useDoubleURIEncode, value: true)
+        updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: true)
+        updatedSigningProperties.set(key: AttributeKeys.omitSessionToken, value: false)
 
-        // Set flags in SigningFlags object (S3 customizations)
-        SigV4Util.setS3SpecificFlags(signingProperties: &updatedSigningProperties, serviceName: serviceName)
+        
 
         return updatedSigningProperties
     }
