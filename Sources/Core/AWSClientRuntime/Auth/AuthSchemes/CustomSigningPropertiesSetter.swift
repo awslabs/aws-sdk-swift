@@ -8,9 +8,9 @@
 import Foundation
 import ClientRuntime
 
-// Service-specific signing properties customizations.
+// Service-specific signing properties customization setter.
 public class CustomSigningPropertiesSetter {
-    // Services that require custom customizations.
+    // Services that require signing properties customizations.
     private let services = ["S3", "Glacier", "S3 Control"]
     // List of services that use signed body heaader.
     private let usesSignedBodyHeader = ["S3", "Glacier", "S3 Control"]
@@ -50,7 +50,6 @@ public class CustomSigningPropertiesSetter {
         setS3SpecificFlags(signingProperties: &signingProperties, serviceName: serviceName)
     }
 
-    
     // MARK: - HELPERS
 
     /*

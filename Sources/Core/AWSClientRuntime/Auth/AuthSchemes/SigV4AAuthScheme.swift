@@ -55,7 +55,11 @@ public struct SigV4AAuthScheme: ClientRuntime.AuthScheme {
         updatedSigningProperties.set(key: AttributeKeys.shouldNormalizeURIPath, value: true)
         updatedSigningProperties.set(key: AttributeKeys.omitSessionToken, value: false)
 
-        
+        // Set service-specific signing properties if needed.
+        try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(
+            signingProperties: &updatedSigningProperties,
+            context: context
+        )
 
         return updatedSigningProperties
     }
