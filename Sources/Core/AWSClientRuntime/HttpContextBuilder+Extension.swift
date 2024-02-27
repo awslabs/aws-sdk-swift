@@ -21,7 +21,7 @@ extension HttpContext {
         let credentials = try await getIdentityResolvers()?
             .get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?
             .getIdentity(identityProperties: Attributes())
-        guard let credentials = credentials as? Credentials else {
+        guard let credentials = credentials as? AWSCredentialIdentity else {
             fatalError("Failed to retrieve AWS credentials for signing event stream messages.")
         }
         guard let service = getSigningName() else {

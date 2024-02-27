@@ -31,7 +31,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
@@ -64,7 +64,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
@@ -137,7 +137,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
@@ -173,7 +173,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
@@ -209,7 +209,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
@@ -245,7 +245,7 @@ class Sigv4SigningTests: XCTestCase {
             .withProtocol(.http)
             .withHeader(name: "host", value: "example.amazonaws.com")
 
-        let credentials = AWSCredentials(accessKey: "test-access-key", secret: "test-secret-key")
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
 
         var signingProperties = Attributes()
         signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
@@ -283,7 +283,7 @@ class Sigv4SigningTests: XCTestCase {
             .withQueryItem(SDKURLQueryItem(name: "%E1%88%B4", value: "bar"))
 
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
-                                                            credentialsProvider: MyCustomCredentialsProvider(),
+                                                            awsCredentialIdentityResolver: TestCustomAWSCredentialIdentityResolver(),
                                                             signingName: "service",
                                                             signingRegion: "us-east-1",
                                                             date: date,
@@ -296,7 +296,7 @@ class Sigv4SigningTests: XCTestCase {
     }
 
     func testSignEvent() async {
-        let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
+        let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
         
         let encoder = AWSEventStream.AWSMessageEncoder()
 
@@ -313,7 +313,7 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        let credentialsProvider = try! StaticCredentialsProvider(
+        let credentialsProvider = try! StaticAWSCredentialIdentityResolver(
             credentials
         )
         
@@ -356,23 +356,23 @@ class Sigv4SigningTests: XCTestCase {
     }
 }
 
-class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
-    let credentials: AWSCredentials
+class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    let credentials: AWSCredentialIdentity
     
-    init(credentials: AWSCredentials) {
+    init(credentials: AWSCredentialIdentity) {
         self.credentials = credentials
     }
     
     convenience init() {
-        self.init(credentials: AWSCredentials(
+        self.init(credentials: AWSCredentialIdentity(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
             expiration: .init(timeIntervalSinceNow: 30)
         ))
     }
     
-    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentials {
-        return AWSCredentials(
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentialIdentity {
+        return AWSCredentialIdentity(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
             expiration: .init(timeIntervalSinceNow: 30)

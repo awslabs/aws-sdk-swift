@@ -22,7 +22,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let region = "us-east-2"
     let requestSignature = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     let serviceName = "test"
-    let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
+    let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
     let messageEncoder = AWSEventStream.AWSMessageEncoder()
     
     override class func setUp() {
@@ -37,11 +37,11 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
             .withIdentityResolver(
-                value: MyCustomCredentialsProvider(credentials: credentials),
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
                 schemeID: "aws.auth#sigv4"
             )            
             .withIdentityResolver(
-                value: MyCustomCredentialsProvider(credentials: credentials),
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
                 schemeID: "aws.auth#sigv4a"
             )
             .build()
@@ -74,11 +74,11 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
             .withIdentityResolver(
-                value: MyCustomCredentialsProvider(credentials: credentials),
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
                 schemeID: "aws.auth#sigv4"
             )
             .withIdentityResolver(
-                value: MyCustomCredentialsProvider(credentials: credentials),
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
                 schemeID: "aws.auth#sigv4a"
             )
             .build()

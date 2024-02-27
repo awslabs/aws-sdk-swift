@@ -25,16 +25,16 @@ public class AWSClientConfigDefaultsProvider {
 
     public static let clientLogMode: ClientLogMode = RuntimeConfigType.defaultClientLogMode
 
-    public static func credentialsProvider(
-        _ credentialsProvider: (any AWSClientRuntime.CredentialsProviding)? = nil) throws -> any CredentialsProviding {
-        let resolvedCredentialsProvider: any AWSClientRuntime.CredentialsProviding
+    public static func awsCredentialIdentityResolver(
+        _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil) throws -> any AWSCredentialIdentityResolver {
+        let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        if let credentialsProvider = credentialsProvider {
-            resolvedCredentialsProvider = credentialsProvider
+        if let awsCredentialIdentityResolver {
+            resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
         } else {
-            resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+            resolvedAWSCredentialIdentityResolver = try DefaultAWSCredentialIdentityResolverChain(fileBasedConfig: fileBasedConfig)
         }
-        return resolvedCredentialsProvider
+        return resolvedAWSCredentialIdentityResolver
     }
 
     public static func region(_ region: String? = nil) async throws -> String? {

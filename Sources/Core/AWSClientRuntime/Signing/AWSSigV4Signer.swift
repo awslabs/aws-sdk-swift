@@ -23,7 +23,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             )
         }
 
-        guard let identity = identity as? Credentials else {
+        guard let identity = identity as? AWSCredentialIdentity else {
             throw ClientError.authError(
                 "Identity passed to the AWSSigV4Signer must be of type Credentials."
             )
@@ -51,7 +51,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
     }
 
     private func constructSigningConfig(
-        identity: Credentials,
+        identity: AWSCredentialIdentity,
         signingProperties: ClientRuntime.Attributes
     ) throws -> AWSSigningConfig {
         guard let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) else {
@@ -115,7 +115,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
 
     public static func sigV4SignedURL(
         requestBuilder: SdkHttpRequestBuilder,
-        credentialsProvider: any CredentialsProviding,
+        awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
         date: ClientRuntime.Date,
@@ -123,7 +123,9 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
         signingAlgorithm: AWSSigningAlgorithm
     ) async -> ClientRuntime.URL? {
         do {
-            let credentials = try await credentialsProvider.getIdentity(identityProperties: Attributes())
+            let credentials = try await awsCredentialIdentityResolver.getIdentity(
+                identityProperties: Attributes()
+            )
             let flags = SigningFlags(useDoubleURIEncode: true,
                                      shouldNormalizeURIPath: true,
                                      omitSessionToken: false)

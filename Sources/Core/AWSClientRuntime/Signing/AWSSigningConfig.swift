@@ -9,8 +9,8 @@ import AwsCommonRuntimeKit
 import Foundation
 
 public struct AWSSigningConfig {
-    public let credentials: AWSCredentials?
-    public let credentialsProvider: (any CredentialsProviding)?
+    public let credentials: AWSCredentialIdentity?
+    public let awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)?
     public let expiration: TimeInterval
     public let signedBodyHeader: AWSSignedBodyHeader
     public let signedBodyValue: AWSSignedBodyValue
@@ -23,8 +23,8 @@ public struct AWSSigningConfig {
     public let signingAlgorithm: AWSSigningAlgorithm
 
     public init(
-        credentials: AWSCredentials? = nil,
-        credentialsProvider: (any CredentialsProviding)? = nil,
+        credentials: AWSCredentialIdentity? = nil,
+        awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil,
         expiration: TimeInterval = 0,
         signedBodyHeader: AWSSignedBodyHeader = .none,
         signedBodyValue: AWSSignedBodyValue,
@@ -37,7 +37,7 @@ public struct AWSSigningConfig {
         signingAlgorithm: AWSSigningAlgorithm
     ) {
         self.credentials = credentials
-        self.credentialsProvider = credentialsProvider
+        self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
         self.expiration = expiration
         self.signedBodyHeader = signedBodyHeader
         self.signedBodyValue = signedBodyValue
@@ -59,8 +59,11 @@ extension AWSSigningConfig {
             service: service,
             region: region,
             date: date,
-            credentials: try credentials.map { try CRTCredentials(credentials: $0) },
-            credentialsProvider: try credentialsProvider?.getCRTCredentialsProvider(),
+            credentials: try credentials.map {
+                try CRTAWSCredentialIdentity(awsCredentialIdentity: $0)
+            },
+            credentialsProvider: try awsCredentialIdentityResolver?
+                .getCRTAWSCredentialIdentityResolver(),
             expiration: expiration,
             signedBodyHeader: signedBodyHeader.toCRTType(),
             signedBodyValue: signedBodyValue.toCRTType(),
