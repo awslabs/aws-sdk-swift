@@ -71,11 +71,15 @@ class S3SigV4ATests: S3XCTestCase {
 
     override func tearDown() async throws {
         /*
-         * Intentional No-Op:
          * Note that MRAP is not deleted to be re-used in subsequent test runs.
          * And because MRAP is not deleted, the bucket associated with it cannot
          * be deleted either, hence the override with no-op.
          */
+        // Delete the previously added object from the bucket.
+        _ = try await sigv4aClient.deleteObject(input: DeleteObjectInput(
+            bucket: mrapArn,
+            key: key
+        ))
     }
 
     // MARK: - TEST CASES
@@ -93,7 +97,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertEqual(response.keyCount, 1)
+        XCTAssertNotNil(response.contents?.first { $0.key == key })
     }
 
     func testS3MRAPSigV4APresignedRequest() async throws {
@@ -123,7 +127,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertEqual(response.keyCount, 1)
+        XCTAssertNotNil(response.contents?.first { $0.key == key })
     }
 
     func testS3MRAPSigV4APresignedURL() async throws {
@@ -144,7 +148,7 @@ class S3SigV4ATests: S3XCTestCase {
         let response = try await sigv4aClient.listObjectsV2(
             input: ListObjectsV2Input(bucket: mrapArn)
         )
-        XCTAssertEqual(response.keyCount, 1)
+        XCTAssertNotNil(response.contents?.first { $0.key == key })
     }
 
     // MARK: - HELPER FUNCTIONS
@@ -181,17 +185,20 @@ class S3SigV4ATests: S3XCTestCase {
         )
         _ = try await s3ControlClient.createMultiRegionAccessPoint(input: createMRAPInput)
 
-        // Wait until MRAP creation finishes
+        // Wait until MRAP creation finishes, with max polling count of 20.
+        let pollLimit = 20
+        var pollCount = 0
         var status: S3ControlClientTypes.MultiRegionAccessPointStatus? = .creating
         repeat {
-            let seconds = 20.0
+            let seconds = TimeInterval(20)
             try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
 
             status = try await s3ControlClient.getMultiRegionAccessPoint(input: GetMultiRegionAccessPointInput(
                 accountId: accountId,
                 name: mrapName
             )).accessPoint?.status
-        } while status == .creating
+            pollCount += 1
+        } while status == .creating && pollCount < pollLimit
 
         // Fetch MRAP alias then format & save MRAP ARN
         // This MRAP ARN is used in place of bucket name in subsequent calls
