@@ -5,9 +5,14 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.traits.auth.SigV4ATrait
+import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.Symbol
+import software.amazon.smithy.model.knowledge.ServiceIndex
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
+import software.amazon.smithy.swift.codegen.config.DefaultProvider
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
@@ -71,14 +76,35 @@ class AWSHttpProtocolServiceClient(
     private fun renderConfigClassVariables(properties: List<ConfigProperty>) {
         properties
             .forEach {
-                writer.write("public var \$L: \$L", it.name, it.type)
-                writer.write("")
+                when (it.name) {
+                    "awsCredentialIdentityResolver" -> {
+                        writer.write("public var \$L: any \$L", it.name, it.type)
+                        writer.write("")
+                    }
+                    else -> {
+                        writer.write("public var \$L: \$L", it.name, it.type)
+                        writer.write("")
+                    }
+                }
             }
         writer.write("")
     }
 
     private fun renderPrivateConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock("private init(\$L) {", "}", properties.joinToString(", ") { "_ ${it.name}: ${it.type}" }) {
+        writer.openBlock(
+            "private init(\$L) {",
+            "}",
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "awsCredentialIdentityResolver" -> {
+                        "_ ${it.name}: any ${it.type}"
+                    }
+                    else -> {
+                        "_ ${it.name}: ${it.type}"
+                    }
+                }
+            }
+        ) {
             properties.forEach {
                 writer.write("self.\$L = \$L", it.name, it.name)
             }
@@ -89,15 +115,34 @@ class AWSHttpProtocolServiceClient(
     private fun renderSynchronousConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
             "public convenience init(\$L) throws {", "}",
-            properties.joinToString(", ") { "${it.name}: ${it.toOptionalType()} = nil" }
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "awsCredentialIdentityResolver" -> {
+                        "${it.name}: (any ${it.type})? = nil"
+                    }
+                    else -> {
+                        "${it.name}: ${it.toOptionalType()} = nil"
+                    }
+                }
+            }
         ) {
             writer.writeInline(
                 "self.init(\$L)",
                 properties.joinToString(", ") {
-                    if (it.default?.isAsync == true) {
-                        it.name
-                    } else {
-                        it.default?.render(it.name) ?: it.name
+                    when (it.name) {
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
+                        }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.render("authSchemes")
+                        }
+                        else -> {
+                            if (it.default?.isAsync == true) {
+                                it.name
+                            } else {
+                                it.default?.render(it.name) ?: it.name
+                            }
+                        }
                     }
                 }
             )
@@ -108,12 +153,29 @@ class AWSHttpProtocolServiceClient(
     private fun renderAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
         writer.openBlock(
             "public convenience init(\$L) async throws {", "}",
-            properties.joinToString(", ") { "${it.name}: ${it.toOptionalType()} = nil" }
+            properties.joinToString(", ") {
+                when (it.name) {
+                    "awsCredentialIdentityResolver" -> {
+                        "${it.name}: (any ${it.type})? = nil"
+                    }
+                    else -> {
+                        "${it.name}: ${it.toOptionalType()} = nil"
+                    }
+                }
+            }
         ) {
             writer.writeInline(
                 "self.init(\$L)",
                 properties.joinToString(", ") {
-                    it.default?.render() ?: it.name
+                    when (it.name) {
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
+                        }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.render("authSchemes")
+                        }
+                        else -> { it.default?.render() ?: it.name }
+                    }
                 }
             )
         }
@@ -132,8 +194,14 @@ class AWSHttpProtocolServiceClient(
                         "region", "signingRegion" -> {
                             "region"
                         }
-                        "credentialsProvider" -> {
-                            "try AWSClientConfigDefaultsProvider.credentialsProvider()"
+                        "awsCredentialIdentityResolver" -> {
+                            "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
+                        }
+                        "authSchemeResolver" -> {
+                            authSchemeResolverDefaultProvider.value
+                        }
+                        "authSchemes" -> {
+                            authSchemesDefaultProvider.value
                         }
                         else -> {
                             it.default?.render() ?: "nil"
@@ -157,4 +225,32 @@ class AWSHttpProtocolServiceClient(
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
     }
+
+    private fun getModeledAuthSchemesSupportedBySDK(): String {
+        val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
+        var authSchemeList = arrayOf<String>()
+
+        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
+        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
+
+        if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
+            authSchemeList += "SigV4AuthScheme()"
+        }
+        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
+            authSchemeList += "SigV4AAuthScheme()"
+        }
+        return "[${authSchemeList.joinToString(", ")}]"
+    }
+
+    private val authSchemesDefaultProvider = DefaultProvider(
+        getModeledAuthSchemesSupportedBySDK(),
+        isThrowable = false,
+        isAsync = false
+    )
+
+    private val authSchemeResolverDefaultProvider = DefaultProvider(
+        "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()",
+        false,
+        false
+    )
 }

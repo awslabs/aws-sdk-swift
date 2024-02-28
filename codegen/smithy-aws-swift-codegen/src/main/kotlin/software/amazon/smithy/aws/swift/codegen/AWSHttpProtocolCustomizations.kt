@@ -5,9 +5,10 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
+import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
@@ -23,10 +24,11 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
 
         // FIXME handle indentation properly or do swift formatting after the fact
-        writer.write("  .withCredentialsProvider(value: config.credentialsProvider)")
+        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
+        writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4a")
         writer.write("  .withRegion(value: config.region)")
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
-            val signingName = AWSSigningMiddleware.signingServiceName(serviceShape)
+        if (SigV4Utils.hasSigV4AuthScheme(ctx.model, ctx.service, op)) {
+            val signingName = SigV4Utils.signingServiceName(serviceShape)
             writer.write("  .withSigningName(value: \$S)", signingName)
             writer.write("  .withSigningRegion(value: config.signingRegion)")
         }
@@ -43,6 +45,11 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
+        super.renderInternals(ctx)
+        // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
+        if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
+            RulesBasedAuthSchemeResolverGenerator().render(ctx)
+        }
         EndpointResolverGenerator().render(ctx)
     }
 

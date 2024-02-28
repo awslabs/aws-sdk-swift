@@ -11,7 +11,7 @@ import AWSSTS
 
 func executeSTSTask() async throws {
     let clientConfig = try await STSClient.STSClientConfiguration(
-        credentialsProvider: ECSCredentialsProvider()
+        awsCredentialIdentityResolver: ECSAWSCredentialIdentityResolver()
     )
     let client = STSClient(config: clientConfig)
     let response = try await client.getCallerIdentity(input: GetCallerIdentityInput())

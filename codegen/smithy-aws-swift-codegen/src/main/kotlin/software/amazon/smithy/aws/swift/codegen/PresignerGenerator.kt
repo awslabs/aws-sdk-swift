@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes.Core.AWSClientConfiguration
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.model.traits.Presignable
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
@@ -20,8 +19,7 @@ import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator
-import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
-import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
+import software.amazon.smithy.swift.codegen.middleware.MiddlewareExecutionGenerator.Companion.ContextAttributeCodegenFlowType.PRESIGN_REQUEST
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.toUpperCamelCase
 
@@ -34,12 +32,12 @@ class PresignerGenerator : SwiftIntegration {
     override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
-        if (!AWSSigningMiddleware.isSupportedAuthentication(ctx.model, service)) return
+        if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
         val presignOperations = service.allOperations
             .map { ctx.model.expectShape<OperationShape>(it) }
             .filter { operationShape -> operationShape.hasTrait(Presignable.ID) }
             .map { operationShape ->
-                check(AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
+                check(SigV4Utils.hasSigV4AuthScheme(ctx.model, service, operationShape)) { "Operation does not have valid auth trait" }
                 PresignableOperation(service.id.toString(), operationShape.id.toString())
             }
         presignOperations.forEach { presignableOperation ->
@@ -78,7 +76,7 @@ class PresignerGenerator : SwiftIntegration {
         val serviceShape = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
         val protocolGenerator = ctx.protocolGenerator?.let { it } ?: run { return }
         val protocolGeneratorContext = ctx.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
-        val operationMiddleware = resolveOperationMiddleware(protocolGenerator, op, ctx)
+        val operationMiddleware = protocolGenerator.operationMiddleware
 
         writer.addImport(AWSClientConfiguration)
         writer.addImport(SdkHttpRequest)
@@ -105,7 +103,7 @@ class PresignerGenerator : SwiftIntegration {
                     operationMiddleware,
                     operationStackName
                 )
-                generator.render(serviceShape, op) { writer, _ ->
+                generator.render(serviceShape, op, PRESIGN_REQUEST) { writer, _ ->
                     writer.write("return nil")
                 }
                 val requestBuilderName = "presignedRequestBuilder"
@@ -158,24 +156,5 @@ class PresignerGenerator : SwiftIntegration {
             write("///")
             write("/// - Returns: `URLRequest`: The presigned request for ${op.toUpperCamelCase()} operation.")
         }
-    }
-
-    private fun resolveOperationMiddleware(protocolGenerator: ProtocolGenerator, op: OperationShape, ctx: CodegenContext): OperationMiddleware {
-        val operationMiddlewareCopy = protocolGenerator.operationMiddleware.clone()
-        operationMiddlewareCopy.removeMiddleware(op, MiddlewareStep.FINALIZESTEP, "AWSSigningMiddleware")
-        val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
-        val operation = ctx.model.expectShape<OperationShape>(op.id)
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, service, operation)) {
-            val params = AWSSigningParams(
-                service,
-                op,
-                useSignatureTypeQueryString = false,
-                forceUnsignedBody = false,
-                useExpiration = true,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddlewareCopy.appendMiddleware(op, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
-        }
-        return operationMiddlewareCopy
     }
 }

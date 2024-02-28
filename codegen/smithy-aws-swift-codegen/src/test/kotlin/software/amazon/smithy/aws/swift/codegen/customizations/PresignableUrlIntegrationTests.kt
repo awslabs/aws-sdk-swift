@@ -13,43 +13,6 @@ import software.amazon.smithy.swift.codegen.core.GenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class PresignableUrlIntegrationTests {
-
-    @Test
-    fun `codesign is configured correctly for Polly SynthesizeSpeech`() {
-        val context = setupTests("presign-urls-polly.smithy", "com.amazonaws.polly#Parrot_v1")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/SynthesizeSpeechInput+Presigner.swift")
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, expiration: expiration, unsignedBody: false, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<SynthesizeSpeechOutput>(config: sigv4Config))
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `codesign is configured correctly for S3 GetObject`() {
-        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GetObjectInput+Presigner.swift")
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<GetObjectOutput>(config: sigv4Config))
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
-    @Test
-    fun `codesign is configured correctly for S3 PutObject`() {
-        val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/PutObjectInput+Presigner.swift")
-        contents.shouldSyntacticSanityCheck()
-        val expectedContents = """
-        let sigv4Config = AWSClientRuntime.SigV4Config(signatureType: .requestQueryParams, useDoubleURIEncode: false, shouldNormalizeURIPath: false, expiration: expiration, unsignedBody: true, signingAlgorithm: .sigv4)
-        operation.finalizeStep.intercept(position: .before, middleware: AWSClientRuntime.SigV4Middleware<PutObjectOutput>(config: sigv4Config))
-"""
-        contents.shouldContainOnlyOnce(expectedContents)
-    }
-
     @Test
     fun `S3 PutObject operation stack contains the PutObjectPresignedURLMiddleware`() {
         val context = setupTests("presign-urls-s3.smithy", "com.amazonaws.s3#AmazonS3")
