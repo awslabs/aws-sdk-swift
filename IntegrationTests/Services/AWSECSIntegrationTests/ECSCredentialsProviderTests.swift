@@ -14,7 +14,7 @@ import AWSIAM
 import AWSSTS
 import ClientRuntime
 
-class ECSCredentialsProviderTests: XCTestCase {
+class ECSAWSCredentialIdentityResolverTests: XCTestCase {
     
     private let taskRoleName = "ecs_integ_test_task_role"
     private let executionRoleName = "ecs_integ_test_execution_role"
@@ -38,7 +38,7 @@ class ECSCredentialsProviderTests: XCTestCase {
     }
     
     // TODO: Re-enable this test once CI is configured to run it. See https://github.com/awslabs/aws-sdk-swift/issues/1310
-    func xtest_ecsCredentialsProvider() async throws {
+    func xtest_ecsAWSCredentialIdentityResolver() async throws {
         let ecsClient = try await ECSClient()
         
         // create cluster

@@ -4,7 +4,6 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.middleware.AWSSigningMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
@@ -115,19 +114,6 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(operation, OperationEndpointResolverMiddleware(ctx))
-
-        if (AWSSigningMiddleware.hasSigV4AuthScheme(ctx.model, ctx.service, operation)) {
-            val params = AWSSigningParams(
-                ctx.service,
-                operation,
-                useSignatureTypeQueryString = false,
-                forceUnsignedBody = false,
-                useExpiration = false,
-                signingAlgorithm = SigningAlgorithm.SigV4
-            )
-            operationMiddleware.appendMiddleware(operation, AWSSigningMiddleware(ctx.model, ctx.symbolProvider, params))
-        }
-
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 

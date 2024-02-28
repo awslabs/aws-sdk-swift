@@ -14,8 +14,8 @@ import AWSClientRuntime
 import Foundation
 
 /// Tests STS web identity credentials provider using STS::getCallerIdentity.
-class STSWebIdentityCredentialsProviderTests: XCTestCase {
-    private let region = "us-west-2"
+class STSWebIdentityAWSCredentialIdentityResolverTests: XCTestCase {
+    private let region = "us-east-1"
 
     // MARK: - The client used by test case
 
@@ -73,7 +73,7 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         try await getAndCacheOIDCTokenFromCognito()
 
         // Construct STS Client config with only STS web identity crednentials provider
-        try await constructSTSConfigWithWebIdentityCredentialsProvider()
+        try await constructSTSConfigWithWebIdentityAWSCredentialIdentityResolver()
 
         // Construct STS client that uses STS web identity credentials provider
         webIdentityStsClient = STSClient(config: stsConfig)
@@ -172,15 +172,15 @@ class STSWebIdentityCredentialsProviderTests: XCTestCase {
         try saveTokenIntoFile()
     }
 
-    private func constructSTSConfigWithWebIdentityCredentialsProvider() async throws {
-        let webIdentityCredentialsProvider = try STSWebIdentityCredentialsProvider(
+    private func constructSTSConfigWithWebIdentityAWSCredentialIdentityResolver() async throws {
+        let webIdentityAWSCredentialIdentityResolver = try STSWebIdentityAWSCredentialIdentityResolver(
             region: region,
             roleArn: roleArn,
             roleSessionName: roleSessionName,
             tokenFilePath: oidcTokenFilePath
         )
         stsConfig = try await STSClient.STSClientConfiguration(
-            credentialsProvider: webIdentityCredentialsProvider,
+            awsCredentialIdentityResolver: webIdentityAWSCredentialIdentityResolver,
             region: region
         )
     }

@@ -9,6 +9,7 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import SmithyTimestamps
 import XCTest
+import SmithyTestUtil
 
 @testable import AWSClientRuntime
 
@@ -17,13 +18,260 @@ class Sigv4SigningTests: XCTestCase {
         CommonRuntimeKit.initialize()
     }
 
+    // Test success case
+    func testSignRequestSuccess() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        let signedRequest = try await AWSSigV4Signer().signRequest(
+            requestBuilder: requestBuilder,
+            identity: credentials,
+            signingProperties: signingProperties
+        )
+
+        let expectedSignature = "68a60ecd39081e56bc2413c3397669c72ba61642c5d283aa15ad2f7e155c3e04"
+        XCTAssertEqual(expectedSignature, signedRequest.signature)
+    }
+
+    // Test exception cases
+    func testSignRequestMissingBidirectionalStreamingFlag() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
+    func testSignRequestWrongTypeOfIdentity() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = MockIdentity()
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Identity passed to the AWSSigV4Signer must be of type Credentials."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
+    func testSignRequestMissingUnsignedBodyFlag() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
+    func testSignRequestMissingSigningName() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing name."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
+    func testSignRequestMissingSigningRegion() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingAlgorithm, value: .sigv4)
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing region."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
+    func testSignRequestMissingSigningAlgorithm() async throws {
+        let dateString = "2024-01-16T12:36:00Z"
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
+
+        let requestBuilder = SdkHttpRequestBuilder()
+            .withHost("example.amazonaws.com")
+            .withPath("/")
+            .withMethod(.get)
+            .withPort(443)
+            .withProtocol(.http)
+            .withHeader(name: "host", value: "example.amazonaws.com")
+
+        let credentials = AWSCredentialIdentity(accessKey: "test-access-key", secret: "test-secret-key")
+
+        var signingProperties = Attributes()
+        signingProperties.set(key: AttributeKeys.bidirectionalStreaming, value: false)
+        signingProperties.set(key: AttributeKeys.unsignedBody, value: false)
+        signingProperties.set(key: AttributeKeys.signingName, value: "test")
+        signingProperties.set(key: AttributeKeys.signingRegion, value: "us-east-1")
+        signingProperties.set(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests"), value: date)
+
+        do {
+            _ = try await AWSSigV4Signer().signRequest(
+                requestBuilder: requestBuilder,
+                identity: credentials,
+                signingProperties: signingProperties
+            )
+            XCTFail("The code failed to throw at expected point.")
+        } catch ClientError.authError(let message) {
+            let expectedMessage = "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
+            XCTAssertEqual(expectedMessage, message)
+        } catch {
+            XCTFail("Unexpected error thrown: \(error.localizedDescription)")
+        }
+    }
+
     func testPresigner() async throws {
         let dateString = "2015-08-30T12:36:00Z"
-        guard let date = TimestampFormatter(format: .dateTime).date(from: dateString) else {
-            XCTFail("Unable to parse date")
-            return
-        }
-
+        let date = try XCTUnwrap(TimestampFormatter(format: .dateTime).date(from: dateString))
 
         let requestBuilder = SdkHttpRequestBuilder()
             .withHost("example.amazonaws.com")
@@ -35,7 +283,7 @@ class Sigv4SigningTests: XCTestCase {
             .withQueryItem(SDKURLQueryItem(name: "%E1%88%B4", value: "bar"))
 
         guard let url = await AWSSigV4Signer.sigV4SignedURL(requestBuilder: requestBuilder,
-                                                            credentialsProvider: MyCustomCredentialsProvider(),
+                                                            awsCredentialIdentityResolver: TestCustomAWSCredentialIdentityResolver(),
                                                             signingName: "service",
                                                             signingRegion: "us-east-1",
                                                             date: date,
@@ -48,7 +296,7 @@ class Sigv4SigningTests: XCTestCase {
     }
 
     func testSignEvent() async {
-        let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
+        let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
         
         let encoder = AWSEventStream.AWSMessageEncoder()
 
@@ -65,14 +313,21 @@ class Sigv4SigningTests: XCTestCase {
         formatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         let epoch = formatter.date(from: "1973-11-29T21:33:09.000001234Z")!
         
-        let credentialsProvider = try! StaticCredentialsProvider(
+        let staticAWSCredentialIdentityResolver = try! StaticAWSCredentialIdentityResolver(
             credentials
         )
         
         let context = HttpContextBuilder()
             .withSigningName(value: "testservice")
             .withRegion(value: "us-east-1")
-            .withCredentialsProvider(value: credentialsProvider)
+            .withIdentityResolver(
+                value: staticAWSCredentialIdentityResolver,
+                schemeID: "aws.auth#sigv4"
+            )
+            .withIdentityResolver(
+                value: staticAWSCredentialIdentityResolver,
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
         
         let signingConfig = try! await context.makeEventStreamSigningConfig(date: epoch.withoutFractionalSeconds())
@@ -81,7 +336,7 @@ class Sigv4SigningTests: XCTestCase {
 
         let messagePayload = try! encoder.encode(message: message)
 
-        let result = try! await AWSSigV4Signer.signEvent(payload: messagePayload,
+        let result = try! await AWSSigV4Signer().signEvent(payload: messagePayload,
                                                          previousSignature: prevSignature,
                                                          signingConfig: signingConfig)
         XCTAssertEqual(":date", result.output.headers[0].name)
@@ -107,26 +362,26 @@ class Sigv4SigningTests: XCTestCase {
     }
 }
 
-class MyCustomCredentialsProvider: AWSClientRuntime.CredentialsProviding {
-    let credentials: AWSCredentials
+class TestCustomAWSCredentialIdentityResolver: AWSCredentialIdentityResolver {
+    let credentials: AWSCredentialIdentity
     
-    init(credentials: AWSCredentials) {
+    init(credentials: AWSCredentialIdentity) {
         self.credentials = credentials
     }
     
     convenience init() {
-        self.init(credentials: AWSCredentials(
+        self.init(credentials: AWSCredentialIdentity(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         ))
     }
     
-    func getCredentials() async throws -> AWSClientRuntime.AWSCredentials {
-        return AWSCredentials(
+    func getIdentity(identityProperties: Attributes?) async throws -> AWSClientRuntime.AWSCredentialIdentity {
+        return AWSCredentialIdentity(
             accessKey: "AKIDEXAMPLE",
             secret: "wJalrXUtnFEMI/K7MDENG+bPxRfiCYEXAMPLEKEY",
-            expirationTimeout: .init(timeIntervalSinceNow: 30)
+            expiration: .init(timeIntervalSinceNow: 30)
         )
     }
 }

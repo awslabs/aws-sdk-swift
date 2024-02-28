@@ -10,7 +10,6 @@ typealias RuntimeConfigType = DefaultSDKRuntimeConfiguration<DefaultRetryStrateg
 
 /// Provides default configuration properties for AWS services.
 public class AWSClientConfigDefaultsProvider {
-
     public static let httpClientEngine: HTTPClient = RuntimeConfigType.makeClient(
         httpClientConfiguration: RuntimeConfigType.defaultHttpClientConfiguration)
 
@@ -26,16 +25,19 @@ public class AWSClientConfigDefaultsProvider {
 
     public static let clientLogMode: ClientLogMode = RuntimeConfigType.defaultClientLogMode
 
-    public static func credentialsProvider(
-        _ credentialsProvider: AWSClientRuntime.CredentialsProviding? = nil) throws -> CredentialsProviding {
-        let resolvedCredentialsProvider: AWSClientRuntime.CredentialsProviding
+    public static func awsCredentialIdentityResolver(
+        _ awsCredentialIdentityResolver: (any AWSCredentialIdentityResolver)? = nil
+    ) throws -> any AWSCredentialIdentityResolver {
+        let resolvedAWSCredentialIdentityResolver: any AWSCredentialIdentityResolver
         let fileBasedConfig = try CRTFileBasedConfiguration.make()
-        if let credentialsProvider = credentialsProvider {
-            resolvedCredentialsProvider = credentialsProvider
+        if let awsCredentialIdentityResolver {
+            resolvedAWSCredentialIdentityResolver = awsCredentialIdentityResolver
         } else {
-            resolvedCredentialsProvider = try DefaultChainCredentialsProvider(fileBasedConfig: fileBasedConfig)
+            resolvedAWSCredentialIdentityResolver = try DefaultAWSCredentialIdentityResolverChain(
+                fileBasedConfig: fileBasedConfig
+            )
         }
-        return resolvedCredentialsProvider
+        return resolvedAWSCredentialIdentityResolver
     }
 
     public static func region(_ region: String? = nil) async throws -> String? {

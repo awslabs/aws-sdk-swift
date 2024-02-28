@@ -11,8 +11,12 @@ extension AWSEventStream {
     /// Signs a `Message` using the AWS SigV4 signing algorithm
     public class AWSMessageSigner: MessageSigner {
         let encoder: MessageEncoder
+        let signer: () async throws -> ClientRuntime.Signer
         let signingConfig: () async throws -> AWSSigningConfig
         let requestSignature: () -> String
+        // Attribute key used to save AWSSigningConfig into signingProperties argument
+        //  for AWSSigV4Signer::signEvent call that conforms to Signer::signEvent.
+        static let signingConfigKey = AttributeKey<AWSSigningConfig>(name: "EventStreamSigningConfig")
 
         private var _previousSignature: String?
 
@@ -35,9 +39,11 @@ extension AWSEventStream {
         }
 
         public init(encoder: MessageEncoder,
+                    signer: @escaping () async throws -> ClientRuntime.Signer,
                     signingConfig: @escaping () async throws -> AWSSigningConfig,
                     requestSignature: @escaping () -> String) {
             self.encoder = encoder
+            self.signer = signer
             self.signingConfig = signingConfig
             self.requestSignature = requestSignature
         }
@@ -49,11 +55,15 @@ extension AWSEventStream {
             // encode to bytes
             let encodedMessage = try encoder.encode(message: message)
             let signingConfig = try await self.signingConfig()
-
-            // sign encoded bytes
-            let signingResult = try await AWSSigV4Signer.signEvent(payload: encodedMessage,
-                                                                   previousSignature: previousSignature,
-                                                                   signingConfig: signingConfig)
+            // Fetch signer
+            let signer = try await self.signer()
+            // Wrap config into signingProperties: Attributes
+            var configWrapper = Attributes()
+            configWrapper.set(key: AWSMessageSigner.signingConfigKey, value: signingConfig)
+            // Sign encoded bytes
+            let signingResult = try await signer.signEvent(payload: encodedMessage,
+                                                                previousSignature: previousSignature,
+                                                                signingProperties: configWrapper)
             previousSignature = signingResult.signature
             return signingResult.output
         }
@@ -62,9 +72,15 @@ extension AWSEventStream {
         /// - Returns: Signed `Message` with `:chunk-signature` & `:date` headers
         public func signEmpty() async throws -> ClientRuntime.EventStream.Message {
             let signingConfig = try await self.signingConfig()
-            let signingResult = try await AWSSigV4Signer.signEvent(payload: .init(),
-                                                                   previousSignature: previousSignature,
-                                                                   signingConfig: signingConfig)
+            // Fetch signer
+            let signer = try await self.signer()
+            // Wrap config into signingProperties: Attributes
+            var configWrapper = Attributes()
+            configWrapper.set(key: AWSMessageSigner.signingConfigKey, value: signingConfig)
+            // Sign empty payload
+            let signingResult = try await signer.signEvent(payload: .init(),
+                                                           previousSignature: previousSignature,
+                                                           signingProperties: configWrapper)
             return signingResult.output
         }
     }

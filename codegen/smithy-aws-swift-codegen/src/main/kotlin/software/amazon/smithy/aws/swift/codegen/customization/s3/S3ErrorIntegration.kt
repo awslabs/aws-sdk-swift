@@ -80,7 +80,7 @@ class S3ErrorIntegration : SwiftIntegration {
                 writer.write("return serviceError")
             }
         }
-        writer.write("let restXMLError = try \$N(responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
+        writer.write("let restXMLError = try await \$N.makeError(from: httpResponse, responseReader: responseReader, noErrorWrapping: \$L)", AWSClientRuntimeTypes.RestXML.RestXMLError, noErrorWrapping)
         writer.openBlock("switch restXMLError.code {", "}") {
             for (errorShape in errorShapes) {
                 var errorShapeName = errorShape.errorShapeName(ctx.symbolProvider)

@@ -7,49 +7,23 @@
 
 import ClientRuntime
 import struct Foundation.Date
+import struct Foundation.TimeInterval
 
 extension HttpContext {
-    static let credentialsProvider = AttributeKey<CredentialsProviding>(name: "CredentialsProvider")
-    static let region = AttributeKey<String>(name: "Region")
-    public static let signingName = AttributeKey<String>(name: "SigningName")
-    public static let signingRegion = AttributeKey<String>(name: "SigningRegion")
-    public static let signingAlgorithm = AttributeKey<String>(name: "SigningAlgorithm")
-    public static let requestSignature = AttributeKey<String>(name: "AWS_HTTP_SIGNATURE")
-
-    func getCredentialsProvider() -> CredentialsProviding? {
-        return attributes.get(key: HttpContext.credentialsProvider)
-    }
-
-    func getRegion() -> String? {
-        return attributes.get(key: Self.region)
-    }
-
-    func getSigningName() -> String? {
-        return attributes.get(key: Self.signingName)
-    }
-
-    func getSigningRegion() -> String? {
-        return attributes.get(key: Self.signingRegion)
-    }
-
-    func getSigningAlgorithm() -> AWSSigningAlgorithm? {
-        guard let algorithmRawValue = attributes.get(key: Self.signingAlgorithm) else {
-            return nil
-        }
-        return AWSSigningAlgorithm(rawValue: algorithmRawValue)
-    }
-
-    /// Returns the request signature for the event stream operation
-    /// - Returns: `String` request signature
-    public func getRequestSignature() -> String {
-        return attributes.get(key: Self.requestSignature)!
+    public func getSigningAlgorithm() -> AWSSigningAlgorithm? {
+        return attributes.get(key: AttributeKeys.signingAlgorithm)
     }
 
     /// Returns the signing config for the event stream message
     /// - Returns: `AWSSigningConfig` for the event stream message
     public func makeEventStreamSigningConfig(date: Date = Date().withoutFractionalSeconds())
-        async throws -> AWSSigningConfig {
-        let credentials = try await getCredentialsProvider()?.getCredentials()
+    async throws -> AWSSigningConfig {
+        let credentials = try await getIdentityResolvers()?
+            .get(key: AttributeKey<any IdentityResolver>(name: "aws.auth#sigv4"))?
+            .getIdentity(identityProperties: Attributes())
+        guard let credentials = credentials as? AWSCredentialIdentity else {
+            fatalError("Failed to retrieve AWS credentials for signing event stream messages.")
+        }
         guard let service = getSigningName() else {
             fatalError("Signing name must not be nil, it must be set by the middleware during the request")
         }
@@ -78,56 +52,47 @@ extension HttpContext {
     public func setupBidirectionalStreaming() throws {
         // setup client to server
         let messageEncoder = AWSClientRuntime.AWSEventStream.AWSMessageEncoder()
-        let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
-            try await self.makeEventStreamSigningConfig()
-        } requestSignature: {
-            self.getRequestSignature()
-        }
-        attributes.set(key: HttpContext.messageEncoder, value: messageEncoder)
-        attributes.set(key: HttpContext.messageSigner, value: messageSigner)
+        let messageSigner = AWSClientRuntime.AWSEventStream.AWSMessageSigner(
+            encoder: messageEncoder,
+            signer: { try self.fetchSigner() },
+            signingConfig: { try await self.makeEventStreamSigningConfig() },
+            requestSignature: { self.getRequestSignature() }
+        )
+        attributes.set(key: AttributeKeys.messageEncoder, value: messageEncoder)
+        attributes.set(key: AttributeKeys.messageSigner, value: messageSigner)
 
         // enable the flag
-        attributes.set(key: HttpContext.bidirectionalStreaming, value: true)
+        attributes.set(key: AttributeKeys.bidirectionalStreaming, value: true)
+    }
+
+    func fetchSigner() throws -> ClientRuntime.Signer {
+        guard let authScheme = self.getSelectedAuthScheme() else {
+            throw ClientError.authError(
+                "Signer for event stream could not be loaded because auth scheme was not configured."
+            )
+        }
+        guard let signer = authScheme.signer else {
+            throw ClientError.authError("Signer was not configured for the selected auth scheme.")
+        }
+        return signer
     }
 }
 
 extension HttpContextBuilder {
-
     @discardableResult
-    public func withRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.region, value: value)
+    public func withSigningAlgorithm(value: AWSSigningAlgorithm) -> HttpContextBuilder {
+        self.attributes.set(key: AttributeKeys.signingAlgorithm, value: value)
         return self
     }
+}
 
-    @discardableResult
-    public func withCredentialsProvider(value: CredentialsProviding) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.credentialsProvider, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningName(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingName, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningRegion(value: String?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingRegion, value: value)
-        return self
-    }
-
-    @discardableResult
-    public func withSigningAlgorithm(value: AWSSigningAlgorithm?) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.signingAlgorithm, value: value?.rawValue)
-        return self
-    }
-
-    /// Sets the request signature for the event stream operation
-    /// - Parameter value: `String` request signature
-    @discardableResult
-    public func withRequestSignature(value: String) -> HttpContextBuilder {
-        self.attributes.set(key: HttpContext.requestSignature, value: value)
-        return self
-    }
+extension AttributeKeys {
+    // Keys used to store/retrieve AWSSigningConfig fields in/from signingProperties passed to AWSSigV4Signer
+    public static let signingAlgorithm = AttributeKey<AWSSigningAlgorithm>(name: "SigningAlgorithm")
+    public static let unsignedBody = AttributeKey<Bool>(name: "UnsignedBody")
+    public static let signedBodyHeader = AttributeKey<AWSSignedBodyHeader>(name: "SignedBodyHeader")
+    public static let useDoubleURIEncode = AttributeKey<Bool>(name: "UseDoubleURIEncode")
+    public static let shouldNormalizeURIPath = AttributeKey<Bool>(name: "ShouldNormalizeURIPath")
+    public static let omitSessionToken = AttributeKey<Bool>(name: "OmitSessionToken")
+    public static let signatureType = AttributeKey<AWSSignatureType>(name: "SignatureType")
 }
