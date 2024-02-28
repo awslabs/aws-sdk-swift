@@ -13,7 +13,7 @@ import AWSCloudWatchLogs
 import AWSEC2
 import ClientRuntime
 
-class IMDSCredentialsProviderTests: XCTestCase {
+class IMDSAWSCredentialIdentityResolverTests: XCTestCase {
     private let region = "us-west-2"
     private var ec2Client: EC2Client!
     private var iamClient: IAMClient!
@@ -49,7 +49,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
     // MARK: - TEST CASE
 
     // Delete `x` to enable test.
-    func xtestIMDSCredentialsProvider() async throws {
+    func xtestIMDSAWSCredentialIdentityResolver() async throws {
         var pollCount = 0
         var (statusLogFound, logsContainSuccessKeyword, logsContainFailureKeyword) = (false, false, false)
         while (!statusLogFound && pollCount < maxPollLogMessageFound) {
@@ -151,7 +151,7 @@ class IMDSCredentialsProviderTests: XCTestCase {
             return
         }
         securityGroupID = try await ec2Client.createSecurityGroup(input: CreateSecurityGroupInput(
-            description: "Security group used for IMDS credentials provider integration test.",
+            description: "Security group used for IMDSAWSCredentialIdentityResolverTests.",
             groupName: securityGroupName
         )).groupId
         // Allow HTTP & HTTPS inbound connections.

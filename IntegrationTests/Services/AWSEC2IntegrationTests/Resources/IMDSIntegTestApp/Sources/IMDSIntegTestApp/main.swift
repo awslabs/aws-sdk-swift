@@ -11,7 +11,7 @@ import AWSSTS
 
 func executeSTSTask() async throws {
     let clientConfig = try await STSClient.STSClientConfiguration(
-        credentialsProvider: IMDSCredentialsProvider(),
+        credentialsProvider: IMDSAWSCredentialIdentityResolver(),
         region: "us-west-2"
     )
     let client = STSClient(config: clientConfig)
