@@ -118,7 +118,7 @@ private func determineSignedBodyValue(
     }
 
     // Add headers if the stream is eligible for AWS chunked streaming.
-    try input.setAwsChunkedHeaders(checksumAlgorithm: checksum)
+    try input.setAwsChunkedHeaders()
 
     // Determine the signed body value based on the presence of a checksum.
     if checksum != nil {
