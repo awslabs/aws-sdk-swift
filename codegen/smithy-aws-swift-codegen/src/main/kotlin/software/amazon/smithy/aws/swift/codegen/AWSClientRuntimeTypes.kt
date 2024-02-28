@@ -30,17 +30,12 @@ object AWSClientRuntimeTypes {
         }
     }
 
-    object Signing {
-        val SigV4Config = runtimeSymbol("SigV4Config")
-        val SigV4Middleware = runtimeSymbol("SigV4Middleware")
-    }
-
     object Core {
         val AWSUserAgentMetadata = runtimeSymbol("AWSUserAgentMetadata")
         val UserAgentMiddleware = runtimeSymbol("UserAgentMiddleware")
         val EndpointResolverMiddleware = runtimeSymbol("EndpointResolverMiddleware")
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
-        val CredentialsProviding = runtimeSymbol("CredentialsProviding")
+        val AWSCredentialIdentityResolver = runtimeSymbol("AWSCredentialIdentityResolver")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")
         val AWSEndpoint = runtimeSymbol("AWSEndpoint")
         val Partition = runtimeSymbol("Partition")

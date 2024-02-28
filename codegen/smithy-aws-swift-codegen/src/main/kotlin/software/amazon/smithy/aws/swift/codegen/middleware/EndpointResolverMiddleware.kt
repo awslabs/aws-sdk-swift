@@ -101,13 +101,13 @@ class EndpointResolverMiddleware(
         }.write("")
 
         writer.openBlock("if let signingRegion = signingRegion {", "}") {
-            writer.write("context.attributes.set(key: HttpContext.signingRegion, value: signingRegion)")
+            writer.write("context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)")
         }
         writer.openBlock("if let signingName = signingName {", "}") {
-            writer.write("context.attributes.set(key: HttpContext.signingName, value: signingName)")
+            writer.write("context.attributes.set(key: AttributeKeys.signingName, value: signingName)")
         }
         writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
-            writer.write("context.attributes.set(key: HttpContext.signingAlgorithm, value: signingAlgorithm)")
+            writer.write("context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))")
         }.write("")
 
         writer.openBlock("if let headers = endpoint.headers {", "}") {

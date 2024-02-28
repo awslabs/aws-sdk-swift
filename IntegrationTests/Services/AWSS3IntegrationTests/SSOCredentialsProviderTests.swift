@@ -31,7 +31,7 @@ import AWSSSOAdmin
  *
  * Step 1, 3, 4, 5 have to be done only once per account.
  */
-class SSOCredentialsProviderTests : XCTestCase {
+class SSOAWSCredentialIdentityResolverTests : XCTestCase {
     var client: S3Client!
     var ssoClient: SSOAdminClient!
     // Change this region string to the region where AWS SSO instance is in.
@@ -53,7 +53,7 @@ class SSOCredentialsProviderTests : XCTestCase {
         try await setUpClient()
     }
 
-    // The test calls listBuckets() and forces S3Client to use SSOCredentialsProvider
+    // The test calls listBuckets() and forces S3Client to use SSOAWSCredentialIdentityResolver
     // TODO: Re-enable this test once CI is configured to run it. See https://github.com/awslabs/aws-sdk-swift/issues/1311
     func xtest_listBuckets() async throws {
         _ = try await client.listBuckets(input: ListBucketsInput())
@@ -110,12 +110,12 @@ class SSOCredentialsProviderTests : XCTestCase {
     }
     
     private func setUpClient() async throws {
-        // Setup SSOCredentialsProvider
-        let SSOCredentialsProvider = try SSOCredentialsProvider()
+        // Setup SSOAWSCredentialIdentityResolver
+        let ssoAWSCredentialIdentityResolver = try SSOAWSCredentialIdentityResolver()
 
-        // Setup S3ClientConfiguration to use SSOCredentialsProvider
+        // Setup S3ClientConfiguration to use SSOAWSCredentialIdentityResolver
         let testConfig = try await S3Client.S3ClientConfiguration()
-        testConfig.credentialsProvider = SSOCredentialsProvider
+        testConfig.awsCredentialIdentityResolver = ssoAWSCredentialIdentityResolver
         testConfig.region = region
 
         // Initialize our S3 client with the specified configuration

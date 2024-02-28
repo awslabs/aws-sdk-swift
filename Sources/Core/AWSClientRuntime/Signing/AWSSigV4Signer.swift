@@ -9,12 +9,113 @@ import AwsCommonRuntimeKit
 import ClientRuntime
 import Foundation
 
-public class AWSSigV4Signer {
+public class AWSSigV4Signer: ClientRuntime.Signer {
+    public func signRequest<IdentityT: Identity>(
+        requestBuilder: SdkHttpRequestBuilder,
+        identity: IdentityT,
+        signingProperties: ClientRuntime.Attributes
+    ) async throws -> SdkHttpRequestBuilder {
+        guard let isBidirectionalStreamingEnabled = signingProperties.get(
+            key: AttributeKeys.bidirectionalStreaming
+        ) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain T/F flag for bidirectional streaming."
+            )
+        }
+
+        guard let identity = identity as? AWSCredentialIdentity else {
+            throw ClientError.authError(
+                "Identity passed to the AWSSigV4Signer must be of type Credentials."
+            )
+        }
+
+        var signingConfig = try constructSigningConfig(identity: identity, signingProperties: signingProperties)
+
+        // Used to fix signingConfig.date for testing signRequest().
+        if let date = signingProperties.get(key: AttributeKey<Date>(name: "SigV4AuthSchemeTests")) {
+            signingConfig = fixDateForTests(signingConfig, date)
+        }
+
+        let unsignedRequest = requestBuilder.build()
+        let crtUnsignedRequest: HTTPRequestBase = isBidirectionalStreamingEnabled ?
+            try unsignedRequest.toHttp2Request() :
+            try unsignedRequest.toHttpRequest()
+
+        let crtSignedRequest = try await Signer.signRequest(
+            request: crtUnsignedRequest,
+            config: signingConfig.toCRTType()
+        )
+
+        // Return signed request
+        return requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
+    }
+
+    private func constructSigningConfig(
+        identity: AWSCredentialIdentity,
+        signingProperties: ClientRuntime.Attributes
+    ) throws -> AWSSigningConfig {
+        guard let unsignedBody = signingProperties.get(key: AttributeKeys.unsignedBody) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain T/F flag for unsigned body."
+            )
+        }
+        guard let signingName = signingProperties.get(key: AttributeKeys.signingName) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing name."
+            )
+        }
+        guard let signingRegion = signingProperties.get(key: AttributeKeys.signingRegion) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing region."
+            )
+        }
+        guard let signingAlgorithm = signingProperties.get(key: AttributeKeys.signingAlgorithm) else {
+            throw ClientError.authError(
+                "Signing properties passed to the AWSSigV4Signer must contain signing algorithm."
+            )
+        }
+
+        let expiration: TimeInterval = signingProperties.get(key: AttributeKeys.expiration) ?? 0
+        let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AttributeKeys.signedBodyHeader) ?? .none
+        let signedBodyValue: AWSSignedBodyValue = unsignedBody ? .unsignedPayload : .empty
+        let flags: SigningFlags = SigningFlags(
+            useDoubleURIEncode: signingProperties.get(key: AttributeKeys.useDoubleURIEncode) ?? true,
+            shouldNormalizeURIPath: signingProperties.get(key: AttributeKeys.shouldNormalizeURIPath) ?? true,
+            omitSessionToken: signingProperties.get(key: AttributeKeys.omitSessionToken) ?? false
+        )
+        let signatureType: AWSSignatureType = signingProperties.get(key: AttributeKeys.signatureType) ?? .requestHeaders
+
+        return AWSSigningConfig(
+            credentials: identity,
+            expiration: expiration,
+            signedBodyHeader: signedBodyHeader,
+            signedBodyValue: signedBodyValue,
+            flags: flags,
+            date: Date(),
+            service: signingName,
+            region: signingRegion,
+            signatureType: signatureType,
+            signingAlgorithm: signingAlgorithm
+        )
+    }
+
+    public func signEvent(
+        payload: Data,
+        previousSignature: String,
+        signingProperties: Attributes
+    ) async throws -> SigningResult<EventStream.Message> {
+        let signingConfig = signingProperties.get(key: AWSEventStream.AWSMessageSigner.signingConfigKey)
+        guard let signingConfig else {
+            throw ClientError.dataNotFound("Failed to sign event stream message due to missing signing config.")
+        }
+        return try await signEvent(payload: payload, previousSignature: previousSignature, signingConfig: signingConfig)
+    }
+
     static let logger: SwiftLogger = SwiftLogger(label: "AWSSigV4Signer")
 
     public static func sigV4SignedURL(
         requestBuilder: SdkHttpRequestBuilder,
-        credentialsProvider: CredentialsProviding,
+        awsCredentialIdentityResolver: any AWSCredentialIdentityResolver,
         signingName: Swift.String,
         signingRegion: Swift.String,
         date: ClientRuntime.Date,
@@ -22,7 +123,9 @@ public class AWSSigV4Signer {
         signingAlgorithm: AWSSigningAlgorithm
     ) async -> ClientRuntime.URL? {
         do {
-            let credentials = try await credentialsProvider.getCredentials()
+            let credentials = try await awsCredentialIdentityResolver.getIdentity(
+                identityProperties: Attributes()
+            )
             let flags = SigningFlags(useDoubleURIEncode: true,
                                      shouldNormalizeURIPath: true,
                                      omitSessionToken: false)
@@ -59,7 +162,7 @@ public class AWSSigV4Signer {
     ///                        the current event payload like a rolling signature calculation.
     ///   - signingConfig: The signing configuration
     /// - Returns: The signed event with :date and :chunk-signature headers
-    static func signEvent(payload: Data,
+    public func signEvent(payload: Data,
                           previousSignature: String,
                           signingConfig: AWSSigningConfig) async throws -> SigningResult<EventStream.Message> {
         let signature = try await Signer.signEvent(event: payload,
@@ -98,9 +201,19 @@ public class AWSSigV4Signer {
             return nil
         }
     }
-}
 
-public struct SigningResult<T> {
-    public let output: T
-    public let signature: String
+    private func fixDateForTests(_ signingConfig: AWSSigningConfig, _ fixedDate: Date) -> AWSSigningConfig {
+        return AWSSigningConfig(
+            credentials: signingConfig.credentials,
+            expiration: signingConfig.expiration,
+            signedBodyHeader: signingConfig.signedBodyHeader,
+            signedBodyValue: signingConfig.signedBodyValue,
+            flags: signingConfig.flags,
+            date: fixedDate,
+            service: signingConfig.service,
+            region: signingConfig.region,
+            signatureType: signingConfig.signatureType,
+            signingAlgorithm: signingConfig.signingAlgorithm
+        )
+    }
 }

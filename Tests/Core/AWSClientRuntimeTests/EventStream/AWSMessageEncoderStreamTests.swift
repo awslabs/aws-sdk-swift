@@ -22,7 +22,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
     let region = "us-east-2"
     let requestSignature = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
     let serviceName = "test"
-    let credentials = AWSCredentials(accessKey: "fake access key", secret: "fake secret key")
+    let credentials = AWSCredentialIdentity(accessKey: "fake access key", secret: "fake secret key")
     let messageEncoder = AWSEventStream.AWSMessageEncoder()
     
     override class func setUp() {
@@ -36,10 +36,19 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             .withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
-            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4"
+            )            
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
-        
+
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            return AWSSigV4Signer()
+        } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
             return context.getRequestSignature()
@@ -64,10 +73,19 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let context = HttpContextBuilder().withSigningRegion(value: region)
             .withSigningName(value: serviceName)
             .withRequestSignature(value: requestSignature)
-            .withCredentialsProvider(value: MyCustomCredentialsProvider(credentials: credentials))
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4"
+            )
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4a"
+            )
             .build()
         
         let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            return AWSSigV4Signer()
+        } signingConfig: {
             return try await context.makeEventStreamSigningConfig()
         } requestSignature: {
             return context.getRequestSignature()

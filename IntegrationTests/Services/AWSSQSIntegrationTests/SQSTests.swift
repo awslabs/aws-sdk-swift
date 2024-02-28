@@ -16,6 +16,7 @@ class SQSTests: XCTestCase {
     private var client: SQSClient!
     private var queueName: String!
     private var queueUrl: String?
+    private let region = "us-west-2"
 
     override func setUp() async throws {
         self.client = try SQSClient(region: "us-west-1")
