@@ -115,7 +115,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         )
 
         let response = try await client.putObject(input: input)
-        let unwrappedResponse = try XCTUnwrap(response)
+        try XCTAssertNotNil(XCTUnwrap(response))
 
         let getInput = GetObjectInput(bucket: bucketName, key: objectName)
         let responseGet = try await client.getObject(input: getInput)
