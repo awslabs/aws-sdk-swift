@@ -1077,6 +1077,140 @@ extension AmplifyClientTypes {
 
 }
 
+extension AmplifyClientTypes.Certificate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateVerificationDNSRecord
+        case customCertificateArn
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateVerificationDNSRecord = self.certificateVerificationDNSRecord {
+            try encodeContainer.encode(certificateVerificationDNSRecord, forKey: .certificateVerificationDNSRecord)
+        }
+        if let customCertificateArn = self.customCertificateArn {
+            try encodeContainer.encode(customCertificateArn, forKey: .customCertificateArn)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.CertificateType.self, forKey: .type)
+        type = typeDecoded
+        let customCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customCertificateArn)
+        customCertificateArn = customCertificateArnDecoded
+        let certificateVerificationDNSRecordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateVerificationDNSRecord)
+        certificateVerificationDNSRecord = certificateVerificationDNSRecordDecoded
+    }
+}
+
+extension AmplifyClientTypes {
+    /// Describes the current SSL/TLS certificate that is in use for the domain. If you are using CreateDomainAssociation to create a new domain association, Certificate describes the new certificate that you are creating.
+    public struct Certificate: Swift.Equatable {
+        /// The DNS record for certificate verification.
+        public var certificateVerificationDNSRecord: Swift.String?
+        /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
+        public var customCertificateArn: Swift.String?
+        /// The type of SSL/TLS certificate that you want to use. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide .
+        /// This member is required.
+        public var type: AmplifyClientTypes.CertificateType?
+
+        public init(
+            certificateVerificationDNSRecord: Swift.String? = nil,
+            customCertificateArn: Swift.String? = nil,
+            type: AmplifyClientTypes.CertificateType? = nil
+        )
+        {
+            self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
+            self.customCertificateArn = customCertificateArn
+            self.type = type
+        }
+    }
+
+}
+
+extension AmplifyClientTypes.CertificateSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customCertificateArn
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let customCertificateArn = self.customCertificateArn {
+            try encodeContainer.encode(customCertificateArn, forKey: .customCertificateArn)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.CertificateType.self, forKey: .type)
+        type = typeDecoded
+        let customCertificateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .customCertificateArn)
+        customCertificateArn = customCertificateArnDecoded
+    }
+}
+
+extension AmplifyClientTypes {
+    /// The type of SSL/TLS certificate to use for your custom domain. If a certificate type isn't specified, Amplify uses the default AMPLIFY_MANAGED certificate.
+    public struct CertificateSettings: Swift.Equatable {
+        /// The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
+        public var customCertificateArn: Swift.String?
+        /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
+        /// This member is required.
+        public var type: AmplifyClientTypes.CertificateType?
+
+        public init(
+            customCertificateArn: Swift.String? = nil,
+            type: AmplifyClientTypes.CertificateType? = nil
+        )
+        {
+            self.customCertificateArn = customCertificateArn
+            self.type = type
+        }
+    }
+
+}
+
+extension AmplifyClientTypes {
+    public enum CertificateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case amplifyManaged
+        case custom
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateType] {
+            return [
+                .amplifyManaged,
+                .custom,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .amplifyManaged: return "AMPLIFY_MANAGED"
+            case .custom: return "CUSTOM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateType(rawValue: rawValue) ?? CertificateType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CreateAppInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateAppInput(autoBranchCreationConfig: \(Swift.String(describing: autoBranchCreationConfig)), autoBranchCreationPatterns: \(Swift.String(describing: autoBranchCreationPatterns)), customHeaders: \(Swift.String(describing: customHeaders)), customRules: \(Swift.String(describing: customRules)), description: \(Swift.String(describing: description)), enableAutoBranchCreation: \(Swift.String(describing: enableAutoBranchCreation)), enableBasicAuth: \(Swift.String(describing: enableBasicAuth)), enableBranchAutoBuild: \(Swift.String(describing: enableBranchAutoBuild)), enableBranchAutoDeletion: \(Swift.String(describing: enableBranchAutoDeletion)), environmentVariables: \(Swift.String(describing: environmentVariables)), iamServiceRoleArn: \(Swift.String(describing: iamServiceRoleArn)), name: \(Swift.String(describing: name)), platform: \(Swift.String(describing: platform)), repository: \(Swift.String(describing: repository)), tags: \(Swift.String(describing: tags)), accessToken: \"CONTENT_REDACTED\", basicAuthCredentials: \"CONTENT_REDACTED\", buildSpec: \"CONTENT_REDACTED\", oauthToken: \"CONTENT_REDACTED\")"}
@@ -2107,6 +2241,7 @@ extension CreateDomainAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoSubDomainCreationPatterns
         case autoSubDomainIAMRole
+        case certificateSettings
         case domainName
         case enableAutoSubDomain
         case subDomainSettings
@@ -2122,6 +2257,9 @@ extension CreateDomainAssociationInput: Swift.Encodable {
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
             try encodeContainer.encode(autoSubDomainIAMRole, forKey: .autoSubDomainIAMRole)
+        }
+        if let certificateSettings = self.certificateSettings {
+            try encodeContainer.encode(certificateSettings, forKey: .certificateSettings)
         }
         if let domainName = self.domainName {
             try encodeContainer.encode(domainName, forKey: .domainName)
@@ -2157,6 +2295,8 @@ public struct CreateDomainAssociationInput: Swift.Equatable {
     public var autoSubDomainCreationPatterns: [Swift.String]?
     /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
     public var autoSubDomainIAMRole: Swift.String?
+    /// The type of SSL/TLS certificate to use for your custom domain. If you don't specify a certificate type, Amplify uses the default certificate that it provisions and manages for you.
+    public var certificateSettings: AmplifyClientTypes.CertificateSettings?
     /// The domain name for the domain association.
     /// This member is required.
     public var domainName: Swift.String?
@@ -2170,6 +2310,7 @@ public struct CreateDomainAssociationInput: Swift.Equatable {
         appId: Swift.String? = nil,
         autoSubDomainCreationPatterns: [Swift.String]? = nil,
         autoSubDomainIAMRole: Swift.String? = nil,
+        certificateSettings: AmplifyClientTypes.CertificateSettings? = nil,
         domainName: Swift.String? = nil,
         enableAutoSubDomain: Swift.Bool? = nil,
         subDomainSettings: [AmplifyClientTypes.SubDomainSetting]? = nil
@@ -2178,6 +2319,7 @@ public struct CreateDomainAssociationInput: Swift.Equatable {
         self.appId = appId
         self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
         self.autoSubDomainIAMRole = autoSubDomainIAMRole
+        self.certificateSettings = certificateSettings
         self.domainName = domainName
         self.enableAutoSubDomain = enableAutoSubDomain
         self.subDomainSettings = subDomainSettings
@@ -2190,12 +2332,14 @@ struct CreateDomainAssociationInputBody: Swift.Equatable {
     let subDomainSettings: [AmplifyClientTypes.SubDomainSetting]?
     let autoSubDomainCreationPatterns: [Swift.String]?
     let autoSubDomainIAMRole: Swift.String?
+    let certificateSettings: AmplifyClientTypes.CertificateSettings?
 }
 
 extension CreateDomainAssociationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoSubDomainCreationPatterns
         case autoSubDomainIAMRole
+        case certificateSettings
         case domainName
         case enableAutoSubDomain
         case subDomainSettings
@@ -2231,6 +2375,8 @@ extension CreateDomainAssociationInputBody: Swift.Decodable {
         autoSubDomainCreationPatterns = autoSubDomainCreationPatternsDecoded0
         let autoSubDomainIAMRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoSubDomainIAMRole)
         autoSubDomainIAMRole = autoSubDomainIAMRoleDecoded
+        let certificateSettingsDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.CertificateSettings.self, forKey: .certificateSettings)
+        certificateSettings = certificateSettingsDecoded
     }
 }
 
@@ -2465,7 +2611,7 @@ extension AmplifyClientTypes {
         /// The source pattern for a URL rewrite or redirect rule.
         /// This member is required.
         public var source: Swift.String?
-        /// The status code for a URL rewrite or redirect rule. 200 Represents a 200 rewrite rule. 301 Represents a 301 (moved pemanently) redirect rule. This and all future requests should be directed to the target URL. 302 Represents a 302 temporary redirect rule. 404 Represents a 404 redirect rule. 404-200 Represents a 404 rewrite rule.
+        /// The status code for a URL rewrite or redirect rule. 200 Represents a 200 rewrite rule. 301 Represents a 301 (moved permanently) redirect rule. This and all future requests should be directed to the target URL. 302 Represents a 302 temporary redirect rule. 404 Represents a 404 redirect rule. 404-200 Represents a 404 rewrite rule.
         public var status: Swift.String?
         /// The target pattern for a URL rewrite or redirect rule.
         /// This member is required.
@@ -2827,7 +2973,7 @@ extension DeleteDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteDomainAssociationOutput: Swift.Equatable {
-    /// Describes a domain association that associates a custom domain with an Amplify app.
+    /// Describes the association between a custom domain and an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
 
@@ -3125,6 +3271,7 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoSubDomainCreationPatterns
         case autoSubDomainIAMRole
+        case certificate
         case certificateVerificationDNSRecord
         case domainAssociationArn
         case domainName
@@ -3132,6 +3279,7 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
         case enableAutoSubDomain
         case statusReason
         case subDomains
+        case updateStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3144,6 +3292,9 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
             try encodeContainer.encode(autoSubDomainIAMRole, forKey: .autoSubDomainIAMRole)
+        }
+        if let certificate = self.certificate {
+            try encodeContainer.encode(certificate, forKey: .certificate)
         }
         if let certificateVerificationDNSRecord = self.certificateVerificationDNSRecord {
             try encodeContainer.encode(certificateVerificationDNSRecord, forKey: .certificateVerificationDNSRecord)
@@ -3168,6 +3319,9 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
             for subdomain0 in subDomains {
                 try subDomainsContainer.encode(subdomain0)
             }
+        }
+        if let updateStatus = self.updateStatus {
+            try encodeContainer.encode(updateStatus.rawValue, forKey: .updateStatus)
         }
     }
 
@@ -3194,6 +3348,8 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
         autoSubDomainIAMRole = autoSubDomainIAMRoleDecoded
         let domainStatusDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.DomainStatus.self, forKey: .domainStatus)
         domainStatus = domainStatusDecoded
+        let updateStatusDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.UpdateStatus.self, forKey: .updateStatus)
+        updateStatus = updateStatusDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
         let certificateVerificationDNSRecordDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateVerificationDNSRecord)
@@ -3209,16 +3365,20 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
             }
         }
         subDomains = subDomainsDecoded0
+        let certificateDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.Certificate.self, forKey: .certificate)
+        certificate = certificateDecoded
     }
 }
 
 extension AmplifyClientTypes {
-    /// Describes a domain association that associates a custom domain with an Amplify app.
+    /// Describes the association between a custom domain and an Amplify app.
     public struct DomainAssociation: Swift.Equatable {
         /// Sets branch patterns for automatic subdomain creation.
         public var autoSubDomainCreationPatterns: [Swift.String]?
         /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
         public var autoSubDomainIAMRole: Swift.String?
+        /// Describes the SSL/TLS certificate for the domain association. This can be your own custom certificate or the default certificate that Amplify provisions for you. If you are updating your domain to use a different certificate, certificate points to the new certificate that is being created instead of the current active certificate. Otherwise, certificate points to the current active certificate.
+        public var certificate: AmplifyClientTypes.Certificate?
         /// The DNS record for certificate verification.
         public var certificateVerificationDNSRecord: Swift.String?
         /// The Amazon Resource Name (ARN) for the domain association.
@@ -3233,27 +3393,32 @@ extension AmplifyClientTypes {
         /// Enables the automated creation of subdomains for branches.
         /// This member is required.
         public var enableAutoSubDomain: Swift.Bool?
-        /// The reason for the current status of the domain association.
+        /// Additional information that describes why the domain association is in the current state.
         /// This member is required.
         public var statusReason: Swift.String?
         /// The subdomains for the domain association.
         /// This member is required.
         public var subDomains: [AmplifyClientTypes.SubDomain]?
+        /// The status of the domain update operation that is currently in progress. The following list describes the valid update states. REQUESTING_CERTIFICATE The certificate is in the process of being updated. PENDING_VERIFICATION Indicates that an Amplify managed certificate is in the process of being verified. This occurs during the creation of a custom domain or when a custom domain is updated to use a managed certificate. IMPORTING_CUSTOM_CERTIFICATE Indicates that an Amplify custom certificate is in the process of being imported. This occurs during the creation of a custom domain or when a custom domain is updated to use a custom certificate. PENDING_DEPLOYMENT Indicates that the subdomain or certificate changes are being propagated. AWAITING_APP_CNAME Amplify is waiting for CNAME records corresponding to subdomains to be propagated. If your custom domain is on Route 53, Amplify handles this for you automatically. For more information about custom domains, see [Setting up custom domains](https://docs.aws.amazon.com/amplify/latest/userguide/custom-domains.html) in the Amplify Hosting User Guide. UPDATE_COMPLETE The certificate has been associated with a domain. UPDATE_FAILED The certificate has failed to be provisioned or associated, and there is no existing active certificate to roll back to.
+        public var updateStatus: AmplifyClientTypes.UpdateStatus?
 
         public init(
             autoSubDomainCreationPatterns: [Swift.String]? = nil,
             autoSubDomainIAMRole: Swift.String? = nil,
+            certificate: AmplifyClientTypes.Certificate? = nil,
             certificateVerificationDNSRecord: Swift.String? = nil,
             domainAssociationArn: Swift.String? = nil,
             domainName: Swift.String? = nil,
             domainStatus: AmplifyClientTypes.DomainStatus? = nil,
             enableAutoSubDomain: Swift.Bool? = nil,
             statusReason: Swift.String? = nil,
-            subDomains: [AmplifyClientTypes.SubDomain]? = nil
+            subDomains: [AmplifyClientTypes.SubDomain]? = nil,
+            updateStatus: AmplifyClientTypes.UpdateStatus? = nil
         )
         {
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
             self.autoSubDomainIAMRole = autoSubDomainIAMRole
+            self.certificate = certificate
             self.certificateVerificationDNSRecord = certificateVerificationDNSRecord
             self.domainAssociationArn = domainAssociationArn
             self.domainName = domainName
@@ -3261,6 +3426,7 @@ extension AmplifyClientTypes {
             self.enableAutoSubDomain = enableAutoSubDomain
             self.statusReason = statusReason
             self.subDomains = subDomains
+            self.updateStatus = updateStatus
         }
     }
 
@@ -3269,8 +3435,10 @@ extension AmplifyClientTypes {
 extension AmplifyClientTypes {
     public enum DomainStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case available
+        case awaitingAppCname
         case creating
         case failed
+        case importingCustomCertificate
         case inProgress
         case pendingDeployment
         case pendingVerification
@@ -3281,8 +3449,10 @@ extension AmplifyClientTypes {
         public static var allCases: [DomainStatus] {
             return [
                 .available,
+                .awaitingAppCname,
                 .creating,
                 .failed,
+                .importingCustomCertificate,
                 .inProgress,
                 .pendingDeployment,
                 .pendingVerification,
@@ -3298,8 +3468,10 @@ extension AmplifyClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .available: return "AVAILABLE"
+            case .awaitingAppCname: return "AWAITING_APP_CNAME"
             case .creating: return "CREATING"
             case .failed: return "FAILED"
+            case .importingCustomCertificate: return "IMPORTING_CUSTOM_CERTIFICATE"
             case .inProgress: return "IN_PROGRESS"
             case .pendingDeployment: return "PENDING_DEPLOYMENT"
             case .pendingVerification: return "PENDING_VERIFICATION"
@@ -7428,6 +7600,7 @@ extension UpdateDomainAssociationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoSubDomainCreationPatterns
         case autoSubDomainIAMRole
+        case certificateSettings
         case enableAutoSubDomain
         case subDomainSettings
     }
@@ -7442,6 +7615,9 @@ extension UpdateDomainAssociationInput: Swift.Encodable {
         }
         if let autoSubDomainIAMRole = self.autoSubDomainIAMRole {
             try encodeContainer.encode(autoSubDomainIAMRole, forKey: .autoSubDomainIAMRole)
+        }
+        if let certificateSettings = self.certificateSettings {
+            try encodeContainer.encode(certificateSettings, forKey: .certificateSettings)
         }
         if let enableAutoSubDomain = self.enableAutoSubDomain {
             try encodeContainer.encode(enableAutoSubDomain, forKey: .enableAutoSubDomain)
@@ -7477,6 +7653,8 @@ public struct UpdateDomainAssociationInput: Swift.Equatable {
     public var autoSubDomainCreationPatterns: [Swift.String]?
     /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
     public var autoSubDomainIAMRole: Swift.String?
+    /// The type of SSL/TLS certificate to use for your custom domain.
+    public var certificateSettings: AmplifyClientTypes.CertificateSettings?
     /// The name of the domain.
     /// This member is required.
     public var domainName: Swift.String?
@@ -7489,6 +7667,7 @@ public struct UpdateDomainAssociationInput: Swift.Equatable {
         appId: Swift.String? = nil,
         autoSubDomainCreationPatterns: [Swift.String]? = nil,
         autoSubDomainIAMRole: Swift.String? = nil,
+        certificateSettings: AmplifyClientTypes.CertificateSettings? = nil,
         domainName: Swift.String? = nil,
         enableAutoSubDomain: Swift.Bool? = nil,
         subDomainSettings: [AmplifyClientTypes.SubDomainSetting]? = nil
@@ -7497,6 +7676,7 @@ public struct UpdateDomainAssociationInput: Swift.Equatable {
         self.appId = appId
         self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
         self.autoSubDomainIAMRole = autoSubDomainIAMRole
+        self.certificateSettings = certificateSettings
         self.domainName = domainName
         self.enableAutoSubDomain = enableAutoSubDomain
         self.subDomainSettings = subDomainSettings
@@ -7508,12 +7688,14 @@ struct UpdateDomainAssociationInputBody: Swift.Equatable {
     let subDomainSettings: [AmplifyClientTypes.SubDomainSetting]?
     let autoSubDomainCreationPatterns: [Swift.String]?
     let autoSubDomainIAMRole: Swift.String?
+    let certificateSettings: AmplifyClientTypes.CertificateSettings?
 }
 
 extension UpdateDomainAssociationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case autoSubDomainCreationPatterns
         case autoSubDomainIAMRole
+        case certificateSettings
         case enableAutoSubDomain
         case subDomainSettings
     }
@@ -7546,6 +7728,8 @@ extension UpdateDomainAssociationInputBody: Swift.Decodable {
         autoSubDomainCreationPatterns = autoSubDomainCreationPatternsDecoded0
         let autoSubDomainIAMRoleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoSubDomainIAMRole)
         autoSubDomainIAMRole = autoSubDomainIAMRoleDecoded
+        let certificateSettingsDecoded = try containerValues.decodeIfPresent(AmplifyClientTypes.CertificateSettings.self, forKey: .certificateSettings)
+        certificateSettings = certificateSettingsDecoded
     }
 }
 
@@ -7602,6 +7786,53 @@ enum UpdateDomainAssociationOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension AmplifyClientTypes {
+    public enum UpdateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awaitingAppCname
+        case importingCustomCertificate
+        case pendingDeployment
+        case pendingVerification
+        case requestingCertificate
+        case updateComplete
+        case updateFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [UpdateStatus] {
+            return [
+                .awaitingAppCname,
+                .importingCustomCertificate,
+                .pendingDeployment,
+                .pendingVerification,
+                .requestingCertificate,
+                .updateComplete,
+                .updateFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awaitingAppCname: return "AWAITING_APP_CNAME"
+            case .importingCustomCertificate: return "IMPORTING_CUSTOM_CERTIFICATE"
+            case .pendingDeployment: return "PENDING_DEPLOYMENT"
+            case .pendingVerification: return "PENDING_VERIFICATION"
+            case .requestingCertificate: return "REQUESTING_CERTIFICATE"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = UpdateStatus(rawValue: rawValue) ?? UpdateStatus.sdkUnknown(rawValue)
         }
     }
 }

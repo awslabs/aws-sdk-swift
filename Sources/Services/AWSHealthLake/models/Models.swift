@@ -1065,7 +1065,7 @@ extension DescribeFHIRImportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeFHIRImportJobOutput: Swift.Equatable {
-    /// The properties of the Import job request, including the ID, ARN, name, and the status of the job.
+    /// The properties of the Import job request, including the ID, ARN, name, status of the job, and the progress report of the job.
     /// This member is required.
     public var importJobProperties: HealthLakeClientTypes.ImportJobProperties?
 
@@ -1333,6 +1333,7 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
         case jobId = "JobId"
         case jobName = "JobName"
         case jobOutputDataConfig = "JobOutputDataConfig"
+        case jobProgressReport = "JobProgressReport"
         case jobStatus = "JobStatus"
         case message = "Message"
         case submitTime = "SubmitTime"
@@ -1360,6 +1361,9 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
         }
         if let jobOutputDataConfig = self.jobOutputDataConfig {
             try encodeContainer.encode(jobOutputDataConfig, forKey: .jobOutputDataConfig)
+        }
+        if let jobProgressReport = self.jobProgressReport {
+            try encodeContainer.encode(jobProgressReport, forKey: .jobProgressReport)
         }
         if let jobStatus = self.jobStatus {
             try encodeContainer.encode(jobStatus.rawValue, forKey: .jobStatus)
@@ -1390,6 +1394,8 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
         inputDataConfig = inputDataConfigDecoded
         let jobOutputDataConfigDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.OutputDataConfig.self, forKey: .jobOutputDataConfig)
         jobOutputDataConfig = jobOutputDataConfigDecoded
+        let jobProgressReportDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.JobProgressReport.self, forKey: .jobProgressReport)
+        jobProgressReport = jobProgressReportDecoded
         let dataAccessRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dataAccessRoleArn)
         dataAccessRoleArn = dataAccessRoleArnDecoded
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
@@ -1398,7 +1404,7 @@ extension HealthLakeClientTypes.ImportJobProperties: Swift.Codable {
 }
 
 extension HealthLakeClientTypes {
-    /// Displays the properties of the import job, including the ID, Arn, Name, and the status of the data store.
+    /// Displays the properties of the import job, including the ID, Arn, Name, the status of the job, and the progress report of the job.
     public struct ImportJobProperties: Swift.Equatable {
         /// The Amazon Resource Name (ARN) that gives AWS HealthLake access to your input data.
         public var dataAccessRoleArn: Swift.String?
@@ -1417,6 +1423,8 @@ extension HealthLakeClientTypes {
         public var jobName: Swift.String?
         /// The output data configuration that was supplied when the export job was created.
         public var jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig?
+        /// Displays the progress of the import job, including total resources scanned, total resources ingested, and total size of data ingested.
+        public var jobProgressReport: HealthLakeClientTypes.JobProgressReport?
         /// The job status for an Import job. Possible statuses are SUBMITTED, IN_PROGRESS, COMPLETED_WITH_ERRORS, COMPLETED, FAILED.
         /// This member is required.
         public var jobStatus: HealthLakeClientTypes.JobStatus?
@@ -1434,6 +1442,7 @@ extension HealthLakeClientTypes {
             jobId: Swift.String? = nil,
             jobName: Swift.String? = nil,
             jobOutputDataConfig: HealthLakeClientTypes.OutputDataConfig? = nil,
+            jobProgressReport: HealthLakeClientTypes.JobProgressReport? = nil,
             jobStatus: HealthLakeClientTypes.JobStatus? = nil,
             message: Swift.String? = nil,
             submitTime: ClientRuntime.Date? = nil
@@ -1446,6 +1455,7 @@ extension HealthLakeClientTypes {
             self.jobId = jobId
             self.jobName = jobName
             self.jobOutputDataConfig = jobOutputDataConfig
+            self.jobProgressReport = jobProgressReport
             self.jobStatus = jobStatus
             self.message = message
             self.submitTime = submitTime
@@ -1544,6 +1554,111 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension HealthLakeClientTypes.JobProgressReport: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case throughput = "Throughput"
+        case totalNumberOfFilesReadWithCustomerError = "TotalNumberOfFilesReadWithCustomerError"
+        case totalNumberOfImportedFiles = "TotalNumberOfImportedFiles"
+        case totalNumberOfResourcesImported = "TotalNumberOfResourcesImported"
+        case totalNumberOfResourcesScanned = "TotalNumberOfResourcesScanned"
+        case totalNumberOfResourcesWithCustomerError = "TotalNumberOfResourcesWithCustomerError"
+        case totalNumberOfScannedFiles = "TotalNumberOfScannedFiles"
+        case totalSizeOfScannedFilesInMB = "TotalSizeOfScannedFilesInMB"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let throughput = self.throughput {
+            try encodeContainer.encode(throughput, forKey: .throughput)
+        }
+        if let totalNumberOfFilesReadWithCustomerError = self.totalNumberOfFilesReadWithCustomerError {
+            try encodeContainer.encode(totalNumberOfFilesReadWithCustomerError, forKey: .totalNumberOfFilesReadWithCustomerError)
+        }
+        if let totalNumberOfImportedFiles = self.totalNumberOfImportedFiles {
+            try encodeContainer.encode(totalNumberOfImportedFiles, forKey: .totalNumberOfImportedFiles)
+        }
+        if let totalNumberOfResourcesImported = self.totalNumberOfResourcesImported {
+            try encodeContainer.encode(totalNumberOfResourcesImported, forKey: .totalNumberOfResourcesImported)
+        }
+        if let totalNumberOfResourcesScanned = self.totalNumberOfResourcesScanned {
+            try encodeContainer.encode(totalNumberOfResourcesScanned, forKey: .totalNumberOfResourcesScanned)
+        }
+        if let totalNumberOfResourcesWithCustomerError = self.totalNumberOfResourcesWithCustomerError {
+            try encodeContainer.encode(totalNumberOfResourcesWithCustomerError, forKey: .totalNumberOfResourcesWithCustomerError)
+        }
+        if let totalNumberOfScannedFiles = self.totalNumberOfScannedFiles {
+            try encodeContainer.encode(totalNumberOfScannedFiles, forKey: .totalNumberOfScannedFiles)
+        }
+        if let totalSizeOfScannedFilesInMB = self.totalSizeOfScannedFilesInMB {
+            try encodeContainer.encode(totalSizeOfScannedFilesInMB, forKey: .totalSizeOfScannedFilesInMB)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let totalNumberOfScannedFilesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfScannedFiles)
+        totalNumberOfScannedFiles = totalNumberOfScannedFilesDecoded
+        let totalSizeOfScannedFilesInMBDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .totalSizeOfScannedFilesInMB)
+        totalSizeOfScannedFilesInMB = totalSizeOfScannedFilesInMBDecoded
+        let totalNumberOfImportedFilesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfImportedFiles)
+        totalNumberOfImportedFiles = totalNumberOfImportedFilesDecoded
+        let totalNumberOfResourcesScannedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfResourcesScanned)
+        totalNumberOfResourcesScanned = totalNumberOfResourcesScannedDecoded
+        let totalNumberOfResourcesImportedDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfResourcesImported)
+        totalNumberOfResourcesImported = totalNumberOfResourcesImportedDecoded
+        let totalNumberOfResourcesWithCustomerErrorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfResourcesWithCustomerError)
+        totalNumberOfResourcesWithCustomerError = totalNumberOfResourcesWithCustomerErrorDecoded
+        let totalNumberOfFilesReadWithCustomerErrorDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalNumberOfFilesReadWithCustomerError)
+        totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerErrorDecoded
+        let throughputDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .throughput)
+        throughput = throughputDecoded
+    }
+}
+
+extension HealthLakeClientTypes {
+    /// The progress report of an import job.
+    public struct JobProgressReport: Swift.Equatable {
+        /// The throughput (in MB/sec) of the import job.
+        public var throughput: Swift.Double?
+        /// The number of files that failed to be read from the input S3 bucket due to customer error.
+        public var totalNumberOfFilesReadWithCustomerError: Swift.Int?
+        /// The number of files imported so far.
+        public var totalNumberOfImportedFiles: Swift.Int?
+        /// The number of resources imported so far.
+        public var totalNumberOfResourcesImported: Swift.Int?
+        /// The number of resources scanned from the input S3 bucket.
+        public var totalNumberOfResourcesScanned: Swift.Int?
+        /// The number of resources that failed due to customer error.
+        public var totalNumberOfResourcesWithCustomerError: Swift.Int?
+        /// The number of files scanned from input S3 bucket.
+        public var totalNumberOfScannedFiles: Swift.Int?
+        /// The size (in MB) of the files scanned from the input S3 bucket.
+        public var totalSizeOfScannedFilesInMB: Swift.Double?
+
+        public init(
+            throughput: Swift.Double? = nil,
+            totalNumberOfFilesReadWithCustomerError: Swift.Int? = nil,
+            totalNumberOfImportedFiles: Swift.Int? = nil,
+            totalNumberOfResourcesImported: Swift.Int? = nil,
+            totalNumberOfResourcesScanned: Swift.Int? = nil,
+            totalNumberOfResourcesWithCustomerError: Swift.Int? = nil,
+            totalNumberOfScannedFiles: Swift.Int? = nil,
+            totalSizeOfScannedFilesInMB: Swift.Double? = nil
+        )
+        {
+            self.throughput = throughput
+            self.totalNumberOfFilesReadWithCustomerError = totalNumberOfFilesReadWithCustomerError
+            self.totalNumberOfImportedFiles = totalNumberOfImportedFiles
+            self.totalNumberOfResourcesImported = totalNumberOfResourcesImported
+            self.totalNumberOfResourcesScanned = totalNumberOfResourcesScanned
+            self.totalNumberOfResourcesWithCustomerError = totalNumberOfResourcesWithCustomerError
+            self.totalNumberOfScannedFiles = totalNumberOfScannedFiles
+            self.totalSizeOfScannedFilesInMB = totalSizeOfScannedFilesInMB
+        }
+    }
+
 }
 
 extension HealthLakeClientTypes {
@@ -2122,7 +2237,7 @@ extension ListFHIRImportJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListFHIRImportJobsOutput: Swift.Equatable {
-    /// The properties of a listed FHIR import jobs, including the ID, ARN, name, and the status of the job.
+    /// The properties of a listed FHIR import jobs, including the ID, ARN, name, the status of the job, and the progress report of the job.
     /// This member is required.
     public var importJobPropertiesList: [HealthLakeClientTypes.ImportJobProperties]?
     /// A pagination token used to identify the next page of results to return for a ListFHIRImportJobs query.

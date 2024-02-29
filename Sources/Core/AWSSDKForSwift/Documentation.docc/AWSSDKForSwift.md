@@ -63,6 +63,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSApplicationInsights](../../../../../swift/api/awsapplicationinsights/latest)
 
+[AWSArtifact](../../../../../swift/api/awsartifact/latest)
+
 [AWSAthena](../../../../../swift/api/awsathena/latest)
 
 [AWSAuditManager](../../../../../swift/api/awsauditmanager/latest)
@@ -96,6 +98,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSBraket](../../../../../swift/api/awsbraket/latest)
 
 [AWSBudgets](../../../../../swift/api/awsbudgets/latest)
+
+[AWSChatbot](../../../../../swift/api/awschatbot/latest)
 
 [AWSChime](../../../../../swift/api/awschime/latest)
 

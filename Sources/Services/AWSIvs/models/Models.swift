@@ -812,7 +812,7 @@ extension IvsClientTypes {
         public var ingestEndpoint: Swift.String?
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public var insecureIngest: Swift.Bool
-        /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
+        /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
         public var name: Swift.String?
@@ -1043,7 +1043,7 @@ extension IvsClientTypes {
         public var authorized: Swift.Bool
         /// Whether the channel allows insecure RTMP ingest. Default: false.
         public var insecureIngest: Swift.Bool
-        /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
+        /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
         public var latencyMode: IvsClientTypes.ChannelLatencyMode?
         /// Channel name.
         public var name: Swift.String?
@@ -1240,7 +1240,7 @@ public struct CreateChannelInput: Swift.Equatable {
     public var authorized: Swift.Bool
     /// Whether the channel allows insecure RTMP ingest. Default: false.
     public var insecureIngest: Swift.Bool
-    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.) Default: LOW.
+    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?
@@ -6813,7 +6813,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var authorized: Swift.Bool
     /// Whether the channel allows insecure RTMP ingest. Default: false.
     public var insecureIngest: Swift.Bool
-    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. (Note: In the Amazon IVS console, LOW and NORMAL correspond to Ultra-low and Standard, respectively.)
+    /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
     /// Channel name.
     public var name: Swift.String?

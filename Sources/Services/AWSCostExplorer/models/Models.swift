@@ -637,6 +637,38 @@ extension CostExplorerClientTypes {
     }
 }
 
+extension CostExplorerClientTypes {
+    public enum ApproximationDimension: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case resource
+        case service
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ApproximationDimension] {
+            return [
+                .resource,
+                .service,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .resource: return "RESOURCE"
+            case .service: return "SERVICE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ApproximationDimension(rawValue: rawValue) ?? ApproximationDimension.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BillExpirationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -5082,6 +5114,173 @@ enum GetAnomalySubscriptionsOutputError: ClientRuntime.HttpResponseErrorBinding 
             case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnknownSubscriptionException": return try await UnknownSubscriptionException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetApproximateUsageRecordsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximationDimension = "ApproximationDimension"
+        case granularity = "Granularity"
+        case services = "Services"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let approximationDimension = self.approximationDimension {
+            try encodeContainer.encode(approximationDimension.rawValue, forKey: .approximationDimension)
+        }
+        if let granularity = self.granularity {
+            try encodeContainer.encode(granularity.rawValue, forKey: .granularity)
+        }
+        if let services = services {
+            var servicesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .services)
+            for genericstring0 in services {
+                try servicesContainer.encode(genericstring0)
+            }
+        }
+    }
+}
+
+extension GetApproximateUsageRecordsInput {
+
+    static func urlPathProvider(_ value: GetApproximateUsageRecordsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetApproximateUsageRecordsInput: Swift.Equatable {
+    /// The service to evaluate for the usage records. You can choose resource-level data at daily granularity, or hourly granularity with or without resource-level data.
+    /// This member is required.
+    public var approximationDimension: CostExplorerClientTypes.ApproximationDimension?
+    /// How granular you want the data to be. You can enable data at hourly or daily granularity.
+    /// This member is required.
+    public var granularity: CostExplorerClientTypes.Granularity?
+    /// The service metadata for the service or services you want to query. If not specified, all elements are returned.
+    public var services: [Swift.String]?
+
+    public init(
+        approximationDimension: CostExplorerClientTypes.ApproximationDimension? = nil,
+        granularity: CostExplorerClientTypes.Granularity? = nil,
+        services: [Swift.String]? = nil
+    )
+    {
+        self.approximationDimension = approximationDimension
+        self.granularity = granularity
+        self.services = services
+    }
+}
+
+struct GetApproximateUsageRecordsInputBody: Swift.Equatable {
+    let granularity: CostExplorerClientTypes.Granularity?
+    let services: [Swift.String]?
+    let approximationDimension: CostExplorerClientTypes.ApproximationDimension?
+}
+
+extension GetApproximateUsageRecordsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case approximationDimension = "ApproximationDimension"
+        case granularity = "Granularity"
+        case services = "Services"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let granularityDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.Granularity.self, forKey: .granularity)
+        granularity = granularityDecoded
+        let servicesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .services)
+        var servicesDecoded0:[Swift.String]? = nil
+        if let servicesContainer = servicesContainer {
+            servicesDecoded0 = [Swift.String]()
+            for string0 in servicesContainer {
+                if let string0 = string0 {
+                    servicesDecoded0?.append(string0)
+                }
+            }
+        }
+        services = servicesDecoded0
+        let approximationDimensionDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.ApproximationDimension.self, forKey: .approximationDimension)
+        approximationDimension = approximationDimensionDecoded
+    }
+}
+
+extension GetApproximateUsageRecordsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetApproximateUsageRecordsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.lookbackPeriod = output.lookbackPeriod
+            self.services = output.services
+            self.totalRecords = output.totalRecords
+        } else {
+            self.lookbackPeriod = nil
+            self.services = nil
+            self.totalRecords = 0
+        }
+    }
+}
+
+public struct GetApproximateUsageRecordsOutput: Swift.Equatable {
+    /// The lookback period that's used for the estimation.
+    public var lookbackPeriod: CostExplorerClientTypes.DateInterval?
+    /// The service metadata for the service or services in the response.
+    public var services: [Swift.String:Swift.Int]?
+    /// The total number of usage records for all services in the services list.
+    public var totalRecords: Swift.Int
+
+    public init(
+        lookbackPeriod: CostExplorerClientTypes.DateInterval? = nil,
+        services: [Swift.String:Swift.Int]? = nil,
+        totalRecords: Swift.Int = 0
+    )
+    {
+        self.lookbackPeriod = lookbackPeriod
+        self.services = services
+        self.totalRecords = totalRecords
+    }
+}
+
+struct GetApproximateUsageRecordsOutputBody: Swift.Equatable {
+    let services: [Swift.String:Swift.Int]?
+    let totalRecords: Swift.Int
+    let lookbackPeriod: CostExplorerClientTypes.DateInterval?
+}
+
+extension GetApproximateUsageRecordsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case lookbackPeriod = "LookbackPeriod"
+        case services = "Services"
+        case totalRecords = "TotalRecords"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let servicesContainer = try containerValues.decodeIfPresent([Swift.String: Swift.Int?].self, forKey: .services)
+        var servicesDecoded0: [Swift.String:Swift.Int]? = nil
+        if let servicesContainer = servicesContainer {
+            servicesDecoded0 = [Swift.String:Swift.Int]()
+            for (key0, nonnegativelong0) in servicesContainer {
+                if let nonnegativelong0 = nonnegativelong0 {
+                    servicesDecoded0?[key0] = nonnegativelong0
+                }
+            }
+        }
+        services = servicesDecoded0
+        let totalRecordsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .totalRecords) ?? 0
+        totalRecords = totalRecordsDecoded
+        let lookbackPeriodDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.DateInterval.self, forKey: .lookbackPeriod)
+        lookbackPeriod = lookbackPeriodDecoded
+    }
+}
+
+enum GetApproximateUsageRecordsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "DataUnavailableException": return try await DataUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

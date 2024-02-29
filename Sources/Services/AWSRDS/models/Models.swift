@@ -4193,7 +4193,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     public var databaseName: Swift.String?
     /// The identifier for this DB cluster. This parameter is stored as a lowercase string. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Constraints:
     ///
-    /// * Must contain from 1 to 63 letters, numbers, or hyphens.
+    /// * Must contain from 1 to 63 (for Aurora DB clusters) or 1 to 52 (for Multi-AZ DB clusters) letters, numbers, or hyphens.
     ///
     /// * First character must be a letter.
     ///
@@ -4647,7 +4647,7 @@ public struct CreateDBClusterParameterGroupInput: Swift.Equatable {
     /// This value is stored as a lowercase string.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
-    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres12 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
+    /// The DB cluster parameter group family name. A DB cluster parameter group can be associated with one and only one DB cluster parameter group family, and can be applied only to a DB cluster running a database engine and engine version compatible with that DB cluster parameter group family. Aurora MySQL Example: aurora-mysql5.7, aurora-mysql8.0 Aurora PostgreSQL Example: aurora-postgresql14 RDS for MySQL Example: mysql8.0 RDS for PostgreSQL Example: postgres13 To list all of the available parameter group families for a DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine  For example, to list all of the available parameter group families for the Aurora PostgreSQL DB engine, use the following command: aws rds describe-db-engine-versions --query "DBEngineVersions[].DBParameterGroupFamily" --engine aurora-postgresql The output contains duplicates. The following are the valid DB engine values:
     ///
     /// * aurora-mysql
     ///
@@ -8623,6 +8623,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         case status = "Status"
         case statusInfos = "StatusInfos"
         case storageEncrypted = "StorageEncrypted"
+        case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
         case tagList = "TagList"
         case vpcSecurityGroups = "VpcSecurityGroups"
@@ -8933,6 +8934,9 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageThroughput = storageThroughput {
+            try container.encode(storageThroughput, forKey: ClientRuntime.Key("StorageThroughput"))
+        }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
@@ -9043,6 +9047,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
             value.localWriteForwardingStatus = try reader["LocalWriteForwardingStatus"].readIfPresent()
             value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
             value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(readingClosure: RDSClientTypes.LimitlessDatabase.readingClosure)
+            value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
             return value
         }
     }
@@ -9208,6 +9213,8 @@ extension RDSClientTypes {
         public var statusInfos: [RDSClientTypes.DBClusterStatusInfo]?
         /// Indicates whether the DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The storage throughput for the DB cluster. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster.
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -9290,6 +9297,7 @@ extension RDSClientTypes {
             status: Swift.String? = nil,
             statusInfos: [RDSClientTypes.DBClusterStatusInfo]? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcSecurityGroups: [RDSClientTypes.VpcSecurityGroupMembership]? = nil
@@ -9369,6 +9377,7 @@ extension RDSClientTypes {
             self.status = status
             self.statusInfos = statusInfos
             self.storageEncrypted = storageEncrypted
+            self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
             self.vpcSecurityGroups = vpcSecurityGroups
@@ -9437,6 +9446,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Encodable {
         case restoreWindow = "RestoreWindow"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
         case vpcId = "VpcId"
     }
@@ -9518,6 +9528,9 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageThroughput = storageThroughput {
+            try container.encode(storageThroughput, forKey: ClientRuntime.Key("StorageThroughput"))
+        }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
@@ -9554,6 +9567,7 @@ extension RDSClientTypes.DBClusterAutomatedBackup: Swift.Encodable {
             value.storageType = try reader["StorageType"].readIfPresent()
             value.iops = try reader["Iops"].readIfPresent()
             value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
+            value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
             return value
         }
     }
@@ -9608,6 +9622,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the source DB cluster is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The storage throughput for the automated backup. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster. This setting is only for non-Aurora Multi-AZ DB clusters.
         public var storageType: Swift.String?
         /// The VPC ID associated with the DB cluster.
@@ -9636,6 +9652,7 @@ extension RDSClientTypes {
             restoreWindow: RDSClientTypes.RestoreWindow? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             vpcId: Swift.String? = nil
         )
@@ -9662,6 +9679,7 @@ extension RDSClientTypes {
             self.restoreWindow = restoreWindow
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.vpcId = vpcId
         }
@@ -10603,6 +10621,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Encodable {
         case sourceDBClusterSnapshotArn = "SourceDBClusterSnapshotArn"
         case status = "Status"
         case storageEncrypted = "StorageEncrypted"
+        case storageThroughput = "StorageThroughput"
         case storageType = "StorageType"
         case tagList = "TagList"
         case vpcId = "VpcId"
@@ -10685,6 +10704,9 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Encodable {
         if let storageEncrypted = storageEncrypted {
             try container.encode(storageEncrypted, forKey: ClientRuntime.Key("StorageEncrypted"))
         }
+        if let storageThroughput = storageThroughput {
+            try container.encode(storageThroughput, forKey: ClientRuntime.Key("StorageThroughput"))
+        }
         if let storageType = storageType {
             try container.encode(storageType, forKey: ClientRuntime.Key("StorageType"))
         }
@@ -10734,6 +10756,7 @@ extension RDSClientTypes.DBClusterSnapshot: Swift.Encodable {
             value.dbSystemId = try reader["DBSystemId"].readIfPresent()
             value.storageType = try reader["StorageType"].readIfPresent()
             value.dbClusterResourceId = try reader["DbClusterResourceId"].readIfPresent()
+            value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
             return value
         }
     }
@@ -10792,6 +10815,8 @@ extension RDSClientTypes {
         public var status: Swift.String?
         /// Indicates whether the DB cluster snapshot is encrypted.
         public var storageEncrypted: Swift.Bool?
+        /// The storage throughput for the DB cluster snapshot. The throughput is automatically set based on the IOPS that you provision, and is not configurable. This setting is only for non-Aurora Multi-AZ DB clusters.
+        public var storageThroughput: Swift.Int?
         /// The storage type associated with the DB cluster snapshot. This setting is only for Aurora DB clusters.
         public var storageType: Swift.String?
         /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
@@ -10822,6 +10847,7 @@ extension RDSClientTypes {
             sourceDBClusterSnapshotArn: Swift.String? = nil,
             status: Swift.String? = nil,
             storageEncrypted: Swift.Bool? = nil,
+            storageThroughput: Swift.Int? = nil,
             storageType: Swift.String? = nil,
             tagList: [RDSClientTypes.Tag]? = nil,
             vpcId: Swift.String? = nil
@@ -10849,6 +10875,7 @@ extension RDSClientTypes {
             self.sourceDBClusterSnapshotArn = sourceDBClusterSnapshotArn
             self.status = status
             self.storageEncrypted = storageEncrypted
+            self.storageThroughput = storageThroughput
             self.storageType = storageType
             self.tagList = tagList
             self.vpcId = vpcId
@@ -26369,6 +26396,8 @@ extension RDSClientTypes {
     ///
     /// * DescribeDBRecommendations
     ///
+    /// * DescribeDBShardGroups
+    ///
     /// * DescribePendingMaintenanceActions
     public struct Filter: Swift.Equatable {
         /// The name of the filter. Filter names are case-sensitive.
@@ -39399,7 +39428,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     ///
     /// For the list of permissions required for the IAM role, see [ Configure IAM and your VPC](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/custom-setup-orcl.html#custom-setup-orcl.iam-vpc) in the Amazon RDS User Guide. This setting is required for RDS Custom.
     public var customIamInstanceProfile: Swift.String?
-    /// The identifier for the RDS for MySQL Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
+    /// The identifier for the Multi-AZ DB cluster snapshot to restore from. For more information on Multi-AZ DB clusters, see [ Multi-AZ DB cluster deployments](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/multi-az-db-clusters-concepts.html) in the Amazon RDS User Guide. Constraints:
     ///
     /// * Must match the identifier of an existing Multi-AZ DB cluster snapshot.
     ///
@@ -39410,8 +39439,6 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     /// * If you are restoring from a shared manual Multi-AZ DB cluster snapshot, the DBClusterSnapshotIdentifier must be the ARN of the shared snapshot.
     ///
     /// * Can't be the identifier of an Aurora DB cluster snapshot.
-    ///
-    /// * Can't be the identifier of an RDS for PostgreSQL Multi-AZ DB cluster snapshot.
     public var dbClusterSnapshotIdentifier: Swift.String?
     /// The compute and memory capacity of the Amazon RDS DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Default: The same DBInstanceClass as the original DB instance.
     public var dbInstanceClass: Swift.String?

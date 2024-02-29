@@ -893,7 +893,7 @@ extension KafkaConnectClientTypes {
 
 extension CreateConnectorInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
+        "CreateConnectorInput(capacity: \(Swift.String(describing: capacity)), connectorDescription: \(Swift.String(describing: connectorDescription)), connectorName: \(Swift.String(describing: connectorName)), kafkaCluster: \(Swift.String(describing: kafkaCluster)), kafkaClusterClientAuthentication: \(Swift.String(describing: kafkaClusterClientAuthentication)), kafkaClusterEncryptionInTransit: \(Swift.String(describing: kafkaClusterEncryptionInTransit)), kafkaConnectVersion: \(Swift.String(describing: kafkaConnectVersion)), logDelivery: \(Swift.String(describing: logDelivery)), plugins: \(Swift.String(describing: plugins)), serviceExecutionRoleArn: \(Swift.String(describing: serviceExecutionRoleArn)), tags: \(Swift.String(describing: tags)), workerConfiguration: \(Swift.String(describing: workerConfiguration)), connectorConfiguration: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateConnectorInput: Swift.Encodable {
@@ -909,6 +909,7 @@ extension CreateConnectorInput: Swift.Encodable {
         case logDelivery
         case plugins
         case serviceExecutionRoleArn
+        case tags
         case workerConfiguration
     }
 
@@ -953,6 +954,12 @@ extension CreateConnectorInput: Swift.Encodable {
         if let serviceExecutionRoleArn = self.serviceExecutionRoleArn {
             try encodeContainer.encode(serviceExecutionRoleArn, forKey: .serviceExecutionRoleArn)
         }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let workerConfiguration = self.workerConfiguration {
             try encodeContainer.encode(workerConfiguration, forKey: .workerConfiguration)
         }
@@ -992,12 +999,14 @@ public struct CreateConnectorInput: Swift.Equatable {
     public var kafkaConnectVersion: Swift.String?
     /// Details about log delivery.
     public var logDelivery: KafkaConnectClientTypes.LogDelivery?
-    /// Specifies which plugins to use for the connector.
+    /// Amazon MSK Connect does not currently support specifying multiple plugins as a list. To use more than one plugin for your connector, you can create a single custom plugin using a ZIP file that bundles multiple plugins together. Specifies which plugin to use for the connector. You must specify a single-element list containing one customPlugin object.
     /// This member is required.
     public var plugins: [KafkaConnectClientTypes.Plugin]?
     /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access the Amazon Web Services resources that it needs. The types of resources depends on the logic of the connector. For example, a connector that has Amazon S3 as a destination must have permissions that allow it to write to the S3 destination bucket.
     /// This member is required.
     public var serviceExecutionRoleArn: Swift.String?
+    /// The tags you want to attach to the connector.
+    public var tags: [Swift.String:Swift.String]?
     /// Specifies which worker configuration to use with the connector.
     public var workerConfiguration: KafkaConnectClientTypes.WorkerConfiguration?
 
@@ -1013,6 +1022,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         logDelivery: KafkaConnectClientTypes.LogDelivery? = nil,
         plugins: [KafkaConnectClientTypes.Plugin]? = nil,
         serviceExecutionRoleArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
         workerConfiguration: KafkaConnectClientTypes.WorkerConfiguration? = nil
     )
     {
@@ -1027,6 +1037,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         self.logDelivery = logDelivery
         self.plugins = plugins
         self.serviceExecutionRoleArn = serviceExecutionRoleArn
+        self.tags = tags
         self.workerConfiguration = workerConfiguration
     }
 }
@@ -1044,6 +1055,7 @@ struct CreateConnectorInputBody: Swift.Equatable {
     let plugins: [KafkaConnectClientTypes.Plugin]?
     let serviceExecutionRoleArn: Swift.String?
     let workerConfiguration: KafkaConnectClientTypes.WorkerConfiguration?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateConnectorInputBody: Swift.Decodable {
@@ -1059,6 +1071,7 @@ extension CreateConnectorInputBody: Swift.Decodable {
         case logDelivery
         case plugins
         case serviceExecutionRoleArn
+        case tags
         case workerConfiguration
     }
 
@@ -1106,6 +1119,17 @@ extension CreateConnectorInputBody: Swift.Decodable {
         serviceExecutionRoleArn = serviceExecutionRoleArnDecoded
         let workerConfigurationDecoded = try containerValues.decodeIfPresent(KafkaConnectClientTypes.WorkerConfiguration.self, forKey: .workerConfiguration)
         workerConfiguration = workerConfigurationDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1193,6 +1217,7 @@ extension CreateCustomPluginInput: Swift.Encodable {
         case description
         case location
         case name
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1208,6 +1233,12 @@ extension CreateCustomPluginInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -1231,18 +1262,22 @@ public struct CreateCustomPluginInput: Swift.Equatable {
     /// The name of the custom plugin.
     /// This member is required.
     public var name: Swift.String?
+    /// The tags you want to attach to the custom plugin.
+    public var tags: [Swift.String:Swift.String]?
 
     public init(
         contentType: KafkaConnectClientTypes.CustomPluginContentType? = nil,
         description: Swift.String? = nil,
         location: KafkaConnectClientTypes.CustomPluginLocation? = nil,
-        name: Swift.String? = nil
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.contentType = contentType
         self.description = description
         self.location = location
         self.name = name
+        self.tags = tags
     }
 }
 
@@ -1251,6 +1286,7 @@ struct CreateCustomPluginInputBody: Swift.Equatable {
     let description: Swift.String?
     let location: KafkaConnectClientTypes.CustomPluginLocation?
     let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateCustomPluginInputBody: Swift.Decodable {
@@ -1259,6 +1295,7 @@ extension CreateCustomPluginInputBody: Swift.Decodable {
         case description
         case location
         case name
+        case tags
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1271,6 +1308,17 @@ extension CreateCustomPluginInputBody: Swift.Decodable {
         location = locationDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1364,7 +1412,7 @@ enum CreateCustomPluginOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateWorkerConfigurationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateWorkerConfigurationInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), propertiesFileContent: \"CONTENT_REDACTED\")"}
+        "CreateWorkerConfigurationInput(description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), tags: \(Swift.String(describing: tags)), propertiesFileContent: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateWorkerConfigurationInput: Swift.Encodable {
@@ -1372,6 +1420,7 @@ extension CreateWorkerConfigurationInput: Swift.Encodable {
         case description
         case name
         case propertiesFileContent
+        case tags
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1384,6 +1433,12 @@ extension CreateWorkerConfigurationInput: Swift.Encodable {
         }
         if let propertiesFileContent = self.propertiesFileContent {
             try encodeContainer.encode(propertiesFileContent, forKey: .propertiesFileContent)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
     }
 }
@@ -1404,16 +1459,20 @@ public struct CreateWorkerConfigurationInput: Swift.Equatable {
     /// Base64 encoded contents of connect-distributed.properties file.
     /// This member is required.
     public var propertiesFileContent: Swift.String?
+    /// The tags you want to attach to the worker configuration.
+    public var tags: [Swift.String:Swift.String]?
 
     public init(
         description: Swift.String? = nil,
         name: Swift.String? = nil,
-        propertiesFileContent: Swift.String? = nil
+        propertiesFileContent: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.description = description
         self.name = name
         self.propertiesFileContent = propertiesFileContent
+        self.tags = tags
     }
 }
 
@@ -1421,6 +1480,7 @@ struct CreateWorkerConfigurationInputBody: Swift.Equatable {
     let description: Swift.String?
     let name: Swift.String?
     let propertiesFileContent: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateWorkerConfigurationInputBody: Swift.Decodable {
@@ -1428,6 +1488,7 @@ extension CreateWorkerConfigurationInputBody: Swift.Decodable {
         case description
         case name
         case propertiesFileContent
+        case tags
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1438,6 +1499,17 @@ extension CreateWorkerConfigurationInputBody: Swift.Decodable {
         name = nameDecoded
         let propertiesFileContentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .propertiesFileContent)
         propertiesFileContent = propertiesFileContentDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1450,11 +1522,13 @@ extension CreateWorkerConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.latestRevision = output.latestRevision
             self.name = output.name
             self.workerConfigurationArn = output.workerConfigurationArn
+            self.workerConfigurationState = output.workerConfigurationState
         } else {
             self.creationTime = nil
             self.latestRevision = nil
             self.name = nil
             self.workerConfigurationArn = nil
+            self.workerConfigurationState = nil
         }
     }
 }
@@ -1468,18 +1542,22 @@ public struct CreateWorkerConfigurationOutput: Swift.Equatable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) that Amazon assigned to the worker configuration.
     public var workerConfigurationArn: Swift.String?
+    /// The state of the worker configuration.
+    public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
     public init(
         creationTime: ClientRuntime.Date? = nil,
         latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary? = nil,
         name: Swift.String? = nil,
-        workerConfigurationArn: Swift.String? = nil
+        workerConfigurationArn: Swift.String? = nil,
+        workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
     )
     {
         self.creationTime = creationTime
         self.latestRevision = latestRevision
         self.name = name
         self.workerConfigurationArn = workerConfigurationArn
+        self.workerConfigurationState = workerConfigurationState
     }
 }
 
@@ -1488,6 +1566,7 @@ struct CreateWorkerConfigurationOutputBody: Swift.Equatable {
     let latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary?
     let name: Swift.String?
     let workerConfigurationArn: Swift.String?
+    let workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 }
 
 extension CreateWorkerConfigurationOutputBody: Swift.Decodable {
@@ -1496,6 +1575,7 @@ extension CreateWorkerConfigurationOutputBody: Swift.Decodable {
         case latestRevision
         case name
         case workerConfigurationArn
+        case workerConfigurationState
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1508,6 +1588,8 @@ extension CreateWorkerConfigurationOutputBody: Swift.Decodable {
         name = nameDecoded
         let workerConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerConfigurationArn)
         workerConfigurationArn = workerConfigurationArnDecoded
+        let workerConfigurationStateDecoded = try containerValues.decodeIfPresent(KafkaConnectClientTypes.WorkerConfigurationState.self, forKey: .workerConfigurationState)
+        workerConfigurationState = workerConfigurationStateDecoded
     }
 }
 
@@ -1555,7 +1637,7 @@ extension KafkaConnectClientTypes.CustomPlugin: Swift.Codable {
 }
 
 extension KafkaConnectClientTypes {
-    /// A plugin is an AWS resource that contains the code that defines a connector's logic.
+    /// A plugin is an Amazon Web Services resource that contains the code that defines a connector's logic.
     public struct CustomPlugin: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the custom plugin.
         /// This member is required.
@@ -2197,6 +2279,105 @@ enum DeleteCustomPluginOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DeleteWorkerConfigurationInput {
+
+    static func urlPathProvider(_ value: DeleteWorkerConfigurationInput) -> Swift.String? {
+        guard let workerConfigurationArn = value.workerConfigurationArn else {
+            return nil
+        }
+        return "/v1/worker-configurations/\(workerConfigurationArn.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteWorkerConfigurationInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the worker configuration that you want to delete.
+    /// This member is required.
+    public var workerConfigurationArn: Swift.String?
+
+    public init(
+        workerConfigurationArn: Swift.String? = nil
+    )
+    {
+        self.workerConfigurationArn = workerConfigurationArn
+    }
+}
+
+struct DeleteWorkerConfigurationInputBody: Swift.Equatable {
+}
+
+extension DeleteWorkerConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteWorkerConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteWorkerConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.workerConfigurationArn = output.workerConfigurationArn
+            self.workerConfigurationState = output.workerConfigurationState
+        } else {
+            self.workerConfigurationArn = nil
+            self.workerConfigurationState = nil
+        }
+    }
+}
+
+public struct DeleteWorkerConfigurationOutput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the worker configuration that you requested to delete.
+    public var workerConfigurationArn: Swift.String?
+    /// The state of the worker configuration.
+    public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
+
+    public init(
+        workerConfigurationArn: Swift.String? = nil,
+        workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
+    )
+    {
+        self.workerConfigurationArn = workerConfigurationArn
+        self.workerConfigurationState = workerConfigurationState
+    }
+}
+
+struct DeleteWorkerConfigurationOutputBody: Swift.Equatable {
+    let workerConfigurationArn: Swift.String?
+    let workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
+}
+
+extension DeleteWorkerConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case workerConfigurationArn
+        case workerConfigurationState
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let workerConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerConfigurationArn)
+        workerConfigurationArn = workerConfigurationArnDecoded
+        let workerConfigurationStateDecoded = try containerValues.decodeIfPresent(KafkaConnectClientTypes.WorkerConfigurationState.self, forKey: .workerConfigurationState)
+        workerConfigurationState = workerConfigurationStateDecoded
+    }
+}
+
+enum DeleteWorkerConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribeConnectorInput {
 
     static func urlPathProvider(_ value: DescribeConnectorInput) -> Swift.String? {
@@ -2660,12 +2841,14 @@ extension DescribeWorkerConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.latestRevision = output.latestRevision
             self.name = output.name
             self.workerConfigurationArn = output.workerConfigurationArn
+            self.workerConfigurationState = output.workerConfigurationState
         } else {
             self.creationTime = nil
             self.description = nil
             self.latestRevision = nil
             self.name = nil
             self.workerConfigurationArn = nil
+            self.workerConfigurationState = nil
         }
     }
 }
@@ -2681,13 +2864,16 @@ public struct DescribeWorkerConfigurationOutput: Swift.Equatable {
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the custom configuration.
     public var workerConfigurationArn: Swift.String?
+    /// The state of the worker configuration.
+    public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
     public init(
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionDescription? = nil,
         name: Swift.String? = nil,
-        workerConfigurationArn: Swift.String? = nil
+        workerConfigurationArn: Swift.String? = nil,
+        workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
     )
     {
         self.creationTime = creationTime
@@ -2695,6 +2881,7 @@ public struct DescribeWorkerConfigurationOutput: Swift.Equatable {
         self.latestRevision = latestRevision
         self.name = name
         self.workerConfigurationArn = workerConfigurationArn
+        self.workerConfigurationState = workerConfigurationState
     }
 }
 
@@ -2704,6 +2891,7 @@ struct DescribeWorkerConfigurationOutputBody: Swift.Equatable {
     let latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionDescription?
     let name: Swift.String?
     let workerConfigurationArn: Swift.String?
+    let workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 }
 
 extension DescribeWorkerConfigurationOutputBody: Swift.Decodable {
@@ -2713,6 +2901,7 @@ extension DescribeWorkerConfigurationOutputBody: Swift.Decodable {
         case latestRevision
         case name
         case workerConfigurationArn
+        case workerConfigurationState
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2727,6 +2916,8 @@ extension DescribeWorkerConfigurationOutputBody: Swift.Decodable {
         name = nameDecoded
         let workerConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerConfigurationArn)
         workerConfigurationArn = workerConfigurationArnDecoded
+        let workerConfigurationStateDecoded = try containerValues.decodeIfPresent(KafkaConnectClientTypes.WorkerConfigurationState.self, forKey: .workerConfigurationState)
+        workerConfigurationState = workerConfigurationStateDecoded
     }
 }
 
@@ -3371,6 +3562,10 @@ extension ListCustomPluginsInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let namePrefix = value.namePrefix {
+            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            items.append(namePrefixQueryItem)
+        }
         return items
     }
 }
@@ -3385,15 +3580,19 @@ extension ListCustomPluginsInput {
 public struct ListCustomPluginsInput: Swift.Equatable {
     /// The maximum number of custom plugins to list in one response.
     public var maxResults: Swift.Int
+    /// Lists custom plugin names that start with the specified text string.
+    public var namePrefix: Swift.String?
     /// If the response of a ListCustomPlugins operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
     public var nextToken: Swift.String?
 
     public init(
         maxResults: Swift.Int = 0,
+        namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
+        self.namePrefix = namePrefix
         self.nextToken = nextToken
     }
 }
@@ -3483,6 +3682,104 @@ enum ListCustomPluginsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource for which you want to list all attached tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Equatable {
+    /// Lists the tags attached to the specified resource in the corresponding request.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListTagsForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListWorkerConfigurationsInput {
 
     static func queryItemProvider(_ value: ListWorkerConfigurationsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -3494,6 +3791,10 @@ extension ListWorkerConfigurationsInput {
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
+        }
+        if let namePrefix = value.namePrefix {
+            let namePrefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "namePrefix".urlPercentEncoding(), value: Swift.String(namePrefix).urlPercentEncoding())
+            items.append(namePrefixQueryItem)
         }
         return items
     }
@@ -3509,15 +3810,19 @@ extension ListWorkerConfigurationsInput {
 public struct ListWorkerConfigurationsInput: Swift.Equatable {
     /// The maximum number of worker configurations to list in one response.
     public var maxResults: Swift.Int
+    /// Lists worker configuration names that start with the specified text string.
+    public var namePrefix: Swift.String?
     /// If the response of a ListWorkerConfigurations operation is truncated, it will include a NextToken. Send this NextToken in a subsequent request to continue listing from where the previous operation left off.
     public var nextToken: Swift.String?
 
     public init(
         maxResults: Swift.Int = 0,
+        namePrefix: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
+        self.namePrefix = namePrefix
         self.nextToken = nextToken
     }
 }
@@ -3753,7 +4058,7 @@ extension KafkaConnectClientTypes.Plugin: Swift.Codable {
 }
 
 extension KafkaConnectClientTypes {
-    /// A plugin is an AWS resource that contains the code that defines your connector logic.
+    /// A plugin is an Amazon Web Services resource that contains the code that defines your connector logic.
     public struct Plugin: Swift.Equatable {
         /// Details about a custom plugin.
         /// This member is required.
@@ -4480,6 +4785,103 @@ extension KafkaConnectClientTypes {
 
 }
 
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource to which you want to attach tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The tags that you want to attach to the resource.
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension TooManyRequestsException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4587,6 +4989,86 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/v1/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The keys of the tags that you want to remove from the resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailableException": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -5089,6 +5571,38 @@ extension KafkaConnectClientTypes {
 
 }
 
+extension KafkaConnectClientTypes {
+    public enum WorkerConfigurationState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case deleting
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkerConfigurationState] {
+            return [
+                .active,
+                .deleting,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .deleting: return "DELETING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkerConfigurationState(rawValue: rawValue) ?? WorkerConfigurationState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KafkaConnectClientTypes.WorkerConfigurationSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case creationTime
@@ -5096,6 +5610,7 @@ extension KafkaConnectClientTypes.WorkerConfigurationSummary: Swift.Codable {
         case latestRevision
         case name
         case workerConfigurationArn
+        case workerConfigurationState
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5115,6 +5630,9 @@ extension KafkaConnectClientTypes.WorkerConfigurationSummary: Swift.Codable {
         if let workerConfigurationArn = self.workerConfigurationArn {
             try encodeContainer.encode(workerConfigurationArn, forKey: .workerConfigurationArn)
         }
+        if let workerConfigurationState = self.workerConfigurationState {
+            try encodeContainer.encode(workerConfigurationState.rawValue, forKey: .workerConfigurationState)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5129,6 +5647,8 @@ extension KafkaConnectClientTypes.WorkerConfigurationSummary: Swift.Codable {
         name = nameDecoded
         let workerConfigurationArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .workerConfigurationArn)
         workerConfigurationArn = workerConfigurationArnDecoded
+        let workerConfigurationStateDecoded = try containerValues.decodeIfPresent(KafkaConnectClientTypes.WorkerConfigurationState.self, forKey: .workerConfigurationState)
+        workerConfigurationState = workerConfigurationStateDecoded
     }
 }
 
@@ -5145,13 +5665,16 @@ extension KafkaConnectClientTypes {
         public var name: Swift.String?
         /// The Amazon Resource Name (ARN) of the worker configuration.
         public var workerConfigurationArn: Swift.String?
+        /// The state of the worker configuration.
+        public var workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState?
 
         public init(
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             latestRevision: KafkaConnectClientTypes.WorkerConfigurationRevisionSummary? = nil,
             name: Swift.String? = nil,
-            workerConfigurationArn: Swift.String? = nil
+            workerConfigurationArn: Swift.String? = nil,
+            workerConfigurationState: KafkaConnectClientTypes.WorkerConfigurationState? = nil
         )
         {
             self.creationTime = creationTime
@@ -5159,6 +5682,7 @@ extension KafkaConnectClientTypes {
             self.latestRevision = latestRevision
             self.name = name
             self.workerConfigurationArn = workerConfigurationArn
+            self.workerConfigurationState = workerConfigurationState
         }
     }
 

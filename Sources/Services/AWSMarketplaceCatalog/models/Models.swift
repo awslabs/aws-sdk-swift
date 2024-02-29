@@ -142,7 +142,7 @@ extension MarketplaceCatalogClientTypes.AmiProductFilters: Swift.Codable {
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// Object containing all the filter fields for AMI products. Client can add a maximum of 8 filters in a single ListEntities request.
+    /// Object containing all the filter fields for AMI products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct AmiProductFilters: Swift.Equatable {
         /// Unique identifier for the AMI product.
         public var entityId: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter?
@@ -1266,7 +1266,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductFilters: Swift.Codable {
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// Object containing all the filter fields for container products. Client can add a maximum of 8 filters in a single ListEntities request.
+    /// Object containing all the filter fields for container products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct ContainerProductFilters: Swift.Equatable {
         /// Unique identifier for the container product.
         public var entityId: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter?
@@ -1728,7 +1728,7 @@ extension MarketplaceCatalogClientTypes.DataProductFilters: Swift.Codable {
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// Object containing all the filter fields for data products. Client can add a maximum of 8 filters in a single ListEntities request.
+    /// Object containing all the filter fields for data products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct DataProductFilters: Swift.Equatable {
         /// Unique identifier for the data product.
         public var entityId: MarketplaceCatalogClientTypes.DataProductEntityIdFilter?
@@ -2242,6 +2242,7 @@ extension DescribeChangeSetOutput: ClientRuntime.HttpResponseBinding {
             self.endTime = output.endTime
             self.failureCode = output.failureCode
             self.failureDescription = output.failureDescription
+            self.intent = output.intent
             self.startTime = output.startTime
             self.status = output.status
         } else {
@@ -2252,6 +2253,7 @@ extension DescribeChangeSetOutput: ClientRuntime.HttpResponseBinding {
             self.endTime = nil
             self.failureCode = nil
             self.failureDescription = nil
+            self.intent = nil
             self.startTime = nil
             self.status = nil
         }
@@ -2273,6 +2275,8 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
     public var failureCode: MarketplaceCatalogClientTypes.FailureCode?
     /// Returned if there is a failure on the change set, but that failure is not related to any of the changes in the request.
     public var failureDescription: Swift.String?
+    /// The optional intent provided in the StartChangeSet request. If you do not provide an intent, APPLY is set by default.
+    public var intent: MarketplaceCatalogClientTypes.Intent?
     /// The date and time, in ISO 8601 format (2018-02-27T13:45:22Z), the request started.
     public var startTime: Swift.String?
     /// The status of the change request.
@@ -2286,6 +2290,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
         endTime: Swift.String? = nil,
         failureCode: MarketplaceCatalogClientTypes.FailureCode? = nil,
         failureDescription: Swift.String? = nil,
+        intent: MarketplaceCatalogClientTypes.Intent? = nil,
         startTime: Swift.String? = nil,
         status: MarketplaceCatalogClientTypes.ChangeStatus? = nil
     )
@@ -2297,6 +2302,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
         self.endTime = endTime
         self.failureCode = failureCode
         self.failureDescription = failureDescription
+        self.intent = intent
         self.startTime = startTime
         self.status = status
     }
@@ -2306,6 +2312,7 @@ struct DescribeChangeSetOutputBody: Swift.Equatable {
     let changeSetId: Swift.String?
     let changeSetArn: Swift.String?
     let changeSetName: Swift.String?
+    let intent: MarketplaceCatalogClientTypes.Intent?
     let startTime: Swift.String?
     let endTime: Swift.String?
     let status: MarketplaceCatalogClientTypes.ChangeStatus?
@@ -2323,6 +2330,7 @@ extension DescribeChangeSetOutputBody: Swift.Decodable {
         case endTime = "EndTime"
         case failureCode = "FailureCode"
         case failureDescription = "FailureDescription"
+        case intent = "Intent"
         case startTime = "StartTime"
         case status = "Status"
     }
@@ -2335,6 +2343,8 @@ extension DescribeChangeSetOutputBody: Swift.Decodable {
         changeSetArn = changeSetArnDecoded
         let changeSetNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .changeSetName)
         changeSetName = changeSetNameDecoded
+        let intentDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.Intent.self, forKey: .intent)
+        intent = intentDecoded
         let startTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .startTime)
         startTime = startTimeDecoded
         let endTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endTime)
@@ -3267,6 +3277,38 @@ enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MarketplaceCatalogClientTypes {
+    public enum Intent: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case apply
+        case validate
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Intent] {
+            return [
+                .apply,
+                .validate,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .apply: return "APPLY"
+            case .validate: return "VALIDATE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Intent(rawValue: rawValue) ?? Intent.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension InternalServiceException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -4091,7 +4133,7 @@ extension MarketplaceCatalogClientTypes.OfferFilters: Swift.Codable {
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// A filter for offers entity.
+    /// Object containing all the filter fields for offers entity. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct OfferFilters: Swift.Equatable {
         /// Allows filtering on the AvailabilityEndDate of an offer.
         public var availabilityEndDate: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter?
@@ -5245,7 +5287,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters: Swift.Codabl
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// A filter for ResaleAuthorization entity.
+    /// Object containing all the filter fields for resale authorization entity. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct ResaleAuthorizationFilters: Swift.Equatable {
         /// Allows filtering on the AvailabilityEndDate of a ResaleAuthorization.
         public var availabilityEndDate: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter?
@@ -6411,7 +6453,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductFilters: Swift.Codable {
 }
 
 extension MarketplaceCatalogClientTypes {
-    /// Object containing all the filter fields for SaaS products. Client can add a maximum of 8 filters in a single ListEntities request.
+    /// Object containing all the filter fields for SaaS products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
     public struct SaaSProductFilters: Swift.Equatable {
         /// Unique identifier for the SaaS product.
         public var entityId: MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter?
@@ -6927,6 +6969,7 @@ extension StartChangeSetInput: Swift.Encodable {
         case changeSetName = "ChangeSetName"
         case changeSetTags = "ChangeSetTags"
         case clientRequestToken = "ClientRequestToken"
+        case intent = "Intent"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -6952,6 +6995,9 @@ extension StartChangeSetInput: Swift.Encodable {
         if let clientRequestToken = self.clientRequestToken {
             try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
         }
+        if let intent = self.intent {
+            try encodeContainer.encode(intent.rawValue, forKey: .intent)
+        }
     }
 }
 
@@ -6975,13 +7021,16 @@ public struct StartChangeSetInput: Swift.Equatable {
     public var changeSetTags: [MarketplaceCatalogClientTypes.Tag]?
     /// A unique token to identify the request to ensure idempotency.
     public var clientRequestToken: Swift.String?
+    /// The intent related to the request. The default is APPLY. To test your request before applying changes to your entities, use VALIDATE. This feature is currently available for adding versions to single-AMI products. For more information, see [Add a new version](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#ami-add-version).
+    public var intent: MarketplaceCatalogClientTypes.Intent?
 
     public init(
         catalog: Swift.String? = nil,
         changeSet: [MarketplaceCatalogClientTypes.Change]? = nil,
         changeSetName: Swift.String? = nil,
         changeSetTags: [MarketplaceCatalogClientTypes.Tag]? = nil,
-        clientRequestToken: Swift.String? = nil
+        clientRequestToken: Swift.String? = nil,
+        intent: MarketplaceCatalogClientTypes.Intent? = nil
     )
     {
         self.catalog = catalog
@@ -6989,6 +7038,7 @@ public struct StartChangeSetInput: Swift.Equatable {
         self.changeSetName = changeSetName
         self.changeSetTags = changeSetTags
         self.clientRequestToken = clientRequestToken
+        self.intent = intent
     }
 }
 
@@ -6998,6 +7048,7 @@ struct StartChangeSetInputBody: Swift.Equatable {
     let changeSetName: Swift.String?
     let clientRequestToken: Swift.String?
     let changeSetTags: [MarketplaceCatalogClientTypes.Tag]?
+    let intent: MarketplaceCatalogClientTypes.Intent?
 }
 
 extension StartChangeSetInputBody: Swift.Decodable {
@@ -7007,6 +7058,7 @@ extension StartChangeSetInputBody: Swift.Decodable {
         case changeSetName = "ChangeSetName"
         case changeSetTags = "ChangeSetTags"
         case clientRequestToken = "ClientRequestToken"
+        case intent = "Intent"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7039,6 +7091,8 @@ extension StartChangeSetInputBody: Swift.Decodable {
             }
         }
         changeSetTags = changeSetTagsDecoded0
+        let intentDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.Intent.self, forKey: .intent)
+        intent = intentDecoded
     }
 }
 

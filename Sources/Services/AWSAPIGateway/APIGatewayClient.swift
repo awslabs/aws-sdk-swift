@@ -6005,7 +6005,7 @@ extension APIGatewayClient {
 
     /// Performs the `UpdateModel` operation on the `BackplaneControlService` service.
     ///
-    /// Changes information about a model.
+    /// Changes information about a model. The maximum size of the model is 400 KB.
     ///
     /// - Parameter UpdateModelInput : Request to update an existing model in an existing RestApi resource.
     ///
