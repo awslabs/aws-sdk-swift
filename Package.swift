@@ -135,7 +135,11 @@ func addIntegrationTestTarget(_ name: String) {
             "Resources/ECSIntegTestApp/"
         ]
     case "AWSS3":
-        additionalDependencies = ["AWSSSOAdmin"]
+        additionalDependencies = ["AWSSSOAdmin", "AWSS3Control", "AWSSTS"]
+    case "AWSEventBridge":
+        additionalDependencies = ["AWSRoute53"]
+    case "AWSCloudFrontKeyValueStore":
+        additionalDependencies = ["AWSCloudFront"]
     case "AWSSTS":
         additionalDependencies = ["AWSIAM", "AWSCognitoIdentity"]
     default:
@@ -622,7 +626,9 @@ let serviceTargets: [String] = [
 addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
+    "AWSCloudFrontKeyValueStore",
     "AWSECS",
+    "AWSEventBridge",
     "AWSKinesis",
     "AWSMediaConvert",
     "AWSS3",
