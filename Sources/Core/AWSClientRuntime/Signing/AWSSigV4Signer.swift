@@ -246,7 +246,7 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
     }
 
     private func determineSignedBodyValue(
-        checksum: HashFunction?,
+        checksum: Checksum?,
         isChunkedEligbleStream: Bool,
         isUnsignedBody: Bool
     ) -> AWSSignedBodyValue {
