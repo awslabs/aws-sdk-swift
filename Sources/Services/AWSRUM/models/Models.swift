@@ -321,7 +321,11 @@ extension RUMClientTypes {
         public var excludedPages: [Swift.String]?
         /// A list of pages in your application that are to be displayed with a "favorite" icon in the CloudWatch RUM console.
         public var favoritePages: [Swift.String]?
-        /// The ARN of the guest IAM role that is attached to the Amazon Cognito identity pool that is used to authorize the sending of data to RUM.
+        /// The ARN of the guest IAM role that is attached to the Amazon Cognito identity pool that is used to authorize the sending of data to RUM. It is possible that an app monitor does not have a value for GuestRoleArn. For example, this can happen when you use the console to create an app monitor and you allow CloudWatch RUM to create a new identity pool for Authorization. In this case, GuestRoleArn is not present in the [GetAppMonitor](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_GetAppMonitor.html) response because it is not stored by the service. If this issue affects you, you can take one of the following steps:
+        ///
+        /// * Use the Cloud Development Kit (CDK) to create an identity pool and the associated IAM role, and use that for your app monitor.
+        ///
+        /// * Make a separate [GetIdentityPoolRoles](https://docs.aws.amazon.com/cognitoidentity/latest/APIReference/API_GetIdentityPoolRoles.html) call to Amazon Cognito to retrieve the GuestRoleArn.
         public var guestRoleArn: Swift.String?
         /// The ID of the Amazon Cognito identity pool that is used to authorize the sending of data to RUM.
         public var identityPoolId: Swift.String?
@@ -590,7 +594,7 @@ public struct BatchCreateRumMetricDefinitionsInput: Swift.Equatable {
     /// The name of the CloudWatch RUM app monitor that is to send the metrics.
     /// This member is required.
     public var appMonitorName: Swift.String?
-    /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the ARN of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
+    /// The destination to send the metrics to. Valid values are CloudWatch and Evidently. If you specify Evidently, you must also specify the Amazon Resource Name (ARN) of the CloudWatchEvidently experiment that will receive the metrics and an IAM role that has permission to write to the experiment.
     /// This member is required.
     public var destination: RUMClientTypes.MetricDestination?
     /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of the Evidently experiment that is to receive the metrics. You must have already defined this experiment as a valid destination. For more information, see [PutRumMetricsDestination](https://docs.aws.amazon.com/cloudwatchrum/latest/APIReference/API_PutRumMetricsDestination.html).
@@ -1216,7 +1220,7 @@ extension CreateAppMonitorInput {
 }
 
 public struct CreateAppMonitorInput: Swift.Equatable {
-    /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html). If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
+    /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html). If you omit this argument, the sample rate used for RUM is set to 10% of the user sessions.
     public var appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
     /// Specifies whether this app monitor allows the web client to define and send custom events. If you omit this parameter, custom events are DISABLED. For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
     public var customEvents: RUMClientTypes.CustomEvents?
@@ -2499,11 +2503,11 @@ extension RUMClientTypes.MetricDefinitionRequest: Swift.Codable {
 }
 
 extension RUMClientTypes {
-    /// Use this structure to define one extended metric or custom metric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see [ Additional metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-vended-metrics.html). This structure is validated differently for extended metrics and custom metrics. For extended metrics that are sent to the AWS/RUM namespace, the following validations apply:
+    /// Use this structure to define one extended metric or custom metric that RUM will send to CloudWatch or CloudWatch Evidently. For more information, see [ Custom metrics and extended metrics that you can send to CloudWatch and CloudWatch Evidently](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-and-extended-metrics.html). This structure is validated differently for extended metrics and custom metrics. For extended metrics that are sent to the AWS/RUM namespace, the following validations apply:
     ///
     /// * The Namespace parameter must be omitted or set to AWS/RUM.
     ///
-    /// * Only certain combinations of values for Name, ValueKey, and EventPattern are valid. In addition to what is displayed in the list below, the EventPattern can also include information used by the DimensionKeys field.
+    /// * Only certain combinations of values for Name, ValueKey, and EventPattern are valid. In addition to what is displayed in the following list, the EventPattern can also include information used by the DimensionKeys field.
     ///
     /// * If Name is PerformanceNavigationDuration, then ValueKeymust be event_details.duration and the EventPattern must include {"event_type":["com.amazon.rum.performance_navigation_event"]}
     ///
@@ -2526,6 +2530,12 @@ extension RUMClientTypes {
     /// * If Name is HttpErrorCount, then ValueKeymust be null and the EventPattern must include {"event_type":["com.amazon.rum.http_event"]}
     ///
     /// * If Name is SessionCount, then ValueKeymust be null and the EventPattern must include {"event_type":["com.amazon.rum.session_start_event"]}
+    ///
+    /// * If Name is PageViewCount, then ValueKeymust be null and the EventPattern must include {"event_type":["com.amazon.rum.page_view_event"]}
+    ///
+    /// * If Name is Http4xxCount, then ValueKeymust be null and the EventPattern must include {"event_type": ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":[">=",400,"<",500]}]}}} }
+    ///
+    /// * If Name is Http5xxCount, then ValueKeymust be null and the EventPattern must include {"event_type": ["com.amazon.rum.http_event"],"event_details":{"response":{"status":[{"numeric":[">=",500,"<=",599]}]}}} }
     ///
     ///
     ///
@@ -2608,7 +2618,7 @@ extension RUMClientTypes {
         /// * '{ "event_type": ["com.amazon.rum.performance_navigation_event"], "metadata": { "browserName": [ "Chrome", "Safari" ], "countryCode": [ "US" ] }, "event_details": { "duration": [{ "numeric": [ ">=", 2000, "<", 8000 ] }] } }'
         ///
         ///
-        /// If the metrics destination' is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
+        /// If the metrics destination is CloudWatch and the event also matches a value in DimensionKeys, then the metric is published with the specified dimensions.
         public var eventPattern: Swift.String?
         /// The name for the metric that is defined in this structure. For custom metrics, you can specify any name that you like. For extended metrics, valid values are the following:
         ///
@@ -2639,7 +2649,7 @@ extension RUMClientTypes {
         public var namespace: Swift.String?
         /// The CloudWatch metric unit to use for this metric. If you omit this field, the metric is recorded with no unit.
         public var unitLabel: Swift.String?
-        /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you just want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw and Evidently will handle data extraction from the event.
+        /// The field within the event object that the metric value is sourced from. If you omit this field, a hardcoded value of 1 is pushed as the metric value. This is useful if you want to count the number of events that the filter catches. If this metric is sent to CloudWatch Evidently, this field will be passed to Evidently raw. Evidently will handle data extraction from the event.
         public var valueKey: Swift.String?
 
         public init(
@@ -2922,7 +2932,7 @@ public struct PutRumMetricsDestinationInput: Swift.Equatable {
     public var destination: RUMClientTypes.MetricDestination?
     /// Use this parameter only if Destination is Evidently. This parameter specifies the ARN of the Evidently experiment that will receive the extended metrics.
     public var destinationArn: Swift.String?
-    /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, do not use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment.
+    /// This parameter is required if Destination is Evidently. If Destination is CloudWatch, don't use this parameter. This parameter specifies the ARN of an IAM role that RUM will assume to write to the Evidently experiment that you are sending metrics to. This role must have permission to write to that experiment. If you specify this parameter, you must be signed on to a role that has [PassRole](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_passrole.html) permissions attached to it, to allow the role to be passed. The [ CloudWatchAmazonCloudWatchRUMFullAccess](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/auth-and-access-control-cw.html#managed-policies-cloudwatch-RUM) policy doesn't include PassRole permissions.
     public var iamRoleArn: Swift.String?
 
     public init(
@@ -3668,7 +3678,7 @@ extension UpdateAppMonitorInput {
 }
 
 public struct UpdateAppMonitorInput: Swift.Equatable {
-    /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/monitoring/CloudWatch-RUM-get-started-authorization.html).
+    /// A structure that contains much of the configuration data for the app monitor. If you are using Amazon Cognito for authorization, you must include this structure in your request, and it must include the ID of the Amazon Cognito identity pool to use for authorization. If you don't include AppMonitorConfiguration, you must set up your own authorization method. For more information, see [Authorize your application to send data to Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-get-started-authorization.html).
     public var appMonitorConfiguration: RUMClientTypes.AppMonitorConfiguration?
     /// Specifies whether this app monitor allows the web client to define and send custom events. The default is for custom events to be DISABLED. For more information about custom events, see [Send custom events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-RUM-custom-events.html).
     public var customEvents: RUMClientTypes.CustomEvents?

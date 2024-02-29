@@ -37358,7 +37358,7 @@ enum UpdateLoadBalancerAttributeOutputError: ClientRuntime.HttpResponseErrorBind
 
 extension UpdateRelationalDatabaseInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateRelationalDatabaseInput(applyImmediately: \(Swift.String(describing: applyImmediately)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), disableBackupRetention: \(Swift.String(describing: disableBackupRetention)), enableBackupRetention: \(Swift.String(describing: enableBackupRetention)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), relationalDatabaseName: \(Swift.String(describing: relationalDatabaseName)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), masterUserPassword: \"CONTENT_REDACTED\")"}
+        "UpdateRelationalDatabaseInput(applyImmediately: \(Swift.String(describing: applyImmediately)), caCertificateIdentifier: \(Swift.String(describing: caCertificateIdentifier)), disableBackupRetention: \(Swift.String(describing: disableBackupRetention)), enableBackupRetention: \(Swift.String(describing: enableBackupRetention)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), publiclyAccessible: \(Swift.String(describing: publiclyAccessible)), relationalDatabaseBlueprintId: \(Swift.String(describing: relationalDatabaseBlueprintId)), relationalDatabaseName: \(Swift.String(describing: relationalDatabaseName)), rotateMasterUserPassword: \(Swift.String(describing: rotateMasterUserPassword)), masterUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateRelationalDatabaseInput: Swift.Encodable {
@@ -37371,6 +37371,7 @@ extension UpdateRelationalDatabaseInput: Swift.Encodable {
         case preferredBackupWindow
         case preferredMaintenanceWindow
         case publiclyAccessible
+        case relationalDatabaseBlueprintId
         case relationalDatabaseName
         case rotateMasterUserPassword
     }
@@ -37400,6 +37401,9 @@ extension UpdateRelationalDatabaseInput: Swift.Encodable {
         }
         if let publiclyAccessible = self.publiclyAccessible {
             try encodeContainer.encode(publiclyAccessible, forKey: .publiclyAccessible)
+        }
+        if let relationalDatabaseBlueprintId = self.relationalDatabaseBlueprintId {
+            try encodeContainer.encode(relationalDatabaseBlueprintId, forKey: .relationalDatabaseBlueprintId)
         }
         if let relationalDatabaseName = self.relationalDatabaseName {
             try encodeContainer.encode(relationalDatabaseName, forKey: .relationalDatabaseName)
@@ -37452,6 +37456,8 @@ public struct UpdateRelationalDatabaseInput: Swift.Equatable {
     public var preferredMaintenanceWindow: Swift.String?
     /// Specifies the accessibility options for your database. A value of true specifies a database that is available to resources outside of your Lightsail account. A value of false specifies a database that is available only to your Lightsail resources in the same region as your database.
     public var publiclyAccessible: Swift.Bool?
+    /// This parameter is used to update the major version of the database. Enter the blueprintId for the major version that you want to update to. Use the [GetRelationalDatabaseBlueprints](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetRelationalDatabaseBlueprints.html) action to get a list of available blueprint IDs.
+    public var relationalDatabaseBlueprintId: Swift.String?
     /// The name of your Lightsail database resource to update.
     /// This member is required.
     public var relationalDatabaseName: Swift.String?
@@ -37467,6 +37473,7 @@ public struct UpdateRelationalDatabaseInput: Swift.Equatable {
         preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         publiclyAccessible: Swift.Bool? = nil,
+        relationalDatabaseBlueprintId: Swift.String? = nil,
         relationalDatabaseName: Swift.String? = nil,
         rotateMasterUserPassword: Swift.Bool? = nil
     )
@@ -37479,6 +37486,7 @@ public struct UpdateRelationalDatabaseInput: Swift.Equatable {
         self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.publiclyAccessible = publiclyAccessible
+        self.relationalDatabaseBlueprintId = relationalDatabaseBlueprintId
         self.relationalDatabaseName = relationalDatabaseName
         self.rotateMasterUserPassword = rotateMasterUserPassword
     }
@@ -37495,6 +37503,7 @@ struct UpdateRelationalDatabaseInputBody: Swift.Equatable {
     let publiclyAccessible: Swift.Bool?
     let applyImmediately: Swift.Bool?
     let caCertificateIdentifier: Swift.String?
+    let relationalDatabaseBlueprintId: Swift.String?
 }
 
 extension UpdateRelationalDatabaseInputBody: Swift.Decodable {
@@ -37507,6 +37516,7 @@ extension UpdateRelationalDatabaseInputBody: Swift.Decodable {
         case preferredBackupWindow
         case preferredMaintenanceWindow
         case publiclyAccessible
+        case relationalDatabaseBlueprintId
         case relationalDatabaseName
         case rotateMasterUserPassword
     }
@@ -37533,6 +37543,8 @@ extension UpdateRelationalDatabaseInputBody: Swift.Decodable {
         applyImmediately = applyImmediatelyDecoded
         let caCertificateIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .caCertificateIdentifier)
         caCertificateIdentifier = caCertificateIdentifierDecoded
+        let relationalDatabaseBlueprintIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .relationalDatabaseBlueprintId)
+        relationalDatabaseBlueprintId = relationalDatabaseBlueprintIdDecoded
     }
 }
 

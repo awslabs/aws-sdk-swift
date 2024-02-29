@@ -136,7 +136,7 @@ public struct MarketplaceCatalogClientLogHandlerFactory: ClientRuntime.SDKLogHan
 extension MarketplaceCatalogClient {
     /// Performs the `BatchDescribeEntities` operation on the `AWSMPSeymour` service.
     ///
-    /// Returns metadata and content for multiple entities.
+    /// Returns metadata and content for multiple entities. This is the Batch version of the DescribeEntity API and uses the same IAM permission action as DescribeEntity API.
     ///
     /// - Parameter BatchDescribeEntitiesInput : [no documentation found]
     ///

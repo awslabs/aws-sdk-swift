@@ -1658,7 +1658,7 @@ extension GuardDutyClient {
 
     /// Performs the `GetFindingsStatistics` operation on the `GuardDutyAPIService` service.
     ///
-    /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
+    /// Lists Amazon GuardDuty findings statistics for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
     /// - Parameter GetFindingsStatisticsInput : [no documentation found]
     ///
@@ -2387,7 +2387,7 @@ extension GuardDutyClient {
 
     /// Performs the `ListFindings` operation on the `GuardDutyAPIService` service.
     ///
-    /// Lists Amazon GuardDuty findings for the specified detector ID.
+    /// Lists GuardDuty findings for the specified detector ID. There might be regional differences because some flags might not be available in all the Regions where GuardDuty is currently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
     /// - Parameter ListFindingsInput : [no documentation found]
     ///
@@ -3074,7 +3074,7 @@ extension GuardDutyClient {
 
     /// Performs the `UpdateDetector` operation on the `GuardDutyAPIService` service.
     ///
-    /// Updates the Amazon GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
+    /// Updates the GuardDuty detector specified by the detectorId. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     ///
     /// - Parameter UpdateDetectorInput : [no documentation found]
     ///

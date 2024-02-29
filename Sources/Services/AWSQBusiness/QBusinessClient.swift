@@ -423,7 +423,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateIndex` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CreateDataSource.html) API.
+    /// Creates an Amazon Q index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html) API.
     ///
     /// - Parameter CreateIndexInput : [no documentation found]
     ///

@@ -236,7 +236,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.41.0",
+    clientRuntimeVersion: "0.42.0",
     crtVersion: "0.28.0"
 )
 
@@ -270,6 +270,7 @@ let serviceTargets: [String] = [
     "AWSApplicationCostProfiler",
     "AWSApplicationDiscoveryService",
     "AWSApplicationInsights",
+    "AWSArtifact",
     "AWSAthena",
     "AWSAuditManager",
     "AWSAutoScaling",
@@ -287,6 +288,7 @@ let serviceTargets: [String] = [
     "AWSBillingconductor",
     "AWSBraket",
     "AWSBudgets",
+    "AWSChatbot",
     "AWSChime",
     "AWSChimeSDKIdentity",
     "AWSChimeSDKMediaPipelines",

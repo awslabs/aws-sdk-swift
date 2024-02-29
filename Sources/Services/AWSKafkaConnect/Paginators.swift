@@ -51,6 +51,7 @@ extension ListCustomPluginsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListCustomPluginsInput {
         return ListCustomPluginsInput(
             maxResults: self.maxResults,
+            namePrefix: self.namePrefix,
             nextToken: token
         )}
 }
@@ -81,6 +82,7 @@ extension ListWorkerConfigurationsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListWorkerConfigurationsInput {
         return ListWorkerConfigurationsInput(
             maxResults: self.maxResults,
+            namePrefix: self.namePrefix,
             nextToken: token
         )}
 }

@@ -652,7 +652,7 @@ public struct DescribeLedgerOutput: Swift.Equatable {
     public var creationDateTime: ClientRuntime.Date?
     /// Specifies whether the ledger is protected from being deleted by any user. If not defined during ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set this parameter to false.
     public var deletionProtection: Swift.Bool?
-    /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error).
+    /// Information about the encryption of data at rest in the ledger. This includes the current status, the KMS key, and when the key became inaccessible (in the case of an error). If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
     public var encryptionDescription: QLDBClientTypes.LedgerEncryptionDescription?
     /// The name of the ledger.
     public var name: Swift.String?
@@ -1828,7 +1828,7 @@ extension QLDBClientTypes {
         public var encryptionStatus: QLDBClientTypes.EncryptionStatus?
         /// The date and time, in epoch time format, when the KMS key first became inaccessible, in the case of an error. (Epoch time format is the number of seconds that have elapsed since 12:00:00 AM January 1, 1970 UTC.) This parameter is undefined if the KMS key is accessible.
         public var inaccessibleKmsKeyDateTime: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption.
+        /// The Amazon Resource Name (ARN) of the customer managed KMS key that the ledger uses for encryption at rest. If this parameter is undefined, the ledger uses an Amazon Web Services owned KMS key for encryption. It will display AWS_OWNED_KMS_KEY when updating the ledger's encryption configuration to the Amazon Web Services owned KMS key.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 

@@ -753,7 +753,8 @@ extension DescribeParametersInput: ClientRuntime.PaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token,
-            parameterFilters: self.parameterFilters
+            parameterFilters: self.parameterFilters,
+            shared: self.shared
         )}
 }
 extension SSMClient {

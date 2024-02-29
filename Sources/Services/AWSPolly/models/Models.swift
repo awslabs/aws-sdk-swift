@@ -3411,6 +3411,7 @@ extension PollyClientTypes {
         case ayanda
         case bianca
         case brian
+        case burcu
         case camila
         case carla
         case carmen
@@ -3510,6 +3511,7 @@ extension PollyClientTypes {
                 .ayanda,
                 .bianca,
                 .brian,
+                .burcu,
                 .camila,
                 .carla,
                 .carmen,
@@ -3614,6 +3616,7 @@ extension PollyClientTypes {
             case .ayanda: return "Ayanda"
             case .bianca: return "Bianca"
             case .brian: return "Brian"
+            case .burcu: return "Burcu"
             case .camila: return "Camila"
             case .carla: return "Carla"
             case .carmen: return "Carmen"

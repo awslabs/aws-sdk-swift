@@ -4414,7 +4414,7 @@ extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
 extension MediaLiveClientTypes {
     /// Caption Description
     public struct CaptionDescription: Swift.Equatable {
-        /// Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds.
+        /// Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds. This signaling is added to HLS output group and MediaPackage output group.
         public var accessibility: MediaLiveClientTypes.AccessibilityType?
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         /// This member is required.
@@ -5287,6 +5287,39 @@ extension MediaLiveClientTypes {
         }
     }
 
+}
+
+extension MediaLiveClientTypes {
+    /// Property of RestartChannelPipelinesRequest
+    public enum ChannelPipelineIdToRestart: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case pipeline0
+        case pipeline1
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ChannelPipelineIdToRestart] {
+            return [
+                .pipeline0,
+                .pipeline1,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .pipeline0: return "PIPELINE_0"
+            case .pipeline1: return "PIPELINE_1"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ChannelPipelineIdToRestart(rawValue: rawValue) ?? ChannelPipelineIdToRestart.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaLiveClientTypes {
@@ -31072,6 +31105,359 @@ extension MediaLiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ReservationVideoQuality(rawValue: rawValue) ?? ReservationVideoQuality.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension RestartChannelPipelinesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineIds = "pipelineIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pipelineIds = pipelineIds {
+            var pipelineIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .pipelineIds)
+            for channelpipelineidtorestart0 in pipelineIds {
+                try pipelineIdsContainer.encode(channelpipelineidtorestart0.rawValue)
+            }
+        }
+    }
+}
+
+extension RestartChannelPipelinesInput {
+
+    static func urlPathProvider(_ value: RestartChannelPipelinesInput) -> Swift.String? {
+        guard let channelId = value.channelId else {
+            return nil
+        }
+        return "/prod/channels/\(channelId.urlPercentEncoding())/restartChannelPipelines"
+    }
+}
+
+/// Pipelines to restart.
+public struct RestartChannelPipelinesInput: Swift.Equatable {
+    /// ID of channel
+    /// This member is required.
+    public var channelId: Swift.String?
+    /// An array of pipelines to restart in this channel. Format PIPELINE_0 or PIPELINE_1.
+    public var pipelineIds: [MediaLiveClientTypes.ChannelPipelineIdToRestart]?
+
+    public init(
+        channelId: Swift.String? = nil,
+        pipelineIds: [MediaLiveClientTypes.ChannelPipelineIdToRestart]? = nil
+    )
+    {
+        self.channelId = channelId
+        self.pipelineIds = pipelineIds
+    }
+}
+
+struct RestartChannelPipelinesInputBody: Swift.Equatable {
+    let pipelineIds: [MediaLiveClientTypes.ChannelPipelineIdToRestart]?
+}
+
+extension RestartChannelPipelinesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pipelineIds = "pipelineIds"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pipelineIdsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ChannelPipelineIdToRestart?].self, forKey: .pipelineIds)
+        var pipelineIdsDecoded0:[MediaLiveClientTypes.ChannelPipelineIdToRestart]? = nil
+        if let pipelineIdsContainer = pipelineIdsContainer {
+            pipelineIdsDecoded0 = [MediaLiveClientTypes.ChannelPipelineIdToRestart]()
+            for enum0 in pipelineIdsContainer {
+                if let enum0 = enum0 {
+                    pipelineIdsDecoded0?.append(enum0)
+                }
+            }
+        }
+        pipelineIds = pipelineIdsDecoded0
+    }
+}
+
+extension RestartChannelPipelinesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RestartChannelPipelinesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cdiInputSpecification = output.cdiInputSpecification
+            self.channelClass = output.channelClass
+            self.destinations = output.destinations
+            self.egressEndpoints = output.egressEndpoints
+            self.encoderSettings = output.encoderSettings
+            self.id = output.id
+            self.inputAttachments = output.inputAttachments
+            self.inputSpecification = output.inputSpecification
+            self.logLevel = output.logLevel
+            self.maintenance = output.maintenance
+            self.maintenanceStatus = output.maintenanceStatus
+            self.name = output.name
+            self.pipelineDetails = output.pipelineDetails
+            self.pipelinesRunningCount = output.pipelinesRunningCount
+            self.roleArn = output.roleArn
+            self.state = output.state
+            self.tags = output.tags
+            self.vpc = output.vpc
+        } else {
+            self.arn = nil
+            self.cdiInputSpecification = nil
+            self.channelClass = nil
+            self.destinations = nil
+            self.egressEndpoints = nil
+            self.encoderSettings = nil
+            self.id = nil
+            self.inputAttachments = nil
+            self.inputSpecification = nil
+            self.logLevel = nil
+            self.maintenance = nil
+            self.maintenanceStatus = nil
+            self.name = nil
+            self.pipelineDetails = nil
+            self.pipelinesRunningCount = nil
+            self.roleArn = nil
+            self.state = nil
+            self.tags = nil
+            self.vpc = nil
+        }
+    }
+}
+
+/// Placeholder documentation for RestartChannelPipelinesResponse
+public struct RestartChannelPipelinesOutput: Swift.Equatable {
+    /// The unique arn of the channel.
+    public var arn: Swift.String?
+    /// Specification of CDI inputs for this channel
+    public var cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
+    /// The class for this channel. STANDARD for a channel with two pipelines or SINGLE_PIPELINE for a channel with one pipeline.
+    public var channelClass: MediaLiveClientTypes.ChannelClass?
+    /// A list of destinations of the channel. For UDP outputs, there is one destination per output. For other types (HLS, for example), there is one destination per packager.
+    public var destinations: [MediaLiveClientTypes.OutputDestination]?
+    /// The endpoints where outgoing connections initiate from
+    public var egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]?
+    /// Encoder Settings
+    public var encoderSettings: MediaLiveClientTypes.EncoderSettings?
+    /// The unique id of the channel.
+    public var id: Swift.String?
+    /// List of input attachments for channel.
+    public var inputAttachments: [MediaLiveClientTypes.InputAttachment]?
+    /// Specification of network and file inputs for this channel
+    public var inputSpecification: MediaLiveClientTypes.InputSpecification?
+    /// The log level being written to CloudWatch Logs.
+    public var logLevel: MediaLiveClientTypes.LogLevel?
+    /// Maintenance settings for this channel.
+    public var maintenance: MediaLiveClientTypes.MaintenanceStatus?
+    /// The time in milliseconds by when the PVRE restart must occur.
+    public var maintenanceStatus: Swift.String?
+    /// The name of the channel. (user-mutable)
+    public var name: Swift.String?
+    /// Runtime details for the pipelines of a running channel.
+    public var pipelineDetails: [MediaLiveClientTypes.PipelineDetail]?
+    /// The number of currently healthy pipelines.
+    public var pipelinesRunningCount: Swift.Int?
+    /// The Amazon Resource Name (ARN) of the role assumed when running the Channel.
+    public var roleArn: Swift.String?
+    /// Placeholder documentation for ChannelState
+    public var state: MediaLiveClientTypes.ChannelState?
+    /// A collection of key-value pairs.
+    public var tags: [Swift.String:Swift.String]?
+    /// Settings for VPC output
+    public var vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
+
+    public init(
+        arn: Swift.String? = nil,
+        cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification? = nil,
+        channelClass: MediaLiveClientTypes.ChannelClass? = nil,
+        destinations: [MediaLiveClientTypes.OutputDestination]? = nil,
+        egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]? = nil,
+        encoderSettings: MediaLiveClientTypes.EncoderSettings? = nil,
+        id: Swift.String? = nil,
+        inputAttachments: [MediaLiveClientTypes.InputAttachment]? = nil,
+        inputSpecification: MediaLiveClientTypes.InputSpecification? = nil,
+        logLevel: MediaLiveClientTypes.LogLevel? = nil,
+        maintenance: MediaLiveClientTypes.MaintenanceStatus? = nil,
+        maintenanceStatus: Swift.String? = nil,
+        name: Swift.String? = nil,
+        pipelineDetails: [MediaLiveClientTypes.PipelineDetail]? = nil,
+        pipelinesRunningCount: Swift.Int? = nil,
+        roleArn: Swift.String? = nil,
+        state: MediaLiveClientTypes.ChannelState? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        vpc: MediaLiveClientTypes.VpcOutputSettingsDescription? = nil
+    )
+    {
+        self.arn = arn
+        self.cdiInputSpecification = cdiInputSpecification
+        self.channelClass = channelClass
+        self.destinations = destinations
+        self.egressEndpoints = egressEndpoints
+        self.encoderSettings = encoderSettings
+        self.id = id
+        self.inputAttachments = inputAttachments
+        self.inputSpecification = inputSpecification
+        self.logLevel = logLevel
+        self.maintenance = maintenance
+        self.maintenanceStatus = maintenanceStatus
+        self.name = name
+        self.pipelineDetails = pipelineDetails
+        self.pipelinesRunningCount = pipelinesRunningCount
+        self.roleArn = roleArn
+        self.state = state
+        self.tags = tags
+        self.vpc = vpc
+    }
+}
+
+struct RestartChannelPipelinesOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cdiInputSpecification: MediaLiveClientTypes.CdiInputSpecification?
+    let channelClass: MediaLiveClientTypes.ChannelClass?
+    let destinations: [MediaLiveClientTypes.OutputDestination]?
+    let egressEndpoints: [MediaLiveClientTypes.ChannelEgressEndpoint]?
+    let encoderSettings: MediaLiveClientTypes.EncoderSettings?
+    let id: Swift.String?
+    let inputAttachments: [MediaLiveClientTypes.InputAttachment]?
+    let inputSpecification: MediaLiveClientTypes.InputSpecification?
+    let logLevel: MediaLiveClientTypes.LogLevel?
+    let maintenance: MediaLiveClientTypes.MaintenanceStatus?
+    let maintenanceStatus: Swift.String?
+    let name: Swift.String?
+    let pipelineDetails: [MediaLiveClientTypes.PipelineDetail]?
+    let pipelinesRunningCount: Swift.Int?
+    let roleArn: Swift.String?
+    let state: MediaLiveClientTypes.ChannelState?
+    let tags: [Swift.String:Swift.String]?
+    let vpc: MediaLiveClientTypes.VpcOutputSettingsDescription?
+}
+
+extension RestartChannelPipelinesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cdiInputSpecification = "cdiInputSpecification"
+        case channelClass = "channelClass"
+        case destinations = "destinations"
+        case egressEndpoints = "egressEndpoints"
+        case encoderSettings = "encoderSettings"
+        case id = "id"
+        case inputAttachments = "inputAttachments"
+        case inputSpecification = "inputSpecification"
+        case logLevel = "logLevel"
+        case maintenance = "maintenance"
+        case maintenanceStatus = "maintenanceStatus"
+        case name = "name"
+        case pipelineDetails = "pipelineDetails"
+        case pipelinesRunningCount = "pipelinesRunningCount"
+        case roleArn = "roleArn"
+        case state = "state"
+        case tags = "tags"
+        case vpc = "vpc"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cdiInputSpecificationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CdiInputSpecification.self, forKey: .cdiInputSpecification)
+        cdiInputSpecification = cdiInputSpecificationDecoded
+        let channelClassDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ChannelClass.self, forKey: .channelClass)
+        channelClass = channelClassDecoded
+        let destinationsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.OutputDestination?].self, forKey: .destinations)
+        var destinationsDecoded0:[MediaLiveClientTypes.OutputDestination]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [MediaLiveClientTypes.OutputDestination]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let egressEndpointsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.ChannelEgressEndpoint?].self, forKey: .egressEndpoints)
+        var egressEndpointsDecoded0:[MediaLiveClientTypes.ChannelEgressEndpoint]? = nil
+        if let egressEndpointsContainer = egressEndpointsContainer {
+            egressEndpointsDecoded0 = [MediaLiveClientTypes.ChannelEgressEndpoint]()
+            for structure0 in egressEndpointsContainer {
+                if let structure0 = structure0 {
+                    egressEndpointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        egressEndpoints = egressEndpointsDecoded0
+        let encoderSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EncoderSettings.self, forKey: .encoderSettings)
+        encoderSettings = encoderSettingsDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let inputAttachmentsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.InputAttachment?].self, forKey: .inputAttachments)
+        var inputAttachmentsDecoded0:[MediaLiveClientTypes.InputAttachment]? = nil
+        if let inputAttachmentsContainer = inputAttachmentsContainer {
+            inputAttachmentsDecoded0 = [MediaLiveClientTypes.InputAttachment]()
+            for structure0 in inputAttachmentsContainer {
+                if let structure0 = structure0 {
+                    inputAttachmentsDecoded0?.append(structure0)
+                }
+            }
+        }
+        inputAttachments = inputAttachmentsDecoded0
+        let inputSpecificationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.InputSpecification.self, forKey: .inputSpecification)
+        inputSpecification = inputSpecificationDecoded
+        let logLevelDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.LogLevel.self, forKey: .logLevel)
+        logLevel = logLevelDecoded
+        let maintenanceDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MaintenanceStatus.self, forKey: .maintenance)
+        maintenance = maintenanceDecoded
+        let maintenanceStatusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .maintenanceStatus)
+        maintenanceStatus = maintenanceStatusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let pipelineDetailsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.PipelineDetail?].self, forKey: .pipelineDetails)
+        var pipelineDetailsDecoded0:[MediaLiveClientTypes.PipelineDetail]? = nil
+        if let pipelineDetailsContainer = pipelineDetailsContainer {
+            pipelineDetailsDecoded0 = [MediaLiveClientTypes.PipelineDetail]()
+            for structure0 in pipelineDetailsContainer {
+                if let structure0 = structure0 {
+                    pipelineDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        pipelineDetails = pipelineDetailsDecoded0
+        let pipelinesRunningCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pipelinesRunningCount)
+        pipelinesRunningCount = pipelinesRunningCountDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.ChannelState.self, forKey: .state)
+        state = stateDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let vpcDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.VpcOutputSettingsDescription.self, forKey: .vpc)
+        vpc = vpcDecoded
+    }
+}
+
+enum RestartChannelPipelinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadGatewayException": return try await BadGatewayException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
