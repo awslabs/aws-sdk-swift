@@ -101,4 +101,24 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
         try await testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256", upload: .stream(bufferedStream))
     }
+
+    // Streaming without checksum (chunked encoding)
+    func test_putGetObject_streaming_chunked() async throws {
+        let oneMBData = Data(repeating: 0, count: 1_024 * 1_024) // 1MB of zeroed data
+        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let objectName = "flexible-checksums-s3-test-chunked"
+
+        let input = PutObjectInput(
+            body: .stream(bufferedStream),
+            bucket: bucketName,
+            key: objectName
+        )
+
+        let response = try await client.putObject(input: input)
+        let unwrappedResponse = try XCTUnwrap(response)
+
+        let getInput = GetObjectInput(bucket: bucketName, key: objectName)
+        let responseGet = try await client.getObject(input: getInput)
+        XCTAssertNotNil(responseGet.body) // Ensure there's a body in the response.
+    }
 }

@@ -58,6 +58,9 @@ public struct SigV4AuthScheme: ClientRuntime.AuthScheme {
         // Copy checksum from middleware context to signing properties
         updatedSigningProperties.set(key: AttributeKeys.checksum, value: context.getChecksum())
 
+        // Copy chunked streaming eligiblity from middleware context to signing properties
+        updatedSigningProperties.set(key: AttributeKeys.isChunkedEligibleStream, value: context.getIsChunkedEligibleStream())
+
         // Set service-specific signing properties if needed.
         try CustomSigningPropertiesSetter().setServiceSpecificSigningProperties(
             signingProperties: &updatedSigningProperties,
