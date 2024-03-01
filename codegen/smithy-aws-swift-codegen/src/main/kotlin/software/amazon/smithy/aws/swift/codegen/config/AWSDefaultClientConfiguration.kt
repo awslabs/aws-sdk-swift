@@ -12,18 +12,34 @@ import software.amazon.smithy.swift.codegen.SwiftTypes
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration.Companion.runtimeSymbol
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
-import software.amazon.smithy.swift.codegen.model.toNullable
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.model.toGeneric
+import software.amazon.smithy.swift.codegen.model.toOptional
 
 class AWSDefaultClientConfiguration : ClientConfiguration {
     override val swiftProtocolName: Symbol
         get() = runtimeSymbol("AWSDefaultClientConfiguration", AWSSwiftDependency.AWS_CLIENT_RUNTIME)
 
-    override val properties: Set<ConfigProperty>
-        get() = setOf(
-            ConfigProperty("useFIPS", SwiftTypes.Bool.toNullable()),
-            ConfigProperty("useDualStack", SwiftTypes.Bool.toNullable()),
-            ConfigProperty("appID", SwiftTypes.String.toNullable(), "AWSClientConfigDefaultsProvider.appID()", true),
-            ConfigProperty("awsCredentialIdentityResolver", AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver, "AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver)", true),
-            ConfigProperty("awsRetryMode", AWSClientRuntimeTypes.Core.AWSRetryMode, "AWSClientConfigDefaultsProvider.retryMode()", true),
-        )
+    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> = setOf(
+        ConfigProperty("useFIPS", SwiftTypes.Bool.toOptional()),
+        ConfigProperty("useDualStack", SwiftTypes.Bool.toOptional()),
+        ConfigProperty(
+            "appID",
+            SwiftTypes.String.toOptional(),
+            "AWSClientConfigDefaultsProvider.appID()",
+            true
+        ),
+        ConfigProperty(
+            "awsCredentialIdentityResolver",
+            AWSClientRuntimeTypes.Core.AWSCredentialIdentityResolver.toGeneric(),
+            "AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver)",
+            true
+        ),
+        ConfigProperty(
+            "awsRetryMode",
+            AWSClientRuntimeTypes.Core.AWSRetryMode,
+            "AWSClientConfigDefaultsProvider.retryMode()",
+            true
+        ),
+    )
 }
