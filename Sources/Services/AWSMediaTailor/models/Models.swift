@@ -151,6 +151,7 @@ extension MediaTailorClientTypes {
         /// The SCTE-35 ad insertion type. Accepted value: SPLICE_INSERT, TIME_SIGNAL.
         public var messageType: MediaTailorClientTypes.MessageType?
         /// How long (in milliseconds) after the beginning of the program that an ad starts. This value must fall within 100ms of a segment boundary, otherwise the ad break will be skipped.
+        /// This member is required.
         public var offsetMillis: Swift.Int?
         /// Ad break slate configuration.
         public var slate: MediaTailorClientTypes.SlateSource?

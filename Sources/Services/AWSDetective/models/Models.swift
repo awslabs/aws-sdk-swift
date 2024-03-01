@@ -1132,7 +1132,7 @@ extension DetectiveClientTypes.DateFilter: Swift.Codable {
 extension DetectiveClientTypes {
     /// Contains details on the time range used to filter data.
     public struct DateFilter: Swift.Equatable {
-        /// A timestamp representing the end date of the time period until when data is filtered , including the end date.
+        /// A timestamp representing the end date of the time period until when data is filtered, including the end date.
         /// This member is required.
         public var endInclusive: ClientRuntime.Date?
         /// A timestamp representing the start of the time period from when data is filtered, including the start date.
@@ -1925,7 +1925,7 @@ extension GetInvestigationInput {
 }
 
 public struct GetInvestigationInput: Swift.Equatable {
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
     /// The investigation ID of the investigation report.
@@ -1993,25 +1993,25 @@ extension GetInvestigationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetInvestigationOutput: Swift.Equatable {
-    /// The UTC time stamp of the creation time of the investigation report.
+    /// The creation time of the investigation report in UTC time stamp format.
     public var createdTime: ClientRuntime.Date?
-    /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
+    /// The unique Amazon Resource Name (ARN). Detective supports IAM user ARNs and IAM role ARNs.
     public var entityArn: Swift.String?
-    /// Type of entity. For example, Amazon Web Services accounts, such as IAM user and role.
+    /// Type of entity. For example, Amazon Web Services accounts, such as an IAM user and/or IAM role.
     public var entityType: DetectiveClientTypes.EntityType?
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     public var graphArn: Swift.String?
     /// The investigation ID of the investigation report.
     public var investigationId: Swift.String?
     /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
     public var scopeEndTime: ClientRuntime.Date?
-    /// The start date and time for the scope time set to generate the investigation report.
+    /// The start date and time used to set the scope time within which you want to generate the investigation report. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
     public var scopeStartTime: ClientRuntime.Date?
-    /// Severity based on the likelihood and impact of the indicators of compromise discovered in the investigation.
+    /// The severity assigned is based on the likelihood and impact of the indicators of compromise discovered in the investigation.
     public var severity: DetectiveClientTypes.Severity?
-    /// The current state of the investigation. An archived investigation indicates you have completed reviewing the investigation.
+    /// The current state of the investigation. An archived investigation indicates that you have completed reviewing the investigation.
     public var state: DetectiveClientTypes.State?
-    /// Status based on the completion status of the investigation.
+    /// The status based on the completion status of the investigation.
     public var status: DetectiveClientTypes.Status?
 
     public init(
@@ -2360,9 +2360,9 @@ extension DetectiveClientTypes {
         public var endingLocation: Swift.String?
         /// Returns the time difference between the first and last timestamp the resource was used.
         public var hourlyTimeDelta: Swift.Int?
-        /// IP address where the resource was first used in the impossible travel
+        /// IP address where the resource was first used in the impossible travel.
         public var startingIpAddress: Swift.String?
-        /// Location where the resource was first used in the impossible travel
+        /// Location where the resource was first used in the impossible travel.
         public var startingLocation: Swift.String?
 
         public init(
@@ -2409,9 +2409,9 @@ extension DetectiveClientTypes.Indicator: Swift.Codable {
 }
 
 extension DetectiveClientTypes {
-    /// Investigations triages indicators of compromises such as a finding and surfaces only the most critical and suspicious issues, so you can focus on high-level investigations.
+    /// Detective investigations triages indicators of compromises such as a finding and surfaces only the most critical and suspicious issues, so you can focus on high-level investigations. An Indicator lets you determine if an Amazon Web Services resource is involved in unusual activity that could indicate malicious behavior and its impact.
     public struct Indicator: Swift.Equatable {
-        /// Details about the indicator of compromise.
+        /// Details about the indicators of compromise that are used to determine if a resource is involved in a security incident. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident.
         public var indicatorDetail: DetectiveClientTypes.IndicatorDetail?
         /// The type of indicator.
         public var indicatorType: DetectiveClientTypes.IndicatorType?
@@ -2490,9 +2490,9 @@ extension DetectiveClientTypes.IndicatorDetail: Swift.Codable {
 }
 
 extension DetectiveClientTypes {
-    /// Details about the indicators of compromise which are used to determine if a resource is involved in a security incident.
+    /// Details about the indicators of compromise which are used to determine if a resource is involved in a security incident. An indicator of compromise (IOC) is an artifact observed in or on a network, system, or environment that can (with a high level of confidence) identify malicious activity or a security incident. For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
     public struct IndicatorDetail: Swift.Equatable {
-        /// Suspicious IP addresses that are flagged, which indicates critical or severe threats based on threat intelligence by Detective. This indicator is derived from AWS threat intelligence.
+        /// Suspicious IP addresses that are flagged, which indicates critical or severe threats based on threat intelligence by Detective. This indicator is derived from Amazon Web Services threat intelligence.
         public var flaggedIpAddressDetail: DetectiveClientTypes.FlaggedIpAddressDetail?
         /// Identifies unusual and impossible user activity for an account.
         public var impossibleTravelDetail: DetectiveClientTypes.ImpossibleTravelDetail?
@@ -2694,9 +2694,9 @@ extension DetectiveClientTypes.InvestigationDetail: Swift.Codable {
 }
 
 extension DetectiveClientTypes {
-    /// Details about the investigation related to a potential security event identified by Detective
+    /// Details about the investigation related to a potential security event identified by Detective.
     public struct InvestigationDetail: Swift.Equatable {
-        /// The UTC time stamp of the creation time of the investigation report.
+        /// The time stamp of the creation time of the investigation report. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
         public var createdTime: ClientRuntime.Date?
         /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
         public var entityArn: Swift.String?
@@ -3080,17 +3080,17 @@ extension ListIndicatorsInput {
 }
 
 public struct ListIndicatorsInput: Swift.Equatable {
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
-    /// See [Detective investigations.](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
+    /// For the list of indicators of compromise that are generated by Detective investigations, see [Detective investigations](https://docs.aws.amazon.com/detective/latest/userguide/detective-investigations.html).
     public var indicatorType: DetectiveClientTypes.IndicatorType?
     /// The investigation ID of the investigation report.
     /// This member is required.
     public var investigationId: Swift.String?
-    /// List the maximum number of indicators in a page.
+    /// Lists the maximum number of indicators in a page.
     public var maxResults: Swift.Int?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
     public var nextToken: Swift.String?
 
     public init(
@@ -3160,13 +3160,13 @@ extension ListIndicatorsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListIndicatorsOutput: Swift.Equatable {
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     public var graphArn: Swift.String?
-    /// Indicators of compromise listed based on severity.
+    /// Lists the indicators of compromise.
     public var indicators: [DetectiveClientTypes.Indicator]?
     /// The investigation ID of the investigation report.
     public var investigationId: Swift.String?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
     public var nextToken: Swift.String?
 
     public init(
@@ -3272,14 +3272,14 @@ extension ListInvestigationsInput {
 }
 
 public struct ListInvestigationsInput: Swift.Equatable {
-    /// Filter the investigation results based on a criteria.
+    /// Filters the investigation results based on a criteria.
     public var filterCriteria: DetectiveClientTypes.FilterCriteria?
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
-    /// List the maximum number of investigations in a page.
+    /// Lists the maximum number of investigations in a page.
     public var maxResults: Swift.Int?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return a Validation Exception error.
     public var nextToken: Swift.String?
     /// Sorts the investigation results based on a criteria.
     public var sortCriteria: DetectiveClientTypes.SortCriteria?
@@ -3347,9 +3347,9 @@ extension ListInvestigationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListInvestigationsOutput: Swift.Equatable {
-    /// Investigations details lists the summary of uncommon behavior or malicious activity which indicates a compromise.
+    /// Lists the summary of uncommon behavior or malicious activity which indicates a compromise.
     public var investigationDetails: [DetectiveClientTypes.InvestigationDetail]?
-    /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+    /// Lists if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
     public var nextToken: Swift.String?
 
     public init(
@@ -4328,7 +4328,7 @@ extension DetectiveClientTypes {
     public struct NewAsoDetail: Swift.Equatable {
         /// Details about the new Autonomous System Organization (ASO).
         public var aso: Swift.String?
-        /// Checks if the ASO is for new for the entire account.
+        /// Checks if the Autonomous System Organization (ASO) is new for the entire account.
         public var isNewForEntireAccount: Swift.Bool
 
         public init(
@@ -4379,7 +4379,7 @@ extension DetectiveClientTypes {
     public struct NewGeolocationDetail: Swift.Equatable {
         /// IP address using which the resource was accessed.
         public var ipAddress: Swift.String?
-        /// Checks if the gelocation is new for the entire account.
+        /// Checks if the geolocation is new for the entire account.
         public var isNewForEntireAccount: Swift.Bool
         /// Location where the resource was accessed.
         public var location: Swift.String?
@@ -4580,7 +4580,7 @@ extension DetectiveClientTypes.RelatedFindingDetail: Swift.Codable {
 extension DetectiveClientTypes {
     /// Details related activities associated with a potential security event. Lists all distinct categories of evidence that are connected to the resource or the finding group.
     public struct RelatedFindingDetail: Swift.Equatable {
-        /// The ARN of the related finding.
+        /// The Amazon Resource Name (ARN) of the related finding.
         public var arn: Swift.String?
         /// The IP address of the finding.
         public var ipAddress: Swift.String?
@@ -4710,11 +4710,9 @@ extension ServiceQuotaExceededException {
 
 /// This request cannot be completed for one of the following reasons.
 ///
-/// * The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.
+/// * This request cannot be completed if it would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1,200 member accounts.
 ///
-/// * The request would cause the data rate for the behavior graph to exceed the maximum allowed.
-///
-/// * Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
+/// * This request cannot be completed if the current volume ingested is above the limit of 10 TB per day. Detective will not allow you to add additional member accounts.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -4925,10 +4923,10 @@ public struct StartInvestigationInput: Swift.Equatable {
     /// The unique Amazon Resource Name (ARN) of the IAM user and IAM role.
     /// This member is required.
     public var entityArn: Swift.String?
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
-    /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
+    /// The data and time when the investigation ended. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
     /// This member is required.
     public var scopeEndTime: ClientRuntime.Date?
     /// The data and time when the investigation began. The value is an UTC ISO8601 formatted string. For example, 2021-08-18T16:35:56.284Z.
@@ -5283,11 +5281,11 @@ extension DetectiveClientTypes {
     public struct TTPsObservedDetail: Swift.Equatable {
         /// The total number of failed API requests.
         public var apiFailureCount: Swift.Int
-        /// The name of the API where the TTP was observed.
+        /// The name of the API where the tactics, techniques, and procedure (TTP) was observed.
         public var apiName: Swift.String?
         /// The total number of successful API requests.
         public var apiSuccessCount: Swift.Int
-        /// The IP address where the TTP was observed.
+        /// The IP address where the tactics, techniques, and procedure (TTP) was observed.
         public var ipAddress: Swift.String?
         /// The procedure used, identified by the investigation.
         public var procedure: Swift.String?
@@ -5796,7 +5794,7 @@ extension UpdateInvestigationStateInput {
 }
 
 public struct UpdateInvestigationStateInput: Swift.Equatable {
-    /// The ARN of the behavior graph.
+    /// The Amazon Resource Name (ARN) of the behavior graph.
     /// This member is required.
     public var graphArn: Swift.String?
     /// The investigation ID of the investigation report.

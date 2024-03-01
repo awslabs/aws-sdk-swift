@@ -2862,7 +2862,7 @@ extension OpenSearchClientTypes.ColdStorageOptions: Swift.Codable {
 extension OpenSearchClientTypes {
     /// Container for the parameters required to enable cold storage for an OpenSearch Service domain. For more information, see [Cold storage for Amazon OpenSearch Service](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/cold-storage.html).
     public struct ColdStorageOptions: Swift.Equatable {
-        /// Whether to enable or disable cold storage on the domain.
+        /// Whether to enable or disable cold storage on the domain. You must enable UltraWarm storage to enable cold storage.
         /// This member is required.
         public var enabled: Swift.Bool?
 
@@ -4829,7 +4829,7 @@ extension DescribeDomainAutoTunesOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeDomainAutoTunesOutput: Swift.Equatable {
     /// The list of setting adjustments that Auto-Tune has made to the domain.
     public var autoTunes: [OpenSearchClientTypes.AutoTune]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -5860,7 +5860,7 @@ extension DescribeInboundConnectionsOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeInboundConnectionsOutput: Swift.Equatable {
     /// List of inbound connections.
     public var connections: [OpenSearchClientTypes.InboundConnection]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -6140,7 +6140,7 @@ extension DescribeOutboundConnectionsOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeOutboundConnectionsOutput: Swift.Equatable {
     /// List of outbound connections that match the filter criteria.
     public var connections: [OpenSearchClientTypes.OutboundConnection]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -6393,7 +6393,7 @@ extension DescribePackagesOutput: ClientRuntime.HttpResponseBinding {
 
 /// Container for the response returned by the DescribePackages operation.
 public struct DescribePackagesOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// Basic information about a package.
     public var packageDetailsList: [OpenSearchClientTypes.PackageDetails]?
@@ -6525,7 +6525,7 @@ extension DescribeReservedInstanceOfferingsOutput: ClientRuntime.HttpResponseBin
 
 /// Container for results of a DescribeReservedInstanceOfferings request.
 public struct DescribeReservedInstanceOfferingsOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instance offerings.
     public var reservedInstanceOfferings: [OpenSearchClientTypes.ReservedInstanceOffering]?
@@ -6656,7 +6656,7 @@ extension DescribeReservedInstancesOutput: ClientRuntime.HttpResponseBinding {
 
 /// Container for results from DescribeReservedInstances
 public struct DescribeReservedInstancesOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// List of Reserved Instances in the current Region.
     public var reservedInstances: [OpenSearchClientTypes.ReservedInstance]?
@@ -9394,7 +9394,7 @@ extension GetPackageVersionHistoryOutput: ClientRuntime.HttpResponseBinding {
 
 /// Container for response returned by GetPackageVersionHistory operation.
 public struct GetPackageVersionHistoryOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The unique identifier of the package.
     public var packageID: Swift.String?
@@ -9534,7 +9534,7 @@ extension GetUpgradeHistoryOutput: ClientRuntime.HttpResponseBinding {
 
 /// Container for the response returned by the GetUpgradeHistory operation.
 public struct GetUpgradeHistoryOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of objects corresponding to each upgrade or upgrade eligibility check performed on a domain.
     public var upgradeHistories: [OpenSearchClientTypes.UpgradeHistory]?
@@ -10701,7 +10701,7 @@ extension ListDomainMaintenancesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListDomainMaintenancesOutput: Swift.Equatable {
     /// A list of the submitted maintenance actions.
     public var domainMaintenances: [OpenSearchClientTypes.DomainMaintenanceDetails]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -10936,7 +10936,7 @@ extension ListDomainsForPackageOutput: ClientRuntime.HttpResponseBinding {
 public struct ListDomainsForPackageOutput: Swift.Equatable {
     /// Information about all domains associated with a package.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -11090,7 +11090,7 @@ extension ListInstanceTypeDetailsOutput: ClientRuntime.HttpResponseBinding {
 public struct ListInstanceTypeDetailsOutput: Swift.Equatable {
     /// Lists all supported instance types and features for the given OpenSearch or Elasticsearch version.
     public var instanceTypeDetails: [OpenSearchClientTypes.InstanceTypeDetails]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -11221,7 +11221,7 @@ extension ListPackagesForDomainOutput: ClientRuntime.HttpResponseBinding {
 public struct ListPackagesForDomainOutput: Swift.Equatable {
     /// List of all packages associated with a domain.
     public var domainPackageDetailsList: [OpenSearchClientTypes.DomainPackageDetails]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
 
     public init(
@@ -11349,7 +11349,7 @@ extension ListScheduledActionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListScheduledActionsOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of actions that are scheduled for the domain.
     public var scheduledActions: [OpenSearchClientTypes.ScheduledAction]?
@@ -11581,7 +11581,7 @@ extension ListVersionsOutput: ClientRuntime.HttpResponseBinding {
 
 /// Container for the parameters for response received from the ListVersions operation.
 public struct ListVersionsOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// A list of all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service supports.
     public var versions: [Swift.String]?
@@ -11705,7 +11705,7 @@ public struct ListVpcEndpointAccessOutput: Swift.Equatable {
     /// A list of [IAM principals](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html) that can currently access the domain.
     /// This member is required.
     public var authorizedPrincipalList: [OpenSearchClientTypes.AuthorizedPrincipal]?
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
 
@@ -11825,7 +11825,7 @@ extension ListVpcEndpointsForDomainOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListVpcEndpointsForDomainOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
     /// Information about each endpoint associated with the domain.
@@ -11940,7 +11940,7 @@ extension ListVpcEndpointsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListVpcEndpointsOutput: Swift.Equatable {
-    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page.
+    /// When nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Send the request again using the returned token to retrieve the next page.
     /// This member is required.
     public var nextToken: Swift.String?
     /// Information about each endpoint.
@@ -12716,6 +12716,14 @@ extension OpenSearchClientTypes {
         case m6g8xlargeSearch
         case m6gLargeSearch
         case m6gXlargeSearch
+        case or112xlargeSearch
+        case or116xlargeSearch
+        case or12xlargeSearch
+        case or14xlargeSearch
+        case or18xlargeSearch
+        case or1LargeSearch
+        case or1MediumSearch
+        case or1XlargeSearch
         case r32xlargeSearch
         case r34xlargeSearch
         case r38xlargeSearch
@@ -12815,6 +12823,14 @@ extension OpenSearchClientTypes {
                 .m6g8xlargeSearch,
                 .m6gLargeSearch,
                 .m6gXlargeSearch,
+                .or112xlargeSearch,
+                .or116xlargeSearch,
+                .or12xlargeSearch,
+                .or14xlargeSearch,
+                .or18xlargeSearch,
+                .or1LargeSearch,
+                .or1MediumSearch,
+                .or1XlargeSearch,
                 .r32xlargeSearch,
                 .r34xlargeSearch,
                 .r38xlargeSearch,
@@ -12919,6 +12935,14 @@ extension OpenSearchClientTypes {
             case .m6g8xlargeSearch: return "m6g.8xlarge.search"
             case .m6gLargeSearch: return "m6g.large.search"
             case .m6gXlargeSearch: return "m6g.xlarge.search"
+            case .or112xlargeSearch: return "or1.12xlarge.search"
+            case .or116xlargeSearch: return "or1.16xlarge.search"
+            case .or12xlargeSearch: return "or1.2xlarge.search"
+            case .or14xlargeSearch: return "or1.4xlarge.search"
+            case .or18xlargeSearch: return "or1.8xlarge.search"
+            case .or1LargeSearch: return "or1.large.search"
+            case .or1MediumSearch: return "or1.medium.search"
+            case .or1XlargeSearch: return "or1.xlarge.search"
             case .r32xlargeSearch: return "r3.2xlarge.search"
             case .r34xlargeSearch: return "r3.4xlarge.search"
             case .r38xlargeSearch: return "r3.8xlarge.search"

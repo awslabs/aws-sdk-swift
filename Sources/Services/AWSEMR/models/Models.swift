@@ -1704,6 +1704,7 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         case stepConcurrencyLevel = "StepConcurrencyLevel"
         case tags = "Tags"
         case terminationProtected = "TerminationProtected"
+        case unhealthyNodeReplacement = "UnhealthyNodeReplacement"
         case visibleToAllUsers = "VisibleToAllUsers"
     }
 
@@ -1817,6 +1818,9 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
+        if let unhealthyNodeReplacement = self.unhealthyNodeReplacement {
+            try encodeContainer.encode(unhealthyNodeReplacement, forKey: .unhealthyNodeReplacement)
+        }
         if let visibleToAllUsers = self.visibleToAllUsers {
             try encodeContainer.encode(visibleToAllUsers, forKey: .visibleToAllUsers)
         }
@@ -1848,6 +1852,8 @@ extension EMRClientTypes.Cluster: Swift.Codable {
         autoTerminate = autoTerminateDecoded
         let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
+        let unhealthyNodeReplacementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unhealthyNodeReplacement)
+        unhealthyNodeReplacement = unhealthyNodeReplacementDecoded
         let visibleToAllUsersDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .visibleToAllUsers)
         visibleToAllUsers = visibleToAllUsersDecoded
         let applicationsContainer = try containerValues.decodeIfPresent([EMRClientTypes.Application?].self, forKey: .applications)
@@ -1996,6 +2002,8 @@ extension EMRClientTypes {
         public var tags: [EMRClientTypes.Tag]?
         /// Indicates whether Amazon EMR will lock the cluster to prevent the Amazon EC2 instances from being terminated by an API call or user intervention, or in the event of a cluster error.
         public var terminationProtected: Swift.Bool?
+        /// Indicates whether Amazon EMR should gracefully replace Amazon EC2 core instances that have degraded within the cluster.
+        public var unhealthyNodeReplacement: Swift.Bool?
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform Amazon EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform Amazon EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the Amazon EMR API [RunJobFlow] command, the CLI [create-cluster](https://docs.aws.amazon.com/cli/latest/reference/emr/create-cluster.html) command, or the Amazon Web Services Management Console.
         public var visibleToAllUsers: Swift.Bool?
 
@@ -2032,6 +2040,7 @@ extension EMRClientTypes {
             stepConcurrencyLevel: Swift.Int? = nil,
             tags: [EMRClientTypes.Tag]? = nil,
             terminationProtected: Swift.Bool? = nil,
+            unhealthyNodeReplacement: Swift.Bool? = nil,
             visibleToAllUsers: Swift.Bool? = nil
         )
         {
@@ -2067,6 +2076,7 @@ extension EMRClientTypes {
             self.stepConcurrencyLevel = stepConcurrencyLevel
             self.tags = tags
             self.terminationProtected = terminationProtected
+            self.unhealthyNodeReplacement = unhealthyNodeReplacement
             self.visibleToAllUsers = visibleToAllUsers
         }
     }
@@ -8835,6 +8845,7 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         case serviceAccessSecurityGroup = "ServiceAccessSecurityGroup"
         case slaveInstanceType = "SlaveInstanceType"
         case terminationProtected = "TerminationProtected"
+        case unhealthyNodeReplacement = "UnhealthyNodeReplacement"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8905,6 +8916,9 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
+        if let unhealthyNodeReplacement = self.unhealthyNodeReplacement {
+            try encodeContainer.encode(unhealthyNodeReplacement, forKey: .unhealthyNodeReplacement)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8945,6 +8959,8 @@ extension EMRClientTypes.JobFlowInstancesConfig: Swift.Codable {
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
         let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
+        let unhealthyNodeReplacementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unhealthyNodeReplacement)
+        unhealthyNodeReplacement = unhealthyNodeReplacementDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
         let ec2SubnetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ec2SubnetId)
@@ -9028,6 +9044,8 @@ extension EMRClientTypes {
         public var slaveInstanceType: Swift.String?
         /// Specifies whether to lock the cluster to prevent the Amazon EC2 instances from being terminated by API call, user intervention, or in the event of a job-flow error.
         public var terminationProtected: Swift.Bool?
+        /// Indicates whether Amazon EMR should gracefully replace core nodes that have degraded within the cluster.
+        public var unhealthyNodeReplacement: Swift.Bool?
 
         public init(
             additionalMasterSecurityGroups: [Swift.String]? = nil,
@@ -9046,7 +9064,8 @@ extension EMRClientTypes {
             placement: EMRClientTypes.PlacementType? = nil,
             serviceAccessSecurityGroup: Swift.String? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool? = nil
+            terminationProtected: Swift.Bool? = nil,
+            unhealthyNodeReplacement: Swift.Bool? = nil
         )
         {
             self.additionalMasterSecurityGroups = additionalMasterSecurityGroups
@@ -9066,6 +9085,7 @@ extension EMRClientTypes {
             self.serviceAccessSecurityGroup = serviceAccessSecurityGroup
             self.slaveInstanceType = slaveInstanceType
             self.terminationProtected = terminationProtected
+            self.unhealthyNodeReplacement = unhealthyNodeReplacement
         }
     }
 
@@ -9086,6 +9106,7 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         case placement = "Placement"
         case slaveInstanceType = "SlaveInstanceType"
         case terminationProtected = "TerminationProtected"
+        case unhealthyNodeReplacement = "UnhealthyNodeReplacement"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -9132,6 +9153,9 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         if let terminationProtected = self.terminationProtected {
             try encodeContainer.encode(terminationProtected, forKey: .terminationProtected)
         }
+        if let unhealthyNodeReplacement = self.unhealthyNodeReplacement {
+            try encodeContainer.encode(unhealthyNodeReplacement, forKey: .unhealthyNodeReplacement)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9169,6 +9193,8 @@ extension EMRClientTypes.JobFlowInstancesDetail: Swift.Codable {
         keepJobFlowAliveWhenNoSteps = keepJobFlowAliveWhenNoStepsDecoded
         let terminationProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .terminationProtected)
         terminationProtected = terminationProtectedDecoded
+        let unhealthyNodeReplacementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unhealthyNodeReplacement)
+        unhealthyNodeReplacement = unhealthyNodeReplacementDecoded
         let hadoopVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .hadoopVersion)
         hadoopVersion = hadoopVersionDecoded
     }
@@ -9206,6 +9232,8 @@ extension EMRClientTypes {
         public var slaveInstanceType: Swift.String?
         /// Specifies whether the Amazon EC2 instances in the cluster are protected from termination by API calls, user intervention, or in the event of a job-flow error.
         public var terminationProtected: Swift.Bool?
+        /// Indicates whether Amazon EMR should gracefully replace core nodes that have degraded within the cluster.
+        public var unhealthyNodeReplacement: Swift.Bool?
 
         public init(
             ec2KeyName: Swift.String? = nil,
@@ -9220,7 +9248,8 @@ extension EMRClientTypes {
             normalizedInstanceHours: Swift.Int? = nil,
             placement: EMRClientTypes.PlacementType? = nil,
             slaveInstanceType: Swift.String? = nil,
-            terminationProtected: Swift.Bool? = nil
+            terminationProtected: Swift.Bool? = nil,
+            unhealthyNodeReplacement: Swift.Bool? = nil
         )
         {
             self.ec2KeyName = ec2KeyName
@@ -9236,6 +9265,7 @@ extension EMRClientTypes {
             self.placement = placement
             self.slaveInstanceType = slaveInstanceType
             self.terminationProtected = terminationProtected
+            self.unhealthyNodeReplacement = unhealthyNodeReplacement
         }
     }
 
@@ -14770,6 +14800,101 @@ public struct SetTerminationProtectionOutput: Swift.Equatable {
 }
 
 enum SetTerminationProtectionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalFailure": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension SetUnhealthyNodeReplacementInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobFlowIds = "JobFlowIds"
+        case unhealthyNodeReplacement = "UnhealthyNodeReplacement"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jobFlowIds = jobFlowIds {
+            var jobFlowIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobFlowIds)
+            for xmlstring0 in jobFlowIds {
+                try jobFlowIdsContainer.encode(xmlstring0)
+            }
+        }
+        if let unhealthyNodeReplacement = self.unhealthyNodeReplacement {
+            try encodeContainer.encode(unhealthyNodeReplacement, forKey: .unhealthyNodeReplacement)
+        }
+    }
+}
+
+extension SetUnhealthyNodeReplacementInput {
+
+    static func urlPathProvider(_ value: SetUnhealthyNodeReplacementInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct SetUnhealthyNodeReplacementInput: Swift.Equatable {
+    /// The list of strings that uniquely identify the clusters for which to turn on unhealthy node replacement. You can get these identifiers by running the [RunJobFlow] or the [DescribeJobFlows] operations.
+    /// This member is required.
+    public var jobFlowIds: [Swift.String]?
+    /// Indicates whether to turn on or turn off graceful unhealthy node replacement.
+    /// This member is required.
+    public var unhealthyNodeReplacement: Swift.Bool?
+
+    public init(
+        jobFlowIds: [Swift.String]? = nil,
+        unhealthyNodeReplacement: Swift.Bool? = nil
+    )
+    {
+        self.jobFlowIds = jobFlowIds
+        self.unhealthyNodeReplacement = unhealthyNodeReplacement
+    }
+}
+
+struct SetUnhealthyNodeReplacementInputBody: Swift.Equatable {
+    let jobFlowIds: [Swift.String]?
+    let unhealthyNodeReplacement: Swift.Bool?
+}
+
+extension SetUnhealthyNodeReplacementInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jobFlowIds = "JobFlowIds"
+        case unhealthyNodeReplacement = "UnhealthyNodeReplacement"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jobFlowIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .jobFlowIds)
+        var jobFlowIdsDecoded0:[Swift.String]? = nil
+        if let jobFlowIdsContainer = jobFlowIdsContainer {
+            jobFlowIdsDecoded0 = [Swift.String]()
+            for string0 in jobFlowIdsContainer {
+                if let string0 = string0 {
+                    jobFlowIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        jobFlowIds = jobFlowIdsDecoded0
+        let unhealthyNodeReplacementDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .unhealthyNodeReplacement)
+        unhealthyNodeReplacement = unhealthyNodeReplacementDecoded
+    }
+}
+
+extension SetUnhealthyNodeReplacementOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct SetUnhealthyNodeReplacementOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum SetUnhealthyNodeReplacementOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

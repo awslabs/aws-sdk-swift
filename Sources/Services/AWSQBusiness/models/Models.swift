@@ -988,7 +988,7 @@ extension QBusinessClientTypes.AttributeFilter: Swift.Codable {
 }
 
 extension QBusinessClientTypes {
-    /// Enables filtering of Amazon Q web experience responses based on document attributes or metadata fields.
+    /// Enables filtering of responses based on document attributes or metadata fields.
     public struct AttributeFilter: Swift.Equatable {
         /// Performs a logical AND operation on all supplied filters.
         public var andAllFilters: [QBusinessClientTypes.AttributeFilter]?
@@ -3946,6 +3946,52 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.DateAttributeBoostingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boostingDurationInSeconds
+        case boostingLevel
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boostingDurationInSeconds = self.boostingDurationInSeconds {
+            try encodeContainer.encode(boostingDurationInSeconds, forKey: .boostingDurationInSeconds)
+        }
+        if let boostingLevel = self.boostingLevel {
+            try encodeContainer.encode(boostingLevel.rawValue, forKey: .boostingLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let boostingLevelDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.DocumentAttributeBoostingLevel.self, forKey: .boostingLevel)
+        boostingLevel = boostingLevelDecoded
+        let boostingDurationInSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .boostingDurationInSeconds)
+        boostingDurationInSeconds = boostingDurationInSecondsDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Provides information on boosting DATE type document attributes. For more information on how boosting document attributes work in Amazon Q, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    public struct DateAttributeBoostingConfiguration: Swift.Equatable {
+        /// Specifies the duration, in seconds, of a boost applies to a DATE type document attribute.
+        public var boostingDurationInSeconds: Swift.Int?
+        /// Specifies how much a document attribute is boosted.
+        /// This member is required.
+        public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
+
+        public init(
+            boostingDurationInSeconds: Swift.Int? = nil,
+            boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
+        )
+        {
+            self.boostingDurationInSeconds = boostingDurationInSeconds
+            self.boostingLevel = boostingLevel
+        }
+    }
+
+}
+
 extension DeleteApplicationInput {
 
     static func urlPathProvider(_ value: DeleteApplicationInput) -> Swift.String? {
@@ -4831,6 +4877,114 @@ extension QBusinessClientTypes {
 
 }
 
+extension QBusinessClientTypes.DocumentAttributeBoostingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dateconfiguration = "dateConfiguration"
+        case numberconfiguration = "numberConfiguration"
+        case sdkUnknown
+        case stringconfiguration = "stringConfiguration"
+        case stringlistconfiguration = "stringListConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .dateconfiguration(dateconfiguration):
+                try container.encode(dateconfiguration, forKey: .dateconfiguration)
+            case let .numberconfiguration(numberconfiguration):
+                try container.encode(numberconfiguration, forKey: .numberconfiguration)
+            case let .stringconfiguration(stringconfiguration):
+                try container.encode(stringconfiguration, forKey: .stringconfiguration)
+            case let .stringlistconfiguration(stringlistconfiguration):
+                try container.encode(stringlistconfiguration, forKey: .stringlistconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let numberconfigurationDecoded = try values.decodeIfPresent(QBusinessClientTypes.NumberAttributeBoostingConfiguration.self, forKey: .numberconfiguration)
+        if let numberconfiguration = numberconfigurationDecoded {
+            self = .numberconfiguration(numberconfiguration)
+            return
+        }
+        let stringconfigurationDecoded = try values.decodeIfPresent(QBusinessClientTypes.StringAttributeBoostingConfiguration.self, forKey: .stringconfiguration)
+        if let stringconfiguration = stringconfigurationDecoded {
+            self = .stringconfiguration(stringconfiguration)
+            return
+        }
+        let dateconfigurationDecoded = try values.decodeIfPresent(QBusinessClientTypes.DateAttributeBoostingConfiguration.self, forKey: .dateconfiguration)
+        if let dateconfiguration = dateconfigurationDecoded {
+            self = .dateconfiguration(dateconfiguration)
+            return
+        }
+        let stringlistconfigurationDecoded = try values.decodeIfPresent(QBusinessClientTypes.StringListAttributeBoostingConfiguration.self, forKey: .stringlistconfiguration)
+        if let stringlistconfiguration = stringlistconfigurationDecoded {
+            self = .stringlistconfiguration(stringlistconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Provides information on boosting supported Amazon Q document attribute types. When an end user chat query matches document attributes that have been boosted, Amazon Q prioritizes generating responses from content that matches the boosted document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    public enum DocumentAttributeBoostingConfiguration: Swift.Equatable {
+        /// Provides information on boosting NUMBER type document attributes.
+        case numberconfiguration(QBusinessClientTypes.NumberAttributeBoostingConfiguration)
+        /// Provides information on boosting STRING type document attributes.
+        case stringconfiguration(QBusinessClientTypes.StringAttributeBoostingConfiguration)
+        /// Provides information on boosting DATE type document attributes.
+        case dateconfiguration(QBusinessClientTypes.DateAttributeBoostingConfiguration)
+        /// Provides information on boosting STRING_LIST type document attributes.
+        case stringlistconfiguration(QBusinessClientTypes.StringListAttributeBoostingConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension QBusinessClientTypes {
+    public enum DocumentAttributeBoostingLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case `none`
+        case veryHigh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DocumentAttributeBoostingLevel] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .none,
+                .veryHigh,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .none: return "NONE"
+            case .veryHigh: return "VERY_HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DocumentAttributeBoostingLevel(rawValue: rawValue) ?? DocumentAttributeBoostingLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension QBusinessClientTypes.DocumentAttributeCondition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -4863,7 +5017,7 @@ extension QBusinessClientTypes.DocumentAttributeCondition: Swift.Codable {
 }
 
 extension QBusinessClientTypes {
-    /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q then will map your newly created metadata field to your index field.
+    /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q then will map your newly created metadata field to your index field.
     public struct DocumentAttributeCondition: Swift.Equatable {
         /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata field that contains source URIs associated with the documents. Amazon Q currently doesn't support _document_body as an attribute key used for the condition.
         /// This member is required.
@@ -4975,7 +5129,7 @@ extension QBusinessClientTypes.DocumentAttributeTarget: Swift.Codable {
 }
 
 extension QBusinessClientTypes {
-    /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Q. For example, you can delete all customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID' by setting the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using [DocumentAttributeTarget](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeTarget.html). Amazon Q will then map your newly created document attribute to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeCondition.html).
+    /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Q. For example, you can delete all customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID' by setting the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html). Amazon Q will then map your newly created document attribute to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeCondition.html).
     public struct DocumentAttributeTarget: Swift.Equatable {
         /// TRUE to delete the existing target value for your specified target attribute key. You cannot create a target value and set this to TRUE.
         public var attributeValueOperator: QBusinessClientTypes.AttributeValueOperator?
@@ -5336,9 +5490,9 @@ extension QBusinessClientTypes {
     public struct DocumentEnrichmentConfiguration: Swift.Equatable {
         /// Configuration information to alter document attributes or metadata fields and content when ingesting documents into Amazon Q.
         public var inlineConfigurations: [QBusinessClientTypes.InlineDocumentEnrichmentConfiguration]?
-        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
         public var postExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration?
-        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+        /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
         public var preExtractionHookConfiguration: QBusinessClientTypes.HookConfiguration?
 
         public init(
@@ -7499,7 +7653,7 @@ extension QBusinessClientTypes.HookConfiguration: Swift.Codable {
 }
 
 extension QBusinessClientTypes {
-    /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_CustomDocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+    /// Provides the configuration information for invoking a Lambda function in Lambda to alter document metadata and content when ingesting documents into Amazon Q. You can configure your Lambda function using [PreExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html) if you want to apply advanced alterations on the original or raw documents. If you want to apply advanced alterations on the Amazon Q structured documents, you must configure your Lambda function using [PostExtractionHookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentEnrichmentConfiguration.html). You can only invoke one Lambda function. However, this function can invoke other functions it requires. For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
     public struct HookConfiguration: Swift.Equatable {
         /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Q should invoke a function that inserts the current date-time.
         public var invocationCondition: QBusinessClientTypes.DocumentAttributeCondition?
@@ -7744,13 +7898,13 @@ extension QBusinessClientTypes.InlineDocumentEnrichmentConfiguration: Swift.Coda
 }
 
 extension QBusinessClientTypes {
-    /// Provides the configuration information for applying basic logic to alter document metadata and content when ingesting documents into Amazon Q. To apply advanced logic, to go beyond what you can do with basic logic, see [HookConfiguration](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_HookConfiguration.html). For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
+    /// Provides the configuration information for applying basic logic to alter document metadata and content when ingesting documents into Amazon Q. To apply advanced logic, to go beyond what you can do with basic logic, see [HookConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_HookConfiguration.html). For more information, see [Custom document enrichment](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/custom-document-enrichment.html).
     public struct InlineDocumentEnrichmentConfiguration: Swift.Equatable {
-        /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q then will map your newly created metadata field to your index field.
+        /// The condition used for the target document attribute or metadata field when ingesting documents into Amazon Q. You use this with [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html) to apply the condition. For example, you can create the 'Department' target field and have it prefill department names associated with the documents based on information in the 'Source_URI' field. Set the condition that if the 'Source_URI' field contains 'financial' in its URI value, then prefill the target field 'Department' with the target value 'Finance' for the document. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using DocumentAttributeTarget. Amazon Q then will map your newly created metadata field to your index field.
         public var condition: QBusinessClientTypes.DocumentAttributeCondition?
         /// TRUE to delete content if the condition used for the target attribute is met.
         public var documentContentOperator: QBusinessClientTypes.DocumentContentOperator?
-        /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Q. For example, you can delete all customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID' by setting the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using [DocumentAttributeTarget](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeTarget.html). Amazon Q will then map your newly created document attribute to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/enterpriseq/latest/APIReference/API_DocumentAttributeCondition.html).
+        /// The target document attribute or metadata field you want to alter when ingesting documents into Amazon Q. For example, you can delete all customer identification numbers associated with the documents, stored in the document metadata field called 'Customer_ID' by setting the target key as 'Customer_ID' and the deletion flag to TRUE. This removes all customer ID values in the field 'Customer_ID'. This would scrub personally identifiable information from each document's metadata. Amazon Q can't create a target field if it has not already been created as an index field. After you create your index field, you can create a document metadata field using [DocumentAttributeTarget](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeTarget.html). Amazon Q will then map your newly created document attribute to your index field. You can also use this with [DocumentAttributeCondition](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeCondition.html).
         public var target: QBusinessClientTypes.DocumentAttributeTarget?
 
         public init(
@@ -9983,8 +10137,12 @@ extension QBusinessClientTypes {
         case harmfulOrUnsafe
         case helpful
         case incorrectOrMissingSources
+        case notBasedOnDocuments
+        case notComplete
+        case notConcise
         case notFactuallyCorrect
         case notHelpful
+        case other
         case relevantSources
         case sdkUnknown(Swift.String)
 
@@ -9995,8 +10153,12 @@ extension QBusinessClientTypes {
                 .harmfulOrUnsafe,
                 .helpful,
                 .incorrectOrMissingSources,
+                .notBasedOnDocuments,
+                .notComplete,
+                .notConcise,
                 .notFactuallyCorrect,
                 .notHelpful,
+                .other,
                 .relevantSources,
                 .sdkUnknown("")
             ]
@@ -10012,8 +10174,12 @@ extension QBusinessClientTypes {
             case .harmfulOrUnsafe: return "HARMFUL_OR_UNSAFE"
             case .helpful: return "HELPFUL"
             case .incorrectOrMissingSources: return "INCORRECT_OR_MISSING_SOURCES"
+            case .notBasedOnDocuments: return "NOT_BASED_ON_DOCUMENTS"
+            case .notComplete: return "NOT_COMPLETE"
+            case .notConcise: return "NOT_CONCISE"
             case .notFactuallyCorrect: return "NOT_FACTUALLY_CORRECT"
             case .notHelpful: return "NOT_HELPFUL"
+            case .other: return "OTHER"
             case .relevantSources: return "RELEVANT_SOURCES"
             case let .sdkUnknown(s): return s
             }
@@ -10028,11 +10194,18 @@ extension QBusinessClientTypes {
 
 extension QBusinessClientTypes.NativeIndexConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boostingOverride
         case indexId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boostingOverride = boostingOverride {
+            var boostingOverrideContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .boostingOverride)
+            for (dictKey0, documentAttributeBoostingOverrideMap0) in boostingOverride {
+                try boostingOverrideContainer.encode(documentAttributeBoostingOverrideMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
         if let indexId = self.indexId {
             try encodeContainer.encode(indexId, forKey: .indexId)
         }
@@ -10042,24 +10215,117 @@ extension QBusinessClientTypes.NativeIndexConfiguration: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let indexIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexId)
         indexId = indexIdDecoded
+        let boostingOverrideContainer = try containerValues.decodeIfPresent([Swift.String: QBusinessClientTypes.DocumentAttributeBoostingConfiguration?].self, forKey: .boostingOverride)
+        var boostingOverrideDecoded0: [Swift.String:QBusinessClientTypes.DocumentAttributeBoostingConfiguration]? = nil
+        if let boostingOverrideContainer = boostingOverrideContainer {
+            boostingOverrideDecoded0 = [Swift.String:QBusinessClientTypes.DocumentAttributeBoostingConfiguration]()
+            for (key0, documentattributeboostingconfiguration0) in boostingOverrideContainer {
+                if let documentattributeboostingconfiguration0 = documentattributeboostingconfiguration0 {
+                    boostingOverrideDecoded0?[key0] = documentattributeboostingconfiguration0
+                }
+            }
+        }
+        boostingOverride = boostingOverrideDecoded0
     }
 }
 
 extension QBusinessClientTypes {
     /// Configuration information for an Amazon Q index.
     public struct NativeIndexConfiguration: Swift.Equatable {
+        /// Overrides the default boosts applied by Amazon Q to supported document attribute data types.
+        public var boostingOverride: [Swift.String:QBusinessClientTypes.DocumentAttributeBoostingConfiguration]?
         /// The identifier for the Amazon Q index.
         /// This member is required.
         public var indexId: Swift.String?
 
         public init(
+            boostingOverride: [Swift.String:QBusinessClientTypes.DocumentAttributeBoostingConfiguration]? = nil,
             indexId: Swift.String? = nil
         )
         {
+            self.boostingOverride = boostingOverride
             self.indexId = indexId
         }
     }
 
+}
+
+extension QBusinessClientTypes.NumberAttributeBoostingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boostingLevel
+        case boostingType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boostingLevel = self.boostingLevel {
+            try encodeContainer.encode(boostingLevel.rawValue, forKey: .boostingLevel)
+        }
+        if let boostingType = self.boostingType {
+            try encodeContainer.encode(boostingType.rawValue, forKey: .boostingType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let boostingLevelDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.DocumentAttributeBoostingLevel.self, forKey: .boostingLevel)
+        boostingLevel = boostingLevelDecoded
+        let boostingTypeDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.NumberAttributeBoostingType.self, forKey: .boostingType)
+        boostingType = boostingTypeDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Provides information on boosting NUMBER type document attributes. For more information on how boosting document attributes work in Amazon Q, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    public struct NumberAttributeBoostingConfiguration: Swift.Equatable {
+        /// Specifies the duration, in seconds, of a boost applies to a NUMBER type document attribute.
+        /// This member is required.
+        public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
+        /// Specifies how much a document attribute is boosted.
+        public var boostingType: QBusinessClientTypes.NumberAttributeBoostingType?
+
+        public init(
+            boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil,
+            boostingType: QBusinessClientTypes.NumberAttributeBoostingType? = nil
+        )
+        {
+            self.boostingLevel = boostingLevel
+            self.boostingType = boostingType
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+    public enum NumberAttributeBoostingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case prioritizeLargerValues
+        case prioritizeSmallerValues
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [NumberAttributeBoostingType] {
+            return [
+                .prioritizeLargerValues,
+                .prioritizeSmallerValues,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .prioritizeLargerValues: return "PRIORITIZE_LARGER_VALUES"
+            case .prioritizeSmallerValues: return "PRIORITIZE_SMALLER_VALUES"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = NumberAttributeBoostingType(rawValue: rawValue) ?? NumberAttributeBoostingType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QBusinessClientTypes.OAuth2ClientCredentialConfiguration: Swift.Codable {
@@ -11118,7 +11384,7 @@ extension QBusinessClientTypes {
         public var includedUsersAndGroups: QBusinessClientTypes.UsersAndGroups?
         /// The configuration information for a rule.
         public var ruleConfiguration: QBusinessClientTypes.RuleConfiguration?
-        /// The type fo rule.
+        /// The type of rule.
         /// This member is required.
         public var ruleType: QBusinessClientTypes.RuleType?
 
@@ -11718,6 +11984,138 @@ enum StopDataSourceSyncJobOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension QBusinessClientTypes.StringAttributeBoostingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeValueBoosting
+        case boostingLevel
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeValueBoosting = attributeValueBoosting {
+            var attributeValueBoostingContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .attributeValueBoosting)
+            for (dictKey0, stringAttributeValueBoosting0) in attributeValueBoosting {
+                try attributeValueBoostingContainer.encode(stringAttributeValueBoosting0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let boostingLevel = self.boostingLevel {
+            try encodeContainer.encode(boostingLevel.rawValue, forKey: .boostingLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let boostingLevelDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.DocumentAttributeBoostingLevel.self, forKey: .boostingLevel)
+        boostingLevel = boostingLevelDecoded
+        let attributeValueBoostingContainer = try containerValues.decodeIfPresent([Swift.String: QBusinessClientTypes.StringAttributeValueBoostingLevel?].self, forKey: .attributeValueBoosting)
+        var attributeValueBoostingDecoded0: [Swift.String:QBusinessClientTypes.StringAttributeValueBoostingLevel]? = nil
+        if let attributeValueBoostingContainer = attributeValueBoostingContainer {
+            attributeValueBoostingDecoded0 = [Swift.String:QBusinessClientTypes.StringAttributeValueBoostingLevel]()
+            for (key0, stringattributevalueboostinglevel0) in attributeValueBoostingContainer {
+                if let stringattributevalueboostinglevel0 = stringattributevalueboostinglevel0 {
+                    attributeValueBoostingDecoded0?[key0] = stringattributevalueboostinglevel0
+                }
+            }
+        }
+        attributeValueBoosting = attributeValueBoostingDecoded0
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Provides information on boosting STRING type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    public struct StringAttributeBoostingConfiguration: Swift.Equatable {
+        /// Specifies specific values of a STRING type document attribute being boosted.
+        public var attributeValueBoosting: [Swift.String:QBusinessClientTypes.StringAttributeValueBoostingLevel]?
+        /// Specifies how much a document attribute is boosted.
+        /// This member is required.
+        public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
+
+        public init(
+            attributeValueBoosting: [Swift.String:QBusinessClientTypes.StringAttributeValueBoostingLevel]? = nil,
+            boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
+        )
+        {
+            self.attributeValueBoosting = attributeValueBoosting
+            self.boostingLevel = boostingLevel
+        }
+    }
+
+}
+
+extension QBusinessClientTypes {
+    public enum StringAttributeValueBoostingLevel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case high
+        case low
+        case medium
+        case veryHigh
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [StringAttributeValueBoostingLevel] {
+            return [
+                .high,
+                .low,
+                .medium,
+                .veryHigh,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .high: return "HIGH"
+            case .low: return "LOW"
+            case .medium: return "MEDIUM"
+            case .veryHigh: return "VERY_HIGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = StringAttributeValueBoostingLevel(rawValue: rawValue) ?? StringAttributeValueBoostingLevel.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension QBusinessClientTypes.StringListAttributeBoostingConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case boostingLevel
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let boostingLevel = self.boostingLevel {
+            try encodeContainer.encode(boostingLevel.rawValue, forKey: .boostingLevel)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let boostingLevelDecoded = try containerValues.decodeIfPresent(QBusinessClientTypes.DocumentAttributeBoostingLevel.self, forKey: .boostingLevel)
+        boostingLevel = boostingLevelDecoded
+    }
+}
+
+extension QBusinessClientTypes {
+    /// Provides information on boosting STRING_LIST type document attributes. For STRING and STRING_LIST type document attributes to be used for boosting on the console and the API, they must be enabled for search using the [DocumentAttributeConfiguration](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_DocumentAttributeConfiguration.html) object of the [UpdateIndex](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_UpdateIndex.html) API. If you haven't enabled searching on these attributes, you can't boost attributes of these data types on either the console or the API. For more information on how boosting document attributes work in Amazon Q, see [Boosting using document attributes](https://docs.aws.amazon.com/amazonq/latest/business-use-dg/metadata-boosting.html).
+    public struct StringListAttributeBoostingConfiguration: Swift.Equatable {
+        /// Specifies how much a document attribute is boosted.
+        /// This member is required.
+        public var boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel?
+
+        public init(
+            boostingLevel: QBusinessClientTypes.DocumentAttributeBoostingLevel? = nil
+        )
+        {
+            self.boostingLevel = boostingLevel
+        }
+    }
+
+}
+
 extension QBusinessClientTypes.Tag: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key
@@ -12070,7 +12468,7 @@ extension QBusinessClientTypes.TopicConfiguration: Swift.Codable {
 extension QBusinessClientTypes {
     /// The topic specific controls configured for an Amazon Q application.
     public struct TopicConfiguration: Swift.Equatable {
-        /// A description for your topic control configuration. Use this outline how the large language model (LLM) should use this topic control configuration.
+        /// A description for your topic control configuration. Use this to outline how the large language model (LLM) should use this topic control configuration.
         public var description: Swift.String?
         /// A list of example phrases that you expect the end user to use in relation to the topic.
         public var exampleChatMessages: [Swift.String]?

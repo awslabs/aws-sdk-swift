@@ -360,6 +360,7 @@ extension DrsClientTypes.ConversionProperties: Swift.Codable {
         case forceUefi
         case rootVolumeName
         case volumeToConversionMap
+        case volumeToProductCodes
         case volumeToVolumeSize
     }
 
@@ -380,6 +381,15 @@ extension DrsClientTypes.ConversionProperties: Swift.Codable {
                 var volumeToConversionMap0Container = volumeToConversionMapContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key(stringValue: dictKey0))
                 for (dictKey1, conversionMap1) in volumeToConversionMap0 {
                     try volumeToConversionMap0Container.encode(conversionMap1, forKey: ClientRuntime.Key(stringValue: dictKey1))
+                }
+            }
+        }
+        if let volumeToProductCodes = volumeToProductCodes {
+            var volumeToProductCodesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .volumeToProductCodes)
+            for (dictKey0, volumeToProductCodes0) in volumeToProductCodes {
+                var volumeToProductCodes0Container = volumeToProductCodesContainer.nestedUnkeyedContainer(forKey: ClientRuntime.Key(stringValue: dictKey0))
+                for productcode1 in volumeToProductCodes0 {
+                    try volumeToProductCodes0Container.encode(productcode1)
                 }
             }
         }
@@ -428,6 +438,24 @@ extension DrsClientTypes.ConversionProperties: Swift.Codable {
             }
         }
         volumeToVolumeSize = volumeToVolumeSizeDecoded0
+        let volumeToProductCodesContainer = try containerValues.decodeIfPresent([Swift.String: [DrsClientTypes.ProductCode?]?].self, forKey: .volumeToProductCodes)
+        var volumeToProductCodesDecoded0: [Swift.String:[DrsClientTypes.ProductCode]]? = nil
+        if let volumeToProductCodesContainer = volumeToProductCodesContainer {
+            volumeToProductCodesDecoded0 = [Swift.String:[DrsClientTypes.ProductCode]]()
+            for (key0, productcodes0) in volumeToProductCodesContainer {
+                var productcodes0Decoded0: [DrsClientTypes.ProductCode]? = nil
+                if let productcodes0 = productcodes0 {
+                    productcodes0Decoded0 = [DrsClientTypes.ProductCode]()
+                    for structure1 in productcodes0 {
+                        if let structure1 = structure1 {
+                            productcodes0Decoded0?.append(structure1)
+                        }
+                    }
+                }
+                volumeToProductCodesDecoded0?[key0] = productcodes0Decoded0
+            }
+        }
+        volumeToProductCodes = volumeToProductCodesDecoded0
     }
 }
 
@@ -442,6 +470,8 @@ extension DrsClientTypes {
         public var rootVolumeName: Swift.String?
         /// A mapping between the volumes being converted and the converted snapshot ids
         public var volumeToConversionMap: [Swift.String:[Swift.String:Swift.String]]?
+        /// A mapping between the volumes being converted and the product codes associated with them
+        public var volumeToProductCodes: [Swift.String:[DrsClientTypes.ProductCode]]?
         /// A mapping between the volumes and their sizes
         public var volumeToVolumeSize: [Swift.String:Swift.Int]?
 
@@ -450,6 +480,7 @@ extension DrsClientTypes {
             forceUefi: Swift.Bool? = nil,
             rootVolumeName: Swift.String? = nil,
             volumeToConversionMap: [Swift.String:[Swift.String:Swift.String]]? = nil,
+            volumeToProductCodes: [Swift.String:[DrsClientTypes.ProductCode]]? = nil,
             volumeToVolumeSize: [Swift.String:Swift.Int]? = nil
         )
         {
@@ -457,6 +488,7 @@ extension DrsClientTypes {
             self.forceUefi = forceUefi
             self.rootVolumeName = rootVolumeName
             self.volumeToConversionMap = volumeToConversionMap
+            self.volumeToProductCodes = volumeToProductCodes
             self.volumeToVolumeSize = volumeToVolumeSize
         }
     }
@@ -1742,6 +1774,7 @@ extension DrsClientTypes.DataReplicationInfoReplicatedDisk: Swift.Codable {
         case replicatedStorageBytes
         case rescannedStorageBytes
         case totalStorageBytes
+        case volumeStatus
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1761,6 +1794,9 @@ extension DrsClientTypes.DataReplicationInfoReplicatedDisk: Swift.Codable {
         if totalStorageBytes != 0 {
             try encodeContainer.encode(totalStorageBytes, forKey: .totalStorageBytes)
         }
+        if let volumeStatus = self.volumeStatus {
+            try encodeContainer.encode(volumeStatus.rawValue, forKey: .volumeStatus)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1775,6 +1811,8 @@ extension DrsClientTypes.DataReplicationInfoReplicatedDisk: Swift.Codable {
         rescannedStorageBytes = rescannedStorageBytesDecoded
         let backloggedStorageBytesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backloggedStorageBytes) ?? 0
         backloggedStorageBytes = backloggedStorageBytesDecoded
+        let volumeStatusDecoded = try containerValues.decodeIfPresent(DrsClientTypes.VolumeStatus.self, forKey: .volumeStatus)
+        volumeStatus = volumeStatusDecoded
     }
 }
 
@@ -1791,13 +1829,16 @@ extension DrsClientTypes {
         public var rescannedStorageBytes: Swift.Int
         /// The total amount of data to be replicated in bytes.
         public var totalStorageBytes: Swift.Int
+        /// The status of the volume.
+        public var volumeStatus: DrsClientTypes.VolumeStatus?
 
         public init(
             backloggedStorageBytes: Swift.Int = 0,
             deviceName: Swift.String? = nil,
             replicatedStorageBytes: Swift.Int = 0,
             rescannedStorageBytes: Swift.Int = 0,
-            totalStorageBytes: Swift.Int = 0
+            totalStorageBytes: Swift.Int = 0,
+            volumeStatus: DrsClientTypes.VolumeStatus? = nil
         )
         {
             self.backloggedStorageBytes = backloggedStorageBytes
@@ -1805,6 +1846,7 @@ extension DrsClientTypes {
             self.replicatedStorageBytes = replicatedStorageBytes
             self.rescannedStorageBytes = rescannedStorageBytes
             self.totalStorageBytes = totalStorageBytes
+            self.volumeStatus = volumeStatus
         }
     }
 
@@ -8218,6 +8260,83 @@ extension DrsClientTypes {
         }
     }
 
+}
+
+extension DrsClientTypes.ProductCode: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case productCodeId
+        case productCodeMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let productCodeId = self.productCodeId {
+            try encodeContainer.encode(productCodeId, forKey: .productCodeId)
+        }
+        if let productCodeMode = self.productCodeMode {
+            try encodeContainer.encode(productCodeMode.rawValue, forKey: .productCodeMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let productCodeIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productCodeId)
+        productCodeId = productCodeIdDecoded
+        let productCodeModeDecoded = try containerValues.decodeIfPresent(DrsClientTypes.ProductCodeMode.self, forKey: .productCodeMode)
+        productCodeMode = productCodeModeDecoded
+    }
+}
+
+extension DrsClientTypes {
+    /// Properties of a product code associated with a volume.
+    public struct ProductCode: Swift.Equatable {
+        /// Id of a product code associated with a volume.
+        public var productCodeId: Swift.String?
+        /// Mode of a product code associated with a volume.
+        public var productCodeMode: DrsClientTypes.ProductCodeMode?
+
+        public init(
+            productCodeId: Swift.String? = nil,
+            productCodeMode: DrsClientTypes.ProductCodeMode? = nil
+        )
+        {
+            self.productCodeId = productCodeId
+            self.productCodeMode = productCodeMode
+        }
+    }
+
+}
+
+extension DrsClientTypes {
+    public enum ProductCodeMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ProductCodeMode] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ProductCodeMode(rawValue: rawValue) ?? ProductCodeMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension PutLaunchActionInput: Swift.Encodable {
@@ -15048,6 +15167,44 @@ extension DrsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DrsClientTypes {
+    public enum VolumeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case containsMarketplaceProductCodes
+        case missingVolumeAttributes
+        case missingVolumeAttributesAndPrecheckUnavailable
+        case regular
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VolumeStatus] {
+            return [
+                .containsMarketplaceProductCodes,
+                .missingVolumeAttributes,
+                .missingVolumeAttributesAndPrecheckUnavailable,
+                .regular,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .containsMarketplaceProductCodes: return "CONTAINS_MARKETPLACE_PRODUCT_CODES"
+            case .missingVolumeAttributes: return "MISSING_VOLUME_ATTRIBUTES"
+            case .missingVolumeAttributesAndPrecheckUnavailable: return "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE"
+            case .regular: return "REGULAR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VolumeStatus(rawValue: rawValue) ?? VolumeStatus.sdkUnknown(rawValue)
         }
     }
 }

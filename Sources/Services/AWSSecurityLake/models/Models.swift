@@ -2111,9 +2111,9 @@ extension SecurityLakeClientTypes.DataLakeReplicationConfiguration: Swift.Codabl
 }
 
 extension SecurityLakeClientTypes {
-    /// Provides replication details of Amazon Security Lake object.
+    /// Provides replication details for objects stored in the Amazon Security Lake data lake.
     public struct DataLakeReplicationConfiguration: Swift.Equatable {
-        /// Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. Amazon S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Amazon Web Services Regions or within the same Region as the source bucket. Set up one or more rollup Regions by providing the Region or Regions that should contribute to the central rollup Region.
+        /// Specifies one or more centralized rollup Regions. The Amazon Web Services Region specified in the region parameter of the [CreateDataLake](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_CreateDataLake.html) or [UpdateDataLake](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_UpdateDataLake.html) operations contributes data to the rollup Region or Regions specified in this parameter. Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Regions or within the same Region as the source bucket.
         public var regions: [Swift.String]?
         /// Replication settings for the Amazon S3 buckets. This parameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to ensure the replication setting is correct.
         public var roleArn: Swift.String?
@@ -3791,7 +3791,7 @@ public struct ListDataLakeExceptionsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
     public var nextToken: Swift.String?
-    /// List the Amazon Web Services Regions from which exceptions are retrieved.
+    /// The Amazon Web Services Regions from which exceptions are retrieved.
     public var regions: [Swift.String]?
 
     public init(
@@ -3936,7 +3936,7 @@ extension ListDataLakesInput {
 }
 
 public struct ListDataLakesInput: Swift.Equatable {
-    /// The list of regions where Security Lake is enabled.
+    /// The list of Regions where Security Lake is enabled.
     public var regions: [Swift.String]?
 
     public init(
@@ -4073,7 +4073,7 @@ public struct ListLogSourcesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
-    /// The list of regions for which log sources are displayed.
+    /// The list of Regions for which log sources are displayed.
     public var regions: [Swift.String]?
     /// The list of sources for which log sources are displayed.
     public var sources: [SecurityLakeClientTypes.LogSourceResource]?

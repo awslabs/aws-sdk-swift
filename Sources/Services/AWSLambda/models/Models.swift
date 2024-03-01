@@ -1829,7 +1829,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -1843,7 +1843,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     ///
     /// * Amazon Simple Queue Service – The ARN of the queue.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
+    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for [cross-account event source mappings](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
     ///
     /// * Amazon MQ – The ARN of the broker.
     ///
@@ -2158,7 +2158,7 @@ public struct CreateEventSourceMappingOutput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -2576,7 +2576,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var description: Swift.String?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -2918,7 +2918,7 @@ public struct CreateFunctionOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -3750,7 +3750,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -5390,7 +5390,7 @@ extension LambdaClientTypes.EphemeralStorage: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    /// The size of the function's /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public struct EphemeralStorage: Swift.Equatable {
         /// The size of the function's /tmp directory.
         /// This member is required.
@@ -5638,7 +5638,7 @@ extension LambdaClientTypes {
         public var batchSize: Swift.Int?
         /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
         public var bisectBatchOnFunctionError: Swift.Bool?
-        /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+        /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
         public var destinationConfig: LambdaClientTypes.DestinationConfig?
         /// Specific configuration settings for a DocumentDB event source.
         public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -6370,7 +6370,7 @@ extension LambdaClientTypes {
         public var description: Swift.String?
         /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
         public var environment: LambdaClientTypes.EnvironmentResponse?
-        /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+        /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
         public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
         /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
         public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -7214,7 +7214,7 @@ public struct GetEventSourceMappingOutput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -7857,7 +7857,7 @@ public struct GetFunctionConfigurationOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -10428,7 +10428,7 @@ extension InvokeInput {
 }
 
 public struct InvokeInput: Swift.Equatable {
-    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
+    /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
     public var clientContext: Swift.String?
     /// The name of the Lambda function, version, or alias. Name formats
     ///
@@ -12062,7 +12062,7 @@ public struct ListEventSourceMappingsInput: Swift.Equatable {
     ///
     /// * Amazon Simple Queue Service – The ARN of the queue.
     ///
-    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster.
+    /// * Amazon Managed Streaming for Apache Kafka – The ARN of the cluster or the ARN of the VPC connection (for [cross-account event source mappings](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#msk-multi-vpc)).
     ///
     /// * Amazon MQ – The ARN of the broker.
     ///
@@ -12761,7 +12761,7 @@ extension ListLayerVersionsInput {
 public struct ListLayerVersionsInput: Swift.Equatable {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, go1.x. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
@@ -12903,7 +12903,7 @@ extension ListLayersInput {
 public struct ListLayersInput: Swift.Equatable {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
-    /// A runtime identifier. For example, go1.x. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
+    /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
     public var compatibleRuntime: LambdaClientTypes.Runtime?
     /// A pagination token returned by a previous call.
     public var marker: Swift.String?
@@ -13481,13 +13481,13 @@ extension LambdaClientTypes.LoggingConfig: Swift.Codable {
 extension LambdaClientTypes {
     /// The function's Amazon CloudWatch Logs configuration settings.
     public struct LoggingConfig: Swift.Equatable {
-        /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level and lower.
+        /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest.
         public var applicationLogLevel: LambdaClientTypes.ApplicationLogLevel?
         /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON.
         public var logFormat: LambdaClientTypes.LogFormat?
         /// The name of the Amazon CloudWatch log group the function sends logs to. By default, Lambda functions send logs to a default log group named /aws/lambda/. To use a different log group, enter an existing log group or enter a new log group name.
         public var logGroup: Swift.String?
-        /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level and lower.
+        /// Set this property to filter the system logs for your function that Lambda sends to CloudWatch. Lambda only sends system logs at the selected level of detail and lower, where DEBUG is the highest level and WARN is the lowest.
         public var systemLogLevel: LambdaClientTypes.SystemLogLevel?
 
         public init(
@@ -13528,7 +13528,7 @@ extension LambdaClientTypes.OnFailure: Swift.Codable {
 extension LambdaClientTypes {
     /// A destination for events that failed processing.
     public struct OnFailure: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the destination resource.
+        /// The Amazon Resource Name (ARN) of the destination resource. To retain records of [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis and DynamoDB event sources](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#event-source-mapping-destinations), you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
         public init(
@@ -14405,7 +14405,7 @@ public struct PublishVersionOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -16203,6 +16203,7 @@ extension LambdaClientTypes {
 extension LambdaClientTypes {
     public enum Runtime: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dotnet6
+        case dotnet8
         case dotnetcore10
         case dotnetcore20
         case dotnetcore21
@@ -16243,6 +16244,7 @@ extension LambdaClientTypes {
         public static var allCases: [Runtime] {
             return [
                 .dotnet6,
+                .dotnet8,
                 .dotnetcore10,
                 .dotnetcore20,
                 .dotnetcore21,
@@ -16288,6 +16290,7 @@ extension LambdaClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .dotnet6: return "dotnet6"
+            case .dotnet8: return "dotnet8"
             case .dotnetcore10: return "dotnetcore1.0"
             case .dotnetcore20: return "dotnetcore2.0"
             case .dotnetcore21: return "dotnetcore2.1"
@@ -18222,7 +18225,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) A standard Amazon SQS queue or standard Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Kafka only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -18463,7 +18466,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Equatable {
     public var batchSize: Swift.Int?
     /// (Kinesis and DynamoDB Streams only) If the function returns an error, split the batch in two and retry. The default value is false.
     public var bisectBatchOnFunctionError: Swift.Bool?
-    /// (Kinesis and DynamoDB Streams only) An Amazon SQS queue or Amazon SNS topic destination for discarded records.
+    /// (Kinesis, DynamoDB Streams, Amazon MSK, and self-managed Apache Kafka event sources only) A configuration object that specifies the destination of an event after Lambda processes it.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
     /// Specific configuration settings for a DocumentDB event source.
     public var documentDBEventSourceConfig: LambdaClientTypes.DocumentDBEventSourceConfig?
@@ -19018,7 +19021,7 @@ public struct UpdateFunctionCodeOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -19464,7 +19467,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var description: Swift.String?
     /// Environment variables that are accessible from function code during execution.
     public var environment: LambdaClientTypes.Environment?
-    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
@@ -19749,7 +19752,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html). Omitted from CloudTrail logs.
     public var environment: LambdaClientTypes.EnvironmentResponse?
-    /// The size of the function’s /tmp directory in MB. The default value is 512, but it can be any whole number between 512 and 10,240 MB.
+    /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?

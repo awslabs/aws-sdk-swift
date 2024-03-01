@@ -616,10 +616,12 @@ extension CreateInferenceSchedulerOutput: ClientRuntime.HttpResponseBinding {
             let output: CreateInferenceSchedulerOutputBody = try responseDecoder.decode(responseBody: data)
             self.inferenceSchedulerArn = output.inferenceSchedulerArn
             self.inferenceSchedulerName = output.inferenceSchedulerName
+            self.modelQuality = output.modelQuality
             self.status = output.status
         } else {
             self.inferenceSchedulerArn = nil
             self.inferenceSchedulerName = nil
+            self.modelQuality = nil
             self.status = nil
         }
     }
@@ -630,17 +632,21 @@ public struct CreateInferenceSchedulerOutput: Swift.Equatable {
     public var inferenceSchedulerArn: Swift.String?
     /// The name of inference scheduler being created.
     public var inferenceSchedulerName: Swift.String?
+    /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
+    public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
     /// Indicates the status of the CreateInferenceScheduler operation.
     public var status: LookoutEquipmentClientTypes.InferenceSchedulerStatus?
 
     public init(
         inferenceSchedulerArn: Swift.String? = nil,
         inferenceSchedulerName: Swift.String? = nil,
+        modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
         status: LookoutEquipmentClientTypes.InferenceSchedulerStatus? = nil
     )
     {
         self.inferenceSchedulerArn = inferenceSchedulerArn
         self.inferenceSchedulerName = inferenceSchedulerName
+        self.modelQuality = modelQuality
         self.status = status
     }
 }
@@ -649,12 +655,14 @@ struct CreateInferenceSchedulerOutputBody: Swift.Equatable {
     let inferenceSchedulerArn: Swift.String?
     let inferenceSchedulerName: Swift.String?
     let status: LookoutEquipmentClientTypes.InferenceSchedulerStatus?
+    let modelQuality: LookoutEquipmentClientTypes.ModelQuality?
 }
 
 extension CreateInferenceSchedulerOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case inferenceSchedulerArn = "InferenceSchedulerArn"
         case inferenceSchedulerName = "InferenceSchedulerName"
+        case modelQuality = "ModelQuality"
         case status = "Status"
     }
 
@@ -666,6 +674,8 @@ extension CreateInferenceSchedulerOutputBody: Swift.Decodable {
         inferenceSchedulerName = inferenceSchedulerNameDecoded
         let statusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.InferenceSchedulerStatus.self, forKey: .status)
         status = statusDecoded
+        let modelQualityDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelQuality.self, forKey: .modelQuality)
+        modelQuality = modelQualityDecoded
     }
 }
 
@@ -1065,6 +1075,7 @@ extension CreateModelInput: Swift.Encodable {
         case evaluationDataEndTime = "EvaluationDataEndTime"
         case evaluationDataStartTime = "EvaluationDataStartTime"
         case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelName = "ModelName"
         case offCondition = "OffCondition"
         case roleArn = "RoleArn"
@@ -1096,6 +1107,9 @@ extension CreateModelInput: Swift.Encodable {
         }
         if let labelsInputConfiguration = self.labelsInputConfiguration {
             try encodeContainer.encode(labelsInputConfiguration, forKey: .labelsInputConfiguration)
+        }
+        if let modelDiagnosticsOutputConfiguration = self.modelDiagnosticsOutputConfiguration {
+            try encodeContainer.encode(modelDiagnosticsOutputConfiguration, forKey: .modelDiagnosticsOutputConfiguration)
         }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
@@ -1148,6 +1162,8 @@ public struct CreateModelInput: Swift.Equatable {
     public var evaluationDataStartTime: ClientRuntime.Date?
     /// The input configuration for the labels being used for the machine learning model that's being created.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    /// The Amazon S3 location where you want Amazon Lookout for Equipment to save the pointwise model diagnostics. You must also specify the RoleArn request parameter.
+    public var modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
     /// The name for the machine learning model to be created.
     /// This member is required.
     public var modelName: Swift.String?
@@ -1172,6 +1188,7 @@ public struct CreateModelInput: Swift.Equatable {
         evaluationDataEndTime: ClientRuntime.Date? = nil,
         evaluationDataStartTime: ClientRuntime.Date? = nil,
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
+        modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelName: Swift.String? = nil,
         offCondition: Swift.String? = nil,
         roleArn: Swift.String? = nil,
@@ -1188,6 +1205,7 @@ public struct CreateModelInput: Swift.Equatable {
         self.evaluationDataEndTime = evaluationDataEndTime
         self.evaluationDataStartTime = evaluationDataStartTime
         self.labelsInputConfiguration = labelsInputConfiguration
+        self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
         self.modelName = modelName
         self.offCondition = offCondition
         self.roleArn = roleArn
@@ -1213,6 +1231,7 @@ struct CreateModelInputBody: Swift.Equatable {
     let serverSideKmsKeyId: Swift.String?
     let tags: [LookoutEquipmentClientTypes.Tag]?
     let offCondition: Swift.String?
+    let modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
 }
 
 extension CreateModelInputBody: Swift.Decodable {
@@ -1224,6 +1243,7 @@ extension CreateModelInputBody: Swift.Decodable {
         case evaluationDataEndTime = "EvaluationDataEndTime"
         case evaluationDataStartTime = "EvaluationDataStartTime"
         case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelName = "ModelName"
         case offCondition = "OffCondition"
         case roleArn = "RoleArn"
@@ -1272,6 +1292,8 @@ extension CreateModelInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let offConditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .offCondition)
         offCondition = offConditionDecoded
+        let modelDiagnosticsOutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.self, forKey: .modelDiagnosticsOutputConfiguration)
+        modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfigurationDecoded
     }
 }
 
@@ -3580,8 +3602,10 @@ extension DescribeModelOutput: ClientRuntime.HttpResponseBinding {
             self.latestScheduledRetrainingStartTime = output.latestScheduledRetrainingStartTime
             self.latestScheduledRetrainingStatus = output.latestScheduledRetrainingStatus
             self.modelArn = output.modelArn
+            self.modelDiagnosticsOutputConfiguration = output.modelDiagnosticsOutputConfiguration
             self.modelMetrics = output.modelMetrics
             self.modelName = output.modelName
+            self.modelQuality = output.modelQuality
             self.modelVersionActivatedAt = output.modelVersionActivatedAt
             self.nextScheduledRetrainingStartDate = output.nextScheduledRetrainingStartDate
             self.offCondition = output.offCondition
@@ -3621,8 +3645,10 @@ extension DescribeModelOutput: ClientRuntime.HttpResponseBinding {
             self.latestScheduledRetrainingStartTime = nil
             self.latestScheduledRetrainingStatus = nil
             self.modelArn = nil
+            self.modelDiagnosticsOutputConfiguration = nil
             self.modelMetrics = nil
             self.modelName = nil
+            self.modelQuality = nil
             self.modelVersionActivatedAt = nil
             self.nextScheduledRetrainingStartDate = nil
             self.offCondition = nil
@@ -3687,10 +3713,14 @@ public struct DescribeModelOutput: Swift.Equatable {
     public var latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus?
     /// The Amazon Resource Name (ARN) of the machine learning model being described.
     public var modelArn: Swift.String?
+    /// Configuration information for the model's pointwise model diagnostics.
+    public var modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
     /// The Model Metrics show an aggregated summary of the model's performance within the evaluation time range. This is the JSON content of the metrics created when evaluating the model.
     public var modelMetrics: Swift.String?
     /// The name of the machine learning model being described.
     public var modelName: Swift.String?
+    /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
+    public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
     /// The date the active model version was activated.
     public var modelVersionActivatedAt: ClientRuntime.Date?
     /// Indicates the date and time that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to the nearest UTC day.
@@ -3748,8 +3778,10 @@ public struct DescribeModelOutput: Swift.Equatable {
         latestScheduledRetrainingStartTime: ClientRuntime.Date? = nil,
         latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
         modelArn: Swift.String? = nil,
+        modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelMetrics: Swift.String? = nil,
         modelName: Swift.String? = nil,
+        modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
         modelVersionActivatedAt: ClientRuntime.Date? = nil,
         nextScheduledRetrainingStartDate: ClientRuntime.Date? = nil,
         offCondition: Swift.String? = nil,
@@ -3790,8 +3822,10 @@ public struct DescribeModelOutput: Swift.Equatable {
         self.latestScheduledRetrainingStartTime = latestScheduledRetrainingStartTime
         self.latestScheduledRetrainingStatus = latestScheduledRetrainingStatus
         self.modelArn = modelArn
+        self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
         self.modelMetrics = modelMetrics
         self.modelName = modelName
+        self.modelQuality = modelQuality
         self.modelVersionActivatedAt = modelVersionActivatedAt
         self.nextScheduledRetrainingStartDate = nextScheduledRetrainingStartDate
         self.offCondition = offCondition
@@ -3853,6 +3887,8 @@ struct DescribeModelOutputBody: Swift.Equatable {
     let accumulatedInferenceDataStartTime: ClientRuntime.Date?
     let accumulatedInferenceDataEndTime: ClientRuntime.Date?
     let retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus?
+    let modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
+    let modelQuality: LookoutEquipmentClientTypes.ModelQuality?
 }
 
 extension DescribeModelOutputBody: Swift.Decodable {
@@ -3878,8 +3914,10 @@ extension DescribeModelOutputBody: Swift.Decodable {
         case latestScheduledRetrainingStartTime = "LatestScheduledRetrainingStartTime"
         case latestScheduledRetrainingStatus = "LatestScheduledRetrainingStatus"
         case modelArn = "ModelArn"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelMetrics = "ModelMetrics"
         case modelName = "ModelName"
+        case modelQuality = "ModelQuality"
         case modelVersionActivatedAt = "ModelVersionActivatedAt"
         case nextScheduledRetrainingStartDate = "NextScheduledRetrainingStartDate"
         case offCondition = "OffCondition"
@@ -3981,6 +4019,10 @@ extension DescribeModelOutputBody: Swift.Decodable {
         accumulatedInferenceDataEndTime = accumulatedInferenceDataEndTimeDecoded
         let retrainingSchedulerStatusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.RetrainingSchedulerStatus.self, forKey: .retrainingSchedulerStatus)
         retrainingSchedulerStatus = retrainingSchedulerStatusDecoded
+        let modelDiagnosticsOutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.self, forKey: .modelDiagnosticsOutputConfiguration)
+        modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfigurationDecoded
+        let modelQualityDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelQuality.self, forKey: .modelQuality)
+        modelQuality = modelQualityDecoded
     }
 }
 
@@ -4081,8 +4123,11 @@ extension DescribeModelVersionOutput: ClientRuntime.HttpResponseBinding {
             self.labelsInputConfiguration = output.labelsInputConfiguration
             self.lastUpdatedTime = output.lastUpdatedTime
             self.modelArn = output.modelArn
+            self.modelDiagnosticsOutputConfiguration = output.modelDiagnosticsOutputConfiguration
+            self.modelDiagnosticsResultsObject = output.modelDiagnosticsResultsObject
             self.modelMetrics = output.modelMetrics
             self.modelName = output.modelName
+            self.modelQuality = output.modelQuality
             self.modelVersion = output.modelVersion
             self.modelVersionArn = output.modelVersionArn
             self.offCondition = output.offCondition
@@ -4114,8 +4159,11 @@ extension DescribeModelVersionOutput: ClientRuntime.HttpResponseBinding {
             self.labelsInputConfiguration = nil
             self.lastUpdatedTime = nil
             self.modelArn = nil
+            self.modelDiagnosticsOutputConfiguration = nil
+            self.modelDiagnosticsResultsObject = nil
             self.modelMetrics = nil
             self.modelName = nil
+            self.modelQuality = nil
             self.modelVersion = nil
             self.modelVersionArn = nil
             self.offCondition = nil
@@ -4166,10 +4214,16 @@ public struct DescribeModelVersionOutput: Swift.Equatable {
     public var lastUpdatedTime: ClientRuntime.Date?
     /// The Amazon Resource Name (ARN) of the parent machine learning model that this version belong to.
     public var modelArn: Swift.String?
+    /// The Amazon S3 location where Amazon Lookout for Equipment saves the pointwise model diagnostics for the model version.
+    public var modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
+    /// The Amazon S3 output prefix for where Lookout for Equipment saves the pointwise model diagnostics for the model version.
+    public var modelDiagnosticsResultsObject: LookoutEquipmentClientTypes.S3Object?
     /// Shows an aggregated summary, in JSON format, of the model's performance within the evaluation time range. These metrics are created when evaluating the model.
     public var modelMetrics: Swift.String?
     /// The name of the machine learning model that this version belongs to.
     public var modelName: Swift.String?
+    /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
+    public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
     /// The version of the machine learning model.
     public var modelVersion: Swift.Int?
     /// The Amazon Resource Name (ARN) of the model version.
@@ -4217,8 +4271,11 @@ public struct DescribeModelVersionOutput: Swift.Equatable {
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
         lastUpdatedTime: ClientRuntime.Date? = nil,
         modelArn: Swift.String? = nil,
+        modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
+        modelDiagnosticsResultsObject: LookoutEquipmentClientTypes.S3Object? = nil,
         modelMetrics: Swift.String? = nil,
         modelName: Swift.String? = nil,
+        modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
         modelVersion: Swift.Int? = nil,
         modelVersionArn: Swift.String? = nil,
         offCondition: Swift.String? = nil,
@@ -4251,8 +4308,11 @@ public struct DescribeModelVersionOutput: Swift.Equatable {
         self.labelsInputConfiguration = labelsInputConfiguration
         self.lastUpdatedTime = lastUpdatedTime
         self.modelArn = modelArn
+        self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
+        self.modelDiagnosticsResultsObject = modelDiagnosticsResultsObject
         self.modelMetrics = modelMetrics
         self.modelName = modelName
+        self.modelQuality = modelQuality
         self.modelVersion = modelVersion
         self.modelVersionArn = modelVersionArn
         self.offCondition = offCondition
@@ -4304,6 +4364,9 @@ struct DescribeModelVersionOutputBody: Swift.Equatable {
     let retrainingAvailableDataInDays: Swift.Int?
     let autoPromotionResult: LookoutEquipmentClientTypes.AutoPromotionResult?
     let autoPromotionResultReason: Swift.String?
+    let modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
+    let modelDiagnosticsResultsObject: LookoutEquipmentClientTypes.S3Object?
+    let modelQuality: LookoutEquipmentClientTypes.ModelQuality?
 }
 
 extension DescribeModelVersionOutputBody: Swift.Decodable {
@@ -4323,8 +4386,11 @@ extension DescribeModelVersionOutputBody: Swift.Decodable {
         case labelsInputConfiguration = "LabelsInputConfiguration"
         case lastUpdatedTime = "LastUpdatedTime"
         case modelArn = "ModelArn"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
+        case modelDiagnosticsResultsObject = "ModelDiagnosticsResultsObject"
         case modelMetrics = "ModelMetrics"
         case modelName = "ModelName"
+        case modelQuality = "ModelQuality"
         case modelVersion = "ModelVersion"
         case modelVersionArn = "ModelVersionArn"
         case offCondition = "OffCondition"
@@ -4408,6 +4474,12 @@ extension DescribeModelVersionOutputBody: Swift.Decodable {
         autoPromotionResult = autoPromotionResultDecoded
         let autoPromotionResultReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .autoPromotionResultReason)
         autoPromotionResultReason = autoPromotionResultReasonDecoded
+        let modelDiagnosticsOutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.self, forKey: .modelDiagnosticsOutputConfiguration)
+        modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfigurationDecoded
+        let modelDiagnosticsResultsObjectDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.S3Object.self, forKey: .modelDiagnosticsResultsObject)
+        modelDiagnosticsResultsObject = modelDiagnosticsResultsObjectDecoded
+        let modelQualityDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelQuality.self, forKey: .modelQuality)
+        modelQuality = modelQualityDecoded
     }
 }
 
@@ -6170,7 +6242,7 @@ extension LookoutEquipmentClientTypes {
         /// Parameter that describes the total number of sensors that have data completely missing for it.
         /// This member is required.
         public var missingCompleteSensorData: LookoutEquipmentClientTypes.MissingCompleteSensorData?
-        /// Parameter that describes the total number of sensors that have a short date range of less than 90 days of data overall.
+        /// Parameter that describes the total number of sensors that have a short date range of less than 14 days of data overall.
         /// This member is required.
         public var sensorsWithShortDateRange: LookoutEquipmentClientTypes.SensorsWithShortDateRange?
 
@@ -7282,7 +7354,7 @@ extension ListInferenceExecutionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListInferenceExecutionsOutput: Swift.Equatable {
-    /// Provides an array of information about the individual inference executions returned from the ListInferenceExecutions operation, including model used, inference scheduler, data configuration, and so on.
+    /// Provides an array of information about the individual inference executions returned from the ListInferenceExecutions operation, including model used, inference scheduler, data configuration, and so on. If you don't supply the InferenceSchedulerName request parameter, or if you supply the name of an inference scheduler that doesn't exist, ListInferenceExecutions returns an empty array in InferenceExecutionSummaries.
     public var inferenceExecutionSummaries: [LookoutEquipmentClientTypes.InferenceExecutionSummary]?
     /// An opaque pagination token indicating where to continue the listing of inference executions.
     public var nextToken: Swift.String?
@@ -7708,7 +7780,7 @@ public struct ListLabelsInput: Swift.Equatable {
     public var intervalEndTime: ClientRuntime.Date?
     /// Returns all the labels with a end time equal to or later than the start time given.
     public var intervalStartTime: ClientRuntime.Date?
-    /// Retruns the name of the label group.
+    /// Returns the name of the label group.
     /// This member is required.
     public var labelGroupName: Swift.String?
     /// Specifies the maximum number of labels to list.
@@ -7791,7 +7863,7 @@ extension ListLabelsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListLabelsOutput: Swift.Equatable {
-    /// A summary of the items in the label group.
+    /// A summary of the items in the label group. If you don't supply the LabelGroupName request parameter, or if you supply the name of a label group that doesn't exist, ListLabels returns an empty array in LabelSummaries.
     public var labelSummaries: [LookoutEquipmentClientTypes.LabelSummary]?
     /// An opaque pagination token indicating where to continue the listing of datasets.
     public var nextToken: Swift.String?
@@ -8009,7 +8081,7 @@ extension ListModelVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListModelVersionsOutput: Swift.Equatable {
-    /// Provides information on the specified model version, including the created time, model and dataset ARNs, and status.
+    /// Provides information on the specified model version, including the created time, model and dataset ARNs, and status. If you don't supply the ModelName request parameter, or if you supply the name of a model that doesn't exist, ListModelVersions returns an empty array in ModelVersionSummaries.
     public var modelVersionSummaries: [LookoutEquipmentClientTypes.ModelVersionSummary]?
     /// If the total number of results exceeds the limit that the response can display, the response returns an opaque pagination token indicating where to continue the listing of machine learning model versions. Use this token in the NextToken field in the request to list the next page of results.
     public var nextToken: Swift.String?
@@ -8751,6 +8823,98 @@ extension LookoutEquipmentClientTypes {
 
 }
 
+extension LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case kmsKeyId = "KmsKeyId"
+        case s3OutputConfiguration = "S3OutputConfiguration"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let s3OutputConfiguration = self.s3OutputConfiguration {
+            try encodeContainer.encode(s3OutputConfiguration, forKey: .s3OutputConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3OutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration.self, forKey: .s3OutputConfiguration)
+        s3OutputConfiguration = s3OutputConfigurationDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+    }
+}
+
+extension LookoutEquipmentClientTypes {
+    /// Output configuration information for the pointwise model diagnostics for an Amazon Lookout for Equipment model.
+    public struct ModelDiagnosticsOutputConfiguration: Swift.Equatable {
+        /// The Amazon Web Services Key Management Service (KMS) key identifier to encrypt the pointwise model diagnostics files.
+        public var kmsKeyId: Swift.String?
+        /// The Amazon S3 location for the pointwise model diagnostics.
+        /// This member is required.
+        public var s3OutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration?
+
+        public init(
+            kmsKeyId: Swift.String? = nil,
+            s3OutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration? = nil
+        )
+        {
+            self.kmsKeyId = kmsKeyId
+            self.s3OutputConfiguration = s3OutputConfiguration
+        }
+    }
+
+}
+
+extension LookoutEquipmentClientTypes.ModelDiagnosticsS3OutputConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bucket = "Bucket"
+        case `prefix` = "Prefix"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bucket = self.bucket {
+            try encodeContainer.encode(bucket, forKey: .bucket)
+        }
+        if let `prefix` = self.`prefix` {
+            try encodeContainer.encode(`prefix`, forKey: .`prefix`)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bucketDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bucket)
+        bucket = bucketDecoded
+        let prefixDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .prefix)
+        `prefix` = prefixDecoded
+    }
+}
+
+extension LookoutEquipmentClientTypes {
+    /// The Amazon S3 location for the pointwise model diagnostics for an Amazon Lookout for Equipment model.
+    public struct ModelDiagnosticsS3OutputConfiguration: Swift.Equatable {
+        /// The name of the Amazon S3 bucket where the pointwise model diagnostics are located. You must be the owner of the Amazon S3 bucket.
+        /// This member is required.
+        public var bucket: Swift.String?
+        /// The Amazon S3 prefix for the location of the pointwise model diagnostics. The prefix specifies the folder and evaluation result file name. (bucket). When you call CreateModel or UpdateModel, specify the path within the bucket that you want Lookout for Equipment to save the model to. During training, Lookout for Equipment creates the model evaluation model as a compressed JSON file with the name model_diagnostics_results.json.gz. When you call DescribeModel or DescribeModelVersion, prefix contains the file path and filename of the model evaluation file.
+        public var `prefix`: Swift.String?
+
+        public init(
+            bucket: Swift.String? = nil,
+            `prefix`: Swift.String? = nil
+        )
+        {
+            self.bucket = bucket
+            self.`prefix` = `prefix`
+        }
+    }
+
+}
+
 extension LookoutEquipmentClientTypes {
     public enum ModelPromoteMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case managed
@@ -8779,6 +8943,41 @@ extension LookoutEquipmentClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ModelPromoteMode(rawValue: rawValue) ?? ModelPromoteMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension LookoutEquipmentClientTypes {
+    public enum ModelQuality: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cannotDetermineQuality
+        case poorQualityDetected
+        case qualityThresholdMet
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelQuality] {
+            return [
+                .cannotDetermineQuality,
+                .poorQualityDetected,
+                .qualityThresholdMet,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cannotDetermineQuality: return "CANNOT_DETERMINE_QUALITY"
+            case .poorQualityDetected: return "POOR_QUALITY_DETECTED"
+            case .qualityThresholdMet: return "QUALITY_THRESHOLD_MET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelQuality(rawValue: rawValue) ?? ModelQuality.sdkUnknown(rawValue)
         }
     }
 }
@@ -8832,7 +9031,9 @@ extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
         case latestScheduledRetrainingStartTime = "LatestScheduledRetrainingStartTime"
         case latestScheduledRetrainingStatus = "LatestScheduledRetrainingStatus"
         case modelArn = "ModelArn"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelName = "ModelName"
+        case modelQuality = "ModelQuality"
         case nextScheduledRetrainingStartDate = "NextScheduledRetrainingStartDate"
         case retrainingSchedulerStatus = "RetrainingSchedulerStatus"
         case status = "Status"
@@ -8867,8 +9068,14 @@ extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
         if let modelArn = self.modelArn {
             try encodeContainer.encode(modelArn, forKey: .modelArn)
         }
+        if let modelDiagnosticsOutputConfiguration = self.modelDiagnosticsOutputConfiguration {
+            try encodeContainer.encode(modelDiagnosticsOutputConfiguration, forKey: .modelDiagnosticsOutputConfiguration)
+        }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let modelQuality = self.modelQuality {
+            try encodeContainer.encode(modelQuality.rawValue, forKey: .modelQuality)
         }
         if let nextScheduledRetrainingStartDate = self.nextScheduledRetrainingStartDate {
             try encodeContainer.encodeTimestamp(nextScheduledRetrainingStartDate, format: .epochSeconds, forKey: .nextScheduledRetrainingStartDate)
@@ -8909,6 +9116,10 @@ extension LookoutEquipmentClientTypes.ModelSummary: Swift.Codable {
         nextScheduledRetrainingStartDate = nextScheduledRetrainingStartDateDecoded
         let retrainingSchedulerStatusDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.RetrainingSchedulerStatus.self, forKey: .retrainingSchedulerStatus)
         retrainingSchedulerStatus = retrainingSchedulerStatusDecoded
+        let modelDiagnosticsOutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.self, forKey: .modelDiagnosticsOutputConfiguration)
+        modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfigurationDecoded
+        let modelQualityDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelQuality.self, forKey: .modelQuality)
+        modelQuality = modelQualityDecoded
     }
 }
 
@@ -8933,8 +9144,12 @@ extension LookoutEquipmentClientTypes {
         public var latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus?
         /// The Amazon Resource Name (ARN) of the machine learning model.
         public var modelArn: Swift.String?
+        /// Output configuration information for the pointwise model diagnostics for an Amazon Lookout for Equipment model.
+        public var modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
         /// The name of the machine learning model.
         public var modelName: Swift.String?
+        /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about using labels with your models, see [Understanding labeling](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/understanding-labeling.html). For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
+        public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
         /// Indicates the date that the next scheduled retraining run will start on. Lookout for Equipment truncates the time you provide to [the nearest UTC day](https://docs.aws.amazon.com/https:/docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp).
         public var nextScheduledRetrainingStartDate: ClientRuntime.Date?
         /// Indicates the status of the retraining scheduler.
@@ -8952,7 +9167,9 @@ extension LookoutEquipmentClientTypes {
             latestScheduledRetrainingStartTime: ClientRuntime.Date? = nil,
             latestScheduledRetrainingStatus: LookoutEquipmentClientTypes.ModelVersionStatus? = nil,
             modelArn: Swift.String? = nil,
+            modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
             modelName: Swift.String? = nil,
+            modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
             nextScheduledRetrainingStartDate: ClientRuntime.Date? = nil,
             retrainingSchedulerStatus: LookoutEquipmentClientTypes.RetrainingSchedulerStatus? = nil,
             status: LookoutEquipmentClientTypes.ModelStatus? = nil
@@ -8967,7 +9184,9 @@ extension LookoutEquipmentClientTypes {
             self.latestScheduledRetrainingStartTime = latestScheduledRetrainingStartTime
             self.latestScheduledRetrainingStatus = latestScheduledRetrainingStatus
             self.modelArn = modelArn
+            self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
             self.modelName = modelName
+            self.modelQuality = modelQuality
             self.nextScheduledRetrainingStartDate = nextScheduledRetrainingStartDate
             self.retrainingSchedulerStatus = retrainingSchedulerStatus
             self.status = status
@@ -9057,6 +9276,7 @@ extension LookoutEquipmentClientTypes.ModelVersionSummary: Swift.Codable {
         case createdAt = "CreatedAt"
         case modelArn = "ModelArn"
         case modelName = "ModelName"
+        case modelQuality = "ModelQuality"
         case modelVersion = "ModelVersion"
         case modelVersionArn = "ModelVersionArn"
         case sourceType = "SourceType"
@@ -9073,6 +9293,9 @@ extension LookoutEquipmentClientTypes.ModelVersionSummary: Swift.Codable {
         }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
+        }
+        if let modelQuality = self.modelQuality {
+            try encodeContainer.encode(modelQuality.rawValue, forKey: .modelQuality)
         }
         if let modelVersion = self.modelVersion {
             try encodeContainer.encode(modelVersion, forKey: .modelVersion)
@@ -9104,6 +9327,8 @@ extension LookoutEquipmentClientTypes.ModelVersionSummary: Swift.Codable {
         status = statusDecoded
         let sourceTypeDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelVersionSourceType.self, forKey: .sourceType)
         sourceType = sourceTypeDecoded
+        let modelQualityDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelQuality.self, forKey: .modelQuality)
+        modelQuality = modelQualityDecoded
     }
 }
 
@@ -9116,6 +9341,8 @@ extension LookoutEquipmentClientTypes {
         public var modelArn: Swift.String?
         /// The name of the model that this model version is a version of.
         public var modelName: Swift.String?
+        /// Provides a quality assessment for a model that uses labels. If Lookout for Equipment determines that the model quality is poor based on training metrics, the value is POOR_QUALITY_DETECTED. Otherwise, the value is QUALITY_THRESHOLD_MET. If the model is unlabeled, the model quality can't be assessed and the value of ModelQuality is CANNOT_DETERMINE_QUALITY. In this situation, you can get a model quality assessment by adding labels to the input dataset and retraining the model. For information about improving the quality of a model, see [Best practices with Amazon Lookout for Equipment](https://docs.aws.amazon.com/lookout-for-equipment/latest/ug/best-practices.html).
+        public var modelQuality: LookoutEquipmentClientTypes.ModelQuality?
         /// The version of the model.
         public var modelVersion: Swift.Int?
         /// The Amazon Resource Name (ARN) of the model version.
@@ -9129,6 +9356,7 @@ extension LookoutEquipmentClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             modelArn: Swift.String? = nil,
             modelName: Swift.String? = nil,
+            modelQuality: LookoutEquipmentClientTypes.ModelQuality? = nil,
             modelVersion: Swift.Int? = nil,
             modelVersionArn: Swift.String? = nil,
             sourceType: LookoutEquipmentClientTypes.ModelVersionSourceType? = nil,
@@ -9138,6 +9366,7 @@ extension LookoutEquipmentClientTypes {
             self.createdAt = createdAt
             self.modelArn = modelArn
             self.modelName = modelName
+            self.modelQuality = modelQuality
             self.modelVersion = modelVersion
             self.modelVersionArn = modelVersionArn
             self.sourceType = sourceType
@@ -9821,7 +10050,7 @@ extension LookoutEquipmentClientTypes.SensorsWithShortDateRange: Swift.Codable {
 extension LookoutEquipmentClientTypes {
     /// Entity that comprises information on sensors that have shorter date range.
     public struct SensorsWithShortDateRange: Swift.Equatable {
-        /// Indicates the number of sensors that have less than 90 days of data.
+        /// Indicates the number of sensors that have less than 14 days of data.
         /// This member is required.
         public var affectedSensorCount: Swift.Int?
 
@@ -11420,6 +11649,7 @@ enum UpdateLabelGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateModelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelName = "ModelName"
         case roleArn = "RoleArn"
     }
@@ -11428,6 +11658,9 @@ extension UpdateModelInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let labelsInputConfiguration = self.labelsInputConfiguration {
             try encodeContainer.encode(labelsInputConfiguration, forKey: .labelsInputConfiguration)
+        }
+        if let modelDiagnosticsOutputConfiguration = self.modelDiagnosticsOutputConfiguration {
+            try encodeContainer.encode(modelDiagnosticsOutputConfiguration, forKey: .modelDiagnosticsOutputConfiguration)
         }
         if let modelName = self.modelName {
             try encodeContainer.encode(modelName, forKey: .modelName)
@@ -11448,6 +11681,8 @@ extension UpdateModelInput {
 public struct UpdateModelInput: Swift.Equatable {
     /// Contains the configuration information for the S3 location being used to hold label data.
     public var labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
+    /// The Amazon S3 location where you want Amazon Lookout for Equipment to save the pointwise model diagnostics for the model. You must also specify the RoleArn request parameter.
+    public var modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
     /// The name of the model to update.
     /// This member is required.
     public var modelName: Swift.String?
@@ -11456,11 +11691,13 @@ public struct UpdateModelInput: Swift.Equatable {
 
     public init(
         labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration? = nil,
+        modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration? = nil,
         modelName: Swift.String? = nil,
         roleArn: Swift.String? = nil
     )
     {
         self.labelsInputConfiguration = labelsInputConfiguration
+        self.modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfiguration
         self.modelName = modelName
         self.roleArn = roleArn
     }
@@ -11470,11 +11707,13 @@ struct UpdateModelInputBody: Swift.Equatable {
     let modelName: Swift.String?
     let labelsInputConfiguration: LookoutEquipmentClientTypes.LabelsInputConfiguration?
     let roleArn: Swift.String?
+    let modelDiagnosticsOutputConfiguration: LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration?
 }
 
 extension UpdateModelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case labelsInputConfiguration = "LabelsInputConfiguration"
+        case modelDiagnosticsOutputConfiguration = "ModelDiagnosticsOutputConfiguration"
         case modelName = "ModelName"
         case roleArn = "RoleArn"
     }
@@ -11487,6 +11726,8 @@ extension UpdateModelInputBody: Swift.Decodable {
         labelsInputConfiguration = labelsInputConfigurationDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let modelDiagnosticsOutputConfigurationDecoded = try containerValues.decodeIfPresent(LookoutEquipmentClientTypes.ModelDiagnosticsOutputConfiguration.self, forKey: .modelDiagnosticsOutputConfiguration)
+        modelDiagnosticsOutputConfiguration = modelDiagnosticsOutputConfigurationDecoded
     }
 }
 

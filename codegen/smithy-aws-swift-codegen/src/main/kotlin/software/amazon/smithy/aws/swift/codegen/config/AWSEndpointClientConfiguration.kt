@@ -14,21 +14,20 @@ import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.model.getTrait
-import software.amazon.smithy.swift.codegen.model.toNullable
+import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
 class AWSEndpointClientConfiguration(val ctx: ProtocolGenerator.GenerationContext) : ClientConfiguration {
     override val swiftProtocolName: Symbol?
         get() = null
 
-    override val properties: Set<ConfigProperty>
-        get() {
-            val properties: MutableSet<ConfigProperty> = mutableSetOf()
-            val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
-            clientContextParams?.parameters?.forEach {
-                properties.add(ConfigProperty(it.key.toLowerCamelCase(), it.value.type.toSwiftType().toNullable()))
-            }
-            properties.add(ConfigProperty(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "DefaultEndpointResolver()", true))
-            return properties
+    override fun getProperties(ctx: ProtocolGenerator.GenerationContext): Set<ConfigProperty> {
+        val properties: MutableSet<ConfigProperty> = mutableSetOf()
+        val clientContextParams = ctx.service.getTrait<ClientContextParamsTrait>()
+        clientContextParams?.parameters?.forEach {
+            properties.add(ConfigProperty(it.key.toLowerCamelCase(), it.value.type.toSwiftType().toOptional()))
         }
+        properties.add(ConfigProperty(ENDPOINT_RESOLVER, AWSServiceTypes.EndpointResolver, "DefaultEndpointResolver()", true))
+        return properties
+    }
 }

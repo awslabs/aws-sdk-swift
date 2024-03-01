@@ -1363,7 +1363,7 @@ public struct AssociateTargetsWithJobInput: Swift.Equatable {
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// A list of thing group ARNs that define the targets of the job.
     /// This member is required.
@@ -8360,7 +8360,7 @@ public struct CreateJobInput: Swift.Equatable {
     public var jobId: Swift.String?
     /// The ARN of the job template used to create the job.
     public var jobTemplateArn: Swift.String?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// Configuration information for pre-signed S3 URLs.
     public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
@@ -13335,7 +13335,7 @@ public struct DeleteJobExecutionInput: Swift.Equatable {
     /// The ID of the job whose execution on a particular device will be deleted.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// The name of the thing whose job execution will be deleted.
     /// This member is required.
@@ -13423,7 +13423,7 @@ public struct DeleteJobInput: Swift.Equatable {
     /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
 
     public init(
@@ -25725,7 +25725,7 @@ extension IoTClientTypes {
         public var jobTemplateArn: Swift.String?
         /// The time, in seconds since the epoch, when the job was last updated.
         public var lastUpdatedAt: ClientRuntime.Date?
-        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+        /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
         public var namespaceId: Swift.String?
         /// Configuration for pre-signed S3 URLs.
         public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
@@ -30125,7 +30125,7 @@ public struct ListJobExecutionsForThingInput: Swift.Equatable {
     public var jobId: Swift.String?
     /// The maximum number of results to be returned per request.
     public var maxResults: Swift.Int?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -30401,7 +30401,7 @@ extension ListJobsInput {
 public struct ListJobsInput: Swift.Equatable {
     /// The maximum number of results to return per request.
     public var maxResults: Swift.Int?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -40823,7 +40823,7 @@ extension SearchIndexInput {
 public struct SearchIndexInput: Swift.Equatable {
     /// The search index name.
     public var indexName: Swift.String?
-    /// The maximum number of results to return per page at one time. The response might contain fewer results but will never contain more.
+    /// The maximum number of results to return per page at one time. This maximum number cannot exceed 100. The response might contain fewer results but will never contain more. You can use [nextToken](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken) to retrieve the next set of results until nextToken returns NULL.
     public var maxResults: Swift.Int?
     /// The token used to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
@@ -48677,7 +48677,7 @@ public struct UpdateJobInput: Swift.Equatable {
     /// The ID of the job to be updated.
     /// This member is required.
     public var jobId: Swift.String?
-    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is in public preview.
+    /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
     public var namespaceId: Swift.String?
     /// Configuration information for pre-signed S3 URLs.
     public var presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?

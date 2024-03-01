@@ -12604,6 +12604,7 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregateKeyType = "AggregateKeyType"
         case customKeys = "CustomKeys"
+        case evaluationWindowSec = "EvaluationWindowSec"
         case forwardedIPConfig = "ForwardedIPConfig"
         case limit = "Limit"
         case scopeDownStatement = "ScopeDownStatement"
@@ -12620,6 +12621,9 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
                 try customKeysContainer.encode(ratebasedstatementcustomkey0)
             }
         }
+        if evaluationWindowSec != 0 {
+            try encodeContainer.encode(evaluationWindowSec, forKey: .evaluationWindowSec)
+        }
         if let forwardedIPConfig = self.forwardedIPConfig {
             try encodeContainer.encode(forwardedIPConfig, forKey: .forwardedIPConfig)
         }
@@ -12635,6 +12639,8 @@ extension WAFV2ClientTypes.RateBasedStatement: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
         limit = limitDecoded
+        let evaluationWindowSecDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationWindowSec) ?? 0
+        evaluationWindowSec = evaluationWindowSecDecoded
         let aggregateKeyTypeDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.RateBasedStatementAggregateKeyType.self, forKey: .aggregateKeyType)
         aggregateKeyType = aggregateKeyTypeDecoded
         let scopeDownStatementDecoded = try containerValues.decodeIfPresent(WAFV2ClientTypes.Statement.self, forKey: .scopeDownStatement)
@@ -12714,6 +12720,8 @@ extension WAFV2ClientTypes {
         public var aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType?
         /// Specifies the aggregate keys to use in a rate-base rule.
         public var customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]?
+        /// The amount of time, in seconds, that WAF should include in its request counts, looking back from the current time. For example, for a setting of 120, when WAF checks the rate, it counts the requests for the 2 minutes immediately preceding the current time. Valid settings are 60, 120, 300, and 600. This setting doesn't determine how often WAF checks the rate, but how far back it looks each time it checks. WAF checks the rate about every 10 seconds. Default: 300 (5 minutes)
+        public var evaluationWindowSec: Swift.Int
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This is required if you specify a forwarded IP in the rule's aggregate key settings.
         public var forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig?
         /// The limit on requests per 5-minute period for a single aggregation instance for the rate-based rule. If the rate-based statement includes a ScopeDownStatement, this limit is applied only to the requests that match the statement. Examples:
@@ -12729,6 +12737,7 @@ extension WAFV2ClientTypes {
         public init(
             aggregateKeyType: WAFV2ClientTypes.RateBasedStatementAggregateKeyType? = nil,
             customKeys: [WAFV2ClientTypes.RateBasedStatementCustomKey]? = nil,
+            evaluationWindowSec: Swift.Int = 0,
             forwardedIPConfig: WAFV2ClientTypes.ForwardedIPConfig? = nil,
             limit: Swift.Int? = nil,
             scopeDownStatement: WAFV2ClientTypes.Statement? = nil
@@ -12736,6 +12745,7 @@ extension WAFV2ClientTypes {
         {
             self.aggregateKeyType = aggregateKeyType
             self.customKeys = customKeys
+            self.evaluationWindowSec = evaluationWindowSec
             self.forwardedIPConfig = forwardedIPConfig
             self.limit = limit
             self.scopeDownStatement = scopeDownStatement
