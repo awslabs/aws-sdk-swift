@@ -21,6 +21,8 @@ jobs:
       matrix:
         # This matrix runs tests on Mac, on oldest & newest supported Xcodes
         runner:
+          - macos-13
+          - macos-14
           - macos-13-xlarge
           - macos-14-xlarge
         xcode:
