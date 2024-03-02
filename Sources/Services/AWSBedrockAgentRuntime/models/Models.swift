@@ -715,6 +715,11 @@ extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart: Swift.Codable {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "GeneratedResponsePart(textResponsePart: \"CONTENT_REDACTED\")"}
+}
+
 extension BedrockAgentRuntimeClientTypes {
     /// Generate response part
     public struct GeneratedResponsePart: Swift.Equatable {
@@ -1386,6 +1391,11 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.Cod
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBaseRetrievalResult(score: \(Swift.String(describing: score)), content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\")"}
+}
+
 extension BedrockAgentRuntimeClientTypes {
     /// Result item returned from a knowledge base retrieval.
     public struct KnowledgeBaseRetrievalResult: Swift.Equatable {
@@ -1415,6 +1425,7 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case knowledgeBaseId
         case modelArn
+        case retrievalConfiguration
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1425,6 +1436,9 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
         if let modelArn = self.modelArn {
             try encodeContainer.encode(modelArn, forKey: .modelArn)
         }
+        if let retrievalConfiguration = self.retrievalConfiguration {
+            try encodeContainer.encode(retrievalConfiguration, forKey: .retrievalConfiguration)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1433,6 +1447,8 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
         knowledgeBaseId = knowledgeBaseIdDecoded
         let modelArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .modelArn)
         modelArn = modelArnDecoded
+        let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration.self, forKey: .retrievalConfiguration)
+        retrievalConfiguration = retrievalConfigurationDecoded
     }
 }
 
@@ -1445,14 +1461,18 @@ extension BedrockAgentRuntimeClientTypes {
         /// Arn of a Bedrock model.
         /// This member is required.
         public var modelArn: Swift.String?
+        /// Search parameters for retrieving from knowledge base.
+        public var retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration?
 
         public init(
             knowledgeBaseId: Swift.String? = nil,
-            modelArn: Swift.String? = nil
+            modelArn: Swift.String? = nil,
+            retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
         )
         {
             self.knowledgeBaseId = knowledgeBaseId
             self.modelArn = modelArn
+            self.retrievalConfiguration = retrievalConfiguration
         }
     }
 
@@ -1461,6 +1481,7 @@ extension BedrockAgentRuntimeClientTypes {
 extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case numberOfResults
+        case overrideSearchType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1468,12 +1489,17 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration:
         if let numberOfResults = self.numberOfResults {
             try encodeContainer.encode(numberOfResults, forKey: .numberOfResults)
         }
+        if let overrideSearchType = self.overrideSearchType {
+            try encodeContainer.encode(overrideSearchType.rawValue, forKey: .overrideSearchType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let numberOfResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .numberOfResults)
         numberOfResults = numberOfResultsDecoded
+        let overrideSearchTypeDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.SearchType.self, forKey: .overrideSearchType)
+        overrideSearchType = overrideSearchTypeDecoded
     }
 }
 
@@ -1481,14 +1507,17 @@ extension BedrockAgentRuntimeClientTypes {
     /// Knowledge base vector search configuration
     public struct KnowledgeBaseVectorSearchConfiguration: Swift.Equatable {
         /// Top-K results to retrieve from knowledge base.
-        /// This member is required.
         public var numberOfResults: Swift.Int?
+        /// Override the type of query to be performed on data store
+        public var overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType?
 
         public init(
-            numberOfResults: Swift.Int? = nil
+            numberOfResults: Swift.Int? = nil,
+            overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType? = nil
         )
         {
             self.numberOfResults = numberOfResults
+            self.overrideSearchType = overrideSearchType
         }
     }
 
@@ -2500,6 +2529,12 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent: Swift.Codable {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.RetrievalResultContent: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes {
     /// Content of a retrieval result.
     public struct RetrievalResultContent: Swift.Equatable {
@@ -2539,6 +2574,12 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation: Swift.Codable 
         type = typeDecoded
         let s3LocationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.RetrievalResultS3Location.self, forKey: .s3Location)
         s3Location = s3LocationDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -3204,6 +3245,11 @@ extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.Codable {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RetrievedReference(content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\")"}
+}
+
 extension BedrockAgentRuntimeClientTypes {
     /// Retrieved reference
     public struct RetrievedReference: Swift.Equatable {
@@ -3222,6 +3268,39 @@ extension BedrockAgentRuntimeClientTypes {
         }
     }
 
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Query type to be performed on data store.
+    public enum SearchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case hybrid
+        case semantic
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SearchType] {
+            return [
+                .hybrid,
+                .semantic,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .hybrid: return "HYBRID"
+            case .semantic: return "SEMANTIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SearchType(rawValue: rawValue) ?? SearchType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ServiceQuotaExceededException: Swift.Codable {
@@ -3471,6 +3550,12 @@ extension BedrockAgentRuntimeClientTypes.TextResponsePart: Swift.Codable {
         text = textDecoded
         let spanDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.Span.self, forKey: .span)
         span = spanDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.TextResponsePart: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 

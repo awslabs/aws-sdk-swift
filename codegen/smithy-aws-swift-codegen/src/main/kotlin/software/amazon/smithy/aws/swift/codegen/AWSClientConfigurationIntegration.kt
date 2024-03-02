@@ -8,9 +8,11 @@ package software.amazon.smithy.aws.swift.codegen
 import software.amazon.smithy.aws.swift.codegen.config.AWSDefaultClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.config.AWSEndpointClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.config.AWSRegionClientConfiguration
+import software.amazon.smithy.aws.swift.codegen.plugins.EndpointPlugin
 import software.amazon.smithy.swift.codegen.config.ClientConfiguration
 import software.amazon.smithy.swift.codegen.integration.Plugin
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.plugins.DefaultAWSClientPlugin
 
@@ -19,7 +21,7 @@ class AWSClientConfigurationIntegration : SwiftIntegration {
         return listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration(), AWSEndpointClientConfiguration(ctx))
     }
 
-    override fun plugins(): List<Plugin> {
-        return listOf(DefaultAWSClientPlugin())
+    override fun plugins(serviceConfig: ServiceConfig): List<Plugin> {
+        return listOf(DefaultAWSClientPlugin(), EndpointPlugin(serviceConfig))
     }
 }

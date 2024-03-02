@@ -595,6 +595,7 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
         case region
         case roleArn
         case runOrder
+        case timeoutInMinutes
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -634,6 +635,9 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
         }
         if let runOrder = self.runOrder {
             try encodeContainer.encode(runOrder, forKey: .runOrder)
+        }
+        if let timeoutInMinutes = self.timeoutInMinutes {
+            try encodeContainer.encode(timeoutInMinutes, forKey: .timeoutInMinutes)
         }
     }
 
@@ -684,6 +688,8 @@ extension CodePipelineClientTypes.ActionDeclaration: Swift.Codable {
         region = regionDecoded
         let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
         namespace = namespaceDecoded
+        let timeoutInMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timeoutInMinutes)
+        timeoutInMinutes = timeoutInMinutesDecoded
     }
 }
 
@@ -710,6 +716,8 @@ extension CodePipelineClientTypes {
         public var roleArn: Swift.String?
         /// The order in which actions are run.
         public var runOrder: Swift.Int?
+        /// A timeout duration in minutes that can be applied against the ActionType’s default timeout value specified in [Quotas for CodePipeline ](https://docs.aws.amazon.com/codepipeline/latest/userguide/limits.html). This attribute is available only to the manual approval ActionType.
+        public var timeoutInMinutes: Swift.Int?
 
         public init(
             actionTypeId: CodePipelineClientTypes.ActionTypeId? = nil,
@@ -720,7 +728,8 @@ extension CodePipelineClientTypes {
             outputArtifacts: [CodePipelineClientTypes.OutputArtifact]? = nil,
             region: Swift.String? = nil,
             roleArn: Swift.String? = nil,
-            runOrder: Swift.Int? = nil
+            runOrder: Swift.Int? = nil,
+            timeoutInMinutes: Swift.Int? = nil
         )
         {
             self.actionTypeId = actionTypeId
@@ -732,6 +741,7 @@ extension CodePipelineClientTypes {
             self.region = region
             self.roleArn = roleArn
             self.runOrder = runOrder
+            self.timeoutInMinutes = timeoutInMinutes
         }
     }
 

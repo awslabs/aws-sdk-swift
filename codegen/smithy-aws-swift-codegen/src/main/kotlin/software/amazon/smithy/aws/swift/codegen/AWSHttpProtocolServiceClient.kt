@@ -10,6 +10,7 @@ import software.amazon.smithy.aws.traits.auth.SigV4Trait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
+import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.config.ConfigProperty
 import software.amazon.smithy.swift.codegen.config.DefaultProvider
@@ -17,6 +18,7 @@ import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
+import software.amazon.smithy.swift.codegen.model.toOptional
 import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class AWSHttpProtocolServiceClient(
@@ -37,149 +39,24 @@ class AWSHttpProtocolServiceClient(
         }
     }
 
-    override fun renderClientConfig(serviceSymbol: Symbol) {
-
-        val clientConfigurationProtocols =
-            ctx.integrations
-                .flatMap { it.clientConfigurations(ctx) }
-                .mapNotNull { it.swiftProtocolName?.name }
-                .joinToString(" & ")
-
-        writer.openBlock(
-            "public class \$LConfiguration: \$L {", "}",
-            serviceConfig.clientName.toUpperCamelCase(),
-            clientConfigurationProtocols
-        ) {
-            val properties: List<ConfigProperty> = ctx.integrations
-                .flatMap { it.clientConfigurations(ctx).flatMap { it.properties } }
-
-            renderConfigClassVariables(properties)
-
-            renderPrivateConfigInitializer(properties)
-
-            renderAsynchronousConfigInitializer(properties)
-
-            renderSynchronousConfigInitializer(properties)
-
-            renderEmptyAsynchronousConfigInitializer(properties)
-
-            renderRegionConfigInitializer(properties)
-
-            renderPartitionID()
-        }
-        writer.write("")
-    }
-
-    /**
-     * Declare class variables in client configuration class
-     */
-    private fun renderConfigClassVariables(properties: List<ConfigProperty>) {
-        properties
-            .forEach {
-                when (it.name) {
-                    "awsCredentialIdentityResolver" -> {
-                        writer.write("public var \$L: any \$L", it.name, it.type)
-                        writer.write("")
-                    }
-                    else -> {
-                        writer.write("public var \$L: \$L", it.name, it.type)
-                        writer.write("")
-                    }
+    override fun overrideConfigProperties(properties: List<ConfigProperty>): List<ConfigProperty> {
+        return properties.map {
+            when (it.name) {
+                "authSchemeResolver" -> {
+                    ConfigProperty("authSchemeResolver", ClientRuntimeTypes.Auth.AuthSchemeResolver, authSchemeResolverDefaultProvider)
                 }
-            }
-        writer.write("")
-    }
-
-    private fun renderPrivateConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock(
-            "private init(\$L) {",
-            "}",
-            properties.joinToString(", ") {
-                when (it.name) {
-                    "awsCredentialIdentityResolver" -> {
-                        "_ ${it.name}: any ${it.type}"
-                    }
-                    else -> {
-                        "_ ${it.name}: ${it.type}"
-                    }
+                "authSchemes" -> {
+                    ConfigProperty("authSchemes", ClientRuntimeTypes.Auth.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
-            }
-        ) {
-            properties.forEach {
-                writer.write("self.\$L = \$L", it.name, it.name)
+                else -> it
             }
         }
-        writer.write("")
     }
 
-    private fun renderSynchronousConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock(
-            "public convenience init(\$L) throws {", "}",
-            properties.joinToString(", ") {
-                when (it.name) {
-                    "awsCredentialIdentityResolver" -> {
-                        "${it.name}: (any ${it.type})? = nil"
-                    }
-                    else -> {
-                        "${it.name}: ${it.toOptionalType()} = nil"
-                    }
-                }
-            }
-        ) {
-            writer.writeInline(
-                "self.init(\$L)",
-                properties.joinToString(", ") {
-                    when (it.name) {
-                        "authSchemeResolver" -> {
-                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
-                        }
-                        "authSchemes" -> {
-                            authSchemesDefaultProvider.render("authSchemes")
-                        }
-                        else -> {
-                            if (it.default?.isAsync == true) {
-                                it.name
-                            } else {
-                                it.default?.render(it.name) ?: it.name
-                            }
-                        }
-                    }
-                }
-            )
-        }
-        writer.write("")
-    }
-
-    private fun renderAsynchronousConfigInitializer(properties: List<ConfigProperty>) {
-        writer.openBlock(
-            "public convenience init(\$L) async throws {", "}",
-            properties.joinToString(", ") {
-                when (it.name) {
-                    "awsCredentialIdentityResolver" -> {
-                        "${it.name}: (any ${it.type})? = nil"
-                    }
-                    else -> {
-                        "${it.name}: ${it.toOptionalType()} = nil"
-                    }
-                }
-            }
-        ) {
-            writer.writeInline(
-                "self.init(\$L)",
-                properties.joinToString(", ") {
-                    when (it.name) {
-                        "authSchemeResolver" -> {
-                            authSchemeResolverDefaultProvider.render("authSchemeResolver")
-                        }
-                        "authSchemes" -> {
-                            authSchemesDefaultProvider.render("authSchemes")
-                        }
-                        else -> { it.default?.render() ?: it.name }
-                    }
-                }
-            )
-        }
-        writer.write("")
+    override fun renderCustomConfigInitializer(properties: List<ConfigProperty>) {
+        renderEmptyAsynchronousConfigInitializer(properties)
+        renderRegionConfigInitializer(properties)
+        renderPartitionID()
     }
 
     /**
@@ -196,12 +73,6 @@ class AWSHttpProtocolServiceClient(
                         }
                         "awsCredentialIdentityResolver" -> {
                             "try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()"
-                        }
-                        "authSchemeResolver" -> {
-                            authSchemeResolverDefaultProvider.value
-                        }
-                        "authSchemes" -> {
-                            authSchemesDefaultProvider.value
                         }
                         else -> {
                             it.default?.render() ?: "nil"

@@ -9867,6 +9867,8 @@ extension ConfigClientTypes {
     ///
     /// * Asia Pacific (Melbourne)
     ///
+    /// * Canada West (Calgary)
+    ///
     /// * Europe (Spain)
     ///
     /// * Europe (Zurich)
@@ -20715,6 +20717,8 @@ extension ConfigClientTypes {
         ///
         /// * Asia Pacific (Melbourne)
         ///
+        /// * Canada West (Calgary)
+        ///
         /// * Europe (Spain)
         ///
         /// * Europe (Zurich)
@@ -20724,14 +20728,14 @@ extension ConfigClientTypes {
         /// * Middle East (UAE)
         ///
         ///
-        /// Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is not set to true. The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
+        /// Aurora global clusters are recorded in all enabled Regions The AWS::RDS::GlobalCluster resource type will be recorded in all supported Config Regions where the configuration recorder is enabled, even if includeGlobalResourceTypes is setfalse. The includeGlobalResourceTypes option is a bundle which only applies to IAM users, groups, roles, and customer managed policies. If you do not want to record AWS::RDS::GlobalCluster in all enabled Regions, use one of the following recording strategies:
         ///
         /// * Record all current and future resource types with exclusions (EXCLUSION_BY_RESOURCE_TYPES), or
         ///
         /// * Record specific resource types (INCLUSION_BY_RESOURCE_TYPES).
         ///
         ///
-        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list global IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
+        /// For more information, see [Selecting Which Resources are Recorded](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-all) in the Config developer guide. includeGlobalResourceTypes and the exclusion recording strategy The includeGlobalResourceTypes field has no impact on the EXCLUSION_BY_RESOURCE_TYPES recording strategy. This means that the global IAM resource types (IAM users, groups, roles, and customer managed policies) will not be automatically added as exclusions for exclusionByResourceTypes when includeGlobalResourceTypes is set to false. The includeGlobalResourceTypes field should only be used to modify the AllSupported field, as the default for the AllSupported field is to record configuration changes for all supported resource types excluding the global IAM resource types. To include the global IAM resource types when AllSupported is set to true, make sure to set includeGlobalResourceTypes to true. To exclude the global IAM resource types for the EXCLUSION_BY_RESOURCE_TYPES recording strategy, you need to manually add them to the resourceTypes field of exclusionByResourceTypes. Required and optional fields Before you set this field to true, set the allSupported field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html) to true. Optionally, you can set the useOnly field of [RecordingStrategy](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingStrategy.html) to ALL_SUPPORTED_RESOURCE_TYPES. Overriding fields If you set this field to false but list global IAM resource types in the resourceTypes field of [RecordingGroup](https://docs.aws.amazon.com/config/latest/APIReference/API_RecordingGroup.html), Config will still record configuration changes for those specified resource types regardless of if you set the includeGlobalResourceTypes field to false. If you do not want to record configuration changes to the global IAM resource types (IAM users, groups, roles, and customer managed policies), make sure to not list them in the resourceTypes field in addition to setting the includeGlobalResourceTypes field to false.
         public var includeGlobalResourceTypes: Swift.Bool
         /// An object that specifies the recording strategy for the configuration recorder.
         ///
@@ -20747,6 +20751,8 @@ extension ConfigClientTypes {
         /// * Asia Pacific (Hyderabad)
         ///
         /// * Asia Pacific (Melbourne)
+        ///
+        /// * Canada West (Calgary)
         ///
         /// * Europe (Spain)
         ///
@@ -20969,6 +20975,8 @@ extension ConfigClientTypes {
         /// * Asia Pacific (Hyderabad)
         ///
         /// * Asia Pacific (Melbourne)
+        ///
+        /// * Canada West (Calgary)
         ///
         /// * Europe (Spain)
         ///
@@ -25500,7 +25508,7 @@ extension ConfigClientTypes.TemplateSSMDocumentDetails: Swift.Codable {
 extension ConfigClientTypes {
     /// This API allows you to create a conformance pack template with an Amazon Web Services Systems Manager document (SSM document). To deploy a conformance pack using an SSM document, first create an SSM document with conformance pack content, and then provide the DocumentName in the [PutConformancePack API](https://docs.aws.amazon.com/config/latest/APIReference/API_PutConformancePack.html). You can also provide the DocumentVersion. The TemplateSSMDocumentDetails object contains the name of the SSM document and the version of the SSM document.
     public struct TemplateSSMDocumentDetails: Swift.Equatable {
-        /// The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack. If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document. If you want to use an SSM document from another Region or account, you must provide the ARN.
+        /// The name or Amazon Resource Name (ARN) of the SSM document to use to create a conformance pack. If you use the document name, Config checks only your account and Amazon Web Services Region for the SSM document.
         /// This member is required.
         public var documentName: Swift.String?
         /// The version of the SSM document to use to create a conformance pack. By default, Config uses the latest version. This field is optional.

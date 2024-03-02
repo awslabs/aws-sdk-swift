@@ -389,6 +389,11 @@ extension GuardDutyClientTypes.AccountDetail: Swift.Codable {
     }
 }
 
+extension GuardDutyClientTypes.AccountDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AccountDetail(accountId: \(Swift.String(describing: accountId)), email: \"CONTENT_REDACTED\")"}
+}
+
 extension GuardDutyClientTypes {
     /// Contains information about the account.
     public struct AccountDetail: Swift.Equatable {
@@ -13814,6 +13819,11 @@ extension GuardDutyClientTypes.LocalIpDetails: Swift.Codable {
     }
 }
 
+extension GuardDutyClientTypes.LocalIpDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "LocalIpDetails(ipAddressV4: \"CONTENT_REDACTED\")"}
+}
+
 extension GuardDutyClientTypes {
     /// Contains information about the local IP address of the connection.
     public struct LocalIpDetails: Swift.Equatable {
@@ -14214,6 +14224,11 @@ extension GuardDutyClientTypes.Member: Swift.Codable {
         let administratorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .administratorId)
         administratorId = administratorIdDecoded
     }
+}
+
+extension GuardDutyClientTypes.Member: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Member(accountId: \(Swift.String(describing: accountId)), administratorId: \(Swift.String(describing: administratorId)), detectorId: \(Swift.String(describing: detectorId)), invitedAt: \(Swift.String(describing: invitedAt)), masterId: \(Swift.String(describing: masterId)), relationshipStatus: \(Swift.String(describing: relationshipStatus)), updatedAt: \(Swift.String(describing: updatedAt)), email: \"CONTENT_REDACTED\")"}
 }
 
 extension GuardDutyClientTypes {
@@ -14780,6 +14795,11 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.Codable {
         let vpcIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vpcId)
         vpcId = vpcIdDecoded
     }
+}
+
+extension GuardDutyClientTypes.NetworkInterface: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "NetworkInterface(ipv6Addresses: \(Swift.String(describing: ipv6Addresses)), networkInterfaceId: \(Swift.String(describing: networkInterfaceId)), privateDnsName: \(Swift.String(describing: privateDnsName)), privateIpAddresses: \(Swift.String(describing: privateIpAddresses)), publicDnsName: \(Swift.String(describing: publicDnsName)), publicIp: \(Swift.String(describing: publicIp)), securityGroups: \(Swift.String(describing: securityGroups)), subnetId: \(Swift.String(describing: subnetId)), vpcId: \(Swift.String(describing: vpcId)), privateIpAddress: \"CONTENT_REDACTED\")"}
 }
 
 extension GuardDutyClientTypes {
@@ -16338,6 +16358,11 @@ extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.Codable {
     }
 }
 
+extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PrivateIpAddressDetails(privateDnsName: \(Swift.String(describing: privateDnsName)), privateIpAddress: \"CONTENT_REDACTED\")"}
+}
+
 extension GuardDutyClientTypes {
     /// Contains other private IP address information of the EC2 instance.
     public struct PrivateIpAddressDetails: Swift.Equatable {
@@ -17035,6 +17060,11 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.Codable {
         let organizationDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Organization.self, forKey: .organization)
         organization = organizationDecoded
     }
+}
+
+extension GuardDutyClientTypes.RemoteIpDetails: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RemoteIpDetails(city: \(Swift.String(describing: city)), country: \(Swift.String(describing: country)), geoLocation: \(Swift.String(describing: geoLocation)), organization: \(Swift.String(describing: organization)), ipAddressV4: \"CONTENT_REDACTED\")"}
 }
 
 extension GuardDutyClientTypes {

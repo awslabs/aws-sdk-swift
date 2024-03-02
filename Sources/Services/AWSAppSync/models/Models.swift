@@ -1966,9 +1966,9 @@ public struct CreateApiCacheInput: Swift.Equatable {
     public var atRestEncryptionEnabled: Swift.Bool?
     /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
     ///
-    /// * NetworkBandwidthOutAllowanceExceeded: The number of times a specified GraphQL operation was called.
+    /// * NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.
     ///
-    /// * EngineCPUUtilization: The number of GraphQL errors that occurred during a specified GraphQL operation.
+    /// * EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.
     ///
     ///
     /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
@@ -5309,7 +5309,7 @@ extension AppSyncClientTypes {
     ///
     /// * FULL_REQUEST_RESOLVER_METRICS: Records and emits metric data for all resolvers in the request.
     ///
-    /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricConfig value set to ENABLED.
+    /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricsConfig value set to ENABLED.
     ///
     ///
     ///
@@ -5327,7 +5327,7 @@ extension AppSyncClientTypes {
     ///
     /// * FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.
     ///
-    /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricConfig value set to ENABLED.
+    /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricsConfig value set to ENABLED.
     ///
     ///
     ///
@@ -5354,7 +5354,7 @@ extension AppSyncClientTypes {
         ///
         /// * FULL_REQUEST_DATA_SOURCE_METRICS: Records and emits metric data for all data sources in the request.
         ///
-        /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricConfig value set to ENABLED.
+        /// * PER_DATA_SOURCE_METRICS: Records and emits metric data for data sources that have the metricsConfig value set to ENABLED.
         /// This member is required.
         public var dataSourceLevelMetricsBehavior: AppSyncClientTypes.DataSourceLevelMetricsBehavior?
         /// Controls how operation metrics will be emitted to CloudWatch. Operation metrics include:
@@ -5384,7 +5384,7 @@ extension AppSyncClientTypes {
         ///
         /// * FULL_REQUEST_RESOLVER_METRICS: Records and emits metric data for all resolvers in the request.
         ///
-        /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricConfig value set to ENABLED.
+        /// * PER_RESOLVER_METRICS: Records and emits metric data for resolvers that have the metricsConfig value set to ENABLED.
         /// This member is required.
         public var resolverLevelMetricsBehavior: AppSyncClientTypes.ResolverLevelMetricsBehavior?
 
@@ -11756,9 +11756,9 @@ public struct UpdateApiCacheInput: Swift.Equatable {
     public var apiId: Swift.String?
     /// Controls how cache health metrics will be emitted to CloudWatch. Cache health metrics include:
     ///
-    /// * NetworkBandwidthOutAllowanceExceeded: The number of times a specified GraphQL operation was called.
+    /// * NetworkBandwidthOutAllowanceExceeded: The network packets dropped because the throughput exceeded the aggregated bandwidth limit. This is useful for diagnosing bottlenecks in a cache configuration.
     ///
-    /// * EngineCPUUtilization: The number of GraphQL errors that occurred during a specified GraphQL operation.
+    /// * EngineCPUUtilization: The CPU utilization (percentage) allocated to the Redis process. This is useful for diagnosing bottlenecks in a cache configuration.
     ///
     ///
     /// Metrics will be recorded by API ID. You can set the value to ENABLED or DISABLED.
