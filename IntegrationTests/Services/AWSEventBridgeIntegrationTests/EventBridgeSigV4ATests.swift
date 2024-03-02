@@ -27,8 +27,8 @@ class EventBridgeSigV4ATests: XCTestCase {
     private let secondaryRegion = "us-east-1"
 
     // Name for the EventBridge global endpoint
-    private let endpointName = "sigv4a-test-global-endpoint"
-    private let eventBusName = "sigv4a-integ-test-eventbus"
+    private let endpointName = "sigv4a-test-global-endpoint-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
+    private let eventBusName = "sigv4a-integ-test-eventbus-\(UUID().uuidString.split(separator: "-").first!.lowercased())"
     private var endpointId: String!
 
     private var healthCheckId: String!
