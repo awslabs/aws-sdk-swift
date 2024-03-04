@@ -33,7 +33,7 @@ class IMDSAWSCredentialIdentityResolverTests: XCTestCase {
         cloudWatchLogClient = try CloudWatchLogsClient(region: region)
         try await launchEC2Instance()
         // Wait until cloud watch log group is created by shell script passed to EC2 instance at launch.
-        try await awaitCloudWatchLogSetup()
+        try await cloudWatchLogSetup()
     }
 
     // IAM role & instance profile and docker image in ECR private repo are kept for re-use.
@@ -243,7 +243,7 @@ class IMDSAWSCredentialIdentityResolverTests: XCTestCase {
         return input
     }
 
-    private func awaitCloudWatchLogSetup() async throws {
+    private func cloudWatchLogSetup() async throws {
         var pollCount = 0
         var logGroupInitialized = false
         while (!logGroupInitialized && pollCount < maxPollLogGroupCreation) {

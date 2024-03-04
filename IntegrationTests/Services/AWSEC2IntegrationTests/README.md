@@ -1,6 +1,6 @@
-## IMDS Credentials Provider Integration Testing
+## IMDS AWS credential identity resolver integration testing
 
-The package under `Resources/ECSIntegTestApp` will be used to test the IMDS credentials provider against a live EC2 instance. The below steps will need to be excuted prior to running the integration test.
+The package under `Resources/IMDSIntegTestApp` will be used to test the IMDS AWS credential identity resolver against a live EC2 instance. The below steps will need to be excuted prior to running the integration test.
 
 The bash script `./deploy-docker-to-ecr` needs to be executed at least once per AWS account. The script builds the docker image that contains the test application (ECSIntegTestApp) then pushes it to a private repository in AWS Elastic Container Registry (ECR). Then when you run the integration test, the EC2 instance pulls that image from ECR at launch and runs it. The results are then logged to CloudWatch Logs, which is what determines test pass / failure. 
 The script also needs to be executed if underlying package dependencies for the test package need to be updated.
