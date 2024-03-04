@@ -1572,6 +1572,7 @@ extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
         case country = "Country"
         case countryCode = "CountryCode"
         case internetHealth = "InternetHealth"
+        case ipv4Prefixes = "Ipv4Prefixes"
         case latitude = "Latitude"
         case longitude = "Longitude"
         case metro = "Metro"
@@ -1603,6 +1604,12 @@ extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
         }
         if let internetHealth = self.internetHealth {
             try encodeContainer.encode(internetHealth, forKey: .internetHealth)
+        }
+        if let ipv4Prefixes = ipv4Prefixes {
+            var ipv4PrefixesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ipv4Prefixes)
+            for string0 in ipv4Prefixes {
+                try ipv4PrefixesContainer.encode(string0)
+            }
         }
         if let latitude = self.latitude {
             try encodeContainer.encode(latitude, forKey: .latitude)
@@ -1657,6 +1664,17 @@ extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
         causedBy = causedByDecoded
         let internetHealthDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetHealth.self, forKey: .internetHealth)
         internetHealth = internetHealthDecoded
+        let ipv4PrefixesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .ipv4Prefixes)
+        var ipv4PrefixesDecoded0:[Swift.String]? = nil
+        if let ipv4PrefixesContainer = ipv4PrefixesContainer {
+            ipv4PrefixesDecoded0 = [Swift.String]()
+            for string0 in ipv4PrefixesContainer {
+                if let string0 = string0 {
+                    ipv4PrefixesDecoded0?.append(string0)
+                }
+            }
+        }
+        ipv4Prefixes = ipv4PrefixesDecoded0
     }
 }
 
@@ -1680,6 +1698,8 @@ extension InternetMonitorClientTypes {
         public var countryCode: Swift.String?
         /// The calculated health at a specific location.
         public var internetHealth: InternetMonitorClientTypes.InternetHealth?
+        /// The IPv4 prefixes at the client location that was impacted by the health event.
+        public var ipv4Prefixes: [Swift.String]?
         /// The latitude where the health event is located.
         public var latitude: Swift.Double?
         /// The longitude where the health event is located.
@@ -1704,6 +1724,7 @@ extension InternetMonitorClientTypes {
             country: Swift.String? = nil,
             countryCode: Swift.String? = nil,
             internetHealth: InternetMonitorClientTypes.InternetHealth? = nil,
+            ipv4Prefixes: [Swift.String]? = nil,
             latitude: Swift.Double? = nil,
             longitude: Swift.Double? = nil,
             metro: Swift.String? = nil,
@@ -1720,6 +1741,7 @@ extension InternetMonitorClientTypes {
             self.country = country
             self.countryCode = countryCode
             self.internetHealth = internetHealth
+            self.ipv4Prefixes = ipv4Prefixes
             self.latitude = latitude
             self.longitude = longitude
             self.metro = metro
@@ -2395,7 +2417,7 @@ extension InternetMonitorClientTypes {
     public struct LocalHealthEventsConfig: Swift.Equatable {
         /// The health event threshold percentage set for a local health score.
         public var healthScoreThreshold: Swift.Double
-        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.01%.
+        /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.1%.
         public var minTrafficImpact: Swift.Double
         /// The status of whether Internet Monitor creates a health event based on a threshold percentage set for a local health score. The status can be ENABLED or DISABLED.
         public var status: InternetMonitorClientTypes.LocalHealthEventsConfigStatus?
@@ -3244,11 +3266,11 @@ public struct StartQueryInput: Swift.Equatable {
     public var monitorName: Swift.String?
     /// The type of query to run. The following are the three types of queries that you can run using the Internet Monitor query interface:
     ///
-    /// * MEASUREMENTS: TBD definition
+    /// * MEASUREMENTS: Provides availability score, performance score, total traffic, and round-trip times, at 5 minute intervals.
     ///
-    /// * TOP_LOCATIONS: TBD definition
+    /// * TOP_LOCATIONS: Provides availability score, performance score, total traffic, and time to first byte (TTFB) information, for the top location and ASN combinations that you're monitoring, by traffic volume.
     ///
-    /// * TOP_LOCATION_DETAILS: TBD definition
+    /// * TOP_LOCATION_DETAILS: Provides TTFB for Amazon CloudFront, your current configuration, and the best performing EC2 configuration, at 1 hour intervals.
     ///
     ///
     /// For lists of the fields returned with each query type and more information about how each type of query is performed, see [ Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.

@@ -58,6 +58,221 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ControlTowerClientTypes.BaselineOperation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endTime
+        case operationIdentifier
+        case operationType
+        case startTime
+        case status
+        case statusMessage
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .dateTime, forKey: .endTime)
+        }
+        if let operationIdentifier = self.operationIdentifier {
+            try encodeContainer.encode(operationIdentifier, forKey: .operationIdentifier)
+        }
+        if let operationType = self.operationType {
+            try encodeContainer.encode(operationType.rawValue, forKey: .operationType)
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .dateTime, forKey: .startTime)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+        let operationTypeDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.BaselineOperationType.self, forKey: .operationType)
+        operationType = operationTypeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.BaselineOperationStatus.self, forKey: .status)
+        status = statusDecoded
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endTime)
+        endTime = endTimeDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// An object of shape BaselineOperation, returning details about the specified Baseline operation ID.
+    public struct BaselineOperation: Swift.Equatable {
+        /// The end time of the operation (if applicable), in ISO 8601 format.
+        public var endTime: ClientRuntime.Date?
+        /// The identifier of the specified operation.
+        public var operationIdentifier: Swift.String?
+        /// An enumerated type (enum) with possible values of ENABLE_BASELINE, DISABLE_BASELINE, UPDATE_ENABLED_BASELINE, or RESET_ENABLED_BASELINE.
+        public var operationType: ControlTowerClientTypes.BaselineOperationType?
+        /// The start time of the operation, in ISO 8601 format.
+        public var startTime: ClientRuntime.Date?
+        /// An enumerated type (enum) with possible values of SUCCEEDED, FAILED, or IN_PROGRESS.
+        public var status: ControlTowerClientTypes.BaselineOperationStatus?
+        /// A status message that gives more information about the operation's status, if applicable.
+        public var statusMessage: Swift.String?
+
+        public init(
+            endTime: ClientRuntime.Date? = nil,
+            operationIdentifier: Swift.String? = nil,
+            operationType: ControlTowerClientTypes.BaselineOperationType? = nil,
+            startTime: ClientRuntime.Date? = nil,
+            status: ControlTowerClientTypes.BaselineOperationStatus? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.endTime = endTime
+            self.operationIdentifier = operationIdentifier
+            self.operationType = operationType
+            self.startTime = startTime
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes {
+    public enum BaselineOperationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case inProgress
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaselineOperationStatus] {
+            return [
+                .failed,
+                .inProgress,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BaselineOperationStatus(rawValue: rawValue) ?? BaselineOperationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes {
+    public enum BaselineOperationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disableBaseline
+        case enableBaseline
+        case resetEnabledBaseline
+        case updateEnabledBaseline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [BaselineOperationType] {
+            return [
+                .disableBaseline,
+                .enableBaseline,
+                .resetEnabledBaseline,
+                .updateEnabledBaseline,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disableBaseline: return "DISABLE_BASELINE"
+            case .enableBaseline: return "ENABLE_BASELINE"
+            case .resetEnabledBaseline: return "RESET_ENABLED_BASELINE"
+            case .updateEnabledBaseline: return "UPDATE_ENABLED_BASELINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = BaselineOperationType(rawValue: rawValue) ?? BaselineOperationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension ControlTowerClientTypes.BaselineSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case description
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Returns a summary of information about a Baseline object.
+    public struct BaselineSummary: Swift.Equatable {
+        /// The full ARN of a Baseline.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// A summary description of a Baseline.
+        public var description: Swift.String?
+        /// The human-readable name of a Baseline.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            description: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.description = description
+            self.name = name
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -293,7 +508,7 @@ extension CreateLandingZoneInput {
 }
 
 public struct CreateLandingZoneInput: Swift.Equatable {
-    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
     /// This member is required.
     public var manifest: ClientRuntime.Document?
     /// Tags to be applied to the landing zone.
@@ -520,6 +735,113 @@ enum DeleteLandingZoneOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DisableBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledBaselineIdentifier = self.enabledBaselineIdentifier {
+            try encodeContainer.encode(enabledBaselineIdentifier, forKey: .enabledBaselineIdentifier)
+        }
+    }
+}
+
+extension DisableBaselineInput {
+
+    static func urlPathProvider(_ value: DisableBaselineInput) -> Swift.String? {
+        return "/disable-baseline"
+    }
+}
+
+public struct DisableBaselineInput: Swift.Equatable {
+    /// Identifier of the EnabledBaseline resource to be deactivated, in ARN format.
+    /// This member is required.
+    public var enabledBaselineIdentifier: Swift.String?
+
+    public init(
+        enabledBaselineIdentifier: Swift.String? = nil
+    )
+    {
+        self.enabledBaselineIdentifier = enabledBaselineIdentifier
+    }
+}
+
+struct DisableBaselineInputBody: Swift.Equatable {
+    let enabledBaselineIdentifier: Swift.String?
+}
+
+extension DisableBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledBaselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledBaselineIdentifier)
+        enabledBaselineIdentifier = enabledBaselineIdentifierDecoded
+    }
+}
+
+extension DisableBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DisableBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct DisableBaselineOutput: Swift.Equatable {
+    /// The ID (in UUID format) of the asynchronous DisableBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct DisableBaselineOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension DisableBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum DisableBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DisableControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlIdentifier
@@ -545,7 +867,7 @@ extension DisableControlInput {
 }
 
 public struct DisableControlInput: Swift.Equatable {
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
     /// The ARN of the organizational unit. For information on how to find the targetIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
@@ -721,6 +1043,198 @@ extension ControlTowerClientTypes {
 
 }
 
+extension EnableBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineIdentifier
+        case baselineVersion
+        case parameters
+        case tags
+        case targetIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baselineIdentifier = self.baselineIdentifier {
+            try encodeContainer.encode(baselineIdentifier, forKey: .baselineIdentifier)
+        }
+        if let baselineVersion = self.baselineVersion {
+            try encodeContainer.encode(baselineVersion, forKey: .baselineVersion)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledbaselineparameter0 in parameters {
+                try parametersContainer.encode(enabledbaselineparameter0)
+            }
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetIdentifier = self.targetIdentifier {
+            try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
+        }
+    }
+}
+
+extension EnableBaselineInput {
+
+    static func urlPathProvider(_ value: EnableBaselineInput) -> Swift.String? {
+        return "/enable-baseline"
+    }
+}
+
+public struct EnableBaselineInput: Swift.Equatable {
+    /// The ARN of the baseline to be enabled.
+    /// This member is required.
+    public var baselineIdentifier: Swift.String?
+    /// The specific version to be enabled of the specified baseline.
+    /// This member is required.
+    public var baselineVersion: Swift.String?
+    /// A list of key-value objects that specify enablement parameters, where key is a string and value is a document of any type.
+    public var parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
+    /// Tags associated with input to EnableBaseline.
+    public var tags: [Swift.String:Swift.String]?
+    /// The ARN of the target on which the baseline will be enabled. Only OUs are supported as targets.
+    /// This member is required.
+    public var targetIdentifier: Swift.String?
+
+    public init(
+        baselineIdentifier: Swift.String? = nil,
+        baselineVersion: Swift.String? = nil,
+        parameters: [ControlTowerClientTypes.EnabledBaselineParameter]? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetIdentifier: Swift.String? = nil
+    )
+    {
+        self.baselineIdentifier = baselineIdentifier
+        self.baselineVersion = baselineVersion
+        self.parameters = parameters
+        self.tags = tags
+        self.targetIdentifier = targetIdentifier
+    }
+}
+
+struct EnableBaselineInputBody: Swift.Equatable {
+    let baselineVersion: Swift.String?
+    let parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
+    let baselineIdentifier: Swift.String?
+    let targetIdentifier: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension EnableBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineIdentifier
+        case baselineVersion
+        case parameters
+        case tags
+        case targetIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baselineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineVersion)
+        baselineVersion = baselineVersionDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledBaselineParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledBaselineParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledBaselineParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let baselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineIdentifier)
+        baselineIdentifier = baselineIdentifierDecoded
+        let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
+        targetIdentifier = targetIdentifierDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension EnableBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EnableBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.arn = nil
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct EnableBaselineOutput: Swift.Equatable {
+    /// The ARN of the EnabledBaseline resource.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// The ID (in UUID format) of the asynchronous EnableBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct EnableBaselineOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+    let arn: Swift.String?
+}
+
+extension EnableBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+enum EnableBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension EnableControlInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case controlIdentifier
@@ -760,10 +1274,10 @@ extension EnableControlInput {
 }
 
 public struct EnableControlInput: Swift.Equatable {
-    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the landing zone Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
+    /// The ARN of the control. Only Strongly recommended and Elective controls are permitted, with the exception of the Region deny control. For information on how to find the controlIdentifier, see [the overview page](https://docs.aws.amazon.com/controltower/latest/APIReference/Welcome.html).
     /// This member is required.
     public var controlIdentifier: Swift.String?
-    /// An array of EnabledControlParameter objects
+    /// A list of input parameter values, which are specified to configure the control when you enable it.
     public var parameters: [ControlTowerClientTypes.EnabledControlParameter]?
     /// Tags to be applied to the EnabledControl resource.
     public var tags: [Swift.String:Swift.String]?
@@ -897,6 +1411,349 @@ enum EnableControlOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension ControlTowerClientTypes.EnabledBaselineDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case baselineIdentifier
+        case baselineVersion
+        case parameters
+        case statusSummary
+        case targetIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let baselineIdentifier = self.baselineIdentifier {
+            try encodeContainer.encode(baselineIdentifier, forKey: .baselineIdentifier)
+        }
+        if let baselineVersion = self.baselineVersion {
+            try encodeContainer.encode(baselineVersion, forKey: .baselineVersion)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledbaselineparametersummary0 in parameters {
+                try parametersContainer.encode(enabledbaselineparametersummary0)
+            }
+        }
+        if let statusSummary = self.statusSummary {
+            try encodeContainer.encode(statusSummary, forKey: .statusSummary)
+        }
+        if let targetIdentifier = self.targetIdentifier {
+            try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let baselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineIdentifier)
+        baselineIdentifier = baselineIdentifierDecoded
+        let baselineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineVersion)
+        baselineVersion = baselineVersionDecoded
+        let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
+        targetIdentifier = targetIdentifierDecoded
+        let statusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnablementStatusSummary.self, forKey: .statusSummary)
+        statusSummary = statusSummaryDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledBaselineParameterSummary?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledBaselineParameterSummary]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledBaselineParameterSummary]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Details of the EnabledBaseline resource.
+    public struct EnabledBaselineDetails: Swift.Equatable {
+        /// The ARN of the EnabledBaseline resource.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The specific Baseline enabled as part of the EnabledBaseline resource.
+        /// This member is required.
+        public var baselineIdentifier: Swift.String?
+        /// The enabled version of the Baseline.
+        public var baselineVersion: Swift.String?
+        /// Shows the parameters that are applied when enabling this Baseline.
+        public var parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]?
+        /// The deployment summary of the enabled control.
+        /// This member is required.
+        public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
+        /// The target on which to enable the Baseline.
+        /// This member is required.
+        public var targetIdentifier: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            baselineIdentifier: Swift.String? = nil,
+            baselineVersion: Swift.String? = nil,
+            parameters: [ControlTowerClientTypes.EnabledBaselineParameterSummary]? = nil,
+            statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
+            targetIdentifier: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.baselineIdentifier = baselineIdentifier
+            self.baselineVersion = baselineVersion
+            self.parameters = parameters
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledBaselineFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineIdentifiers
+        case targetIdentifiers
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baselineIdentifiers = baselineIdentifiers {
+            var baselineIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .baselineIdentifiers)
+            for arn0 in baselineIdentifiers {
+                try baselineIdentifiersContainer.encode(arn0)
+            }
+        }
+        if let targetIdentifiers = targetIdentifiers {
+            var targetIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .targetIdentifiers)
+            for arn0 in targetIdentifiers {
+                try targetIdentifiersContainer.encode(arn0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .targetIdentifiers)
+        var targetIdentifiersDecoded0:[Swift.String]? = nil
+        if let targetIdentifiersContainer = targetIdentifiersContainer {
+            targetIdentifiersDecoded0 = [Swift.String]()
+            for string0 in targetIdentifiersContainer {
+                if let string0 = string0 {
+                    targetIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        targetIdentifiers = targetIdentifiersDecoded0
+        let baselineIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .baselineIdentifiers)
+        var baselineIdentifiersDecoded0:[Swift.String]? = nil
+        if let baselineIdentifiersContainer = baselineIdentifiersContainer {
+            baselineIdentifiersDecoded0 = [Swift.String]()
+            for string0 in baselineIdentifiersContainer {
+                if let string0 = string0 {
+                    baselineIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        baselineIdentifiers = baselineIdentifiersDecoded0
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
+    public struct EnabledBaselineFilter: Swift.Equatable {
+        /// Identifiers for the Baseline objects returned as part of the filter operation.
+        public var baselineIdentifiers: [Swift.String]?
+        /// Identifiers for the targets of the Baseline filter operation.
+        public var targetIdentifiers: [Swift.String]?
+
+        public init(
+            baselineIdentifiers: [Swift.String]? = nil,
+            targetIdentifiers: [Swift.String]? = nil
+        )
+        {
+            self.baselineIdentifiers = baselineIdentifiers
+            self.targetIdentifiers = targetIdentifiers
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledBaselineParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// A key-value parameter to an EnabledBaseline resource.
+    public struct EnabledBaselineParameter: Swift.Equatable {
+        /// A string denoting the parameter key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// A low-level Document object of any type (for example, a Java Object).
+        /// This member is required.
+        public var value: ClientRuntime.Document?
+
+        public init(
+            key: Swift.String? = nil,
+            value: ClientRuntime.Document? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledBaselineParameterSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Summary of an applied parameter to an EnabledBaseline resource.
+    public struct EnabledBaselineParameterSummary: Swift.Equatable {
+        /// A string denoting the parameter key.
+        /// This member is required.
+        public var key: Swift.String?
+        /// A low-level document object of any type (for example, a Java Object).
+        /// This member is required.
+        public var value: ClientRuntime.Document?
+
+        public init(
+            key: Swift.String? = nil,
+            value: ClientRuntime.Document? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension ControlTowerClientTypes.EnabledBaselineSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case baselineIdentifier
+        case baselineVersion
+        case statusSummary
+        case targetIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let baselineIdentifier = self.baselineIdentifier {
+            try encodeContainer.encode(baselineIdentifier, forKey: .baselineIdentifier)
+        }
+        if let baselineVersion = self.baselineVersion {
+            try encodeContainer.encode(baselineVersion, forKey: .baselineVersion)
+        }
+        if let statusSummary = self.statusSummary {
+            try encodeContainer.encode(statusSummary, forKey: .statusSummary)
+        }
+        if let targetIdentifier = self.targetIdentifier {
+            try encodeContainer.encode(targetIdentifier, forKey: .targetIdentifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let baselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineIdentifier)
+        baselineIdentifier = baselineIdentifierDecoded
+        let baselineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineVersion)
+        baselineVersion = baselineVersionDecoded
+        let targetIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetIdentifier)
+        targetIdentifier = targetIdentifierDecoded
+        let statusSummaryDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnablementStatusSummary.self, forKey: .statusSummary)
+        statusSummary = statusSummaryDecoded
+    }
+}
+
+extension ControlTowerClientTypes {
+    /// Returns a summary of information about an EnabledBaseline object.
+    public struct EnabledBaselineSummary: Swift.Equatable {
+        /// The ARN of the EnabledBaseline resource
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The specific baseline that is enabled as part of the EnabledBaseline resource.
+        /// This member is required.
+        public var baselineIdentifier: Swift.String?
+        /// The enabled version of the baseline.
+        public var baselineVersion: Swift.String?
+        /// The deployment summary of the enabled control.
+        /// This member is required.
+        public var statusSummary: ControlTowerClientTypes.EnablementStatusSummary?
+        /// The target upon which the baseline is enabled.
+        /// This member is required.
+        public var targetIdentifier: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            baselineIdentifier: Swift.String? = nil,
+            baselineVersion: Swift.String? = nil,
+            statusSummary: ControlTowerClientTypes.EnablementStatusSummary? = nil,
+            targetIdentifier: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.baselineIdentifier = baselineIdentifier
+            self.baselineVersion = baselineVersion
+            self.statusSummary = statusSummary
+            self.targetIdentifier = targetIdentifier
+        }
+    }
+
 }
 
 extension ControlTowerClientTypes.EnabledControlDetails: Swift.Codable {
@@ -1044,12 +1901,12 @@ extension ControlTowerClientTypes.EnabledControlParameter: Swift.Codable {
 }
 
 extension ControlTowerClientTypes {
-    /// A set of parameters that configure the behavior of the enabled control. A key/value pair, where Key is of type String and Value is of type Document.
+    /// A key/value pair, where Key is of type String and Value is of type Document.
     public struct EnabledControlParameter: Swift.Equatable {
-        /// The key of a key/value pair. It is of type string.
+        /// The key of a key/value pair.
         /// This member is required.
         public var key: Swift.String?
-        /// The value of a key/value pair. It can be of type arraystring, number, object, or boolean.
+        /// The value of a key/value pair.
         /// This member is required.
         public var value: ClientRuntime.Document?
 
@@ -1273,6 +2130,237 @@ extension ControlTowerClientTypes {
 
 }
 
+extension GetBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baselineIdentifier = self.baselineIdentifier {
+            try encodeContainer.encode(baselineIdentifier, forKey: .baselineIdentifier)
+        }
+    }
+}
+
+extension GetBaselineInput {
+
+    static func urlPathProvider(_ value: GetBaselineInput) -> Swift.String? {
+        return "/get-baseline"
+    }
+}
+
+public struct GetBaselineInput: Swift.Equatable {
+    /// The ARN of the Baseline resource to be retrieved.
+    /// This member is required.
+    public var baselineIdentifier: Swift.String?
+
+    public init(
+        baselineIdentifier: Swift.String? = nil
+    )
+    {
+        self.baselineIdentifier = baselineIdentifier
+    }
+}
+
+struct GetBaselineInputBody: Swift.Equatable {
+    let baselineIdentifier: Swift.String?
+}
+
+extension GetBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineIdentifier)
+        baselineIdentifier = baselineIdentifierDecoded
+    }
+}
+
+extension GetBaselineOperationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let operationIdentifier = self.operationIdentifier {
+            try encodeContainer.encode(operationIdentifier, forKey: .operationIdentifier)
+        }
+    }
+}
+
+extension GetBaselineOperationInput {
+
+    static func urlPathProvider(_ value: GetBaselineOperationInput) -> Swift.String? {
+        return "/get-baseline-operation"
+    }
+}
+
+public struct GetBaselineOperationInput: Swift.Equatable {
+    /// The operation ID returned from mutating asynchronous APIs (Enable, Disable, Update, Reset).
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct GetBaselineOperationInputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension GetBaselineOperationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+extension GetBaselineOperationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBaselineOperationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.baselineOperation = output.baselineOperation
+        } else {
+            self.baselineOperation = nil
+        }
+    }
+}
+
+public struct GetBaselineOperationOutput: Swift.Equatable {
+    /// A baselineOperation object that shows information about the specified operation ID.
+    /// This member is required.
+    public var baselineOperation: ControlTowerClientTypes.BaselineOperation?
+
+    public init(
+        baselineOperation: ControlTowerClientTypes.BaselineOperation? = nil
+    )
+    {
+        self.baselineOperation = baselineOperation
+    }
+}
+
+struct GetBaselineOperationOutputBody: Swift.Equatable {
+    let baselineOperation: ControlTowerClientTypes.BaselineOperation?
+}
+
+extension GetBaselineOperationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineOperation
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baselineOperationDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.BaselineOperation.self, forKey: .baselineOperation)
+        baselineOperation = baselineOperationDecoded
+    }
+}
+
+enum GetBaselineOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.description = output.description
+            self.name = output.name
+        } else {
+            self.arn = nil
+            self.description = nil
+            self.name = nil
+        }
+    }
+}
+
+public struct GetBaselineOutput: Swift.Equatable {
+    /// The baseline ARN.
+    /// This member is required.
+    public var arn: Swift.String?
+    /// A description of the baseline.
+    public var description: Swift.String?
+    /// A user-friendly name for the baseline.
+    /// This member is required.
+    public var name: Swift.String?
+
+    public init(
+        arn: Swift.String? = nil,
+        description: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.arn = arn
+        self.description = description
+        self.name = name
+    }
+}
+
+struct GetBaselineOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let name: Swift.String?
+    let description: Swift.String?
+}
+
+extension GetBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case description
+        case name
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+enum GetBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetControlOperationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case operationIdentifier
@@ -1364,6 +2452,110 @@ extension GetControlOperationOutputBody: Swift.Decodable {
 }
 
 enum GetControlOperationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEnabledBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledBaselineIdentifier = self.enabledBaselineIdentifier {
+            try encodeContainer.encode(enabledBaselineIdentifier, forKey: .enabledBaselineIdentifier)
+        }
+    }
+}
+
+extension GetEnabledBaselineInput {
+
+    static func urlPathProvider(_ value: GetEnabledBaselineInput) -> Swift.String? {
+        return "/get-enabled-baseline"
+    }
+}
+
+public struct GetEnabledBaselineInput: Swift.Equatable {
+    /// Identifier of the EnabledBaseline resource to be retrieved, in ARN format.
+    /// This member is required.
+    public var enabledBaselineIdentifier: Swift.String?
+
+    public init(
+        enabledBaselineIdentifier: Swift.String? = nil
+    )
+    {
+        self.enabledBaselineIdentifier = enabledBaselineIdentifier
+    }
+}
+
+struct GetEnabledBaselineInputBody: Swift.Equatable {
+    let enabledBaselineIdentifier: Swift.String?
+}
+
+extension GetEnabledBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledBaselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledBaselineIdentifier)
+        enabledBaselineIdentifier = enabledBaselineIdentifierDecoded
+    }
+}
+
+extension GetEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEnabledBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enabledBaselineDetails = output.enabledBaselineDetails
+        } else {
+            self.enabledBaselineDetails = nil
+        }
+    }
+}
+
+public struct GetEnabledBaselineOutput: Swift.Equatable {
+    /// Details of the EnabledBaseline resource.
+    public var enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails?
+
+    public init(
+        enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails? = nil
+    )
+    {
+        self.enabledBaselineDetails = enabledBaselineDetails
+    }
+}
+
+struct GetEnabledBaselineOutputBody: Swift.Equatable {
+    let enabledBaselineDetails: ControlTowerClientTypes.EnabledBaselineDetails?
+}
+
+extension GetEnabledBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineDetails
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledBaselineDetailsDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnabledBaselineDetails.self, forKey: .enabledBaselineDetails)
+        enabledBaselineDetails = enabledBaselineDetailsDecoded
+    }
+}
+
+enum GetEnabledBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -1807,10 +2999,10 @@ extension ControlTowerClientTypes {
         public var driftStatus: ControlTowerClientTypes.LandingZoneDriftStatusSummary?
         /// The latest available version of the landing zone.
         public var latestAvailableVersion: Swift.String?
-        /// The landing zone manifest JSON text file that specifies the landing zone configurations.
+        /// The landing zone manifest.yaml text file that specifies the landing zone configurations.
         /// This member is required.
         public var manifest: ClientRuntime.Document?
-        /// The landing zone deployment status.
+        /// The landing zone deployment status. One of ACTIVE, PROCESSING, FAILED.
         public var status: ControlTowerClientTypes.LandingZoneStatus?
         /// The landing zone's current deployed version.
         /// This member is required.
@@ -2137,6 +3329,286 @@ extension ControlTowerClientTypes {
         }
     }
 
+}
+
+extension ListBaselinesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListBaselinesInput {
+
+    static func urlPathProvider(_ value: ListBaselinesInput) -> Swift.String? {
+        return "/list-baselines"
+    }
+}
+
+public struct ListBaselinesInput: Swift.Equatable {
+    /// The maximum number of results to be shown.
+    public var maxResults: Swift.Int?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBaselinesInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListBaselinesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListBaselinesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBaselinesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.baselines = output.baselines
+            self.nextToken = output.nextToken
+        } else {
+            self.baselines = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListBaselinesOutput: Swift.Equatable {
+    /// A list of Baseline object details.
+    /// This member is required.
+    public var baselines: [ControlTowerClientTypes.BaselineSummary]?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        baselines: [ControlTowerClientTypes.BaselineSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.baselines = baselines
+        self.nextToken = nextToken
+    }
+}
+
+struct ListBaselinesOutputBody: Swift.Equatable {
+    let baselines: [ControlTowerClientTypes.BaselineSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListBaselinesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselines
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baselinesContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.BaselineSummary?].self, forKey: .baselines)
+        var baselinesDecoded0:[ControlTowerClientTypes.BaselineSummary]? = nil
+        if let baselinesContainer = baselinesContainer {
+            baselinesDecoded0 = [ControlTowerClientTypes.BaselineSummary]()
+            for structure0 in baselinesContainer {
+                if let structure0 = structure0 {
+                    baselinesDecoded0?.append(structure0)
+                }
+            }
+        }
+        baselines = baselinesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListBaselinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEnabledBaselinesInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case maxResults
+        case nextToken
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListEnabledBaselinesInput {
+
+    static func urlPathProvider(_ value: ListEnabledBaselinesInput) -> Swift.String? {
+        return "/list-enabled-baselines"
+    }
+}
+
+public struct ListEnabledBaselinesInput: Swift.Equatable {
+    /// A filter applied on the ListEnabledBaseline operation. Allowed filters are baselineIdentifiers and targetIdentifiers. The filter can be applied for either, or both.
+    public var filter: ControlTowerClientTypes.EnabledBaselineFilter?
+    /// The maximum number of results to be shown.
+    public var maxResults: Swift.Int?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        filter: ControlTowerClientTypes.EnabledBaselineFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.filter = filter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEnabledBaselinesInputBody: Swift.Equatable {
+    let filter: ControlTowerClientTypes.EnabledBaselineFilter?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListEnabledBaselinesInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
+        case maxResults
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterDecoded = try containerValues.decodeIfPresent(ControlTowerClientTypes.EnabledBaselineFilter.self, forKey: .filter)
+        filter = filterDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListEnabledBaselinesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEnabledBaselinesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.enabledBaselines = output.enabledBaselines
+            self.nextToken = output.nextToken
+        } else {
+            self.enabledBaselines = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListEnabledBaselinesOutput: Swift.Equatable {
+    /// Retuens a list of summaries of EnabledBaseline resources.
+    /// This member is required.
+    public var enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]?
+    /// A pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.enabledBaselines = enabledBaselines
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEnabledBaselinesOutputBody: Swift.Equatable {
+    let enabledBaselines: [ControlTowerClientTypes.EnabledBaselineSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEnabledBaselinesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselines
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledBaselinesContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledBaselineSummary?].self, forKey: .enabledBaselines)
+        var enabledBaselinesDecoded0:[ControlTowerClientTypes.EnabledBaselineSummary]? = nil
+        if let enabledBaselinesContainer = enabledBaselinesContainer {
+            enabledBaselinesDecoded0 = [ControlTowerClientTypes.EnabledBaselineSummary]()
+            for structure0 in enabledBaselinesContainer {
+                if let structure0 = structure0 {
+                    enabledBaselinesDecoded0?.append(structure0)
+                }
+            }
+        }
+        enabledBaselines = enabledBaselinesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEnabledBaselinesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ListEnabledControlsInput: Swift.Encodable {
@@ -2551,6 +4023,113 @@ extension ControlTowerClientTypes {
 
 }
 
+extension ResetEnabledBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let enabledBaselineIdentifier = self.enabledBaselineIdentifier {
+            try encodeContainer.encode(enabledBaselineIdentifier, forKey: .enabledBaselineIdentifier)
+        }
+    }
+}
+
+extension ResetEnabledBaselineInput {
+
+    static func urlPathProvider(_ value: ResetEnabledBaselineInput) -> Swift.String? {
+        return "/reset-enabled-baseline"
+    }
+}
+
+public struct ResetEnabledBaselineInput: Swift.Equatable {
+    /// Specifies the ID of the EnabledBaseline resource to be re-enabled, in ARN format.
+    /// This member is required.
+    public var enabledBaselineIdentifier: Swift.String?
+
+    public init(
+        enabledBaselineIdentifier: Swift.String? = nil
+    )
+    {
+        self.enabledBaselineIdentifier = enabledBaselineIdentifier
+    }
+}
+
+struct ResetEnabledBaselineInputBody: Swift.Equatable {
+    let enabledBaselineIdentifier: Swift.String?
+}
+
+extension ResetEnabledBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case enabledBaselineIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let enabledBaselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledBaselineIdentifier)
+        enabledBaselineIdentifier = enabledBaselineIdentifierDecoded
+    }
+}
+
+extension ResetEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResetEnabledBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct ResetEnabledBaselineOutput: Swift.Equatable {
+    /// The ID (in UUID format) of the asynchronous ResetEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct ResetEnabledBaselineOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension ResetEnabledBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum ResetEnabledBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ResetLandingZoneInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case landingZoneIdentifier
@@ -2893,7 +4472,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
         public internal(set) var message: Swift.String? = nil
         /// The ID of the service quota that was exceeded.
         public internal(set) var quotaCode: Swift.String? = nil
-        /// The number of seconds to wait before retrying.
+        /// The number of seconds the caller should wait before retrying.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
         /// The ID of the service that is associated with the error.
         public internal(set) var serviceCode: Swift.String? = nil
@@ -3016,6 +4595,150 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEnabledBaselineInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineVersion
+        case enabledBaselineIdentifier
+        case parameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let baselineVersion = self.baselineVersion {
+            try encodeContainer.encode(baselineVersion, forKey: .baselineVersion)
+        }
+        if let enabledBaselineIdentifier = self.enabledBaselineIdentifier {
+            try encodeContainer.encode(enabledBaselineIdentifier, forKey: .enabledBaselineIdentifier)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for enabledbaselineparameter0 in parameters {
+                try parametersContainer.encode(enabledbaselineparameter0)
+            }
+        }
+    }
+}
+
+extension UpdateEnabledBaselineInput {
+
+    static func urlPathProvider(_ value: UpdateEnabledBaselineInput) -> Swift.String? {
+        return "/update-enabled-baseline"
+    }
+}
+
+public struct UpdateEnabledBaselineInput: Swift.Equatable {
+    /// Specifies the new Baseline version, to which the EnabledBaseline should be updated.
+    /// This member is required.
+    public var baselineVersion: Swift.String?
+    /// Specifies the EnabledBaseline resource to be updated.
+    /// This member is required.
+    public var enabledBaselineIdentifier: Swift.String?
+    /// Parameters to apply when making an update.
+    public var parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
+
+    public init(
+        baselineVersion: Swift.String? = nil,
+        enabledBaselineIdentifier: Swift.String? = nil,
+        parameters: [ControlTowerClientTypes.EnabledBaselineParameter]? = nil
+    )
+    {
+        self.baselineVersion = baselineVersion
+        self.enabledBaselineIdentifier = enabledBaselineIdentifier
+        self.parameters = parameters
+    }
+}
+
+struct UpdateEnabledBaselineInputBody: Swift.Equatable {
+    let baselineVersion: Swift.String?
+    let parameters: [ControlTowerClientTypes.EnabledBaselineParameter]?
+    let enabledBaselineIdentifier: Swift.String?
+}
+
+extension UpdateEnabledBaselineInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case baselineVersion
+        case enabledBaselineIdentifier
+        case parameters
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let baselineVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .baselineVersion)
+        baselineVersion = baselineVersionDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([ControlTowerClientTypes.EnabledBaselineParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[ControlTowerClientTypes.EnabledBaselineParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [ControlTowerClientTypes.EnabledBaselineParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let enabledBaselineIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .enabledBaselineIdentifier)
+        enabledBaselineIdentifier = enabledBaselineIdentifierDecoded
+    }
+}
+
+extension UpdateEnabledBaselineOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEnabledBaselineOutputBody = try responseDecoder.decode(responseBody: data)
+            self.operationIdentifier = output.operationIdentifier
+        } else {
+            self.operationIdentifier = nil
+        }
+    }
+}
+
+public struct UpdateEnabledBaselineOutput: Swift.Equatable {
+    /// The ID (in UUID format) of the asynchronous UpdateEnabledBaseline operation. This operationIdentifier is used to track status through calls to the GetBaselineOperation API.
+    /// This member is required.
+    public var operationIdentifier: Swift.String?
+
+    public init(
+        operationIdentifier: Swift.String? = nil
+    )
+    {
+        self.operationIdentifier = operationIdentifier
+    }
+}
+
+struct UpdateEnabledBaselineOutputBody: Swift.Equatable {
+    let operationIdentifier: Swift.String?
+}
+
+extension UpdateEnabledBaselineOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case operationIdentifier
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let operationIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .operationIdentifier)
+        operationIdentifier = operationIdentifierDecoded
+    }
+}
+
+enum UpdateEnabledBaselineOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3186,7 +4909,7 @@ public struct UpdateLandingZoneInput: Swift.Equatable {
     /// The unique identifier of the landing zone.
     /// This member is required.
     public var landingZoneIdentifier: Swift.String?
-    /// The manifest JSON file is a text file that describes your Amazon Web Services resources. For examples, review [Launch your landing zone](https://docs.aws.amazon.com/controltower/latest/userguide/lz-api-launch).
+    /// The manifest.yaml file is a text file that describes your Amazon Web Services resources. For examples, review [The manifest file](https://docs.aws.amazon.com/controltower/latest/userguide/the-manifest-file).
     /// This member is required.
     public var manifest: ClientRuntime.Document?
     /// The landing zone version, for example, 3.2.

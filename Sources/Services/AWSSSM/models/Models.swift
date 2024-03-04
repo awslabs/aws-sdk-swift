@@ -9915,7 +9915,7 @@ extension DeleteParameterInput {
 }
 
 public struct DeleteParameterInput: Swift.Equatable {
-    /// The name of the parameter to delete.
+    /// The name of the parameter to delete. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var name: Swift.String?
 
@@ -9989,7 +9989,7 @@ extension DeleteParametersInput {
 }
 
 public struct DeleteParametersInput: Swift.Equatable {
-    /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name.
+    /// The names of the parameters to delete. After deleting a parameter, wait for at least 30 seconds to create a parameter with the same name. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var names: [Swift.String]?
 
@@ -10381,8 +10381,11 @@ enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedResourcePolicyDocumentException": return try await MalformedResourcePolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyConflictException": return try await ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyInvalidParameterException": return try await ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotFoundException": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -15276,6 +15279,7 @@ extension DescribeParametersInput: Swift.Encodable {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case parameterFilters = "ParameterFilters"
+        case shared = "Shared"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -15298,6 +15302,9 @@ extension DescribeParametersInput: Swift.Encodable {
                 try parameterFiltersContainer.encode(parameterstringfilter0)
             }
         }
+        if let shared = self.shared {
+            try encodeContainer.encode(shared, forKey: .shared)
+        }
     }
 }
 
@@ -15317,18 +15324,22 @@ public struct DescribeParametersInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// Filters to limit the request results.
     public var parameterFilters: [SSMClientTypes.ParameterStringFilter]?
+    /// Lists parameters that are shared with you. By default when using this option, the command returns parameters that have been shared using a standard Resource Access Manager Resource Share. In order for a parameter that was shared using the [PutResourcePolicy] command to be returned, the associated RAM Resource Share Created From Policy must have been promoted to a standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. For more information about sharing parameters, see [Working with shared parameters] in the Amazon Web Services Systems Manager User Guide.
+    public var shared: Swift.Bool?
 
     public init(
         filters: [SSMClientTypes.ParametersFilter]? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
-        parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil
+        parameterFilters: [SSMClientTypes.ParameterStringFilter]? = nil,
+        shared: Swift.Bool? = nil
     )
     {
         self.filters = filters
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.parameterFilters = parameterFilters
+        self.shared = shared
     }
 }
 
@@ -15337,6 +15348,7 @@ struct DescribeParametersInputBody: Swift.Equatable {
     let parameterFilters: [SSMClientTypes.ParameterStringFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
+    let shared: Swift.Bool?
 }
 
 extension DescribeParametersInputBody: Swift.Decodable {
@@ -15345,6 +15357,7 @@ extension DescribeParametersInputBody: Swift.Decodable {
         case maxResults = "MaxResults"
         case nextToken = "NextToken"
         case parameterFilters = "ParameterFilters"
+        case shared = "Shared"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -15375,6 +15388,8 @@ extension DescribeParametersInputBody: Swift.Decodable {
         maxResults = maxResultsDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
+        let sharedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shared)
+        shared = sharedDecoded
     }
 }
 
@@ -22186,7 +22201,7 @@ extension GetParameterHistoryInput {
 public struct GetParameterHistoryInput: Swift.Equatable {
     /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
     public var maxResults: Swift.Int?
-    /// The name of the parameter for which you want to review history.
+    /// The name or Amazon Resource Name (ARN) of the parameter for which you want to review history. For parameters shared with you from another account, you must use the full ARN.
     /// This member is required.
     public var name: Swift.String?
     /// The token for the next set of items to return. (You received this token from a previous call.)
@@ -22334,7 +22349,7 @@ extension GetParameterInput {
 }
 
 public struct GetParameterInput: Swift.Equatable {
-    /// The name of the parameter you want to query. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".
+    /// The name or Amazon Resource Name (ARN) of the parameter that you want to query. For parameters shared with you from another account, you must use the full ARN. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sharing.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var name: Swift.String?
     /// Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
@@ -22648,7 +22663,7 @@ extension GetParametersInput {
 }
 
 public struct GetParametersInput: Swift.Equatable {
-    /// Names of the parameters for which you want to query information. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version".
+    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sharing.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var names: [Swift.String]?
     /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
@@ -23321,6 +23336,7 @@ enum GetResourcePoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyInvalidParameterException": return try await ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -28559,7 +28575,7 @@ public struct LabelParameterVersionInput: Swift.Equatable {
     /// One or more labels to attach to the specified parameter version.
     /// This member is required.
     public var labels: [Swift.String]?
-    /// The parameter name on which you want to attach one or more labels.
+    /// The parameter name on which you want to attach one or more labels. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var name: Swift.String?
     /// The specific version of the parameter on which you want to attach one or more labels. If no version is specified, the system attaches the label to the latest version.
@@ -33032,6 +33048,61 @@ extension SSMClientTypes {
     }
 }
 
+extension MalformedResourcePolicyDocumentException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: MalformedResourcePolicyDocumentExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified policy document is malformed or invalid, or excessive PutResourcePolicy or DeleteResourcePolicy calls have been made.
+public struct MalformedResourcePolicyDocumentException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "MalformedResourcePolicyDocumentException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct MalformedResourcePolicyDocumentExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension MalformedResourcePolicyDocumentExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension MaxDocumentSizeExceeded {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -36904,6 +36975,7 @@ extension ParameterMaxVersionLimitExceededBody: Swift.Decodable {
 
 extension SSMClientTypes.ParameterMetadata: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "ARN"
         case allowedPattern = "AllowedPattern"
         case dataType = "DataType"
         case description = "Description"
@@ -36919,6 +36991,9 @@ extension SSMClientTypes.ParameterMetadata: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let allowedPattern = self.allowedPattern {
             try encodeContainer.encode(allowedPattern, forKey: .allowedPattern)
         }
@@ -36961,6 +37036,8 @@ extension SSMClientTypes.ParameterMetadata: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let typeDecoded = try containerValues.decodeIfPresent(SSMClientTypes.ParameterType.self, forKey: .type)
         type = typeDecoded
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
@@ -36994,10 +37071,12 @@ extension SSMClientTypes.ParameterMetadata: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// Metadata includes information like the ARN of the last user and the date/time the parameter was last used.
+    /// Metadata includes information like the Amazon Resource Name (ARN) of the last user to update the parameter and the date and time the parameter was last used.
     public struct ParameterMetadata: Swift.Equatable {
         /// A parameter name can include only the following letters and symbols. a-zA-Z0-9_.-
         public var allowedPattern: Swift.String?
+        /// The (ARN) of the last user to update the parameter.
+        public var arn: Swift.String?
         /// The data type of the parameter, such as text or aws:ec2:image. The default is text.
         public var dataType: Swift.String?
         /// Description of the parameter actions.
@@ -37021,6 +37100,7 @@ extension SSMClientTypes {
 
         public init(
             allowedPattern: Swift.String? = nil,
+            arn: Swift.String? = nil,
             dataType: Swift.String? = nil,
             description: Swift.String? = nil,
             keyId: Swift.String? = nil,
@@ -37034,6 +37114,7 @@ extension SSMClientTypes {
         )
         {
             self.allowedPattern = allowedPattern
+            self.arn = arn
             self.dataType = dataType
             self.description = description
             self.keyId = keyId
@@ -39461,7 +39542,7 @@ public struct PutParameterInput: Swift.Equatable {
     ///
     /// * To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
     public var keyId: Swift.String?
-    /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
+    /// The fully qualified name of the parameter that you want to add to the system. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13 Naming Constraints:
     ///
     /// * Parameter names are case sensitive.
     ///
@@ -39828,9 +39909,12 @@ enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "MalformedResourcePolicyDocumentException": return try await MalformedResourcePolicyDocumentException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyConflictException": return try await ResourcePolicyConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyInvalidParameterException": return try await ResourcePolicyInvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourcePolicyLimitExceededException": return try await ResourcePolicyLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourcePolicyNotFoundException": return try await ResourcePolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -42056,6 +42140,61 @@ extension ResourceLimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ResourceNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourceNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The specified parameter to be shared could not be found.
+public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourceNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourceNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourceNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ResourcePolicyConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -42252,6 +42391,61 @@ extension ResourcePolicyLimitExceededExceptionBody: Swift.Decodable {
         limit = limitDecoded
         let limitTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .limitType)
         limitType = limitTypeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension ResourcePolicyNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ResourcePolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// No policies with the specified policy ID and hash could be found.
+public struct ResourcePolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ResourcePolicyNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ResourcePolicyNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ResourcePolicyNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
@@ -46272,7 +46466,7 @@ public struct UnlabelParameterVersionInput: Swift.Equatable {
     /// One or more labels to delete from the specified parameter version.
     /// This member is required.
     public var labels: [Swift.String]?
-    /// The name of the parameter from which you want to delete one or more labels.
+    /// The name of the parameter from which you want to delete one or more labels. You can't enter the Amazon Resource Name (ARN) for a parameter, only the parameter name itself.
     /// This member is required.
     public var name: Swift.String?
     /// The specific version of the parameter which you want to delete one or more labels from. If it isn't present, the call will fail.

@@ -951,7 +951,7 @@ extension BatchClientTypes.ComputeEnvironmentOrder: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// The order that compute environments are tried in for job placement within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
+    /// The order that compute environments are tried in for job placement within a queue. Compute environments are tried in ascending order. For example, if two compute environments are associated with a job queue, the compute environment with a lower order integer value is tried for job placement first. Compute environments must be in the VALID state before you can associate them with a job queue. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); Amazon EC2 and Fargate compute environments can't be mixed. All compute environments that are associated with a job queue must share the same architecture. Batch doesn't support mixing compute environment architecture types in a single job queue.
     public struct ComputeEnvironmentOrder: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the compute environment.
         /// This member is required.
@@ -1156,7 +1156,7 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var desiredvCpus: Swift.Int?
-        /// Provides information that's used to select Amazon Machine Images (AMIs) for EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information that's used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
         /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
@@ -1167,7 +1167,7 @@ extension BatchClientTypes {
         public var instanceRole: Swift.String?
         /// The instances types that can be launched. You can specify instance families to launch any instance type within those families (for example, c5 or p3), or you can specify specific sizes within a family (such as c5.8xlarge). You can also choose optimal to select instance types (from the C4, M4, and R4 instance families) that match the demand of your job queues. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. When you create a compute environment, the instance types that you select for the compute environment must share the same architecture. For example, you can't mix x86 and ARM instances in the same compute environment. Currently, optimal uses instance types from the C4, M4, and R4 instance families. In Regions that don't have instance types from those instance families, instance types from the C5, M5, and R5 instance families are used.
         public var instanceTypes: [Swift.String]?
-        /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment] API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The launch template to use for your compute resources. Any other compute resource parameters that you specify in a [CreateComputeEnvironment](https://docs.aws.amazon.com/batch/latest/APIReference/API_CreateComputeEnvironment.html) API operation override the same parameters in the launch template. You must specify either the launch template ID or launch template name in the request, but not both. For more information, see [Launch template support](https://docs.aws.amazon.com/batch/latest/userguide/launch-templates.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var launchTemplate: BatchClientTypes.LaunchTemplateSpecification?
         /// The maximum number of vCPUs that a compute environment can support. With BEST_FIT_PROGRESSIVE,SPOT_CAPACITY_OPTIMIZED and SPOT_PRICE_CAPACITY_OPTIMIZED (recommended) strategies using On-Demand or Spot Instances, and the BEST_FIT strategy using Spot Instances, Batch might need to exceed maxvCpus to meet your capacity requirements. In this event, Batch never exceeds maxvCpus by more than a single instance.
         /// This member is required.
@@ -1183,7 +1183,7 @@ extension BatchClientTypes {
         /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
         /// This member is required.
         public var subnets: [Swift.String]?
-        /// Key-value pair tags to be applied to EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String:Swift.String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide.
         /// This member is required.
@@ -1415,9 +1415,9 @@ extension BatchClientTypes {
         public var bidPercentage: Swift.Int?
         /// The desired number of vCPUS in the compute environment. Batch modifies this value between the minimum and maximum values based on job queue demand. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. Batch doesn't support changing the desired number of vCPUs of an existing compute environment. Don't specify this parameter for compute environments using Amazon EKS clusters. When you update the desiredvCpus setting, the value must be between the minvCpus and maxvCpus values. Additionally, the updated desiredvCpus value must be greater than or equal to the current desiredvCpus value. For more information, see [Troubleshooting Batch](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#error-desired-vcpus-update) in the Batch User Guide.
         public var desiredvCpus: Swift.Int?
-        /// Provides information used to select Amazon Machine Images (AMIs) for EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Provides information used to select Amazon Machine Images (AMIs) for Amazon EC2 instances in the compute environment. If Ec2Configuration isn't specified, the default is ECS_AL2. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. To remove the Amazon EC2 configuration and any custom AMI ID specified in imageIdOverride, set this value to an empty string. One or two values can be provided. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2Configuration: [BatchClientTypes.Ec2Configuration]?
-        /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the EC2 key pair requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// The Amazon EC2 key pair that's used for instances launched in the compute environment. You can use this key pair to log in to your instances with SSH. To remove the Amazon EC2 key pair, set this value to an empty string. When updating a compute environment, changing the Amazon EC2 key pair requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var ec2KeyPair: Swift.String?
         /// The Amazon Machine Image (AMI) ID used for instances launched in the compute environment. This parameter is overridden by the imageIdOverride member of the Ec2Configuration structure. To remove the custom AMI ID and use the default AMI ID, set this value to an empty string. When updating a compute environment, changing the AMI ID requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it. The AMI that you choose for a compute environment must match the architecture of the instance types that you intend to use for that compute environment. For example, if your compute environment uses A1 instance types, the compute resource AMI that you choose must support ARM instances. Amazon ECS vends both x86 and ARM versions of the Amazon ECS-optimized Amazon Linux 2 AMI. For more information, see [Amazon ECS-optimized Amazon Linux 2 AMI](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html#ecs-optimized-ami-linux-variants.html) in the Amazon Elastic Container Service Developer Guide.
         public var imageId: Swift.String?
@@ -1433,11 +1433,11 @@ extension BatchClientTypes {
         public var minvCpus: Swift.Int?
         /// The Amazon EC2 placement group to associate with your compute resources. If you intend to submit multi-node parallel jobs to your compute environment, you should consider creating a cluster placement group and associate it with your compute resources. This keeps your multi-node parallel job on a logical grouping of instances within a single Availability Zone with high network flow potential. For more information, see [Placement groups](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html) in the Amazon EC2 User Guide for Linux Instances. When updating a compute environment, changing the placement group requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var placementGroup: Swift.String?
-        /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. This parameter is required for Fargate compute resources, where it can contain up to 5 security groups. For Fargate compute resources, providing an empty list is handled as if this parameter wasn't specified and no change is made. For EC2 compute resources, providing an empty list removes the security groups from the compute resource. When updating a compute environment, changing the EC2 security groups requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
+        /// The Amazon EC2 security groups that are associated with instances launched in the compute environment. This parameter is required for Fargate compute resources, where it can contain up to 5 security groups. For Fargate compute resources, providing an empty list is handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the security groups from the compute resource. When updating a compute environment, changing the Amazon EC2 security groups requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var securityGroupIds: [Swift.String]?
-        /// The VPC subnets where the compute resources are launched. Fargate compute resources can contain up to 16 subnets. For Fargate compute resources, providing an empty list will be handled as if this parameter wasn't specified and no change is made. For EC2 compute resources, providing an empty list removes the VPC subnets from the compute resource. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. When updating a compute environment, changing the VPC subnets requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
+        /// The VPC subnets where the compute resources are launched. Fargate compute resources can contain up to 16 subnets. For Fargate compute resources, providing an empty list will be handled as if this parameter wasn't specified and no change is made. For Amazon EC2 compute resources, providing an empty list removes the VPC subnets from the compute resource. For more information, see [VPCs and subnets](https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html) in the Amazon VPC User Guide. When updating a compute environment, changing the VPC subnets requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. Batch on Amazon EC2 and Batch on Amazon EKS support Local Zones. For more information, see [ Local Zones](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-local-zones) in the Amazon EC2 User Guide for Linux Instances, [Amazon EKS and Amazon Web Services Local Zones](https://docs.aws.amazon.com/eks/latest/userguide/local-zones.html) in the Amazon EKS User Guide and [ Amazon ECS clusters in Local Zones, Wavelength Zones, and Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/cluster-regions-zones.html#clusters-local-zones) in the Amazon ECS Developer Guide. Batch on Fargate doesn't currently support Local Zones.
         public var subnets: [Swift.String]?
-        /// Key-value pair tags to be applied to EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
+        /// Key-value pair tags to be applied to Amazon EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value-for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags aren't seen when using the Batch ListTagsForResource API operation. When updating a compute environment, changing this setting requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide. This parameter isn't applicable to jobs that are running on Fargate resources. Don't specify it.
         public var tags: [Swift.String:Swift.String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see [Compute environments](https://docs.aws.amazon.com/batch/latest/userguide/compute_environments.html) in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see [Amazon EC2 spot fleet role](https://docs.aws.amazon.com/batch/latest/userguide/spot_fleet_IAM_role.html) in the Batch User Guide. When updating a compute environment, changing the type of a compute environment requires an infrastructure update of the compute environment. For more information, see [Updating compute environments](https://docs.aws.amazon.com/batch/latest/userguide/updating-compute-environments.html) in the Batch User Guide.
         public var type: BatchClientTypes.CRType?
@@ -1782,9 +1782,9 @@ extension BatchClientTypes {
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
-        /// The exit code to return upon completion.
+        /// The exit code returned upon completion.
         public var exitCode: Swift.Int?
-        /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
+        /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration?
         /// The image used to start the container.
         public var image: Swift.String?
@@ -1794,15 +1794,15 @@ extension BatchClientTypes {
         public var jobRoleArn: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance. Or, alternatively, it must be configured on a different log server for remote logging options. For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration] data type). Additional log drivers might be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However, the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance. Or, alternatively, it must be configured on a different log server for remote logging options. For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). Additional log drivers might be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
         /// The name of the Amazon CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
         public var logStreamName: Swift.String?
-        /// For jobs running on EC2 resources that didn't specify memory requirements using resourceRequirements, the number of MiB of memory reserved for the job. For other jobs, including all run on Fargate resources, see resourceRequirements.
+        /// For jobs running on Amazon EC2 resources that didn't specify memory requirements using resourceRequirements, the number of MiB of memory reserved for the job. For other jobs, including all run on Fargate resources, see resourceRequirements.
         public var memory: Swift.Int?
         /// The mount points for data volumes in your container.
         public var mountPoints: [BatchClientTypes.MountPoint]?
-        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
         /// The network interfaces that are associated with the job.
         public var networkInterfaces: [BatchClientTypes.NetworkInterface]?
@@ -1826,7 +1826,7 @@ extension BatchClientTypes {
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var user: Swift.String?
-        /// The number of vCPUs reserved for the container. For jobs that run on EC2 resources, you can specify the vCPU requirement for the job using resourceRequirements, but you can't specify the vCPU requirements in both the vcpus and resourceRequirements object. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU. This is required but can be specified in several places. It must be specified for each node at least once. This parameter isn't applicable to jobs that run on Fargate resources. For jobs that run on Fargate resources, you must specify the vCPU requirement for the job using resourceRequirements.
+        /// The number of vCPUs reserved for the container. For jobs that run on Amazon EC2 resources, you can specify the vCPU requirement for the job using resourceRequirements, but you can't specify the vCPU requirements in both the vcpus and resourceRequirements object. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. You must specify at least one vCPU. This is required but can be specified in several places. It must be specified for each node at least once. This parameter isn't applicable to jobs that run on Fargate resources. For jobs that run on Fargate resources, you must specify the vCPU requirement for the job using resourceRequirements.
         public var vcpus: Swift.Int?
         /// A list of volumes that are associated with the job.
         public var volumes: [BatchClientTypes.Volume]?
@@ -1991,12 +1991,12 @@ extension BatchClientTypes {
         public var environment: [BatchClientTypes.KeyValuePair]?
         /// The instance type to use for a multi-node parallel job. This parameter isn't applicable to single-node container jobs or jobs that run on Fargate resources, and shouldn't be provided.
         public var instanceType: Swift.String?
-        /// This parameter is deprecated, use resourceRequirements to override the memory requirements specified in the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on EC2 resources, it overrides the memory parameter set in the job definition, but doesn't override any memory requirement that's specified in the resourceRequirements structure in the job definition. To override memory requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to MEMORY and value set to the new value. For more information, see [Can't override job definition resource requirements](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements) in the Batch User Guide.
+        /// This parameter is deprecated, use resourceRequirements to override the memory requirements specified in the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on Amazon EC2 resources, it overrides the memory parameter set in the job definition, but doesn't override any memory requirement that's specified in the resourceRequirements structure in the job definition. To override memory requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to MEMORY and value set to the new value. For more information, see [Can't override job definition resource requirements](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements) in the Batch User Guide.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var memory: Swift.Int?
         /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY, and VCPU.
         public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
-        /// This parameter is deprecated, use resourceRequirements to override the vcpus parameter that's set in the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on EC2 resources, it overrides the vcpus parameter set in the job definition, but doesn't override any vCPU requirement specified in the resourceRequirements structure in the job definition. To override vCPU requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to VCPU and value set to the new value. For more information, see [Can't override job definition resource requirements](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements) in the Batch User Guide.
+        /// This parameter is deprecated, use resourceRequirements to override the vcpus parameter that's set in the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on Amazon EC2 resources, it overrides the vcpus parameter set in the job definition, but doesn't override any vCPU requirement specified in the resourceRequirements structure in the job definition. To override vCPU requirements that are specified in the resourceRequirements structure in the job definition, resourceRequirements must be specified in the SubmitJob request, with type set to VCPU and value set to the new value. For more information, see [Can't override job definition resource requirements](https://docs.aws.amazon.com/batch/latest/userguide/troubleshooting.html#override-resource-requirements) in the Batch User Guide.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var vcpus: Swift.Int?
 
@@ -2266,7 +2266,7 @@ extension BatchClientTypes {
         public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
         /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
         public var executionRoleArn: Swift.String?
-        /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
+        /// The platform configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var fargatePlatformConfiguration: BatchClientTypes.FargatePlatformConfiguration?
         /// Required. The image used to start a container. This string is passed directly to the Docker daemon. Images in the Docker Hub registry are available by default. Other repositories are specified with  repository-url/image:tag . It can be 255 characters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), underscores (_), colons (:), periods (.), forward slashes (/), and number signs (#). This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the IMAGE parameter of [docker run](https://docs.docker.com/engine/reference/run/). Docker image architecture must match the processor architecture of the compute resources that they're scheduled on. For example, ARM-based Docker images can only run on ARM-based compute resources.
         ///
@@ -2286,14 +2286,14 @@ extension BatchClientTypes {
         public var jobRoleArn: Swift.String?
         /// Linux-specific modifications that are applied to the container, such as details for device mappings.
         public var linuxParameters: BatchClientTypes.LinuxParameters?
-        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration] data type). This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/). By default, containers use the same logging driver that the Docker daemon uses. However the container might use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information on the options for different supported log drivers, see [Configure logging drivers](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Batch currently supports a subset of the logging drivers available to the Docker daemon (shown in the [LogConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-batch-jobdefinition-containerproperties-logconfiguration.html) data type). This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version | grep "Server API version" The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
         public var logConfiguration: BatchClientTypes.LogConfiguration?
-        /// This parameter is deprecated, use resourceRequirements to specify the memory requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on EC2 resources, it specifies the memory hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated. You must specify at least 4 MiB of memory for a job using this parameter. The memory hard limit can be specified in several places. It must be specified for each node at least once.
+        /// This parameter is deprecated, use resourceRequirements to specify the memory requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs that run on Amazon EC2 resources, it specifies the memory hard limit (in MiB) for a container. If your container attempts to exceed the specified number, it's terminated. You must specify at least 4 MiB of memory for a job using this parameter. The memory hard limit can be specified in several places. It must be specified for each node at least once.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var memory: Swift.Int?
         /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --volume option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var mountPoints: [BatchClientTypes.MountPoint]?
-        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
         public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
         /// When this parameter is true, the container is given elevated permissions on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/). The default value is false. This parameter isn't applicable to jobs that are running on Fargate resources and shouldn't be provided, or specified as false.
         public var privileged: Swift.Bool?
@@ -2311,7 +2311,7 @@ extension BatchClientTypes {
         public var ulimits: [BatchClientTypes.Ulimit]?
         /// The user name to use inside the container. This parameter maps to User in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --user option to [docker run](https://docs.docker.com/engine/reference/run/).
         public var user: Swift.String?
-        /// This parameter is deprecated, use resourceRequirements to specify the vCPU requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs running on EC2 resources, it specifies the number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). The number of vCPUs must be specified but can be specified in several places. You must specify it at least once for each node.
+        /// This parameter is deprecated, use resourceRequirements to specify the vCPU requirements for the job definition. It's not supported for jobs running on Fargate resources. For jobs running on Amazon EC2 resources, it specifies the number of vCPUs reserved for the job. Each vCPU is equivalent to 1,024 CPU shares. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). The number of vCPUs must be specified but can be specified in several places. You must specify it at least once for each node.
         @available(*, deprecated, message: "This field is deprecated, use resourceRequirements instead.")
         public var vcpus: Swift.Int?
         /// A list of data volumes used in a job.
@@ -4344,6 +4344,467 @@ extension BatchClientTypes {
 
 }
 
+extension BatchClientTypes.EcsProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskProperties = taskProperties {
+            var taskPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskProperties)
+            for ecstaskproperties0 in taskProperties {
+                try taskPropertiesContainer.encode(ecstaskproperties0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskPropertiesContainer = try containerValues.decodeIfPresent([BatchClientTypes.EcsTaskProperties?].self, forKey: .taskProperties)
+        var taskPropertiesDecoded0:[BatchClientTypes.EcsTaskProperties]? = nil
+        if let taskPropertiesContainer = taskPropertiesContainer {
+            taskPropertiesDecoded0 = [BatchClientTypes.EcsTaskProperties]()
+            for structure0 in taskPropertiesContainer {
+                if let structure0 = structure0 {
+                    taskPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        taskProperties = taskPropertiesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that contains the properties for the Amazon ECS resources of a job.
+    public struct EcsProperties: Swift.Equatable {
+        /// An object that contains the properties for the Amazon ECS task definition of a job. This object is currently limited to one element.
+        /// This member is required.
+        public var taskProperties: [BatchClientTypes.EcsTaskProperties]?
+
+        public init(
+            taskProperties: [BatchClientTypes.EcsTaskProperties]? = nil
+        )
+        {
+            self.taskProperties = taskProperties
+        }
+    }
+
+}
+
+extension BatchClientTypes.EcsPropertiesDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskProperties = taskProperties {
+            var taskPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskProperties)
+            for ecstaskdetails0 in taskProperties {
+                try taskPropertiesContainer.encode(ecstaskdetails0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskPropertiesContainer = try containerValues.decodeIfPresent([BatchClientTypes.EcsTaskDetails?].self, forKey: .taskProperties)
+        var taskPropertiesDecoded0:[BatchClientTypes.EcsTaskDetails]? = nil
+        if let taskPropertiesContainer = taskPropertiesContainer {
+            taskPropertiesDecoded0 = [BatchClientTypes.EcsTaskDetails]()
+            for structure0 in taskPropertiesContainer {
+                if let structure0 = structure0 {
+                    taskPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        taskProperties = taskPropertiesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that contains the details for the Amazon ECS resources of a job.
+    public struct EcsPropertiesDetail: Swift.Equatable {
+        /// The properties for the Amazon ECS task definition of a job.
+        public var taskProperties: [BatchClientTypes.EcsTaskDetails]?
+
+        public init(
+            taskProperties: [BatchClientTypes.EcsTaskDetails]? = nil
+        )
+        {
+            self.taskProperties = taskProperties
+        }
+    }
+
+}
+
+extension BatchClientTypes.EcsPropertiesOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case taskProperties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let taskProperties = taskProperties {
+            var taskPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskProperties)
+            for taskpropertiesoverride0 in taskProperties {
+                try taskPropertiesContainer.encode(taskpropertiesoverride0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let taskPropertiesContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskPropertiesOverride?].self, forKey: .taskProperties)
+        var taskPropertiesDecoded0:[BatchClientTypes.TaskPropertiesOverride]? = nil
+        if let taskPropertiesContainer = taskPropertiesContainer {
+            taskPropertiesDecoded0 = [BatchClientTypes.TaskPropertiesOverride]()
+            for structure0 in taskPropertiesContainer {
+                if let structure0 = structure0 {
+                    taskPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        taskProperties = taskPropertiesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that contains overrides for the Amazon ECS task definition of a job.
+    public struct EcsPropertiesOverride: Swift.Equatable {
+        /// The overrides for the Amazon ECS task definition of a job. This object is currently limited to one element.
+        public var taskProperties: [BatchClientTypes.TaskPropertiesOverride]?
+
+        public init(
+            taskProperties: [BatchClientTypes.TaskPropertiesOverride]? = nil
+        )
+        {
+            self.taskProperties = taskProperties
+        }
+    }
+
+}
+
+extension BatchClientTypes.EcsTaskDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerInstanceArn
+        case containers
+        case ephemeralStorage
+        case executionRoleArn
+        case ipcMode
+        case networkConfiguration
+        case pidMode
+        case platformVersion
+        case runtimePlatform
+        case taskArn
+        case taskRoleArn
+        case volumes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerInstanceArn = self.containerInstanceArn {
+            try encodeContainer.encode(containerInstanceArn, forKey: .containerInstanceArn)
+        }
+        if let containers = containers {
+            var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
+            for taskcontainerdetails0 in containers {
+                try containersContainer.encode(taskcontainerdetails0)
+            }
+        }
+        if let ephemeralStorage = self.ephemeralStorage {
+            try encodeContainer.encode(ephemeralStorage, forKey: .ephemeralStorage)
+        }
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+        if let ipcMode = self.ipcMode {
+            try encodeContainer.encode(ipcMode, forKey: .ipcMode)
+        }
+        if let networkConfiguration = self.networkConfiguration {
+            try encodeContainer.encode(networkConfiguration, forKey: .networkConfiguration)
+        }
+        if let pidMode = self.pidMode {
+            try encodeContainer.encode(pidMode, forKey: .pidMode)
+        }
+        if let platformVersion = self.platformVersion {
+            try encodeContainer.encode(platformVersion, forKey: .platformVersion)
+        }
+        if let runtimePlatform = self.runtimePlatform {
+            try encodeContainer.encode(runtimePlatform, forKey: .runtimePlatform)
+        }
+        if let taskArn = self.taskArn {
+            try encodeContainer.encode(taskArn, forKey: .taskArn)
+        }
+        if let taskRoleArn = self.taskRoleArn {
+            try encodeContainer.encode(taskRoleArn, forKey: .taskRoleArn)
+        }
+        if let volumes = volumes {
+            var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskContainerDetails?].self, forKey: .containers)
+        var containersDecoded0:[BatchClientTypes.TaskContainerDetails]? = nil
+        if let containersContainer = containersContainer {
+            containersDecoded0 = [BatchClientTypes.TaskContainerDetails]()
+            for structure0 in containersContainer {
+                if let structure0 = structure0 {
+                    containersDecoded0?.append(structure0)
+                }
+            }
+        }
+        containers = containersDecoded0
+        let containerInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerInstanceArn)
+        containerInstanceArn = containerInstanceArnDecoded
+        let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
+        taskArn = taskArnDecoded
+        let ephemeralStorageDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EphemeralStorage.self, forKey: .ephemeralStorage)
+        ephemeralStorage = ephemeralStorageDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+        let platformVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformVersion)
+        platformVersion = platformVersionDecoded
+        let ipcModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipcMode)
+        ipcMode = ipcModeDecoded
+        let taskRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskRoleArn)
+        taskRoleArn = taskRoleArnDecoded
+        let pidModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pidMode)
+        pidMode = pidModeDecoded
+        let networkConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.NetworkConfiguration.self, forKey: .networkConfiguration)
+        networkConfiguration = networkConfigurationDecoded
+        let runtimePlatformDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RuntimePlatform.self, forKey: .runtimePlatform)
+        runtimePlatform = runtimePlatformDecoded
+        let volumesContainer = try containerValues.decodeIfPresent([BatchClientTypes.Volume?].self, forKey: .volumes)
+        var volumesDecoded0:[BatchClientTypes.Volume]? = nil
+        if let volumesContainer = volumesContainer {
+            volumesDecoded0 = [BatchClientTypes.Volume]()
+            for structure0 in volumesContainer {
+                if let structure0 = structure0 {
+                    volumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumes = volumesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// The details of a task definition that describes the container and volume definitions of an Amazon ECS task.
+    public struct EcsTaskDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the container instance that hosts the task.
+        public var containerInstanceArn: Swift.String?
+        /// A list of containers that are included in the taskProperties list.
+        public var containers: [BatchClientTypes.TaskContainerDetails]?
+        /// The amount of ephemeral storage allocated for the task.
+        public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
+        /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
+        public var executionRoleArn: Swift.String?
+        /// The IPC resource namespace to use for the containers in the task.
+        public var ipcMode: Swift.String?
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
+        public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The process namespace to use for the containers in the task.
+        public var pidMode: Swift.String?
+        /// The Fargate platform version where the jobs are running.
+        public var platformVersion: Swift.String?
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        public var runtimePlatform: BatchClientTypes.RuntimePlatform?
+        /// The ARN of the Amazon ECS task.
+        public var taskArn: Swift.String?
+        /// The Amazon Resource Name (ARN) of the IAM role that the container can assume for Amazon Web Services permissions. For more information, see [IAM roles for tasks](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-iam-roles.html) in the Amazon Elastic Container Service Developer Guide. This is object is comparable to [ContainerProperties:jobRoleArn](https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html).
+        public var taskRoleArn: Swift.String?
+        /// A list of data volumes used in a job.
+        public var volumes: [BatchClientTypes.Volume]?
+
+        public init(
+            containerInstanceArn: Swift.String? = nil,
+            containers: [BatchClientTypes.TaskContainerDetails]? = nil,
+            ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
+            executionRoleArn: Swift.String? = nil,
+            ipcMode: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            pidMode: Swift.String? = nil,
+            platformVersion: Swift.String? = nil,
+            runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
+            taskArn: Swift.String? = nil,
+            taskRoleArn: Swift.String? = nil,
+            volumes: [BatchClientTypes.Volume]? = nil
+        )
+        {
+            self.containerInstanceArn = containerInstanceArn
+            self.containers = containers
+            self.ephemeralStorage = ephemeralStorage
+            self.executionRoleArn = executionRoleArn
+            self.ipcMode = ipcMode
+            self.networkConfiguration = networkConfiguration
+            self.pidMode = pidMode
+            self.platformVersion = platformVersion
+            self.runtimePlatform = runtimePlatform
+            self.taskArn = taskArn
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+    }
+
+}
+
+extension BatchClientTypes.EcsTaskProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containers
+        case ephemeralStorage
+        case executionRoleArn
+        case ipcMode
+        case networkConfiguration
+        case pidMode
+        case platformVersion
+        case runtimePlatform
+        case taskRoleArn
+        case volumes
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containers = containers {
+            var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
+            for taskcontainerproperties0 in containers {
+                try containersContainer.encode(taskcontainerproperties0)
+            }
+        }
+        if let ephemeralStorage = self.ephemeralStorage {
+            try encodeContainer.encode(ephemeralStorage, forKey: .ephemeralStorage)
+        }
+        if let executionRoleArn = self.executionRoleArn {
+            try encodeContainer.encode(executionRoleArn, forKey: .executionRoleArn)
+        }
+        if let ipcMode = self.ipcMode {
+            try encodeContainer.encode(ipcMode, forKey: .ipcMode)
+        }
+        if let networkConfiguration = self.networkConfiguration {
+            try encodeContainer.encode(networkConfiguration, forKey: .networkConfiguration)
+        }
+        if let pidMode = self.pidMode {
+            try encodeContainer.encode(pidMode, forKey: .pidMode)
+        }
+        if let platformVersion = self.platformVersion {
+            try encodeContainer.encode(platformVersion, forKey: .platformVersion)
+        }
+        if let runtimePlatform = self.runtimePlatform {
+            try encodeContainer.encode(runtimePlatform, forKey: .runtimePlatform)
+        }
+        if let taskRoleArn = self.taskRoleArn {
+            try encodeContainer.encode(taskRoleArn, forKey: .taskRoleArn)
+        }
+        if let volumes = volumes {
+            var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
+            for volume0 in volumes {
+                try volumesContainer.encode(volume0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskContainerProperties?].self, forKey: .containers)
+        var containersDecoded0:[BatchClientTypes.TaskContainerProperties]? = nil
+        if let containersContainer = containersContainer {
+            containersDecoded0 = [BatchClientTypes.TaskContainerProperties]()
+            for structure0 in containersContainer {
+                if let structure0 = structure0 {
+                    containersDecoded0?.append(structure0)
+                }
+            }
+        }
+        containers = containersDecoded0
+        let ephemeralStorageDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EphemeralStorage.self, forKey: .ephemeralStorage)
+        ephemeralStorage = ephemeralStorageDecoded
+        let executionRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionRoleArn)
+        executionRoleArn = executionRoleArnDecoded
+        let platformVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .platformVersion)
+        platformVersion = platformVersionDecoded
+        let ipcModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipcMode)
+        ipcMode = ipcModeDecoded
+        let taskRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskRoleArn)
+        taskRoleArn = taskRoleArnDecoded
+        let pidModeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pidMode)
+        pidMode = pidModeDecoded
+        let networkConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.NetworkConfiguration.self, forKey: .networkConfiguration)
+        networkConfiguration = networkConfigurationDecoded
+        let runtimePlatformDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RuntimePlatform.self, forKey: .runtimePlatform)
+        runtimePlatform = runtimePlatformDecoded
+        let volumesContainer = try containerValues.decodeIfPresent([BatchClientTypes.Volume?].self, forKey: .volumes)
+        var volumesDecoded0:[BatchClientTypes.Volume]? = nil
+        if let volumesContainer = volumesContainer {
+            volumesDecoded0 = [BatchClientTypes.Volume]()
+            for structure0 in volumesContainer {
+                if let structure0 = structure0 {
+                    volumesDecoded0?.append(structure0)
+                }
+            }
+        }
+        volumes = volumesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// The properties for a task definition that describes the container and volume definitions of an Amazon ECS task. You can specify which Docker images to use, the required resources, and other configurations related to launching the task definition through an Amazon ECS service or task.
+    public struct EcsTaskProperties: Swift.Equatable {
+        /// This object is a list of containers.
+        /// This member is required.
+        public var containers: [BatchClientTypes.TaskContainerProperties]?
+        /// The amount of ephemeral storage to allocate for the task. This parameter is used to expand the total amount of ephemeral storage available, beyond the default amount, for tasks hosted on Fargate.
+        public var ephemeralStorage: BatchClientTypes.EphemeralStorage?
+        /// The Amazon Resource Name (ARN) of the execution role that Batch can assume. For jobs that run on Fargate resources, you must provide an execution role. For more information, see [Batch execution IAM role](https://docs.aws.amazon.com/batch/latest/userguide/execution-IAM-role.html) in the Batch User Guide.
+        public var executionRoleArn: Swift.String?
+        /// The IPC resource namespace to use for the containers in the task. The valid values are host, task, or none. If host is specified, all containers within the tasks that specified the host IPC mode on the same container instance share the same IPC resources with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same IPC resources. If none is specified, the IPC resources within the containers of a task are private, and are not shared with other containers in a task or on the container instance. If no value is specified, then the IPC resource namespace sharing depends on the Docker daemon setting on the container instance. For more information, see [IPC settings](https://docs.docker.com/engine/reference/run/#ipc-settings---ipc) in the Docker run reference.
+        public var ipcMode: Swift.String?
+        /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
+        public var networkConfiguration: BatchClientTypes.NetworkConfiguration?
+        /// The process namespace to use for the containers in the task. The valid values are host or task. For example, monitoring sidecars might need pidMode to access information about other containers running in the same task. If host is specified, all containers within the tasks that specified the host PID mode on the same container instance share the process namespace with the host Amazon EC2 instance. If task is specified, all containers within the specified task share the same process namespace. If no value is specified, the default is a private namespace for each container. For more information, see [PID settings](https://docs.docker.com/engine/reference/run/#pid-settings---pid) in the Docker run reference.
+        public var pidMode: Swift.String?
+        /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
+        public var platformVersion: Swift.String?
+        /// An object that represents the compute environment architecture for Batch jobs on Fargate.
+        public var runtimePlatform: BatchClientTypes.RuntimePlatform?
+        /// The Amazon Resource Name (ARN) that's associated with the Amazon ECS task. This is object is comparable to [ContainerProperties:jobRoleArn](https://docs.aws.amazon.com/batch/latest/APIReference/API_ContainerProperties.html).
+        public var taskRoleArn: Swift.String?
+        /// A list of volumes that are associated with the job.
+        public var volumes: [BatchClientTypes.Volume]?
+
+        public init(
+            containers: [BatchClientTypes.TaskContainerProperties]? = nil,
+            ephemeralStorage: BatchClientTypes.EphemeralStorage? = nil,
+            executionRoleArn: Swift.String? = nil,
+            ipcMode: Swift.String? = nil,
+            networkConfiguration: BatchClientTypes.NetworkConfiguration? = nil,
+            pidMode: Swift.String? = nil,
+            platformVersion: Swift.String? = nil,
+            runtimePlatform: BatchClientTypes.RuntimePlatform? = nil,
+            taskRoleArn: Swift.String? = nil,
+            volumes: [BatchClientTypes.Volume]? = nil
+        )
+        {
+            self.containers = containers
+            self.ephemeralStorage = ephemeralStorage
+            self.executionRoleArn = executionRoleArn
+            self.ipcMode = ipcMode
+            self.networkConfiguration = networkConfiguration
+            self.pidMode = pidMode
+            self.platformVersion = platformVersion
+            self.runtimePlatform = runtimePlatform
+            self.taskRoleArn = taskRoleArn
+            self.volumes = volumes
+        }
+    }
+
+}
+
 extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exitCode
@@ -4372,7 +4833,7 @@ extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
 extension BatchClientTypes {
     /// An object that represents the details for an attempt for a job attempt that an Amazon EKS container runs.
     public struct EksAttemptContainerDetail: Swift.Equatable {
-        /// The exit code for the job attempt. A non-zero exit code is considered failed.
+        /// The exit code returned for the job attempt. A non-zero exit code is considered failed.
         public var exitCode: Swift.Int?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
@@ -4392,6 +4853,7 @@ extension BatchClientTypes {
 extension BatchClientTypes.EksAttemptDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers
+        case initContainers
         case nodeName
         case podName
         case startedAt
@@ -4405,6 +4867,12 @@ extension BatchClientTypes.EksAttemptDetail: Swift.Codable {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
             for eksattemptcontainerdetail0 in containers {
                 try containersContainer.encode(eksattemptcontainerdetail0)
+            }
+        }
+        if let initContainers = initContainers {
+            var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
+            for eksattemptcontainerdetail0 in initContainers {
+                try initContainersContainer.encode(eksattemptcontainerdetail0)
             }
         }
         if let nodeName = self.nodeName {
@@ -4437,6 +4905,17 @@ extension BatchClientTypes.EksAttemptDetail: Swift.Codable {
             }
         }
         containers = containersDecoded0
+        let initContainersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksAttemptContainerDetail?].self, forKey: .initContainers)
+        var initContainersDecoded0:[BatchClientTypes.EksAttemptContainerDetail]? = nil
+        if let initContainersContainer = initContainersContainer {
+            initContainersDecoded0 = [BatchClientTypes.EksAttemptContainerDetail]()
+            for structure0 in initContainersContainer {
+                if let structure0 = structure0 {
+                    initContainersDecoded0?.append(structure0)
+                }
+            }
+        }
+        initContainers = initContainersDecoded0
         let podNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .podName)
         podName = podNameDecoded
         let nodeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nodeName)
@@ -4455,6 +4934,8 @@ extension BatchClientTypes {
     public struct EksAttemptDetail: Swift.Equatable {
         /// The details for the final status of the containers for this job attempt.
         public var containers: [BatchClientTypes.EksAttemptContainerDetail]?
+        /// The details for the init containers.
+        public var initContainers: [BatchClientTypes.EksAttemptContainerDetail]?
         /// The name of the node for this job attempt.
         public var nodeName: Swift.String?
         /// The name of the pod for this job attempt.
@@ -4468,6 +4949,7 @@ extension BatchClientTypes {
 
         public init(
             containers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
+            initContainers: [BatchClientTypes.EksAttemptContainerDetail]? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
             startedAt: Swift.Int? = nil,
@@ -4476,6 +4958,7 @@ extension BatchClientTypes {
         )
         {
             self.containers = containers
+            self.initContainers = initContainers
             self.nodeName = nodeName
             self.podName = podName
             self.startedAt = startedAt
@@ -4651,7 +5134,7 @@ extension BatchClientTypes.EksContainer: Swift.Codable {
 extension BatchClientTypes {
     /// EKS container properties are used in job definitions for Amazon EKS based job definitions to describe the properties for a container node in the pod that's launched as part of a job. This can't be specified for Amazon ECS based job definitions.
     public struct EksContainer: Swift.Equatable {
-        /// An array of arguments to the entrypoint. If this isn't specified, the CMD of the container image is used. This corresponds to the args member in the [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) portion of the [Pod](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/) in Kubernetes. Environment variable references are expanded using the container's environment. If the referenced environment variable doesn't exist, the reference in the command isn't changed. For example, if the reference is to "$(NAME1)" and the NAME1 environment variable doesn't exist, the command string will remain "$(NAME1)." $$ is replaced with $, and the resulting string isn't expanded. For example, $$(VAR_NAME) is passed as $(VAR_NAME) whether or not the VAR_NAME environment variable exists. For more information, see [CMD](https://docs.docker.com/engine/reference/builder/#cmd) in the Dockerfile reference and [Define a command and arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
+        /// An array of arguments to the entrypoint. If this isn't specified, the CMD of the container image is used. This corresponds to the args member in the [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) portion of the [Pod](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/) in Kubernetes. Environment variable references are expanded using the container's environment. If the referenced environment variable doesn't exist, the reference in the command isn't changed. For example, if the reference is to "$(NAME1)" and the NAME1 environment variable doesn't exist, the command string will remain "$(NAME1)." $$ is replaced with $, and the resulting string isn't expanded. For example, $$(VAR_NAME) is passed as $(VAR_NAME) whether or not the VAR_NAME environment variable exists. For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd) and [Define a command and arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
         public var args: [Swift.String]?
         /// The entrypoint for the container. This isn't run within a shell. If this isn't specified, the ENTRYPOINT of the container image is used. Environment variable references are expanded using the container's environment. If the referenced environment variable doesn't exist, the reference in the command isn't changed. For example, if the reference is to "$(NAME1)" and the NAME1 environment variable doesn't exist, the command string will remain "$(NAME1)." $$ is replaced with $ and the resulting string isn't expanded. For example, $$(VAR_NAME) will be passed as $(VAR_NAME) whether or not the VAR_NAME environment variable exists. The entrypoint can't be updated. For more information, see [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) in the Dockerfile reference and [Define a command and arguments for a container](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) and [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) in the Kubernetes documentation.
         public var command: [Swift.String]?
@@ -4827,13 +5310,13 @@ extension BatchClientTypes.EksContainerDetail: Swift.Codable {
 extension BatchClientTypes {
     /// The details for container properties that are returned by DescribeJobs for jobs that use Amazon EKS.
     public struct EksContainerDetail: Swift.Equatable {
-        /// An array of arguments to the entrypoint. If this isn't specified, the CMD of the container image is used. This corresponds to the args member in the [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) portion of the [Pod](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/) in Kubernetes. Environment variable references are expanded using the container's environment. If the referenced environment variable doesn't exist, the reference in the command isn't changed. For example, if the reference is to "$(NAME1)" and the NAME1 environment variable doesn't exist, the command string will remain "$(NAME1)". $$ is replaced with $ and the resulting string isn't expanded. For example, $$(VAR_NAME) is passed as $(VAR_NAME) whether or not the VAR_NAME environment variable exists. For more information, see [CMD](https://docs.docker.com/engine/reference/builder/#cmd) in the Dockerfile reference and [Define a command and arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
+        /// An array of arguments to the entrypoint. If this isn't specified, the CMD of the container image is used. This corresponds to the args member in the [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) portion of the [Pod](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/) in Kubernetes. Environment variable references are expanded using the container's environment. If the referenced environment variable doesn't exist, the reference in the command isn't changed. For example, if the reference is to "$(NAME1)" and the NAME1 environment variable doesn't exist, the command string will remain "$(NAME1)". $$ is replaced with $ and the resulting string isn't expanded. For example, $$(VAR_NAME) is passed as $(VAR_NAME) whether or not the VAR_NAME environment variable exists. For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd) and [Define a command and arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
         public var args: [Swift.String]?
         /// The entrypoint for the container. For more information, see [Entrypoint](https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/#entrypoint) in the Kubernetes documentation.
         public var command: [Swift.String]?
         /// The environment variables to pass to a container. Environment variables cannot start with "AWS_BATCH". This naming convention is reserved for variables that Batch sets.
         public var env: [BatchClientTypes.EksContainerEnvironmentVariable]?
-        /// The exit code for the job attempt. A non-zero exit code is considered failed.
+        /// The exit code returned for the job attempt. A non-zero exit code is considered failed.
         public var exitCode: Swift.Int?
         /// The Docker image used to start the container.
         public var image: Swift.String?
@@ -4932,6 +5415,7 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
         case command
         case env
         case image
+        case name
         case resources
     }
 
@@ -4958,6 +5442,9 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
         if let image = self.image {
             try encodeContainer.encode(image, forKey: .image)
         }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
         if let resources = self.resources {
             try encodeContainer.encode(resources, forKey: .resources)
         }
@@ -4965,6 +5452,8 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
         let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
         image = imageDecoded
         let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
@@ -5006,9 +5495,9 @@ extension BatchClientTypes.EksContainerOverride: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// Object representing any Kubernetes overrides to a job definition that's used in a [SubmitJob] API operation.
+    /// Object representing any Kubernetes overrides to a job definition that's used in a [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) API operation.
     public struct EksContainerOverride: Swift.Equatable {
-        /// The arguments to the entrypoint to send to the container that overrides the default arguments from the Docker image or the job definition. For more information, see [CMD](https://docs.docker.com/engine/reference/builder/#cmd) in the Dockerfile reference and [Define a command an arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
+        /// The arguments to the entrypoint to send to the container that overrides the default arguments from the Docker image or the job definition. For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd) and [Define a command an arguments for a pod](https://kubernetes.io/docs/tasks/inject-data-application/define-command-argument-container/) in the Kubernetes documentation.
         public var args: [Swift.String]?
         /// The command to send to the container that overrides the default command from the Docker image or the job definition.
         public var command: [Swift.String]?
@@ -5016,6 +5505,8 @@ extension BatchClientTypes {
         public var env: [BatchClientTypes.EksContainerEnvironmentVariable]?
         /// The override of the Docker image that's used to start the container.
         public var image: Swift.String?
+        /// A pointer to the container that you want to override. The name must match a unique container name that you wish to override.
+        public var name: Swift.String?
         /// The type and amount of resources to assign to a container. These override the settings in the job definition. The supported resources include memory, cpu, and nvidia.com/gpu. For more information, see [Resource management for pods and containers](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) in the Kubernetes documentation.
         public var resources: BatchClientTypes.EksContainerResourceRequirements?
 
@@ -5024,6 +5515,7 @@ extension BatchClientTypes {
             command: [Swift.String]? = nil,
             env: [BatchClientTypes.EksContainerEnvironmentVariable]? = nil,
             image: Swift.String? = nil,
+            name: Swift.String? = nil,
             resources: BatchClientTypes.EksContainerResourceRequirements? = nil
         )
         {
@@ -5031,6 +5523,7 @@ extension BatchClientTypes {
             self.command = command
             self.env = env
             self.image = image
+            self.name = name
             self.resources = resources
         }
     }
@@ -5368,8 +5861,10 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         case containers
         case dnsPolicy
         case hostNetwork
+        case initContainers
         case metadata
         case serviceAccountName
+        case shareProcessNamespace
         case volumes
     }
 
@@ -5387,11 +5882,20 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
         }
+        if let initContainers = initContainers {
+            var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
+            for ekscontainer0 in initContainers {
+                try initContainersContainer.encode(ekscontainer0)
+            }
+        }
         if let metadata = self.metadata {
             try encodeContainer.encode(metadata, forKey: .metadata)
         }
         if let serviceAccountName = self.serviceAccountName {
             try encodeContainer.encode(serviceAccountName, forKey: .serviceAccountName)
+        }
+        if let shareProcessNamespace = self.shareProcessNamespace {
+            try encodeContainer.encode(shareProcessNamespace, forKey: .shareProcessNamespace)
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
@@ -5420,6 +5924,17 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
             }
         }
         containers = containersDecoded0
+        let initContainersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainer?].self, forKey: .initContainers)
+        var initContainersDecoded0:[BatchClientTypes.EksContainer]? = nil
+        if let initContainersContainer = initContainersContainer {
+            initContainersDecoded0 = [BatchClientTypes.EksContainer]()
+            for structure0 in initContainersContainer {
+                if let structure0 = structure0 {
+                    initContainersDecoded0?.append(structure0)
+                }
+            }
+        }
+        initContainers = initContainersDecoded0
         let volumesContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksVolume?].self, forKey: .volumes)
         var volumesDecoded0:[BatchClientTypes.EksVolume]? = nil
         if let volumesContainer = volumesContainer {
@@ -5433,6 +5948,8 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         volumes = volumesDecoded0
         let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
+        let shareProcessNamespaceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareProcessNamespace)
+        shareProcessNamespace = shareProcessNamespaceDecoded
     }
 }
 
@@ -5445,10 +5962,14 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
+        public var initContainers: [BatchClientTypes.EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
         public var metadata: BatchClientTypes.EksMetadata?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
+        /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see [Share Process Namespace between Containers in a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/).
+        public var shareProcessNamespace: Swift.Bool?
         /// Specifies the volumes for a job definition that uses Amazon EKS resources.
         public var volumes: [BatchClientTypes.EksVolume]?
 
@@ -5456,16 +5977,20 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainer]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            initContainers: [BatchClientTypes.EksContainer]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil,
             serviceAccountName: Swift.String? = nil,
+            shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
         )
         {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.initContainers = initContainers
             self.metadata = metadata
             self.serviceAccountName = serviceAccountName
+            self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
         }
     }
@@ -5477,10 +6002,12 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         case containers
         case dnsPolicy
         case hostNetwork
+        case initContainers
         case metadata
         case nodeName
         case podName
         case serviceAccountName
+        case shareProcessNamespace
         case volumes
     }
 
@@ -5498,6 +6025,12 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
         }
+        if let initContainers = initContainers {
+            var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
+            for ekscontainerdetail0 in initContainers {
+                try initContainersContainer.encode(ekscontainerdetail0)
+            }
+        }
         if let metadata = self.metadata {
             try encodeContainer.encode(metadata, forKey: .metadata)
         }
@@ -5509,6 +6042,9 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         }
         if let serviceAccountName = self.serviceAccountName {
             try encodeContainer.encode(serviceAccountName, forKey: .serviceAccountName)
+        }
+        if let shareProcessNamespace = self.shareProcessNamespace {
+            try encodeContainer.encode(shareProcessNamespace, forKey: .shareProcessNamespace)
         }
         if let volumes = volumes {
             var volumesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .volumes)
@@ -5537,6 +6073,17 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
             }
         }
         containers = containersDecoded0
+        let initContainersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainerDetail?].self, forKey: .initContainers)
+        var initContainersDecoded0:[BatchClientTypes.EksContainerDetail]? = nil
+        if let initContainersContainer = initContainersContainer {
+            initContainersDecoded0 = [BatchClientTypes.EksContainerDetail]()
+            for structure0 in initContainersContainer {
+                if let structure0 = structure0 {
+                    initContainersDecoded0?.append(structure0)
+                }
+            }
+        }
+        initContainers = initContainersDecoded0
         let volumesContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksVolume?].self, forKey: .volumes)
         var volumesDecoded0:[BatchClientTypes.EksVolume]? = nil
         if let volumesContainer = volumesContainer {
@@ -5554,6 +6101,8 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         nodeName = nodeNameDecoded
         let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
+        let shareProcessNamespaceDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .shareProcessNamespace)
+        shareProcessNamespace = shareProcessNamespaceDecoded
     }
 }
 
@@ -5566,6 +6115,8 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// The container registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.
+        public var initContainers: [BatchClientTypes.EksContainerDetail]?
         /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
         public var metadata: BatchClientTypes.EksMetadata?
         /// The name of the node for this job.
@@ -5574,6 +6125,8 @@ extension BatchClientTypes {
         public var podName: Swift.String?
         /// The name of the service account that's used to run the pod. For more information, see [Kubernetes service accounts](https://docs.aws.amazon.com/eks/latest/userguide/service-accounts.html) and [Configure a Kubernetes service account to assume an IAM role](https://docs.aws.amazon.com/eks/latest/userguide/associate-service-account-role.html) in the Amazon EKS User Guide and [Configure service accounts for pods](https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/) in the Kubernetes documentation.
         public var serviceAccountName: Swift.String?
+        /// Indicates if the processes in a container are shared, or visible, to other containers in the same pod. For more information, see [Share Process Namespace between Containers in a Pod](https://kubernetes.io/docs/tasks/configure-pod-container/share-process-namespace/).
+        public var shareProcessNamespace: Swift.Bool?
         /// Specifies the volumes for a job definition using Amazon EKS resources.
         public var volumes: [BatchClientTypes.EksVolume]?
 
@@ -5581,20 +6134,24 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainerDetail]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            initContainers: [BatchClientTypes.EksContainerDetail]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil,
             nodeName: Swift.String? = nil,
             podName: Swift.String? = nil,
             serviceAccountName: Swift.String? = nil,
+            shareProcessNamespace: Swift.Bool? = nil,
             volumes: [BatchClientTypes.EksVolume]? = nil
         )
         {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.initContainers = initContainers
             self.metadata = metadata
             self.nodeName = nodeName
             self.podName = podName
             self.serviceAccountName = serviceAccountName
+            self.shareProcessNamespace = shareProcessNamespace
             self.volumes = volumes
         }
     }
@@ -5604,6 +6161,7 @@ extension BatchClientTypes {
 extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containers
+        case initContainers
         case metadata
     }
 
@@ -5613,6 +6171,12 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
             var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
             for ekscontaineroverride0 in containers {
                 try containersContainer.encode(ekscontaineroverride0)
+            }
+        }
+        if let initContainers = initContainers {
+            var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
+            for ekscontaineroverride0 in initContainers {
+                try initContainersContainer.encode(ekscontaineroverride0)
             }
         }
         if let metadata = self.metadata {
@@ -5633,6 +6197,17 @@ extension BatchClientTypes.EksPodPropertiesOverride: Swift.Codable {
             }
         }
         containers = containersDecoded0
+        let initContainersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainerOverride?].self, forKey: .initContainers)
+        var initContainersDecoded0:[BatchClientTypes.EksContainerOverride]? = nil
+        if let initContainersContainer = initContainersContainer {
+            initContainersDecoded0 = [BatchClientTypes.EksContainerOverride]()
+            for structure0 in initContainersContainer {
+                if let structure0 = structure0 {
+                    initContainersDecoded0?.append(structure0)
+                }
+            }
+        }
+        initContainers = initContainersDecoded0
         let metadataDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksMetadata.self, forKey: .metadata)
         metadata = metadataDecoded
     }
@@ -5643,15 +6218,19 @@ extension BatchClientTypes {
     public struct EksPodPropertiesOverride: Swift.Equatable {
         /// The overrides for the container that's used on the Amazon EKS pod.
         public var containers: [BatchClientTypes.EksContainerOverride]?
+        /// The overrides for the conatainers defined in the Amazon EKS pod. These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
+        public var initContainers: [BatchClientTypes.EksContainerOverride]?
         /// Metadata about the overrides for the container that's used on the Amazon EKS pod.
         public var metadata: BatchClientTypes.EksMetadata?
 
         public init(
             containers: [BatchClientTypes.EksContainerOverride]? = nil,
+            initContainers: [BatchClientTypes.EksContainerOverride]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil
         )
         {
             self.containers = containers
+            self.initContainers = initContainers
             self.metadata = metadata
         }
     }
@@ -6064,7 +6643,7 @@ extension BatchClientTypes.FargatePlatformConfiguration: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// The platform configuration for jobs that are running on Fargate resources. Jobs that run on EC2 resources must not specify this parameter.
+    /// The platform configuration for jobs that are running on Fargate resources. Jobs that run on Amazon EC2 resources must not specify this parameter.
     public struct FargatePlatformConfiguration: Swift.Equatable {
         /// The Fargate platform version where the jobs are running. A platform version is specified only for jobs that are running on Fargate resources. If one isn't specified, the LATEST platform version is used by default. This uses a recent, approved version of the Fargate platform for compute resources. For more information, see [Fargate platform versions](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/platform_versions.html) in the Amazon Elastic Container Service Developer Guide.
         public var platformVersion: Swift.String?
@@ -6194,6 +6773,7 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerOrchestrationType
         case containerProperties
+        case ecsProperties
         case eksProperties
         case jobDefinitionArn
         case jobDefinitionName
@@ -6217,6 +6797,9 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
         }
         if let containerProperties = self.containerProperties {
             try encodeContainer.encode(containerProperties, forKey: .containerProperties)
+        }
+        if let ecsProperties = self.ecsProperties {
+            try encodeContainer.encode(ecsProperties, forKey: .ecsProperties)
         }
         if let eksProperties = self.eksProperties {
             try encodeContainer.encode(eksProperties, forKey: .eksProperties)
@@ -6328,6 +6911,8 @@ extension BatchClientTypes.JobDefinition: Swift.Codable {
             }
         }
         platformCapabilities = platformCapabilitiesDecoded0
+        let ecsPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsProperties.self, forKey: .ecsProperties)
+        ecsProperties = ecsPropertiesDecoded
         let eksPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksProperties.self, forKey: .eksProperties)
         eksProperties = eksPropertiesDecoded
         let containerOrchestrationTypeDecoded = try containerValues.decodeIfPresent(BatchClientTypes.OrchestrationType.self, forKey: .containerOrchestrationType)
@@ -6340,9 +6925,11 @@ extension BatchClientTypes {
     public struct JobDefinition: Swift.Equatable {
         /// The orchestration type of the compute environment. The valid values are ECS (default) or EKS.
         public var containerOrchestrationType: BatchClientTypes.OrchestrationType?
-        /// An object with various properties specific to Amazon ECS based jobs. Valid values are containerProperties, eksProperties, and nodeProperties. Only one can be specified.
+        /// An object with properties specific to Amazon ECS-based jobs. When containerProperties is used in the job definition, it can't be used in addition to eksProperties, ecsProperties, or nodeProperties.
         public var containerProperties: BatchClientTypes.ContainerProperties?
-        /// An object with various properties that are specific to Amazon EKS based jobs. Valid values are containerProperties, eksProperties, and nodeProperties. Only one can be specified.
+        /// An object that contains the properties for the Amazon ECS resources of a job.When ecsProperties is used in the job definition, it can't be used in addition to containerProperties, eksProperties, or nodeProperties.
+        public var ecsProperties: BatchClientTypes.EcsProperties?
+        /// An object with properties that are specific to Amazon EKS-based jobs. When eksProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or nodeProperties.
         public var eksProperties: BatchClientTypes.EksProperties?
         /// The Amazon Resource Name (ARN) for the job definition.
         /// This member is required.
@@ -6350,7 +6937,7 @@ extension BatchClientTypes {
         /// The name of the job definition.
         /// This member is required.
         public var jobDefinitionName: Swift.String?
-        /// An object with various properties that are specific to multi-node parallel jobs. Valid values are containerProperties, eksProperties, and nodeProperties. Only one can be specified. If the job runs on Fargate resources, don't specify nodeProperties. Use containerProperties instead.
+        /// An object with properties that are specific to multi-node parallel jobs. When nodeProperties is used in the job definition, it can't be used in addition to containerProperties, ecsProperties, or eksProperties. If the job runs on Fargate resources, don't specify nodeProperties. Use containerProperties instead.
         public var nodeProperties: BatchClientTypes.NodeProperties?
         /// Default parameters or parameter substitution placeholders that are set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition. For more information about specifying parameters, see [Job definition parameters](https://docs.aws.amazon.com/batch/latest/userguide/job_definition_parameters.html) in the Batch User Guide.
         public var parameters: [Swift.String:Swift.String]?
@@ -6378,6 +6965,7 @@ extension BatchClientTypes {
         public init(
             containerOrchestrationType: BatchClientTypes.OrchestrationType? = nil,
             containerProperties: BatchClientTypes.ContainerProperties? = nil,
+            ecsProperties: BatchClientTypes.EcsProperties? = nil,
             eksProperties: BatchClientTypes.EksProperties? = nil,
             jobDefinitionArn: Swift.String? = nil,
             jobDefinitionName: Swift.String? = nil,
@@ -6396,6 +6984,7 @@ extension BatchClientTypes {
         {
             self.containerOrchestrationType = containerOrchestrationType
             self.containerProperties = containerProperties
+            self.ecsProperties = ecsProperties
             self.eksProperties = eksProperties
             self.jobDefinitionArn = jobDefinitionArn
             self.jobDefinitionName = jobDefinitionName
@@ -6499,6 +7088,7 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
         case container
         case createdAt
         case dependsOn
+        case ecsProperties
         case eksAttempts
         case eksProperties
         case isCancelled
@@ -6546,6 +7136,9 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
             for jobdependency0 in dependsOn {
                 try dependsOnContainer.encode(jobdependency0)
             }
+        }
+        if let ecsProperties = self.ecsProperties {
+            try encodeContainer.encode(ecsProperties, forKey: .ecsProperties)
         }
         if let eksAttempts = eksAttempts {
             var eksAttemptsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eksAttempts)
@@ -6738,6 +7331,8 @@ extension BatchClientTypes.JobDetail: Swift.Codable {
             }
         }
         eksAttempts = eksAttemptsDecoded0
+        let ecsPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsPropertiesDetail.self, forKey: .ecsProperties)
+        ecsProperties = ecsPropertiesDecoded
         let isCancelledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isCancelled)
         isCancelled = isCancelledDecoded
         let isTerminatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isTerminated)
@@ -6752,15 +7347,17 @@ extension BatchClientTypes {
         public var arrayProperties: BatchClientTypes.ArrayPropertiesDetail?
         /// A list of job attempts that are associated with this job.
         public var attempts: [BatchClientTypes.AttemptDetail]?
-        /// An object that represents the details for the container that's associated with the job.
+        /// An object that represents the details for the container that's associated with the job. If the details are for a multiple-container job, this object will be empty.
         public var container: BatchClientTypes.ContainerDetail?
-        /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state. This is specifically at the time [SubmitJob] was called. For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
+        /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state. This is specifically at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called. For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public var createdAt: Swift.Int?
         /// A list of job IDs that this job depends on.
         public var dependsOn: [BatchClientTypes.JobDependency]?
+        /// An object with properties that are specific to Amazon ECS-based jobs.
+        public var ecsProperties: BatchClientTypes.EcsPropertiesDetail?
         /// A list of job attempts that are associated with this job.
         public var eksAttempts: [BatchClientTypes.EksAttemptDetail]?
-        /// An object with various properties that are specific to Amazon EKS based jobs. Only one of container, eksProperties, or nodeDetails is specified.
+        /// An object with various properties that are specific to Amazon EKS based jobs.
         public var eksProperties: BatchClientTypes.EksPropertiesDetail?
         /// Indicates whether the job is canceled.
         public var isCancelled: Swift.Bool?
@@ -6817,6 +7414,7 @@ extension BatchClientTypes {
             container: BatchClientTypes.ContainerDetail? = nil,
             createdAt: Swift.Int? = nil,
             dependsOn: [BatchClientTypes.JobDependency]? = nil,
+            ecsProperties: BatchClientTypes.EcsPropertiesDetail? = nil,
             eksAttempts: [BatchClientTypes.EksAttemptDetail]? = nil,
             eksProperties: BatchClientTypes.EksPropertiesDetail? = nil,
             isCancelled: Swift.Bool? = nil,
@@ -6847,6 +7445,7 @@ extension BatchClientTypes {
             self.container = container
             self.createdAt = createdAt
             self.dependsOn = dependsOn
+            self.ecsProperties = ecsProperties
             self.eksAttempts = eksAttempts
             self.eksProperties = eksProperties
             self.isCancelled = isCancelled
@@ -6978,7 +7577,7 @@ extension BatchClientTypes {
         /// The job queue name.
         /// This member is required.
         public var jobQueueName: Swift.String?
-        /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
+        /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and Fargate compute environments can't be mixed.
         /// This member is required.
         public var priority: Swift.Int?
         /// The Amazon Resource Name (ARN) of the scheduling policy. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
@@ -7158,7 +7757,7 @@ extension BatchClientTypes {
         public var arrayProperties: BatchClientTypes.ArrayPropertiesSummary?
         /// An object that represents the details of the container that's associated with the job.
         public var container: BatchClientTypes.ContainerSummary?
-        /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time [SubmitJob] was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
+        /// The Unix timestamp (in milliseconds) for when the job was created. For non-array jobs and parent array jobs, this is when the job entered the SUBMITTED state (at the time [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) was called). For array child jobs, this is when the child job was spawned by its parent and entered the PENDING state.
         public var createdAt: Swift.Int?
         /// The Amazon Resource Name (ARN) of the job.
         public var jobArn: Swift.String?
@@ -8156,7 +8755,7 @@ extension BatchClientTypes.NetworkConfiguration: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on EC2 resources must not specify this parameter.
+    /// The network configuration for jobs that are running on Fargate resources. Jobs that are running on Amazon EC2 resources must not specify this parameter.
     public struct NetworkConfiguration: Swift.Equatable {
         /// Indicates whether the job has a public IP address. For a job that's running on Fargate resources in a private subnet to send outbound traffic to the internet (for example, to pull container images), the private subnet requires a NAT gateway be attached to route requests to the internet. For more information, see [Amazon ECS task networking](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-networking.html) in the Amazon Elastic Container Service Developer Guide. The default value is "DISABLED".
         public var assignPublicIp: BatchClientTypes.AssignPublicIp?
@@ -8309,7 +8908,7 @@ extension BatchClientTypes.NodeOverrides: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// An object that represents any node overrides to a job definition that's used in a [SubmitJob] API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs. Rather, use containerOverrides instead.
+    /// An object that represents any node overrides to a job definition that's used in a [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) API operation. This parameter isn't applicable to jobs that are running on Fargate resources. Don't provide it for these jobs. Rather, use containerOverrides instead.
     public struct NodeOverrides: Swift.Equatable {
         /// The node property overrides for the job.
         public var nodePropertyOverrides: [BatchClientTypes.NodePropertyOverride]?
@@ -8462,6 +9061,8 @@ extension BatchClientTypes {
 extension BatchClientTypes.NodePropertyOverride: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerOverrides
+        case ecsPropertiesOverride
+        case instanceTypes
         case targetNodes
     }
 
@@ -8469,6 +9070,15 @@ extension BatchClientTypes.NodePropertyOverride: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerOverrides = self.containerOverrides {
             try encodeContainer.encode(containerOverrides, forKey: .containerOverrides)
+        }
+        if let ecsPropertiesOverride = self.ecsPropertiesOverride {
+            try encodeContainer.encode(ecsPropertiesOverride, forKey: .ecsPropertiesOverride)
+        }
+        if let instanceTypes = instanceTypes {
+            var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
+            }
         }
         if let targetNodes = self.targetNodes {
             try encodeContainer.encode(targetNodes, forKey: .targetNodes)
@@ -8481,24 +9091,45 @@ extension BatchClientTypes.NodePropertyOverride: Swift.Codable {
         targetNodes = targetNodesDecoded
         let containerOverridesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.ContainerOverrides.self, forKey: .containerOverrides)
         containerOverrides = containerOverridesDecoded
+        let ecsPropertiesOverrideDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsPropertiesOverride.self, forKey: .ecsPropertiesOverride)
+        ecsPropertiesOverride = ecsPropertiesOverrideDecoded
+        let instanceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceTypes)
+        var instanceTypesDecoded0:[Swift.String]? = nil
+        if let instanceTypesContainer = instanceTypesContainer {
+            instanceTypesDecoded0 = [Swift.String]()
+            for string0 in instanceTypesContainer {
+                if let string0 = string0 {
+                    instanceTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        instanceTypes = instanceTypesDecoded0
     }
 }
 
 extension BatchClientTypes {
-    /// The object that represents any node overrides to a job definition that's used in a [SubmitJob] API operation.
+    /// The object that represents any node overrides to a job definition that's used in a [SubmitJob](https://docs.aws.amazon.com/batch/latest/APIReference/API_SubmitJob.html) API operation.
     public struct NodePropertyOverride: Swift.Equatable {
         /// The overrides that are sent to a node range.
         public var containerOverrides: BatchClientTypes.ContainerOverrides?
+        /// An object that contains the properties that you want to replace for the existing Amazon ECS resources of a job.
+        public var ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride?
+        /// An object that contains the instance types that you want to replace for the existing resources of a job.
+        public var instanceTypes: [Swift.String]?
         /// The range of nodes, using node index values, that's used to override. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range.
         /// This member is required.
         public var targetNodes: Swift.String?
 
         public init(
             containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
+            ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
+            instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         )
         {
             self.containerOverrides = containerOverrides
+            self.ecsPropertiesOverride = ecsPropertiesOverride
+            self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
         }
     }
@@ -8508,6 +9139,8 @@ extension BatchClientTypes {
 extension BatchClientTypes.NodeRangeProperty: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case container
+        case ecsProperties
+        case instanceTypes
         case targetNodes
     }
 
@@ -8515,6 +9148,15 @@ extension BatchClientTypes.NodeRangeProperty: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let container = self.container {
             try encodeContainer.encode(container, forKey: .container)
+        }
+        if let ecsProperties = self.ecsProperties {
+            try encodeContainer.encode(ecsProperties, forKey: .ecsProperties)
+        }
+        if let instanceTypes = instanceTypes {
+            var instanceTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instanceTypes)
+            for string0 in instanceTypes {
+                try instanceTypesContainer.encode(string0)
+            }
         }
         if let targetNodes = self.targetNodes {
             try encodeContainer.encode(targetNodes, forKey: .targetNodes)
@@ -8527,24 +9169,45 @@ extension BatchClientTypes.NodeRangeProperty: Swift.Codable {
         targetNodes = targetNodesDecoded
         let containerDecoded = try containerValues.decodeIfPresent(BatchClientTypes.ContainerProperties.self, forKey: .container)
         container = containerDecoded
+        let instanceTypesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .instanceTypes)
+        var instanceTypesDecoded0:[Swift.String]? = nil
+        if let instanceTypesContainer = instanceTypesContainer {
+            instanceTypesDecoded0 = [Swift.String]()
+            for string0 in instanceTypesContainer {
+                if let string0 = string0 {
+                    instanceTypesDecoded0?.append(string0)
+                }
+            }
+        }
+        instanceTypes = instanceTypesDecoded0
+        let ecsPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsProperties.self, forKey: .ecsProperties)
+        ecsProperties = ecsPropertiesDecoded
     }
 }
 
 extension BatchClientTypes {
-    /// An object that represents the properties of the node range for a multi-node parallel job.
+    /// This is an object that represents the properties of the node range for a multi-node parallel job.
     public struct NodeRangeProperty: Swift.Equatable {
         /// The container details for the node range.
         public var container: BatchClientTypes.ContainerProperties?
+        /// This is an object that represents the properties of the node range for a multi-node parallel job.
+        public var ecsProperties: BatchClientTypes.EcsProperties?
+        /// The instance types of the underlying host infrastructure of a multi-node parallel job. This parameter isn't applicable to jobs that are running on Fargate resources. In addition, this list object is currently limited to one element.
+        public var instanceTypes: [Swift.String]?
         /// The range of nodes, using node index values. A range of 0:3 indicates nodes with index values of 0 through 3. If the starting range value is omitted (:n), then 0 is used to start the range. If the ending range value is omitted (n:), then the highest possible node index is used to end the range. Your accumulative node ranges must account for all nodes (0:n). You can nest node ranges (for example, 0:10 and 4:5). In this case, the 4:5 range properties override the 0:10 properties.
         /// This member is required.
         public var targetNodes: Swift.String?
 
         public init(
             container: BatchClientTypes.ContainerProperties? = nil,
+            ecsProperties: BatchClientTypes.EcsProperties? = nil,
+            instanceTypes: [Swift.String]? = nil,
             targetNodes: Swift.String? = nil
         )
         {
             self.container = container
+            self.ecsProperties = ecsProperties
+            self.instanceTypes = instanceTypes
             self.targetNodes = targetNodes
         }
     }
@@ -8618,6 +9281,7 @@ extension BatchClientTypes {
 extension RegisterJobDefinitionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerProperties
+        case ecsProperties
         case eksProperties
         case jobDefinitionName
         case nodeProperties
@@ -8635,6 +9299,9 @@ extension RegisterJobDefinitionInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerProperties = self.containerProperties {
             try encodeContainer.encode(containerProperties, forKey: .containerProperties)
+        }
+        if let ecsProperties = self.ecsProperties {
+            try encodeContainer.encode(ecsProperties, forKey: .ecsProperties)
         }
         if let eksProperties = self.eksProperties {
             try encodeContainer.encode(eksProperties, forKey: .eksProperties)
@@ -8690,14 +9357,16 @@ extension RegisterJobDefinitionInput {
 
 /// Contains the parameters for RegisterJobDefinition.
 public struct RegisterJobDefinitionInput: Swift.Equatable {
-    /// An object with various properties specific to Amazon ECS based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
+    /// An object with properties specific to Amazon ECS-based single-node container-based jobs. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. This must not be specified for Amazon EKS-based job definitions. If the job runs on Fargate resources, then you must not specify nodeProperties; use only containerProperties.
     public var containerProperties: BatchClientTypes.ContainerProperties?
-    /// An object with various properties that are specific to Amazon EKS based jobs. This must not be specified for Amazon ECS based job definitions.
+    /// An object with properties that are specific to Amazon ECS-based jobs. This must not be specified for Amazon EKS-based job definitions.
+    public var ecsProperties: BatchClientTypes.EcsProperties?
+    /// An object with properties that are specific to Amazon EKS-based jobs. This must not be specified for Amazon ECS based job definitions.
     public var eksProperties: BatchClientTypes.EksProperties?
     /// The name of the job definition to register. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var jobDefinitionName: Swift.String?
-    /// An object with various properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see [Multi-node Parallel Jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html) in the Batch User Guide. If the job definition's type parameter is container, then you must specify either containerProperties or nodeProperties. If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead. If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
+    /// An object with properties specific to multi-node parallel jobs. If you specify node properties for a job, it becomes a multi-node parallel job. For more information, see [Multi-node Parallel Jobs](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-parallel-jobs.html) in the Batch User Guide. If the job runs on Fargate resources, then you must not specify nodeProperties; use containerProperties instead. If the job runs on Amazon EKS resources, then you must not specify nodeProperties.
     public var nodeProperties: BatchClientTypes.NodeProperties?
     /// Default parameter substitution placeholders to set in the job definition. Parameters are specified as a key-value pair mapping. Parameters in a SubmitJob request override any corresponding parameter defaults from the job definition.
     public var parameters: [Swift.String:Swift.String]?
@@ -8713,12 +9382,20 @@ public struct RegisterJobDefinitionInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
     /// The timeout configuration for jobs that are submitted with this job definition, after which Batch terminates your jobs if they have not finished. If a job is terminated due to a timeout, it isn't retried. The minimum value for the timeout is 60 seconds. Any timeout configuration that's specified during a [SubmitJob] operation overrides the timeout configuration defined here. For more information, see [Job Timeouts](https://docs.aws.amazon.com/batch/latest/userguide/job_timeouts.html) in the Batch User Guide.
     public var timeout: BatchClientTypes.JobTimeout?
-    /// The type of job definition. For more information about multi-node parallel jobs, see [Creating a multi-node parallel job definition](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-job-def.html) in the Batch User Guide. If the job is run on Fargate resources, then multinode isn't supported.
+    /// The type of job definition. For more information about multi-node parallel jobs, see [Creating a multi-node parallel job definition](https://docs.aws.amazon.com/batch/latest/userguide/multi-node-job-def.html) in the Batch User Guide.
+    ///
+    /// * If the value is container, then one of the following is required: containerProperties, ecsProperties, or eksProperties.
+    ///
+    /// * If the value is multinode, then nodeProperties is required.
+    ///
+    ///
+    /// If the job is run on Fargate resources, then multinode isn't supported.
     /// This member is required.
     public var type: BatchClientTypes.JobDefinitionType?
 
     public init(
         containerProperties: BatchClientTypes.ContainerProperties? = nil,
+        ecsProperties: BatchClientTypes.EcsProperties? = nil,
         eksProperties: BatchClientTypes.EksProperties? = nil,
         jobDefinitionName: Swift.String? = nil,
         nodeProperties: BatchClientTypes.NodeProperties? = nil,
@@ -8733,6 +9410,7 @@ public struct RegisterJobDefinitionInput: Swift.Equatable {
     )
     {
         self.containerProperties = containerProperties
+        self.ecsProperties = ecsProperties
         self.eksProperties = eksProperties
         self.jobDefinitionName = jobDefinitionName
         self.nodeProperties = nodeProperties
@@ -8760,11 +9438,13 @@ struct RegisterJobDefinitionInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let platformCapabilities: [BatchClientTypes.PlatformCapability]?
     let eksProperties: BatchClientTypes.EksProperties?
+    let ecsProperties: BatchClientTypes.EcsProperties?
 }
 
 extension RegisterJobDefinitionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerProperties
+        case ecsProperties
         case eksProperties
         case jobDefinitionName
         case nodeProperties
@@ -8831,6 +9511,8 @@ extension RegisterJobDefinitionInputBody: Swift.Decodable {
         platformCapabilities = platformCapabilitiesDecoded0
         let eksPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksProperties.self, forKey: .eksProperties)
         eksProperties = eksPropertiesDecoded
+        let ecsPropertiesDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsProperties.self, forKey: .ecsProperties)
+        ecsProperties = ecsPropertiesDecoded
     }
 }
 
@@ -8976,7 +9658,7 @@ extension BatchClientTypes {
         /// The type of resource to assign to a container. The supported resources include GPU, MEMORY, and VCPU.
         /// This member is required.
         public var type: BatchClientTypes.ResourceType?
-        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, or 4 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, 53248, or 61440 VCPU = 8 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 VCPU = 16 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16 value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
+        /// The quantity of the specified resource to reserve for the container. The values vary based on the type specified. type="GPU" The number of physical GPUs to reserve for the container. Make sure that the number of GPUs reserved for all containers in a job doesn't exceed the number of available GPUs on the compute resource that the job is launched on. GPUs aren't available for jobs that are running on Fargate resources. type="MEMORY" The memory hard limit (in MiB) present to the container. This parameter is supported for jobs that are running on Amazon EC2 resources. If your container attempts to exceed the memory specified, the container is terminated. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). You must specify at least 4 MiB of memory for a job. This is required but can be specified in several places for multi-node parallel (MNP) jobs. It must be specified for each node at least once. This parameter maps to Memory in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --memory option to [docker run](https://docs.docker.com/engine/reference/run/). If you're trying to maximize your resource utilization by providing your jobs as much memory as possible for a particular instance type, see [Memory management](https://docs.aws.amazon.com/batch/latest/userguide/memory-management.html) in the Batch User Guide. For jobs that are running on Fargate resources, then value is the hard limit (in MiB), and must match one of the supported values and the VCPU values must be one of the values supported for that memory value. value = 512 VCPU = 0.25 value = 1024 VCPU = 0.25 or 0.5 value = 2048 VCPU = 0.25, 0.5, or 1 value = 3072 VCPU = 0.5, or 1 value = 4096 VCPU = 0.5, 1, or 2 value = 5120, 6144, or 7168 VCPU = 1 or 2 value = 8192 VCPU = 1, 2, or 4 value = 9216, 10240, 11264, 12288, 13312, 14336, or 15360 VCPU = 2 or 4 value = 16384 VCPU = 2, 4, or 8 value = 17408, 18432, 19456, 21504, 22528, 23552, 25600, 26624, 27648, 29696, or 30720 VCPU = 4 value = 20480, 24576, or 28672 VCPU = 4 or 8 value = 36864, 45056, 53248, or 61440 VCPU = 8 value = 32768, 40960, 49152, or 57344 VCPU = 8 or 16 value = 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880 VCPU = 16 type="VCPU" The number of vCPUs reserved for the container. This parameter maps to CpuShares in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --cpu-shares option to [docker run](https://docs.docker.com/engine/reference/run/). Each vCPU is equivalent to 1,024 CPU shares. For Amazon EC2 resources, you must specify at least one vCPU. This is required but can be specified in several places; it must be specified for each node at least once. The default for the Fargate On-Demand vCPU resource count quota is 6 vCPUs. For more information about Fargate quotas, see [Fargate quotas](https://docs.aws.amazon.com/general/latest/gr/ecs-service.html#service-quotas-fargate) in the Amazon Web Services General Reference. For jobs that are running on Fargate resources, then value must match one of the supported values and the MEMORY values must be one of the values supported for that VCPU value. The supported values are 0.25, 0.5, 1, 2, 4, 8, and 16 value = 0.25 MEMORY = 512, 1024, or 2048 value = 0.5 MEMORY = 1024, 2048, 3072, or 4096 value = 1 MEMORY = 2048, 3072, 4096, 5120, 6144, 7168, or 8192 value = 2 MEMORY = 4096, 5120, 6144, 7168, 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, or 16384 value = 4 MEMORY = 8192, 9216, 10240, 11264, 12288, 13312, 14336, 15360, 16384, 17408, 18432, 19456, 20480, 21504, 22528, 23552, 24576, 25600, 26624, 27648, 28672, 29696, or 30720 value = 8 MEMORY = 16384, 20480, 24576, 28672, 32768, 36864, 40960, 45056, 49152, 53248, 57344, or 61440 value = 16 MEMORY = 32768, 40960, 49152, 57344, 65536, 73728, 81920, 90112, 98304, 106496, 114688, or 122880
         /// This member is required.
         public var value: Swift.String?
 
@@ -9436,6 +10118,7 @@ extension SubmitJobInput: Swift.Encodable {
         case arrayProperties
         case containerOverrides
         case dependsOn
+        case ecsPropertiesOverride
         case eksPropertiesOverride
         case jobDefinition
         case jobName
@@ -9463,6 +10146,9 @@ extension SubmitJobInput: Swift.Encodable {
             for jobdependency0 in dependsOn {
                 try dependsOnContainer.encode(jobdependency0)
             }
+        }
+        if let ecsPropertiesOverride = self.ecsPropertiesOverride {
+            try encodeContainer.encode(ecsPropertiesOverride, forKey: .ecsPropertiesOverride)
         }
         if let eksPropertiesOverride = self.eksPropertiesOverride {
             try encodeContainer.encode(eksPropertiesOverride, forKey: .eksPropertiesOverride)
@@ -9520,11 +10206,13 @@ extension SubmitJobInput {
 public struct SubmitJobInput: Swift.Equatable {
     /// The array properties for the submitted job, such as the size of the array. The array size can be between 2 and 10,000. If you specify array properties for a job, it becomes an array job. For more information, see [Array Jobs](https://docs.aws.amazon.com/batch/latest/userguide/array_jobs.html) in the Batch User Guide.
     public var arrayProperties: BatchClientTypes.ArrayProperties?
-    /// An object with various properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
+    /// An object with properties that override the defaults for the job definition that specify the name of a container in the specified job definition and the overrides it should receive. You can override the default command for a container, which is specified in the job definition or the Docker image, with a command override. You can also override existing environment variables on a container or add new environment variables to it with an environment override.
     public var containerOverrides: BatchClientTypes.ContainerOverrides?
     /// A list of dependencies for the job. A job can depend upon a maximum of 20 jobs. You can specify a SEQUENTIAL type dependency without specifying a job ID for array jobs so that each child array job completes sequentially, starting at index 0. You can also specify an N_TO_N type dependency with a job ID for array jobs. In that case, each index child of this job must wait for the corresponding index child of each dependency to complete before it can begin.
     public var dependsOn: [BatchClientTypes.JobDependency]?
-    /// An object that can only be specified for jobs that are run on Amazon EKS resources with various properties that override defaults for the job definition.
+    /// An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon ECS resources.
+    public var ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride?
+    /// An object, with properties that override defaults for the job definition, can only be specified for jobs that are run on Amazon EKS resources.
     public var eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride?
     /// The job definition used by this job. This value can be one of definition-name, definition-name:revision, or the Amazon Resource Name (ARN) for the job definition, with or without the revision (arn:aws:batch:region:account:job-definition/definition-name:revision , or arn:aws:batch:region:account:job-definition/definition-name ). If the revision is not specified, then the latest active revision is used.
     /// This member is required.
@@ -9556,6 +10244,7 @@ public struct SubmitJobInput: Swift.Equatable {
         arrayProperties: BatchClientTypes.ArrayProperties? = nil,
         containerOverrides: BatchClientTypes.ContainerOverrides? = nil,
         dependsOn: [BatchClientTypes.JobDependency]? = nil,
+        ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride? = nil,
         eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride? = nil,
         jobDefinition: Swift.String? = nil,
         jobName: Swift.String? = nil,
@@ -9573,6 +10262,7 @@ public struct SubmitJobInput: Swift.Equatable {
         self.arrayProperties = arrayProperties
         self.containerOverrides = containerOverrides
         self.dependsOn = dependsOn
+        self.ecsPropertiesOverride = ecsPropertiesOverride
         self.eksPropertiesOverride = eksPropertiesOverride
         self.jobDefinition = jobDefinition
         self.jobName = jobName
@@ -9604,6 +10294,7 @@ struct SubmitJobInputBody: Swift.Equatable {
     let timeout: BatchClientTypes.JobTimeout?
     let tags: [Swift.String:Swift.String]?
     let eksPropertiesOverride: BatchClientTypes.EksPropertiesOverride?
+    let ecsPropertiesOverride: BatchClientTypes.EcsPropertiesOverride?
 }
 
 extension SubmitJobInputBody: Swift.Decodable {
@@ -9611,6 +10302,7 @@ extension SubmitJobInputBody: Swift.Decodable {
         case arrayProperties
         case containerOverrides
         case dependsOn
+        case ecsPropertiesOverride
         case eksPropertiesOverride
         case jobDefinition
         case jobName
@@ -9684,6 +10376,8 @@ extension SubmitJobInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let eksPropertiesOverrideDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EksPropertiesOverride.self, forKey: .eksPropertiesOverride)
         eksPropertiesOverride = eksPropertiesOverrideDecoded
+        let ecsPropertiesOverrideDecoded = try containerValues.decodeIfPresent(BatchClientTypes.EcsPropertiesOverride.self, forKey: .ecsPropertiesOverride)
+        ecsPropertiesOverride = ecsPropertiesOverrideDecoded
     }
 }
 
@@ -9851,6 +10545,827 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension BatchClientTypes.TaskContainerDependency: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case condition
+        case containerName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let condition = self.condition {
+            try encodeContainer.encode(condition, forKey: .condition)
+        }
+        if let containerName = self.containerName {
+            try encodeContainer.encode(containerName, forKey: .containerName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerName)
+        containerName = containerNameDecoded
+        let conditionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .condition)
+        condition = conditionDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// A list of containers that this task depends on.
+    public struct TaskContainerDependency: Swift.Equatable {
+        /// The dependency condition of the container. The following are the available conditions and their behavior:
+        ///
+        /// * START - This condition emulates the behavior of links and volumes today. It validates that a dependent container is started before permitting other containers to start.
+        ///
+        /// * COMPLETE - This condition validates that a dependent container runs to completion (exits) before permitting other containers to start. This can be useful for nonessential containers that run a script and then exit. This condition can't be set on an essential container.
+        ///
+        /// * SUCCESS - This condition is the same as COMPLETE, but it also requires that the container exits with a zero status. This condition can't be set on an essential container.
+        public var condition: Swift.String?
+        /// A unique identifier for the container.
+        public var containerName: Swift.String?
+
+        public init(
+            condition: Swift.String? = nil,
+            containerName: Swift.String? = nil
+        )
+        {
+            self.condition = condition
+            self.containerName = containerName
+        }
+    }
+
+}
+
+extension BatchClientTypes.TaskContainerDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command
+        case dependsOn
+        case environment
+        case essential
+        case exitCode
+        case image
+        case linuxParameters
+        case logConfiguration
+        case logStreamName
+        case mountPoints
+        case name
+        case networkInterfaces
+        case privileged
+        case readonlyRootFilesystem
+        case reason
+        case repositoryCredentials
+        case resourceRequirements
+        case secrets
+        case ulimits
+        case user
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for string0 in command {
+                try commandContainer.encode(string0)
+            }
+        }
+        if let dependsOn = dependsOn {
+            var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
+            for taskcontainerdependency0 in dependsOn {
+                try dependsOnContainer.encode(taskcontainerdependency0)
+            }
+        }
+        if let environment = environment {
+            var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
+            }
+        }
+        if let essential = self.essential {
+            try encodeContainer.encode(essential, forKey: .essential)
+        }
+        if let exitCode = self.exitCode {
+            try encodeContainer.encode(exitCode, forKey: .exitCode)
+        }
+        if let image = self.image {
+            try encodeContainer.encode(image, forKey: .image)
+        }
+        if let linuxParameters = self.linuxParameters {
+            try encodeContainer.encode(linuxParameters, forKey: .linuxParameters)
+        }
+        if let logConfiguration = self.logConfiguration {
+            try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
+        }
+        if let logStreamName = self.logStreamName {
+            try encodeContainer.encode(logStreamName, forKey: .logStreamName)
+        }
+        if let mountPoints = mountPoints {
+            var mountPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountPoints)
+            for mountpoint0 in mountPoints {
+                try mountPointsContainer.encode(mountpoint0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkInterfaces = networkInterfaces {
+            var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
+            }
+        }
+        if let privileged = self.privileged {
+            try encodeContainer.encode(privileged, forKey: .privileged)
+        }
+        if let readonlyRootFilesystem = self.readonlyRootFilesystem {
+            try encodeContainer.encode(readonlyRootFilesystem, forKey: .readonlyRootFilesystem)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let repositoryCredentials = self.repositoryCredentials {
+            try encodeContainer.encode(repositoryCredentials, forKey: .repositoryCredentials)
+        }
+        if let resourceRequirements = resourceRequirements {
+            var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
+            }
+        }
+        if let secrets = secrets {
+            var secretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secrets)
+            for secret0 in secrets {
+                try secretsContainer.encode(secret0)
+            }
+        }
+        if let ulimits = ulimits {
+            var ulimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ulimits)
+            for ulimit0 in ulimits {
+                try ulimitsContainer.encode(ulimit0)
+            }
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let dependsOnContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskContainerDependency?].self, forKey: .dependsOn)
+        var dependsOnDecoded0:[BatchClientTypes.TaskContainerDependency]? = nil
+        if let dependsOnContainer = dependsOnContainer {
+            dependsOnDecoded0 = [BatchClientTypes.TaskContainerDependency]()
+            for structure0 in dependsOnContainer {
+                if let structure0 = structure0 {
+                    dependsOnDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependsOn = dependsOnDecoded0
+        let environmentContainer = try containerValues.decodeIfPresent([BatchClientTypes.KeyValuePair?].self, forKey: .environment)
+        var environmentDecoded0:[BatchClientTypes.KeyValuePair]? = nil
+        if let environmentContainer = environmentContainer {
+            environmentDecoded0 = [BatchClientTypes.KeyValuePair]()
+            for structure0 in environmentContainer {
+                if let structure0 = structure0 {
+                    environmentDecoded0?.append(structure0)
+                }
+            }
+        }
+        environment = environmentDecoded0
+        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential)
+        essential = essentialDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
+        image = imageDecoded
+        let linuxParametersDecoded = try containerValues.decodeIfPresent(BatchClientTypes.LinuxParameters.self, forKey: .linuxParameters)
+        linuxParameters = linuxParametersDecoded
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.LogConfiguration.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
+        let mountPointsContainer = try containerValues.decodeIfPresent([BatchClientTypes.MountPoint?].self, forKey: .mountPoints)
+        var mountPointsDecoded0:[BatchClientTypes.MountPoint]? = nil
+        if let mountPointsContainer = mountPointsContainer {
+            mountPointsDecoded0 = [BatchClientTypes.MountPoint]()
+            for structure0 in mountPointsContainer {
+                if let structure0 = structure0 {
+                    mountPointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mountPoints = mountPointsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
+        privileged = privilegedDecoded
+        let readonlyRootFilesystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readonlyRootFilesystem)
+        readonlyRootFilesystem = readonlyRootFilesystemDecoded
+        let repositoryCredentialsDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RepositoryCredentials.self, forKey: .repositoryCredentials)
+        repositoryCredentials = repositoryCredentialsDecoded
+        let resourceRequirementsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ResourceRequirement?].self, forKey: .resourceRequirements)
+        var resourceRequirementsDecoded0:[BatchClientTypes.ResourceRequirement]? = nil
+        if let resourceRequirementsContainer = resourceRequirementsContainer {
+            resourceRequirementsDecoded0 = [BatchClientTypes.ResourceRequirement]()
+            for structure0 in resourceRequirementsContainer {
+                if let structure0 = structure0 {
+                    resourceRequirementsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceRequirements = resourceRequirementsDecoded0
+        let secretsContainer = try containerValues.decodeIfPresent([BatchClientTypes.Secret?].self, forKey: .secrets)
+        var secretsDecoded0:[BatchClientTypes.Secret]? = nil
+        if let secretsContainer = secretsContainer {
+            secretsDecoded0 = [BatchClientTypes.Secret]()
+            for structure0 in secretsContainer {
+                if let structure0 = structure0 {
+                    secretsDecoded0?.append(structure0)
+                }
+            }
+        }
+        secrets = secretsDecoded0
+        let ulimitsContainer = try containerValues.decodeIfPresent([BatchClientTypes.Ulimit?].self, forKey: .ulimits)
+        var ulimitsDecoded0:[BatchClientTypes.Ulimit]? = nil
+        if let ulimitsContainer = ulimitsContainer {
+            ulimitsDecoded0 = [BatchClientTypes.Ulimit]()
+            for structure0 in ulimitsContainer {
+                if let structure0 = structure0 {
+                    ulimitsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ulimits = ulimitsDecoded0
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+        let exitCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exitCode)
+        exitCode = exitCodeDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let logStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamName)
+        logStreamName = logStreamNameDecoded
+        let networkInterfacesContainer = try containerValues.decodeIfPresent([BatchClientTypes.NetworkInterface?].self, forKey: .networkInterfaces)
+        var networkInterfacesDecoded0:[BatchClientTypes.NetworkInterface]? = nil
+        if let networkInterfacesContainer = networkInterfacesContainer {
+            networkInterfacesDecoded0 = [BatchClientTypes.NetworkInterface]()
+            for structure0 in networkInterfacesContainer {
+                if let structure0 = structure0 {
+                    networkInterfacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkInterfaces = networkInterfacesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// The details for the container in this task attempt.
+    public struct TaskContainerDetails: Swift.Equatable {
+        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [https://docs.docker.com/engine/reference/builder/#cmd](https://docs.docker.com/engine/reference/builder/#cmd).
+        public var command: [Swift.String]?
+        /// A list of containers that this container depends on.
+        public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
+        /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data.
+        public var environment: [BatchClientTypes.KeyValuePair]?
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
+        public var essential: Swift.Bool?
+        /// The exit code returned upon completion.
+        public var exitCode: Swift.Int?
+        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
+        public var image: Swift.String?
+        /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information, see [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html). This parameter is not supported for Windows containers.
+        public var linuxParameters: BatchClientTypes.LinuxParameters?
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        public var logConfiguration: BatchClientTypes.LogConfiguration?
+        /// The name of the CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
+        public var logStreamName: Swift.String?
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
+        public var mountPoints: [BatchClientTypes.MountPoint]?
+        /// The name of a container.
+        public var name: Swift.String?
+        /// The network interfaces that are associated with the job.
+        public var networkInterfaces: [BatchClientTypes.NetworkInterface]?
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
+        public var privileged: Swift.Bool?
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
+        public var readonlyRootFilesystem: Swift.Bool?
+        /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
+        public var reason: Swift.String?
+        /// The private repository authentication credentials to use.
+        public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
+        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
+        /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+        public var secrets: [BatchClientTypes.Secret]?
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
+        public var ulimits: [BatchClientTypes.Ulimit]?
+        /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
+        ///
+        /// * user
+        ///
+        /// * user:group
+        ///
+        /// * uid
+        ///
+        /// * uid:gid
+        ///
+        /// * user:gi
+        ///
+        /// * uid:group
+        ///
+        ///
+        ///
+        /// This parameter is not supported for Windows containers.
+        public var user: Swift.String?
+
+        public init(
+            command: [Swift.String]? = nil,
+            dependsOn: [BatchClientTypes.TaskContainerDependency]? = nil,
+            environment: [BatchClientTypes.KeyValuePair]? = nil,
+            essential: Swift.Bool? = nil,
+            exitCode: Swift.Int? = nil,
+            image: Swift.String? = nil,
+            linuxParameters: BatchClientTypes.LinuxParameters? = nil,
+            logConfiguration: BatchClientTypes.LogConfiguration? = nil,
+            logStreamName: Swift.String? = nil,
+            mountPoints: [BatchClientTypes.MountPoint]? = nil,
+            name: Swift.String? = nil,
+            networkInterfaces: [BatchClientTypes.NetworkInterface]? = nil,
+            privileged: Swift.Bool? = nil,
+            readonlyRootFilesystem: Swift.Bool? = nil,
+            reason: Swift.String? = nil,
+            repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
+            resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
+            secrets: [BatchClientTypes.Secret]? = nil,
+            ulimits: [BatchClientTypes.Ulimit]? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.command = command
+            self.dependsOn = dependsOn
+            self.environment = environment
+            self.essential = essential
+            self.exitCode = exitCode
+            self.image = image
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.logStreamName = logStreamName
+            self.mountPoints = mountPoints
+            self.name = name
+            self.networkInterfaces = networkInterfaces
+            self.privileged = privileged
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.reason = reason
+            self.repositoryCredentials = repositoryCredentials
+            self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
+            self.ulimits = ulimits
+            self.user = user
+        }
+    }
+
+}
+
+extension BatchClientTypes.TaskContainerOverrides: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command
+        case environment
+        case name
+        case resourceRequirements
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for string0 in command {
+                try commandContainer.encode(string0)
+            }
+        }
+        if let environment = environment {
+            var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let resourceRequirements = resourceRequirements {
+            var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let environmentContainer = try containerValues.decodeIfPresent([BatchClientTypes.KeyValuePair?].self, forKey: .environment)
+        var environmentDecoded0:[BatchClientTypes.KeyValuePair]? = nil
+        if let environmentContainer = environmentContainer {
+            environmentDecoded0 = [BatchClientTypes.KeyValuePair]()
+            for structure0 in environmentContainer {
+                if let structure0 = structure0 {
+                    environmentDecoded0?.append(structure0)
+                }
+            }
+        }
+        environment = environmentDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let resourceRequirementsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ResourceRequirement?].self, forKey: .resourceRequirements)
+        var resourceRequirementsDecoded0:[BatchClientTypes.ResourceRequirement]? = nil
+        if let resourceRequirementsContainer = resourceRequirementsContainer {
+            resourceRequirementsDecoded0 = [BatchClientTypes.ResourceRequirement]()
+            for structure0 in resourceRequirementsContainer {
+                if let structure0 = structure0 {
+                    resourceRequirementsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceRequirements = resourceRequirementsDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// The overrides that should be sent to a container. For information about using Batch overrides when you connect event sources to targets, see [BatchContainerOverrides](https://docs.aws.amazon.com/eventbridge/latest/pipes-reference/API_BatchContainerOverrides.html).
+    public struct TaskContainerOverrides: Swift.Equatable {
+        /// The command to send to the container that overrides the default command from the Docker image or the job definition. This parameter can't contain an empty string.
+        public var command: [Swift.String]?
+        /// The environment variables to send to the container. You can add new environment variables, which are added to the container at launch, or you can override the existing environment variables from the Docker image or the job definition. Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
+        public var environment: [BatchClientTypes.KeyValuePair]?
+        /// A pointer to the container that you want to override. The container's name provides a unique identifier for the container being used.
+        public var name: Swift.String?
+        /// The type and amount of resources to assign to a container. This overrides the settings in the job definition. The supported resources include GPU, MEMORY, and VCPU.
+        public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
+
+        public init(
+            command: [Swift.String]? = nil,
+            environment: [BatchClientTypes.KeyValuePair]? = nil,
+            name: Swift.String? = nil,
+            resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil
+        )
+        {
+            self.command = command
+            self.environment = environment
+            self.name = name
+            self.resourceRequirements = resourceRequirements
+        }
+    }
+
+}
+
+extension BatchClientTypes.TaskContainerProperties: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case command
+        case dependsOn
+        case environment
+        case essential
+        case image
+        case linuxParameters
+        case logConfiguration
+        case mountPoints
+        case name
+        case privileged
+        case readonlyRootFilesystem
+        case repositoryCredentials
+        case resourceRequirements
+        case secrets
+        case ulimits
+        case user
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let command = command {
+            var commandContainer = encodeContainer.nestedUnkeyedContainer(forKey: .command)
+            for string0 in command {
+                try commandContainer.encode(string0)
+            }
+        }
+        if let dependsOn = dependsOn {
+            var dependsOnContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dependsOn)
+            for taskcontainerdependency0 in dependsOn {
+                try dependsOnContainer.encode(taskcontainerdependency0)
+            }
+        }
+        if let environment = environment {
+            var environmentContainer = encodeContainer.nestedUnkeyedContainer(forKey: .environment)
+            for keyvaluepair0 in environment {
+                try environmentContainer.encode(keyvaluepair0)
+            }
+        }
+        if let essential = self.essential {
+            try encodeContainer.encode(essential, forKey: .essential)
+        }
+        if let image = self.image {
+            try encodeContainer.encode(image, forKey: .image)
+        }
+        if let linuxParameters = self.linuxParameters {
+            try encodeContainer.encode(linuxParameters, forKey: .linuxParameters)
+        }
+        if let logConfiguration = self.logConfiguration {
+            try encodeContainer.encode(logConfiguration, forKey: .logConfiguration)
+        }
+        if let mountPoints = mountPoints {
+            var mountPointsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mountPoints)
+            for mountpoint0 in mountPoints {
+                try mountPointsContainer.encode(mountpoint0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let privileged = self.privileged {
+            try encodeContainer.encode(privileged, forKey: .privileged)
+        }
+        if let readonlyRootFilesystem = self.readonlyRootFilesystem {
+            try encodeContainer.encode(readonlyRootFilesystem, forKey: .readonlyRootFilesystem)
+        }
+        if let repositoryCredentials = self.repositoryCredentials {
+            try encodeContainer.encode(repositoryCredentials, forKey: .repositoryCredentials)
+        }
+        if let resourceRequirements = resourceRequirements {
+            var resourceRequirementsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .resourceRequirements)
+            for resourcerequirement0 in resourceRequirements {
+                try resourceRequirementsContainer.encode(resourcerequirement0)
+            }
+        }
+        if let secrets = secrets {
+            var secretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .secrets)
+            for secret0 in secrets {
+                try secretsContainer.encode(secret0)
+            }
+        }
+        if let ulimits = ulimits {
+            var ulimitsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .ulimits)
+            for ulimit0 in ulimits {
+                try ulimitsContainer.encode(ulimit0)
+            }
+        }
+        if let user = self.user {
+            try encodeContainer.encode(user, forKey: .user)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let commandContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .command)
+        var commandDecoded0:[Swift.String]? = nil
+        if let commandContainer = commandContainer {
+            commandDecoded0 = [Swift.String]()
+            for string0 in commandContainer {
+                if let string0 = string0 {
+                    commandDecoded0?.append(string0)
+                }
+            }
+        }
+        command = commandDecoded0
+        let dependsOnContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskContainerDependency?].self, forKey: .dependsOn)
+        var dependsOnDecoded0:[BatchClientTypes.TaskContainerDependency]? = nil
+        if let dependsOnContainer = dependsOnContainer {
+            dependsOnDecoded0 = [BatchClientTypes.TaskContainerDependency]()
+            for structure0 in dependsOnContainer {
+                if let structure0 = structure0 {
+                    dependsOnDecoded0?.append(structure0)
+                }
+            }
+        }
+        dependsOn = dependsOnDecoded0
+        let environmentContainer = try containerValues.decodeIfPresent([BatchClientTypes.KeyValuePair?].self, forKey: .environment)
+        var environmentDecoded0:[BatchClientTypes.KeyValuePair]? = nil
+        if let environmentContainer = environmentContainer {
+            environmentDecoded0 = [BatchClientTypes.KeyValuePair]()
+            for structure0 in environmentContainer {
+                if let structure0 = structure0 {
+                    environmentDecoded0?.append(structure0)
+                }
+            }
+        }
+        environment = environmentDecoded0
+        let essentialDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .essential)
+        essential = essentialDecoded
+        let imageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .image)
+        image = imageDecoded
+        let linuxParametersDecoded = try containerValues.decodeIfPresent(BatchClientTypes.LinuxParameters.self, forKey: .linuxParameters)
+        linuxParameters = linuxParametersDecoded
+        let logConfigurationDecoded = try containerValues.decodeIfPresent(BatchClientTypes.LogConfiguration.self, forKey: .logConfiguration)
+        logConfiguration = logConfigurationDecoded
+        let mountPointsContainer = try containerValues.decodeIfPresent([BatchClientTypes.MountPoint?].self, forKey: .mountPoints)
+        var mountPointsDecoded0:[BatchClientTypes.MountPoint]? = nil
+        if let mountPointsContainer = mountPointsContainer {
+            mountPointsDecoded0 = [BatchClientTypes.MountPoint]()
+            for structure0 in mountPointsContainer {
+                if let structure0 = structure0 {
+                    mountPointsDecoded0?.append(structure0)
+                }
+            }
+        }
+        mountPoints = mountPointsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
+        privileged = privilegedDecoded
+        let readonlyRootFilesystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readonlyRootFilesystem)
+        readonlyRootFilesystem = readonlyRootFilesystemDecoded
+        let repositoryCredentialsDecoded = try containerValues.decodeIfPresent(BatchClientTypes.RepositoryCredentials.self, forKey: .repositoryCredentials)
+        repositoryCredentials = repositoryCredentialsDecoded
+        let resourceRequirementsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ResourceRequirement?].self, forKey: .resourceRequirements)
+        var resourceRequirementsDecoded0:[BatchClientTypes.ResourceRequirement]? = nil
+        if let resourceRequirementsContainer = resourceRequirementsContainer {
+            resourceRequirementsDecoded0 = [BatchClientTypes.ResourceRequirement]()
+            for structure0 in resourceRequirementsContainer {
+                if let structure0 = structure0 {
+                    resourceRequirementsDecoded0?.append(structure0)
+                }
+            }
+        }
+        resourceRequirements = resourceRequirementsDecoded0
+        let secretsContainer = try containerValues.decodeIfPresent([BatchClientTypes.Secret?].self, forKey: .secrets)
+        var secretsDecoded0:[BatchClientTypes.Secret]? = nil
+        if let secretsContainer = secretsContainer {
+            secretsDecoded0 = [BatchClientTypes.Secret]()
+            for structure0 in secretsContainer {
+                if let structure0 = structure0 {
+                    secretsDecoded0?.append(structure0)
+                }
+            }
+        }
+        secrets = secretsDecoded0
+        let ulimitsContainer = try containerValues.decodeIfPresent([BatchClientTypes.Ulimit?].self, forKey: .ulimits)
+        var ulimitsDecoded0:[BatchClientTypes.Ulimit]? = nil
+        if let ulimitsContainer = ulimitsContainer {
+            ulimitsDecoded0 = [BatchClientTypes.Ulimit]()
+            for structure0 in ulimitsContainer {
+                if let structure0 = structure0 {
+                    ulimitsDecoded0?.append(structure0)
+                }
+            }
+        }
+        ulimits = ulimitsDecoded0
+        let userDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .user)
+        user = userDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// Container properties are used for Amazon ECS-based job definitions. These properties to describe the container that's launched as part of a job.
+    public struct TaskContainerProperties: Swift.Equatable {
+        /// The command that's passed to the container. This parameter maps to Cmd in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the COMMAND parameter to [docker run](https://docs.docker.com/engine/reference/run/). For more information, see [Dockerfile reference: CMD](https://docs.docker.com/engine/reference/builder/#cmd).
+        public var command: [Swift.String]?
+        /// A list of containers that this container depends on.
+        public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
+        /// The environment variables to pass to a container. This parameter maps to Env inthe [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env parameter to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
+        public var environment: [BatchClientTypes.KeyValuePair]?
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
+        public var essential: Swift.Bool?
+        /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
+        /// This member is required.
+        public var image: Swift.String?
+        /// Linux-specific modifications that are applied to the container, such as Linux kernel capabilities. For more information, see [KernelCapabilities](https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_KernelCapabilities.html).
+        public var linuxParameters: BatchClientTypes.LinuxParameters?
+        /// The log configuration specification for the container. This parameter maps to LogConfig in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --log-driver option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). By default, containers use the same logging driver that the Docker daemon uses. However the container can use a different logging driver than the Docker daemon by specifying a log driver with this parameter in the container definition. To use a different logging driver for a container, the log system must be configured properly on the container instance (or on a different log server for remote logging options). For more information about the options for different supported log drivers, see [Configure logging drivers ](https://docs.docker.com/engine/admin/logging/overview/) in the Docker documentation. Amazon ECS currently supports a subset of the logging drivers available to the Docker daemon (shown in the LogConfiguration data type). Additional log drivers may be available in future releases of the Amazon ECS container agent. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' The Amazon ECS container agent running on a container instance must register the logging drivers available on that instance with the ECS_AVAILABLE_LOGGING_DRIVERS environment variable before containers placed on that instance can use these log configuration options. For more information, see [Amazon ECS container agent configuration](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html) in the Amazon Elastic Container Service Developer Guide.
+        public var logConfiguration: BatchClientTypes.LogConfiguration?
+        /// The mount points for data volumes in your container. This parameter maps to Volumes in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the [--volume] option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Windows containers can mount whole directories on the same drive as $env:ProgramData. Windows containers can't mount directories on a different drive, and mount point can't be across drives.
+        public var mountPoints: [BatchClientTypes.MountPoint]?
+        /// The name of a container. The name can be used as a unique identifier to target your dependsOn and Overrides objects.
+        public var name: Swift.String?
+        /// When this parameter is true, the container is given elevated privileges on the host container instance (similar to the root user). This parameter maps to Privileged in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --privileged option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers or tasks run on Fargate.
+        public var privileged: Swift.Bool?
+        /// When this parameter is true, the container is given read-only access to its root file system. This parameter maps to ReadonlyRootfs in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --read-only option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). This parameter is not supported for Windows containers.
+        public var readonlyRootFilesystem: Swift.Bool?
+        /// The private repository authentication credentials to use.
+        public var repositoryCredentials: BatchClientTypes.RepositoryCredentials?
+        /// The type and amount of a resource to assign to a container. The only supported resource is a GPU.
+        public var resourceRequirements: [BatchClientTypes.ResourceRequirement]?
+        /// The secrets to pass to the container. For more information, see [Specifying Sensitive Data](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/specifying-sensitive-data.html) in the Amazon Elastic Container Service Developer Guide.
+        public var secrets: [BatchClientTypes.Secret]?
+        /// A list of ulimits to set in the container. If a ulimit value is specified in a task definition, it overrides the default values set by Docker. This parameter maps to Ulimits in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the --ulimit option to [docker run](https://docs.docker.com/engine/reference/run/#security-configuration). Amazon ECS tasks hosted on Fargate use the default resource limit values set by the operating system with the exception of the nofile resource limit parameter which Fargate overrides. The nofile resource limit sets a restriction on the number of open files that a container can use. The default nofile soft limit is 1024 and the default hard limit is 65535. This parameter requires version 1.18 of the Docker Remote API or greater on your container instance. To check the Docker Remote API version on your container instance, log in to your container instance and run the following command: sudo docker version --format '{{.Server.APIVersion}}' This parameter is not supported for Windows containers.
+        public var ulimits: [BatchClientTypes.Ulimit]?
+        /// The user to use inside the container. This parameter maps to User in the Create a container section of the Docker Remote API and the --user option to docker run. When running tasks using the host network mode, don't run containers using the root user (UID 0). We recommend using a non-root user for better security. You can specify the user using the following formats. If specifying a UID or GID, you must specify it as a positive integer.
+        ///
+        /// * user
+        ///
+        /// * user:group
+        ///
+        /// * uid
+        ///
+        /// * uid:gid
+        ///
+        /// * user:gi
+        ///
+        /// * uid:group
+        ///
+        ///
+        /// This parameter is not supported for Windows containers.
+        public var user: Swift.String?
+
+        public init(
+            command: [Swift.String]? = nil,
+            dependsOn: [BatchClientTypes.TaskContainerDependency]? = nil,
+            environment: [BatchClientTypes.KeyValuePair]? = nil,
+            essential: Swift.Bool? = nil,
+            image: Swift.String? = nil,
+            linuxParameters: BatchClientTypes.LinuxParameters? = nil,
+            logConfiguration: BatchClientTypes.LogConfiguration? = nil,
+            mountPoints: [BatchClientTypes.MountPoint]? = nil,
+            name: Swift.String? = nil,
+            privileged: Swift.Bool? = nil,
+            readonlyRootFilesystem: Swift.Bool? = nil,
+            repositoryCredentials: BatchClientTypes.RepositoryCredentials? = nil,
+            resourceRequirements: [BatchClientTypes.ResourceRequirement]? = nil,
+            secrets: [BatchClientTypes.Secret]? = nil,
+            ulimits: [BatchClientTypes.Ulimit]? = nil,
+            user: Swift.String? = nil
+        )
+        {
+            self.command = command
+            self.dependsOn = dependsOn
+            self.environment = environment
+            self.essential = essential
+            self.image = image
+            self.linuxParameters = linuxParameters
+            self.logConfiguration = logConfiguration
+            self.mountPoints = mountPoints
+            self.name = name
+            self.privileged = privileged
+            self.readonlyRootFilesystem = readonlyRootFilesystem
+            self.repositoryCredentials = repositoryCredentials
+            self.resourceRequirements = resourceRequirements
+            self.secrets = secrets
+            self.ulimits = ulimits
+            self.user = user
+        }
+    }
+
+}
+
+extension BatchClientTypes.TaskPropertiesOverride: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containers
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containers = containers {
+            var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
+            for taskcontaineroverrides0 in containers {
+                try containersContainer.encode(taskcontaineroverrides0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.TaskContainerOverrides?].self, forKey: .containers)
+        var containersDecoded0:[BatchClientTypes.TaskContainerOverrides]? = nil
+        if let containersContainer = containersContainer {
+            containersDecoded0 = [BatchClientTypes.TaskContainerOverrides]()
+            for structure0 in containersContainer {
+                if let structure0 = structure0 {
+                    containersDecoded0?.append(structure0)
+                }
+            }
+        }
+        containers = containersDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that contains overrides for the task definition of a job.
+    public struct TaskPropertiesOverride: Swift.Equatable {
+        /// The overrides for the container definition of a job.
+        public var containers: [BatchClientTypes.TaskContainerOverrides]?
+
+        public init(
+            containers: [BatchClientTypes.TaskContainerOverrides]? = nil
+        )
+        {
+            self.containers = containers
+        }
+    }
+
 }
 
 extension TerminateJobInput: Swift.Encodable {

@@ -294,6 +294,11 @@ extension SNSClientTypes {
 
 }
 
+extension CheckIfPhoneNumberIsOptedOutInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CheckIfPhoneNumberIsOptedOutInput(phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
 extension CheckIfPhoneNumberIsOptedOutInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumber
@@ -742,6 +747,11 @@ enum CreatePlatformEndpointOutputError {
     }
 }
 
+extension CreateSMSSandboxPhoneNumberInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CreateSMSSandboxPhoneNumberInput(languageCode: \(Swift.String(describing: languageCode)), phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
 extension CreateSMSSandboxPhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case languageCode = "LanguageCode"
@@ -1116,6 +1126,11 @@ enum DeletePlatformApplicationOutputError {
             }
         }
     }
+}
+
+extension DeleteSMSSandboxPhoneNumberInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "DeleteSMSSandboxPhoneNumberInput(phoneNumber: \"CONTENT_REDACTED\")"}
 }
 
 extension DeleteSMSSandboxPhoneNumberInput: Swift.Encodable {
@@ -1654,6 +1669,15 @@ public struct GetPlatformApplicationAttributesOutput: Swift.Equatable {
     /// * ApplePlatformTeamID – The Apple developer account ID used to configure token-based authentication.
     ///
     /// * ApplePlatformBundleID – The app identifier used to configure token-based authentication.
+    ///
+    /// * AuthenticationMethod – Returns the credential type used when sending push notifications from application to APNS/APNS_Sandbox, or application to GCM.
+    ///
+    /// * APNS – Returns the token or certificate.
+    ///
+    /// * GCM – Returns the token or key.
+    ///
+    ///
+    ///
     ///
     /// * EventEndpointCreated – Topic ARN to which EndpointCreated event notifications should be sent.
     ///
@@ -3525,6 +3549,11 @@ extension SNSClientTypes {
     }
 }
 
+extension OptInPhoneNumberInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "OptInPhoneNumberInput(phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
 extension OptInPhoneNumberInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case phoneNumber
@@ -3686,6 +3715,11 @@ extension SNSClientTypes.PhoneNumberInformation: Swift.Encodable {
             return value
         }
     }
+}
+
+extension SNSClientTypes.PhoneNumberInformation: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PhoneNumberInformation(createdAt: \(Swift.String(describing: createdAt)), iso2CountryCode: \(Swift.String(describing: iso2CountryCode)), numberCapabilities: \(Swift.String(describing: numberCapabilities)), routeType: \(Swift.String(describing: routeType)), status: \(Swift.String(describing: status)), phoneNumber: \"CONTENT_REDACTED\")"}
 }
 
 extension SNSClientTypes {
@@ -4120,6 +4154,11 @@ extension SNSClientTypes {
         }
     }
 
+}
+
+extension PublishInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PublishInput(message: \(Swift.String(describing: message)), messageAttributes: \(Swift.String(describing: messageAttributes)), messageDeduplicationId: \(Swift.String(describing: messageDeduplicationId)), messageGroupId: \(Swift.String(describing: messageGroupId)), messageStructure: \(Swift.String(describing: messageStructure)), subject: \(Swift.String(describing: subject)), targetArn: \(Swift.String(describing: targetArn)), topicArn: \(Swift.String(describing: topicArn)), phoneNumber: \"CONTENT_REDACTED\")"}
 }
 
 extension PublishInput: Swift.Encodable {
@@ -4618,6 +4657,11 @@ extension SNSClientTypes.SMSSandboxPhoneNumber: Swift.Encodable {
     }
 }
 
+extension SNSClientTypes.SMSSandboxPhoneNumber: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SMSSandboxPhoneNumber(status: \(Swift.String(describing: status)), phoneNumber: \"CONTENT_REDACTED\")"}
+}
+
 extension SNSClientTypes {
     /// A verified or pending destination phone number in the SMS sandbox. When you start using Amazon SNS to send SMS messages, your Amazon Web Services account is in the SMS sandbox. The SMS sandbox provides a safe environment for you to try Amazon SNS features without risking your reputation as an SMS sender. While your Amazon Web Services account is in the SMS sandbox, you can use all of the features of Amazon SNS. However, you can send SMS messages only to verified destination phone numbers. For more information, including how to move out of the sandbox to send messages without restrictions, see [SMS sandbox](https://docs.aws.amazon.com/sns/latest/dg/sns-sms-sandbox.html) in the Amazon SNS Developer Guide.
     public struct SMSSandboxPhoneNumber: Swift.Equatable {
@@ -4814,7 +4858,9 @@ public struct SetPlatformApplicationAttributesInput: Swift.Equatable {
     ///
     /// * For Apple Services using token credentials, PlatformCredential is signing key.
     ///
-    /// * For GCM (Firebase Cloud Messaging), PlatformCredential is API key.
+    /// * For GCM (Firebase Cloud Messaging) using key credentials, there is no PlatformPrincipal. The PlatformCredential is API key.
+    ///
+    /// * For GCM (Firebase Cloud Messaging) using token credentials, there is no PlatformPrincipal. The PlatformCredential is a JSON formatted private key file. When using the Amazon Web Services CLI, the file must be in string format and special characters must be ignored. To format the file correctly, Amazon SNS recommends using the following command: SERVICE_JSON=`jq @json <<< cat service.json`.
     ///
     ///
     ///
@@ -6288,6 +6334,11 @@ public struct VerificationException: ClientRuntime.ModeledError, AWSClientRuntim
         self.properties.message = message
         self.properties.status = status
     }
+}
+
+extension VerifySMSSandboxPhoneNumberInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "VerifySMSSandboxPhoneNumberInput(oneTimePassword: \(Swift.String(describing: oneTimePassword)), phoneNumber: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifySMSSandboxPhoneNumberInput: Swift.Encodable {

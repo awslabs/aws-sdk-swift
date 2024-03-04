@@ -2842,7 +2842,7 @@ public struct CreateModelInput: Swift.Equatable {
     /// The RestApi identifier under which the Model will be created.
     /// This member is required.
     public var restApiId: Swift.String?
-    /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
+    /// The schema for the model. For application/json models, this should be JSON schema draft 4 model. The maximum size of the model is 400 KB.
     public var schema: Swift.String?
 
     public init(
@@ -3972,7 +3972,7 @@ extension CreateStageOutput: ClientRuntime.HttpResponseBinding {
 public struct CreateStageOutput: Swift.Equatable {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
-    /// Specifies whether a cache cluster is enabled for the stage.
+    /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
     public var cacheClusterEnabled: Swift.Bool
     /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
@@ -13038,7 +13038,7 @@ extension GetStageOutput: ClientRuntime.HttpResponseBinding {
 public struct GetStageOutput: Swift.Equatable {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
-    /// Specifies whether a cache cluster is enabled for the stage.
+    /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
     public var cacheClusterEnabled: Swift.Bool
     /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
@@ -19153,7 +19153,7 @@ extension APIGatewayClientTypes {
     public struct Stage: Swift.Equatable {
         /// Settings for logging access in this stage.
         public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
-        /// Specifies whether a cache cluster is enabled for the stage.
+        /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
         public var cacheClusterEnabled: Swift.Bool
         /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
         public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?
@@ -24172,7 +24172,7 @@ extension UpdateStageOutput: ClientRuntime.HttpResponseBinding {
 public struct UpdateStageOutput: Swift.Equatable {
     /// Settings for logging access in this stage.
     public var accessLogSettings: APIGatewayClientTypes.AccessLogSettings?
-    /// Specifies whether a cache cluster is enabled for the stage.
+    /// Specifies whether a cache cluster is enabled for the stage. To activate a method-level cache, set CachingEnabled to true for a method.
     public var cacheClusterEnabled: Swift.Bool
     /// The stage's cache capacity in GB. For more information about choosing a cache size, see [Enabling API caching to enhance responsiveness](https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-caching.html).
     public var cacheClusterSize: APIGatewayClientTypes.CacheClusterSize?

@@ -6747,8 +6747,8 @@ extension ListComponentsInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6776,14 +6776,14 @@ public struct ListComponentsInput: Swift.Equatable {
     /// This member is required.
     public var environmentName: Swift.String?
     /// The maximum number of components to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -6883,8 +6883,8 @@ extension ListFormsInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -6912,14 +6912,14 @@ public struct ListFormsInput: Swift.Equatable {
     /// This member is required.
     public var environmentName: Swift.String?
     /// The maximum number of forms to retrieve.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -7011,6 +7011,103 @@ enum ListFormsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListTagsForResourceInput {
+
+    static func urlPathProvider(_ value: ListTagsForResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct ListTagsForResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) to use to list tags.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct ListTagsForResourceInputBody: Swift.Equatable {
+}
+
+extension ListTagsForResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTagsForResourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+        } else {
+            self.tags = nil
+        }
+    }
+}
+
+public struct ListTagsForResourceOutput: Swift.Equatable {
+    /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.tags = tags
+    }
+}
+
+struct ListTagsForResourceOutputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension ListTagsForResourceOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListThemesInput {
 
     static func queryItemProvider(_ value: ListThemesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -7019,8 +7116,8 @@ extension ListThemesInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
-        if value.maxResults != 0 {
-            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(value.maxResults).urlPercentEncoding())
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
         return items
@@ -7048,14 +7145,14 @@ public struct ListThemesInput: Swift.Equatable {
     /// This member is required.
     public var environmentName: Swift.String?
     /// The maximum number of theme results to return in the response.
-    public var maxResults: Swift.Int
+    public var maxResults: Swift.Int?
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
 
     public init(
         appId: Swift.String? = nil,
         environmentName: Swift.String? = nil,
-        maxResults: Swift.Int = 0,
+        maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
@@ -8334,6 +8431,100 @@ extension AmplifyUIBuilderClientTypes {
     }
 }
 
+extension TagResourceInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tags0) in tags {
+                try tagsContainer.encode(tags0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension TagResourceInput {
+
+    static func urlPathProvider(_ value: TagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct TagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) to use to tag a resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
+    /// This member is required.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tags = tags
+    }
+}
+
+struct TagResourceInputBody: Swift.Equatable {
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension TagResourceInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct TagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension AmplifyUIBuilderClientTypes.Theme: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case appId
@@ -8799,6 +8990,84 @@ extension UnauthorizedExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension UntagResourceInput {
+
+    static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let tagKeys = value.tagKeys else {
+            let message = "Creating a URL Query Item failed. tagKeys is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        tagKeys.forEach { queryItemValue in
+            let queryItem = ClientRuntime.SDKURLQueryItem(name: "tagKeys".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+            items.append(queryItem)
+        }
+        return items
+    }
+}
+
+extension UntagResourceInput {
+
+    static func urlPathProvider(_ value: UntagResourceInput) -> Swift.String? {
+        guard let resourceArn = value.resourceArn else {
+            return nil
+        }
+        return "/tags/\(resourceArn.urlPercentEncoding())"
+    }
+}
+
+public struct UntagResourceInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) to use to untag a resource.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+    /// The tag keys to use to untag a resource.
+    /// This member is required.
+    public var tagKeys: [Swift.String]?
+
+    public init(
+        resourceArn: Swift.String? = nil,
+        tagKeys: [Swift.String]? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+        self.tagKeys = tagKeys
+    }
+}
+
+struct UntagResourceInputBody: Swift.Equatable {
+}
+
+extension UntagResourceInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UntagResourceOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnauthorizedException": return try await UnauthorizedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
