@@ -10,15 +10,15 @@ if [ "$#" -lt 1 ]; then
 fi
 
 # Assign variables
-REGION="${2:-us-east-1}" # default value of us-east-1
-REPO_NAME="${3:-ecs-integ-test}" # default value of ecs-integ-test
+REGION="${2:-us-west-2}" # default value of us-west-2
+REPO_NAME="${3:-imds-integ-test}" # default value of imds-integ-test
 ACCOUNT_ID="$1"
 ECR_URI="$ACCOUNT_ID.dkr.ecr.$REGION.amazonaws.com"
 
 echo "Using region: $REGION, repo_name: $REPO_NAME, and account_id: $ACCOUNT_ID"
 
 # Authenticate
-$(aws ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI)
+$(aws --region $REGION ecr get-login-password | docker login --username AWS --password-stdin $ECR_URI)
 
 # Check if ECR repo exists
 REPO_EXISTS=$(aws ecr describe-repositories --repository-names $REPO_NAME --region $REGION 2>&1 || true)
