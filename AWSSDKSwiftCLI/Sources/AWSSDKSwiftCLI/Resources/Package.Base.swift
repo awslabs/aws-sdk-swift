@@ -128,6 +128,11 @@ func addIntegrationTestTarget(_ name: String) {
     var additionalDependencies: [String] = []
     var exclusions: [String] = []
     switch name {
+    case "AWSEC2":
+        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
+        exclusions = [
+            "Resources/IMDSIntegTestApp"
+        ]
     case "AWSECS":
         additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
         exclusions = [
