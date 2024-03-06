@@ -117,7 +117,8 @@ extension CostOptimizationHubClient {
     public static func builder() -> ClientBuilder<CostOptimizationHubClient> {
         return ClientBuilder<CostOptimizationHubClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct CostOptimizationHubClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CostOptimizationHubClient.CostOptimizationHubClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 
