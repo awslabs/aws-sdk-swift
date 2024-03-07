@@ -117,7 +117,8 @@ extension Route53DomainsClient {
     public static func builder() -> ClientBuilder<Route53DomainsClient> {
         return ClientBuilder<Route53DomainsClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct Route53DomainsClientLogHandlerFactory: ClientRuntime.SDKLogHandler
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

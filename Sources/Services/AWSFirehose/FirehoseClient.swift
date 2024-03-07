@@ -117,7 +117,8 @@ extension FirehoseClient {
     public static func builder() -> ClientBuilder<FirehoseClient> {
         return ClientBuilder<FirehoseClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct FirehoseClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactor
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FirehoseClient.FirehoseClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

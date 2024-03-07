@@ -19,6 +19,7 @@ public class DefaultAWSClientPlugin: Plugin {
             & AWSDefaultClientConfiguration
             & AWSRegionClientConfiguration {
             config.retryStrategyOptions = try AWSClientConfigDefaultsProvider.retryStrategyOptions()
+            config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
         }
     }
 }

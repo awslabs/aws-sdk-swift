@@ -5,10 +5,8 @@
 
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.traits.auth.SigV4ATrait
-import software.amazon.smithy.aws.traits.auth.SigV4Trait
+import software.amazon.smithy.aws.swift.codegen.SigV4Utils.Companion.getModeledAuthSchemesSupportedBySDK
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.model.knowledge.ServiceIndex
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -97,24 +95,8 @@ class AWSHttpProtocolServiceClient(
         }
     }
 
-    private fun getModeledAuthSchemesSupportedBySDK(): String {
-        val effectiveAuthSchemes = ServiceIndex(ctx.model).getEffectiveAuthSchemes(ctx.service)
-        var authSchemeList = arrayOf<String>()
-
-        val sdkId = AuthSchemeResolverGenerator.getSdkId(ctx)
-        val servicesUsingSigV4A = arrayOf("S3", "EventBridge", "CloudFrontKeyValueStore")
-
-        if (effectiveAuthSchemes.contains(SigV4Trait.ID)) {
-            authSchemeList += "SigV4AuthScheme()"
-        }
-        if (effectiveAuthSchemes.contains(SigV4ATrait.ID) || servicesUsingSigV4A.contains(sdkId)) {
-            authSchemeList += "SigV4AAuthScheme()"
-        }
-        return "[${authSchemeList.joinToString(", ")}]"
-    }
-
     private val authSchemesDefaultProvider = DefaultProvider(
-        getModeledAuthSchemesSupportedBySDK(),
+        getModeledAuthSchemesSupportedBySDK(ctx),
         isThrowable = false,
         isAsync = false
     )
