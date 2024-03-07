@@ -117,7 +117,8 @@ extension NimbleClient {
     public static func builder() -> ClientBuilder<NimbleClient> {
         return ClientBuilder<NimbleClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct NimbleClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFactory 
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? NimbleClient.NimbleClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

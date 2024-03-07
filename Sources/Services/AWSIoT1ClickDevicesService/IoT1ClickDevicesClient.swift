@@ -117,7 +117,8 @@ extension IoT1ClickDevicesClient {
     public static func builder() -> ClientBuilder<IoT1ClickDevicesClient> {
         return ClientBuilder<IoT1ClickDevicesClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct IoT1ClickDevicesClientLogHandlerFactory: ClientRuntime.SDKLogHandl
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

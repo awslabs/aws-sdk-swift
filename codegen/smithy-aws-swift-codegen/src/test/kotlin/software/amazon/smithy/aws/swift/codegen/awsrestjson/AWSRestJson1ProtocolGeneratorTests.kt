@@ -195,7 +195,8 @@ class RestJsonProtocolGeneratorTests {
                 public static func builder() -> ClientBuilder<ExampleClient> {
                     return ClientBuilder<ExampleClient>(defaultPlugins: [
                         ClientRuntime.DefaultClientPlugin(),
-                        AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+                        AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+                        DefaultAWSAuthSchemePlugin()
                     ])
                 }
             }
