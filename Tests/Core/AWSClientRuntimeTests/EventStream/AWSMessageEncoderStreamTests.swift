@@ -58,8 +58,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             stream: baseStream,
             messageEncoder: messageEncoder,
             requestEncoder: JSONEncoder(),
-            messageSigner: messageSigner,
-            sendInitialRequest: false
+            messageSigner: messageSigner
         )
         
         var actual: [Data] = []
@@ -96,8 +95,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             stream: baseStream,
             messageEncoder: messageEncoder,
             requestEncoder: JSONEncoder(),
-            messageSigner: messageSigner,
-            sendInitialRequest: false
+            messageSigner: messageSigner
         )
         
         let read1 = try await sut.readAsync(upToCount: 100)
@@ -140,7 +138,10 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
             messageEncoder: messageEncoder,
             requestEncoder: JSONEncoder(),
             messageSigner: messageSigner,
-            sendInitialRequest: true
+            initialRequestMessage: EventStream.Message(
+                headers: [EventStream.Header(name: ":event-type", value: .string("initial-request"))],
+                payload: Data()
+            )
         )
 
         let data = try await sut.readToEndAsync()
