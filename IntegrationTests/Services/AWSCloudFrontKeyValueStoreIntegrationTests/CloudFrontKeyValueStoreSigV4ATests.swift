@@ -55,7 +55,7 @@ class CloudFrontKeyValueStoreSigV4ATests: XCTestCase {
         var status: String? = wipStatus
         repeat {
             status = try await client.describeKeyValueStore(input: DescribeKeyValueStoreInput(name: kvsName)).keyValueStore?.status
-            let seconds = 20.0
+            let seconds = 2.5
             try await Task.sleep(nanoseconds: UInt64(seconds * Double(NSEC_PER_SEC)))
         } while status == wipStatus
 
