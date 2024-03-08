@@ -117,7 +117,8 @@ extension BedrockAgentRuntimeClient {
     public static func builder() -> ClientBuilder<BedrockAgentRuntimeClient> {
         return ClientBuilder<BedrockAgentRuntimeClient>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct BedrockAgentRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHa
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? BedrockAgentRuntimeClient.BedrockAgentRuntimeClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

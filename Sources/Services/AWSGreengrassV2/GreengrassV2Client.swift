@@ -117,7 +117,8 @@ extension GreengrassV2Client {
     public static func builder() -> ClientBuilder<GreengrassV2Client> {
         return ClientBuilder<GreengrassV2Client>(defaultPlugins: [
             ClientRuntime.DefaultClientPlugin(),
-            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName)
+            AWSClientRuntime.DefaultAWSClientPlugin(clientName: self.clientName),
+            DefaultAWSAuthSchemePlugin()
         ])
     }
 }
@@ -132,21 +133,6 @@ public struct GreengrassV2ClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
     }
     public init(logLevel: ClientRuntime.SDKLogLevel) {
         self.logLevel = logLevel
-    }
-}
-
-public class EndpointPlugin: Plugin {
-    private var endpointResolver: EndpointResolver
-    public init(endpointResolver: EndpointResolver) {
-        self.endpointResolver = endpointResolver
-    }
-    public convenience init() throws {
-        self.init(endpointResolver: try DefaultEndpointResolver())
-    }
-    public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
-            config.endpointResolver = self.endpointResolver
-        }
     }
 }
 

@@ -11,7 +11,7 @@ import AWSS3
 import AWSClientRuntime
 
 // Please provide your-access-key and your-secret-key in Resources/credenitals
-class ProcessCredentialProviderTests: XCTestCase {
+class ProcessAWSCredentialIdentityResolverTests: XCTestCase {
         
     var client: S3Client!
         

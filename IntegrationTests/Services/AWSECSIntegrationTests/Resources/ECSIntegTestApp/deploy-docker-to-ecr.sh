@@ -23,7 +23,7 @@ $(aws ecr get-login-password | docker login --username AWS --password-stdin $ECR
 # Check if ECR repo exists
 REPO_EXISTS=$(aws ecr describe-repositories --repository-names $REPO_NAME --region $REGION 2>&1 || true)
 
-if [[ $REPO_EXISTS == *"repository not found"* ]]; then
+if [[ $REPO_EXISTS == *"does not exist"* ]]; then
     echo "Creating repository named $REPO_NAME..."
     aws ecr create-repository --repository-name $REPO_NAME --region $REGION
     echo "Repository $REPO_NAME created successfully"
