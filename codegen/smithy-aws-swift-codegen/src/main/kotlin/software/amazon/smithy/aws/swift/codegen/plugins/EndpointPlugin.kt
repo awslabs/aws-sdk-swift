@@ -1,23 +1,25 @@
 package software.amazon.smithy.aws.swift.codegen.plugins
 
 import software.amazon.smithy.aws.swift.codegen.AWSServiceTypes
-import software.amazon.smithy.aws.swift.codegen.AWSSwiftDependency
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.Plugin
+import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.buildSymbol
+import software.amazon.smithy.swift.codegen.utils.toUpperCamelCase
 
 class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
+
+    private val pluginName: String = "${serviceConfig.clientName.toUpperCamelCase()}EndpointPlugin"
+
     override val className: Symbol
         get() = buildSymbol {
-            this.name = "EndpointPlugin"
-            this.namespace = AWSSwiftDependency.AWS_CLIENT_RUNTIME.target
-            dependency(AWSSwiftDependency.AWS_CLIENT_RUNTIME)
+            this.name = pluginName
         }
 
-    override fun render(writer: SwiftWriter) {
-        writer.openBlock("public class EndpointPlugin: Plugin {", "}") {
+    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
+        writer.openBlock("public class $pluginName: Plugin {", "}") {
             writer.write("private var endpointResolver: \$L", AWSServiceTypes.EndpointResolver)
             writer.openBlock("public init(endpointResolver: \$L) {", "}", AWSServiceTypes.EndpointResolver) {
                 writer.write("self.endpointResolver = endpointResolver")
@@ -31,5 +33,6 @@ class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
                 }
             }
         }
+        writer.write("")
     }
 }
