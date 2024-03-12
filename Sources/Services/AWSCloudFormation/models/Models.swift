@@ -1860,15 +1860,15 @@ public struct CreateChangeSetInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
@@ -1923,7 +1923,7 @@ public struct CreateChangeSetInput: Swift.Equatable {
     public var tags: [CloudFormationClientTypes.Tag]?
     /// A structure that contains the body of the revised template, with a minimum length of 1 byte and a maximum length of 51,200 bytes. CloudFormation generates the change set by comparing this template with the template of the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
     public var templateBody: Swift.String?
-    /// The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. Conditional: You must specify only TemplateBody or TemplateURL.
+    /// The location of the file that contains the revised template. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. CloudFormation generates the change set by comparing this template with the stack that you specified. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only TemplateBody or TemplateURL.
     public var templateURL: Swift.String?
     /// Whether to reuse the template that's associated with the stack to create the change set.
     public var usePreviousTemplate: Swift.Bool?
@@ -2284,17 +2284,17 @@ public struct CreateStackInput: Swift.Equatable {
     ///
     /// If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey] AWS::IAM::AccessKey(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
@@ -2331,13 +2331,13 @@ public struct CreateStackInput: Swift.Equatable {
     public var stackName: Swift.String?
     /// Structure containing the stack policy body. For more information, go to [ Prevent Updates to Stack Resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyBody: Swift.String?
-    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyURL: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to the resources created in the stack. A maximum number of 50 tags can be specified.
     public var tags: [CloudFormationClientTypes.Tag]?
     /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateBody: Swift.String?
-    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to the [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
+    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to the [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify either the TemplateBody or the TemplateURL parameter, but not both.
     public var templateURL: Swift.String?
     /// The amount of time that can pass before the stack status becomes CREATE_FAILED; if DisableRollback is not set or is set to false, the stack will be rolled back.
     public var timeoutInMinutes: Swift.Int?
@@ -2745,15 +2745,15 @@ public struct CreateStackSetInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
@@ -5888,6 +5888,38 @@ enum DescribeTypeRegistrationOutputError {
     }
 }
 
+extension CloudFormationClientTypes {
+    public enum DetailedStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case configurationComplete
+        case validationFailed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DetailedStatus] {
+            return [
+                .configurationComplete,
+                .validationFailed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .configurationComplete: return "CONFIGURATION_COMPLETE"
+            case .validationFailed: return "VALIDATION_FAILED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DetailedStatus(rawValue: rawValue) ?? DetailedStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DetectStackDriftInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case logicalResourceIds = "LogicalResourceIds"
@@ -6255,7 +6287,7 @@ public struct EstimateTemplateCostInput: Swift.Equatable {
     public var parameters: [CloudFormationClientTypes.Parameter]?
     /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide.) Conditional: You must pass TemplateBody or TemplateURL. If both are passed, only TemplateBody is used.
     public var templateBody: Swift.String?
-    /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+    /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
     public init(
@@ -7094,7 +7126,7 @@ public struct GetTemplateSummaryInput: Swift.Equatable {
     public var templateBody: Swift.String?
     /// Specifies options for the GetTemplateSummary API action.
     public var templateSummaryConfig: CloudFormationClientTypes.TemplateSummaryConfig?
-    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
+    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that's located in an Amazon S3 bucket or a Systems Manager document. For more information about templates, see [Template anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: StackName, StackSetName, TemplateBody, or TemplateURL.
     public var templateURL: Swift.String?
 
     public init(
@@ -11739,7 +11771,7 @@ extension CloudFormationClientTypes {
         /// A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
         /// This member is required.
         public var resourceIdentifier: [Swift.String:Swift.String]?
-        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) in the CloudFormation User Guide
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) in the CloudFormation User Guide
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -11833,7 +11865,7 @@ extension CloudFormationClientTypes {
         public var resourceStatus: CloudFormationClientTypes.GeneratedTemplateResourceStatus?
         /// The reason for the resource detail, providing more information if a failure happened.
         public var resourceStatusReason: Swift.String?
-        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) In the CloudFormation User Guide
         public var resourceType: Swift.String?
         /// The warnings generated for this resource.
         public var warnings: [CloudFormationClientTypes.WarningDetail]?
@@ -12678,7 +12710,7 @@ extension CloudFormationClientTypes {
         public var managedByStack: Swift.Bool?
         /// A list of up to 256 key-value pairs that identifies for the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
         public var resourceIdentifier: [Swift.String:Swift.String]?
-        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [Resource type support](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) In the CloudFormation User Guide
         public var resourceType: Swift.String?
 
         public init(
@@ -12737,7 +12769,7 @@ extension CloudFormationClientTypes {
         /// A list of up to 256 key-value pairs that identifies the scanned resource. The key is the name of one of the primary identifiers for the resource. (Primary identifiers are specified in the primaryIdentifier list in the resource schema.) The value is the value of that primary identifier. For example, for a AWS::DynamoDB::Table resource, the primary identifiers is TableName so the key-value pair could be "TableName": "MyDDBTable". For more information, see [primaryIdentifier](https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-schema.html#schema-properties-primaryidentifier) in the CloudFormation Command Line Interface User guide for extension development.
         /// This member is required.
         public var resourceIdentifier: [Swift.String:Swift.String]?
-        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/generate-IaC-supported-resources.html) In the CloudFormation User Guide
+        /// The type of the resource, such as AWS::DynamoDB::Table. For the list of supported resources, see [IaC generator supported resource types](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html) In the CloudFormation User Guide.
         /// This member is required.
         public var resourceType: Swift.String?
 
@@ -12790,7 +12822,7 @@ public struct SetStackPolicyInput: Swift.Equatable {
     public var stackName: Swift.String?
     /// Structure containing the stack policy body. For more information, go to [ Prevent updates to stack resources](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/protect-stack-resources.html) in the CloudFormation User Guide. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyBody: Swift.String?
-    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
+    /// Location of a file containing the stack policy. The URL must point to a policy (maximum size: 16 KB) located in an Amazon S3 bucket in the same Amazon Web Services Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both.
     public var stackPolicyURL: Swift.String?
 
     public init(
@@ -12881,7 +12913,7 @@ public struct SetTypeConfigurationInput: Swift.Equatable {
     public var configurationAlias: Swift.String?
     /// The type of extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var type: CloudFormationClientTypes.ThirdPartyType?
-    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
+    /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region. Do not include the extension versions suffix at the end of the ARN. You can set the configuration for an extension, but not for a specific extension version.
     public var typeArn: Swift.String?
     /// The name of the extension. Conditional: You must specify ConfigurationArn, or Type and TypeName.
     public var typeName: Swift.String?
@@ -13135,6 +13167,7 @@ extension CloudFormationClientTypes.Stack: Swift.Encodable {
         case creationTime = "CreationTime"
         case deletionTime = "DeletionTime"
         case description = "Description"
+        case detailedStatus = "DetailedStatus"
         case disableRollback = "DisableRollback"
         case driftInformation = "DriftInformation"
         case enableTerminationProtection = "EnableTerminationProtection"
@@ -13180,6 +13213,9 @@ extension CloudFormationClientTypes.Stack: Swift.Encodable {
         }
         if let description = description {
             try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let detailedStatus = detailedStatus {
+            try container.encode(detailedStatus, forKey: ClientRuntime.Key("DetailedStatus"))
         }
         if let disableRollback = disableRollback {
             try container.encode(disableRollback, forKey: ClientRuntime.Key("DisableRollback"))
@@ -13300,6 +13336,7 @@ extension CloudFormationClientTypes.Stack: Swift.Encodable {
             value.rootId = try reader["RootId"].readIfPresent()
             value.driftInformation = try reader["DriftInformation"].readIfPresent(readingClosure: CloudFormationClientTypes.StackDriftInformation.readingClosure)
             value.retainExceptOnCreate = try reader["RetainExceptOnCreate"].readIfPresent()
+            value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
             return value
         }
     }
@@ -13319,6 +13356,8 @@ extension CloudFormationClientTypes {
         public var deletionTime: ClientRuntime.Date?
         /// A user-defined description associated with the stack.
         public var description: Swift.String?
+        /// The detailed status of the resource or stack. If CONFIGURATION_COMPLETE is present, the resource or resource configuration phase has completed and the stabilization of the resources is in progress. The stack sets CONFIGURATION_COMPLETE when all of the resources in the stack have reached that event. For more information, see [CloudFormation stack deployment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
+        public var detailedStatus: CloudFormationClientTypes.DetailedStatus?
         /// Boolean to enable or disable rollback on stack creation failures:
         ///
         /// * true: disable rollback.
@@ -13368,6 +13407,7 @@ extension CloudFormationClientTypes {
             creationTime: ClientRuntime.Date? = nil,
             deletionTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
             disableRollback: Swift.Bool? = nil,
             driftInformation: CloudFormationClientTypes.StackDriftInformation? = nil,
             enableTerminationProtection: Swift.Bool? = nil,
@@ -13393,6 +13433,7 @@ extension CloudFormationClientTypes {
             self.creationTime = creationTime
             self.deletionTime = deletionTime
             self.description = description
+            self.detailedStatus = detailedStatus
             self.disableRollback = disableRollback
             self.driftInformation = driftInformation
             self.enableTerminationProtection = enableTerminationProtection
@@ -13604,6 +13645,7 @@ extension CloudFormationClientTypes {
 extension CloudFormationClientTypes.StackEvent: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientRequestToken = "ClientRequestToken"
+        case detailedStatus = "DetailedStatus"
         case eventId = "EventId"
         case hookFailureMode = "HookFailureMode"
         case hookInvocationPoint = "HookInvocationPoint"
@@ -13625,6 +13667,9 @@ extension CloudFormationClientTypes.StackEvent: Swift.Encodable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let clientRequestToken = clientRequestToken {
             try container.encode(clientRequestToken, forKey: ClientRuntime.Key("ClientRequestToken"))
+        }
+        if let detailedStatus = detailedStatus {
+            try container.encode(detailedStatus, forKey: ClientRuntime.Key("DetailedStatus"))
         }
         if let eventId = eventId {
             try container.encode(eventId, forKey: ClientRuntime.Key("EventId"))
@@ -13693,6 +13738,7 @@ extension CloudFormationClientTypes.StackEvent: Swift.Encodable {
             value.hookStatusReason = try reader["HookStatusReason"].readIfPresent()
             value.hookInvocationPoint = try reader["HookInvocationPoint"].readIfPresent()
             value.hookFailureMode = try reader["HookFailureMode"].readIfPresent()
+            value.detailedStatus = try reader["DetailedStatus"].readIfPresent()
             return value
         }
     }
@@ -13703,6 +13749,15 @@ extension CloudFormationClientTypes {
     public struct StackEvent: Swift.Equatable {
         /// The token passed to the operation that generated this event. All events triggered by a given stack operation are assigned the same client request token, which you can use to track operations. For example, if you execute a CreateStack operation with the token token1, then all the StackEvents generated by that operation will have ClientRequestToken set as token1. In the console, stack operations display the client request token on the Events tab. Stack operations that are initiated from the console use the token format Console-StackOperation-ID, which helps you easily identify the stack operation . For example, if you create a stack using the console, each stack event would be assigned the same token in the following format: Console-CreateStack-7f59c3cf-00d2-40c7-b2ff-e75db0987002.
         public var clientRequestToken: Swift.String?
+        /// An optional field containing information about the detailed status of the stack event.
+        ///
+        /// * CONFIGURATION_COMPLETE - all of the resources in the stack have reached that event. For more information, see [CloudFormation stack deployment](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide.
+        ///
+        ///
+        ///
+        ///
+        /// * VALIDATION_FAILED - template validation failed because of invalid properties in the template. The ResourceStatusReason field shows what properties are defined incorrectly.
+        public var detailedStatus: CloudFormationClientTypes.DetailedStatus?
         /// The unique ID of this event.
         /// This member is required.
         public var eventId: Swift.String?
@@ -13744,6 +13799,7 @@ extension CloudFormationClientTypes {
 
         public init(
             clientRequestToken: Swift.String? = nil,
+            detailedStatus: CloudFormationClientTypes.DetailedStatus? = nil,
             eventId: Swift.String? = nil,
             hookFailureMode: CloudFormationClientTypes.HookFailureMode? = nil,
             hookInvocationPoint: CloudFormationClientTypes.HookInvocationPoint? = nil,
@@ -13762,6 +13818,7 @@ extension CloudFormationClientTypes {
         )
         {
             self.clientRequestToken = clientRequestToken
+            self.detailedStatus = detailedStatus
             self.eventId = eventId
             self.hookFailureMode = hookFailureMode
             self.hookInvocationPoint = hookInvocationPoint
@@ -13901,7 +13958,7 @@ extension CloudFormationClientTypes {
         public var stackSetId: Swift.String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.
         ///
-        /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.
+        /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually. INOPERABLE can be returned here when the cause is a failed import. If it's due to a failed import, the operation can be retried once the failures are fixed. To see if this is due to a failed import, look at the DetailedStatus member in the StackInstanceSummary member that is a peer to this Status member.
         ///
         /// * OUTDATED: The stack isn't currently up to date with the stack set because:
         ///
@@ -13978,6 +14035,8 @@ extension CloudFormationClientTypes {
         ///
         /// * FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
         ///
+        /// * FAILED_IMPORT: The import of the stack instance in the specified account and Region failed and left the stack in an unstable state. Once the issues causing the failure are fixed, the import operation can be retried. If enough stack set operations fail in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
+        ///
         /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.
         ///
         /// * PENDING: The operation in the specified account and Region has yet to start.
@@ -14003,6 +14062,7 @@ extension CloudFormationClientTypes {
     public enum StackInstanceDetailedStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cancelled
         case failed
+        case failedImport
         case inoperable
         case pending
         case running
@@ -14014,6 +14074,7 @@ extension CloudFormationClientTypes {
             return [
                 .cancelled,
                 .failed,
+                .failedImport,
                 .inoperable,
                 .pending,
                 .running,
@@ -14030,6 +14091,7 @@ extension CloudFormationClientTypes {
             switch self {
             case .cancelled: return "CANCELLED"
             case .failed: return "FAILED"
+            case .failedImport: return "FAILED_IMPORT"
             case .inoperable: return "INOPERABLE"
             case .pending: return "PENDING"
             case .running: return "RUNNING"
@@ -14434,7 +14496,7 @@ extension CloudFormationClientTypes {
         public var stackSetId: Swift.String?
         /// The status of the stack instance, in terms of its synchronization with its associated stack set.
         ///
-        /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.
+        /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually. INOPERABLE can be returned here when the cause is a failed import. If it's due to a failed import, the operation can be retried once the failures are fixed. To see if this is due to a failed import, call the [DescribeStackInstance] API operation, look at the DetailedStatus member returned in the StackInstanceSummary member.
         ///
         /// * OUTDATED: The stack isn't currently up to date with the stack set because:
         ///
@@ -17630,7 +17692,7 @@ extension CloudFormationClientTypes {
         public var isDefaultConfiguration: Swift.Bool?
         /// When the configuration data was last updated for this extension. If a configuration hasn't been set for a specified extension, CloudFormation returns null.
         public var lastUpdated: ClientRuntime.Date?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region.
+        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
         public var typeArn: Swift.String?
         /// The name of the extension.
         public var typeName: Swift.String?
@@ -17704,7 +17766,7 @@ extension CloudFormationClientTypes {
     public struct TypeConfigurationIdentifier: Swift.Equatable {
         /// The type of extension.
         public var type: CloudFormationClientTypes.ThirdPartyType?
-        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you [activate the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in this account and Region. For private extensions, this will be the ARN assigned when you [register the type](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) in this account and Region.
+        /// The Amazon Resource Name (ARN) for the extension, in this account and Region. For public extensions, this will be the ARN assigned when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in this account and Region. For private extensions, this will be the ARN assigned when you call the [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html) API operation in this account and Region.
         public var typeArn: Swift.String?
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var typeConfigurationAlias: Swift.String?
@@ -17992,7 +18054,7 @@ extension CloudFormationClientTypes {
         public var type: CloudFormationClientTypes.RegistryType?
         /// The Amazon Resource Name (ARN) of the extension.
         public var typeArn: Swift.String?
-        /// The name of the extension. If you specified a TypeNameAlias when you [activate this extension](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) in your account and Region, CloudFormation considers that alias as the type name.
+        /// The name of the extension. If you specified a TypeNameAlias when you call the [ActivateType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ActivateType.html) API operation in your account and Region, CloudFormation considers that alias as the type name.
         public var typeName: Swift.String?
 
         public init(
@@ -18457,15 +18519,15 @@ public struct UpdateStackInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
     /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
@@ -18500,15 +18562,15 @@ public struct UpdateStackInput: Swift.Equatable {
     public var stackPolicyBody: Swift.String?
     /// Structure containing the temporary overriding stack policy body. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
     public var stackPolicyDuringUpdateBody: Swift.String?
-    /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
+    /// Location of a file containing the temporary overriding stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyDuringUpdateBody or the StackPolicyDuringUpdateURL parameter, but not both. If you want to update protected resources, specify a temporary overriding stack policy during this update. If you don't specify a stack policy, the current policy that is associated with the stack will be used.
     public var stackPolicyDuringUpdateURL: Swift.String?
-    /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
+    /// Location of a file containing the updated stack policy. The URL must point to a policy (max size: 16KB) located in an S3 bucket in the same Region as the stack. The location for an Amazon S3 bucket must start with https://. You can specify either the StackPolicyBody or the StackPolicyURL parameter, but not both. You might update the stack policy, for example, in order to protect a new resource that you created during a stack update. If you don't specify a stack policy, the current policy that is associated with the stack is unchanged.
     public var stackPolicyURL: Swift.String?
     /// Key-value pairs to associate with this stack. CloudFormation also propagates these tags to supported resources in the stack. You can specify a maximum number of 50 tags. If you don't specify this parameter, CloudFormation doesn't modify the stack's tags. If you specify an empty value, CloudFormation removes all associated tags.
     public var tags: [CloudFormationClientTypes.Tag]?
     /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. (For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide.) Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateBody: Swift.String?
-    /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
+    /// Location of file containing the template body. The URL must point to a template that's located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var templateURL: Swift.String?
     /// Reuse the existing template that is associated with the stack that you are updating. Conditional: You must specify only one of the following parameters: TemplateBody, TemplateURL, or set the UsePreviousTemplate to true.
     public var usePreviousTemplate: Swift.Bool?
@@ -18947,17 +19009,17 @@ public struct UpdateStackSetInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
-    /// * [ AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
+    /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
-    /// * [ AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
+    /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
     ///
     /// For more information, see [Acknowledging IAM Resources in CloudFormation Templates](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities).
@@ -19213,7 +19275,7 @@ extension ValidateTemplateInput {
 public struct ValidateTemplateInput: Swift.Equatable {
     /// Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateBody: Swift.String?
-    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
+    /// Location of file containing the template body. The URL must point to a template (max size: 460,800 bytes) that is located in an Amazon S3 bucket or a Systems Manager document. For more information, go to [Template Anatomy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html) in the CloudFormation User Guide. The location for an Amazon S3 bucket must start with https://. Conditional: You must pass TemplateURL or TemplateBody. If both are passed, only TemplateBody is used.
     public var templateURL: Swift.String?
 
     public init(

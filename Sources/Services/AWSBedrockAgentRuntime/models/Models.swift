@@ -36,11 +36,10 @@ extension AccessDeniedException {
     }
 }
 
-/// This exception is thrown when a request is denied per access permissions
+/// The request is denied because of missing access permissions. Check your permissions and retry your request.
 public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -138,17 +137,17 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.Custo
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// input to lambda used in action group
+    /// Contains information about the action group being invoked.
     public struct ActionGroupInvocationInput: Swift.Equatable {
-        /// Agent Trace Action Group Name
+        /// The name of the action group.
         public var actionGroupName: Swift.String?
-        /// Agent Trace Action Group API path
+        /// The path to the API to call, based off the action group.
         public var apiPath: Swift.String?
-        /// list of parameters included in action group invocation
+        /// The parameters in the Lambda input event.
         public var parameters: [BedrockAgentRuntimeClientTypes.Parameter]?
-        /// Request Body Content Map
+        /// The parameters in the request body for the Lambda input event.
         public var requestBody: BedrockAgentRuntimeClientTypes.RequestBody?
-        /// Agent Trace Action Group Action verb
+        /// The API method being used, based off the action group.
         public var verb: Swift.String?
 
         public init(
@@ -194,9 +193,9 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput: Swift.Cust
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// output from lambda used in action group
+    /// Contains the JSON-formatted string returned by the API invoked by the action group.
     public struct ActionGroupInvocationOutput: Swift.Equatable {
-        /// Agent Trace Action Group Lambda Invocation Output String
+        /// The JSON-formatted string returned by the API invoked by the action group.
         public var text: Swift.String?
 
         public init(
@@ -241,9 +240,9 @@ extension BedrockAgentRuntimeClientTypes.Attribution: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Citations associated with final agent response
+    /// Contains citations for a part of an agent response.
     public struct Attribution: Swift.Equatable {
-        /// List of citations
+        /// A list of citations and related information for a part of an agent response.
         public var citations: [BedrockAgentRuntimeClientTypes.Citation]?
 
         public init(
@@ -298,13 +297,12 @@ extension BadGatewayException {
     }
 }
 
-/// This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource
+/// There was an issue with a dependency due to a server issue. Retry your request.
 public struct BadGatewayException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
-        /// Non Blank String
+        /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public internal(set) var resourceName: Swift.String? = nil
     }
 
@@ -387,11 +385,11 @@ extension BedrockAgentRuntimeClientTypes.Citation: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Citation associated with the agent response
+    /// An object containing a segment of the generated response that is based on a source in the knowledge base, alongside information about the source.
     public struct Citation: Swift.Equatable {
-        /// Generate response part
+        /// Contains the generated response and metadata
         public var generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart?
-        /// list of retrieved references
+        /// Contains metadata about the sources cited for the generated response.
         public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
@@ -440,11 +438,10 @@ extension ConflictException {
     }
 }
 
-/// This exception is thrown when there is a conflict performing an operation
+/// There was a conflict performing an operation. Resolve the conflict and retry your request.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -482,7 +479,6 @@ extension ConflictExceptionBody: Swift.Decodable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// indicates if agent uses default prompt or overriden prompt
     public enum CreationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
         case overridden
@@ -556,13 +552,12 @@ extension DependencyFailedException {
     }
 }
 
-/// This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource due to a customer fault (i.e. bad configuration)
+/// There was an issue with a dependency. Check the resource configurations and retry the request.
 public struct DependencyFailedException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
-        /// Non Blank String
+        /// The name of the dependency that caused the issue, such as Amazon Bedrock, Lambda, or STS.
         public internal(set) var resourceName: Swift.String? = nil
     }
 
@@ -637,11 +632,11 @@ extension BedrockAgentRuntimeClientTypes.FailureTrace: Swift.CustomDebugStringCo
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which is emitted when agent trace could not be generated
+    /// Contains information about the failure of the interaction.
     public struct FailureTrace: Swift.Equatable {
-        /// Agent Trace Failed Reason String
+        /// The reason the interaction failed.
         public var failureReason: Swift.String?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
@@ -681,9 +676,9 @@ extension BedrockAgentRuntimeClientTypes.FinalResponse: Swift.CustomDebugStringC
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Agent finish output
+    /// Contains details about the response to the user.
     public struct FinalResponse: Swift.Equatable {
-        /// Agent Trace Action Group Lambda Invocation Output String
+        /// The text in the response to the user.
         public var text: Swift.String?
 
         public init(
@@ -721,9 +716,9 @@ extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart: Swift.CustomDebu
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Generate response part
+    /// Contains metadata about a part of the generated response that is accompanied by a citation.
     public struct GeneratedResponsePart: Swift.Equatable {
-        /// Text response part
+        /// Contains metadata about a textual part of the generated response that is accompanied by a citation.
         public var textResponsePart: BedrockAgentRuntimeClientTypes.TextResponsePart?
 
         public init(
@@ -792,17 +787,17 @@ extension BedrockAgentRuntimeClientTypes.InferenceConfiguration: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Configurations for controlling the inference response of an InvokeAgent API call
+    /// Specifications about the inference parameters that were provided alongside the prompt. These are specified in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     public struct InferenceConfiguration: Swift.Equatable {
-        /// Maximum length of output
+        /// The maximum number of tokens allowed in the generated response.
         public var maximumLength: Swift.Int?
-        /// List of stop sequences
+        /// A list of stop sequences. A stop sequence is a sequence of characters that causes the model to stop generating the response.
         public var stopSequences: [Swift.String]?
-        /// Controls randomness, higher values increase diversity
+        /// The likelihood of the model selecting higher-probability options while generating a response. A lower value makes the model more likely to choose higher-probability options, while a higher value makes the model more likely to choose lower-probability options.
         public var temperature: Swift.Float?
-        /// Sample from the k most likely next tokens
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for topK is the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topK to 50, the model selects the next token from among the top 50 most likely choices.
         public var topk: Swift.Int?
-        /// Cumulative probability cutoff for token selection
+        /// While generating a response, the model determines the probability of the following token at each point of generation. The value that you set for Top P determines the number of most-likely candidates from which the model chooses the next token in the sequence. For example, if you set topP to 80, the model only selects the next token from the top 80% of the probability distribution of next tokens.
         public var topp: Swift.Float?
 
         public init(
@@ -857,11 +852,10 @@ extension InternalServerException {
     }
 }
 
-/// This exception is thrown if there was an unexpected error during processing of request
+/// An internal server error occurred. Retry your request.
 public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -942,15 +936,15 @@ extension BedrockAgentRuntimeClientTypes.InvocationInput: Swift.CustomDebugStrin
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains input details for action group or knowledge base
+    /// Contains information pertaining to the action group or knowledge base that is being invoked.
     public struct InvocationInput: Swift.Equatable {
-        /// input to lambda used in action group
+        /// Contains information about the action group to be invoked.
         public var actionGroupInvocationInput: BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput?
-        /// types of invocations
+        /// Specifies whether the agent is invoking an action group or a knowledge base.
         public var invocationType: BedrockAgentRuntimeClientTypes.InvocationType?
-        /// Input to lambda used in action group
+        /// Contains details about the knowledge base to look up and the query to be made.
         public var knowledgeBaseLookupInput: BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupInput?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
@@ -970,7 +964,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// types of invocations
     public enum InvocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case actionGroup
         case finish
@@ -1051,25 +1044,24 @@ extension InvokeAgentInput {
     }
 }
 
-/// InvokeAgent Request
 public struct InvokeAgentInput: Swift.Equatable {
-    /// Identifier for Agent Alias
+    /// The alias of the agent to use.
     /// This member is required.
     public var agentAliasId: Swift.String?
-    /// Identifier for Agent
+    /// The unique identifier of the agent to use.
     /// This member is required.
     public var agentId: Swift.String?
-    /// Enable agent trace events for improved debugging
+    /// Specifies whether to turn on the trace or not to track the agent's reasoning process. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
     public var enableTrace: Swift.Bool?
-    /// End current session
+    /// Specifies whether to end the session with the agent or not.
     public var endSession: Swift.Bool?
-    /// Input data in the format specified in the Content-Type request header.
+    /// The prompt text to send the agent.
     /// This member is required.
     public var inputText: Swift.String?
-    /// Identifier used for the current session
+    /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
-    /// Session state passed by customer. Base64 encoded json string representation of SessionState.
+    /// Contains parameters that specify various attributes of the session.
     public var sessionState: BedrockAgentRuntimeClientTypes.SessionState?
 
     public init(
@@ -1142,15 +1134,14 @@ extension InvokeAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// InvokeAgent Response
 public struct InvokeAgentOutput: Swift.Equatable {
-    /// Inference response from the model in the format specified in the Content-Type response header.
+    /// The agent's response to the user prompt.
     /// This member is required.
     public var completion: AsyncThrowingStream<BedrockAgentRuntimeClientTypes.ResponseStream, Swift.Error>?
-    /// streaming response mimetype of the model
+    /// The MIME type of the input data in the request. The default value is application/json.
     /// This member is required.
     public var contentType: Swift.String?
-    /// streaming response mimetype of the model
+    /// The unique identifier of the session with the agent.
     /// This member is required.
     public var sessionId: Swift.String?
 
@@ -1216,11 +1207,11 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupInput: Swift.CustomD
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Input to lambda used in action group
+    /// Contains details about the knowledge base to look up and the query to be made.
     public struct KnowledgeBaseLookupInput: Swift.Equatable {
-        /// Agent Trace Action Group Knowledge Base Id
+        /// The unique identifier of the knowledge base to look up.
         public var knowledgeBaseId: Swift.String?
-        /// Agent Trace Action Group Lambda Invocation Output String
+        /// The query made to the knowledge base.
         public var text: Swift.String?
 
         public init(
@@ -1267,9 +1258,9 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupOutput: Swift.Codabl
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Input to lambda used in action group
+    /// Contains details about the results from looking up the knowledge base.
     public struct KnowledgeBaseLookupOutput: Swift.Equatable {
-        /// list of retrieved references
+        /// Contains metadata about the sources cited for the generated response.
         public var retrievedReferences: [BedrockAgentRuntimeClientTypes.RetrievedReference]?
 
         public init(
@@ -1308,9 +1299,9 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery: Swift.CustomDebugSt
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Knowledge base input query.
+    /// Contains the query made to the knowledge base.
     public struct KnowledgeBaseQuery: Swift.Equatable {
-        /// Knowledge base input query in text
+        /// The text of the query made to the knowledge base.
         /// This member is required.
         public var text: Swift.String?
 
@@ -1344,9 +1335,13 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration: Sw
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Search parameters for retrieving from knowledge base.
+    /// Contains details about how the results should be returned. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    ///
+    /// * [RetrieveAndGenerate request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
     public struct KnowledgeBaseRetrievalConfiguration: Swift.Equatable {
-        /// Knowledge base vector search configuration
+        /// Contains details about how the results from the vector search should be returned.
         /// This member is required.
         public var vectorSearchConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration?
 
@@ -1397,14 +1392,14 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.Cus
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Result item returned from a knowledge base retrieval.
+    /// Details about a result from querying the knowledge base.
     public struct KnowledgeBaseRetrievalResult: Swift.Equatable {
-        /// Content of a retrieval result.
+        /// Contains a chunk of text from a data source in the knowledge base.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
-        /// The source location of a retrieval result.
+        /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
-        /// The relevance score of a result.
+        /// The level of relevance of the result to the query.
         public var score: Swift.Double?
 
         public init(
@@ -1453,15 +1448,15 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Configurations for retrieval and generation for knowledge base.
+    /// Contains details about the resource being queried.
     public struct KnowledgeBaseRetrieveAndGenerateConfiguration: Swift.Equatable {
-        /// Identifier of the KnowledgeBase
+        /// The unique identifier of the knowledge base that is queried and the foundation model used for generation.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// Arn of a Bedrock model.
+        /// The ARN of the foundation model used to generate a response.
         /// This member is required.
         public var modelArn: Swift.String?
-        /// Search parameters for retrieving from knowledge base.
+        /// Contains configurations for how to retrieve and return the knowledge base query.
         public var retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration?
 
         public init(
@@ -1504,11 +1499,11 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration:
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Knowledge base vector search configuration
+    /// Configurations for how to carry out the search.
     public struct KnowledgeBaseVectorSearchConfiguration: Swift.Equatable {
-        /// Top-K results to retrieve from knowledge base.
+        /// The number of results to return. The numberOfResults field is currently unsupported for RetrieveAndGenerate. Don't include it in this field if you are sending a RetrieveAndGenerate request.
         public var numberOfResults: Swift.Int?
-        /// Override the type of query to be performed on data store
+        /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available. For more information, see [Test a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-test.html).
         public var overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType?
 
         public init(
@@ -1585,21 +1580,27 @@ extension BedrockAgentRuntimeClientTypes.ModelInvocationInput: Swift.CustomDebug
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information used to call Invoke Model
+    /// The input for the pre-processing step.
+    ///
+    /// * The type matches the agent step.
+    ///
+    /// * The text contains the prompt.
+    ///
+    /// * The inferenceConfiguration, parserMode, and overrideLambda values are set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated.
     public struct ModelInvocationInput: Swift.Equatable {
-        /// Configurations for controlling the inference response of an InvokeAgent API call
+        /// Specifications about the inference parameters that were provided alongside the prompt. These are specified in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated. For more information, see [Inference parameters for foundation models](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
         public var inferenceConfiguration: BedrockAgentRuntimeClientTypes.InferenceConfiguration?
-        /// ARN of a Lambda.
+        /// The ARN of the Lambda function to use when parsing the raw foundation model output in parts of the agent sequence.
         public var overrideLambda: Swift.String?
-        /// indicates if agent uses default prompt or overriden prompt
+        /// Specifies whether to override the default parser Lambda function when parsing the raw foundation model output in the part of the agent sequence defined by the promptType.
         public var parserMode: BedrockAgentRuntimeClientTypes.CreationMode?
-        /// indicates if agent uses default prompt or overriden prompt
+        /// Specifies whether the default prompt template was OVERRIDDEN. If it was, the basePromptTemplate that was set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object when the agent was created or updated is used instead.
         public var promptCreationMode: BedrockAgentRuntimeClientTypes.CreationMode?
-        /// Prompt Message
+        /// The text that prompted the agent at this step.
         public var text: Swift.String?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
-        /// types of prompts
+        /// The step in the agent sequence.
         public var type: BedrockAgentRuntimeClientTypes.PromptType?
 
         public init(
@@ -1680,19 +1681,29 @@ extension BedrockAgentRuntimeClientTypes.Observation: Swift.CustomDebugStringCon
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains output details for action group or knowledge base or final response
+    /// Contains the result or output of an action group or knowledge base, or the response to the user.
     public struct Observation: Swift.Equatable {
-        /// output from lambda used in action group
+        /// Contains the JSON-formatted string returned by the API invoked by the action group.
         public var actionGroupInvocationOutput: BedrockAgentRuntimeClientTypes.ActionGroupInvocationOutput?
-        /// Agent finish output
+        /// Contains details about the response to the user.
         public var finalResponse: BedrockAgentRuntimeClientTypes.FinalResponse?
-        /// Input to lambda used in action group
+        /// Contains details about the results from looking up the knowledge base.
         public var knowledgeBaseLookupOutput: BedrockAgentRuntimeClientTypes.KnowledgeBaseLookupOutput?
-        /// Observation information if there were reprompts
+        /// Contains details about the response to reprompt the input.
         public var repromptResponse: BedrockAgentRuntimeClientTypes.RepromptResponse?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
-        /// types of observations
+        /// Specifies what kind of information the agent returns in the observation. The following values are possible.
+        ///
+        /// * ACTION_GROUP – The agent returns the result of an action group.
+        ///
+        /// * KNOWLEDGE_BASE – The agent returns information from a knowledge base.
+        ///
+        /// * FINISH – The agent returns a final response to the user with no follow-up.
+        ///
+        /// * ASK_USER – The agent asks the user a question.
+        ///
+        /// * REPROMPT – The agent prompts the user again for the same information.
         public var type: BedrockAgentRuntimeClientTypes.ModelType?
 
         public init(
@@ -1767,15 +1778,21 @@ extension BedrockAgentRuntimeClientTypes.OrchestrationTrace: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace contains intermidate response during orchestration
+    /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.
     public enum OrchestrationTrace: Swift.Equatable {
-        /// Trace Part which contains information related to reasoning
+        /// Details about the reasoning, based on the input, that the agent uses to justify carrying out an action group or getting information from a knowledge base.
         case rationale(BedrockAgentRuntimeClientTypes.Rationale)
-        /// Trace Part which contains input details for action group or knowledge base
+        /// Contains information pertaining to the action group or knowledge base that is being invoked.
         case invocationinput(BedrockAgentRuntimeClientTypes.InvocationInput)
-        /// Trace Part which contains output details for action group or knowledge base or final response
+        /// Details about the observation (the output of the action group Lambda or knowledge base) made by the agent.
         case observation(BedrockAgentRuntimeClientTypes.Observation)
-        /// Trace Part which contains information used to call Invoke Model
+        /// The input for the orchestration step.
+        ///
+        /// * The type is ORCHESTRATION.
+        ///
+        /// * The text contains the prompt.
+        ///
+        /// * The inferenceConfiguration, parserMode, and overrideLambda values are set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated.
         case modelinvocationinput(BedrockAgentRuntimeClientTypes.ModelInvocationInput)
         case sdkUnknown(Swift.String)
     }
@@ -1814,13 +1831,13 @@ extension BedrockAgentRuntimeClientTypes.Parameter: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// parameters included in action group invocation
+    /// A parameter in the Lambda input event.
     public struct Parameter: Swift.Equatable {
-        /// Name of parameter
+        /// The name of the parameter.
         public var name: Swift.String?
-        /// Type of parameter
+        /// The type of the parameter.
         public var type: Swift.String?
-        /// Value of parameter
+        /// The value of the parameter.
         public var value: Swift.String?
 
         public init(
@@ -1869,11 +1886,11 @@ extension BedrockAgentRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringCon
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Base 64 endoded byte response
+    /// Contains a part of an agent response and citations for it.
     public struct PayloadPart: Swift.Equatable {
-        /// Citations associated with final agent response
+        /// Contains citations for a part of an agent response.
         public var attribution: BedrockAgentRuntimeClientTypes.Attribution?
-        /// PartBody of the payload in bytes
+        /// A part of the agent response in bytes.
         public var bytes: ClientRuntime.Data?
 
         public init(
@@ -1920,11 +1937,11 @@ extension BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput: Sw
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information related to postprocessing
+    /// The foundation model output from the post-processing step.
     public struct PostProcessingModelInvocationOutput: Swift.Equatable {
-        /// Trace Part which contains information if preprocessing was successful
+        /// Details about the response from the Lambda parsing of the output of the post-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
@@ -1965,9 +1982,9 @@ extension BedrockAgentRuntimeClientTypes.PostProcessingParsedResponse: Swift.Cus
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information if preprocessing was successful
+    /// Details about the response from the Lambda parsing of the output from the post-processing step.
     public struct PostProcessingParsedResponse: Swift.Equatable {
-        /// Agent Trace Output String
+        /// The text returned by the parser.
         public var text: Swift.String?
 
         public init(
@@ -2016,11 +2033,17 @@ extension BedrockAgentRuntimeClientTypes.PostProcessingTrace: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information related to post processing step
+    /// Details about the post-processing step, in which the agent shapes the response.
     public enum PostProcessingTrace: Swift.Equatable {
-        /// Trace Part which contains information used to call Invoke Model
+        /// The input for the post-processing step.
+        ///
+        /// * The type is POST_PROCESSING.
+        ///
+        /// * The text contains the prompt.
+        ///
+        /// * The inferenceConfiguration, parserMode, and overrideLambda values are set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated.
         case modelinvocationinput(BedrockAgentRuntimeClientTypes.ModelInvocationInput)
-        /// Trace Part which contains information related to postprocessing
+        /// The foundation model output from the post-processing step.
         case modelinvocationoutput(BedrockAgentRuntimeClientTypes.PostProcessingModelInvocationOutput)
         case sdkUnknown(Swift.String)
     }
@@ -2059,11 +2082,11 @@ extension BedrockAgentRuntimeClientTypes.PreProcessingModelInvocationOutput: Swi
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information related to preprocessing
+    /// The foundation model output from the pre-processing step.
     public struct PreProcessingModelInvocationOutput: Swift.Equatable {
-        /// Trace Part which contains information if preprocessing was successful
+        /// Details about the response from the Lambda parsing of the output of the pre-processing step.
         public var parsedResponse: BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse?
-        /// Identifier for trace
+        /// The unique identifier of the trace.
         public var traceId: Swift.String?
 
         public init(
@@ -2110,11 +2133,11 @@ extension BedrockAgentRuntimeClientTypes.PreProcessingParsedResponse: Swift.Cust
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information if preprocessing was successful
+    /// Details about the response from the Lambda parsing of the output from the pre-processing step.
     public struct PreProcessingParsedResponse: Swift.Equatable {
-        /// Boolean value
+        /// Whether the user input is valid or not. If false, the agent doesn't proceed to orchestration.
         public var isValid: Swift.Bool?
-        /// Agent Trace Rationale String
+        /// The text returned by the parsing of the pre-processing step, explaining the steps that the agent plans to take in orchestration, if the user input is valid.
         public var rationale: Swift.String?
 
         public init(
@@ -2165,11 +2188,17 @@ extension BedrockAgentRuntimeClientTypes.PreProcessingTrace: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information related to preprocessing step
+    /// Details about the pre-processing step, in which the agent contextualizes and categorizes user inputs.
     public enum PreProcessingTrace: Swift.Equatable {
-        /// Trace Part which contains information used to call Invoke Model
+        /// The input for the pre-processing step.
+        ///
+        /// * The type is PRE_PROCESSING.
+        ///
+        /// * The text contains the prompt.
+        ///
+        /// * The inferenceConfiguration, parserMode, and overrideLambda values are set in the [PromptOverrideConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_PromptOverrideConfiguration.html) object that was set when the agent was created or updated.
         case modelinvocationinput(BedrockAgentRuntimeClientTypes.ModelInvocationInput)
-        /// Trace Part which contains information related to preprocessing
+        /// The foundation model output from the pre-processing step.
         case modelinvocationoutput(BedrockAgentRuntimeClientTypes.PreProcessingModelInvocationOutput)
         case sdkUnknown(Swift.String)
     }
@@ -2177,7 +2206,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// types of prompts
     public enum PromptType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case knowledgeBaseResponseGeneration
         case orchestration
@@ -2247,11 +2275,11 @@ extension BedrockAgentRuntimeClientTypes.Rationale: Swift.CustomDebugStringConve
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains information related to reasoning
+    /// Contains the reasoning, based on the input, that the agent uses to justify carrying out an action group or getting information from a knowledge base.
     public struct Rationale: Swift.Equatable {
-        /// Agent Trace Rationale String
+        /// The reasoning or thought process of the agent, based on the input.
         public var text: Swift.String?
-        /// Identifier for trace
+        /// The unique identifier of the trace step.
         public var traceId: Swift.String?
 
         public init(
@@ -2298,11 +2326,11 @@ extension BedrockAgentRuntimeClientTypes.RepromptResponse: Swift.CustomDebugStri
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Observation information if there were reprompts
+    /// Contains details about the agent's response to reprompt the input.
     public struct RepromptResponse: Swift.Equatable {
-        /// Parsing error source
+        /// Specifies what output is prompting the agent to reprompt the input.
         public var source: BedrockAgentRuntimeClientTypes.Source?
-        /// Reprompt response text
+        /// The text reprompting the input.
         public var text: Swift.String?
 
         public init(
@@ -2359,9 +2387,9 @@ extension BedrockAgentRuntimeClientTypes.RequestBody: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Request Body Content Map
+    /// The parameters in the request body for the Lambda input event.
     public struct RequestBody: Swift.Equatable {
-        /// Content type paramter map
+        /// The content in the request body.
         public var content: [Swift.String:[BedrockAgentRuntimeClientTypes.Parameter]]?
 
         public init(
@@ -2408,11 +2436,10 @@ extension ResourceNotFoundException {
     }
 }
 
-/// This exception is thrown when a resource referenced by the operation does not exist
+/// The specified resource ARN was not found. Check the ARN and try your request again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -2499,11 +2526,11 @@ extension BedrockAgentRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUn
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Response body of is a stream
+    /// The response from invoking the agent and associated citations and trace information.
     public enum ResponseStream: Swift.Equatable {
-        /// Base 64 endoded byte response
+        /// Contains a part of an agent response and citations for it.
         case chunk(BedrockAgentRuntimeClientTypes.PayloadPart)
-        /// Trace Part which contains intermidate response for customer
+        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling API actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace events](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
         case trace(BedrockAgentRuntimeClientTypes.TracePart)
         case sdkUnknown(Swift.String)
     }
@@ -2536,9 +2563,9 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent: Swift.CustomDeb
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Content of a retrieval result.
+    /// Contains the cited text from the data source.
     public struct RetrievalResultContent: Swift.Equatable {
-        /// Content of a retrieval result in text
+        /// The cited text from the data source.
         /// This member is required.
         public var text: Swift.String?
 
@@ -2584,11 +2611,11 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation: Swift.CustomDe
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// The source location of a retrieval result.
+    /// Contains information about the location of the data source.
     public struct RetrievalResultLocation: Swift.Equatable {
-        /// The S3 location of a retrieval result.
+        /// Contains the S3 location of the data source.
         public var s3Location: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location?
-        /// The location type of a retrieval result.
+        /// The type of the location of the data source.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.RetrievalResultLocationType?
 
@@ -2605,7 +2632,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// The location type of a retrieval result.
     public enum RetrievalResultLocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case s3
         case sdkUnknown(Swift.String)
@@ -2654,9 +2680,9 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultS3Location: Swift.Codabl
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// The S3 location of a retrieval result.
+    /// Contains the S3 location of the data source.
     public struct RetrievalResultS3Location: Swift.Equatable {
-        /// URI of S3 location
+        /// The S3 URI of the data source.
         public var uri: Swift.String?
 
         public init(
@@ -2695,11 +2721,11 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration: Swift
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Configures the retrieval and generation for the session.
+    /// Contains details about the resource being queried.
     public struct RetrieveAndGenerateConfiguration: Swift.Equatable {
-        /// Configurations for retrieval and generation for knowledge base.
+        /// Contains details about the resource being queried.
         public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration?
-        /// The type of RetrieveAndGenerate.
+        /// The type of resource that is queried by the request.
         /// This member is required.
         public var type: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateType?
 
@@ -2778,14 +2804,14 @@ extension RetrieveAndGenerateInput {
 }
 
 public struct RetrieveAndGenerateInput: Swift.Equatable {
-    /// Customer input of the turn
+    /// Contains the query made to the knowledge base.
     /// This member is required.
     public var input: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateInput?
-    /// Configures the retrieval and generation for the session.
+    /// Contains details about the resource being queried and the foundation model used for generation.
     public var retrieveAndGenerateConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration?
-    /// Configures common parameters of the session.
+    /// Contains details about the session with the knowledge base.
     public var sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration?
-    /// Identifier of the session.
+    /// The unique identifier of the session. Reuse the same value to continue the same session with the knowledge base.
     public var sessionId: Swift.String?
 
     public init(
@@ -2803,9 +2829,9 @@ public struct RetrieveAndGenerateInput: Swift.Equatable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Customer input of the turn
+    /// Contains the query made to the knowledge base.
     public struct RetrieveAndGenerateInput: Swift.Equatable {
-        /// Customer input of the turn in text
+        /// The query made to the knowledge base.
         /// This member is required.
         public var text: Swift.String?
 
@@ -2894,12 +2920,12 @@ extension RetrieveAndGenerateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RetrieveAndGenerateOutput: Swift.Equatable {
-    /// List of citations
+    /// A list of segments of the generated response that are based on sources in the knowledge base, alongside information about the sources.
     public var citations: [BedrockAgentRuntimeClientTypes.Citation]?
-    /// Service response of the turn
+    /// Contains the response generated from querying the knowledge base.
     /// This member is required.
     public var output: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput?
-    /// Identifier of the session.
+    /// The unique identifier of the session. Reuse the same value to continue the same session with the knowledge base.
     /// This member is required.
     public var sessionId: Swift.String?
 
@@ -2916,9 +2942,9 @@ public struct RetrieveAndGenerateOutput: Swift.Equatable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Service response of the turn
+    /// Contains the response generated from querying the knowledge base.
     public struct RetrieveAndGenerateOutput: Swift.Equatable {
-        /// Service response of the turn in text
+        /// The response generated from querying the knowledge base.
         /// This member is required.
         public var text: Swift.String?
 
@@ -3004,9 +3030,9 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Configures common parameters of the session.
+    /// Contains configuration about the session with the knowledge base.
     public struct RetrieveAndGenerateSessionConfiguration: Swift.Equatable {
-        /// The KMS key arn to encrypt the customer data of the session.
+        /// The ARN of the KMS key encrypting the session.
         /// This member is required.
         public var kmsKeyArn: Swift.String?
 
@@ -3021,7 +3047,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// The type of RetrieveAndGenerate.
     public enum RetrieveAndGenerateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case knowledgeBase
         case sdkUnknown(Swift.String)
@@ -3087,14 +3112,14 @@ extension RetrieveInput {
 }
 
 public struct RetrieveInput: Swift.Equatable {
-    /// Identifier of the KnowledgeBase
+    /// The unique identifier of the knowledge base to query.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// Opaque continuation token of previous paginated response.
+    /// If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     public var nextToken: Swift.String?
-    /// Search parameters for retrieving from knowledge base.
+    /// Contains details about how the results should be returned.
     public var retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration?
-    /// Knowledge base input query.
+    /// The query to send the knowledge base.
     /// This member is required.
     public var retrievalQuery: BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery?
 
@@ -3156,9 +3181,9 @@ extension RetrieveOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RetrieveOutput: Swift.Equatable {
-    /// Opaque continuation token of previous paginated response.
+    /// If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     public var nextToken: Swift.String?
-    /// List of knowledge base retrieval results
+    /// A list of results from querying the knowledge base.
     /// This member is required.
     public var retrievalResults: [BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult]?
 
@@ -3251,11 +3276,11 @@ extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.CustomDebugSt
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Retrieved reference
+    /// Contains metadata about a sources cited for the generated response.
     public struct RetrievedReference: Swift.Equatable {
-        /// Content of a retrieval result.
+        /// Contains the cited text from the data source.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
-        /// The source location of a retrieval result.
+        /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
 
         public init(
@@ -3271,7 +3296,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Query type to be performed on data store.
     public enum SearchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hybrid
         case semantic
@@ -3337,11 +3361,10 @@ extension ServiceQuotaExceededException {
     }
 }
 
-/// This exception is thrown when a request is made beyond the service quota
+/// The number of requests exceeds the service quota. Resubmit your request later.
 public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3428,11 +3451,11 @@ extension BedrockAgentRuntimeClientTypes.SessionState: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Session state provided
+    /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Session context](https://docs.aws.amazon.com/bedrock/latest/userguide/sessionstate.html).
     public struct SessionState: Swift.Equatable {
-        /// Prompt Session Attributes
+        /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
         public var promptSessionAttributes: [Swift.String:Swift.String]?
-        /// Session Attributes
+        /// Contains attributes that persist across a session and the values of those attributes.
         public var sessionAttributes: [Swift.String:Swift.String]?
 
         public init(
@@ -3448,7 +3471,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Parsing error source
     public enum Source: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case actionGroup
         case knowledgeBase
@@ -3509,11 +3531,11 @@ extension BedrockAgentRuntimeClientTypes.Span: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Span of text
+    /// Contains information about where the text with a citation begins and ends in the generated output.
     public struct Span: Swift.Equatable {
-        /// End of span
+        /// Where the text with a citation ends in the generated output.
         public var end: Swift.Int?
-        /// Start of span
+        /// Where the text with a citation starts in the generated output.
         public var start: Swift.Int?
 
         public init(
@@ -3560,11 +3582,11 @@ extension BedrockAgentRuntimeClientTypes.TextResponsePart: Swift.CustomDebugStri
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Text response part
+    /// Contains the part of the generated text that contains a citation, alongside where it begins and ends.
     public struct TextResponsePart: Swift.Equatable {
-        /// Span of text
+        /// Contains information about where the text with a citation begins and ends in the generated output.
         public var span: BedrockAgentRuntimeClientTypes.Span?
-        /// Response part in text
+        /// The part of the generated text that contains a citation.
         public var text: Swift.String?
 
         public init(
@@ -3613,11 +3635,10 @@ extension ThrottlingException {
     }
 }
 
-/// This exception is thrown when the number of requests exceeds the limit
+/// The number of requests exceeds the limit. Resubmit your request later.
 public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -3706,15 +3727,15 @@ extension BedrockAgentRuntimeClientTypes.Trace: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace contains intermidate response for customer
+    /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
     public enum Trace: Swift.Equatable {
-        /// Trace Part which contains information related to preprocessing step
+        /// Details about the pre-processing step, in which the agent contextualizes and categorizes user inputs.
         case preprocessingtrace(BedrockAgentRuntimeClientTypes.PreProcessingTrace)
-        /// Trace contains intermidate response during orchestration
+        /// Details about the orchestration step, in which the agent determines the order in which actions are executed and which knowledge bases are retrieved.
         case orchestrationtrace(BedrockAgentRuntimeClientTypes.OrchestrationTrace)
-        /// Trace Part which contains information related to post processing step
+        /// Details about the post-processing step, in which the agent shapes the response..
         case postprocessingtrace(BedrockAgentRuntimeClientTypes.PostProcessingTrace)
-        /// Trace Part which is emitted when agent trace could not be generated
+        /// Contains information about the failure of the interaction.
         case failuretrace(BedrockAgentRuntimeClientTypes.FailureTrace)
         case sdkUnknown(Swift.String)
     }
@@ -3765,15 +3786,15 @@ extension BedrockAgentRuntimeClientTypes.TracePart: Swift.CustomDebugStringConve
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Trace Part which contains intermidate response for customer
+    /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling API actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
     public struct TracePart: Swift.Equatable {
-        /// Identifier of the agent alias.
+        /// The unique identifier of the alias of the agent.
         public var agentAliasId: Swift.String?
-        /// Identifier of the agent.
+        /// The unique identifier of the agent.
         public var agentId: Swift.String?
-        /// Identifier of the session.
+        /// The unique identifier of the session with the agent.
         public var sessionId: Swift.String?
-        /// Trace contains intermidate response for customer
+        /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
         public var trace: BedrockAgentRuntimeClientTypes.Trace?
 
         public init(
@@ -3793,7 +3814,6 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// types of observations
     public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case actionGroup
         case askUser
@@ -3868,11 +3888,10 @@ extension ValidationException {
     }
 }
 
-/// This exception is thrown when the request's input validation fails
+/// Input validation failed. Check your request parameters and retry the request.
 public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// Non Blank String
         public internal(set) var message: Swift.String? = nil
     }
 

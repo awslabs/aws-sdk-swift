@@ -2629,6 +2629,7 @@ extension CreateJobQueueInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeEnvironmentOrder
         case jobQueueName
+        case jobStateTimeLimitActions
         case priority
         case schedulingPolicyArn
         case state
@@ -2645,6 +2646,12 @@ extension CreateJobQueueInput: Swift.Encodable {
         }
         if let jobQueueName = self.jobQueueName {
             try encodeContainer.encode(jobQueueName, forKey: .jobQueueName)
+        }
+        if let jobStateTimeLimitActions = jobStateTimeLimitActions {
+            var jobStateTimeLimitActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobStateTimeLimitActions)
+            for jobstatetimelimitaction0 in jobStateTimeLimitActions {
+                try jobStateTimeLimitActionsContainer.encode(jobstatetimelimitaction0)
+            }
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
@@ -2679,6 +2686,8 @@ public struct CreateJobQueueInput: Swift.Equatable {
     /// The name of the job queue. It can be up to 128 letters long. It can contain uppercase and lowercase letters, numbers, hyphens (-), and underscores (_).
     /// This member is required.
     public var jobQueueName: Swift.String?
+    /// The set of actions that Batch performs on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
+    public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT); EC2 and Fargate compute environments can't be mixed.
     /// This member is required.
     public var priority: Swift.Int?
@@ -2692,6 +2701,7 @@ public struct CreateJobQueueInput: Swift.Equatable {
     public init(
         computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
         jobQueueName: Swift.String? = nil,
+        jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
         priority: Swift.Int? = nil,
         schedulingPolicyArn: Swift.String? = nil,
         state: BatchClientTypes.JQState? = nil,
@@ -2700,6 +2710,7 @@ public struct CreateJobQueueInput: Swift.Equatable {
     {
         self.computeEnvironmentOrder = computeEnvironmentOrder
         self.jobQueueName = jobQueueName
+        self.jobStateTimeLimitActions = jobStateTimeLimitActions
         self.priority = priority
         self.schedulingPolicyArn = schedulingPolicyArn
         self.state = state
@@ -2714,12 +2725,14 @@ struct CreateJobQueueInputBody: Swift.Equatable {
     let priority: Swift.Int?
     let computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]?
     let tags: [Swift.String:Swift.String]?
+    let jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
 }
 
 extension CreateJobQueueInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeEnvironmentOrder
         case jobQueueName
+        case jobStateTimeLimitActions
         case priority
         case schedulingPolicyArn
         case state
@@ -2758,6 +2771,17 @@ extension CreateJobQueueInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let jobStateTimeLimitActionsContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobStateTimeLimitAction?].self, forKey: .jobStateTimeLimitActions)
+        var jobStateTimeLimitActionsDecoded0:[BatchClientTypes.JobStateTimeLimitAction]? = nil
+        if let jobStateTimeLimitActionsContainer = jobStateTimeLimitActionsContainer {
+            jobStateTimeLimitActionsDecoded0 = [BatchClientTypes.JobStateTimeLimitAction]()
+            for structure0 in jobStateTimeLimitActionsContainer {
+                if let structure0 = structure0 {
+                    jobStateTimeLimitActionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobStateTimeLimitActions = jobStateTimeLimitActionsDecoded0
     }
 }
 
@@ -7400,6 +7424,14 @@ extension BatchClientTypes {
         /// This member is required.
         public var status: BatchClientTypes.JobStatus?
         /// A short, human-readable string to provide more details for the current status of the job.
+        ///
+        /// * CAPACITY:INSUFFICIENT_INSTANCE_CAPACITY - All compute environments have insufficient capacity to service the job.
+        ///
+        /// * MISCONFIGURATION:COMPUTE_ENVIRONMENT_MAX_RESOURCE - All compute environments have a maxVcpu setting that is smaller than the job requirements.
+        ///
+        /// * MISCONFIGURATION:JOB_RESOURCE_REQUIREMENT - All compute environments have no connected instances that meet the job requirements.
+        ///
+        /// * MISCONFIGURATION:SERVICE_ROLE_PERMISSIONS - All compute environments have problems with the service role permissions.
         public var statusReason: Swift.String?
         /// The Unix timestamp (in milliseconds) for when the job was stopped. More specifically, it's when the job transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED.
         public var stoppedAt: Swift.Int?
@@ -7479,6 +7511,7 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
         case computeEnvironmentOrder
         case jobQueueArn
         case jobQueueName
+        case jobStateTimeLimitActions
         case priority
         case schedulingPolicyArn
         case state
@@ -7500,6 +7533,12 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
         }
         if let jobQueueName = self.jobQueueName {
             try encodeContainer.encode(jobQueueName, forKey: .jobQueueName)
+        }
+        if let jobStateTimeLimitActions = jobStateTimeLimitActions {
+            var jobStateTimeLimitActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobStateTimeLimitActions)
+            for jobstatetimelimitaction0 in jobStateTimeLimitActions {
+                try jobStateTimeLimitActionsContainer.encode(jobstatetimelimitaction0)
+            }
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
@@ -7562,6 +7601,17 @@ extension BatchClientTypes.JobQueueDetail: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let jobStateTimeLimitActionsContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobStateTimeLimitAction?].self, forKey: .jobStateTimeLimitActions)
+        var jobStateTimeLimitActionsDecoded0:[BatchClientTypes.JobStateTimeLimitAction]? = nil
+        if let jobStateTimeLimitActionsContainer = jobStateTimeLimitActionsContainer {
+            jobStateTimeLimitActionsDecoded0 = [BatchClientTypes.JobStateTimeLimitAction]()
+            for structure0 in jobStateTimeLimitActionsContainer {
+                if let structure0 = structure0 {
+                    jobStateTimeLimitActionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobStateTimeLimitActions = jobStateTimeLimitActionsDecoded0
     }
 }
 
@@ -7577,6 +7627,8 @@ extension BatchClientTypes {
         /// The job queue name.
         /// This member is required.
         public var jobQueueName: Swift.String?
+        /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
+        public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
         /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either Amazon EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). Amazon EC2 and Fargate compute environments can't be mixed.
         /// This member is required.
         public var priority: Swift.Int?
@@ -7596,6 +7648,7 @@ extension BatchClientTypes {
             computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
             jobQueueArn: Swift.String? = nil,
             jobQueueName: Swift.String? = nil,
+            jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
             priority: Swift.Int? = nil,
             schedulingPolicyArn: Swift.String? = nil,
             state: BatchClientTypes.JQState? = nil,
@@ -7607,6 +7660,7 @@ extension BatchClientTypes {
             self.computeEnvironmentOrder = computeEnvironmentOrder
             self.jobQueueArn = jobQueueArn
             self.jobQueueName = jobQueueName
+            self.jobStateTimeLimitActions = jobStateTimeLimitActions
             self.priority = priority
             self.schedulingPolicyArn = schedulingPolicyArn
             self.state = state
@@ -7616,6 +7670,133 @@ extension BatchClientTypes {
         }
     }
 
+}
+
+extension BatchClientTypes.JobStateTimeLimitAction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case maxTimeSeconds
+        case reason
+        case state
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action.rawValue, forKey: .action)
+        }
+        if let maxTimeSeconds = self.maxTimeSeconds {
+            try encodeContainer.encode(maxTimeSeconds, forKey: .maxTimeSeconds)
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let state = self.state {
+            try encodeContainer.encode(state.rawValue, forKey: .state)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let stateDecoded = try containerValues.decodeIfPresent(BatchClientTypes.JobStateTimeLimitActionsState.self, forKey: .state)
+        state = stateDecoded
+        let maxTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxTimeSeconds)
+        maxTimeSeconds = maxTimeSecondsDecoded
+        let actionDecoded = try containerValues.decodeIfPresent(BatchClientTypes.JobStateTimeLimitActionsAction.self, forKey: .action)
+        action = actionDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// Specifies an action that Batch will take after the job has remained at the head of the queue in the specified state for longer than the specified time.
+    public struct JobStateTimeLimitAction: Swift.Equatable {
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is "CANCEL", which will cancel the job.
+        /// This member is required.
+        public var action: BatchClientTypes.JobStateTimeLimitActionsAction?
+        /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
+        /// This member is required.
+        public var maxTimeSeconds: Swift.Int?
+        /// The reason to log for the action being taken.
+        /// This member is required.
+        public var reason: Swift.String?
+        /// The state of the job needed to trigger the action. The only supported value is "RUNNABLE".
+        /// This member is required.
+        public var state: BatchClientTypes.JobStateTimeLimitActionsState?
+
+        public init(
+            action: BatchClientTypes.JobStateTimeLimitActionsAction? = nil,
+            maxTimeSeconds: Swift.Int? = nil,
+            reason: Swift.String? = nil,
+            state: BatchClientTypes.JobStateTimeLimitActionsState? = nil
+        )
+        {
+            self.action = action
+            self.maxTimeSeconds = maxTimeSeconds
+            self.reason = reason
+            self.state = state
+        }
+    }
+
+}
+
+extension BatchClientTypes {
+    public enum JobStateTimeLimitActionsAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancel
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStateTimeLimitActionsAction] {
+            return [
+                .cancel,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancel: return "CANCEL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JobStateTimeLimitActionsAction(rawValue: rawValue) ?? JobStateTimeLimitActionsAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BatchClientTypes {
+    public enum JobStateTimeLimitActionsState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case runnable
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [JobStateTimeLimitActionsState] {
+            return [
+                .runnable,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .runnable: return "RUNNABLE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = JobStateTimeLimitActionsState(rawValue: rawValue) ?? JobStateTimeLimitActionsState.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension BatchClientTypes {
@@ -10836,7 +11017,7 @@ extension BatchClientTypes {
         public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
         /// The environment variables to pass to a container. This parameter maps to Env in the [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env option to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data.
         public var environment: [BatchClientTypes.KeyValuePair]?
-        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
         public var essential: Swift.Bool?
         /// The exit code returned upon completion.
         public var exitCode: Swift.Int?
@@ -11238,7 +11419,7 @@ extension BatchClientTypes {
         public var dependsOn: [BatchClientTypes.TaskContainerDependency]?
         /// The environment variables to pass to a container. This parameter maps to Env inthe [Create a container](https://docs.docker.com/engine/api/v1.23/#create-a-container) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.23/) and the --env parameter to [docker run](https://docs.docker.com/engine/reference/run/). We don't recommend using plaintext environment variables for sensitive information, such as credential data. Environment variables cannot start with AWS_BATCH. This naming convention is reserved for variables that Batch sets.
         public var environment: [BatchClientTypes.KeyValuePair]?
-        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All tasks must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
+        /// If the essential parameter of a container is marked as true, and that container fails or stops for any reason, all other containers that are part of the task are stopped. If the essential parameter of a container is marked as false, its failure doesn't affect the rest of the containers in a task. If this parameter is omitted, a container is assumed to be essential. All jobs must have at least one essential container. If you have an application that's composed of multiple containers, group containers that are used for a common purpose into components, and separate the different components into multiple task definitions. For more information, see [Application Architecture](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/application_architecture.html) in the Amazon Elastic Container Service Developer Guide.
         public var essential: Swift.Bool?
         /// The image used to start a container. This string is passed directly to the Docker daemon. By default, images in the Docker Hub registry are available. Other repositories are specified with either repository-url/image:tag or repository-url/image@digest. Up to 255 letters (uppercase and lowercase), numbers, hyphens, underscores, colons, periods, forward slashes, and number signs are allowed. This parameter maps to Image in the [Create a container](https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate) section of the [Docker Remote API](https://docs.docker.com/engine/api/v1.35/) and the IMAGE parameter of the [ docker run ](https://docs.docker.com/engine/reference/run/#security-configuration).
         /// This member is required.
@@ -11832,6 +12013,7 @@ extension UpdateJobQueueInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeEnvironmentOrder
         case jobQueue
+        case jobStateTimeLimitActions
         case priority
         case schedulingPolicyArn
         case state
@@ -11847,6 +12029,12 @@ extension UpdateJobQueueInput: Swift.Encodable {
         }
         if let jobQueue = self.jobQueue {
             try encodeContainer.encode(jobQueue, forKey: .jobQueue)
+        }
+        if let jobStateTimeLimitActions = jobStateTimeLimitActions {
+            var jobStateTimeLimitActionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .jobStateTimeLimitActions)
+            for jobstatetimelimitaction0 in jobStateTimeLimitActions {
+                try jobStateTimeLimitActionsContainer.encode(jobstatetimelimitaction0)
+            }
         }
         if let priority = self.priority {
             try encodeContainer.encode(priority, forKey: .priority)
@@ -11874,6 +12062,8 @@ public struct UpdateJobQueueInput: Swift.Equatable {
     /// The name or the Amazon Resource Name (ARN) of the job queue.
     /// This member is required.
     public var jobQueue: Swift.String?
+    /// The set of actions that Batch perform on jobs that remain at the head of the job queue in the specified state longer than specified times. Batch will perform each action after maxTimeSeconds has passed.
+    public var jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
     /// The priority of the job queue. Job queues with a higher priority (or a higher integer value for the priority parameter) are evaluated first when associated with the same compute environment. Priority is determined in descending order. For example, a job queue with a priority value of 10 is given scheduling preference over a job queue with a priority value of 1. All of the compute environments must be either EC2 (EC2 or SPOT) or Fargate (FARGATE or FARGATE_SPOT). EC2 and Fargate compute environments can't be mixed.
     public var priority: Swift.Int?
     /// Amazon Resource Name (ARN) of the fair share scheduling policy. Once a job queue is created, the fair share scheduling policy can be replaced but not removed. The format is aws:Partition:batch:Region:Account:scheduling-policy/Name . For example, aws:aws:batch:us-west-2:123456789012:scheduling-policy/MySchedulingPolicy.
@@ -11884,6 +12074,7 @@ public struct UpdateJobQueueInput: Swift.Equatable {
     public init(
         computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]? = nil,
         jobQueue: Swift.String? = nil,
+        jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]? = nil,
         priority: Swift.Int? = nil,
         schedulingPolicyArn: Swift.String? = nil,
         state: BatchClientTypes.JQState? = nil
@@ -11891,6 +12082,7 @@ public struct UpdateJobQueueInput: Swift.Equatable {
     {
         self.computeEnvironmentOrder = computeEnvironmentOrder
         self.jobQueue = jobQueue
+        self.jobStateTimeLimitActions = jobStateTimeLimitActions
         self.priority = priority
         self.schedulingPolicyArn = schedulingPolicyArn
         self.state = state
@@ -11903,12 +12095,14 @@ struct UpdateJobQueueInputBody: Swift.Equatable {
     let schedulingPolicyArn: Swift.String?
     let priority: Swift.Int?
     let computeEnvironmentOrder: [BatchClientTypes.ComputeEnvironmentOrder]?
+    let jobStateTimeLimitActions: [BatchClientTypes.JobStateTimeLimitAction]?
 }
 
 extension UpdateJobQueueInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case computeEnvironmentOrder
         case jobQueue
+        case jobStateTimeLimitActions
         case priority
         case schedulingPolicyArn
         case state
@@ -11935,6 +12129,17 @@ extension UpdateJobQueueInputBody: Swift.Decodable {
             }
         }
         computeEnvironmentOrder = computeEnvironmentOrderDecoded0
+        let jobStateTimeLimitActionsContainer = try containerValues.decodeIfPresent([BatchClientTypes.JobStateTimeLimitAction?].self, forKey: .jobStateTimeLimitActions)
+        var jobStateTimeLimitActionsDecoded0:[BatchClientTypes.JobStateTimeLimitAction]? = nil
+        if let jobStateTimeLimitActionsContainer = jobStateTimeLimitActionsContainer {
+            jobStateTimeLimitActionsDecoded0 = [BatchClientTypes.JobStateTimeLimitAction]()
+            for structure0 in jobStateTimeLimitActionsContainer {
+                if let structure0 = structure0 {
+                    jobStateTimeLimitActionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        jobStateTimeLimitActions = jobStateTimeLimitActionsDecoded0
     }
 }
 

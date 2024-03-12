@@ -9960,7 +9960,7 @@ extension EC2Client {
 
     /// Performs the `DescribeBundleTasks` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified bundle tasks or all of your bundle tasks. Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task.
+    /// Describes the specified bundle tasks or all of your bundle tasks. Completed bundle tasks are listed for only a limited time. If your bundle task is no longer in the list, you can still register an AMI from it. Just use RegisterImage with the Amazon S3 bucket name and image manifest name you provided to the bundle task. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeBundleTasksInput : [no documentation found]
     ///
@@ -10046,7 +10046,7 @@ extension EC2Client {
 
     /// Performs the `DescribeCapacityBlockOfferings` operation on the `AmazonEC2` service.
     ///
-    /// Describes Capacity Block offerings available for purchase. With Capacity Blocks, you purchase a specific instance type for a period of time.
+    /// Describes Capacity Block offerings available for purchase in the Amazon Web Services Region that you're currently using. With Capacity Blocks, you purchase a specific instance type for a period of time.
     ///
     /// - Parameter DescribeCapacityBlockOfferingsInput : [no documentation found]
     ///
@@ -10949,7 +10949,7 @@ extension EC2Client {
 
     /// Performs the `DescribeFleetInstances` operation on the `AmazonEC2` service.
     ///
-    /// Describes the running instances for the specified EC2 Fleet. For more information, see [Monitor your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
+    /// Describes the running instances for the specified EC2 Fleet. Currently, DescribeFleetInstances does not support fleets of type instant. Instead, use DescribeFleets, specifying the instant fleet ID in the request. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeFleetInstancesInput : [no documentation found]
     ///
@@ -10992,7 +10992,7 @@ extension EC2Client {
 
     /// Performs the `DescribeFleets` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see [Monitor your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
+    /// Describes the specified EC2 Fleet or all of your EC2 Fleets. If a fleet is of type instant, you must specify the fleet ID in the request, otherwise the fleet does not appear in the response. For more information, see [Describe your EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#monitor-ec2-fleet) in the Amazon EC2 User Guide.
     ///
     /// - Parameter DescribeFleetsInput : [no documentation found]
     ///
@@ -11422,7 +11422,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImageAttribute` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time.
+    /// Describes the specified attribute of the specified AMI. You can specify only one attribute at a time. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeImageAttributeInput : Contains the parameters for DescribeImageAttribute.
     ///
@@ -11465,7 +11465,7 @@ extension EC2Client {
 
     /// Performs the `DescribeImages` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found.
+    /// Describes the specified images (AMIs, AKIs, and ARIs) available to you or all of the images available to you. The images available to you include public images, private images that you own, and private images owned by other Amazon Web Services accounts for which you have explicit launch permissions. Recently deregistered images appear in the returned results for a short interval and then return empty results. After all instances that reference a deregistered AMI are terminated, specifying the ID of the image will eventually return an error indicating that the AMI ID cannot be found. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeImagesInput : [no documentation found]
     ///
@@ -11817,6 +11817,9 @@ extension EC2Client {
     ///
     /// * Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see [Instance lifecycle](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html) in the Amazon EC2 User Guide.
     ///
+    ///
+    /// The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
+    ///
     /// - Parameter DescribeInstanceStatusInput : [no documentation found]
     ///
     /// - Returns: `DescribeInstanceStatusOutput` : [no documentation found]
@@ -12010,7 +12013,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstances` operation on the `AmazonEC2` service.
     ///
-    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally.
+    /// Describes the specified instances or all instances. If you specify instance IDs, the output includes information for only the specified instances. If you specify filters, the output includes information for only those instances that meet the filter criteria. If you do not specify instance IDs or filters, the output includes information for all instances, which can affect performance. We recommend that you use pagination to ensure that the operation returns quickly and successfully. If you specify an instance ID that is not valid, an error is returned. If you specify an instance that you do not own, it is not included in the output. Recently terminated instances might appear in the returned results. This interval is usually less than one hour. If you describe instances in the rare case where an Availability Zone is experiencing a service disruption and you specify instance IDs that are in the affected zone, or do not specify any instance IDs at all, the call fails. If you describe instances and specify only instance IDs that are in an unaffected zone, the call works normally. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeInstancesInput : [no documentation found]
     ///
@@ -13558,7 +13561,7 @@ extension EC2Client {
 
     /// Performs the `DescribeReservedInstances` operation on the `AmazonEC2` service.
     ///
-    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) in the Amazon EC2 User Guide.
+    /// Describes one or more of the Reserved Instances that you purchased. For more information about Reserved Instances, see [Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts-on-demand-reserved-instances.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeReservedInstancesInput : Contains the parameters for DescribeReservedInstances.
     ///
@@ -13601,7 +13604,7 @@ extension EC2Client {
 
     /// Performs the `DescribeReservedInstancesListings` operation on the `AmazonEC2` service.
     ///
-    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
+    /// Describes your account's Reserved Instance listings in the Reserved Instance Marketplace. The Reserved Instance Marketplace matches sellers who want to resell Reserved Instance capacity that they no longer need with buyers who want to purchase additional capacity. Reserved Instances bought and sold through the Reserved Instance Marketplace work like any other Reserved Instances. As a seller, you choose to list some or all of your Reserved Instances, and you specify the upfront price to receive for them. Your Reserved Instances are then listed in the Reserved Instance Marketplace and are available for purchase. As a buyer, you specify the configuration of the Reserved Instance to purchase, and the Marketplace matches what you're searching for with what's available. The Marketplace first sells the lowest priced Reserved Instances to you, and continues to sell available Reserved Instance listings to you until your demand is met. You are charged based on the total price of all of the listings that you purchase. For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeReservedInstancesListingsInput : Contains the parameters for DescribeReservedInstancesListings.
     ///
@@ -13644,7 +13647,7 @@ extension EC2Client {
 
     /// Performs the `DescribeReservedInstancesModifications` operation on the `AmazonEC2` service.
     ///
-    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see [Modifying Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide.
+    /// Describes the modifications made to your Reserved Instances. If no parameter is specified, information about all your Reserved Instances modification requests is returned. If a modification ID is specified, only information about the specific modification is returned. For more information, see [Modifying Reserved Instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-modifying.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeReservedInstancesModificationsInput : Contains the parameters for DescribeReservedInstancesModifications.
     ///
@@ -13687,7 +13690,7 @@ extension EC2Client {
 
     /// Performs the `DescribeReservedInstancesOfferings` operation on the `AmazonEC2` service.
     ///
-    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide.
+    /// Describes Reserved Instance offerings that are available for purchase. With Reserved Instances, you purchase the right to launch instances for a period of time. During that time period, you do not receive insufficient capacity errors, and you pay a lower usage rate than the rate charged for On-Demand instances for the actual time used. If you have listed your own Reserved Instances for sale in the Reserved Instance Marketplace, they will be excluded from these results. This is to ensure that you do not purchase your own Reserved Instances. For more information, see [Reserved Instance Marketplace](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ri-market-general.html) in the Amazon EC2 User Guide. The order of the elements in the response, including those within nested structures, might vary. Applications should not assume the elements appear in a particular order.
     ///
     /// - Parameter DescribeReservedInstancesOfferingsInput : Contains the parameters for DescribeReservedInstancesOfferings.
     ///
@@ -21853,7 +21856,7 @@ extension EC2Client {
     ///
     /// Modifies the placement attributes for a specified instance. You can do the following:
     ///
-    /// * Modify the affinity between an instance and a [Dedicated Host](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html). When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is launched, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.
+    /// * Modify the affinity between an instance and a [Dedicated Host](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html). When affinity is set to host and the instance is not associated with a specific Dedicated Host, the next time the instance is started, it is automatically associated with the host on which it lands. If the instance is restarted or rebooted, this relationship persists.
     ///
     /// * Change the Dedicated Host with which an instance is associated.
     ///
@@ -24301,7 +24304,7 @@ extension EC2Client {
 
     /// Performs the `RegisterImage` operation on the `AmazonEC2` service.
     ///
-    /// Registers an AMI. When you're creating an AMI, this is the final step you must complete before you can launch an instance from the AMI. For more information about creating AMIs, see [Create your own AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html) in the Amazon Elastic Compute Cloud User Guide. For Amazon EBS-backed instances, [CreateImage] creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use [CreateImage] unless you have a specific reason to use RegisterImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create a Linux AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with Amazon EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon Elastic Compute Cloud User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:
+    /// Registers an AMI. When you're creating an instance-store backed AMI, registering the AMI is the final step in the creation process. For more information about creating AMIs, see [Create your own AMI](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html) in the Amazon Elastic Compute Cloud User Guide. For Amazon EBS-backed instances, [CreateImage] creates and registers the AMI in a single request, so you don't have to register the AMI yourself. We recommend that you always use [CreateImage] unless you have a specific reason to use RegisterImage. If needed, you can deregister an AMI at any time. Any modifications you make to an AMI backed by an instance store volume invalidates its registration. If you make changes to an image, deregister the previous image and register the new image. Register a snapshot of a root device volume You can use RegisterImage to create an Amazon EBS-backed Linux AMI from a snapshot of a root device volume. You specify the snapshot using a block device mapping. You can't set the encryption state of the volume using the block device mapping. If the snapshot is encrypted, or encryption by default is enabled, the root volume of an instance launched from the AMI is encrypted. For more information, see [Create a Linux AMI from a snapshot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami-ebs.html#creating-launching-ami-from-snapshot) and [Use encryption with Amazon EBS-backed AMIs](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIEncryption.html) in the Amazon Elastic Compute Cloud User Guide. Amazon Web Services Marketplace product codes If any snapshots have Amazon Web Services Marketplace product codes, they are copied to the new AMI. Windows and some Linux distributions, such as Red Hat Enterprise Linux (RHEL) and SUSE Linux Enterprise Server (SLES), use the Amazon EC2 billing product code associated with an AMI to verify the subscription status for package updates. To create a new AMI for operating systems that require a billing product code, instead of registering the AMI, do the following to preserve the billing product code association:
     ///
     /// * Launch an instance from an existing AMI with that billing product code.
     ///

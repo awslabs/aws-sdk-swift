@@ -170,7 +170,11 @@ extension TransferClientTypes {
         public var basicAuthSecretId: Swift.String?
         /// Specifies whether the AS2 file is compressed.
         public var compression: TransferClientTypes.CompressionEnum?
-        /// The algorithm that is used to encrypt the file. You can only specify NONE if the URL for your connector uses HTTPS. This ensures that no traffic is sent in clear text.
+        /// The algorithm that is used to encrypt the file. Note the following:
+        ///
+        /// * Do not use the DES_EDE3_CBC algorithm unless you must support a legacy client that requires it, as it is a weak encryption algorithm.
+        ///
+        /// * You can only specify NONE if the URL for your connector uses HTTPS. Using HTTPS ensures that no traffic is sent in clear text.
         public var encryptionAlgorithm: TransferClientTypes.EncryptionAlg?
         /// A unique identifier for the AS2 local profile.
         public var localProfileId: Swift.String?
@@ -6155,6 +6159,7 @@ extension TransferClientTypes {
         case aes128Cbc
         case aes192Cbc
         case aes256Cbc
+        case desEde3Cbc
         case `none`
         case sdkUnknown(Swift.String)
 
@@ -6163,6 +6168,7 @@ extension TransferClientTypes {
                 .aes128Cbc,
                 .aes192Cbc,
                 .aes256Cbc,
+                .desEde3Cbc,
                 .none,
                 .sdkUnknown("")
             ]
@@ -6176,6 +6182,7 @@ extension TransferClientTypes {
             case .aes128Cbc: return "AES128_CBC"
             case .aes192Cbc: return "AES192_CBC"
             case .aes256Cbc: return "AES256_CBC"
+            case .desEde3Cbc: return "DES_EDE3_CBC"
             case .none: return "NONE"
             case let .sdkUnknown(s): return s
             }
@@ -6299,7 +6306,19 @@ extension TransferClientTypes.EndpointDetails: Swift.Codable {
 extension TransferClientTypes {
     /// The virtual private cloud (VPC) endpoint settings that are configured for your file transfer protocol-enabled server. With a VPC endpoint, you can restrict access to your server and resources only within your VPC. To control incoming internet traffic, invoke the UpdateServer API and attach an Elastic IP address to your server's endpoint. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
     public struct EndpointDetails: Swift.Equatable {
-        /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. This property can only be set when EndpointType is set to VPC and it is only valid in the UpdateServer API.
+        /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 [Address](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Address.html) data type. One way to retrieve this value is by calling the EC2 [DescribeAddresses](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAddresses.html) API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see [Create an internet-facing endpoint for your server](https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#create-internet-facing-endpoint). This property can only be set as follows:
+        ///
+        /// * EndpointType must be set to VPC
+        ///
+        /// * The Transfer Family server must be offline.
+        ///
+        /// * You cannot set this parameter for Transfer Family servers that use the FTP protocol.
+        ///
+        /// * The server must already have SubnetIds populated (SubnetIds and AddressAllocationIds cannot be updated simultaneously).
+        ///
+        /// * AddressAllocationIds can't contain duplicates, and must be equal in length to SubnetIds. For example, if you have three subnet IDs, you must also specify three address allocation IDs.
+        ///
+        /// * Call the UpdateServer API to set or change this parameter.
         public var addressAllocationIds: [Swift.String]?
         /// A list of security groups IDs that are available to attach to your server's endpoint. This property can only be set when EndpointType is set to VPC. You can edit the SecurityGroupIds property in the [UpdateServer](https://docs.aws.amazon.com/transfer/latest/userguide/API_UpdateServer.html) API only if you are changing the EndpointType from PUBLIC or VPC_ENDPOINT to VPC. To change security groups associated with your server's VPC endpoint after creation, use the Amazon EC2 [ModifyVpcEndpoint](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyVpcEndpoint.html) API.
         public var securityGroupIds: [Swift.String]?
@@ -11269,13 +11288,16 @@ extension TransferClientTypes.SftpConnectorConfig: Swift.Codable {
 }
 
 extension TransferClientTypes {
-    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server.
+    /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server. Because the SftpConnectorConfig data type is used for both creating and updating SFTP connectors, its parameters, TrustedHostKeys and UserSecretId are marked as not required. This is a bit misleading, as they are not required when you are updating an existing SFTP connector, but are required when you are creating a new SFTP connector.
     public struct SftpConnectorConfig: Swift.Equatable {
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
         ///
         /// * For ECDSA keys, the <key type> string is either ecdsa-sha2-nistp256, ecdsa-sha2-nistp384, or ecdsa-sha2-nistp521, depending on the size of the key you generated.
+        ///
+        ///
+        /// Run this command to retrieve the SFTP server host key, where your SFTP server name is ftp.host.com. ssh-keyscan ftp.host.com This prints the public host key to standard output. ftp.host.com ssh-rsa AAAAB3Nza...<long-string-for-public-key Copy and paste this string into the TrustedHostKeys field for the create-connector command or into the Trusted host keys field in the console.
         public var trustedHostKeys: [Swift.String]?
         /// The identifier for the secret (in Amazon Web Services Secrets Manager) that contains the SFTP user's private key, password, or both. The identifier must be the Amazon Resource Name (ARN) of the secret.
         public var userSecretId: Swift.String?

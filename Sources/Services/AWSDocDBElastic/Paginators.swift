@@ -51,7 +51,8 @@ extension ListClusterSnapshotsInput: ClientRuntime.PaginateToken {
         return ListClusterSnapshotsInput(
             clusterArn: self.clusterArn,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            snapshotType: self.snapshotType
         )}
 }
 

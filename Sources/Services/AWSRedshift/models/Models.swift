@@ -578,11 +578,11 @@ public struct AssociateDataShareConsumerInput: Swift.Equatable {
     public var allowWrites: Swift.Bool?
     /// A value that specifies whether the datashare is associated with the entire account.
     public var associateEntireAccount: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the consumer that is associated with the datashare.
+    /// The Amazon Resource Name (ARN) of the consumer namespace associated with the datashare.
     public var consumerArn: Swift.String?
     /// From a datashare consumer account, associates a datashare with all existing and future namespaces in the specified Amazon Web Services Region.
     public var consumerRegion: Swift.String?
-    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use with the account or the namespace.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     /// This member is required.
     public var dataShareArn: Swift.String?
 
@@ -622,13 +622,13 @@ extension AssociateDataShareConsumerOutput {
 public struct AssociateDataShareConsumerOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
-    /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the producer.
+    /// The Amazon Resource Name (ARN) of the producer namespace.
     public var producerArn: Swift.String?
 
     public init(
@@ -1204,7 +1204,7 @@ public struct AuthorizeDataShareInput: Swift.Equatable {
     /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
     /// This member is required.
     public var consumerIdentifier: Swift.String?
-    /// The Amazon Resource Name (ARN) of the datashare that producers are to authorize sharing for.
+    /// The Amazon Resource Name (ARN) of the datashare namespace that producers are to authorize sharing for.
     /// This member is required.
     public var dataShareArn: Swift.String?
 
@@ -1240,13 +1240,13 @@ extension AuthorizeDataShareOutput {
 public struct AuthorizeDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
-    /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the producer.
+    /// The Amazon Resource Name (ARN) of the producer namespace.
     public var producerArn: Swift.String?
 
     public init(
@@ -1471,7 +1471,11 @@ public struct AuthorizeSnapshotAccessInput: Swift.Equatable {
     public var accountWithRestoreAccess: Swift.String?
     /// The Amazon Resource Name (ARN) of the snapshot to authorize access to.
     public var snapshotArn: Swift.String?
-    /// The identifier of the cluster the snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
+    /// The identifier of the cluster the snapshot was created from.
+    ///
+    /// * If the snapshot to access doesn't exist and the associated IAM policy doesn't allow access to all (*) snapshots - This parameter is required. Otherwise, permissions aren't available to check if the snapshot exists.
+    ///
+    /// * If the snapshot to access exists - This parameter isn't required. Redshift can retrieve the cluster identifier and use it to validate snapshot authorization.
     public var snapshotClusterIdentifier: Swift.String?
     /// The identifier of the snapshot the account is authorized to restore.
     public var snapshotIdentifier: Swift.String?
@@ -4921,7 +4925,11 @@ public struct CreateClusterInput: Swift.Equatable {
     public var nodeType: Swift.String?
     /// The number of compute nodes in the cluster. This parameter is required when the ClusterType parameter is specified as multi-node. For information about determining how many nodes you need, go to [ Working with Clusters](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#how-many-nodes) in the Amazon Redshift Cluster Management Guide. If you don't specify this parameter, you get a single-node cluster. When requesting a multi-node cluster, you must specify the number of nodes that you want in the cluster. Default: 1 Constraints: Value must be at least 1 and no more than 100.
     public var numberOfNodes: Swift.Int?
-    /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values: 1150-65535
+    /// The port number on which the cluster accepts incoming connections. The cluster is accessible only via the JDBC and ODBC connection strings. Part of the connection string requires the port on which the cluster will listen for incoming connections. Default: 5439 Valid Values:
+    ///
+    /// * For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster with ra3 nodes, it isn't required that you change the port to these ranges.)
+    ///
+    /// * For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: A 30-minute window selected at random from an 8-hour block of time per region, occurring on a random day of the week. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
@@ -7325,13 +7333,13 @@ extension RedshiftClientTypes {
     public struct DataShare: Swift.Equatable {
         /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
         public var allowPubliclyAccessibleConsumers: Swift.Bool?
-        /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+        /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
         public var dataShareArn: Swift.String?
         /// A value that specifies when the datashare has an association between producer and data consumers.
         public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
         /// The identifier of a datashare to show its managing entity.
         public var managedBy: Swift.String?
-        /// The Amazon Resource Name (ARN) of the producer.
+        /// The Amazon Resource Name (ARN) of the producer namespace.
         public var producerArn: Swift.String?
 
         public init(
@@ -7674,7 +7682,7 @@ public struct DeauthorizeDataShareInput: Swift.Equatable {
     /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
     /// This member is required.
     public var consumerIdentifier: Swift.String?
-    /// The Amazon Resource Name (ARN) of the datashare to remove authorization from.
+    /// The namespace Amazon Resource Name (ARN) of the datashare to remove authorization from.
     /// This member is required.
     public var dataShareArn: Swift.String?
 
@@ -7708,13 +7716,13 @@ extension DeauthorizeDataShareOutput {
 public struct DeauthorizeDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
-    /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the producer.
+    /// The Amazon Resource Name (ARN) of the producer namespace.
     public var producerArn: Swift.String?
 
     public init(
@@ -11004,7 +11012,7 @@ extension DescribeDataSharesForConsumerInput {
 }
 
 public struct DescribeDataSharesForConsumerInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the consumer that returns in the list of datashares.
+    /// The Amazon Resource Name (ARN) of the consumer namespace that returns in the list of datashares.
     public var consumerArn: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataSharesForConsumer] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
@@ -11113,7 +11121,7 @@ public struct DescribeDataSharesForProducerInput: Swift.Equatable {
     public var marker: Swift.String?
     /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
     public var maxRecords: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the producer that returns in the list of datashares.
+    /// The Amazon Resource Name (ARN) of the producer namespace that returns in the list of datashares.
     public var producerArn: Swift.String?
     /// An identifier giving the status of a datashare in the producer. If this field is specified, Amazon Redshift returns the list of datashares that have the specified status.
     public var status: RedshiftClientTypes.DataShareStatusForProducer?
@@ -11210,7 +11218,7 @@ extension DescribeDataSharesInput {
 }
 
 public struct DescribeDataSharesInput: Swift.Equatable {
-    /// The identifier of the datashare to describe details of.
+    /// The Amazon resource name (ARN) of the datashare to describe details of.
     public var dataShareArn: Swift.String?
     /// An optional parameter that specifies the starting point to return a set of response records. When the results of a [DescribeDataShares] request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
     public var marker: Swift.String?
@@ -14518,7 +14526,7 @@ extension DisassociateDataShareConsumerInput {
 }
 
 public struct DisassociateDataShareConsumerInput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the consumer that association for the datashare is removed from.
+    /// The Amazon Resource Name (ARN) of the consumer namespace that association for the datashare is removed from.
     public var consumerArn: Swift.String?
     /// From a datashare consumer account, removes association of a datashare from all the existing and future namespaces in the specified Amazon Web Services Region.
     public var consumerRegion: Swift.String?
@@ -14562,13 +14570,13 @@ extension DisassociateDataShareConsumerOutput {
 public struct DisassociateDataShareConsumerOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
-    /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the producer.
+    /// The Amazon Resource Name (ARN) of the producer namespace.
     public var producerArn: Swift.String?
 
     public init(
@@ -19674,7 +19682,11 @@ public struct ModifyClusterInput: Swift.Equatable {
     public var nodeType: Swift.String?
     /// The new number of nodes of the cluster. If you specify a new number of nodes, you must also specify the node type parameter. For more information about resizing clusters, go to [Resizing Clusters in Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/rs-resize-tutorial.html) in the Amazon Redshift Cluster Management Guide. Valid Values: Integer greater than 0.
     public var numberOfNodes: Swift.Int?
-    /// The option to change the port of an Amazon Redshift cluster.
+    /// The option to change the port of an Amazon Redshift cluster. Valid Values:
+    ///
+    /// * For clusters with ra3 nodes - Select a port within the ranges 5431-5455 or 8191-8215. (If you have an existing cluster with ra3 nodes, it isn't required that you change the port to these ranges.)
+    ///
+    /// * For clusters with ds2 or dc2 nodes - Select a port within the range 1150-65535.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which system maintenance can occur, if necessary. If system maintenance is necessary during the window, it may result in an outage. This maintenance window change is made immediately. If the new maintenance window indicates the current time, there must be at least 120 minutes between the current time and end of the window in order to ensure that pending changes are applied. Default: Uses existing setting. Format: ddd:hh24:mi-ddd:hh24:mi, for example wed:07:30-wed:08:00. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Must be at least 30 minutes.
     public var preferredMaintenanceWindow: Swift.String?
@@ -23302,13 +23314,13 @@ extension RejectDataShareOutput {
 public struct RejectDataShareOutput: Swift.Equatable {
     /// A value that specifies whether the datashare can be shared to a publicly accessible cluster.
     public var allowPubliclyAccessibleConsumers: Swift.Bool?
-    /// An Amazon Resource Name (ARN) that references the datashare that is owned by a specific namespace of the producer cluster. A datashare ARN is in the arn:aws:redshift:{region}:{account-id}:{datashare}:{namespace-guid}/{datashare-name} format.
+    /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use.
     public var dataShareArn: Swift.String?
     /// A value that specifies when the datashare has an association between producer and data consumers.
     public var dataShareAssociations: [RedshiftClientTypes.DataShareAssociation]?
     /// The identifier of a datashare to show its managing entity.
     public var managedBy: Swift.String?
-    /// The Amazon Resource Name (ARN) of the producer.
+    /// The Amazon Resource Name (ARN) of the producer namespace.
     public var producerArn: Swift.String?
 
     public init(
@@ -24893,7 +24905,7 @@ public struct RestoreFromClusterSnapshotInput: Swift.Equatable {
     public var numberOfNodes: Swift.Int?
     /// The Amazon Web Services account used to create or copy the snapshot. Required if you are restoring a snapshot you do not own, optional if you own the snapshot.
     public var ownerAccount: Swift.String?
-    /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Constraints: Must be between 1115 and 65535.
+    /// The port number on which the cluster accepts connections. Default: The same port as the original cluster. Valid values: For clusters with ds2 or dc2 nodes, must be within the range 1150-65535. For clusters with ra3 nodes, must be within the ranges 5431-5455 or 8191-8215.
     public var port: Swift.Int?
     /// The weekly time range (in UTC) during which automated cluster maintenance can occur. Format: ddd:hh24:mi-ddd:hh24:mi Default: The value selected for the cluster from which the snapshot was taken. For more information about the time blocks for each region, see [Maintenance Windows](https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-maintenance-windows) in Amazon Redshift Cluster Management Guide. Valid Days: Mon | Tue | Wed | Thu | Fri | Sat | Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
