@@ -10,57 +10,57 @@ import AWSS3
 @testable import ClientRuntime
 
 final class S3FlexibleChecksumsTests: S3XCTestCase {
-    // Fill one MB with random data.  Data is used in all flexible checksums tests below.
-    var oneMBData: Data!
-    
+    var originalData: Data!
+
     override func setUp() {
         super.setUp()
-        oneMBData = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
+        // Fill one MB with random data.  Data is refreshed for each flexible checksums tests below.
+        originalData = Data((0..<(1024 * 1024)).map { _ in UInt8.random(in: UInt8.min...UInt8.max) })
     }
-    
+
     // MARK: - Data uploads
 
     func test_putGetObject_data_crc32() async throws {
-        try await _testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32-data", upload: .data(oneMBData))
+        try await _testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32-data", upload: .data(originalData))
     }
 
     func test_putGetObject_data_crc32c() async throws {
-        try await _testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c-data", upload: .data(oneMBData))
+        try await _testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c-data", upload: .data(originalData))
     }
 
     func test_putGetObject_data_sha1() async throws {
-        try await _testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1-data", upload: .data(oneMBData))
+        try await _testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1-data", upload: .data(originalData))
     }
 
     func test_putGetObject_data_sha256() async throws {
-        try await _testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256-data", upload: .data(oneMBData))
+        try await _testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256-data", upload: .data(originalData))
     }
 
     // MARK: - Streaming uploads
-    
+
     func test_putGetObject_streaming_crc32() async throws {
-        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
         try await _testPutGetObject(withChecksumAlgorithm: .crc32, objectNameSuffix: "crc32", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_crc32c() async throws {
-        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
         try await _testPutGetObject(withChecksumAlgorithm: .crc32c, objectNameSuffix: "crc32c", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_sha1() async throws {
-        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
         try await _testPutGetObject(withChecksumAlgorithm: .sha1, objectNameSuffix: "sha1", upload: .stream(bufferedStream))
     }
 
     func test_putGetObject_streaming_sha256() async throws {
-        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
         try await _testPutGetObject(withChecksumAlgorithm: .sha256, objectNameSuffix: "sha256", upload: .stream(bufferedStream))
     }
 
     // Streaming without checksum (chunked encoding)
     func test_putGetObject_streaming_chunked() async throws {
-        let bufferedStream = BufferedStream(data: oneMBData, isClosed: true)
+        let bufferedStream = BufferedStream(data: originalData, isClosed: true)
         let objectName = "flexible-checksums-s3-test-chunked"
 
         let putObjectInput = PutObjectInput(
@@ -75,10 +75,13 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
         let getObjectOutput = try await client.getObject(input: getObjectInput)
         XCTAssertNotNil(getObjectOutput.body) // Ensure there's a body in the response.
     }
-    
+
     // MARK: - Private methods
-    
-    private func _testPutGetObject(withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm, objectNameSuffix: String, upload: ByteStream, file: StaticString = #filePath, line: UInt = #line) async throws {
+
+    private func _testPutGetObject(
+        withChecksumAlgorithm algorithm: S3ClientTypes.ChecksumAlgorithm,
+        objectNameSuffix: String, upload: ByteStream, file: StaticString = #filePath, line: UInt = #line
+    ) async throws {
         let objectName = "flexible-checksums-s3-test-\(objectNameSuffix)"
 
         let input = PutObjectInput(
@@ -104,7 +107,7 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
             if case .stream(let stream) = streamingBody {
                 XCTAssert(stream is ValidatingBufferedStream, "Expected ValidatingBufferedStream for streaming upload", file: file, line: line)
                 let data = try await streamingBody.readData() // will error if checksum mismatch
-                XCTAssertNotNil(data, file: file, line: line)
+                XCTAssertEqual(data, originalData, file: file, line: line)
             } else {
                 XCTFail("Did not receive a stream when expected for checksum validation!", file: file, line: line)
             }
