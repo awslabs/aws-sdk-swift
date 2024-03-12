@@ -6,7 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.XMLMessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape

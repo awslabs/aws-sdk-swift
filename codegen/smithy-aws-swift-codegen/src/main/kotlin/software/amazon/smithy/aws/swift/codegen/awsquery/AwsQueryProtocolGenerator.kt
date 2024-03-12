@@ -8,7 +8,7 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
-import software.amazon.smithy.aws.swift.codegen.XMLMessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSQueryHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.swift.codegen.restxml.AWSXMLHttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
