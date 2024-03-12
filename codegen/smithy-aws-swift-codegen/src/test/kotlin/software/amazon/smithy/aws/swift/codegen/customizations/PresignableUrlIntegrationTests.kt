@@ -67,7 +67,7 @@ public struct PutObjectPresignedURLMiddleware: ClientRuntime.Middleware {
         val presigner = PresignableUrlIntegration()
         val generator = AWSRestJson1ProtocolGenerator()
 
-        val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, generator)
+        val codegenContext = GenerationContext(context.ctx.model, context.ctx.symbolProvider, context.ctx.settings, context.manifest, generator)
         val protocolGenerationContext = ProtocolGenerator.GenerationContext(context.ctx.settings, context.ctx.model, context.ctx.service, context.ctx.symbolProvider, listOf(), RestJson1Trait.ID, context.ctx.delegator)
         codegenContext.protocolGenerator?.initializeMiddleware(context.ctx)
         presigner.writeAdditionalFiles(codegenContext, protocolGenerationContext, context.ctx.delegator)

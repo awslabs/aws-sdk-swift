@@ -2760,15 +2760,15 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateInput: Swift.Codable
     }
 }
 
-extension RetrieveAndGenerateInput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RetrieveAndGenerateInput(retrieveAndGenerateConfiguration: \(Swift.String(describing: retrieveAndGenerateConfiguration)), sessionConfiguration: \(Swift.String(describing: sessionConfiguration)), sessionId: \(Swift.String(describing: sessionId)), input: \"CONTENT_REDACTED\")"}
-}
-
 extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
     }
+}
+
+extension RetrieveAndGenerateInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RetrieveAndGenerateInput(retrieveAndGenerateConfiguration: \(Swift.String(describing: retrieveAndGenerateConfiguration)), sessionConfiguration: \(Swift.String(describing: sessionConfiguration)), sessionId: \(Swift.String(describing: sessionId)), input: \"CONTENT_REDACTED\")"}
 }
 
 extension RetrieveAndGenerateInput: Swift.Encodable {
@@ -2803,6 +2803,23 @@ extension RetrieveAndGenerateInput {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the query made to the knowledge base.
+    public struct RetrieveAndGenerateInput: Swift.Equatable {
+        /// The query made to the knowledge base.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
+}
+
 public struct RetrieveAndGenerateInput: Swift.Equatable {
     /// Contains the query made to the knowledge base.
     /// This member is required.
@@ -2826,23 +2843,6 @@ public struct RetrieveAndGenerateInput: Swift.Equatable {
         self.sessionConfiguration = sessionConfiguration
         self.sessionId = sessionId
     }
-}
-
-extension BedrockAgentRuntimeClientTypes {
-    /// Contains the query made to the knowledge base.
-    public struct RetrieveAndGenerateInput: Swift.Equatable {
-        /// The query made to the knowledge base.
-        /// This member is required.
-        public var text: Swift.String?
-
-        public init(
-            text: Swift.String? = nil
-        )
-        {
-            self.text = text
-        }
-    }
-
 }
 
 struct RetrieveAndGenerateInputBody: Swift.Equatable {
@@ -2892,15 +2892,15 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput: Swift.Codabl
     }
 }
 
-extension RetrieveAndGenerateOutput: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "RetrieveAndGenerateOutput(citations: \(Swift.String(describing: citations)), sessionId: \(Swift.String(describing: sessionId)), output: \"CONTENT_REDACTED\")"}
-}
-
 extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CONTENT_REDACTED"
     }
+}
+
+extension RetrieveAndGenerateOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "RetrieveAndGenerateOutput(citations: \(Swift.String(describing: citations)), sessionId: \(Swift.String(describing: sessionId)), output: \"CONTENT_REDACTED\")"}
 }
 
 extension RetrieveAndGenerateOutput: ClientRuntime.HttpResponseBinding {
@@ -2917,6 +2917,23 @@ extension RetrieveAndGenerateOutput: ClientRuntime.HttpResponseBinding {
             self.sessionId = nil
         }
     }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the response generated from querying the knowledge base.
+    public struct RetrieveAndGenerateOutput: Swift.Equatable {
+        /// The response generated from querying the knowledge base.
+        /// This member is required.
+        public var text: Swift.String?
+
+        public init(
+            text: Swift.String? = nil
+        )
+        {
+            self.text = text
+        }
+    }
+
 }
 
 public struct RetrieveAndGenerateOutput: Swift.Equatable {
@@ -2939,23 +2956,6 @@ public struct RetrieveAndGenerateOutput: Swift.Equatable {
         self.output = output
         self.sessionId = sessionId
     }
-}
-
-extension BedrockAgentRuntimeClientTypes {
-    /// Contains the response generated from querying the knowledge base.
-    public struct RetrieveAndGenerateOutput: Swift.Equatable {
-        /// The response generated from querying the knowledge base.
-        /// This member is required.
-        public var text: Swift.String?
-
-        public init(
-            text: Swift.String? = nil
-        )
-        {
-            self.text = text
-        }
-    }
-
 }
 
 struct RetrieveAndGenerateOutputBody: Swift.Equatable {

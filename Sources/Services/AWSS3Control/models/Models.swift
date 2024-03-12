@@ -11824,6 +11824,28 @@ extension PutMultiRegionAccessPointPolicyInput {
     }
 }
 
+extension S3ControlClientTypes {
+    /// A container for the information associated with a [PutMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html) request.
+    public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
+        /// The name of the Multi-Region Access Point associated with the request.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The policy details for the PutMultiRegionAccessPoint request.
+        /// This member is required.
+        public var policy: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            policy: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.policy = policy
+        }
+    }
+
+}
+
 public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
@@ -11845,28 +11867,6 @@ public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
         self.clientToken = clientToken
         self.details = details
     }
-}
-
-extension S3ControlClientTypes {
-    /// A container for the information associated with a [PutMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_PutMultiRegionAccessPoint.html) request.
-    public struct PutMultiRegionAccessPointPolicyInput: Swift.Equatable {
-        /// The name of the Multi-Region Access Point associated with the request.
-        /// This member is required.
-        public var name: Swift.String?
-        /// The policy details for the PutMultiRegionAccessPoint request.
-        /// This member is required.
-        public var policy: Swift.String?
-
-        public init(
-            name: Swift.String? = nil,
-            policy: Swift.String? = nil
-        )
-        {
-            self.name = name
-            self.policy = policy
-        }
-    }
-
 }
 
 extension PutMultiRegionAccessPointPolicyOutput {

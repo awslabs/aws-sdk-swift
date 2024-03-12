@@ -1560,6 +1560,39 @@ extension DescribeVaultOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
+/// Contains the Amazon S3 Glacier response to your request.
+public struct DescribeVaultOutput: Swift.Equatable {
+    /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+    public var creationDate: Swift.String?
+    /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
+    public var lastInventoryDate: Swift.String?
+    /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
+    public var numberOfArchives: Swift.Int
+    /// Total size, in bytes, of the archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
+    public var sizeInBytes: Swift.Int
+    /// The Amazon Resource Name (ARN) of the vault.
+    public var vaultARN: Swift.String?
+    /// The name of the vault.
+    public var vaultName: Swift.String?
+
+    public init(
+        creationDate: Swift.String? = nil,
+        lastInventoryDate: Swift.String? = nil,
+        numberOfArchives: Swift.Int = 0,
+        sizeInBytes: Swift.Int = 0,
+        vaultARN: Swift.String? = nil,
+        vaultName: Swift.String? = nil
+    )
+    {
+        self.creationDate = creationDate
+        self.lastInventoryDate = lastInventoryDate
+        self.numberOfArchives = numberOfArchives
+        self.sizeInBytes = sizeInBytes
+        self.vaultARN = vaultARN
+        self.vaultName = vaultName
+    }
+}
+
 extension GlacierClientTypes {
     /// Contains the Amazon S3 Glacier response to your request.
     public struct DescribeVaultOutput: Swift.Equatable {
@@ -1594,39 +1627,6 @@ extension GlacierClientTypes {
         }
     }
 
-}
-
-/// Contains the Amazon S3 Glacier response to your request.
-public struct DescribeVaultOutput: Swift.Equatable {
-    /// The Universal Coordinated Time (UTC) date when the vault was created. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
-    public var creationDate: Swift.String?
-    /// The Universal Coordinated Time (UTC) date when Amazon S3 Glacier completed the last vault inventory. This value should be a string in the ISO 8601 date format, for example 2012-03-20T17:03:43.221Z.
-    public var lastInventoryDate: Swift.String?
-    /// The number of archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
-    public var numberOfArchives: Swift.Int
-    /// Total size, in bytes, of the archives in the vault as of the last inventory date. This field will return null if an inventory has not yet run on the vault, for example if you just created the vault.
-    public var sizeInBytes: Swift.Int
-    /// The Amazon Resource Name (ARN) of the vault.
-    public var vaultARN: Swift.String?
-    /// The name of the vault.
-    public var vaultName: Swift.String?
-
-    public init(
-        creationDate: Swift.String? = nil,
-        lastInventoryDate: Swift.String? = nil,
-        numberOfArchives: Swift.Int = 0,
-        sizeInBytes: Swift.Int = 0,
-        vaultARN: Swift.String? = nil,
-        vaultName: Swift.String? = nil
-    )
-    {
-        self.creationDate = creationDate
-        self.lastInventoryDate = lastInventoryDate
-        self.numberOfArchives = numberOfArchives
-        self.sizeInBytes = sizeInBytes
-        self.vaultARN = vaultARN
-        self.vaultName = vaultName
-    }
 }
 
 struct DescribeVaultOutputBody: Swift.Equatable {

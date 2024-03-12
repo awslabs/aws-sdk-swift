@@ -108,11 +108,6 @@ enum AcceptEnvironmentAccountConnectionOutputError: ClientRuntime.HttpResponseEr
     }
 }
 
-extension AccessDeniedException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "AccessDeniedException(message: \"CONTENT_REDACTED\")"}
-}
-
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -1278,11 +1273,6 @@ extension ProtonClientTypes {
         }
     }
 
-}
-
-extension ConflictException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ConflictException(message: \"CONTENT_REDACTED\")"}
 }
 
 extension ConflictException {
@@ -9432,11 +9422,6 @@ enum GetTemplateSyncStatusOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
-extension InternalServerException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "InternalServerException(message: \"CONTENT_REDACTED\")"}
-}
-
 extension InternalServerException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -13923,11 +13908,6 @@ extension ProtonClientTypes {
     }
 }
 
-extension ResourceNotFoundException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ResourceNotFoundException(message: \"CONTENT_REDACTED\")"}
-}
-
 extension ResourceNotFoundException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -15218,11 +15198,6 @@ extension ProtonClientTypes {
         }
     }
 
-}
-
-extension ServiceQuotaExceededException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ServiceQuotaExceededException(message: \"CONTENT_REDACTED\")"}
 }
 
 extension ServiceQuotaExceededException {
@@ -16778,11 +16753,6 @@ extension ProtonClientTypes {
             self = TemplateVersionStatus(rawValue: rawValue) ?? TemplateVersionStatus.sdkUnknown(rawValue)
         }
     }
-}
-
-extension ThrottlingException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ThrottlingException(message: \"CONTENT_REDACTED\")"}
 }
 
 extension ThrottlingException {
@@ -19230,11 +19200,6 @@ enum UpdateTemplateSyncConfigOutputError: ClientRuntime.HttpResponseErrorBinding
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
-}
-
-extension ValidationException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ValidationException(message: \"CONTENT_REDACTED\")"}
 }
 
 extension ValidationException {
