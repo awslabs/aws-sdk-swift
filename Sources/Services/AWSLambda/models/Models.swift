@@ -381,7 +381,7 @@ public struct AddPermissionInput: Swift.Equatable {
     public var action: Swift.String?
     /// For Alexa Smart Home functions, a token that the invoker must supply.
     public var eventSourceToken: Swift.String?
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -1391,7 +1391,7 @@ extension CreateAliasInput {
 public struct CreateAliasInput: Swift.Equatable {
     /// A description of the alias.
     public var description: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -1851,7 +1851,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     public var eventSourceArn: Swift.String?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – MyFunction.
     ///
@@ -2580,7 +2580,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -3308,7 +3308,7 @@ public struct CreateFunctionUrlConfigInput: Swift.Equatable {
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
     public var cors: LambdaClientTypes.Cors?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -3531,7 +3531,7 @@ extension DeleteAliasInput {
 }
 
 public struct DeleteAliasInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -4042,7 +4042,7 @@ extension DeleteFunctionCodeSigningConfigInput {
 }
 
 public struct DeleteFunctionCodeSigningConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -4109,7 +4109,7 @@ extension DeleteFunctionConcurrencyInput {
 }
 
 public struct DeleteFunctionConcurrencyInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -4187,7 +4187,7 @@ extension DeleteFunctionEventInvokeConfigInput {
 }
 
 public struct DeleteFunctionEventInvokeConfigInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
     ///
@@ -4269,7 +4269,7 @@ extension DeleteFunctionInput {
 }
 
 public struct DeleteFunctionInput: Swift.Equatable {
-    /// The name of the Lambda function or version. Name formats
+    /// The name or ARN of the Lambda function or version. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:1 (with version).
     ///
@@ -4351,7 +4351,7 @@ extension DeleteFunctionUrlConfigInput {
 }
 
 public struct DeleteFunctionUrlConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -4496,7 +4496,7 @@ extension DeleteProvisionedConcurrencyConfigInput {
 }
 
 public struct DeleteProvisionedConcurrencyConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -6884,7 +6884,7 @@ extension GetAliasInput {
 }
 
 public struct GetAliasInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -7504,7 +7504,7 @@ extension GetFunctionCodeSigningConfigInput {
 }
 
 public struct GetFunctionCodeSigningConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -7552,7 +7552,7 @@ public struct GetFunctionCodeSigningConfigOutput: Swift.Equatable {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -7620,7 +7620,7 @@ extension GetFunctionConcurrencyInput {
 }
 
 public struct GetFunctionConcurrencyInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -7727,7 +7727,7 @@ extension GetFunctionConfigurationInput {
 }
 
 public struct GetFunctionConfigurationInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -8216,7 +8216,7 @@ extension GetFunctionEventInvokeConfigInput {
 }
 
 public struct GetFunctionEventInvokeConfigInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
     ///
@@ -8375,7 +8375,7 @@ extension GetFunctionInput {
 }
 
 public struct GetFunctionInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -8525,7 +8525,7 @@ extension GetFunctionUrlConfigInput {
 }
 
 public struct GetFunctionUrlConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -9197,7 +9197,7 @@ extension GetPolicyInput {
 }
 
 public struct GetPolicyInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -9320,7 +9320,7 @@ extension GetProvisionedConcurrencyConfigInput {
 }
 
 public struct GetProvisionedConcurrencyConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -9483,7 +9483,7 @@ extension GetRuntimeManagementConfigInput {
 }
 
 public struct GetRuntimeManagementConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -10277,7 +10277,7 @@ extension InvokeAsyncInput {
 
 @available(*, deprecated)
 public struct InvokeAsyncInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -10430,7 +10430,7 @@ extension InvokeInput {
 public struct InvokeInput: Swift.Equatable {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
     public var clientContext: Swift.String?
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -10800,7 +10800,7 @@ extension InvokeWithResponseStreamInput {
 public struct InvokeWithResponseStreamInput: Swift.Equatable {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
     public var clientContext: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -11788,7 +11788,7 @@ extension ListAliasesInput {
 }
 
 public struct ListAliasesInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -12068,7 +12068,7 @@ public struct ListEventSourceMappingsInput: Swift.Equatable {
     ///
     /// * Amazon DocumentDB – The ARN of the DocumentDB change stream.
     public var eventSourceArn: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – MyFunction.
     ///
@@ -12209,7 +12209,7 @@ extension ListFunctionEventInvokeConfigsInput {
 }
 
 public struct ListFunctionEventInvokeConfigsInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - my-function.
     ///
@@ -12347,7 +12347,7 @@ extension ListFunctionUrlConfigsInput {
 }
 
 public struct ListFunctionUrlConfigsInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -13033,7 +13033,7 @@ extension ListProvisionedConcurrencyConfigsInput {
 }
 
 public struct ListProvisionedConcurrencyConfigsInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -13266,7 +13266,7 @@ extension ListVersionsByFunctionInput {
 }
 
 public struct ListVersionsByFunctionInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -14256,7 +14256,7 @@ public struct PublishVersionInput: Swift.Equatable {
     public var codeSha256: Swift.String?
     /// A description for the version to override the description in the function configuration.
     public var description: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -14771,7 +14771,7 @@ public struct PutFunctionCodeSigningConfigInput: Swift.Equatable {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -14828,7 +14828,7 @@ public struct PutFunctionCodeSigningConfigOutput: Swift.Equatable {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -14911,7 +14911,7 @@ extension PutFunctionConcurrencyInput {
 }
 
 public struct PutFunctionConcurrencyInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -15062,7 +15062,7 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Equatable {
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
     ///
@@ -15262,7 +15262,7 @@ extension PutProvisionedConcurrencyConfigInput {
 }
 
 public struct PutProvisionedConcurrencyConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -15454,7 +15454,7 @@ extension PutRuntimeManagementConfigInput {
 }
 
 public struct PutRuntimeManagementConfigInput: Swift.Equatable {
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -15776,7 +15776,7 @@ extension RemovePermissionInput {
 }
 
 public struct RemovePermissionInput: Swift.Equatable {
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
     ///
@@ -17812,7 +17812,7 @@ extension UpdateAliasInput {
 public struct UpdateAliasInput: Swift.Equatable {
     /// A description of the alias.
     public var description: Swift.String?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
     ///
@@ -18233,7 +18233,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     public var enabled: Swift.Bool?
     /// An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see [Lambda event filtering](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html).
     public var filterCriteria: LambdaClientTypes.FilterCriteria?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – MyFunction.
     ///
@@ -18815,7 +18815,7 @@ public struct UpdateFunctionCodeInput: Swift.Equatable {
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Set to true to validate the request parameters and access permissions without modifying the function code.
     public var dryRun: Swift.Bool?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -19471,7 +19471,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var ephemeralStorage: LambdaClientTypes.EphemeralStorage?
     /// Connection settings for an Amazon EFS file system.
     public var fileSystemConfigs: [LambdaClientTypes.FileSystemConfig]?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///
@@ -20147,7 +20147,7 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Equatable {
     ///
     /// * Event Bus - The ARN of an Amazon EventBridge event bus.
     public var destinationConfig: LambdaClientTypes.DestinationConfig?
-    /// The name of the Lambda function, version, or alias. Name formats
+    /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
     ///
@@ -20357,7 +20357,7 @@ public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
     public var cors: LambdaClientTypes.Cors?
-    /// The name of the Lambda function. Name formats
+    /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
     ///

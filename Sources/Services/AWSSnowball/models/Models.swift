@@ -2601,7 +2601,7 @@ extension SnowballClientTypes.EKSOnDeviceServiceConfiguration: Swift.Codable {
 extension SnowballClientTypes {
     /// An object representing the metadata and configuration settings of EKS Anywhere on the Snow Family device.
     public struct EKSOnDeviceServiceConfiguration: Swift.Equatable {
-        /// The version of EKS Anywhere on the Snow Family device.
+        /// The optional version of EKS Anywhere on the Snow Family device.
         public var eksAnywhereVersion: Swift.String?
         /// The Kubernetes version for EKS Anywhere on the Snow Family device.
         public var kubernetesVersion: Swift.String?

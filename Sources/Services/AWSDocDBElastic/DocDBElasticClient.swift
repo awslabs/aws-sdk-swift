@@ -137,9 +137,64 @@ public struct DocDBElasticClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 }
 
 extension DocDBElasticClient {
+    /// Performs the `CopyClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
+    /// Copies a snapshot of an elastic cluster.
+    ///
+    /// - Parameter CopyClusterSnapshotInput : [no documentation found]
+    ///
+    /// - Returns: `CopyClusterSnapshotOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `ConflictException` : There was an access conflict.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ServiceQuotaExceededException` : The service quota for the action was exceeded.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    public func copyClusterSnapshot(input: CopyClusterSnapshotInput) async throws -> CopyClusterSnapshotOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "copyClusterSnapshot")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "docdb-elastic")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(id: "copyClusterSnapshot")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(CopyClusterSnapshotInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CopyClusterSnapshotOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CopyClusterSnapshotOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CopyClusterSnapshotInput, CopyClusterSnapshotOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CopyClusterSnapshotOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CopyClusterSnapshotOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CopyClusterSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(CopyClusterSnapshotOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CopyClusterSnapshotOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Creates a new Elastic DocumentDB cluster and returns its Cluster structure.
+    /// Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
     ///
     /// - Parameter CreateClusterInput : [no documentation found]
     ///
@@ -194,7 +249,7 @@ extension DocDBElasticClient {
 
     /// Performs the `CreateClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Creates a snapshot of a cluster.
+    /// Creates a snapshot of an elastic cluster.
     ///
     /// - Parameter CreateClusterSnapshotInput : [no documentation found]
     ///
@@ -249,7 +304,7 @@ extension DocDBElasticClient {
 
     /// Performs the `DeleteCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Delete a Elastic DocumentDB cluster.
+    /// Delete an elastic cluster.
     ///
     /// - Parameter DeleteClusterInput : [no documentation found]
     ///
@@ -300,7 +355,7 @@ extension DocDBElasticClient {
 
     /// Performs the `DeleteClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Delete a Elastic DocumentDB snapshot.
+    /// Delete an elastic cluster snapshot.
     ///
     /// - Parameter DeleteClusterSnapshotInput : [no documentation found]
     ///
@@ -351,7 +406,7 @@ extension DocDBElasticClient {
 
     /// Performs the `GetCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Returns information about a specific Elastic DocumentDB cluster.
+    /// Returns information about a specific elastic cluster.
     ///
     /// - Parameter GetClusterInput : [no documentation found]
     ///
@@ -401,7 +456,7 @@ extension DocDBElasticClient {
 
     /// Performs the `GetClusterSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Returns information about a specific Elastic DocumentDB snapshot
+    /// Returns information about a specific elastic cluster snapshot
     ///
     /// - Parameter GetClusterSnapshotInput : [no documentation found]
     ///
@@ -451,7 +506,7 @@ extension DocDBElasticClient {
 
     /// Performs the `ListClusterSnapshots` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Returns information about Elastic DocumentDB snapshots for a specified cluster.
+    /// Returns information about snapshots for a specified elastic cluster.
     ///
     /// - Parameter ListClusterSnapshotsInput : [no documentation found]
     ///
@@ -501,7 +556,7 @@ extension DocDBElasticClient {
 
     /// Performs the `ListClusters` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Returns information about provisioned Elastic DocumentDB clusters.
+    /// Returns information about provisioned Amazon DocumentDB elastic clusters.
     ///
     /// - Parameter ListClustersInput : [no documentation found]
     ///
@@ -551,7 +606,7 @@ extension DocDBElasticClient {
 
     /// Performs the `ListTagsForResource` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Lists all tags on a Elastic DocumentDB resource
+    /// Lists all tags on a elastic cluster resource
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -600,7 +655,7 @@ extension DocDBElasticClient {
 
     /// Performs the `RestoreClusterFromSnapshot` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Restores a Elastic DocumentDB cluster from a snapshot.
+    /// Restores an elastic cluster from a snapshot.
     ///
     /// - Parameter RestoreClusterFromSnapshotInput : [no documentation found]
     ///
@@ -653,9 +708,109 @@ extension DocDBElasticClient {
         return result
     }
 
+    /// Performs the `StartCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
+    /// Restarts the stopped elastic cluster that is specified by clusterARN.
+    ///
+    /// - Parameter StartClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StartClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    public func startCluster(input: StartClusterInput) async throws -> StartClusterOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startCluster")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "docdb-elastic")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartClusterInput, StartClusterOutput>(id: "startCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartClusterInput, StartClusterOutput>(StartClusterInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartClusterInput, StartClusterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartClusterOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartClusterOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartClusterOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartClusterOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartClusterOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StopCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
+    ///
+    /// Stops the running elastic cluster that is specified by clusterArn. The elastic cluster must be in the available state.
+    ///
+    /// - Parameter StopClusterInput : [no documentation found]
+    ///
+    /// - Returns: `StopClusterOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : An exception that occurs when there are not sufficient permissions to perform an action.
+    /// - `InternalServerException` : There was an internal server error.
+    /// - `ResourceNotFoundException` : The specified resource could not be located.
+    /// - `ThrottlingException` : ThrottlingException will be thrown when request was denied due to request throttling.
+    /// - `ValidationException` : A structure defining a validation exception.
+    public func stopCluster(input: StopClusterInput) async throws -> StopClusterOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "stopCluster")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "docdb-elastic")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StopClusterInput, StopClusterOutput>(id: "stopCluster")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StopClusterInput, StopClusterOutput>(StopClusterInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StopClusterInput, StopClusterOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StopClusterOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StopClusterOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StopClusterOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StopClusterOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StopClusterOutput>(responseClosure(decoder: decoder), responseErrorClosure(StopClusterOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StopClusterOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `TagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Adds metadata tags to a Elastic DocumentDB resource
+    /// Adds metadata tags to an elastic cluster resource
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -707,7 +862,7 @@ extension DocDBElasticClient {
 
     /// Performs the `UntagResource` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Removes metadata tags to a Elastic DocumentDB resource
+    /// Removes metadata tags from an elastic cluster resource
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -757,7 +912,7 @@ extension DocDBElasticClient {
 
     /// Performs the `UpdateCluster` operation on the `ChimeraDbLionfishServiceLambda` service.
     ///
-    /// Modifies a Elastic DocumentDB cluster. This includes updating admin-username/password, upgrading API version setting up a backup window and maintenance window
+    /// Modifies an elastic cluster. This includes updating admin-username/password, upgrading the API version, and setting up a backup window and maintenance window
     ///
     /// - Parameter UpdateClusterInput : [no documentation found]
     ///

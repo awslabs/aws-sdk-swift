@@ -430,6 +430,7 @@ extension CloudTrailClient {
     /// - `InvalidCloudWatchLogsRoleArnException` : This exception is thrown when the provided role is not valid.
     /// - `InvalidKmsKeyIdException` : This exception is thrown when the KMS key ARN is not valid.
     /// - `InvalidParameterCombinationException` : This exception is thrown when the combination of parameters provided is not valid.
+    /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `InvalidS3BucketNameException` : This exception is thrown when the provided S3 bucket name is not valid.
     /// - `InvalidS3PrefixException` : This exception is thrown when the provided S3 prefix is not valid.
     /// - `InvalidSnsTopicNameException` : This exception is thrown when the provided SNS topic name is not valid.
@@ -867,6 +868,7 @@ extension CloudTrailClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `CloudTrailARNInvalidException` : This exception is thrown when an operation is called with an ARN that is not valid. The following is the format of a trail ARN: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail The following is the format of an event data store ARN: arn:aws:cloudtrail:us-east-2:123456789012:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE The following is the format of a channel ARN: arn:aws:cloudtrail:us-east-2:123456789012:channel/01234567890
     /// - `InvalidTrailNameException` : This exception is thrown when the provided trail name is not valid. Trail names must meet the following requirements:
     ///
     /// * Contain only ASCII letters (a-z, A-Z), numbers (0-9), periods (.), underscores (_), or dashes (-)
@@ -1715,6 +1717,7 @@ extension CloudTrailClient {
     ///
     /// __Possible Exceptions:__
     /// - `InvalidNextTokenException` : A token that is not valid, or a token that was previously used in a request with different parameters. This exception is thrown if the token is not valid.
+    /// - `InvalidParameterException` : The request includes a parameter that is not valid.
     /// - `OperationNotPermittedException` : This exception is thrown when the requested operation is not permitted.
     /// - `UnsupportedOperationException` : This exception is thrown when the requested operation is not supported.
     public func listImportFailures(input: ListImportFailuresInput) async throws -> ListImportFailuresOutput {

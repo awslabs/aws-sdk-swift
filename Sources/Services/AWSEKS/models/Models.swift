@@ -4,6 +4,8 @@ import ClientRuntime
 
 extension EKSClientTypes {
     public enum AMITypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case al2023Arm64Standard
+        case al2023X8664Standard
         case al2Arm64
         case al2X8664
         case al2X8664Gpu
@@ -20,6 +22,8 @@ extension EKSClientTypes {
 
         public static var allCases: [AMITypes] {
             return [
+                .al2023Arm64Standard,
+                .al2023X8664Standard,
                 .al2Arm64,
                 .al2X8664,
                 .al2X8664Gpu,
@@ -41,6 +45,8 @@ extension EKSClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .al2023Arm64Standard: return "AL2023_ARM_64_STANDARD"
+            case .al2023X8664Standard: return "AL2023_x86_64_STANDARD"
             case .al2Arm64: return "AL2_ARM_64"
             case .al2X8664: return "AL2_x86_64"
             case .al2X8664Gpu: return "AL2_x86_64_GPU"

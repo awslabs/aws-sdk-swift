@@ -4600,6 +4600,42 @@ enum BatchUpdateCustomVocabularyItemOutputError: ClientRuntime.HttpResponseError
     }
 }
 
+extension LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockKnowledgeBaseArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockKnowledgeBaseArn = self.bedrockKnowledgeBaseArn {
+            try encodeContainer.encode(bedrockKnowledgeBaseArn, forKey: .bedrockKnowledgeBaseArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bedrockKnowledgeBaseArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .bedrockKnowledgeBaseArn)
+        bedrockKnowledgeBaseArn = bedrockKnowledgeBaseArnDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains details about the configuration of a Amazon Bedrock knowledge base.
+    public struct BedrockKnowledgeStoreConfiguration: Swift.Equatable {
+        /// The ARN of the knowledge base used.
+        /// This member is required.
+        public var bedrockKnowledgeBaseArn: Swift.String?
+
+        public init(
+            bedrockKnowledgeBaseArn: Swift.String? = nil
+        )
+        {
+            self.bedrockKnowledgeBaseArn = bedrockKnowledgeBaseArn
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.BedrockModelSpecification: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case modelArn
@@ -9893,6 +9929,7 @@ extension CreateIntentInput: Swift.Encodable {
         case kendraConfiguration
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
     }
 
@@ -9936,6 +9973,9 @@ extension CreateIntentInput: Swift.Encodable {
         }
         if let parentIntentSignature = self.parentIntentSignature {
             try encodeContainer.encode(parentIntentSignature, forKey: .parentIntentSignature)
+        }
+        if let qnAIntentConfiguration = self.qnAIntentConfiguration {
+            try encodeContainer.encode(qnAIntentConfiguration, forKey: .qnAIntentConfiguration)
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
@@ -9995,6 +10035,8 @@ public struct CreateIntentInput: Swift.Equatable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// A unique identifier for the built-in intent to base this intent on.
     public var parentIntentSignature: Swift.String?
+    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// An array of strings that a user might say to signal the intent. For example, "I want a pizza", or "I want a {PizzaSize} pizza". In an utterance, slot names are enclosed in curly braces ("{", "}") to indicate where they should be displayed in the utterance shown to the user..
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
 
@@ -10013,6 +10055,7 @@ public struct CreateIntentInput: Swift.Equatable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
     )
     {
@@ -10030,6 +10073,7 @@ public struct CreateIntentInput: Swift.Equatable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
     }
 }
@@ -10047,6 +10091,7 @@ struct CreateIntentInputBody: Swift.Equatable {
     let outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     let kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration?
     let initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
+    let qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
 }
 
 extension CreateIntentInputBody: Swift.Decodable {
@@ -10062,6 +10107,7 @@ extension CreateIntentInputBody: Swift.Decodable {
         case kendraConfiguration
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
     }
 
@@ -10118,6 +10164,8 @@ extension CreateIntentInputBody: Swift.Decodable {
         kendraConfiguration = kendraConfigurationDecoded
         let initialResponseSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InitialResponseSetting.self, forKey: .initialResponseSetting)
         initialResponseSetting = initialResponseSettingDecoded
+        let qnAIntentConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAIntentConfiguration.self, forKey: .qnAIntentConfiguration)
+        qnAIntentConfiguration = qnAIntentConfigurationDecoded
     }
 }
 
@@ -10142,6 +10190,7 @@ extension CreateIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = output.localeId
             self.outputContexts = output.outputContexts
             self.parentIntentSignature = output.parentIntentSignature
+            self.qnAIntentConfiguration = output.qnAIntentConfiguration
             self.sampleUtterances = output.sampleUtterances
         } else {
             self.botId = nil
@@ -10160,6 +10209,7 @@ extension CreateIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = nil
             self.outputContexts = nil
             self.parentIntentSignature = nil
+            self.qnAIntentConfiguration = nil
             self.sampleUtterances = nil
         }
     }
@@ -10198,6 +10248,8 @@ public struct CreateIntentOutput: Swift.Equatable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The signature of the parent intent specified for the intent.
     public var parentIntentSignature: Swift.String?
+    /// Details about the the configuration of the built-in Amazon.QnAIntent.
+    public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// The sample utterances specified for the intent.
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
 
@@ -10218,6 +10270,7 @@ public struct CreateIntentOutput: Swift.Equatable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil
     )
     {
@@ -10237,6 +10290,7 @@ public struct CreateIntentOutput: Swift.Equatable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
     }
 }
@@ -10259,6 +10313,7 @@ struct CreateIntentOutputBody: Swift.Equatable {
     let localeId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
+    let qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
 }
 
 extension CreateIntentOutputBody: Swift.Decodable {
@@ -10279,6 +10334,7 @@ extension CreateIntentOutputBody: Swift.Decodable {
         case localeId
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
     }
 
@@ -10345,6 +10401,8 @@ extension CreateIntentOutputBody: Swift.Decodable {
         creationDateTime = creationDateTimeDecoded
         let initialResponseSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InitialResponseSetting.self, forKey: .initialResponseSetting)
         initialResponseSetting = initialResponseSettingDecoded
+        let qnAIntentConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAIntentConfiguration.self, forKey: .qnAIntentConfiguration)
+        qnAIntentConfiguration = qnAIntentConfigurationDecoded
     }
 }
 
@@ -12018,6 +12076,61 @@ extension LexModelsV2ClientTypes {
         )
         {
             self.childDirected = childDirected
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.DataSourceConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockKnowledgeStoreConfiguration
+        case kendraConfiguration
+        case opensearchConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockKnowledgeStoreConfiguration = self.bedrockKnowledgeStoreConfiguration {
+            try encodeContainer.encode(bedrockKnowledgeStoreConfiguration, forKey: .bedrockKnowledgeStoreConfiguration)
+        }
+        if let kendraConfiguration = self.kendraConfiguration {
+            try encodeContainer.encode(kendraConfiguration, forKey: .kendraConfiguration)
+        }
+        if let opensearchConfiguration = self.opensearchConfiguration {
+            try encodeContainer.encode(opensearchConfiguration, forKey: .opensearchConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let opensearchConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.OpensearchConfiguration.self, forKey: .opensearchConfiguration)
+        opensearchConfiguration = opensearchConfigurationDecoded
+        let kendraConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAKendraConfiguration.self, forKey: .kendraConfiguration)
+        kendraConfiguration = kendraConfigurationDecoded
+        let bedrockKnowledgeStoreConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration.self, forKey: .bedrockKnowledgeStoreConfiguration)
+        bedrockKnowledgeStoreConfiguration = bedrockKnowledgeStoreConfigurationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains details about the configuration of the knowledge store used for the AMAZON.QnAIntent. You must have already created the knowledge store and indexed the documents within it.
+    public struct DataSourceConfiguration: Swift.Equatable {
+        /// Contains details about the configuration of the Amazon Bedrock knowledge base used for the AMAZON.QnAIntent. To set up a knowledge base, follow the steps at [Building a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html).
+        public var bedrockKnowledgeStoreConfiguration: LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration?
+        /// Contains details about the configuration of the Amazon Kendra index used for the AMAZON.QnAIntent. To create a Amazon Kendra index, follow the steps at [Creating an index](https://docs.aws.amazon.com/kendra/latest/dg/create-index.html).
+        public var kendraConfiguration: LexModelsV2ClientTypes.QnAKendraConfiguration?
+        /// Contains details about the configuration of the Amazon OpenSearch Service database used for the AMAZON.QnAIntent. To create a domain, follow the steps at [Creating and managing Amazon OpenSearch Service domains](https://docs.aws.amazon.com/opensearch-service/latest/developerguide/createupdatedomains.html).
+        public var opensearchConfiguration: LexModelsV2ClientTypes.OpensearchConfiguration?
+
+        public init(
+            bedrockKnowledgeStoreConfiguration: LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration? = nil,
+            kendraConfiguration: LexModelsV2ClientTypes.QnAKendraConfiguration? = nil,
+            opensearchConfiguration: LexModelsV2ClientTypes.OpensearchConfiguration? = nil
+        )
+        {
+            self.bedrockKnowledgeStoreConfiguration = bedrockKnowledgeStoreConfiguration
+            self.kendraConfiguration = kendraConfiguration
+            self.opensearchConfiguration = opensearchConfiguration
         }
     }
 
@@ -15862,6 +15975,7 @@ extension DescribeIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = output.localeId
             self.outputContexts = output.outputContexts
             self.parentIntentSignature = output.parentIntentSignature
+            self.qnAIntentConfiguration = output.qnAIntentConfiguration
             self.sampleUtterances = output.sampleUtterances
             self.slotPriorities = output.slotPriorities
         } else {
@@ -15882,6 +15996,7 @@ extension DescribeIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = nil
             self.outputContexts = nil
             self.parentIntentSignature = nil
+            self.qnAIntentConfiguration = nil
             self.sampleUtterances = nil
             self.slotPriorities = nil
         }
@@ -15923,6 +16038,8 @@ public struct DescribeIntentOutput: Swift.Equatable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The identifier of the built-in intent that this intent is derived from, if any.
     public var parentIntentSignature: Swift.String?
+    /// Details about the configuration of the built-in Amazon.QnAIntent.
+    public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// User utterances that trigger this intent.
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
     /// The list that determines the priority that slots should be elicited from the user.
@@ -15946,6 +16063,7 @@ public struct DescribeIntentOutput: Swift.Equatable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
     )
@@ -15967,6 +16085,7 @@ public struct DescribeIntentOutput: Swift.Equatable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
     }
@@ -15992,6 +16111,7 @@ struct DescribeIntentOutputBody: Swift.Equatable {
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
     let initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
+    let qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
 }
 
 extension DescribeIntentOutputBody: Swift.Decodable {
@@ -16013,6 +16133,7 @@ extension DescribeIntentOutputBody: Swift.Decodable {
         case localeId
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
         case slotPriorities
     }
@@ -16093,6 +16214,8 @@ extension DescribeIntentOutputBody: Swift.Decodable {
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
         let initialResponseSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InitialResponseSetting.self, forKey: .initialResponseSetting)
         initialResponseSetting = initialResponseSettingDecoded
+        let qnAIntentConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAIntentConfiguration.self, forKey: .qnAIntentConfiguration)
+        qnAIntentConfiguration = qnAIntentConfigurationDecoded
     }
 }
 
@@ -17940,6 +18063,53 @@ extension LexModelsV2ClientTypes {
             self = ErrorCode(rawValue: rawValue) ?? ErrorCode.sdkUnknown(rawValue)
         }
     }
+}
+
+extension LexModelsV2ClientTypes.ExactResponseFields: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case answerField
+        case questionField
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let answerField = self.answerField {
+            try encodeContainer.encode(answerField, forKey: .answerField)
+        }
+        if let questionField = self.questionField {
+            try encodeContainer.encode(questionField, forKey: .questionField)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let questionFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .questionField)
+        questionField = questionFieldDecoded
+        let answerFieldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .answerField)
+        answerField = answerFieldDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains the names of the fields used for an exact response to the user.
+    public struct ExactResponseFields: Swift.Equatable {
+        /// The name of the field that contains the answer to the query made to the OpenSearch Service database.
+        /// This member is required.
+        public var answerField: Swift.String?
+        /// The name of the field that contains the query made to the OpenSearch Service database.
+        /// This member is required.
+        public var questionField: Swift.String?
+
+        public init(
+            answerField: Swift.String? = nil,
+            questionField: Swift.String? = nil
+        )
+        {
+            self.answerField = answerField
+            self.questionField = questionField
+        }
+    }
+
 }
 
 extension LexModelsV2ClientTypes.ExecutionErrorDetails: Swift.Codable {
@@ -27823,6 +27993,95 @@ extension LexModelsV2ClientTypes {
     }
 }
 
+extension LexModelsV2ClientTypes.OpensearchConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainEndpoint
+        case exactResponse
+        case exactResponseFields
+        case includeFields
+        case indexName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let domainEndpoint = self.domainEndpoint {
+            try encodeContainer.encode(domainEndpoint, forKey: .domainEndpoint)
+        }
+        if exactResponse != false {
+            try encodeContainer.encode(exactResponse, forKey: .exactResponse)
+        }
+        if let exactResponseFields = self.exactResponseFields {
+            try encodeContainer.encode(exactResponseFields, forKey: .exactResponseFields)
+        }
+        if let includeFields = includeFields {
+            var includeFieldsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .includeFields)
+            for includefield0 in includeFields {
+                try includeFieldsContainer.encode(includefield0)
+            }
+        }
+        if let indexName = self.indexName {
+            try encodeContainer.encode(indexName, forKey: .indexName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainEndpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainEndpoint)
+        domainEndpoint = domainEndpointDecoded
+        let indexNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .indexName)
+        indexName = indexNameDecoded
+        let exactResponseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exactResponse) ?? false
+        exactResponse = exactResponseDecoded
+        let exactResponseFieldsDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.ExactResponseFields.self, forKey: .exactResponseFields)
+        exactResponseFields = exactResponseFieldsDecoded
+        let includeFieldsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .includeFields)
+        var includeFieldsDecoded0:[Swift.String]? = nil
+        if let includeFieldsContainer = includeFieldsContainer {
+            includeFieldsDecoded0 = [Swift.String]()
+            for string0 in includeFieldsContainer {
+                if let string0 = string0 {
+                    includeFieldsDecoded0?.append(string0)
+                }
+            }
+        }
+        includeFields = includeFieldsDecoded0
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains details about the configuration of the Amazon OpenSearch Service database used for the AMAZON.QnAIntent.
+    public struct OpensearchConfiguration: Swift.Equatable {
+        /// The endpoint of the Amazon OpenSearch Service domain.
+        /// This member is required.
+        public var domainEndpoint: Swift.String?
+        /// Specifies whether to return an exact response or to return an answer generated by the model using the fields you specify from the database.
+        public var exactResponse: Swift.Bool
+        /// Contains the names of the fields used for an exact response to the user.
+        public var exactResponseFields: LexModelsV2ClientTypes.ExactResponseFields?
+        /// Contains a list of fields from the Amazon OpenSearch Service that the model can use to generate the answer to the query.
+        public var includeFields: [Swift.String]?
+        /// The name of the Amazon OpenSearch Service index.
+        /// This member is required.
+        public var indexName: Swift.String?
+
+        public init(
+            domainEndpoint: Swift.String? = nil,
+            exactResponse: Swift.Bool = false,
+            exactResponseFields: LexModelsV2ClientTypes.ExactResponseFields? = nil,
+            includeFields: [Swift.String]? = nil,
+            indexName: Swift.String? = nil
+        )
+        {
+            self.domainEndpoint = domainEndpoint
+            self.exactResponse = exactResponse
+            self.exactResponseFields = exactResponseFields
+            self.includeFields = includeFields
+            self.indexName = indexName
+        }
+    }
+
+}
+
 extension LexModelsV2ClientTypes.OutputContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case name
@@ -28688,6 +28947,117 @@ extension LexModelsV2ClientTypes {
             self.messageGroups = messageGroups
             self.messageSelectionStrategy = messageSelectionStrategy
             self.promptAttemptsSpecification = promptAttemptsSpecification
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.QnAIntentConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case bedrockModelConfiguration
+        case dataSourceConfiguration
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let bedrockModelConfiguration = self.bedrockModelConfiguration {
+            try encodeContainer.encode(bedrockModelConfiguration, forKey: .bedrockModelConfiguration)
+        }
+        if let dataSourceConfiguration = self.dataSourceConfiguration {
+            try encodeContainer.encode(dataSourceConfiguration, forKey: .dataSourceConfiguration)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dataSourceConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.DataSourceConfiguration.self, forKey: .dataSourceConfiguration)
+        dataSourceConfiguration = dataSourceConfigurationDecoded
+        let bedrockModelConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.BedrockModelSpecification.self, forKey: .bedrockModelConfiguration)
+        bedrockModelConfiguration = bedrockModelConfigurationDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Details about the the configuration of the built-in Amazon.QnAIntent.
+    public struct QnAIntentConfiguration: Swift.Equatable {
+        /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
+        public var bedrockModelConfiguration: LexModelsV2ClientTypes.BedrockModelSpecification?
+        /// Contains details about the configuration of the data source used for the AMAZON.QnAIntent.
+        public var dataSourceConfiguration: LexModelsV2ClientTypes.DataSourceConfiguration?
+
+        public init(
+            bedrockModelConfiguration: LexModelsV2ClientTypes.BedrockModelSpecification? = nil,
+            dataSourceConfiguration: LexModelsV2ClientTypes.DataSourceConfiguration? = nil
+        )
+        {
+            self.bedrockModelConfiguration = bedrockModelConfiguration
+            self.dataSourceConfiguration = dataSourceConfiguration
+        }
+    }
+
+}
+
+extension LexModelsV2ClientTypes.QnAKendraConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exactResponse
+        case kendraIndex
+        case queryFilterString
+        case queryFilterStringEnabled
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if exactResponse != false {
+            try encodeContainer.encode(exactResponse, forKey: .exactResponse)
+        }
+        if let kendraIndex = self.kendraIndex {
+            try encodeContainer.encode(kendraIndex, forKey: .kendraIndex)
+        }
+        if let queryFilterString = self.queryFilterString {
+            try encodeContainer.encode(queryFilterString, forKey: .queryFilterString)
+        }
+        if queryFilterStringEnabled != false {
+            try encodeContainer.encode(queryFilterStringEnabled, forKey: .queryFilterStringEnabled)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let kendraIndexDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kendraIndex)
+        kendraIndex = kendraIndexDecoded
+        let queryFilterStringEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .queryFilterStringEnabled) ?? false
+        queryFilterStringEnabled = queryFilterStringEnabledDecoded
+        let queryFilterStringDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryFilterString)
+        queryFilterString = queryFilterStringDecoded
+        let exactResponseDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .exactResponse) ?? false
+        exactResponse = exactResponseDecoded
+    }
+}
+
+extension LexModelsV2ClientTypes {
+    /// Contains details about the configuration of the Amazon Kendra index used for the AMAZON.QnAIntent.
+    public struct QnAKendraConfiguration: Swift.Equatable {
+        /// Specifies whether to return an exact response from the Amazon Kendra index or to let the Amazon Bedrock model you select generate a response based on the results. To use this feature, you must first add FAQ questions to your index by following the steps at [Adding frequently asked questions (FAQs) to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html).
+        public var exactResponse: Swift.Bool
+        /// The ARN of the Amazon Kendra index to use.
+        /// This member is required.
+        public var kendraIndex: Swift.String?
+        /// Contains the Amazon Kendra filter string to use if enabled. For more information on the Amazon Kendra search filter JSON format, see [Using document attributes to filter search results](https://docs.aws.amazon.com/kendra/latest/dg/filtering.html#search-filtering).
+        public var queryFilterString: Swift.String?
+        /// Specifies whether to enable an Amazon Kendra filter string or not.
+        public var queryFilterStringEnabled: Swift.Bool
+
+        public init(
+            exactResponse: Swift.Bool = false,
+            kendraIndex: Swift.String? = nil,
+            queryFilterString: Swift.String? = nil,
+            queryFilterStringEnabled: Swift.Bool = false
+        )
+        {
+            self.exactResponse = exactResponse
+            self.kendraIndex = kendraIndex
+            self.queryFilterString = queryFilterString
+            self.queryFilterStringEnabled = queryFilterStringEnabled
         }
     }
 
@@ -36596,6 +36966,7 @@ extension UpdateIntentInput: Swift.Encodable {
         case kendraConfiguration
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
         case slotPriorities
     }
@@ -36640,6 +37011,9 @@ extension UpdateIntentInput: Swift.Encodable {
         }
         if let parentIntentSignature = self.parentIntentSignature {
             try encodeContainer.encode(parentIntentSignature, forKey: .parentIntentSignature)
+        }
+        if let qnAIntentConfiguration = self.qnAIntentConfiguration {
+            try encodeContainer.encode(qnAIntentConfiguration, forKey: .qnAIntentConfiguration)
         }
         if let sampleUtterances = sampleUtterances {
             var sampleUtterancesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sampleUtterances)
@@ -36711,6 +37085,8 @@ public struct UpdateIntentInput: Swift.Equatable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The signature of the new built-in intent to use as the parent of this intent.
     public var parentIntentSignature: Swift.String?
+    /// Specifies the configuration of the built-in Amazon.QnAIntent. The AMAZON.QnAIntent intent is called when Amazon Lex can't determine another intent to invoke. If you specify this field, you can't specify the kendraConfiguration field.
+    public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// New utterances used to invoke the intent.
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
     /// A new list of slots and their priorities that are contained by the intent.
@@ -36732,6 +37108,7 @@ public struct UpdateIntentInput: Swift.Equatable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
     )
@@ -36751,6 +37128,7 @@ public struct UpdateIntentInput: Swift.Equatable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
     }
@@ -36770,6 +37148,7 @@ struct UpdateIntentInputBody: Swift.Equatable {
     let outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     let kendraConfiguration: LexModelsV2ClientTypes.KendraConfiguration?
     let initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
+    let qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
 }
 
 extension UpdateIntentInputBody: Swift.Decodable {
@@ -36785,6 +37164,7 @@ extension UpdateIntentInputBody: Swift.Decodable {
         case kendraConfiguration
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
         case slotPriorities
     }
@@ -36853,6 +37233,8 @@ extension UpdateIntentInputBody: Swift.Decodable {
         kendraConfiguration = kendraConfigurationDecoded
         let initialResponseSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InitialResponseSetting.self, forKey: .initialResponseSetting)
         initialResponseSetting = initialResponseSettingDecoded
+        let qnAIntentConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAIntentConfiguration.self, forKey: .qnAIntentConfiguration)
+        qnAIntentConfiguration = qnAIntentConfigurationDecoded
     }
 }
 
@@ -36878,6 +37260,7 @@ extension UpdateIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = output.localeId
             self.outputContexts = output.outputContexts
             self.parentIntentSignature = output.parentIntentSignature
+            self.qnAIntentConfiguration = output.qnAIntentConfiguration
             self.sampleUtterances = output.sampleUtterances
             self.slotPriorities = output.slotPriorities
         } else {
@@ -36898,6 +37281,7 @@ extension UpdateIntentOutput: ClientRuntime.HttpResponseBinding {
             self.localeId = nil
             self.outputContexts = nil
             self.parentIntentSignature = nil
+            self.qnAIntentConfiguration = nil
             self.sampleUtterances = nil
             self.slotPriorities = nil
         }
@@ -36939,6 +37323,8 @@ public struct UpdateIntentOutput: Swift.Equatable {
     public var outputContexts: [LexModelsV2ClientTypes.OutputContext]?
     /// The updated built-in intent that is the parent of this intent.
     public var parentIntentSignature: Swift.String?
+    /// Details about the configuration of the built-in Amazon.QnAIntent.
+    public var qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
     /// The updated list of sample utterances for the intent.
     public var sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]?
     /// The updated list of slots and their priorities that are elicited from the user for the intent.
@@ -36962,6 +37348,7 @@ public struct UpdateIntentOutput: Swift.Equatable {
         localeId: Swift.String? = nil,
         outputContexts: [LexModelsV2ClientTypes.OutputContext]? = nil,
         parentIntentSignature: Swift.String? = nil,
+        qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration? = nil,
         sampleUtterances: [LexModelsV2ClientTypes.SampleUtterance]? = nil,
         slotPriorities: [LexModelsV2ClientTypes.SlotPriority]? = nil
     )
@@ -36983,6 +37370,7 @@ public struct UpdateIntentOutput: Swift.Equatable {
         self.localeId = localeId
         self.outputContexts = outputContexts
         self.parentIntentSignature = parentIntentSignature
+        self.qnAIntentConfiguration = qnAIntentConfiguration
         self.sampleUtterances = sampleUtterances
         self.slotPriorities = slotPriorities
     }
@@ -37008,6 +37396,7 @@ struct UpdateIntentOutputBody: Swift.Equatable {
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
     let initialResponseSetting: LexModelsV2ClientTypes.InitialResponseSetting?
+    let qnAIntentConfiguration: LexModelsV2ClientTypes.QnAIntentConfiguration?
 }
 
 extension UpdateIntentOutputBody: Swift.Decodable {
@@ -37029,6 +37418,7 @@ extension UpdateIntentOutputBody: Swift.Decodable {
         case localeId
         case outputContexts
         case parentIntentSignature
+        case qnAIntentConfiguration
         case sampleUtterances
         case slotPriorities
     }
@@ -37109,6 +37499,8 @@ extension UpdateIntentOutputBody: Swift.Decodable {
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
         let initialResponseSettingDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.InitialResponseSetting.self, forKey: .initialResponseSetting)
         initialResponseSetting = initialResponseSettingDecoded
+        let qnAIntentConfigurationDecoded = try containerValues.decodeIfPresent(LexModelsV2ClientTypes.QnAIntentConfiguration.self, forKey: .qnAIntentConfiguration)
+        qnAIntentConfiguration = qnAIntentConfigurationDecoded
     }
 }
 

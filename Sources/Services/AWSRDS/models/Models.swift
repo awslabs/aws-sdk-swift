@@ -2117,6 +2117,7 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case allocatedStorage = "AllocatedStorage"
         case backupRetentionPeriod = "BackupRetentionPeriod"
+        case certificateDetails = "CertificateDetails"
         case dbClusterIdentifier = "DBClusterIdentifier"
         case engineVersion = "EngineVersion"
         case iamDatabaseAuthenticationEnabled = "IAMDatabaseAuthenticationEnabled"
@@ -2134,6 +2135,9 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Encodable {
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let dbClusterIdentifier = dbClusterIdentifier {
             try container.encode(dbClusterIdentifier, forKey: ClientRuntime.Key("DBClusterIdentifier"))
@@ -2175,6 +2179,7 @@ extension RDSClientTypes.ClusterPendingModifiedValues: Swift.Encodable {
             value.rdsCustomClusterConfiguration = try reader["RdsCustomClusterConfiguration"].readIfPresent(readingClosure: RDSClientTypes.RdsCustomClusterConfiguration.readingClosure)
             value.iops = try reader["Iops"].readIfPresent()
             value.storageType = try reader["StorageType"].readIfPresent()
+            value.certificateDetails = try reader["CertificateDetails"].readIfPresent(readingClosure: RDSClientTypes.CertificateDetails.readingClosure)
             return value
         }
     }
@@ -2187,6 +2192,8 @@ extension RDSClientTypes {
         public var allocatedStorage: Swift.Int?
         /// The number of days for which automatic DB snapshots are retained.
         public var backupRetentionPeriod: Swift.Int?
+        /// Returns the details of the DB instance’s server certificate. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+        public var certificateDetails: RDSClientTypes.CertificateDetails?
         /// The DBClusterIdentifier value for the DB cluster.
         public var dbClusterIdentifier: Swift.String?
         /// The database engine version.
@@ -2207,6 +2214,7 @@ extension RDSClientTypes {
         public init(
             allocatedStorage: Swift.Int? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
+            certificateDetails: RDSClientTypes.CertificateDetails? = nil,
             dbClusterIdentifier: Swift.String? = nil,
             engineVersion: Swift.String? = nil,
             iamDatabaseAuthenticationEnabled: Swift.Bool? = nil,
@@ -2219,6 +2227,7 @@ extension RDSClientTypes {
         {
             self.allocatedStorage = allocatedStorage
             self.backupRetentionPeriod = backupRetentionPeriod
+            self.certificateDetails = certificateDetails
             self.dbClusterIdentifier = dbClusterIdentifier
             self.engineVersion = engineVersion
             self.iamDatabaseAuthenticationEnabled = iamDatabaseAuthenticationEnabled
@@ -3914,6 +3923,7 @@ extension CreateDBClusterInput: Swift.Encodable {
         case availabilityZones = "AvailabilityZones"
         case backtrackWindow = "BacktrackWindow"
         case backupRetentionPeriod = "BackupRetentionPeriod"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case characterSetName = "CharacterSetName"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
@@ -3988,6 +3998,9 @@ extension CreateDBClusterInput: Swift.Encodable {
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
@@ -4185,6 +4198,8 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * Must be a value from 1 to 35.
     public var backupRetentionPeriod: Swift.Int?
+    /// The CA certificate identifier to use for the DB cluster's server certificate. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters
+    public var caCertificateIdentifier: Swift.String?
     /// The name of the character set (CharacterSet) to associate the DB cluster with. Valid for Cluster Type: Aurora DB clusters only
     public var characterSetName: Swift.String?
     /// Specifies whether to copy all tags from the DB cluster to snapshots of the DB cluster. The default is not to copy them. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters
@@ -4405,7 +4420,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     ///
     /// * Aurora DB clusters - aurora | aurora-iopt1
     ///
-    /// * Multi-AZ DB clusters - io1
+    /// * Multi-AZ DB clusters - io1 | io2 | gp3
     ///
     ///
     /// Default:
@@ -4428,6 +4443,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         availabilityZones: [Swift.String]? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         characterSetName: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         databaseName: Swift.String? = nil,
@@ -4482,6 +4498,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
         self.availabilityZones = availabilityZones
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.characterSetName = characterSetName
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.databaseName = databaseName
@@ -5169,21 +5186,21 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 40 to 65536 for RDS Custom for Oracle, 16384 for RDS Custom for SQL Server.
     ///
     ///
     /// RDS for Db2 Constraints to the amount of storage for each storage type are the following:
     ///
-    /// * General Purpose (SSD) storage (gp3): Must be an integer from 20 to 64000.
+    /// * General Purpose (SSD) storage (gp3): Must be an integer from 20 to 65536.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 64000.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.
     ///
     ///
     /// RDS for MariaDB Constraints to the amount of storage for each storage type are the following:
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.
     ///
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
@@ -5192,7 +5209,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.
     ///
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
@@ -5201,7 +5218,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.
     ///
     /// * Magnetic storage (standard): Must be an integer from 10 to 3072.
     ///
@@ -5210,7 +5227,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * General Purpose (SSD) storage (gp2, gp3): Must be an integer from 20 to 65536.
     ///
-    /// * Provisioned IOPS storage (io1): Must be an integer from 100 to 65536.
+    /// * Provisioned IOPS storage (io1, io2): Must be an integer from 100 to 65536.
     ///
     /// * Magnetic storage (standard): Must be an integer from 5 to 3072.
     ///
@@ -5226,7 +5243,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     ///
     ///
-    /// * Provisioned IOPS storage (io1):
+    /// * Provisioned IOPS storage (io1, io2):
     ///
     /// * Enterprise and Standard editions: Must be an integer from 100 to 16384.
     ///
@@ -5673,7 +5690,7 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     public var storageEncrypted: Swift.Bool?
     /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. If you specify io1 or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. This setting doesn't apply to Amazon Aurora DB instances. Storage is managed by the DB cluster. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
     /// Tags to assign to the DB instance.
     public var tags: [RDSClientTypes.Tag]?
@@ -6293,7 +6310,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var sourceDBInstanceIdentifier: Swift.String?
     /// Specifies the storage throughput value for the read replica. This setting doesn't apply to RDS Custom or Amazon Aurora DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the read replica. If you specify io1 or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the read replica. If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1 if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -8563,6 +8580,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         case backtrackWindow = "BacktrackWindow"
         case backupRetentionPeriod = "BackupRetentionPeriod"
         case capacity = "Capacity"
+        case certificateDetails = "CertificateDetails"
         case characterSetName = "CharacterSetName"
         case cloneGroupId = "CloneGroupId"
         case clusterCreateTime = "ClusterCreateTime"
@@ -8690,6 +8708,9 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
         }
         if let capacity = capacity {
             try container.encode(capacity, forKey: ClientRuntime.Key("Capacity"))
+        }
+        if let certificateDetails = certificateDetails {
+            try container.encode(certificateDetails, forKey: ClientRuntime.Key("CertificateDetails"))
         }
         if let characterSetName = characterSetName {
             try container.encode(characterSetName, forKey: ClientRuntime.Key("CharacterSetName"))
@@ -9048,6 +9069,7 @@ extension RDSClientTypes.DBCluster: Swift.Encodable {
             value.awsBackupRecoveryPointArn = try reader["AwsBackupRecoveryPointArn"].readIfPresent()
             value.limitlessDatabase = try reader["LimitlessDatabase"].readIfPresent(readingClosure: RDSClientTypes.LimitlessDatabase.readingClosure)
             value.storageThroughput = try reader["StorageThroughput"].readIfPresent()
+            value.certificateDetails = try reader["CertificateDetails"].readIfPresent(readingClosure: RDSClientTypes.CertificateDetails.readingClosure)
             return value
         }
     }
@@ -9084,6 +9106,8 @@ extension RDSClientTypes {
         public var backupRetentionPeriod: Swift.Int?
         /// The current capacity of an Aurora Serverless v1 DB cluster. The capacity is 0 (zero) when the cluster is paused. For more information about Aurora Serverless v1, see [Using Amazon Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html) in the Amazon Aurora User Guide.
         public var capacity: Swift.Int?
+        /// Returns the details of the DB instance’s server certificate. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+        public var certificateDetails: RDSClientTypes.CertificateDetails?
         /// If present, specifies the name of the character set that this cluster is associated with.
         public var characterSetName: Swift.String?
         /// The ID of the clone group with which the DB cluster is associated.
@@ -9237,6 +9261,7 @@ extension RDSClientTypes {
             backtrackWindow: Swift.Int? = nil,
             backupRetentionPeriod: Swift.Int? = nil,
             capacity: Swift.Int? = nil,
+            certificateDetails: RDSClientTypes.CertificateDetails? = nil,
             characterSetName: Swift.String? = nil,
             cloneGroupId: Swift.String? = nil,
             clusterCreateTime: ClientRuntime.Date? = nil,
@@ -9317,6 +9342,7 @@ extension RDSClientTypes {
             self.backtrackWindow = backtrackWindow
             self.backupRetentionPeriod = backupRetentionPeriod
             self.capacity = capacity
+            self.certificateDetails = certificateDetails
             self.characterSetName = characterSetName
             self.cloneGroupId = cloneGroupId
             self.clusterCreateTime = clusterCreateTime
@@ -30014,6 +30040,7 @@ extension ModifyDBClusterInput: Swift.Encodable {
         case awsBackupRecoveryPointArn = "AwsBackupRecoveryPointArn"
         case backtrackWindow = "BacktrackWindow"
         case backupRetentionPeriod = "BackupRetentionPeriod"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case cloudwatchLogsExportConfiguration = "CloudwatchLogsExportConfiguration"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbClusterIdentifier = "DBClusterIdentifier"
@@ -30077,6 +30104,9 @@ extension ModifyDBClusterInput: Swift.Encodable {
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration {
             try container.encode(cloudwatchLogsExportConfiguration, forKey: ClientRuntime.Key("CloudwatchLogsExportConfiguration"))
@@ -30233,6 +30263,8 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     ///
     /// * Must be a value from 1 to 35.
     public var backupRetentionPeriod: Swift.Int?
+    /// The CA certificate identifier to use for the DB cluster's server certificate. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide. Valid for Cluster Type: Multi-AZ DB clusters
+    public var caCertificateIdentifier: Swift.String?
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters The following values are valid for each DB engine:
     ///
     /// * Aurora MySQL - audit | error | general | slowquery
@@ -30374,7 +30406,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
     ///
     /// * Aurora DB clusters - aurora | aurora-iopt1
     ///
-    /// * Multi-AZ DB clusters - io1
+    /// * Multi-AZ DB clusters - io1 | io2 | gp3
     ///
     ///
     /// Default:
@@ -30395,6 +30427,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         awsBackupRecoveryPointArn: Swift.String? = nil,
         backtrackWindow: Swift.Int? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         cloudwatchLogsExportConfiguration: RDSClientTypes.CloudwatchLogsExportConfiguration? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbClusterIdentifier: Swift.String? = nil,
@@ -30441,6 +30474,7 @@ public struct ModifyDBClusterInput: Swift.Equatable {
         self.awsBackupRecoveryPointArn = awsBackupRecoveryPointArn
         self.backtrackWindow = backtrackWindow
         self.backupRetentionPeriod = backupRetentionPeriod
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.cloudwatchLogsExportConfiguration = cloudwatchLogsExportConfiguration
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbClusterIdentifier = dbClusterIdentifier
@@ -31357,7 +31391,7 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     public var rotateMasterUserPassword: Swift.Bool?
     /// The storage throughput value for the DB instance. This setting applies only to the gp3 storage type. This setting doesn't apply to Amazon Aurora or RDS Custom DB instances.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. If you specify Provisioned IOPS (io1), you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
+    /// The storage type to associate with the DB instance. If you specify io1, io2, or gp3 you must also include a value for the Iops parameter. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2.
     public var storageType: Swift.String?
     /// The ARN from the key store with which to associate the instance for TDE encryption. This setting doesn't apply to RDS Custom DB instances.
     public var tdeCredentialArn: Swift.String?
@@ -39580,7 +39614,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var publiclyAccessible: Swift.Bool?
     /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
-    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | standard If you specify io1 or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
+    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified, otherwise gp2
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -40181,7 +40215,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
     public var storageEncrypted: Swift.Bool?
     /// Specifies the storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
-    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | standard If you specify io1 or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
+    /// Specifies the storage type to be associated with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard If you specify io1, io2, or gp3, you must also include a value for the Iops parameter. Default: io1 if the Iops parameter is specified; otherwise gp2
     public var storageType: Swift.String?
     /// A list of tags to associate with this DB instance. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -40782,9 +40816,9 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     public var sourceDbiResourceId: Swift.String?
     /// The storage throughput value for the DB instance. This setting doesn't apply to RDS Custom or Amazon Aurora.
     public var storageThroughput: Swift.Int?
-    /// The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2. Constraints:
+    /// The storage type to associate with the DB instance. Valid Values: gp2 | gp3 | io1 | io2 | standard Default: io1, if the Iops parameter is specified. Otherwise, gp2. Constraints:
     ///
-    /// * If you specify io1 or gp3, you must also include a value for the Iops parameter.
+    /// * If you specify io1, io2, or gp3, you must also include a value for the Iops parameter.
     public var storageType: Swift.String?
     /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
     public var tags: [RDSClientTypes.Tag]?
@@ -44646,7 +44680,7 @@ extension RDSClientTypes {
         public var storageSize: [RDSClientTypes.Range]?
         /// The valid range of storage throughput to provisioned IOPS ratios. For example, 0-0.25.
         public var storageThroughputToIopsRatio: [RDSClientTypes.DoubleRange]?
-        /// The valid storage types for your DB instance. For example: gp2, gp3, io1.
+        /// The valid storage types for your DB instance. For example: gp2, gp3, io1, io2.
         public var storageType: Swift.String?
         /// Indicates whether or not Amazon RDS can automatically scale storage for DB instances that use the new instance class.
         public var supportsStorageAutoscaling: Swift.Bool?

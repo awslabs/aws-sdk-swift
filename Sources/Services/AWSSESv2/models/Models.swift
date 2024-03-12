@@ -6232,7 +6232,7 @@ public struct GetAccountOutput: Swift.Equatable {
     ///
     /// * SHUTDOWN – Your account's ability to send email is currently paused because of an issue with the email sent from your account. When you correct the issue, you can contact us and request that your account's ability to send email is resumed.
     public var enforcementStatus: Swift.String?
-    /// Indicates whether or not your account has production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+    /// Indicates whether or not your account has production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
     public var productionAccessEnabled: Swift.Bool
     /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.
     public var sendQuota: SESv2ClientTypes.SendQuota?
@@ -12000,6 +12000,7 @@ extension SESv2ClientTypes {
 extension SESv2ClientTypes.Message: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case body = "Body"
+        case headers = "Headers"
         case subject = "Subject"
     }
 
@@ -12007,6 +12008,12 @@ extension SESv2ClientTypes.Message: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let body = self.body {
             try encodeContainer.encode(body, forKey: .body)
+        }
+        if let headers = headers {
+            var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
+            for messageheader0 in headers {
+                try headersContainer.encode(messageheader0)
+            }
         }
         if let subject = self.subject {
             try encodeContainer.encode(subject, forKey: .subject)
@@ -12019,6 +12026,17 @@ extension SESv2ClientTypes.Message: Swift.Codable {
         subject = subjectDecoded
         let bodyDecoded = try containerValues.decodeIfPresent(SESv2ClientTypes.Body.self, forKey: .body)
         body = bodyDecoded
+        let headersContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.MessageHeader?].self, forKey: .headers)
+        var headersDecoded0:[SESv2ClientTypes.MessageHeader]? = nil
+        if let headersContainer = headersContainer {
+            headersDecoded0 = [SESv2ClientTypes.MessageHeader]()
+            for structure0 in headersContainer {
+                if let structure0 = structure0 {
+                    headersDecoded0?.append(structure0)
+                }
+            }
+        }
+        headers = headersDecoded0
     }
 }
 
@@ -12028,17 +12046,76 @@ extension SESv2ClientTypes {
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         /// This member is required.
         public var body: SESv2ClientTypes.Body?
+        /// The list of message headers that will be added to the email message.
+        public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The subject line of the email. The subject line can only contain 7-bit ASCII characters. However, you can specify non-ASCII characters in the subject line by using encoded-word syntax, as described in [RFC 2047](https://tools.ietf.org/html/rfc2047).
         /// This member is required.
         public var subject: SESv2ClientTypes.Content?
 
         public init(
             body: SESv2ClientTypes.Body? = nil,
+            headers: [SESv2ClientTypes.MessageHeader]? = nil,
             subject: SESv2ClientTypes.Content? = nil
         )
         {
             self.body = body
+            self.headers = headers
             self.subject = subject
+        }
+    }
+
+}
+
+extension SESv2ClientTypes.MessageHeader: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name = "Name"
+        case value = "Value"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension SESv2ClientTypes {
+    /// Contains the name and value of a message header that you add to an email.
+    public struct MessageHeader: Swift.Equatable {
+        /// The name of the message header. The message header name has to meet the following criteria:
+        ///
+        /// * Can contain any printable ASCII character (33 - 126) except for colon (:).
+        ///
+        /// * Can contain no more than 126 characters.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The value of the message header. The message header value has to meet the following criteria:
+        ///
+        /// * Can contain any printable ASCII character.
+        ///
+        /// * Can contain no more than 870 characters.
+        /// This member is required.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
         }
     }
 
@@ -13186,7 +13263,7 @@ public struct PutAccountDetailsInput: Swift.Equatable {
     /// The type of email your account will send.
     /// This member is required.
     public var mailType: SESv2ClientTypes.MailType?
-    /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. Additionally, the maximum number of emails you can send in a 24-hour period (your sending quota) is 200, and the maximum number of emails you can send per second (your maximum sending rate) is 1. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
+    /// Indicates whether or not your account should have production access in the current Amazon Web Services Region. If the value is false, then your account is in the sandbox. When your account is in the sandbox, you can only send email to verified identities. If the value is true, then your account has production access. When your account has production access, you can send email to any address. The sending quota and maximum sending rate for your account vary based on your specific use case.
     public var productionAccessEnabled: Swift.Bool?
     /// A description of the types of email that you plan to send.
     /// This member is required.
@@ -15985,7 +16062,7 @@ extension SendEmailInput {
 public struct SendEmailInput: Swift.Equatable {
     /// The name of the configuration set to use when sending the email.
     public var configurationSetName: Swift.String?
-    /// An object that contains the body of the message. You can send either a Simple message Raw message or a template Message.
+    /// An object that contains the body of the message. You can send either a Simple message, Raw message, or a Templated message.
     /// This member is required.
     public var content: SESv2ClientTypes.EmailContent?
     /// An object that contains the recipients of the email message.
@@ -16115,7 +16192,7 @@ extension SendEmailOutput: ClientRuntime.HttpResponseBinding {
 
 /// A unique message ID that you receive when an email is accepted for sending.
 public struct SendEmailOutput: Swift.Equatable {
-    /// A unique identifier for the message that is generated when the message is accepted. It's possible for Amazon SES to accept a message without sending it. This can happen when the message that you're trying to send has an attachment contains a virus, or when you send a templated email that contains invalid personalization content, for example.
+    /// A unique identifier for the message that is generated when the message is accepted. It's possible for Amazon SES to accept a message without sending it. For example, this can happen when the message that you're trying to send has an attachment that contains a virus, or when you send a templated email that contains invalid personalization content.
     public var messageId: Swift.String?
 
     public init(
@@ -16915,6 +16992,7 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension SESv2ClientTypes.Template: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case headers = "Headers"
         case templateArn = "TemplateArn"
         case templateData = "TemplateData"
         case templateName = "TemplateName"
@@ -16922,6 +17000,12 @@ extension SESv2ClientTypes.Template: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let headers = headers {
+            var headersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .headers)
+            for messageheader0 in headers {
+                try headersContainer.encode(messageheader0)
+            }
+        }
         if let templateArn = self.templateArn {
             try encodeContainer.encode(templateArn, forKey: .templateArn)
         }
@@ -16941,12 +17025,25 @@ extension SESv2ClientTypes.Template: Swift.Codable {
         templateArn = templateArnDecoded
         let templateDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateData)
         templateData = templateDataDecoded
+        let headersContainer = try containerValues.decodeIfPresent([SESv2ClientTypes.MessageHeader?].self, forKey: .headers)
+        var headersDecoded0:[SESv2ClientTypes.MessageHeader]? = nil
+        if let headersContainer = headersContainer {
+            headersDecoded0 = [SESv2ClientTypes.MessageHeader]()
+            for structure0 in headersContainer {
+                if let structure0 = structure0 {
+                    headersDecoded0?.append(structure0)
+                }
+            }
+        }
+        headers = headersDecoded0
     }
 }
 
 extension SESv2ClientTypes {
     /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to define, save, and reuse in email messages that you send.
     public struct Template: Swift.Equatable {
+        /// The list of message headers that will be added to the email message.
+        public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
         public var templateArn: Swift.String?
         /// An object that defines the values to use for message variables in the template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the value to use for that variable.
@@ -16955,11 +17052,13 @@ extension SESv2ClientTypes {
         public var templateName: Swift.String?
 
         public init(
+            headers: [SESv2ClientTypes.MessageHeader]? = nil,
             templateArn: Swift.String? = nil,
             templateData: Swift.String? = nil,
             templateName: Swift.String? = nil
         )
         {
+            self.headers = headers
             self.templateArn = templateArn
             self.templateData = templateData
             self.templateName = templateName

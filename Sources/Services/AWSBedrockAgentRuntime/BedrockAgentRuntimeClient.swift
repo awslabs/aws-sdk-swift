@@ -139,24 +139,41 @@ public struct BedrockAgentRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHa
 extension BedrockAgentRuntimeClient {
     /// Performs the `InvokeAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Invokes the specified Bedrock model to run inference using the input provided in the request body.
+    /// Sends a prompt for the agent to process and respond to. The CLI doesn't support InvokeAgent.
     ///
-    /// - Parameter InvokeAgentInput : InvokeAgent Request
+    /// * To continue the same conversation with an agent, use the same sessionId value in the request.
     ///
-    /// - Returns: `InvokeAgentOutput` : InvokeAgent Response
+    /// * To activate trace enablement, turn enableTrace to true. Trace enablement helps you follow the agent's reasoning process that led it to the information it processed, the actions it took, and the final result it yielded. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-events).
+    ///
+    /// * End a conversation by setting endSession to true.
+    ///
+    /// * Include attributes for the session or prompt in the sessionState object.
+    ///
+    ///
+    /// The response is returned in the bytes field of the chunk object.
+    ///
+    /// * The attribution object contains citations for parts of the response.
+    ///
+    /// * If you set enableTrace to true in the request, you can trace the agent's steps and reasoning process that led it to the response.
+    ///
+    /// * Errors are also surfaced in the response.
+    ///
+    /// - Parameter InvokeAgentInput : [no documentation found]
+    ///
+    /// - Returns: `InvokeAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `BadGatewayException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `DependencyFailedException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource due to a customer fault (i.e. bad configuration)
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions. Check your permissions and retry your request.
+    /// - `BadGatewayException` : There was an issue with a dependency due to a server issue. Retry your request.
+    /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
+    /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func invokeAgent(input: InvokeAgentInput) async throws -> InvokeAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -196,7 +213,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `Retrieve` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Retrieve from knowledge base.
+    /// Queries a knowledge base and retrieves information from it.
     ///
     /// - Parameter RetrieveInput : [no documentation found]
     ///
@@ -205,15 +222,15 @@ extension BedrockAgentRuntimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `BadGatewayException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `DependencyFailedException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource due to a customer fault (i.e. bad configuration)
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions. Check your permissions and retry your request.
+    /// - `BadGatewayException` : There was an issue with a dependency due to a server issue. Retry your request.
+    /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
+    /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func retrieve(input: RetrieveInput) async throws -> RetrieveOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -253,7 +270,7 @@ extension BedrockAgentRuntimeClient {
 
     /// Performs the `RetrieveAndGenerate` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// RetrieveAndGenerate API
+    /// Queries a knowledge base and generates responses based on the retrieved results. The response cites up to five sources but only selects the ones that are relevant to the query. The numberOfResults field is currently unsupported for RetrieveAndGenerate. Don't include it in the [vectorSearchConfiguration](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_KnowledgeBaseVectorSearchConfiguration.html) object.
     ///
     /// - Parameter RetrieveAndGenerateInput : [no documentation found]
     ///
@@ -262,15 +279,15 @@ extension BedrockAgentRuntimeClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `BadGatewayException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `DependencyFailedException` : This exception is thrown when a request fails due to dependency like Lambda, Bedrock, STS resource due to a customer fault (i.e. bad configuration)
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions. Check your permissions and retry your request.
+    /// - `BadGatewayException` : There was an issue with a dependency due to a server issue. Retry your request.
+    /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
+    /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func retrieveAndGenerate(input: RetrieveAndGenerateInput) async throws -> RetrieveAndGenerateOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)

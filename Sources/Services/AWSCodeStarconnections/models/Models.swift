@@ -929,10 +929,12 @@ extension CreateSyncConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch = "Branch"
         case configFile = "ConfigFile"
+        case publishDeploymentStatus = "PublishDeploymentStatus"
         case repositoryLinkId = "RepositoryLinkId"
         case resourceName = "ResourceName"
         case roleArn = "RoleArn"
         case syncType = "SyncType"
+        case triggerResourceUpdateOn = "TriggerResourceUpdateOn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -942,6 +944,9 @@ extension CreateSyncConfigurationInput: Swift.Encodable {
         }
         if let configFile = self.configFile {
             try encodeContainer.encode(configFile, forKey: .configFile)
+        }
+        if let publishDeploymentStatus = self.publishDeploymentStatus {
+            try encodeContainer.encode(publishDeploymentStatus.rawValue, forKey: .publishDeploymentStatus)
         }
         if let repositoryLinkId = self.repositoryLinkId {
             try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
@@ -954,6 +959,9 @@ extension CreateSyncConfigurationInput: Swift.Encodable {
         }
         if let syncType = self.syncType {
             try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+        if let triggerResourceUpdateOn = self.triggerResourceUpdateOn {
+            try encodeContainer.encode(triggerResourceUpdateOn.rawValue, forKey: .triggerResourceUpdateOn)
         }
     }
 }
@@ -972,6 +980,8 @@ public struct CreateSyncConfigurationInput: Swift.Equatable {
     /// The file name of the configuration file that manages syncing between the connection and the repository. This configuration file is stored in the repository.
     /// This member is required.
     public var configFile: Swift.String?
+    /// Whether to enable or disable publishing of deployment status to source providers.
+    public var publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus?
     /// The ID of the repository link created for the connection. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
     /// This member is required.
     public var repositoryLinkId: Swift.String?
@@ -984,22 +994,28 @@ public struct CreateSyncConfigurationInput: Swift.Equatable {
     /// The type of sync configuration.
     /// This member is required.
     public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    /// When to trigger Git sync to begin the stack update.
+    public var triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn?
 
     public init(
         branch: Swift.String? = nil,
         configFile: Swift.String? = nil,
+        publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus? = nil,
         repositoryLinkId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
-        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
+        triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
     )
     {
         self.branch = branch
         self.configFile = configFile
+        self.publishDeploymentStatus = publishDeploymentStatus
         self.repositoryLinkId = repositoryLinkId
         self.resourceName = resourceName
         self.roleArn = roleArn
         self.syncType = syncType
+        self.triggerResourceUpdateOn = triggerResourceUpdateOn
     }
 }
 
@@ -1010,16 +1026,20 @@ struct CreateSyncConfigurationInputBody: Swift.Equatable {
     let resourceName: Swift.String?
     let roleArn: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus?
+    let triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn?
 }
 
 extension CreateSyncConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch = "Branch"
         case configFile = "ConfigFile"
+        case publishDeploymentStatus = "PublishDeploymentStatus"
         case repositoryLinkId = "RepositoryLinkId"
         case resourceName = "ResourceName"
         case roleArn = "RoleArn"
         case syncType = "SyncType"
+        case triggerResourceUpdateOn = "TriggerResourceUpdateOn"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1036,6 +1056,10 @@ extension CreateSyncConfigurationInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
         syncType = syncTypeDecoded
+        let publishDeploymentStatusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.PublishDeploymentStatus.self, forKey: .publishDeploymentStatus)
+        publishDeploymentStatus = publishDeploymentStatusDecoded
+        let triggerResourceUpdateOnDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.TriggerResourceUpdateOn.self, forKey: .triggerResourceUpdateOn)
+        triggerResourceUpdateOn = triggerResourceUpdateOnDecoded
     }
 }
 
@@ -3383,6 +3407,38 @@ extension CodeStarconnectionsClientTypes {
     }
 }
 
+extension CodeStarconnectionsClientTypes {
+    public enum PublishDeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PublishDeploymentStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PublishDeploymentStatus(rawValue: rawValue) ?? PublishDeploymentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CodeStarconnectionsClientTypes.RepositoryLinkInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionArn = "ConnectionArn"
@@ -4568,11 +4624,13 @@ extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
         case configFile = "ConfigFile"
         case ownerId = "OwnerId"
         case providerType = "ProviderType"
+        case publishDeploymentStatus = "PublishDeploymentStatus"
         case repositoryLinkId = "RepositoryLinkId"
         case repositoryName = "RepositoryName"
         case resourceName = "ResourceName"
         case roleArn = "RoleArn"
         case syncType = "SyncType"
+        case triggerResourceUpdateOn = "TriggerResourceUpdateOn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -4589,6 +4647,9 @@ extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
         if let providerType = self.providerType {
             try encodeContainer.encode(providerType.rawValue, forKey: .providerType)
         }
+        if let publishDeploymentStatus = self.publishDeploymentStatus {
+            try encodeContainer.encode(publishDeploymentStatus.rawValue, forKey: .publishDeploymentStatus)
+        }
         if let repositoryLinkId = self.repositoryLinkId {
             try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
         }
@@ -4603,6 +4664,9 @@ extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
         }
         if let syncType = self.syncType {
             try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+        if let triggerResourceUpdateOn = self.triggerResourceUpdateOn {
+            try encodeContainer.encode(triggerResourceUpdateOn.rawValue, forKey: .triggerResourceUpdateOn)
         }
     }
 
@@ -4626,6 +4690,10 @@ extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
         roleArn = roleArnDecoded
         let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
         syncType = syncTypeDecoded
+        let publishDeploymentStatusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.PublishDeploymentStatus.self, forKey: .publishDeploymentStatus)
+        publishDeploymentStatus = publishDeploymentStatusDecoded
+        let triggerResourceUpdateOnDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.TriggerResourceUpdateOn.self, forKey: .triggerResourceUpdateOn)
+        triggerResourceUpdateOn = triggerResourceUpdateOnDecoded
     }
 }
 
@@ -4643,6 +4711,8 @@ extension CodeStarconnectionsClientTypes {
         /// The connection provider type associated with a specific sync configuration, such as GitHub.
         /// This member is required.
         public var providerType: CodeStarconnectionsClientTypes.ProviderType?
+        /// Whether to enable or disable publishing of deployment status to source providers.
+        public var publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus?
         /// The ID of the repository link associated with a specific sync configuration.
         /// This member is required.
         public var repositoryLinkId: Swift.String?
@@ -4658,28 +4728,34 @@ extension CodeStarconnectionsClientTypes {
         /// The type of sync for a specific sync configuration.
         /// This member is required.
         public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+        /// When to trigger Git sync to begin the stack update.
+        public var triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn?
 
         public init(
             branch: Swift.String? = nil,
             configFile: Swift.String? = nil,
             ownerId: Swift.String? = nil,
             providerType: CodeStarconnectionsClientTypes.ProviderType? = nil,
+            publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus? = nil,
             repositoryLinkId: Swift.String? = nil,
             repositoryName: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             roleArn: Swift.String? = nil,
-            syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+            syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
+            triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
         )
         {
             self.branch = branch
             self.configFile = configFile
             self.ownerId = ownerId
             self.providerType = providerType
+            self.publishDeploymentStatus = publishDeploymentStatus
             self.repositoryLinkId = repositoryLinkId
             self.repositoryName = repositoryName
             self.resourceName = resourceName
             self.roleArn = roleArn
             self.syncType = syncType
+            self.triggerResourceUpdateOn = triggerResourceUpdateOn
         }
     }
 
@@ -4964,6 +5040,38 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension CodeStarconnectionsClientTypes {
+    public enum TriggerResourceUpdateOn: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case anyChange
+        case fileChange
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TriggerResourceUpdateOn] {
+            return [
+                .anyChange,
+                .fileChange,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .anyChange: return "ANY_CHANGE"
+            case .fileChange: return "FILE_CHANGE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TriggerResourceUpdateOn(rawValue: rawValue) ?? TriggerResourceUpdateOn.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -5626,10 +5734,12 @@ extension UpdateSyncConfigurationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch = "Branch"
         case configFile = "ConfigFile"
+        case publishDeploymentStatus = "PublishDeploymentStatus"
         case repositoryLinkId = "RepositoryLinkId"
         case resourceName = "ResourceName"
         case roleArn = "RoleArn"
         case syncType = "SyncType"
+        case triggerResourceUpdateOn = "TriggerResourceUpdateOn"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -5639,6 +5749,9 @@ extension UpdateSyncConfigurationInput: Swift.Encodable {
         }
         if let configFile = self.configFile {
             try encodeContainer.encode(configFile, forKey: .configFile)
+        }
+        if let publishDeploymentStatus = self.publishDeploymentStatus {
+            try encodeContainer.encode(publishDeploymentStatus.rawValue, forKey: .publishDeploymentStatus)
         }
         if let repositoryLinkId = self.repositoryLinkId {
             try encodeContainer.encode(repositoryLinkId, forKey: .repositoryLinkId)
@@ -5651,6 +5764,9 @@ extension UpdateSyncConfigurationInput: Swift.Encodable {
         }
         if let syncType = self.syncType {
             try encodeContainer.encode(syncType.rawValue, forKey: .syncType)
+        }
+        if let triggerResourceUpdateOn = self.triggerResourceUpdateOn {
+            try encodeContainer.encode(triggerResourceUpdateOn.rawValue, forKey: .triggerResourceUpdateOn)
         }
     }
 }
@@ -5667,6 +5783,8 @@ public struct UpdateSyncConfigurationInput: Swift.Equatable {
     public var branch: Swift.String?
     /// The configuration file for the sync configuration to be updated.
     public var configFile: Swift.String?
+    /// Whether to enable or disable publishing of deployment status to source providers.
+    public var publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus?
     /// The ID of the repository link for the sync configuration to be updated.
     public var repositoryLinkId: Swift.String?
     /// The name of the Amazon Web Services resource for the sync configuration to be updated.
@@ -5677,22 +5795,28 @@ public struct UpdateSyncConfigurationInput: Swift.Equatable {
     /// The sync type for the sync configuration to be updated.
     /// This member is required.
     public var syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    /// When to trigger Git sync to begin the stack update.
+    public var triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn?
 
     public init(
         branch: Swift.String? = nil,
         configFile: Swift.String? = nil,
+        publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus? = nil,
         repositoryLinkId: Swift.String? = nil,
         resourceName: Swift.String? = nil,
         roleArn: Swift.String? = nil,
-        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil
+        syncType: CodeStarconnectionsClientTypes.SyncConfigurationType? = nil,
+        triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn? = nil
     )
     {
         self.branch = branch
         self.configFile = configFile
+        self.publishDeploymentStatus = publishDeploymentStatus
         self.repositoryLinkId = repositoryLinkId
         self.resourceName = resourceName
         self.roleArn = roleArn
         self.syncType = syncType
+        self.triggerResourceUpdateOn = triggerResourceUpdateOn
     }
 }
 
@@ -5703,16 +5827,20 @@ struct UpdateSyncConfigurationInputBody: Swift.Equatable {
     let resourceName: Swift.String?
     let roleArn: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
+    let publishDeploymentStatus: CodeStarconnectionsClientTypes.PublishDeploymentStatus?
+    let triggerResourceUpdateOn: CodeStarconnectionsClientTypes.TriggerResourceUpdateOn?
 }
 
 extension UpdateSyncConfigurationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case branch = "Branch"
         case configFile = "ConfigFile"
+        case publishDeploymentStatus = "PublishDeploymentStatus"
         case repositoryLinkId = "RepositoryLinkId"
         case resourceName = "ResourceName"
         case roleArn = "RoleArn"
         case syncType = "SyncType"
+        case triggerResourceUpdateOn = "TriggerResourceUpdateOn"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -5729,6 +5857,10 @@ extension UpdateSyncConfigurationInputBody: Swift.Decodable {
         roleArn = roleArnDecoded
         let syncTypeDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.SyncConfigurationType.self, forKey: .syncType)
         syncType = syncTypeDecoded
+        let publishDeploymentStatusDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.PublishDeploymentStatus.self, forKey: .publishDeploymentStatus)
+        publishDeploymentStatus = publishDeploymentStatusDecoded
+        let triggerResourceUpdateOnDecoded = try containerValues.decodeIfPresent(CodeStarconnectionsClientTypes.TriggerResourceUpdateOn.self, forKey: .triggerResourceUpdateOn)
+        triggerResourceUpdateOn = triggerResourceUpdateOnDecoded
     }
 }
 
