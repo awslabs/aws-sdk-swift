@@ -43,7 +43,7 @@ class XMLMessageMarshallableGenerator(
                                 ClientRuntimeTypes.EventStream.Header
                             )
                             write("var payload: \$D", ClientRuntimeTypes.Core.Data)
-                            write("switch self {", "")
+                            write("switch self {")
                             streamShape.eventStreamEvents(ctx.model).forEach { member ->
                                 val memberName = ctx.symbolProvider.toMemberName(member)
                                 write("case \$L(let value):", memberName)
