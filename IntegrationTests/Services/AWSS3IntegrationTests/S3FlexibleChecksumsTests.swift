@@ -73,7 +73,9 @@ final class S3FlexibleChecksumsTests: S3XCTestCase {
 
         let getObjectInput = GetObjectInput(bucket: bucketName, key: objectName)
         let getObjectOutput = try await client.getObject(input: getObjectInput)
-        XCTAssertNotNil(getObjectOutput.body) // Ensure there's a body in the response.
+        let body = try XCTUnwrap(getObjectOutput.body)
+        let data = try await body.readData()
+        XCTAssertEqual(data, originalData)
     }
 
     // MARK: - Private methods
