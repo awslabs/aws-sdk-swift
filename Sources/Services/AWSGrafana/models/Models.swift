@@ -179,6 +179,17 @@ extension GrafanaClientTypes {
 
 extension AssociateLicenseInput {
 
+    static func headerProvider(_ value: AssociateLicenseInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let grafanaToken = value.grafanaToken {
+            items.add(Header(name: "Grafana-Token", value: Swift.String(grafanaToken)))
+        }
+        return items
+    }
+}
+
+extension AssociateLicenseInput {
+
     static func urlPathProvider(_ value: AssociateLicenseInput) -> Swift.String? {
         guard let workspaceId = value.workspaceId else {
             return nil
@@ -191,7 +202,9 @@ extension AssociateLicenseInput {
 }
 
 public struct AssociateLicenseInput: Swift.Equatable {
-    /// The type of license to associate with the workspace.
+    /// A token from Grafana Labs that ties your Amazon Web Services account with a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+    public var grafanaToken: Swift.String?
+    /// The type of license to associate with the workspace. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
     /// This member is required.
     public var licenseType: GrafanaClientTypes.LicenseType?
     /// The ID of the workspace to associate the license with.
@@ -199,10 +212,12 @@ public struct AssociateLicenseInput: Swift.Equatable {
     public var workspaceId: Swift.String?
 
     public init(
+        grafanaToken: Swift.String? = nil,
         licenseType: GrafanaClientTypes.LicenseType? = nil,
         workspaceId: Swift.String? = nil
     )
     {
+        self.grafanaToken = grafanaToken
         self.licenseType = licenseType
         self.workspaceId = workspaceId
     }
@@ -823,14 +838,14 @@ public struct CreateWorkspaceInput: Swift.Equatable {
     /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
     /// This member is required.
     public var accountAccessType: GrafanaClientTypes.AccountAccessType?
-    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
     /// This member is required.
     public var authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     /// A unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The configuration string for the workspace that you create. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     public var configuration: Swift.String?
-    /// Specifies the version of Grafana to support in the new workspace. To get a list of supported version, use the ListVersions operation.
+    /// Specifies the version of Grafana to support in the new workspace. If not specified, defaults to the latest version (for example, 9.4). To get a list of supported versions, use the ListVersions operation.
     public var grafanaVersion: Swift.String?
     /// Configuration for network access to your workspace. When this is configured, only listed IP addresses and VPC endpoints will be able to access your workspace. Standard Grafana authentication and authorization will still be required. If this is not configured, or is removed, then all IP addresses and VPC endpoints will be allowed. Standard Grafana authentication and authorization will still be required.
     public var networkAccessControl: GrafanaClientTypes.NetworkAccessConfiguration?
@@ -3586,7 +3601,7 @@ extension UpdateWorkspaceAuthenticationInput {
 }
 
 public struct UpdateWorkspaceAuthenticationInput: Swift.Equatable {
-    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center (successor to Single Sign-On), or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
+    /// Specifies whether this workspace uses SAML 2.0, IAM Identity Center, or both to authenticate users for using the Grafana console within a workspace. For more information, see [User authentication in Amazon Managed Grafana](https://docs.aws.amazon.com/grafana/latest/userguide/authentication-in-AMG.html).
     /// This member is required.
     public var authenticationProviders: [GrafanaClientTypes.AuthenticationProviderTypes]?
     /// If the workspace uses SAML, use this structure to map SAML assertion attributes to workspace user information and define which groups in the assertion attribute are to have the Admin and Editor roles in the workspace.
@@ -3724,7 +3739,7 @@ public struct UpdateWorkspaceConfigurationInput: Swift.Equatable {
     /// The new configuration string for the workspace. For more information about the format and configuration options available, see [Working in your Grafana workspace](https://docs.aws.amazon.com/grafana/latest/userguide/AMG-configure-workspace.html).
     /// This member is required.
     public var configuration: Swift.String?
-    /// Specifies the version of Grafana to support in the new workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the ListVersions operation.
+    /// Specifies the version of Grafana to support in the workspace. If not specified, keeps the current version of the workspace. Can only be used to upgrade (for example, from 8.4 to 9.4), not downgrade (for example, from 9.4 to 8.4). To know what versions are available to upgrade to for a specific workspace, see the [ListVersions](https://docs.aws.amazon.com/grafana/latest/APIReference/API_ListVersions.html) operation.
     public var grafanaVersion: Swift.String?
     /// The ID of the workspace to update.
     /// This member is required.
@@ -4432,6 +4447,7 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         case endpoint
         case freeTrialConsumed
         case freeTrialExpiration
+        case grafanaToken
         case grafanaVersion
         case id
         case licenseExpiration
@@ -4478,6 +4494,9 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         }
         if let freeTrialExpiration = self.freeTrialExpiration {
             try encodeContainer.encodeTimestamp(freeTrialExpiration, format: .epochSeconds, forKey: .freeTrialExpiration)
+        }
+        if let grafanaToken = self.grafanaToken {
+            try encodeContainer.encode(grafanaToken, forKey: .grafanaToken)
         }
         if let grafanaVersion = self.grafanaVersion {
             try encodeContainer.encode(grafanaVersion, forKey: .grafanaVersion)
@@ -4624,12 +4643,14 @@ extension GrafanaClientTypes.WorkspaceDescription: Swift.Codable {
         vpcConfiguration = vpcConfigurationDecoded
         let networkAccessControlDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.NetworkAccessConfiguration.self, forKey: .networkAccessControl)
         networkAccessControl = networkAccessControlDecoded
+        let grafanaTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grafanaToken)
+        grafanaToken = grafanaTokenDecoded
     }
 }
 
 extension GrafanaClientTypes.WorkspaceDescription: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
+        "WorkspaceDescription(accountAccessType: \(Swift.String(describing: accountAccessType)), authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), dataSources: \(Swift.String(describing: dataSources)), endpoint: \(Swift.String(describing: endpoint)), freeTrialConsumed: \(Swift.String(describing: freeTrialConsumed)), freeTrialExpiration: \(Swift.String(describing: freeTrialExpiration)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseExpiration: \(Swift.String(describing: licenseExpiration)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), networkAccessControl: \(Swift.String(describing: networkAccessControl)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), permissionType: \(Swift.String(describing: permissionType)), stackSetName: \(Swift.String(describing: stackSetName)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), vpcConfiguration: \(Swift.String(describing: vpcConfiguration)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", organizationRoleName: \"CONTENT_REDACTED\", organizationalUnits: \"CONTENT_REDACTED\", workspaceRoleArn: \"CONTENT_REDACTED\")"}
 }
 
 extension GrafanaClientTypes {
@@ -4651,19 +4672,21 @@ extension GrafanaClientTypes {
         /// The URL that users can use to access the Grafana console in the workspace.
         /// This member is required.
         public var endpoint: Swift.String?
-        /// Specifies whether this workspace has already fully used its free trial for Grafana Enterprise.
+        /// Specifies whether this workspace has already fully used its free trial for Grafana Enterprise. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public var freeTrialConsumed: Swift.Bool?
-        /// If this workspace is currently in the free trial period for Grafana Enterprise, this value specifies when that free trial ends.
+        /// If this workspace is currently in the free trial period for Grafana Enterprise, this value specifies when that free trial ends. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public var freeTrialExpiration: ClientRuntime.Date?
+        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+        public var grafanaToken: Swift.String?
         /// The version of Grafana supported in this workspace.
         /// This member is required.
         public var grafanaVersion: Swift.String?
         /// The unique ID of this workspace.
         /// This member is required.
         public var id: Swift.String?
-        /// If this workspace has a full Grafana Enterprise license, this specifies when the license ends and will need to be renewed.
+        /// If this workspace has a full Grafana Enterprise license purchased through Amazon Web Services Marketplace, this specifies when the license ends and will need to be renewed. Purchasing the Enterprise plugins option through Amazon Managed Grafana does not have an expiration. It is valid until the license is removed.
         public var licenseExpiration: ClientRuntime.Date?
-        /// Specifies whether this workspace has a full Grafana Enterprise license or a free trial license.
+        /// Specifies whether this workspace has a full Grafana Enterprise license. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
         public var licenseType: GrafanaClientTypes.LicenseType?
         /// The most recent date that the workspace was modified.
         /// This member is required.
@@ -4701,6 +4724,7 @@ extension GrafanaClientTypes {
             endpoint: Swift.String? = nil,
             freeTrialConsumed: Swift.Bool? = nil,
             freeTrialExpiration: ClientRuntime.Date? = nil,
+            grafanaToken: Swift.String? = nil,
             grafanaVersion: Swift.String? = nil,
             id: Swift.String? = nil,
             licenseExpiration: ClientRuntime.Date? = nil,
@@ -4727,6 +4751,7 @@ extension GrafanaClientTypes {
             self.endpoint = endpoint
             self.freeTrialConsumed = freeTrialConsumed
             self.freeTrialExpiration = freeTrialExpiration
+            self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
             self.licenseExpiration = licenseExpiration
@@ -4832,8 +4857,10 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.Codable {
         case created
         case description
         case endpoint
+        case grafanaToken
         case grafanaVersion
         case id
+        case licenseType
         case modified
         case name
         case notificationDestinations
@@ -4855,11 +4882,17 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.Codable {
         if let endpoint = self.endpoint {
             try encodeContainer.encode(endpoint, forKey: .endpoint)
         }
+        if let grafanaToken = self.grafanaToken {
+            try encodeContainer.encode(grafanaToken, forKey: .grafanaToken)
+        }
         if let grafanaVersion = self.grafanaVersion {
             try encodeContainer.encode(grafanaVersion, forKey: .grafanaVersion)
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let licenseType = self.licenseType {
+            try encodeContainer.encode(licenseType.rawValue, forKey: .licenseType)
         }
         if let modified = self.modified {
             try encodeContainer.encodeTimestamp(modified, format: .epochSeconds, forKey: .modified)
@@ -4926,12 +4959,16 @@ extension GrafanaClientTypes.WorkspaceSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let licenseTypeDecoded = try containerValues.decodeIfPresent(GrafanaClientTypes.LicenseType.self, forKey: .licenseType)
+        licenseType = licenseTypeDecoded
+        let grafanaTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .grafanaToken)
+        grafanaToken = grafanaTokenDecoded
     }
 }
 
 extension GrafanaClientTypes.WorkspaceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "WorkspaceSummary(authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), endpoint: \(Swift.String(describing: endpoint)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), modified: \(Swift.String(describing: modified)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "WorkspaceSummary(authentication: \(Swift.String(describing: authentication)), created: \(Swift.String(describing: created)), endpoint: \(Swift.String(describing: endpoint)), grafanaToken: \(Swift.String(describing: grafanaToken)), grafanaVersion: \(Swift.String(describing: grafanaVersion)), id: \(Swift.String(describing: id)), licenseType: \(Swift.String(describing: licenseType)), modified: \(Swift.String(describing: modified)), notificationDestinations: \(Swift.String(describing: notificationDestinations)), status: \(Swift.String(describing: status)), tags: \(Swift.String(describing: tags)), description: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension GrafanaClientTypes {
@@ -4948,12 +4985,16 @@ extension GrafanaClientTypes {
         /// The URL endpoint to use to access the Grafana console in the workspace.
         /// This member is required.
         public var endpoint: Swift.String?
+        /// The token that ties this workspace to a Grafana Labs account. For more information, see [Register with Grafana Labs](https://docs.aws.amazon.com/grafana/latest/userguide/upgrade-to-Grafana-Enterprise.html#AMG-workspace-register-enterprise).
+        public var grafanaToken: Swift.String?
         /// The Grafana version that the workspace is running.
         /// This member is required.
         public var grafanaVersion: Swift.String?
         /// The unique ID of the workspace.
         /// This member is required.
         public var id: Swift.String?
+        /// Specifies whether this workspace has a full Grafana Enterprise license. Amazon Managed Grafana workspaces no longer support Grafana Enterprise free trials.
+        public var licenseType: GrafanaClientTypes.LicenseType?
         /// The most recent date that the workspace was modified.
         /// This member is required.
         public var modified: ClientRuntime.Date?
@@ -4972,8 +5013,10 @@ extension GrafanaClientTypes {
             created: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             endpoint: Swift.String? = nil,
+            grafanaToken: Swift.String? = nil,
             grafanaVersion: Swift.String? = nil,
             id: Swift.String? = nil,
+            licenseType: GrafanaClientTypes.LicenseType? = nil,
             modified: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
             notificationDestinations: [GrafanaClientTypes.NotificationDestinationType]? = nil,
@@ -4985,8 +5028,10 @@ extension GrafanaClientTypes {
             self.created = created
             self.description = description
             self.endpoint = endpoint
+            self.grafanaToken = grafanaToken
             self.grafanaVersion = grafanaVersion
             self.id = id
+            self.licenseType = licenseType
             self.modified = modified
             self.name = name
             self.notificationDestinations = notificationDestinations

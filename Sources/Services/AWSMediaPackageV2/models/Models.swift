@@ -532,6 +532,7 @@ extension CreateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = output.channelGroupName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.egressDomain = output.egressDomain
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -540,6 +541,7 @@ extension CreateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.egressDomain = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -559,6 +561,8 @@ public struct CreateChannelGroupOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel group.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The output domain where the source stream should be sent. Integrate the egress domain with a downstream CDN (such as Amazon CloudFront) or playback device.
     /// This member is required.
     public var egressDomain: Swift.String?
@@ -573,6 +577,7 @@ public struct CreateChannelGroupOutput: Swift.Equatable {
         channelGroupName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -582,6 +587,7 @@ public struct CreateChannelGroupOutput: Swift.Equatable {
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.egressDomain = egressDomain
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -594,6 +600,7 @@ struct CreateChannelGroupOutputBody: Swift.Equatable {
     let egressDomain: Swift.String?
     let createdAt: ClientRuntime.Date?
     let modifiedAt: ClientRuntime.Date?
+    let eTag: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -604,6 +611,7 @@ extension CreateChannelGroupOutputBody: Swift.Decodable {
         case channelGroupName = "ChannelGroupName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case egressDomain = "EgressDomain"
         case modifiedAt = "ModifiedAt"
         case tags = "Tags"
@@ -621,6 +629,8 @@ extension CreateChannelGroupOutputBody: Swift.Decodable {
         createdAt = createdAtDecoded
         let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .modifiedAt)
         modifiedAt = modifiedAtDecoded
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
@@ -773,6 +783,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.ingestEndpoints = output.ingestEndpoints
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -782,6 +793,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.ingestEndpoints = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -804,6 +816,8 @@ public struct CreateChannelOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
@@ -818,6 +832,7 @@ public struct CreateChannelOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -828,6 +843,7 @@ public struct CreateChannelOutput: Swift.Equatable {
         self.channelName = channelName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -842,6 +858,7 @@ struct CreateChannelOutputBody: Swift.Equatable {
     let modifiedAt: ClientRuntime.Date?
     let description: Swift.String?
     let ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -852,6 +869,7 @@ extension CreateChannelOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case ingestEndpoints = "IngestEndpoints"
         case modifiedAt = "ModifiedAt"
         case tags = "Tags"
@@ -882,6 +900,8 @@ extension CreateChannelOutputBody: Swift.Decodable {
             }
         }
         ingestEndpoints = ingestEndpointsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -1298,6 +1318,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = output.containerType
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
             self.lowLatencyHlsManifests = output.lowLatencyHlsManifests
             self.modifiedAt = output.modifiedAt
@@ -1312,6 +1333,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.hlsManifests = nil
             self.lowLatencyHlsManifests = nil
             self.modifiedAt = nil
@@ -1341,6 +1363,8 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your origin endpoint.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -1366,6 +1390,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
@@ -1381,6 +1406,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
         self.containerType = containerType
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -1404,6 +1430,7 @@ struct CreateOriginEndpointOutputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1415,6 +1442,7 @@ extension CreateOriginEndpointOutputBody: Swift.Decodable {
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
         case modifiedAt = "ModifiedAt"
@@ -1468,6 +1496,8 @@ extension CreateOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2164,6 +2194,7 @@ extension GetChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = output.channelGroupName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.egressDomain = output.egressDomain
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -2172,6 +2203,7 @@ extension GetChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.egressDomain = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -2191,6 +2223,8 @@ public struct GetChannelGroupOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel group.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The output domain where the source stream should be sent. Integrate the domain with a downstream CDN (such as Amazon CloudFront) or playback device.
     /// This member is required.
     public var egressDomain: Swift.String?
@@ -2205,6 +2239,7 @@ public struct GetChannelGroupOutput: Swift.Equatable {
         channelGroupName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2214,6 +2249,7 @@ public struct GetChannelGroupOutput: Swift.Equatable {
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.egressDomain = egressDomain
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -2227,6 +2263,7 @@ struct GetChannelGroupOutputBody: Swift.Equatable {
     let createdAt: ClientRuntime.Date?
     let modifiedAt: ClientRuntime.Date?
     let description: Swift.String?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2236,6 +2273,7 @@ extension GetChannelGroupOutputBody: Swift.Decodable {
         case channelGroupName = "ChannelGroupName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case egressDomain = "EgressDomain"
         case modifiedAt = "ModifiedAt"
         case tags = "tags"
@@ -2255,6 +2293,8 @@ extension GetChannelGroupOutputBody: Swift.Decodable {
         modifiedAt = modifiedAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2334,6 +2374,7 @@ extension GetChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.ingestEndpoints = output.ingestEndpoints
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -2343,6 +2384,7 @@ extension GetChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.ingestEndpoints = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -2365,6 +2407,8 @@ public struct GetChannelOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
@@ -2379,6 +2423,7 @@ public struct GetChannelOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -2389,6 +2434,7 @@ public struct GetChannelOutput: Swift.Equatable {
         self.channelName = channelName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -2403,6 +2449,7 @@ struct GetChannelOutputBody: Swift.Equatable {
     let modifiedAt: ClientRuntime.Date?
     let description: Swift.String?
     let ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2413,6 +2460,7 @@ extension GetChannelOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case ingestEndpoints = "IngestEndpoints"
         case modifiedAt = "ModifiedAt"
         case tags = "Tags"
@@ -2443,6 +2491,8 @@ extension GetChannelOutputBody: Swift.Decodable {
             }
         }
         ingestEndpoints = ingestEndpointsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -2843,6 +2893,7 @@ extension GetOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = output.containerType
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
             self.lowLatencyHlsManifests = output.lowLatencyHlsManifests
             self.modifiedAt = output.modifiedAt
@@ -2857,6 +2908,7 @@ extension GetOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.hlsManifests = nil
             self.lowLatencyHlsManifests = nil
             self.modifiedAt = nil
@@ -2886,6 +2938,8 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your origin endpoint.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -2911,6 +2965,7 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
@@ -2926,6 +2981,7 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
         self.containerType = containerType
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -2949,6 +3005,7 @@ struct GetOriginEndpointOutputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2960,6 +3017,7 @@ extension GetOriginEndpointOutputBody: Swift.Decodable {
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
         case modifiedAt = "ModifiedAt"
@@ -3013,6 +3071,8 @@ extension GetOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -5060,6 +5120,17 @@ extension UpdateChannelGroupInput: Swift.Encodable {
 
 extension UpdateChannelGroupInput {
 
+    static func headerProvider(_ value: UpdateChannelGroupInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let eTag = value.eTag {
+            items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
+        }
+        return items
+    }
+}
+
+extension UpdateChannelGroupInput {
+
     static func urlPathProvider(_ value: UpdateChannelGroupInput) -> Swift.String? {
         guard let channelGroupName = value.channelGroupName else {
             return nil
@@ -5074,14 +5145,18 @@ public struct UpdateChannelGroupInput: Swift.Equatable {
     public var channelGroupName: Swift.String?
     /// Any descriptive information that you want to add to the channel group for future identification purposes.
     public var description: Swift.String?
+    /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
+    public var eTag: Swift.String?
 
     public init(
         channelGroupName: Swift.String? = nil,
-        description: Swift.String? = nil
+        description: Swift.String? = nil,
+        eTag: Swift.String? = nil
     )
     {
         self.channelGroupName = channelGroupName
         self.description = description
+        self.eTag = eTag
     }
 }
 
@@ -5110,6 +5185,7 @@ extension UpdateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = output.channelGroupName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.egressDomain = output.egressDomain
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -5118,6 +5194,7 @@ extension UpdateChannelGroupOutput: ClientRuntime.HttpResponseBinding {
             self.channelGroupName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.egressDomain = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -5137,6 +5214,8 @@ public struct UpdateChannelGroupOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel group.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The output domain where the source stream is sent. Integrate the domain with a downstream CDN (such as Amazon CloudFront) or playback device.
     /// This member is required.
     public var egressDomain: Swift.String?
@@ -5151,6 +5230,7 @@ public struct UpdateChannelGroupOutput: Swift.Equatable {
         channelGroupName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         egressDomain: Swift.String? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -5160,6 +5240,7 @@ public struct UpdateChannelGroupOutput: Swift.Equatable {
         self.channelGroupName = channelGroupName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.egressDomain = egressDomain
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -5173,6 +5254,7 @@ struct UpdateChannelGroupOutputBody: Swift.Equatable {
     let createdAt: ClientRuntime.Date?
     let modifiedAt: ClientRuntime.Date?
     let description: Swift.String?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5182,6 +5264,7 @@ extension UpdateChannelGroupOutputBody: Swift.Decodable {
         case channelGroupName = "ChannelGroupName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case egressDomain = "EgressDomain"
         case modifiedAt = "ModifiedAt"
         case tags = "tags"
@@ -5201,6 +5284,8 @@ extension UpdateChannelGroupOutputBody: Swift.Decodable {
         modifiedAt = modifiedAtDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -5246,6 +5331,17 @@ extension UpdateChannelInput: Swift.Encodable {
 
 extension UpdateChannelInput {
 
+    static func headerProvider(_ value: UpdateChannelInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let eTag = value.eTag {
+            items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
+        }
+        return items
+    }
+}
+
+extension UpdateChannelInput {
+
     static func urlPathProvider(_ value: UpdateChannelInput) -> Swift.String? {
         guard let channelGroupName = value.channelGroupName else {
             return nil
@@ -5266,16 +5362,20 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var channelName: Swift.String?
     /// Any descriptive information that you want to add to the channel for future identification purposes.
     public var description: Swift.String?
+    /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
+    public var eTag: Swift.String?
 
     public init(
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
-        description: Swift.String? = nil
+        description: Swift.String? = nil,
+        eTag: Swift.String? = nil
     )
     {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.description = description
+        self.eTag = eTag
     }
 }
 
@@ -5305,6 +5405,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.ingestEndpoints = output.ingestEndpoints
             self.modifiedAt = output.modifiedAt
             self.tags = output.tags
@@ -5314,6 +5415,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.ingestEndpoints = nil
             self.modifiedAt = nil
             self.tags = nil
@@ -5336,6 +5438,8 @@ public struct UpdateChannelOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description for your channel.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// The list of ingest endpoints.
     public var ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
     /// The date and time the channel was modified.
@@ -5350,6 +5454,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -5360,6 +5465,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
         self.channelName = channelName
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.ingestEndpoints = ingestEndpoints
         self.modifiedAt = modifiedAt
         self.tags = tags
@@ -5374,6 +5480,7 @@ struct UpdateChannelOutputBody: Swift.Equatable {
     let modifiedAt: ClientRuntime.Date?
     let description: Swift.String?
     let ingestEndpoints: [MediaPackageV2ClientTypes.IngestEndpoint]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5384,6 +5491,7 @@ extension UpdateChannelOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case ingestEndpoints = "IngestEndpoints"
         case modifiedAt = "ModifiedAt"
         case tags = "tags"
@@ -5414,6 +5522,8 @@ extension UpdateChannelOutputBody: Swift.Decodable {
             }
         }
         ingestEndpoints = ingestEndpointsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -5485,6 +5595,17 @@ extension UpdateOriginEndpointInput: Swift.Encodable {
 
 extension UpdateOriginEndpointInput {
 
+    static func headerProvider(_ value: UpdateOriginEndpointInput) -> ClientRuntime.Headers {
+        var items = ClientRuntime.Headers()
+        if let eTag = value.eTag {
+            items.add(Header(name: "x-amzn-update-if-match", value: Swift.String(eTag)))
+        }
+        return items
+    }
+}
+
+extension UpdateOriginEndpointInput {
+
     static func urlPathProvider(_ value: UpdateOriginEndpointInput) -> Swift.String? {
         guard let channelGroupName = value.channelGroupName else {
             return nil
@@ -5511,6 +5632,8 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
     /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
     public var description: Swift.String?
+    /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
+    public var eTag: Swift.String?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -5528,6 +5651,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
         originEndpointName: Swift.String? = nil,
@@ -5539,6 +5663,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
         self.channelName = channelName
         self.containerType = containerType
         self.description = description
+        self.eTag = eTag
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.originEndpointName = originEndpointName
@@ -5612,6 +5737,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = output.containerType
             self.createdAt = output.createdAt
             self.description = output.description
+            self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
             self.lowLatencyHlsManifests = output.lowLatencyHlsManifests
             self.modifiedAt = output.modifiedAt
@@ -5626,6 +5752,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.containerType = nil
             self.createdAt = nil
             self.description = nil
+            self.eTag = nil
             self.hlsManifests = nil
             self.lowLatencyHlsManifests = nil
             self.modifiedAt = nil
@@ -5655,6 +5782,8 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
     public var createdAt: ClientRuntime.Date?
     /// The description of the origin endpoint.
     public var description: Swift.String?
+    /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
+    public var eTag: Swift.String?
     /// An HTTP live streaming (HLS) manifest configuration.
     public var hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     /// A low-latency HLS manifest configuration.
@@ -5680,6 +5809,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]? = nil,
         modifiedAt: ClientRuntime.Date? = nil,
@@ -5695,6 +5825,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
         self.containerType = containerType
         self.createdAt = createdAt
         self.description = description
+        self.eTag = eTag
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
         self.modifiedAt = modifiedAt
@@ -5718,6 +5849,7 @@ struct UpdateOriginEndpointOutputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
+    let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5729,6 +5861,7 @@ extension UpdateOriginEndpointOutputBody: Swift.Decodable {
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
         case description = "Description"
+        case eTag = "ETag"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
         case modifiedAt = "ModifiedAt"
@@ -5782,6 +5915,8 @@ extension UpdateOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
+        eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {

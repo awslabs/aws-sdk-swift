@@ -12420,10 +12420,12 @@ extension ImagebuilderClientTypes.LifecycleExecutionResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
         case action
+        case endTime
         case imageUris
         case region
         case resourceId
         case snapshots
+        case startTime
         case state
     }
 
@@ -12434,6 +12436,9 @@ extension ImagebuilderClientTypes.LifecycleExecutionResource: Swift.Codable {
         }
         if let action = self.action {
             try encodeContainer.encode(action, forKey: .action)
+        }
+        if let endTime = self.endTime {
+            try encodeContainer.encodeTimestamp(endTime, format: .epochSeconds, forKey: .endTime)
         }
         if let imageUris = imageUris {
             var imageUrisContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imageUris)
@@ -12452,6 +12457,9 @@ extension ImagebuilderClientTypes.LifecycleExecutionResource: Swift.Codable {
             for lifecycleexecutionsnapshotresource0 in snapshots {
                 try snapshotsContainer.encode(lifecycleexecutionsnapshotresource0)
             }
+        }
+        if let startTime = self.startTime {
+            try encodeContainer.encodeTimestamp(startTime, format: .epochSeconds, forKey: .startTime)
         }
         if let state = self.state {
             try encodeContainer.encode(state, forKey: .state)
@@ -12492,6 +12500,10 @@ extension ImagebuilderClientTypes.LifecycleExecutionResource: Swift.Codable {
             }
         }
         imageUris = imageUrisDecoded0
+        let startTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTime)
+        startTime = startTimeDecoded
+        let endTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTime)
+        endTime = endTimeDecoded
     }
 }
 
@@ -12502,6 +12514,8 @@ extension ImagebuilderClientTypes {
         public var accountId: Swift.String?
         /// The action to take for the identified resource.
         public var action: ImagebuilderClientTypes.LifecycleExecutionResourceAction?
+        /// The ending timestamp from the lifecycle action that was applied to the resource.
+        public var endTime: ClientRuntime.Date?
         /// For an impacted container image, this identifies a list of URIs for associated container images distributed to ECR repositories.
         public var imageUris: [Swift.String]?
         /// The Amazon Web Services Region where the lifecycle execution resource is stored.
@@ -12516,25 +12530,31 @@ extension ImagebuilderClientTypes {
         public var resourceId: Swift.String?
         /// A list of associated resource snapshots for the impacted resource if it’s an AMI.
         public var snapshots: [ImagebuilderClientTypes.LifecycleExecutionSnapshotResource]?
+        /// The starting timestamp from the lifecycle action that was applied to the resource.
+        public var startTime: ClientRuntime.Date?
         /// The runtime state for the lifecycle execution.
         public var state: ImagebuilderClientTypes.LifecycleExecutionResourceState?
 
         public init(
             accountId: Swift.String? = nil,
             action: ImagebuilderClientTypes.LifecycleExecutionResourceAction? = nil,
+            endTime: ClientRuntime.Date? = nil,
             imageUris: [Swift.String]? = nil,
             region: Swift.String? = nil,
             resourceId: Swift.String? = nil,
             snapshots: [ImagebuilderClientTypes.LifecycleExecutionSnapshotResource]? = nil,
+            startTime: ClientRuntime.Date? = nil,
             state: ImagebuilderClientTypes.LifecycleExecutionResourceState? = nil
         )
         {
             self.accountId = accountId
             self.action = action
+            self.endTime = endTime
             self.imageUris = imageUris
             self.region = region
             self.resourceId = resourceId
             self.snapshots = snapshots
+            self.startTime = startTime
             self.state = state
         }
     }
@@ -12838,6 +12858,7 @@ extension ImagebuilderClientTypes {
         case cancelling
         case failed
         case inProgress
+        case pending
         case success
         case sdkUnknown(Swift.String)
 
@@ -12847,6 +12868,7 @@ extension ImagebuilderClientTypes {
                 .cancelling,
                 .failed,
                 .inProgress,
+                .pending,
                 .success,
                 .sdkUnknown("")
             ]
@@ -12861,6 +12883,7 @@ extension ImagebuilderClientTypes {
             case .cancelling: return "CANCELLING"
             case .failed: return "FAILED"
             case .inProgress: return "IN_PROGRESS"
+            case .pending: return "PENDING"
             case .success: return "SUCCESS"
             case let .sdkUnknown(s): return s
             }
@@ -13277,7 +13300,7 @@ extension ImagebuilderClientTypes {
     public struct LifecyclePolicyDetailExclusionRules: Swift.Equatable {
         /// Lists configuration values that apply to AMIs that Image Builder should exclude from the lifecycle action.
         public var amis: ImagebuilderClientTypes.LifecyclePolicyDetailExclusionRulesAmis?
-        /// Contains a list of tags that Image Builder uses to skip lifecycle actions for resources that have them.
+        /// Contains a list of tags that Image Builder uses to skip lifecycle actions for Image Builder image resources that have them.
         public var tagMap: [Swift.String:Swift.String]?
 
         public init(
@@ -13603,7 +13626,7 @@ extension ImagebuilderClientTypes {
     public struct LifecyclePolicyResourceSelection: Swift.Equatable {
         /// A list of recipes that are used as selection criteria for the output images that the lifecycle policy applies to.
         public var recipes: [ImagebuilderClientTypes.LifecyclePolicyResourceSelectionRecipe]?
-        /// A list of tags that are used as selection criteria for the resources that the lifecycle policy applies to.
+        /// A list of tags that are used as selection criteria for the Image Builder image resources that the lifecycle policy applies to.
         public var tagMap: [Swift.String:Swift.String]?
 
         public init(

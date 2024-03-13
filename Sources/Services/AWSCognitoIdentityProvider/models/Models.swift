@@ -385,7 +385,7 @@ public struct AdminAddUserToGroupInput: Swift.Equatable {
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -500,7 +500,7 @@ public struct AdminConfirmSignUpInput: Swift.Equatable {
     /// The user pool ID for which you want to confirm user registration.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -963,7 +963,7 @@ public struct AdminDeleteUserAttributesInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to delete user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1073,7 +1073,7 @@ public struct AdminDeleteUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to delete the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1256,7 +1256,7 @@ public struct AdminDisableUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to disable the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1351,7 +1351,7 @@ public struct AdminEnableUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to enable the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1453,7 +1453,7 @@ public struct AdminForgetDeviceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1561,7 +1561,7 @@ public struct AdminGetDeviceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -1693,7 +1693,7 @@ public struct AdminGetUserInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to get information about the user.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2397,7 +2397,7 @@ public struct AdminListDevicesInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2564,7 +2564,7 @@ public struct AdminListGroupsForUserInput: Swift.Equatable {
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2730,7 +2730,7 @@ public struct AdminListUserAuthEventsInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -2892,7 +2892,7 @@ public struct AdminRemoveUserFromGroupInput: Swift.Equatable {
     /// The user pool ID for the user pool.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3007,7 +3007,7 @@ public struct AdminResetUserPasswordInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to reset the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3440,7 +3440,7 @@ public struct AdminSetUserMFAPreferenceInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3559,7 +3559,7 @@ public struct AdminSetUserPasswordInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to set the user's password.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3676,7 +3676,7 @@ public struct AdminSetUserSettingsInput: Swift.Equatable {
     /// The ID of the user pool that contains the user whose options you're setting.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3798,7 +3798,7 @@ public struct AdminUpdateAuthEventFeedbackInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -3918,7 +3918,7 @@ public struct AdminUpdateDeviceStatusInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -4051,7 +4051,7 @@ public struct AdminUpdateUserAttributesInput: Swift.Equatable {
     /// The user pool ID for the user pool where you want to update user attributes.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -4183,7 +4183,7 @@ public struct AdminUserGlobalSignOutInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -5861,7 +5861,7 @@ public struct ConfirmForgotPasswordInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -6057,7 +6057,7 @@ public struct ConfirmSignUpInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -11054,7 +11054,7 @@ public struct ForgotPasswordInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -16133,7 +16133,7 @@ extension CognitoIdentityProviderClientTypes.NumberAttributeConstraintsType: Swi
 extension CognitoIdentityProviderClientTypes {
     /// The minimum and maximum values of an attribute that is of the number data type.
     public struct NumberAttributeConstraintsType: Swift.Equatable {
-        /// The maximum value of an attribute that is of the number data type.
+        /// The maximum length of a number attribute value. Must be a number less than or equal to 2^1023, represented as a string with a length of 131072 characters or fewer.
         public var maxValue: Swift.String?
         /// The minimum value of an attribute that is of the number data type.
         public var minValue: Swift.String?
@@ -16762,7 +16762,7 @@ public struct ResendConfirmationCodeInput: Swift.Equatable {
     public var secretHash: Swift.String?
     /// Contextual data about your user session, such as the device fingerprint, IP address, or location. Amazon Cognito advanced security evaluates the risk of an authentication event based on the context that your app generates and passes to Amazon Cognito when it makes API requests.
     public var userContextData: CognitoIdentityProviderClientTypes.UserContextDataType?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 
@@ -18583,6 +18583,7 @@ enum SetUserPoolMfaConfigOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "ConcurrentModificationException": return try await ConcurrentModificationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalErrorException": return try await InternalErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterException": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidSmsRoleAccessPolicyException": return try await InvalidSmsRoleAccessPolicyException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -19523,7 +19524,7 @@ extension CognitoIdentityProviderClientTypes.StringAttributeConstraintsType: Swi
 extension CognitoIdentityProviderClientTypes {
     /// The constraints associated with a string attribute.
     public struct StringAttributeConstraintsType: Swift.Equatable {
-        /// The maximum length.
+        /// The maximum length of a string attribute value. Must be a number less than or equal to 2^1023, represented as a string with a length of 131072 characters or fewer.
         public var maxLength: Swift.String?
         /// The minimum length.
         public var minLength: Swift.String?
@@ -20429,7 +20430,7 @@ public struct UpdateAuthEventFeedbackInput: Swift.Equatable {
     /// The user pool ID.
     /// This member is required.
     public var userPoolId: Swift.String?
-    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, you can also use their sub in this request.
+    /// The username of the user that you want to query or modify. The value of this parameter is typically your user's username, but it can be any of their alias attributes. If username isn't an alias attribute in your user pool, this value must be the sub of a local user or the username of a user from a third-party IdP.
     /// This member is required.
     public var username: Swift.String?
 

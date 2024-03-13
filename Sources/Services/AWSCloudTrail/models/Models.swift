@@ -432,22 +432,29 @@ extension CloudTrailClientTypes.AdvancedEventSelector: Swift.Codable {
 }
 
 extension CloudTrailClientTypes {
-    /// Advanced event selectors let you create fine-grained selectors for the following CloudTrail event record ﬁelds. They help you control costs by logging only those events that are important to you. For more information about advanced event selectors, see [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide.
+    /// Advanced event selectors let you create fine-grained selectors for CloudTrail management and data events. They help you control costs by logging only those events that are important to you. For more information about advanced event selectors, see [Logging management events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-management-events-with-cloudtrail.html) and [Logging data events](https://docs.aws.amazon.com/awscloudtrail/latest/userguide/logging-data-events-with-cloudtrail.html) in the CloudTrail User Guide. You cannot apply both event selectors and advanced event selectors to a trail. Supported CloudTrail event record fields for management events
     ///
-    /// * readOnly
+    /// * eventCategory (required)
     ///
     /// * eventSource
     ///
+    /// * readOnly
+    ///
+    ///
+    /// Supported CloudTrail event record fields for data events
+    ///
+    /// * eventCategory (required)
+    ///
+    /// * resources.type (required)
+    ///
+    /// * readOnly
+    ///
     /// * eventName
-    ///
-    /// * eventCategory
-    ///
-    /// * resources.type
     ///
     /// * resources.ARN
     ///
     ///
-    /// You cannot apply both event selectors and advanced event selectors to a trail.
+    /// For event data stores for CloudTrail Insights events, Config configuration items, Audit Manager evidence, or events outside of Amazon Web Services, the only supported field is eventCategory.
     public struct AdvancedEventSelector: Swift.Equatable {
         /// Contains all selector statements in an advanced event selector.
         /// This member is required.
@@ -637,6 +644,8 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::S3::Object
         ///
+        /// * AWS::AppConfig::Configuration
+        ///
         /// * AWS::B2BI::Transformer
         ///
         /// * AWS::Bedrock::AgentAlias
@@ -665,7 +674,19 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::Glue::Table
         ///
+        /// * AWS::GreengrassV2::ComponentVersion
+        ///
+        /// * AWS::GreengrassV2::Deployment
+        ///
         /// * AWS::GuardDuty::Detector
+        ///
+        /// * AWS::IoT::Certificate
+        ///
+        /// * AWS::IoT::Thing
+        ///
+        /// * AWS::IoTSiteWise::Asset
+        ///
+        /// * AWS::IoTSiteWise::TimeSeries
         ///
         /// * AWS::IoTTwinMaker::Entity
         ///
@@ -695,6 +716,12 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::RDS::DBCluster
         ///
+        /// * AWS::S3::AccessPoint
+        ///
+        /// * AWS::S3ObjectLambda::AccessPoint
+        ///
+        /// * AWS::S3Outposts::Object
+        ///
         /// * AWS::SageMaker::Endpoint
         ///
         /// * AWS::SageMaker::ExperimentTrialComponent
@@ -711,13 +738,9 @@ extension CloudTrailClientTypes {
         ///
         /// * AWS::SNS::Topic
         ///
+        /// * AWS::SWF::Domain
+        ///
         /// * AWS::SQS::Queue
-        ///
-        /// * AWS::S3::AccessPoint
-        ///
-        /// * AWS::S3ObjectLambda::AccessPoint
-        ///
-        /// * AWS::S3Outposts::Object
         ///
         /// * AWS::SSMMessages::ControlChannel
         ///
@@ -749,6 +772,11 @@ extension CloudTrailClientTypes {
         /// When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::lambda:::function:
+        ///
+        ///
+        /// When resources.type equals AWS::AppConfig::Configuration, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::appconfig:::application//environment//configuration/
         ///
         ///
         /// When resources.type equals AWS::B2BI::Transformer, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -821,9 +849,39 @@ extension CloudTrailClientTypes {
         /// * arn::glue:::table//
         ///
         ///
+        /// When resources.type equals AWS::GreengrassV2::ComponentVersion, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::greengrass:::components/
+        ///
+        ///
+        /// When resources.type equals AWS::GreengrassV2::Deployment, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::greengrass:::deployments/
+        ///
+        ///
         /// When resources.type equals AWS::GuardDuty::Detector, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::guardduty:::detector/
+        ///
+        ///
+        /// When resources.type equals AWS::IoT::Certificate, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iot:::cert/
+        ///
+        ///
+        /// When resources.type equals AWS::IoT::Thing, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iot:::thing/
+        ///
+        ///
+        /// When resources.type equals AWS::IoTSiteWise::Asset, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iotsitewise:::asset/
+        ///
+        ///
+        /// When resources.type equals AWS::IoTSiteWise::TimeSeries, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::iotsitewise:::timeseries/
         ///
         ///
         /// When resources.type equals AWS::IoTTwinMaker::Entity, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -896,6 +954,23 @@ extension CloudTrailClientTypes {
         /// * arn::rds:::cluster/
         ///
         ///
+        /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
+        ///
+        /// * arn::s3:::accesspoint/
+        ///
+        /// * arn::s3:::accesspoint//object/
+        ///
+        ///
+        /// When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::s3-object-lambda:::accesspoint/
+        ///
+        ///
+        /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::s3-outposts:::
+        ///
+        ///
         /// When resources.type equals AWS::SageMaker::Endpoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sagemaker:::endpoint/
@@ -936,26 +1011,14 @@ extension CloudTrailClientTypes {
         /// * arn::sns:::
         ///
         ///
+        /// When resources.type equals AWS::SWF::Domain, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
+        ///
+        /// * arn::swf:::domain/
+        ///
+        ///
         /// When resources.type equals AWS::SQS::Queue, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
         ///
         /// * arn::sqs:::
-        ///
-        ///
-        /// When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.
-        ///
-        /// * arn::s3:::accesspoint/
-        ///
-        /// * arn::s3:::accesspoint//object/
-        ///
-        ///
-        /// When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::s3-object-lambda:::accesspoint/
-        ///
-        ///
-        /// When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
-        ///
-        /// * arn::s3-outposts:::
         ///
         ///
         /// When resources.type equals AWS::SSMMessages::ControlChannel, and the operator is set to Equals or NotEquals, the ARN must be in the following format:
@@ -2929,6 +2992,7 @@ enum CreateTrailOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidCloudWatchLogsRoleArn": return try await InvalidCloudWatchLogsRoleArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidKmsKeyId": return try await InvalidKmsKeyIdException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidParameterCombinationError": return try await InvalidParameterCombinationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidS3BucketName": return try await InvalidS3BucketNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidS3Prefix": return try await InvalidS3PrefixException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidSnsTopicName": return try await InvalidSnsTopicNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -3879,6 +3943,7 @@ enum DescribeTrailsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "CloudTrailARNInvalid": return try await CloudTrailARNInvalidException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InvalidTrailName": return try await InvalidTrailNameException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NoManagementAccountSLRExists": return try await NoManagementAccountSLRExistsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -9744,6 +9809,7 @@ enum ListImportFailuresOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "InvalidNextToken": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidParameter": return try await InvalidParameterException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "OperationNotPermitted": return try await OperationNotPermittedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -10841,7 +10907,7 @@ extension CloudTrailClientTypes {
         /// Specifies an attribute on which to filter the events returned.
         /// This member is required.
         public var attributeKey: CloudTrailClientTypes.LookupAttributeKey?
-        /// Specifies a value for the specified AttributeKey.
+        /// Specifies a value for the specified AttributeKey. The maximum length for the AttributeValue is 2000 characters. The following characters ('_', '', ',', '\\n') count as two characters towards the 2000 character limit.
         /// This member is required.
         public var attributeValue: Swift.String?
 

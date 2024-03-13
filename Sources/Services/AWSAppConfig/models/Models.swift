@@ -6616,6 +6616,7 @@ extension AppConfigClientTypes {
 extension AppConfigClientTypes.Parameter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
+        case `dynamic` = "Dynamic"
         case `required` = "Required"
     }
 
@@ -6623,6 +6624,9 @@ extension AppConfigClientTypes.Parameter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if `dynamic` != false {
+            try encodeContainer.encode(`dynamic`, forKey: .`dynamic`)
         }
         if `required` != false {
             try encodeContainer.encode(`required`, forKey: .`required`)
@@ -6635,23 +6639,29 @@ extension AppConfigClientTypes.Parameter: Swift.Codable {
         description = descriptionDecoded
         let requiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .required) ?? false
         `required` = requiredDecoded
+        let dynamicDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dynamic) ?? false
+        `dynamic` = dynamicDecoded
     }
 }
 
 extension AppConfigClientTypes {
-    /// A value such as an Amazon Resource Name (ARN) or an Amazon Simple Notification Service topic entered in an extension when invoked. Parameter values are specified in an extension association. For more information about extensions, see [Working with AppConfig extensions](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
+    /// A value such as an Amazon Resource Name (ARN) or an Amazon Simple Notification Service topic entered in an extension when invoked. Parameter values are specified in an extension association. For more information about extensions, see [Extending workflows](https://docs.aws.amazon.com/appconfig/latest/userguide/working-with-appconfig-extensions.html) in the AppConfig User Guide.
     public struct Parameter: Swift.Equatable {
         /// Information about the parameter.
         public var description: Swift.String?
+        /// Indicates whether this parameter's value can be supplied at the extension's action point instead of during extension association. Dynamic parameters can't be marked Required.
+        public var `dynamic`: Swift.Bool
         /// A parameter value must be specified in the extension association.
         public var `required`: Swift.Bool
 
         public init(
             description: Swift.String? = nil,
+            `dynamic`: Swift.Bool = false,
             `required`: Swift.Bool = false
         )
         {
             self.description = description
+            self.`dynamic` = `dynamic`
             self.`required` = `required`
         }
     }
@@ -6897,6 +6907,7 @@ extension StartDeploymentInput: Swift.Encodable {
         case configurationVersion = "ConfigurationVersion"
         case deploymentStrategyId = "DeploymentStrategyId"
         case description = "Description"
+        case dynamicExtensionParameters = "DynamicExtensionParameters"
         case kmsKeyIdentifier = "KmsKeyIdentifier"
         case tags = "Tags"
     }
@@ -6914,6 +6925,12 @@ extension StartDeploymentInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let dynamicExtensionParameters = dynamicExtensionParameters {
+            var dynamicExtensionParametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .dynamicExtensionParameters)
+            for (dictKey0, dynamicParameterMap0) in dynamicExtensionParameters {
+                try dynamicExtensionParametersContainer.encode(dynamicParameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let kmsKeyIdentifier = self.kmsKeyIdentifier {
             try encodeContainer.encode(kmsKeyIdentifier, forKey: .kmsKeyIdentifier)
@@ -6955,6 +6972,8 @@ public struct StartDeploymentInput: Swift.Equatable {
     public var deploymentStrategyId: Swift.String?
     /// A description of the deployment.
     public var description: Swift.String?
+    /// A map of dynamic extension parameter names to values to pass to associated extensions with PRE_START_DEPLOYMENT actions.
+    public var dynamicExtensionParameters: [Swift.String:Swift.String]?
     /// The environment ID.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -6969,6 +6988,7 @@ public struct StartDeploymentInput: Swift.Equatable {
         configurationVersion: Swift.String? = nil,
         deploymentStrategyId: Swift.String? = nil,
         description: Swift.String? = nil,
+        dynamicExtensionParameters: [Swift.String:Swift.String]? = nil,
         environmentId: Swift.String? = nil,
         kmsKeyIdentifier: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
@@ -6979,6 +6999,7 @@ public struct StartDeploymentInput: Swift.Equatable {
         self.configurationVersion = configurationVersion
         self.deploymentStrategyId = deploymentStrategyId
         self.description = description
+        self.dynamicExtensionParameters = dynamicExtensionParameters
         self.environmentId = environmentId
         self.kmsKeyIdentifier = kmsKeyIdentifier
         self.tags = tags
@@ -6992,6 +7013,7 @@ struct StartDeploymentInputBody: Swift.Equatable {
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let kmsKeyIdentifier: Swift.String?
+    let dynamicExtensionParameters: [Swift.String:Swift.String]?
 }
 
 extension StartDeploymentInputBody: Swift.Decodable {
@@ -7000,6 +7022,7 @@ extension StartDeploymentInputBody: Swift.Decodable {
         case configurationVersion = "ConfigurationVersion"
         case deploymentStrategyId = "DeploymentStrategyId"
         case description = "Description"
+        case dynamicExtensionParameters = "DynamicExtensionParameters"
         case kmsKeyIdentifier = "KmsKeyIdentifier"
         case tags = "Tags"
     }
@@ -7027,6 +7050,17 @@ extension StartDeploymentInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let kmsKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyIdentifier)
         kmsKeyIdentifier = kmsKeyIdentifierDecoded
+        let dynamicExtensionParametersContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .dynamicExtensionParameters)
+        var dynamicExtensionParametersDecoded0: [Swift.String:Swift.String]? = nil
+        if let dynamicExtensionParametersContainer = dynamicExtensionParametersContainer {
+            dynamicExtensionParametersDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringwithlengthbetween1and20480) in dynamicExtensionParametersContainer {
+                if let stringwithlengthbetween1and20480 = stringwithlengthbetween1and20480 {
+                    dynamicExtensionParametersDecoded0?[key0] = stringwithlengthbetween1and20480
+                }
+            }
+        }
+        dynamicExtensionParameters = dynamicExtensionParametersDecoded0
     }
 }
 

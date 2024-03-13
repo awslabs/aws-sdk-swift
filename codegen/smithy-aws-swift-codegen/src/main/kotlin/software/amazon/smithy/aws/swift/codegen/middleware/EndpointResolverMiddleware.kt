@@ -102,9 +102,11 @@ class EndpointResolverMiddleware(
 
         writer.openBlock("if let signingRegion = signingRegion {", "}") {
             writer.write("context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)")
+            writer.write("context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))")
         }
         writer.openBlock("if let signingName = signingName {", "}") {
             writer.write("context.attributes.set(key: AttributeKeys.signingName, value: signingName)")
+            writer.write("context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))")
         }
         writer.openBlock("if let signingAlgorithm = signingAlgorithm {", "}") {
             writer.write("context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))")

@@ -95,14 +95,18 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminUserName
         case authType
+        case backupRetentionPeriod
         case clusterArn
         case clusterEndpoint
         case clusterName
         case createTime
         case kmsKeyId
+        case preferredBackupWindow
         case preferredMaintenanceWindow
         case shardCapacity
         case shardCount
+        case shardInstanceCount
+        case shards
         case status
         case subnetIds
         case vpcSecurityGroupIds
@@ -115,6 +119,9 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
         }
         if let authType = self.authType {
             try encodeContainer.encode(authType.rawValue, forKey: .authType)
+        }
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
+            try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
         }
         if let clusterArn = self.clusterArn {
             try encodeContainer.encode(clusterArn, forKey: .clusterArn)
@@ -131,6 +138,9 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
+        if let preferredBackupWindow = self.preferredBackupWindow {
+            try encodeContainer.encode(preferredBackupWindow, forKey: .preferredBackupWindow)
+        }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
@@ -139,6 +149,15 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
         }
         if let shardCount = self.shardCount {
             try encodeContainer.encode(shardCount, forKey: .shardCount)
+        }
+        if let shardInstanceCount = self.shardInstanceCount {
+            try encodeContainer.encode(shardInstanceCount, forKey: .shardInstanceCount)
+        }
+        if let shards = shards {
+            var shardsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shards)
+            for shard0 in shards {
+                try shardsContainer.encode(shard0)
+            }
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -203,63 +222,92 @@ extension DocDBElasticClientTypes.Cluster: Swift.Codable {
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let shardsContainer = try containerValues.decodeIfPresent([DocDBElasticClientTypes.Shard?].self, forKey: .shards)
+        var shardsDecoded0:[DocDBElasticClientTypes.Shard]? = nil
+        if let shardsContainer = shardsContainer {
+            shardsDecoded0 = [DocDBElasticClientTypes.Shard]()
+            for structure0 in shardsContainer {
+                if let structure0 = structure0 {
+                    shardsDecoded0?.append(structure0)
+                }
+            }
+        }
+        shards = shardsDecoded0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
+        backupRetentionPeriod = backupRetentionPeriodDecoded
+        let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
+        preferredBackupWindow = preferredBackupWindowDecoded
+        let shardInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardInstanceCount)
+        shardInstanceCount = shardInstanceCountDecoded
     }
 }
 
 extension DocDBElasticClientTypes {
-    /// Returns information about a specific Elastic DocumentDB cluster.
+    /// Returns information about a specific elastic cluster.
     public struct Cluster: Swift.Equatable {
-        /// The name of the Elastic DocumentDB cluster administrator.
+        /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
-        /// The authentication type for the Elastic DocumentDB cluster.
+        /// The authentication type for the elastic cluster.
         /// This member is required.
         public var authType: DocDBElasticClientTypes.Auth?
-        /// The arn of the Elastic DocumentDB cluster.
+        /// The number of days for which automatic snapshots are retained.
+        public var backupRetentionPeriod: Swift.Int?
+        /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The URL used to connect to the Elastic DocumentDB cluster.
+        /// The URL used to connect to the elastic cluster.
         /// This member is required.
         public var clusterEndpoint: Swift.String?
-        /// The name of the Elastic DocumentDB cluster.
+        /// The name of the elastic cluster.
         /// This member is required.
         public var clusterName: Swift.String?
-        /// The time when the Elastic DocumentDB cluster was created in Universal Coordinated Time (UTC).
+        /// The time when the elastic cluster was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var createTime: Swift.String?
-        /// The KMS key identifier to use to encrypt the Elastic DocumentDB cluster.
+        /// The KMS key identifier to use to encrypt the elastic cluster.
         /// This member is required.
         public var kmsKeyId: Swift.String?
+        /// The daily time range during which automated backups are created if automated backups are enabled, as determined by backupRetentionPeriod.
+        public var preferredBackupWindow: Swift.String?
         /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi
         /// This member is required.
         public var preferredMaintenanceWindow: Swift.String?
-        /// The capacity of each shard in the Elastic DocumentDB cluster.
+        /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.
         /// This member is required.
         public var shardCapacity: Swift.Int?
-        /// The number of shards in the Elastic DocumentDB cluster.
+        /// The number of shards assigned to the elastic cluster. Maximum is 32.
         /// This member is required.
         public var shardCount: Swift.Int?
-        /// The status of the Elastic DocumentDB cluster.
+        /// The number of replica instances applying to all shards in the cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+        public var shardInstanceCount: Swift.Int?
+        /// The total number of shards in the cluster.
+        public var shards: [DocDBElasticClientTypes.Shard]?
+        /// The status of the elastic cluster.
         /// This member is required.
         public var status: DocDBElasticClientTypes.Status?
-        /// The Amazon EC2 subnet IDs for the Elastic DocumentDB cluster.
+        /// The Amazon EC2 subnet IDs for the elastic cluster.
         /// This member is required.
         public var subnetIds: [Swift.String]?
-        /// A list of EC2 VPC security groups associated with this cluster.
+        /// A list of EC2 VPC security groups associated with thie elastic cluster.
         /// This member is required.
         public var vpcSecurityGroupIds: [Swift.String]?
 
         public init(
             adminUserName: Swift.String? = nil,
             authType: DocDBElasticClientTypes.Auth? = nil,
+            backupRetentionPeriod: Swift.Int? = nil,
             clusterArn: Swift.String? = nil,
             clusterEndpoint: Swift.String? = nil,
             clusterName: Swift.String? = nil,
             createTime: Swift.String? = nil,
             kmsKeyId: Swift.String? = nil,
+            preferredBackupWindow: Swift.String? = nil,
             preferredMaintenanceWindow: Swift.String? = nil,
             shardCapacity: Swift.Int? = nil,
             shardCount: Swift.Int? = nil,
+            shardInstanceCount: Swift.Int? = nil,
+            shards: [DocDBElasticClientTypes.Shard]? = nil,
             status: DocDBElasticClientTypes.Status? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil
@@ -267,14 +315,18 @@ extension DocDBElasticClientTypes {
         {
             self.adminUserName = adminUserName
             self.authType = authType
+            self.backupRetentionPeriod = backupRetentionPeriod
             self.clusterArn = clusterArn
             self.clusterEndpoint = clusterEndpoint
             self.clusterName = clusterName
             self.createTime = createTime
             self.kmsKeyId = kmsKeyId
+            self.preferredBackupWindow = preferredBackupWindow
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.shardCapacity = shardCapacity
             self.shardCount = shardCount
+            self.shardInstanceCount = shardInstanceCount
+            self.shards = shards
             self.status = status
             self.subnetIds = subnetIds
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -315,15 +367,15 @@ extension DocDBElasticClientTypes.ClusterInList: Swift.Codable {
 }
 
 extension DocDBElasticClientTypes {
-    /// A list of Elastic DocumentDB cluster.
+    /// A list of Amazon DocumentDB elastic clusters.
     public struct ClusterInList: Swift.Equatable {
-        /// The arn of the Elastic DocumentDB cluster.
+        /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The name of the Elastic DocumentDB cluster.
+        /// The name of the elastic cluster.
         /// This member is required.
         public var clusterName: Swift.String?
-        /// The status of the Elastic DocumentDB cluster.
+        /// The status of the elastic cluster.
         /// This member is required.
         public var status: DocDBElasticClientTypes.Status?
 
@@ -350,6 +402,7 @@ extension DocDBElasticClientTypes.ClusterSnapshot: Swift.Codable {
         case snapshotArn
         case snapshotCreationTime
         case snapshotName
+        case snapshotType
         case status
         case subnetIds
         case vpcSecurityGroupIds
@@ -377,6 +430,9 @@ extension DocDBElasticClientTypes.ClusterSnapshot: Swift.Codable {
         }
         if let snapshotName = self.snapshotName {
             try encodeContainer.encode(snapshotName, forKey: .snapshotName)
+        }
+        if let snapshotType = self.snapshotType {
+            try encodeContainer.encode(snapshotType.rawValue, forKey: .snapshotType)
         }
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
@@ -435,40 +491,48 @@ extension DocDBElasticClientTypes.ClusterSnapshot: Swift.Codable {
         adminUserName = adminUserNameDecoded
         let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
         kmsKeyId = kmsKeyIdDecoded
+        let snapshotTypeDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.SnapshotType.self, forKey: .snapshotType)
+        snapshotType = snapshotTypeDecoded
     }
 }
 
 extension DocDBElasticClientTypes {
-    /// Returns information about a specific Elastic DocumentDB snapshot.
+    /// Returns information about a specific elastic cluster snapshot.
     public struct ClusterSnapshot: Swift.Equatable {
-        /// The name of the Elastic DocumentDB cluster administrator.
+        /// The name of the elastic cluster administrator.
         /// This member is required.
         public var adminUserName: Swift.String?
-        /// The arn of the Elastic DocumentDB cluster.
+        /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The time when the Elastic DocumentDB cluster was created in Universal Coordinated Time (UTC).
+        /// The time when the elastic cluster was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var clusterCreationTime: Swift.String?
-        /// The KMS key identifier to use to encrypt the Elastic DocumentDB cluster.
+        /// The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
         /// This member is required.
         public var kmsKeyId: Swift.String?
-        /// The arn of the Elastic DocumentDB snapshot
+        /// The ARN identifier of the elastic cluster snapshot.
         /// This member is required.
         public var snapshotArn: Swift.String?
-        /// The time when the Elastic DocumentDB snapshot was created in Universal Coordinated Time (UTC).
+        /// The time when the elastic cluster snapshot was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var snapshotCreationTime: Swift.String?
-        /// The name of the Elastic DocumentDB snapshot.
+        /// The name of the elastic cluster snapshot.
         /// This member is required.
         public var snapshotName: Swift.String?
-        /// The status of the Elastic DocumentDB snapshot.
+        /// The type of cluster snapshots to be returned. You can specify one of the following values:
+        ///
+        /// * automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.
+        ///
+        /// * manual - Return all cluster snapshots that you have manually created for your Amazon Web Services account.
+        public var snapshotType: DocDBElasticClientTypes.SnapshotType?
+        /// The status of the elastic cluster snapshot.
         /// This member is required.
         public var status: DocDBElasticClientTypes.Status?
-        /// A list of the IDs of subnets associated with the DB cluster snapshot.
+        /// The Amazon EC2 subnet IDs for the elastic cluster.
         /// This member is required.
         public var subnetIds: [Swift.String]?
-        /// A list of the IDs of the VPC security groups associated with the cluster snapshot.
+        /// A list of EC2 VPC security groups to associate with the elastic cluster.
         /// This member is required.
         public var vpcSecurityGroupIds: [Swift.String]?
 
@@ -480,6 +544,7 @@ extension DocDBElasticClientTypes {
             snapshotArn: Swift.String? = nil,
             snapshotCreationTime: Swift.String? = nil,
             snapshotName: Swift.String? = nil,
+            snapshotType: DocDBElasticClientTypes.SnapshotType? = nil,
             status: DocDBElasticClientTypes.Status? = nil,
             subnetIds: [Swift.String]? = nil,
             vpcSecurityGroupIds: [Swift.String]? = nil
@@ -492,6 +557,7 @@ extension DocDBElasticClientTypes {
             self.snapshotArn = snapshotArn
             self.snapshotCreationTime = snapshotCreationTime
             self.snapshotName = snapshotName
+            self.snapshotType = snapshotType
             self.status = status
             self.subnetIds = subnetIds
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -544,21 +610,21 @@ extension DocDBElasticClientTypes.ClusterSnapshotInList: Swift.Codable {
 }
 
 extension DocDBElasticClientTypes {
-    /// A list of Elastic DocumentDB snapshots.
+    /// A list of elastic cluster snapshots.
     public struct ClusterSnapshotInList: Swift.Equatable {
-        /// The arn of the Elastic DocumentDB cluster.
+        /// The ARN identifier of the elastic cluster.
         /// This member is required.
         public var clusterArn: Swift.String?
-        /// The arn of the Elastic DocumentDB snapshot
+        /// The ARN identifier of the elastic cluster snapshot.
         /// This member is required.
         public var snapshotArn: Swift.String?
-        /// The time when the Elastic DocumentDB snapshot was created in Universal Coordinated Time (UTC).
+        /// The time when the elastic cluster snapshot was created in Universal Coordinated Time (UTC).
         /// This member is required.
         public var snapshotCreationTime: Swift.String?
-        /// The name of the Elastic DocumentDB snapshot.
+        /// The name of the elastic cluster snapshot.
         /// This member is required.
         public var snapshotName: Swift.String?
-        /// The status of the Elastic DocumentDB snapshot.
+        /// The status of the elastic cluster snapshot.
         /// This member is required.
         public var status: DocDBElasticClientTypes.Status?
 
@@ -658,9 +724,181 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension CopyClusterSnapshotInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyTags
+        case kmsKeyId
+        case tags
+        case targetSnapshotName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let copyTags = self.copyTags {
+            try encodeContainer.encode(copyTags, forKey: .copyTags)
+        }
+        if let kmsKeyId = self.kmsKeyId {
+            try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetSnapshotName = self.targetSnapshotName {
+            try encodeContainer.encode(targetSnapshotName, forKey: .targetSnapshotName)
+        }
+    }
+}
+
+extension CopyClusterSnapshotInput {
+
+    static func urlPathProvider(_ value: CopyClusterSnapshotInput) -> Swift.String? {
+        guard let snapshotArn = value.snapshotArn else {
+            return nil
+        }
+        return "/cluster-snapshot/\(snapshotArn.urlPercentEncoding())/copy"
+    }
+}
+
+public struct CopyClusterSnapshotInput: Swift.Equatable {
+    /// Set to true to copy all tags from the source cluster snapshot to the target elastic cluster snapshot. The default is false.
+    public var copyTags: Swift.Bool?
+    /// The Amazon Web Services KMS key ID for an encrypted elastic cluster snapshot. The Amazon Web Services KMS key ID is the Amazon Resource Name (ARN), Amazon Web Services KMS key identifier, or the Amazon Web Services KMS key alias for the Amazon Web Services KMS encryption key. If you copy an encrypted elastic cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new Amazon Web ServicesS KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the elastic cluster snapshot is encrypted with the same AWS KMS key as the source elastic cluster snapshot. To copy an encrypted elastic cluster snapshot to another Amazon Web Services region, set KmsKeyId to the Amazon Web Services KMS key ID that you want to use to encrypt the copy of the elastic cluster snapshot in the destination region. Amazon Web Services KMS encryption keys are specific to the Amazon Web Services region that they are created in, and you can't use encryption keys from one Amazon Web Services region in another Amazon Web Services region. If you copy an unencrypted elastic cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) identifier of the elastic cluster snapshot.
+    /// This member is required.
+    public var snapshotArn: Swift.String?
+    /// The tags to be assigned to the elastic cluster snapshot.
+    public var tags: [Swift.String:Swift.String]?
+    /// The identifier of the new elastic cluster snapshot to create from the source cluster snapshot. This parameter is not case sensitive. Constraints:
+    ///
+    /// * Must contain from 1 to 63 letters, numbers, or hyphens.
+    ///
+    /// * The first character must be a letter.
+    ///
+    /// * Cannot end with a hyphen or contain two consecutive hyphens.
+    ///
+    ///
+    /// Example: elastic-cluster-snapshot-5
+    /// This member is required.
+    public var targetSnapshotName: Swift.String?
+
+    public init(
+        copyTags: Swift.Bool? = nil,
+        kmsKeyId: Swift.String? = nil,
+        snapshotArn: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetSnapshotName: Swift.String? = nil
+    )
+    {
+        self.copyTags = copyTags
+        self.kmsKeyId = kmsKeyId
+        self.snapshotArn = snapshotArn
+        self.tags = tags
+        self.targetSnapshotName = targetSnapshotName
+    }
+}
+
+struct CopyClusterSnapshotInputBody: Swift.Equatable {
+    let targetSnapshotName: Swift.String?
+    let kmsKeyId: Swift.String?
+    let copyTags: Swift.Bool?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CopyClusterSnapshotInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case copyTags
+        case kmsKeyId
+        case tags
+        case targetSnapshotName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetSnapshotNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetSnapshotName)
+        targetSnapshotName = targetSnapshotNameDecoded
+        let kmsKeyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyId)
+        kmsKeyId = kmsKeyIdDecoded
+        let copyTagsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .copyTags)
+        copyTags = copyTagsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CopyClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CopyClusterSnapshotOutputBody = try responseDecoder.decode(responseBody: data)
+            self.snapshot = output.snapshot
+        } else {
+            self.snapshot = nil
+        }
+    }
+}
+
+public struct CopyClusterSnapshotOutput: Swift.Equatable {
+    /// Returns information about a specific elastic cluster snapshot.
+    /// This member is required.
+    public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+
+    public init(
+        snapshot: DocDBElasticClientTypes.ClusterSnapshot? = nil
+    )
+    {
+        self.snapshot = snapshot
+    }
+}
+
+struct CopyClusterSnapshotOutputBody: Swift.Equatable {
+    let snapshot: DocDBElasticClientTypes.ClusterSnapshot?
+}
+
+extension CopyClusterSnapshotOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case snapshot
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let snapshotDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.ClusterSnapshot.self, forKey: .snapshot)
+        snapshot = snapshotDecoded
+    }
+}
+
+enum CopyClusterSnapshotOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateClusterInput(adminUserName: \(Swift.String(describing: adminUserName)), authType: \(Swift.String(describing: authType)), clientToken: \(Swift.String(describing: clientToken)), clusterName: \(Swift.String(describing: clusterName)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), shardCapacity: \(Swift.String(describing: shardCapacity)), shardCount: \(Swift.String(describing: shardCount)), subnetIds: \(Swift.String(describing: subnetIds)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), adminUserPassword: \"CONTENT_REDACTED\")"}
+        "CreateClusterInput(adminUserName: \(Swift.String(describing: adminUserName)), authType: \(Swift.String(describing: authType)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), clientToken: \(Swift.String(describing: clientToken)), clusterName: \(Swift.String(describing: clusterName)), kmsKeyId: \(Swift.String(describing: kmsKeyId)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), shardCapacity: \(Swift.String(describing: shardCapacity)), shardCount: \(Swift.String(describing: shardCount)), shardInstanceCount: \(Swift.String(describing: shardInstanceCount)), subnetIds: \(Swift.String(describing: subnetIds)), tags: \(Swift.String(describing: tags)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), adminUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateClusterInput: Swift.Encodable {
@@ -668,12 +906,15 @@ extension CreateClusterInput: Swift.Encodable {
         case adminUserName
         case adminUserPassword
         case authType
+        case backupRetentionPeriod
         case clientToken
         case clusterName
         case kmsKeyId
+        case preferredBackupWindow
         case preferredMaintenanceWindow
         case shardCapacity
         case shardCount
+        case shardInstanceCount
         case subnetIds
         case tags
         case vpcSecurityGroupIds
@@ -690,6 +931,9 @@ extension CreateClusterInput: Swift.Encodable {
         if let authType = self.authType {
             try encodeContainer.encode(authType.rawValue, forKey: .authType)
         }
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
+            try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
+        }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
         }
@@ -699,6 +943,9 @@ extension CreateClusterInput: Swift.Encodable {
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
         }
+        if let preferredBackupWindow = self.preferredBackupWindow {
+            try encodeContainer.encode(preferredBackupWindow, forKey: .preferredBackupWindow)
+        }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
         }
@@ -707,6 +954,9 @@ extension CreateClusterInput: Swift.Encodable {
         }
         if let shardCount = self.shardCount {
             try encodeContainer.encode(shardCount, forKey: .shardCount)
+        }
+        if let shardInstanceCount = self.shardInstanceCount {
+            try encodeContainer.encode(shardInstanceCount, forKey: .shardInstanceCount)
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
@@ -737,7 +987,7 @@ extension CreateClusterInput {
 }
 
 public struct CreateClusterInput: Swift.Equatable {
-    /// The name of the Elastic DocumentDB cluster administrator. Constraints:
+    /// The name of the Amazon DocumentDB elastic clusters administrator. Constraints:
     ///
     /// * Must be from 1 to 63 letters or numbers.
     ///
@@ -746,19 +996,21 @@ public struct CreateClusterInput: Swift.Equatable {
     /// * Cannot be a reserved word.
     /// This member is required.
     public var adminUserName: Swift.String?
-    /// The password for the Elastic DocumentDB cluster administrator and can contain any printable ASCII characters. Constraints:
+    /// The password for the Amazon DocumentDB elastic clusters administrator. The password can contain any printable ASCII characters. Constraints:
     ///
     /// * Must contain from 8 to 100 characters.
     ///
     /// * Cannot contain a forward slash (/), double quote ("), or the "at" symbol (@).
     /// This member is required.
     public var adminUserPassword: Swift.String?
-    /// The authentication type for the Elastic DocumentDB cluster.
+    /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
     /// This member is required.
     public var authType: DocDBElasticClientTypes.Auth?
-    /// The client token for the Elastic DocumentDB cluster.
+    /// The number of days for which automatic snapshots are retained.
+    public var backupRetentionPeriod: Swift.Int?
+    /// The client token for the elastic cluster.
     public var clientToken: Swift.String?
-    /// The name of the new Elastic DocumentDB cluster. This parameter is stored as a lowercase string. Constraints:
+    /// The name of the new elastic cluster. This parameter is stored as a lowercase string. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
     ///
@@ -770,33 +1022,40 @@ public struct CreateClusterInput: Swift.Equatable {
     /// Example: my-cluster
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The KMS key identifier to use to encrypt the new Elastic DocumentDB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified, Elastic DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
+    /// The KMS key identifier to use to encrypt the new elastic cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
     public var kmsKeyId: Swift.String?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetentionPeriod.
+    public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi Default: a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// The capacity of each shard in the new Elastic DocumentDB cluster.
+    /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.
     /// This member is required.
     public var shardCapacity: Swift.Int?
-    /// The number of shards to create in the new Elastic DocumentDB cluster.
+    /// The number of shards assigned to the elastic cluster. Maximum is 32.
     /// This member is required.
     public var shardCount: Swift.Int?
-    /// The Amazon EC2 subnet IDs for the new Elastic DocumentDB cluster.
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    public var shardInstanceCount: Swift.Int?
+    /// The Amazon EC2 subnet IDs for the new elastic cluster.
     public var subnetIds: [Swift.String]?
-    /// The tags to be assigned to the new Elastic DocumentDB cluster.
+    /// The tags to be assigned to the new elastic cluster.
     public var tags: [Swift.String:Swift.String]?
-    /// A list of EC2 VPC security groups to associate with the new Elastic DocumentDB cluster.
+    /// A list of EC2 VPC security groups to associate with the new elastic cluster.
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
         adminUserName: Swift.String? = nil,
         adminUserPassword: Swift.String? = nil,
         authType: DocDBElasticClientTypes.Auth? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         clusterName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         shardCapacity: Swift.Int? = nil,
         shardCount: Swift.Int? = nil,
+        shardInstanceCount: Swift.Int? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
@@ -805,12 +1064,15 @@ public struct CreateClusterInput: Swift.Equatable {
         self.adminUserName = adminUserName
         self.adminUserPassword = adminUserPassword
         self.authType = authType
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.clientToken = clientToken
         self.clusterName = clusterName
         self.kmsKeyId = kmsKeyId
+        self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.shardCapacity = shardCapacity
         self.shardCount = shardCount
+        self.shardInstanceCount = shardInstanceCount
         self.subnetIds = subnetIds
         self.tags = tags
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
@@ -830,6 +1092,9 @@ struct CreateClusterInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let preferredMaintenanceWindow: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let backupRetentionPeriod: Swift.Int?
+    let preferredBackupWindow: Swift.String?
+    let shardInstanceCount: Swift.Int?
 }
 
 extension CreateClusterInputBody: Swift.Decodable {
@@ -837,12 +1102,15 @@ extension CreateClusterInputBody: Swift.Decodable {
         case adminUserName
         case adminUserPassword
         case authType
+        case backupRetentionPeriod
         case clientToken
         case clusterName
         case kmsKeyId
+        case preferredBackupWindow
         case preferredMaintenanceWindow
         case shardCapacity
         case shardCount
+        case shardInstanceCount
         case subnetIds
         case tags
         case vpcSecurityGroupIds
@@ -901,6 +1169,12 @@ extension CreateClusterInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
+        backupRetentionPeriod = backupRetentionPeriodDecoded
+        let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
+        preferredBackupWindow = preferredBackupWindowDecoded
+        let shardInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardInstanceCount)
+        shardInstanceCount = shardInstanceCountDecoded
     }
 }
 
@@ -917,7 +1191,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateClusterOutput: Swift.Equatable {
-    /// The new Elastic DocumentDB cluster that has been created.
+    /// The new elastic cluster that has been created.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
 
@@ -993,13 +1267,13 @@ extension CreateClusterSnapshotInput {
 }
 
 public struct CreateClusterSnapshotInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB cluster that the snapshot will be taken from.
+    /// The ARN identifier of the elastic cluster of which you want to create a snapshot.
     /// This member is required.
     public var clusterArn: Swift.String?
-    /// The name of the Elastic DocumentDB snapshot.
+    /// The name of the new elastic cluster snapshot.
     /// This member is required.
     public var snapshotName: Swift.String?
-    /// The tags to be assigned to the new Elastic DocumentDB snapshot.
+    /// The tags to be assigned to the new elastic cluster snapshot.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -1060,7 +1334,7 @@ extension CreateClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateClusterSnapshotOutput: Swift.Equatable {
-    /// Returns information about the new Elastic DocumentDB snapshot.
+    /// Returns information about the new elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 
@@ -1116,7 +1390,7 @@ extension DeleteClusterInput {
 }
 
 public struct DeleteClusterInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB cluster that is to be deleted.
+    /// The ARN identifier of the elastic cluster that is to be deleted.
     /// This member is required.
     public var clusterArn: Swift.String?
 
@@ -1150,7 +1424,7 @@ extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteClusterOutput: Swift.Equatable {
-    /// Returns information about the newly deleted Elastic DocumentDB cluster.
+    /// Returns information about the newly deleted elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
 
@@ -1205,7 +1479,7 @@ extension DeleteClusterSnapshotInput {
 }
 
 public struct DeleteClusterSnapshotInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB snapshot that is to be deleted.
+    /// The ARN identifier of the elastic cluster snapshot that is to be deleted.
     /// This member is required.
     public var snapshotArn: Swift.String?
 
@@ -1239,7 +1513,7 @@ extension DeleteClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DeleteClusterSnapshotOutput: Swift.Equatable {
-    /// Returns information about the newly deleted Elastic DocumentDB snapshot.
+    /// Returns information about the newly deleted elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 
@@ -1296,7 +1570,7 @@ extension GetClusterInput {
 }
 
 public struct GetClusterInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB cluster.
+    /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
 
@@ -1330,7 +1604,7 @@ extension GetClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetClusterOutput: Swift.Equatable {
-    /// Returns information about a specific Elastic DocumentDB cluster.
+    /// Returns information about a specific elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
 
@@ -1384,7 +1658,7 @@ extension GetClusterSnapshotInput {
 }
 
 public struct GetClusterSnapshotInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB snapshot.
+    /// The ARN identifier of the elastic cluster snapshot.
     /// This member is required.
     public var snapshotArn: Swift.String?
 
@@ -1418,7 +1692,7 @@ extension GetClusterSnapshotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetClusterSnapshotOutput: Swift.Equatable {
-    /// Returns information about a specific Elastic DocumentDB snapshot.
+    /// Returns information about a specific elastic cluster snapshot.
     /// This member is required.
     public var snapshot: DocDBElasticClientTypes.ClusterSnapshot?
 
@@ -1525,6 +1799,10 @@ extension ListClusterSnapshotsInput {
             let clusterArnQueryItem = ClientRuntime.SDKURLQueryItem(name: "clusterArn".urlPercentEncoding(), value: Swift.String(clusterArn).urlPercentEncoding())
             items.append(clusterArnQueryItem)
         }
+        if let snapshotType = value.snapshotType {
+            let snapshotTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "snapshotType".urlPercentEncoding(), value: Swift.String(snapshotType).urlPercentEncoding())
+            items.append(snapshotTypeQueryItem)
+        }
         if let nextToken = value.nextToken {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
@@ -1545,22 +1823,30 @@ extension ListClusterSnapshotsInput {
 }
 
 public struct ListClusterSnapshotsInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB cluster.
+    /// The ARN identifier of the elastic cluster.
     public var clusterArn: Swift.String?
-    /// The maximum number of entries to recieve in the response.
+    /// The maximum number of elastic cluster snapshot results to receive in the response.
     public var maxResults: Swift.Int?
-    /// The nextToken which is used the get the next page of data.
+    /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
+    /// The type of cluster snapshots to be returned. You can specify one of the following values:
+    ///
+    /// * automated - Return all cluster snapshots that Amazon DocumentDB has automatically created for your Amazon Web Services account.
+    ///
+    /// * manual - Return all cluster snapshots that you have manually created for your Amazon Web Services account.
+    public var snapshotType: Swift.String?
 
     public init(
         clusterArn: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        snapshotType: Swift.String? = nil
     )
     {
         self.clusterArn = clusterArn
         self.maxResults = maxResults
         self.nextToken = nextToken
+        self.snapshotType = snapshotType
     }
 }
 
@@ -1588,9 +1874,9 @@ extension ListClusterSnapshotsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListClusterSnapshotsOutput: Swift.Equatable {
-    /// The response will provide a nextToken if there is more data beyond the maxResults. If there is no more data in the responce, the nextToken will not be returned.
+    /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
-    /// A list of Elastic DocumentDB snapshots for a specified cluster.
+    /// A list of snapshots for a specified elastic cluster.
     public var snapshots: [DocDBElasticClientTypes.ClusterSnapshotInList]?
 
     public init(
@@ -1670,9 +1956,9 @@ extension ListClustersInput {
 }
 
 public struct ListClustersInput: Swift.Equatable {
-    /// The maximum number of entries to recieve in the response.
+    /// The maximum number of elastic cluster snapshot results to receive in the response.
     public var maxResults: Swift.Int?
-    /// The nextToken which is used the get the next page of data.
+    /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
 
     public init(
@@ -1709,9 +1995,9 @@ extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListClustersOutput: Swift.Equatable {
-    /// A list of Elastic DocumentDB cluster.
+    /// A list of Amazon DocumentDB elastic clusters.
     public var clusters: [DocDBElasticClientTypes.ClusterInList]?
-    /// The response will provide a nextToken if there is more data beyond the maxResults. If there is no more data in the responce, the nextToken will not be returned.
+    /// A pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond this token, up to the value specified by max-results. If there is no more data in the responce, the nextToken will not be returned.
     public var nextToken: Swift.String?
 
     public init(
@@ -1778,7 +2064,7 @@ extension ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB resource.
+    /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -1812,7 +2098,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListTagsForResourceOutput: Swift.Equatable {
-    /// The list of tags for the specified Elastic DocumentDB resource.
+    /// The list of tags for the specified elastic cluster resource.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -1945,6 +2231,8 @@ extension RestoreClusterFromSnapshotInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterName
         case kmsKeyId
+        case shardCapacity
+        case shardInstanceCount
         case subnetIds
         case tags
         case vpcSecurityGroupIds
@@ -1957,6 +2245,12 @@ extension RestoreClusterFromSnapshotInput: Swift.Encodable {
         }
         if let kmsKeyId = self.kmsKeyId {
             try encodeContainer.encode(kmsKeyId, forKey: .kmsKeyId)
+        }
+        if let shardCapacity = self.shardCapacity {
+            try encodeContainer.encode(shardCapacity, forKey: .shardCapacity)
+        }
+        if let shardInstanceCount = self.shardInstanceCount {
+            try encodeContainer.encode(shardInstanceCount, forKey: .shardInstanceCount)
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
@@ -1990,24 +2284,30 @@ extension RestoreClusterFromSnapshotInput {
 }
 
 public struct RestoreClusterFromSnapshotInput: Swift.Equatable {
-    /// The name of the Elastic DocumentDB cluster.
+    /// The name of the elastic cluster.
     /// This member is required.
     public var clusterName: Swift.String?
-    /// The KMS key identifier to use to encrypt the new Elastic DocumentDB cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Elastic DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
+    /// The KMS key identifier to use to encrypt the new Amazon DocumentDB elastic clusters cluster. The KMS key identifier is the Amazon Resource Name (ARN) for the KMS encryption key. If you are creating a cluster using the same Amazon account that owns this KMS encryption key, you can use the KMS key alias instead of the ARN as the KMS encryption key. If an encryption key is not specified here, Amazon DocumentDB uses the default encryption key that KMS creates for your account. Your account has a different default encryption key for each Amazon Region.
     public var kmsKeyId: Swift.String?
-    /// The arn of the Elastic DocumentDB snapshot.
+    /// The capacity of each shard in the new restored elastic cluster.
+    public var shardCapacity: Swift.Int?
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    public var shardInstanceCount: Swift.Int?
+    /// The ARN identifier of the elastic cluster snapshot.
     /// This member is required.
     public var snapshotArn: Swift.String?
-    /// The Amazon EC2 subnet IDs for the Elastic DocumentDB cluster.
+    /// The Amazon EC2 subnet IDs for the elastic cluster.
     public var subnetIds: [Swift.String]?
-    /// A list of the tag names to be assigned to the restored DB cluster, in the form of an array of key-value pairs in which the key is the tag name and the value is the key value.
+    /// A list of the tag names to be assigned to the restored elastic cluster, in the form of an array of key-value pairs in which the key is the tag name and the value is the key value.
     public var tags: [Swift.String:Swift.String]?
-    /// A list of EC2 VPC security groups to associate with the Elastic DocumentDB cluster.
+    /// A list of EC2 VPC security groups to associate with the elastic cluster.
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
         clusterName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
+        shardCapacity: Swift.Int? = nil,
+        shardInstanceCount: Swift.Int? = nil,
         snapshotArn: Swift.String? = nil,
         subnetIds: [Swift.String]? = nil,
         tags: [Swift.String:Swift.String]? = nil,
@@ -2016,6 +2316,8 @@ public struct RestoreClusterFromSnapshotInput: Swift.Equatable {
     {
         self.clusterName = clusterName
         self.kmsKeyId = kmsKeyId
+        self.shardCapacity = shardCapacity
+        self.shardInstanceCount = shardInstanceCount
         self.snapshotArn = snapshotArn
         self.subnetIds = subnetIds
         self.tags = tags
@@ -2029,12 +2331,16 @@ struct RestoreClusterFromSnapshotInputBody: Swift.Equatable {
     let subnetIds: [Swift.String]?
     let kmsKeyId: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let shardCapacity: Swift.Int?
+    let shardInstanceCount: Swift.Int?
 }
 
 extension RestoreClusterFromSnapshotInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clusterName
         case kmsKeyId
+        case shardCapacity
+        case shardInstanceCount
         case subnetIds
         case tags
         case vpcSecurityGroupIds
@@ -2079,6 +2385,10 @@ extension RestoreClusterFromSnapshotInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let shardCapacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardCapacity)
+        shardCapacity = shardCapacityDecoded
+        let shardInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardInstanceCount)
+        shardInstanceCount = shardInstanceCountDecoded
     }
 }
 
@@ -2095,7 +2405,7 @@ extension RestoreClusterFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RestoreClusterFromSnapshotOutput: Swift.Equatable {
-    /// Returns information about a the restored Elastic DocumentDB cluster.
+    /// Returns information about a the restored elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
 
@@ -2196,15 +2506,203 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension DocDBElasticClientTypes.Shard: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createTime
+        case shardId
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createTime = self.createTime {
+            try encodeContainer.encode(createTime, forKey: .createTime)
+        }
+        if let shardId = self.shardId {
+            try encodeContainer.encode(shardId, forKey: .shardId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let shardIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .shardId)
+        shardId = shardIdDecoded
+        let createTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createTime)
+        createTime = createTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Status.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension DocDBElasticClientTypes {
+    /// The name of the shard.
+    public struct Shard: Swift.Equatable {
+        /// The time when the shard was created in Universal Coordinated Time (UTC).
+        /// This member is required.
+        public var createTime: Swift.String?
+        /// The ID of the shard.
+        /// This member is required.
+        public var shardId: Swift.String?
+        /// The current status of the shard.
+        /// This member is required.
+        public var status: DocDBElasticClientTypes.Status?
+
+        public init(
+            createTime: Swift.String? = nil,
+            shardId: Swift.String? = nil,
+            status: DocDBElasticClientTypes.Status? = nil
+        )
+        {
+            self.createTime = createTime
+            self.shardId = shardId
+            self.status = status
+        }
+    }
+
+}
+
+extension DocDBElasticClientTypes {
+    public enum SnapshotType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automated
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SnapshotType] {
+            return [
+                .automated,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automated: return "AUTOMATED"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SnapshotType(rawValue: rawValue) ?? SnapshotType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StartClusterInput {
+
+    static func urlPathProvider(_ value: StartClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/cluster/\(clusterArn.urlPercentEncoding())/start"
+    }
+}
+
+public struct StartClusterInput: Swift.Equatable {
+    /// The ARN identifier of the elastic cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+    }
+}
+
+struct StartClusterInputBody: Swift.Equatable {
+}
+
+extension StartClusterInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StartClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct StartClusterOutput: Swift.Equatable {
+    /// Returns information about a specific elastic cluster.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct StartClusterOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension StartClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
+enum StartClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DocDBElasticClientTypes {
     public enum Status: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
+        case copying
         case creating
         case deleting
         case inaccessibleEncryptionCreds
+        case inaccessibleSecretArn
+        case inaccessibleVpcEndpoint
+        case incompatibleNetwork
         case invalidSecurityGroupId
         case invalidSubnetId
         case ipAddressLimitExceeded
+        case merging
+        case modifying
+        case splitting
+        case starting
+        case stopped
+        case stopping
         case updating
         case vpcEndpointLimitExceeded
         case sdkUnknown(Swift.String)
@@ -2212,12 +2710,22 @@ extension DocDBElasticClientTypes {
         public static var allCases: [Status] {
             return [
                 .active,
+                .copying,
                 .creating,
                 .deleting,
                 .inaccessibleEncryptionCreds,
+                .inaccessibleSecretArn,
+                .inaccessibleVpcEndpoint,
+                .incompatibleNetwork,
                 .invalidSecurityGroupId,
                 .invalidSubnetId,
                 .ipAddressLimitExceeded,
+                .merging,
+                .modifying,
+                .splitting,
+                .starting,
+                .stopped,
+                .stopping,
                 .updating,
                 .vpcEndpointLimitExceeded,
                 .sdkUnknown("")
@@ -2230,12 +2738,22 @@ extension DocDBElasticClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .copying: return "COPYING"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .inaccessibleEncryptionCreds: return "INACCESSIBLE_ENCRYPTION_CREDS"
+            case .inaccessibleSecretArn: return "INACCESSIBLE_SECRET_ARN"
+            case .inaccessibleVpcEndpoint: return "INACCESSIBLE_VPC_ENDPOINT"
+            case .incompatibleNetwork: return "INCOMPATIBLE_NETWORK"
             case .invalidSecurityGroupId: return "INVALID_SECURITY_GROUP_ID"
             case .invalidSubnetId: return "INVALID_SUBNET_ID"
             case .ipAddressLimitExceeded: return "IP_ADDRESS_LIMIT_EXCEEDED"
+            case .merging: return "MERGING"
+            case .modifying: return "MODIFYING"
+            case .splitting: return "SPLITTING"
+            case .starting: return "STARTING"
+            case .stopped: return "STOPPED"
+            case .stopping: return "STOPPING"
             case .updating: return "UPDATING"
             case .vpcEndpointLimitExceeded: return "VPC_ENDPOINT_LIMIT_EXCEEDED"
             case let .sdkUnknown(s): return s
@@ -2245,6 +2763,94 @@ extension DocDBElasticClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = Status(rawValue: rawValue) ?? Status.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StopClusterInput {
+
+    static func urlPathProvider(_ value: StopClusterInput) -> Swift.String? {
+        guard let clusterArn = value.clusterArn else {
+            return nil
+        }
+        return "/cluster/\(clusterArn.urlPercentEncoding())/stop"
+    }
+}
+
+public struct StopClusterInput: Swift.Equatable {
+    /// The ARN identifier of the elastic cluster.
+    /// This member is required.
+    public var clusterArn: Swift.String?
+
+    public init(
+        clusterArn: Swift.String? = nil
+    )
+    {
+        self.clusterArn = clusterArn
+    }
+}
+
+struct StopClusterInputBody: Swift.Equatable {
+}
+
+extension StopClusterInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StopClusterOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StopClusterOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cluster = output.cluster
+        } else {
+            self.cluster = nil
+        }
+    }
+}
+
+public struct StopClusterOutput: Swift.Equatable {
+    /// Returns information about a specific elastic cluster.
+    /// This member is required.
+    public var cluster: DocDBElasticClientTypes.Cluster?
+
+    public init(
+        cluster: DocDBElasticClientTypes.Cluster? = nil
+    )
+    {
+        self.cluster = cluster
+    }
+}
+
+struct StopClusterOutputBody: Swift.Equatable {
+    let cluster: DocDBElasticClientTypes.Cluster?
+}
+
+extension StopClusterOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cluster
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clusterDecoded = try containerValues.decodeIfPresent(DocDBElasticClientTypes.Cluster.self, forKey: .cluster)
+        cluster = clusterDecoded
+    }
+}
+
+enum StopClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -2276,10 +2882,10 @@ extension TagResourceInput {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB resource.
+    /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The tags to be assigned to the Elastic DocumentDB resource.
+    /// The tags that are assigned to the elastic cluster resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2434,10 +3040,10 @@ extension UntagResourceInput {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The arn of the Elastic DocumentDB resource.
+    /// The ARN identifier of the elastic cluster resource.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// The tag keys to be removed from the Elastic DocumentDB resource.
+    /// The tag keys to be removed from the elastic cluster resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -2486,17 +3092,20 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateClusterInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateClusterInput(authType: \(Swift.String(describing: authType)), clientToken: \(Swift.String(describing: clientToken)), clusterArn: \(Swift.String(describing: clusterArn)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), shardCapacity: \(Swift.String(describing: shardCapacity)), shardCount: \(Swift.String(describing: shardCount)), subnetIds: \(Swift.String(describing: subnetIds)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), adminUserPassword: \"CONTENT_REDACTED\")"}
+        "UpdateClusterInput(authType: \(Swift.String(describing: authType)), backupRetentionPeriod: \(Swift.String(describing: backupRetentionPeriod)), clientToken: \(Swift.String(describing: clientToken)), clusterArn: \(Swift.String(describing: clusterArn)), preferredBackupWindow: \(Swift.String(describing: preferredBackupWindow)), preferredMaintenanceWindow: \(Swift.String(describing: preferredMaintenanceWindow)), shardCapacity: \(Swift.String(describing: shardCapacity)), shardCount: \(Swift.String(describing: shardCount)), shardInstanceCount: \(Swift.String(describing: shardInstanceCount)), subnetIds: \(Swift.String(describing: subnetIds)), vpcSecurityGroupIds: \(Swift.String(describing: vpcSecurityGroupIds)), adminUserPassword: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateClusterInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminUserPassword
         case authType
+        case backupRetentionPeriod
         case clientToken
+        case preferredBackupWindow
         case preferredMaintenanceWindow
         case shardCapacity
         case shardCount
+        case shardInstanceCount
         case subnetIds
         case vpcSecurityGroupIds
     }
@@ -2509,8 +3118,14 @@ extension UpdateClusterInput: Swift.Encodable {
         if let authType = self.authType {
             try encodeContainer.encode(authType.rawValue, forKey: .authType)
         }
+        if let backupRetentionPeriod = self.backupRetentionPeriod {
+            try encodeContainer.encode(backupRetentionPeriod, forKey: .backupRetentionPeriod)
+        }
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let preferredBackupWindow = self.preferredBackupWindow {
+            try encodeContainer.encode(preferredBackupWindow, forKey: .preferredBackupWindow)
         }
         if let preferredMaintenanceWindow = self.preferredMaintenanceWindow {
             try encodeContainer.encode(preferredMaintenanceWindow, forKey: .preferredMaintenanceWindow)
@@ -2520,6 +3135,9 @@ extension UpdateClusterInput: Swift.Encodable {
         }
         if let shardCount = self.shardCount {
             try encodeContainer.encode(shardCount, forKey: .shardCount)
+        }
+        if let shardInstanceCount = self.shardInstanceCount {
+            try encodeContainer.encode(shardInstanceCount, forKey: .shardInstanceCount)
         }
         if let subnetIds = subnetIds {
             var subnetIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subnetIds)
@@ -2547,45 +3165,57 @@ extension UpdateClusterInput {
 }
 
 public struct UpdateClusterInput: Swift.Equatable {
-    /// The password for the Elastic DocumentDB cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
+    /// The password associated with the elastic cluster administrator. This password can contain any printable ASCII character except forward slash (/), double quote ("), or the "at" symbol (@). Constraints: Must contain from 8 to 100 characters.
     public var adminUserPassword: Swift.String?
-    /// The authentication type for the Elastic DocumentDB cluster.
+    /// The authentication type used to determine where to fetch the password used for accessing the elastic cluster. Valid types are PLAIN_TEXT or SECRET_ARN.
     public var authType: DocDBElasticClientTypes.Auth?
-    /// The client token for the Elastic DocumentDB cluster.
+    /// The number of days for which automatic snapshots are retained.
+    public var backupRetentionPeriod: Swift.Int?
+    /// The client token for the elastic cluster.
     public var clientToken: Swift.String?
-    /// The arn of the Elastic DocumentDB cluster.
+    /// The ARN identifier of the elastic cluster.
     /// This member is required.
     public var clusterArn: Swift.String?
+    /// The daily time range during which automated backups are created if automated backups are enabled, as determined by the backupRetentionPeriod.
+    public var preferredBackupWindow: Swift.String?
     /// The weekly time range during which system maintenance can occur, in Universal Coordinated Time (UTC). Format: ddd:hh24:mi-ddd:hh24:mi Default: a 30-minute window selected at random from an 8-hour block of time for each Amazon Web Services Region, occurring on a random day of the week. Valid days: Mon, Tue, Wed, Thu, Fri, Sat, Sun Constraints: Minimum 30-minute window.
     public var preferredMaintenanceWindow: Swift.String?
-    /// The capacity of each shard in the Elastic DocumentDB cluster.
+    /// The number of vCPUs assigned to each elastic cluster shard. Maximum is 64. Allowed values are 2, 4, 8, 16, 32, 64.
     public var shardCapacity: Swift.Int?
-    /// The number of shards to create in the Elastic DocumentDB cluster.
+    /// The number of shards assigned to the elastic cluster. Maximum is 32.
     public var shardCount: Swift.Int?
-    /// The number of shards to create in the Elastic DocumentDB cluster.
+    /// The number of replica instances applying to all shards in the elastic cluster. A shardInstanceCount value of 1 means there is one writer instance, and any additional instances are replicas that can be used for reads and to improve availability.
+    public var shardInstanceCount: Swift.Int?
+    /// The Amazon EC2 subnet IDs for the elastic cluster.
     public var subnetIds: [Swift.String]?
-    /// A list of EC2 VPC security groups to associate with the new Elastic DocumentDB cluster.
+    /// A list of EC2 VPC security groups to associate with the elastic cluster.
     public var vpcSecurityGroupIds: [Swift.String]?
 
     public init(
         adminUserPassword: Swift.String? = nil,
         authType: DocDBElasticClientTypes.Auth? = nil,
+        backupRetentionPeriod: Swift.Int? = nil,
         clientToken: Swift.String? = nil,
         clusterArn: Swift.String? = nil,
+        preferredBackupWindow: Swift.String? = nil,
         preferredMaintenanceWindow: Swift.String? = nil,
         shardCapacity: Swift.Int? = nil,
         shardCount: Swift.Int? = nil,
+        shardInstanceCount: Swift.Int? = nil,
         subnetIds: [Swift.String]? = nil,
         vpcSecurityGroupIds: [Swift.String]? = nil
     )
     {
         self.adminUserPassword = adminUserPassword
         self.authType = authType
+        self.backupRetentionPeriod = backupRetentionPeriod
         self.clientToken = clientToken
         self.clusterArn = clusterArn
+        self.preferredBackupWindow = preferredBackupWindow
         self.preferredMaintenanceWindow = preferredMaintenanceWindow
         self.shardCapacity = shardCapacity
         self.shardCount = shardCount
+        self.shardInstanceCount = shardInstanceCount
         self.subnetIds = subnetIds
         self.vpcSecurityGroupIds = vpcSecurityGroupIds
     }
@@ -2600,16 +3230,22 @@ struct UpdateClusterInputBody: Swift.Equatable {
     let adminUserPassword: Swift.String?
     let clientToken: Swift.String?
     let preferredMaintenanceWindow: Swift.String?
+    let backupRetentionPeriod: Swift.Int?
+    let preferredBackupWindow: Swift.String?
+    let shardInstanceCount: Swift.Int?
 }
 
 extension UpdateClusterInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adminUserPassword
         case authType
+        case backupRetentionPeriod
         case clientToken
+        case preferredBackupWindow
         case preferredMaintenanceWindow
         case shardCapacity
         case shardCount
+        case shardInstanceCount
         case subnetIds
         case vpcSecurityGroupIds
     }
@@ -2650,6 +3286,12 @@ extension UpdateClusterInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let preferredMaintenanceWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredMaintenanceWindow)
         preferredMaintenanceWindow = preferredMaintenanceWindowDecoded
+        let backupRetentionPeriodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .backupRetentionPeriod)
+        backupRetentionPeriod = backupRetentionPeriodDecoded
+        let preferredBackupWindowDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .preferredBackupWindow)
+        preferredBackupWindow = preferredBackupWindowDecoded
+        let shardInstanceCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .shardInstanceCount)
+        shardInstanceCount = shardInstanceCountDecoded
     }
 }
 
@@ -2666,7 +3308,7 @@ extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateClusterOutput: Swift.Equatable {
-    /// Returns information about the updated Elastic DocumentDB cluster.
+    /// Returns information about the updated elastic cluster.
     /// This member is required.
     public var cluster: DocDBElasticClientTypes.Cluster?
 

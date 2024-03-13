@@ -213,7 +213,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `CreateIdentitySource` operation on the `VerifiedPermissions` service.
     ///
-    /// Creates a reference to an Amazon Cognito user pool as an external identity provider (IdP). After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operation. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Amazon Cognito provides both identity tokens and access tokens, and Verified Permissions can use either or both. Any combination of identity and access tokens results in the same Cedar principal. Verified Permissions automatically translates the information about the identities into the standard Cedar attributes that can be evaluated by your policies. Because the Amazon Cognito identity and access tokens can contain different information, the tokens you choose to use determine which principal attributes are available to access when evaluating Cedar policies. If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire. To reference a user from this identity source in your Cedar policies, use the following syntax. IdentityType::"<CognitoUserPoolIdentifier>|<CognitoClientId> Where IdentityType is the string that you provide to the PrincipalEntityType parameter for this operation. The CognitoUserPoolId and CognitoClientId are defined by the Amazon Cognito user pool. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a reference to an Amazon Cognito user pool as an external identity provider (IdP). After you create an identity source, you can use the identities provided by the IdP as proxies for the principal in authorization queries that use the [IsAuthorizedWithToken](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_IsAuthorizedWithToken.html) operation. These identities take the form of tokens that contain claims about the user, such as IDs, attributes and group memberships. Amazon Cognito provides both identity tokens and access tokens, and Verified Permissions can use either or both. Any combination of identity and access tokens results in the same Cedar principal. Verified Permissions automatically translates the information about the identities into the standard Cedar attributes that can be evaluated by your policies. Because the Amazon Cognito identity and access tokens can contain different information, the tokens you choose to use determine which principal attributes are available to access when evaluating Cedar policies. If you delete a Amazon Cognito user pool or user, tokens from that deleted pool or that deleted user continue to be usable until they expire. To reference a user from this identity source in your Cedar policies, use the following syntax. IdentityType::"<CognitoUserPoolIdentifier>|<CognitoClientId> Where IdentityType is the string that you provide to the PrincipalEntityType parameter for this operation. The CognitoUserPoolId and CognitoClientId are defined by the Amazon Cognito user pool. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreateIdentitySourceInput : [no documentation found]
     ///
@@ -297,7 +297,7 @@ extension VerifiedPermissionsClient {
     /// * To create a policy that is dynamically linked to a policy template, specify the policy template ID and the principal and resource to associate with this policy in the templateLinked section of the PolicyDefinition. If the policy template is ever updated, any policies linked to the policy template automatically use the updated template.
     ///
     ///
-    /// Creating a policy causes it to be validated against the schema in the policy store. If the policy doesn't pass validation, the operation fails and the policy isn't stored. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creating a policy causes it to be validated against the schema in the policy store. If the policy doesn't pass validation, the operation fails and the policy isn't stored. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyInput : [no documentation found]
     ///
@@ -374,7 +374,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `CreatePolicyStore` operation on the `VerifiedPermissions` service.
     ///
-    /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a policy store. A policy store is a container for policy resources. Although [Cedar supports multiple namespaces](https://docs.cedarpolicy.com/schema/schema.html#namespace), Verified Permissions currently supports only one namespace per policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyStoreInput : [no documentation found]
     ///
@@ -450,7 +450,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `CreatePolicyTemplate` operation on the `VerifiedPermissions` service.
     ///
-    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates a policy template. A template can use placeholders for the principal and resource. A template must be instantiated into a policy by associating it with specific principals and resources to use for the placeholders. That instantiated policy can then be considered in authorization decisions. The instantiated policy works identically to any other policy, except that it is dynamically linked to the template. If the template changes, then any policies that are linked to that template are immediately updated as well. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter CreatePolicyTemplateInput : [no documentation found]
     ///
@@ -1638,7 +1638,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `PutSchema` operation on the `VerifiedPermissions` service.
     ///
-    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Creates or updates the policy schema in the specified policy store. The schema is used to validate any Cedar policies and policy templates submitted to the policy store. Any changes to the schema validate only policies and templates submitted after the schema change. Existing policies and templates are not re-evaluated against the changed schema. If you later update a policy, then it is evaluated against the new schema at that time. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter PutSchemaInput : [no documentation found]
     ///
@@ -1714,7 +1714,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `UpdateIdentitySource` operation on the `VerifiedPermissions` service.
     ///
-    /// Updates the specified identity source to use a new identity provider (IdP) source, or to change the mapping of identities from the IdP to a different principal entity type. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Updates the specified identity source to use a new identity provider (IdP) source, or to change the mapping of identities from the IdP to a different principal entity type. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdateIdentitySourceInput : [no documentation found]
     ///
@@ -1793,7 +1793,7 @@ extension VerifiedPermissionsClient {
     ///
     /// * If policy validation is enabled in the policy store, then updating a static policy causes Verified Permissions to validate the policy against the schema in the policy store. If the updated static policy doesn't pass validation, the operation fails and the update isn't stored.
     ///
-    /// * When you edit a static policy, You can change only certain elements of a static policy:
+    /// * When you edit a static policy, you can change only certain elements of a static policy:
     ///
     /// * The action referenced by the policy.
     ///
@@ -1816,7 +1816,7 @@ extension VerifiedPermissionsClient {
     /// * To update a template-linked policy, you must update the template instead.
     ///
     ///
-    /// Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyInput : [no documentation found]
     ///
@@ -1892,7 +1892,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `UpdatePolicyStore` operation on the `VerifiedPermissions` service.
     ///
-    /// Modifies the validation setting for a policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Modifies the validation setting for a policy store. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyStoreInput : [no documentation found]
     ///
@@ -1967,7 +1967,7 @@ extension VerifiedPermissionsClient {
 
     /// Performs the `UpdatePolicyTemplate` operation on the `VerifiedPermissions` service.
     ///
-    /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to be propagate through the service and be visible in the results of other Verified Permissions operations.
+    /// Updates the specified policy template. You can update only the description and the some elements of the [policyBody](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_UpdatePolicyTemplate.html#amazonverifiedpermissions-UpdatePolicyTemplate-request-policyBody). Changes you make to the policy template content are immediately (within the constraints of eventual consistency) reflected in authorization decisions that involve all template-linked policies instantiated from this template. Verified Permissions is [eventually consistent](https://wikipedia.org/wiki/Eventual_consistency) . It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
     ///
     /// - Parameter UpdatePolicyTemplateInput : [no documentation found]
     ///

@@ -128,6 +128,11 @@ func addIntegrationTestTarget(_ name: String) {
     var additionalDependencies: [String] = []
     var exclusions: [String] = []
     switch name {
+    case "AWSEC2":
+        additionalDependencies = ["AWSIAM", "AWSSTS", "AWSCloudWatchLogs"]
+        exclusions = [
+            "Resources/IMDSIntegTestApp"
+        ]
     case "AWSECS":
         additionalDependencies = ["AWSCloudWatchLogs", "AWSEC2",  "AWSIAM", "AWSSTS"]
         exclusions = [
@@ -236,7 +241,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.42.0",
+    clientRuntimeVersion: "0.43.0",
     crtVersion: "0.26.0"
 )
 
@@ -629,6 +634,7 @@ addAllServices()
 
 let servicesWithIntegrationTests: [String] = [
     "AWSCloudFrontKeyValueStore",
+    "AWSEC2",
     "AWSECS",
     "AWSEventBridge",
     "AWSKinesis",

@@ -749,10 +749,10 @@ public struct DecryptDataOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for ciphertext decryption.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
-    /// The decrypted plaintext data.
+    /// The decrypted plaintext data in hexBinary format.
     /// This member is required.
     public var plainText: Swift.String?
 
@@ -1064,12 +1064,12 @@ extension PaymentCryptographyDataClientTypes {
         public var dukptKeyDerivationType: PaymentCryptographyDataClientTypes.DukptDerivationType?
         /// The type of use of DUKPT, which can be incoming data decryption, outgoing data encryption, or both.
         public var dukptKeyVariant: PaymentCryptographyDataClientTypes.DukptKeyVariant?
-        /// An input to cryptographic primitive used to provide the intial state. Typically the InitializationVector must have a random or psuedo-random value, but sometimes it only needs to be unpredictable or unique. If you don't provide a value, Amazon Web Services Payment Cryptography generates a random value.
+        /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
         public var initializationVector: Swift.String?
         /// The unique identifier known as Key Serial Number (KSN) that comes from an encrypting device using DUKPT encryption method. The KSN is derived from the encrypting device unique identifier and an internal transaction counter.
         /// This member is required.
         public var keySerialNumber: Swift.String?
-        /// The block cipher mode of operation. Block ciphers are designed to encrypt a block of data of fixed size, for example, 128 bits. The size of the input block is usually same as the size of the encrypted output block, while the key length can be different. A mode of operation describes how to repeatedly apply a cipher's single-block operation to securely transform amounts of data larger than a block. The default is CBC.
+        /// The block cipher method to use for encryption. The default is CBC.
         public var mode: PaymentCryptographyDataClientTypes.DukptEncryptionMode?
 
         public init(
@@ -1295,6 +1295,164 @@ extension PaymentCryptographyDataClientTypes {
 
 }
 
+extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case initializationVector = "InitializationVector"
+        case majorKeyDerivationMode = "MajorKeyDerivationMode"
+        case mode = "Mode"
+        case panSequenceNumber = "PanSequenceNumber"
+        case primaryAccountNumber = "PrimaryAccountNumber"
+        case sessionDerivationData = "SessionDerivationData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let initializationVector = self.initializationVector {
+            try encodeContainer.encode(initializationVector, forKey: .initializationVector)
+        }
+        if let majorKeyDerivationMode = self.majorKeyDerivationMode {
+            try encodeContainer.encode(majorKeyDerivationMode.rawValue, forKey: .majorKeyDerivationMode)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+        if let panSequenceNumber = self.panSequenceNumber {
+            try encodeContainer.encode(panSequenceNumber, forKey: .panSequenceNumber)
+        }
+        if let primaryAccountNumber = self.primaryAccountNumber {
+            try encodeContainer.encode(primaryAccountNumber, forKey: .primaryAccountNumber)
+        }
+        if let sessionDerivationData = self.sessionDerivationData {
+            try encodeContainer.encode(sessionDerivationData, forKey: .sessionDerivationData)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let majorKeyDerivationModeDecoded = try containerValues.decodeIfPresent(PaymentCryptographyDataClientTypes.EmvMajorKeyDerivationMode.self, forKey: .majorKeyDerivationMode)
+        majorKeyDerivationMode = majorKeyDerivationModeDecoded
+        let primaryAccountNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .primaryAccountNumber)
+        primaryAccountNumber = primaryAccountNumberDecoded
+        let panSequenceNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .panSequenceNumber)
+        panSequenceNumber = panSequenceNumberDecoded
+        let sessionDerivationDataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionDerivationData)
+        sessionDerivationData = sessionDerivationDataDecoded
+        let modeDecoded = try containerValues.decodeIfPresent(PaymentCryptographyDataClientTypes.EmvEncryptionMode.self, forKey: .mode)
+        mode = modeDecoded
+        let initializationVectorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .initializationVector)
+        initializationVector = initializationVectorDecoded
+    }
+}
+
+extension PaymentCryptographyDataClientTypes.EmvEncryptionAttributes: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "EmvEncryptionAttributes(majorKeyDerivationMode: \(Swift.String(describing: majorKeyDerivationMode)), mode: \(Swift.String(describing: mode)), panSequenceNumber: \(Swift.String(describing: panSequenceNumber)), sessionDerivationData: \(Swift.String(describing: sessionDerivationData)), initializationVector: \"CONTENT_REDACTED\", primaryAccountNumber: \"CONTENT_REDACTED\")"}
+}
+
+extension PaymentCryptographyDataClientTypes {
+    /// Parameters for plaintext encryption using EMV keys.
+    public struct EmvEncryptionAttributes: Swift.Equatable {
+        /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
+        public var initializationVector: Swift.String?
+        /// The EMV derivation mode to use for ICC master key derivation as per EMV version 4.3 book 2.
+        /// This member is required.
+        public var majorKeyDerivationMode: PaymentCryptographyDataClientTypes.EmvMajorKeyDerivationMode?
+        /// The block cipher method to use for encryption.
+        public var mode: PaymentCryptographyDataClientTypes.EmvEncryptionMode?
+        /// A number that identifies and differentiates payment cards with the same Primary Account Number (PAN).
+        /// This member is required.
+        public var panSequenceNumber: Swift.String?
+        /// The Primary Account Number (PAN), a unique identifier for a payment credit or debit card and associates the card to a specific account holder.
+        /// This member is required.
+        public var primaryAccountNumber: Swift.String?
+        /// The derivation value used to derive the ICC session key. It is typically the application transaction counter value padded with zeros or previous ARQC value padded with zeros as per EMV version 4.3 book 2.
+        /// This member is required.
+        public var sessionDerivationData: Swift.String?
+
+        public init(
+            initializationVector: Swift.String? = nil,
+            majorKeyDerivationMode: PaymentCryptographyDataClientTypes.EmvMajorKeyDerivationMode? = nil,
+            mode: PaymentCryptographyDataClientTypes.EmvEncryptionMode? = nil,
+            panSequenceNumber: Swift.String? = nil,
+            primaryAccountNumber: Swift.String? = nil,
+            sessionDerivationData: Swift.String? = nil
+        )
+        {
+            self.initializationVector = initializationVector
+            self.majorKeyDerivationMode = majorKeyDerivationMode
+            self.mode = mode
+            self.panSequenceNumber = panSequenceNumber
+            self.primaryAccountNumber = primaryAccountNumber
+            self.sessionDerivationData = sessionDerivationData
+        }
+    }
+
+}
+
+extension PaymentCryptographyDataClientTypes {
+    public enum EmvEncryptionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cbc
+        case ecb
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmvEncryptionMode] {
+            return [
+                .cbc,
+                .ecb,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cbc: return "CBC"
+            case .ecb: return "ECB"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EmvEncryptionMode(rawValue: rawValue) ?? EmvEncryptionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PaymentCryptographyDataClientTypes {
+    public enum EmvMajorKeyDerivationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case emvOptionA
+        case emvOptionB
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EmvMajorKeyDerivationMode] {
+            return [
+                .emvOptionA,
+                .emvOptionB,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .emvOptionA: return "EMV_OPTION_A"
+            case .emvOptionB: return "EMV_OPTION_B"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EmvMajorKeyDerivationMode(rawValue: rawValue) ?? EmvMajorKeyDerivationMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension EncryptDataInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "EncryptDataInput(encryptionAttributes: \(Swift.String(describing: encryptionAttributes)), keyIdentifier: \(Swift.String(describing: keyIdentifier)), plainText: \"CONTENT_REDACTED\")"}
@@ -1334,7 +1492,7 @@ public struct EncryptDataInput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
     /// This member is required.
     public var keyIdentifier: Swift.String?
-    /// The plaintext to be encrypted.
+    /// The plaintext to be encrypted. For encryption using asymmetric keys, plaintext data length is constrained by encryption key strength that you define in KeyAlgorithm and padding type that you define in AsymmetricEncryptionAttributes. For more information, see [Encrypt data](https://docs.aws.amazon.com/payment-cryptography/latest/userguide/encrypt-data.html) in the Amazon Web Services Payment Cryptography User Guide.
     /// This member is required.
     public var plainText: Swift.String?
 
@@ -1398,7 +1556,7 @@ public struct EncryptDataOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     public var keyCheckValue: Swift.String?
 
     public init(
@@ -1456,6 +1614,7 @@ extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes: Swi
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case asymmetric = "Asymmetric"
         case dukpt = "Dukpt"
+        case emv = "Emv"
         case symmetric = "Symmetric"
         case sdkUnknown
     }
@@ -1467,6 +1626,8 @@ extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes: Swi
                 try container.encode(asymmetric, forKey: .asymmetric)
             case let .dukpt(dukpt):
                 try container.encode(dukpt, forKey: .dukpt)
+            case let .emv(emv):
+                try container.encode(emv, forKey: .emv)
             case let .symmetric(symmetric):
                 try container.encode(symmetric, forKey: .symmetric)
             case let .sdkUnknown(sdkUnknown):
@@ -1491,6 +1652,11 @@ extension PaymentCryptographyDataClientTypes.EncryptionDecryptionAttributes: Swi
             self = .dukpt(dukpt)
             return
         }
+        let emvDecoded = try values.decodeIfPresent(PaymentCryptographyDataClientTypes.EmvEncryptionAttributes.self, forKey: .emv)
+        if let emv = emvDecoded {
+            self = .emv(emv)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -1504,6 +1670,8 @@ extension PaymentCryptographyDataClientTypes {
         case asymmetric(PaymentCryptographyDataClientTypes.AsymmetricEncryptionAttributes)
         /// Parameters that are required to encrypt plaintext data using DUKPT.
         case dukpt(PaymentCryptographyDataClientTypes.DukptEncryptionAttributes)
+        /// Parameters for plaintext encryption using EMV keys.
+        case emv(PaymentCryptographyDataClientTypes.EmvEncryptionAttributes)
         case sdkUnknown(Swift.String)
     }
 
@@ -1671,7 +1839,7 @@ public struct GenerateCardValidationDataOutput: Swift.Equatable {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to generate CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
     /// The CVV or CSC value that Amazon Web Services Payment Cryptography generates for the card.
@@ -1775,7 +1943,7 @@ public struct GenerateMacInput: Swift.Equatable {
     public var keyIdentifier: Swift.String?
     /// The length of a MAC under generation.
     public var macLength: Swift.Int?
-    /// The data for which a MAC is under generation.
+    /// The data for which a MAC is under generation. This value must be hexBinary.
     /// This member is required.
     public var messageData: Swift.String?
 
@@ -1841,7 +2009,7 @@ public struct GenerateMacOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC generation.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
     /// The MAC cryptogram generated within Amazon Web Services Payment Cryptography.
@@ -2046,13 +2214,13 @@ public struct GeneratePinDataOutput: Swift.Equatable {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation.
     /// This member is required.
     public var encryptionKeyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var encryptionKeyCheckValue: Swift.String?
     /// The keyARN of the pin data generation key that Amazon Web Services Payment Cryptography uses for PIN, PVV or PIN Offset generation.
     /// This member is required.
     public var generationKeyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var generationKeyCheckValue: Swift.String?
     /// The attributes and values Amazon Web Services Payment Cryptography uses for pin data generation.
@@ -2763,7 +2931,7 @@ extension PaymentCryptographyDataClientTypes {
         case emvmac(PaymentCryptographyDataClientTypes.MacAlgorithmEmv)
         /// Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm1.
         case dukptiso9797algorithm1(PaymentCryptographyDataClientTypes.MacAlgorithmDukpt)
-        /// Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm2.
+        /// Parameters that are required for MAC generation or verification using DUKPT ISO 9797 algorithm3.
         case dukptiso9797algorithm3(PaymentCryptographyDataClientTypes.MacAlgorithmDukpt)
         /// Parameters that are required for MAC generation or verification using DUKPT CMAC algorithm.
         case dukptcmac(PaymentCryptographyDataClientTypes.MacAlgorithmDukpt)
@@ -3186,7 +3354,7 @@ public struct ReEncryptDataOutput: Swift.Equatable {
     /// The keyARN (Amazon Resource Name) of the encryption key that Amazon Web Services Payment Cryptography uses for plaintext encryption.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
 
@@ -3852,9 +4020,9 @@ extension PaymentCryptographyDataClientTypes.SymmetricEncryptionAttributes: Swif
 extension PaymentCryptographyDataClientTypes {
     /// Parameters requried to encrypt plaintext data using symmetric keys.
     public struct SymmetricEncryptionAttributes: Swift.Equatable {
-        /// An input to cryptographic primitive used to provide the intial state. The InitializationVector is typically required have a random or psuedo-random value, but sometimes it only needs to be unpredictable or unique. If a value is not provided, Amazon Web Services Payment Cryptography generates a random value.
+        /// An input used to provide the intial state. If no value is provided, Amazon Web Services Payment Cryptography defaults it to zero.
         public var initializationVector: Swift.String?
-        /// The block cipher mode of operation. Block ciphers are designed to encrypt a block of data of fixed size (for example, 128 bits). The size of the input block is usually same as the size of the encrypted output block, while the key length can be different. A mode of operation describes how to repeatedly apply a cipher's single-block operation to securely transform amounts of data larger than a block.
+        /// The block cipher method to use for encryption.
         /// This member is required.
         public var mode: PaymentCryptographyDataClientTypes.EncryptionMode?
         /// The padding to be included with the data.
@@ -3982,12 +4150,12 @@ public struct TranslatePinDataInput: Swift.Equatable {
     /// The encrypted PIN block data that Amazon Web Services Payment Cryptography translates.
     /// This member is required.
     public var encryptedPinBlock: Swift.String?
-    /// The attributes and values to use for incoming DUKPT encryption key for PIN block tranlation.
+    /// The attributes and values to use for incoming DUKPT encryption key for PIN block translation.
     public var incomingDukptAttributes: PaymentCryptographyDataClientTypes.DukptDerivationAttributes?
     /// The keyARN of the encryption key under which incoming PIN block data is encrypted. This key type can be PEK or BDK.
     /// This member is required.
     public var incomingKeyIdentifier: Swift.String?
-    /// The format of the incoming PIN block data for tranlation within Amazon Web Services Payment Cryptography.
+    /// The format of the incoming PIN block data for translation within Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var incomingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats?
     /// The attributes and values to use for outgoing DUKPT encryption key after PIN block translation.
@@ -3995,7 +4163,7 @@ public struct TranslatePinDataInput: Swift.Equatable {
     /// The keyARN of the encryption key for encrypting outgoing PIN block data. This key type can be PEK or BDK.
     /// This member is required.
     public var outgoingKeyIdentifier: Swift.String?
-    /// The format of the outgoing PIN block data after tranlation by Amazon Web Services Payment Cryptography.
+    /// The format of the outgoing PIN block data after translation by Amazon Web Services Payment Cryptography.
     /// This member is required.
     public var outgoingTranslationAttributes: PaymentCryptographyDataClientTypes.TranslationIsoFormats?
 
@@ -4079,10 +4247,10 @@ public struct TranslatePinDataOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses to encrypt outgoing PIN block data after translation.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
-    /// The ougoing encrypted PIN block data after tranlation.
+    /// The outgoing encrypted PIN block data after translation.
     /// This member is required.
     public var pinBlock: Swift.String?
 
@@ -4627,7 +4795,7 @@ public struct VerifyAuthRequestCryptogramOutput: Swift.Equatable {
     /// The keyARN of the major encryption key that Amazon Web Services Payment Cryptography uses for ARQC verification.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
 
@@ -4794,7 +4962,7 @@ public struct VerifyCardValidationDataOutput: Swift.Equatable {
     /// The keyARN of the CVK encryption key that Amazon Web Services Payment Cryptography uses to verify CVV or CSC.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
 
@@ -4894,7 +5062,7 @@ public struct VerifyMacInput: Swift.Equatable {
     public var mac: Swift.String?
     /// The length of the MAC.
     public var macLength: Swift.Int?
-    /// The data on for which MAC is under verification.
+    /// The data on for which MAC is under verification. This value must be hexBinary.
     /// This member is required.
     public var messageData: Swift.String?
     /// The attributes and data values to use for MAC verification within Amazon Web Services Payment Cryptography.
@@ -4967,7 +5135,7 @@ public struct VerifyMacOutput: Swift.Equatable {
     /// The keyARN of the encryption key that Amazon Web Services Payment Cryptography uses for MAC verification.
     /// This member is required.
     public var keyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var keyCheckValue: Swift.String?
 
@@ -5182,13 +5350,13 @@ public struct VerifyPinDataOutput: Swift.Equatable {
     /// The keyARN of the PEK that Amazon Web Services Payment Cryptography uses for encrypted pin block generation.
     /// This member is required.
     public var encryptionKeyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var encryptionKeyCheckValue: Swift.String?
     /// The keyARN of the PIN encryption key that Amazon Web Services Payment Cryptography uses for PIN or PIN Offset verification.
     /// This member is required.
     public var verificationKeyArn: Swift.String?
-    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography calculates the KCV by using standard algorithms, typically by encrypting 8 or 16 bytes or "00" or "01" and then truncating the result to the first 3 bytes, or 6 hex digits, of the resulting cryptogram.
+    /// The key check value (KCV) of the encryption key. The KCV is used to check if all parties holding a given key have the same key or to detect that a key has changed. Amazon Web Services Payment Cryptography computes the KCV according to the CMAC specification.
     /// This member is required.
     public var verificationKeyCheckValue: Swift.String?
 

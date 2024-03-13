@@ -36,7 +36,7 @@ extension AccessAnalyzerClientTypes.Access: Swift.Codable {
 extension AccessAnalyzerClientTypes {
     /// Contains information about actions that define permissions to check against a policy.
     public struct Access: Swift.Equatable {
-        /// A list of actions for the access permissions.
+        /// A list of actions for the access permissions. Any strings that can be used as an action in an IAM policy can be used in the list of actions to check.
         /// This member is required.
         public var actions: [Swift.String]?
 
@@ -2424,7 +2424,7 @@ public struct CreateAnalyzerInput: Swift.Equatable {
     public var configuration: AccessAnalyzerClientTypes.AnalyzerConfiguration?
     /// An array of key-value pairs to apply to the analyzer.
     public var tags: [Swift.String:Swift.String]?
-    /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZTAION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
+    /// The type of analyzer to create. Only ACCOUNT, ORGANIZATION, ACCOUNT_UNUSED_ACCESS, and ORGANIZATION_UNUSED_ACCESS analyzers are supported. You can create only one analyzer per account per Region. You can create up to 5 analyzers per organization per Region.
     /// This member is required.
     public var type: AccessAnalyzerClientTypes.ModelType?
 
@@ -8417,7 +8417,7 @@ extension AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration: Swift
 }
 
 extension AccessAnalyzerClientTypes {
-    /// Proposed access control configuration for an Amazon S3 directory bucket. You can propose a configuration for a new Amazon S3 directory bucket or an existing Amazon S3 directory bucket that you own by specifying the Amazon S3 bucket policy. If the configuration is for an existing Amazon S3 directory bucket and you do not specify the Amazon S3 bucket policy, the access preview uses the existing policy attached to the directory bucket. If the access preview is for a new resource and you do not specify the Amazon S3 bucket policy, the access preview assumes an directory bucket without a policy. To propose deletion of an existing bucket policy, you can specify an empty string. For more information about bucket policy limits, see [Example bucket policies](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html).
+    /// Proposed access control configuration for an Amazon S3 directory bucket. You can propose a configuration for a new Amazon S3 directory bucket or an existing Amazon S3 directory bucket that you own by specifying the Amazon S3 bucket policy. If the configuration is for an existing Amazon S3 directory bucket and you do not specify the Amazon S3 bucket policy, the access preview uses the existing policy attached to the directory bucket. If the access preview is for a new resource and you do not specify the Amazon S3 bucket policy, the access preview assumes an directory bucket without a policy. To propose deletion of an existing bucket policy, you can specify an empty string. For more information about Amazon S3 directory bucket policies, see [Example directory bucket policies for S3 Express One Zone](https://docs.aws.amazon.com/AmazonS3/latest/userguide/s3-express-security-iam-example-bucket-policies.html).
     public struct S3ExpressDirectoryBucketConfiguration: Swift.Equatable {
         /// The proposed bucket policy for the Amazon S3 directory bucket.
         public var bucketPolicy: Swift.String?

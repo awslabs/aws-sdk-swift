@@ -58,6 +58,256 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// This exception is thrown when an attempt to update or delete a resource would cause an inconsistent state.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        /// This member is required.
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { true }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CreateTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case tags
+        case templateDescription
+        case templateName
+        case templateSource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let templateDescription = self.templateDescription {
+            try encodeContainer.encode(templateDescription, forKey: .templateDescription)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+        if let templateSource = self.templateSource {
+            try encodeContainer.encode(templateSource, forKey: .templateSource)
+        }
+    }
+}
+
+extension CreateTemplateInput {
+
+    static func urlPathProvider(_ value: CreateTemplateInput) -> Swift.String? {
+        return "/template"
+    }
+}
+
+public struct CreateTemplateInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Idempotency](https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait) in the Smithy documentation.
+    public var clientToken: Swift.String?
+    /// The tags to add to the migration workflow template.
+    public var tags: [Swift.String:Swift.String]?
+    /// A description of the migration workflow template.
+    public var templateDescription: Swift.String?
+    /// The name of the migration workflow template.
+    /// This member is required.
+    public var templateName: Swift.String?
+    /// The source of the migration workflow template.
+    /// This member is required.
+    public var templateSource: MigrationHubOrchestratorClientTypes.TemplateSource?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        templateDescription: Swift.String? = nil,
+        templateName: Swift.String? = nil,
+        templateSource: MigrationHubOrchestratorClientTypes.TemplateSource? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.tags = tags
+        self.templateDescription = templateDescription
+        self.templateName = templateName
+        self.templateSource = templateSource
+    }
+}
+
+struct CreateTemplateInputBody: Swift.Equatable {
+    let templateName: Swift.String?
+    let templateDescription: Swift.String?
+    let templateSource: MigrationHubOrchestratorClientTypes.TemplateSource?
+    let clientToken: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case tags
+        case templateDescription
+        case templateName
+        case templateSource
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateDescription)
+        templateDescription = templateDescriptionDecoded
+        let templateSourceDecoded = try containerValues.decodeIfPresent(MigrationHubOrchestratorClientTypes.TemplateSource.self, forKey: .templateSource)
+        templateSource = templateSourceDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, tagvalue0) in tagsContainer {
+                if let tagvalue0 = tagvalue0 {
+                    tagsDecoded0?[key0] = tagvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+            self.templateArn = output.templateArn
+            self.templateId = output.templateId
+        } else {
+            self.tags = nil
+            self.templateArn = nil
+            self.templateId = nil
+        }
+    }
+}
+
+public struct CreateTemplateOutput: Swift.Equatable {
+    /// The tags added to the migration workflow template.
+    public var tags: [Swift.String:Swift.String]?
+    /// The Amazon Resource Name (ARN) of the migration workflow template. The format for an Migration Hub Orchestrator template ARN is arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) in the AWS General Reference.
+    public var templateArn: Swift.String?
+    /// The ID of the migration workflow template.
+    public var templateId: Swift.String?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil,
+        templateArn: Swift.String? = nil,
+        templateId: Swift.String? = nil
+    )
+    {
+        self.tags = tags
+        self.templateArn = templateArn
+        self.templateId = templateId
+    }
+}
+
+struct CreateTemplateOutputBody: Swift.Equatable {
+    let templateId: Swift.String?
+    let templateArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+        case templateArn
+        case templateId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateId)
+        templateId = templateIdDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringmapvalue0) in tagsContainer {
+                if let stringmapvalue0 = stringmapvalue0 {
+                    tagsDecoded0?[key0] = stringmapvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateWorkflowInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
         "CreateWorkflowInput(applicationConfigurationId: \(Swift.String(describing: applicationConfigurationId)), description: \(Swift.String(describing: description)), name: \(Swift.String(describing: name)), stepTargets: \(Swift.String(describing: stepTargets)), tags: \(Swift.String(describing: tags)), templateId: \(Swift.String(describing: templateId)), inputParameters: \"CONTENT_REDACTED\")"}
@@ -118,7 +368,6 @@ extension CreateWorkflowInput {
 
 public struct CreateWorkflowInput: Swift.Equatable {
     /// The configuration ID of the application configured in Application Discovery Service.
-    /// This member is required.
     public var applicationConfigurationId: Swift.String?
     /// The description of the migration workflow.
     public var description: Swift.String?
@@ -1012,6 +1261,63 @@ extension MigrationHubOrchestratorClientTypes {
     }
 }
 
+extension DeleteTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/template/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteTemplateInput: Swift.Equatable {
+    /// The ID of the request to delete a migration workflow template.
+    /// This member is required.
+    public var id: Swift.String?
+
+    public init(
+        id: Swift.String? = nil
+    )
+    {
+        self.id = id
+    }
+}
+
+struct DeleteTemplateInputBody: Swift.Equatable {
+}
+
+extension DeleteTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteWorkflowInput {
 
     static func urlPathProvider(_ value: DeleteWorkflowInput) -> Swift.String? {
@@ -1324,7 +1630,12 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
             self.id = output.id
             self.inputs = output.inputs
             self.name = output.name
+            self.owner = output.owner
             self.status = output.status
+            self.statusMessage = output.statusMessage
+            self.tags = output.tags
+            self.templateArn = output.templateArn
+            self.templateClass = output.templateClass
             self.tools = output.tools
         } else {
             self.creationTime = nil
@@ -1332,7 +1643,12 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
             self.id = nil
             self.inputs = nil
             self.name = nil
+            self.owner = nil
             self.status = nil
+            self.statusMessage = nil
+            self.tags = nil
+            self.templateArn = nil
+            self.templateClass = nil
             self.tools = nil
         }
     }
@@ -1349,8 +1665,30 @@ public struct GetTemplateOutput: Swift.Equatable {
     public var inputs: [MigrationHubOrchestratorClientTypes.TemplateInput]?
     /// The name of the template.
     public var name: Swift.String?
+    /// The owner of the migration workflow template.
+    public var owner: Swift.String?
     /// The status of the template.
     public var status: MigrationHubOrchestratorClientTypes.TemplateStatus?
+    /// The status message of retrieving migration workflow templates.
+    public var statusMessage: Swift.String?
+    /// The tags added to the migration workflow template.
+    public var tags: [Swift.String:Swift.String]?
+    /// >The Amazon Resource Name (ARN) of the migration workflow template. The format for an Migration Hub Orchestrator template ARN is arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) in the AWS General Reference.
+    public var templateArn: Swift.String?
+    /// The class of the migration workflow template. The available template classes are:
+    ///
+    /// * A2C
+    ///
+    /// * MGN
+    ///
+    /// * SAP_MULTI
+    ///
+    /// * SQL_EC2
+    ///
+    /// * SQL_RDS
+    ///
+    /// * VMIE
+    public var templateClass: Swift.String?
     /// List of AWS services utilized in a migration workflow.
     public var tools: [MigrationHubOrchestratorClientTypes.Tool]?
 
@@ -1360,7 +1698,12 @@ public struct GetTemplateOutput: Swift.Equatable {
         id: Swift.String? = nil,
         inputs: [MigrationHubOrchestratorClientTypes.TemplateInput]? = nil,
         name: Swift.String? = nil,
+        owner: Swift.String? = nil,
         status: MigrationHubOrchestratorClientTypes.TemplateStatus? = nil,
+        statusMessage: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        templateArn: Swift.String? = nil,
+        templateClass: Swift.String? = nil,
         tools: [MigrationHubOrchestratorClientTypes.Tool]? = nil
     )
     {
@@ -1369,19 +1712,29 @@ public struct GetTemplateOutput: Swift.Equatable {
         self.id = id
         self.inputs = inputs
         self.name = name
+        self.owner = owner
         self.status = status
+        self.statusMessage = statusMessage
+        self.tags = tags
+        self.templateArn = templateArn
+        self.templateClass = templateClass
         self.tools = tools
     }
 }
 
 struct GetTemplateOutputBody: Swift.Equatable {
     let id: Swift.String?
+    let templateArn: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
     let inputs: [MigrationHubOrchestratorClientTypes.TemplateInput]?
     let tools: [MigrationHubOrchestratorClientTypes.Tool]?
-    let status: MigrationHubOrchestratorClientTypes.TemplateStatus?
     let creationTime: ClientRuntime.Date?
+    let owner: Swift.String?
+    let status: MigrationHubOrchestratorClientTypes.TemplateStatus?
+    let statusMessage: Swift.String?
+    let templateClass: Swift.String?
+    let tags: [Swift.String:Swift.String]?
 }
 
 extension GetTemplateOutputBody: Swift.Decodable {
@@ -1391,7 +1744,12 @@ extension GetTemplateOutputBody: Swift.Decodable {
         case id
         case inputs
         case name
+        case owner
         case status
+        case statusMessage
+        case tags
+        case templateArn
+        case templateClass
         case tools
     }
 
@@ -1399,6 +1757,8 @@ extension GetTemplateOutputBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
@@ -1425,10 +1785,27 @@ extension GetTemplateOutputBody: Swift.Decodable {
             }
         }
         tools = toolsDecoded0
-        let statusDecoded = try containerValues.decodeIfPresent(MigrationHubOrchestratorClientTypes.TemplateStatus.self, forKey: .status)
-        status = statusDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
         creationTime = creationTimeDecoded
+        let ownerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owner)
+        owner = ownerDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MigrationHubOrchestratorClientTypes.TemplateStatus.self, forKey: .status)
+        status = statusDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+        let templateClassDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateClass)
+        templateClass = templateClassDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringmapvalue0) in tagsContainer {
+                if let stringmapvalue0 = stringmapvalue0 {
+                    tagsDecoded0?[key0] = stringmapvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -2488,7 +2865,7 @@ public struct GetWorkflowStepInput: Swift.Equatable {
     /// The ID of the step.
     /// This member is required.
     public var id: Swift.String?
-    /// desThe ID of the step group.
+    /// The ID of the step group.
     /// This member is required.
     public var stepGroupId: Swift.String?
     /// The ID of the migration workflow.
@@ -5011,6 +5388,7 @@ extension MigrationHubOrchestratorClientTypes {
         case inProgress
         case paused
         case ready
+        case skipped
         case userAttentionRequired
         case sdkUnknown(Swift.String)
 
@@ -5022,6 +5400,7 @@ extension MigrationHubOrchestratorClientTypes {
                 .inProgress,
                 .paused,
                 .ready,
+                .skipped,
                 .userAttentionRequired,
                 .sdkUnknown("")
             ]
@@ -5038,6 +5417,7 @@ extension MigrationHubOrchestratorClientTypes {
             case .inProgress: return "IN_PROGRESS"
             case .paused: return "PAUSED"
             case .ready: return "READY"
+            case .skipped: return "SKIPPED"
             case .userAttentionRequired: return "USER_ATTENTION_REQUIRED"
             case let .sdkUnknown(s): return s
             }
@@ -5358,14 +5738,59 @@ extension MigrationHubOrchestratorClientTypes {
 
 }
 
+extension MigrationHubOrchestratorClientTypes.TemplateSource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sdkUnknown
+        case workflowid = "workflowId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .workflowid(workflowid):
+                try container.encode(workflowid, forKey: .workflowid)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let workflowidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .workflowid)
+        if let workflowid = workflowidDecoded {
+            self = .workflowid(workflowid)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension MigrationHubOrchestratorClientTypes {
+    /// The migration workflow template used as the source for the new template.
+    public enum TemplateSource: Swift.Equatable {
+        /// The ID of the workflow from the source migration workflow template.
+        case workflowid(Swift.String)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension MigrationHubOrchestratorClientTypes {
     public enum TemplateStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case created
+        case creating
+        case creationFailed
+        case pendingCreation
+        case ready
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TemplateStatus] {
             return [
                 .created,
+                .creating,
+                .creationFailed,
+                .pendingCreation,
+                .ready,
                 .sdkUnknown("")
             ]
         }
@@ -5376,6 +5801,10 @@ extension MigrationHubOrchestratorClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .created: return "CREATED"
+            case .creating: return "CREATING"
+            case .creationFailed: return "CREATION_FAILED"
+            case .pendingCreation: return "PENDING_CREATION"
+            case .ready: return "READY"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5850,6 +6279,170 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case templateDescription
+        case templateName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let templateDescription = self.templateDescription {
+            try encodeContainer.encode(templateDescription, forKey: .templateDescription)
+        }
+        if let templateName = self.templateName {
+            try encodeContainer.encode(templateName, forKey: .templateName)
+        }
+    }
+}
+
+extension UpdateTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateTemplateInput) -> Swift.String? {
+        guard let id = value.id else {
+            return nil
+        }
+        return "/template/\(id.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateTemplateInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the request to update a migration workflow template.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The description of the migration workflow template to update.
+    public var templateDescription: Swift.String?
+    /// The name of the migration workflow template to update.
+    public var templateName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        id: Swift.String? = nil,
+        templateDescription: Swift.String? = nil,
+        templateName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.id = id
+        self.templateDescription = templateDescription
+        self.templateName = templateName
+    }
+}
+
+struct UpdateTemplateInputBody: Swift.Equatable {
+    let templateName: Swift.String?
+    let templateDescription: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension UpdateTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case templateDescription
+        case templateName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateName)
+        templateName = templateNameDecoded
+        let templateDescriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateDescription)
+        templateDescription = templateDescriptionDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension UpdateTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.tags = output.tags
+            self.templateArn = output.templateArn
+            self.templateId = output.templateId
+        } else {
+            self.tags = nil
+            self.templateArn = nil
+            self.templateId = nil
+        }
+    }
+}
+
+public struct UpdateTemplateOutput: Swift.Equatable {
+    /// The tags added to the migration workflow template.
+    public var tags: [Swift.String:Swift.String]?
+    /// The ARN of the migration workflow template being updated. The format for an Migration Hub Orchestrator template ARN is arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) in the AWS General Reference.
+    public var templateArn: Swift.String?
+    /// The ID of the migration workflow template being updated.
+    public var templateId: Swift.String?
+
+    public init(
+        tags: [Swift.String:Swift.String]? = nil,
+        templateArn: Swift.String? = nil,
+        templateId: Swift.String? = nil
+    )
+    {
+        self.tags = tags
+        self.templateArn = templateArn
+        self.templateId = templateId
+    }
+}
+
+struct UpdateTemplateOutputBody: Swift.Equatable {
+    let templateId: Swift.String?
+    let templateArn: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tags
+        case templateArn
+        case templateId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let templateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateId)
+        templateId = templateIdDecoded
+        let templateArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .templateArn)
+        templateArn = templateArnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, stringmapvalue0) in tagsContainer {
+                if let stringmapvalue0 = stringmapvalue0 {
+                    tagsDecoded0?[key0] = stringmapvalue0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum UpdateTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -7091,8 +7684,8 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepOutputUnion: Swift.Cod
                 try container.encode(integervalue, forKey: .integervalue)
             case let .listofstringvalue(listofstringvalue):
                 var listofstringvalueContainer = container.nestedUnkeyedContainer(forKey: .listofstringvalue)
-                for stringlistmember0 in listofstringvalue {
-                    try listofstringvalueContainer.encode(stringlistmember0)
+                for maxstringvalue0 in listofstringvalue {
+                    try listofstringvalueContainer.encode(maxstringvalue0)
                 }
             case let .stringvalue(stringvalue):
                 try container.encode(stringvalue, forKey: .stringvalue)

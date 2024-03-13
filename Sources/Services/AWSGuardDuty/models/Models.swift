@@ -5596,13 +5596,13 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
-    /// Indicates the auto-enablement configuration of GuardDuty for the member accounts in the organization.
+    /// Indicates the auto-enablement configuration of GuardDuty or any of the corresponding protection plans for the member accounts in the organization.
     ///
-    /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty enabled automatically.
+    /// * NEW: Indicates that when a new account joins the organization, they will have GuardDuty or any of the corresponding protection plans enabled automatically.
     ///
-    /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
+    /// * ALL: Indicates that all accounts in the organization have GuardDuty and any of the corresponding protection plans enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
+    /// * NONE: Indicates that GuardDuty or any of the corresponding protection plans will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources are enabled automatically for member accounts.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
@@ -6185,7 +6185,7 @@ extension GuardDutyClientTypes.DetectorFeatureConfiguration: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about a GuardDuty feature.
+    /// Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html).
     public struct DetectorFeatureConfiguration: Swift.Equatable {
         /// Additional configuration for a resource.
         public var additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfiguration]?
@@ -6258,7 +6258,7 @@ extension GuardDutyClientTypes.DetectorFeatureConfigurationResult: Swift.Codable
 }
 
 extension GuardDutyClientTypes {
-    /// Contains information about a GuardDuty feature.
+    /// Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html).
     public struct DetectorFeatureConfigurationResult: Swift.Equatable {
         /// Additional configuration for a resource.
         public var additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfigurationResult]?
@@ -20970,7 +20970,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     ///
     /// * ALL: Indicates that all accounts in the organization have GuardDuty enabled automatically. This includes NEW accounts that join the organization and accounts that may have been suspended or removed from the organization in GuardDuty. It may take up to 24 hours to update the configuration for all the member accounts.
     ///
-    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually.
+    /// * NONE: Indicates that GuardDuty will not be automatically enabled for any account in the organization. The administrator must manage GuardDuty for each account in the organization individually. When you update the auto-enable setting from ALL or NEW to NONE, this action doesn't disable the corresponding option for your existing accounts. This configuration will apply to the new accounts that join the organization. After you update the auto-enable settings, no new account will have the corresponding option as enabled.
     public var autoEnableOrganizationMembers: GuardDutyClientTypes.AutoEnableMembers?
     /// Describes which data sources will be updated.
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
@@ -21467,6 +21467,8 @@ extension GuardDutyClientTypes {
         case fargateRuntimeMonitoring
         case flowLogs
         case lambdaNetworkLogs
+        case rdsDbiProtectionProvisioned
+        case rdsDbiProtectionServerless
         case rdsLoginEvents
         case s3DataEvents
         case sdkUnknown(Swift.String)
@@ -21482,6 +21484,8 @@ extension GuardDutyClientTypes {
                 .fargateRuntimeMonitoring,
                 .flowLogs,
                 .lambdaNetworkLogs,
+                .rdsDbiProtectionProvisioned,
+                .rdsDbiProtectionServerless,
                 .rdsLoginEvents,
                 .s3DataEvents,
                 .sdkUnknown("")
@@ -21502,6 +21506,8 @@ extension GuardDutyClientTypes {
             case .fargateRuntimeMonitoring: return "FARGATE_RUNTIME_MONITORING"
             case .flowLogs: return "FLOW_LOGS"
             case .lambdaNetworkLogs: return "LAMBDA_NETWORK_LOGS"
+            case .rdsDbiProtectionProvisioned: return "RDS_DBI_PROTECTION_PROVISIONED"
+            case .rdsDbiProtectionServerless: return "RDS_DBI_PROTECTION_SERVERLESS"
             case .rdsLoginEvents: return "RDS_LOGIN_EVENTS"
             case .s3DataEvents: return "S3_DATA_EVENTS"
             case let .sdkUnknown(s): return s

@@ -4515,7 +4515,7 @@ extension SESv2Client {
 
     /// Performs the `UpdateContact` operation on the `SimpleEmailService_v2` service.
     ///
-    /// Updates a contact's preferences for a list. It is not necessary to specify all existing topic preferences in the TopicPreferences object, just the ones that need updating.
+    /// Updates a contact's preferences for a list. You must specify all existing topic preferences in the TopicPreferences object, not just the ones that need updating; otherwise, all your existing preferences will be removed.
     ///
     /// - Parameter UpdateContactInput : [no documentation found]
     ///
