@@ -13,7 +13,6 @@ permissions:
 jobs:
   apple:
     runs-on: ${{ matrix.runner }}
-    environment: Integration-Test
     env:
       DEVELOPER_DIR: /Applications/${{ matrix.xcode }}.app/Contents/Developer
     strategy:
@@ -90,7 +89,6 @@ jobs:
 
   linux:
     runs-on: ubuntu-latest
-    environment: Integration-Test
     container: swift:${{ matrix.version }}-${{ matrix.os }}
     strategy:
       fail-fast: false
