@@ -57,7 +57,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let sut = EventStream.DefaultMessageEncoderStream(
             stream: baseStream,
             messageEncoder: messageEncoder,
-            requestEncoder: JSONEncoder(),
+            marshalClosure: jsonMarshalClosure(requestEncoder: JSONEncoder()),
             messageSigner: messageSigner
         )
         
@@ -94,7 +94,7 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let sut = EventStream.DefaultMessageEncoderStream(
             stream: baseStream,
             messageEncoder: messageEncoder,
-            requestEncoder: JSONEncoder(),
+            marshalClosure: jsonMarshalClosure(requestEncoder: JSONEncoder()),
             messageSigner: messageSigner
         )
         
