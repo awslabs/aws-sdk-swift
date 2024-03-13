@@ -2338,7 +2338,7 @@ extension FSxClientTypes.CreateAggregateConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// Used to specify the configuration options for a volume's storage aggregate or aggregates.
+    /// Used to specify the configuration options for an FSx for ONTAP volume's storage aggregate or aggregates.
     public struct CreateAggregateConfiguration: Swift.Equatable {
         /// Used to specify the names of aggregates on which the volume will be created.
         public var aggregates: [Swift.String]?
@@ -3722,7 +3722,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     public var ontapConfiguration: FSxClientTypes.CreateFileSystemOntapConfiguration?
     /// The OpenZFS configuration for the file system that's being created.
     public var openZFSConfiguration: FSxClientTypes.CreateFileSystemOpenZFSConfiguration?
-    /// A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system.
+    /// A list of IDs specifying the security groups to apply to all network interfaces created for file system access. This list isn't returned in later requests to describe the file system. You must specify a security group if you are creating a Multi-AZ FSx for ONTAP file system in a VPC subnet that has been shared with you.
     public var securityGroupIds: [Swift.String]?
     /// Sets the storage capacity of the file system that you're creating, in gibibytes (GiB). FSx for Lustre file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType and the Lustre DeploymentType, as follows:
     ///
@@ -3733,7 +3733,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     /// * For SCRATCH_1 deployment type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.
     ///
     ///
-    /// FSx for ONTAP file systems - The amount of storage capacity that you can configure depends on the value of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maxium is calculated as 524,288 * HAPairs.. FSx for OpenZFS file systems - The amount of storage capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB). FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:
+    /// FSx for ONTAP file systems - The amount of storage capacity that you can configure depends on the value of the HAPairs property. The minimum value is calculated as 1,024 * HAPairs and the maximum is calculated as 524,288 * HAPairs. FSx for OpenZFS file systems - The amount of storage capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB). FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:
     ///
     /// * For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).
     ///
@@ -4204,15 +4204,15 @@ extension FSxClientTypes {
         public var endpointIpAddressRange: Swift.String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public var fsxAdminPassword: Swift.String?
-        /// Specifies how many high-availability (HA) pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
+        /// Specifies how many high-availability (HA) pairs of file servers will power your file system. Scale-up file systems are powered by 1 HA pair. The default value is 1. FSx for ONTAP scale-out file systems are powered by up to 12 HA pairs. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
-        /// * The value of HAPairs is less than 1 or greater than 6.
+        /// * The value of HAPairs is less than 1 or greater than 12.
         ///
         /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
         public var haPairs: Swift.Int?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public var preferredSubnetId: Swift.String?
-        /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
+        /// (Multi-AZ only) Specifies the route tables in which Amazon FSx creates the rules for routing traffic to the correct file server. You should specify all virtual private cloud (VPC) route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table. Amazon FSx manages these route tables for Multi-AZ file systems using tag-based authentication. These route tables are tagged with Key: AmazonFSx; Value: ManagedByAmazonFSx. When creating FSx for ONTAP Multi-AZ file systems using CloudFormation we recommend that you add the Key: AmazonFSx; Value: ManagedByAmazonFSx tag manually.
         public var routeTableIds: [Swift.String]?
         /// Sets the throughput capacity for the file system that you're creating in megabytes per second (MBps). For more information, see [Managing throughput capacity](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-throughput-capacity.html) in the FSx for ONTAP User Guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
@@ -4220,18 +4220,18 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacity when divided by the value of HAPairs is outside of the valid range for ThroughputCapacity.
         public var throughputCapacity: Swift.Int?
-        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system. This field and ThroughputCapacity cannot be defined in the same API call, but one is required. This field and ThroughputCapacity are the same for file systems with one HA pair.
+        /// Use to choose the throughput capacity per HA pair, rather than the total throughput for the file system. You can define either the ThroughputCapacityPerHAPair or the ThroughputCapacity when creating a file system, but not both. This field and ThroughputCapacity are the same for scale-up file systems powered by one HA pair.
         ///
-        /// * For SINGLE_AZ_1 and MULTI_AZ_1, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
+        /// * For SINGLE_AZ_1 and MULTI_AZ_1 file systems, valid values are 128, 256, 512, 1024, 2048, or 4096 MBps.
         ///
-        /// * For SINGLE_AZ_2, valid values are 3072 or 6144 MBps.
+        /// * For SINGLE_AZ_2 file systems, valid values are 3072 or 6144 MBps.
         ///
         ///
         /// Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -4793,17 +4793,20 @@ extension FSxClientTypes {
         ///
         /// For more information, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types) in the Amazon FSx for NetApp ONTAP User Guide.
         public var ontapVolumeType: FSxClientTypes.InputOntapVolumeType?
-        /// Specifies the security style for the volume. If a volume's security style is not specified, it is automatically set to the root volume's security style. The security style determines the type of permissions that FSx for ONTAP uses to control data access. For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-volumes.html#volume-security-style) in the Amazon FSx for NetApp ONTAP User Guide. Specify one of the following values:
+        /// Specifies the security style for the volume. If a volume's security style is not specified, it is automatically set to the root volume's security style. The security style determines the type of permissions that FSx for ONTAP uses to control data access. For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style) in the Amazon FSx for NetApp ONTAP User Guide. Specify one of the following values:
         ///
         /// * UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account.
         ///
         /// * NTFS if the file system is managed by a Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Windows user as the service account.
         ///
-        /// * MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
+        /// * MIXED This is an advanced setting. For more information, see the topic [What the security styles and their effects are](https://docs.netapp.com/us-en/ontap/nfs-admin/security-styles-their-effects-concept.html) in the NetApp Documentation Center.
+        ///
+        ///
+        /// For more information, see [Volume security style](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-security-style.html) in the FSx for ONTAP User Guide.
         public var securityStyle: FSxClientTypes.SecurityStyle?
-        /// The configured size of the volume, in bytes.
+        /// Specifies the configured size of the volume, in bytes.
         public var sizeInBytes: Swift.Int?
-        /// Specifies the size of the volume, in megabytes (MB), that you are creating.
+        /// Use SizeInBytes instead. Specifies the size of the volume, in megabytes (MB), that you are creating.
         @available(*, deprecated, message: "This property is deprecated, use SizeInBytes instead")
         public var sizeInMegabytes: Swift.Int?
         /// Specifies the SnapLock configuration for an FSx for ONTAP volume.
@@ -4819,7 +4822,7 @@ extension FSxClientTypes {
         ///
         /// You can also provide the name of a custom policy that you created with the ONTAP CLI or REST API. For more information, see [Snapshot policies](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snapshots-ontap.html#snapshot-policies) in the Amazon FSx for NetApp ONTAP User Guide.
         public var snapshotPolicy: Swift.String?
-        /// Set to true to enable deduplication, compression, and compaction storage efficiency features on the volume, or set to false to disable them. This parameter is required.
+        /// Set to true to enable deduplication, compression, and compaction storage efficiency features on the volume, or set to false to disable them. StorageEfficiencyEnabled is required when creating a RW volume (OntapVolumeType set to RW).
         public var storageEfficiencyEnabled: Swift.Bool?
         /// Specifies the ONTAP SVM in which to create the volume.
         /// This member is required.
@@ -4843,7 +4846,7 @@ extension FSxClientTypes {
         ///
         /// * NONE - keeps a volume's data in the primary storage tier, preventing it from being moved to the capacity pool tier.
         public var tieringPolicy: FSxClientTypes.TieringPolicy?
-        /// Use to specify the style of an ONTAP volume. For more information about FlexVols and FlexGroups, see [Volume types](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-types.html) in Amazon FSx for NetApp ONTAP User Guide.
+        /// Use to specify the style of an ONTAP volume. FSx for ONTAP offers two styles of volumes that you can use for different purposes, FlexVol and FlexGroup volumes. For more information, see [Volume styles](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/volume-styles.html) in the Amazon FSx for NetApp ONTAP User Guide.
         public var volumeStyle: FSxClientTypes.VolumeStyle?
 
         public init(
@@ -5062,7 +5065,7 @@ extension FSxClientTypes {
         public var storageCapacityQuotaGiB: Swift.Int?
         /// Specifies the amount of storage in gibibytes (GiB) to reserve from the parent volume. Setting StorageCapacityReservationGiB guarantees that the specified amount of storage space on the parent volume will always be available for the volume. You can't reserve more storage than the parent volume has. To not specify a storage capacity reservation, set this to 0 or -1. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the Amazon FSx for OpenZFS User Guide.
         public var storageCapacityReservationGiB: Swift.Int?
-        /// An object specifying how much storage users or groups can use on the volume.
+        /// Configures how much storage users and groups can use on the volume.
         public var userAndGroupQuotas: [FSxClientTypes.OpenZFSUserOrGroupQuota]?
 
         public init(
@@ -5388,7 +5391,7 @@ extension CreateStorageVirtualMachineInput {
 }
 
 public struct CreateStorageVirtualMachineInput: Swift.Equatable {
-    /// Describes the self-managed Microsoft Active Directory to which you want to join the SVM. Joining an Active Directory provides user authentication and access control for SMB clients, including Microsoft Windows and macOS client accessing the file system.
+    /// Describes the self-managed Microsoft Active Directory to which you want to join the SVM. Joining an Active Directory provides user authentication and access control for SMB clients, including Microsoft Windows and macOS clients accessing the file system.
     public var activeDirectoryConfiguration: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
@@ -5402,9 +5405,9 @@ public struct CreateStorageVirtualMachineInput: Swift.Equatable {
     ///
     /// * UNIX if the file system is managed by a UNIX administrator, the majority of users are NFS clients, and an application accessing the data uses a UNIX user as the service account.
     ///
-    /// * NTFS if the file system is managed by a Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Windows user as the service account.
+    /// * NTFS if the file system is managed by a Microsoft Windows administrator, the majority of users are SMB clients, and an application accessing the data uses a Microsoft Windows user as the service account.
     ///
-    /// * MIXED if the file system is managed by both UNIX and Windows administrators and users consist of both NFS and SMB clients.
+    /// * MIXED This is an advanced setting. For more information, see [Volume security style] in the Amazon FSx for NetApp ONTAP User Guide.
     public var rootVolumeSecurityStyle: FSxClientTypes.StorageVirtualMachineRootVolumeSecurityStyle?
     /// The password to use when managing the SVM using the NetApp ONTAP CLI or REST API. If you do not specify a password, you can still use the file system's fsxadmin user to manage the SVM.
     public var svmAdminPassword: Swift.String?
@@ -5563,7 +5566,7 @@ extension FSxClientTypes.CreateSvmActiveDirectoryConfiguration: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The configuration that Amazon FSx uses to join the ONTAP storage virtual machine (SVM) to your self-managed (including on-premises) Microsoft Active Directory (AD) directory.
+    /// The configuration that Amazon FSx uses to join the ONTAP storage virtual machine (SVM) to your self-managed (including on-premises) Microsoft Active Directory directory.
     public struct CreateSvmActiveDirectoryConfiguration: Swift.Equatable {
         /// The NetBIOS name of the Active Directory computer object that will be created for your SVM.
         /// This member is required.
@@ -9894,7 +9897,7 @@ extension DescribeSnapshotsInput {
 public struct DescribeSnapshotsInput: Swift.Equatable {
     /// The filters structure. The supported names are file-system-id or volume-id.
     public var filters: [FSxClientTypes.SnapshotFilter]?
-    /// Set to false (default) if you want to only see the snapshots in your Amazon Web Services account. Set to true if you want to see the snapshots in your account and the ones shared with you from another account.
+    /// Set to false (default) if you want to only see the snapshots owned by your Amazon Web Services account. Set to true if you want to see the snapshots in your account and the ones shared with you from another account.
     public var includeShared: Swift.Bool?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
     public var maxResults: Swift.Int?
@@ -10581,7 +10584,7 @@ extension FSxClientTypes {
     public struct DiskIopsConfiguration: Swift.Equatable {
         /// The total number of SSD IOPS provisioned for the file system. The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity. The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity). The maximum value is calculated as 200,000 * HAPairs. Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of Iops is outside of the minimum or maximum values.
         public var iops: Swift.Int?
-        /// Specifies whether the file system is using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, , or if it using a USER_PROVISIONED value.
+        /// Specifies whether the file system is using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, or if it using a USER_PROVISIONED value.
         public var mode: FSxClientTypes.DiskIopsConfigurationMode?
 
         public init(
@@ -11943,7 +11946,7 @@ extension FSxClientTypes {
         public var storageType: FSxClientTypes.StorageType?
         /// Specifies the IDs of the subnets that the file system is accessible from. For the Amazon FSx Windows and ONTAP MULTI_AZ_1 file system deployment type, there are two subnet IDs, one for the preferred file server and one for the standby file server. The preferred file server subnet identified in the PreferredSubnetID property. All other file systems have only one subnet ID. For FSx for Lustre file systems, and Single-AZ Windows file systems, this is the ID of the subnet that contains the file system's endpoint. For MULTI_AZ_1 Windows and ONTAP file systems, the file system endpoint is available in the PreferredSubnetID.
         public var subnetIds: [Swift.String]?
-        /// The tags to associate with the file system. For more information, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide.
+        /// The tags to associate with the file system. For more information, see [Tagging your Amazon FSx resources](https://docs.aws.amazon.com/fsx/latest/LustreGuide/tag-resources.html) in the Amazon FSx for Lustre User Guide.
         public var tags: [FSxClientTypes.Tag]?
         /// The ID of the primary virtual private cloud (VPC) for the file system.
         public var vpcId: Swift.String?
@@ -14252,7 +14255,7 @@ extension FSxClientTypes {
         public var fsxAdminPassword: Swift.String?
         /// Specifies how many high-availability (HA) file server pairs the file system will have. The default value is 1. The value of this property affects the values of StorageCapacity, Iops, and ThroughputCapacity. For more information, see [High-availability (HA) pairs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/HA-pairs.html) in the FSx for ONTAP user guide. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
-        /// * The value of HAPairs is less than 1 or greater than 6.
+        /// * The value of HAPairs is less than 1 or greater than 12.
         ///
         /// * The value of HAPairs is greater than 1 and the value of DeploymentType is SINGLE_AZ_1 or MULTI_AZ_1.
         public var haPairs: Swift.Int?
@@ -14273,7 +14276,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?
@@ -15169,15 +15172,15 @@ extension FSxClientTypes.OpenZFSUserOrGroupQuota: Swift.Codable {
 }
 
 extension FSxClientTypes {
-    /// The configuration for how much storage a user or group can use on the volume.
+    /// Used to configure quotas that define how much storage a user or group can use on an FSx for OpenZFS volume. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the FSx for OpenZFS User Guide.
     public struct OpenZFSUserOrGroupQuota: Swift.Equatable {
-        /// The ID of the user or group.
+        /// The ID of the user or group that the quota applies to.
         /// This member is required.
         public var id: Swift.Int?
-        /// The amount of storage that the user or group can use in gibibytes (GiB).
+        /// The user or group's storage quota, in gibibytes (GiB).
         /// This member is required.
         public var storageCapacityQuotaGiB: Swift.Int?
-        /// A value that specifies whether the quota applies to a user or group.
+        /// Specifies whether the quota applies to a user or group.
         /// This member is required.
         public var type: FSxClientTypes.OpenZFSQuotaType?
 
@@ -19186,7 +19189,7 @@ extension FSxClientTypes {
         ///
         /// * The value of ThroughputCapacity and ThroughputCapacityPerHAPair are not the same value for file systems with one HA pair.
         ///
-        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 6).
+        /// * The value of deployment type is SINGLE_AZ_2 and ThroughputCapacity / ThroughputCapacityPerHAPair is a valid HA pair (a value between 2 and 12).
         ///
         /// * The value of ThroughputCapacityPerHAPair is not a valid value.
         public var throughputCapacityPerHAPair: Swift.Int?

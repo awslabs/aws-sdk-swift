@@ -152,7 +152,7 @@ extension DynamoDBClientTypes.AttributeDefinition: Swift.Codable {
 }
 
 extension DynamoDBClientTypes {
-    /// Represents an attribute for describing the key schema for the table and indexes.
+    /// Represents an attribute for describing the schema for the table and indexes.
     public struct AttributeDefinition: Swift.Equatable {
         /// A name for the attribute.
         /// This member is required.
@@ -7988,7 +7988,7 @@ public struct ExportTableToPointInTimeInput: Swift.Equatable {
     /// The name of the Amazon S3 bucket to export the snapshot to.
     /// This member is required.
     public var s3Bucket: Swift.String?
-    /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in.
+    /// The ID of the Amazon Web Services account that owns the bucket the export will be stored in. S3BucketOwner is a required parameter when exporting to a S3 bucket in another account.
     public var s3BucketOwner: Swift.String?
     /// The Amazon S3 bucket prefix to use as the file name and path of the exported snapshot.
     public var s3Prefix: Swift.String?
@@ -12660,6 +12660,9 @@ extension DynamoDBClientTypes {
         /// * INCLUDE - In addition to the attributes described in KEYS_ONLY, the secondary index will include other non-key attributes that you specify.
         ///
         /// * ALL - All of the table attributes are projected into the index.
+        ///
+        ///
+        /// When using the DynamoDB console, ALL is selected by default.
         public var projectionType: DynamoDBClientTypes.ProjectionType?
 
         public init(
@@ -13590,7 +13593,7 @@ public struct QueryInput: Swift.Equatable {
     public var expressionAttributeNames: [Swift.String:Swift.String]?
     /// One or more values that can be substituted in an expression. Use the : (colon) character in an expression to dereference an attribute value. For example, suppose that you wanted to check whether the value of the ProductStatus attribute was one of the following: Available | Backordered | Discontinued You would first need to specify ExpressionAttributeValues as follows: { ":avail":{"S":"Available"}, ":back":{"S":"Backordered"}, ":disc":{"S":"Discontinued"} } You could then use these values in an expression, such as this: ProductStatus IN (:avail, :back, :disc) For more information on expression attribute values, see [Specifying Conditions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Expressions.SpecifyingConditions.html) in the Amazon DynamoDB Developer Guide.
     public var expressionAttributeValues: [Swift.String:DynamoDBClientTypes.AttributeValue]?
-    /// A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression does not allow key attributes. You cannot define a filter expression based on a partition key or a sort key. A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units. For more information, see [Filter Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/QueryAndScan.html#Query.FilterExpression) in the Amazon DynamoDB Developer Guide.
+    /// A string that contains conditions that DynamoDB applies after the Query operation, but before the data is returned to you. Items that do not satisfy the FilterExpression criteria are not returned. A FilterExpression does not allow key attributes. You cannot define a filter expression based on a partition key or a sort key. A FilterExpression is applied after the items have already been read; the process of filtering does not consume any additional read capacity units. For more information, see [Filter Expressions](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Query.FilterExpression.html) in the Amazon DynamoDB Developer Guide.
     public var filterExpression: Swift.String?
     /// The name of an index to query. This index can be any local secondary index or global secondary index on the table. Note that if you use the IndexName parameter, you must also provide TableName.
     public var indexName: Swift.String?

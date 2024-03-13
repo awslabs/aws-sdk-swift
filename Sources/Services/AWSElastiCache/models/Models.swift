@@ -4490,7 +4490,7 @@ public struct CreateReplicationGroupInput: Swift.Equatable {
     public var port: Swift.Int?
     /// A list of EC2 Availability Zones in which the replication group's clusters are created. The order of the Availability Zones in the list is the order in which clusters are allocated. The primary cluster is created in the first AZ in the list. This parameter is not used if there is more than one node group (shard). You should use NodeGroupConfiguration instead. If you are creating your replication group in an Amazon VPC (recommended), you can only locate clusters in Availability Zones associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheClusters. Default: system chosen Availability Zones.
     public var preferredCacheClusterAZs: [Swift.String]?
-    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are: Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+    /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
     ///
     /// * sun
     ///
@@ -9685,7 +9685,7 @@ extension ElastiCacheClientTypes.Endpoint: Swift.Encodable {
 }
 
 extension ElastiCacheClientTypes {
-    /// Represents the information required for client programs to connect to a cache node.
+    /// Represents the information required for client programs to connect to a cache node. This value is read-only.
     public struct Endpoint: Swift.Equatable {
         /// The DNS hostname of the cache node.
         public var address: Swift.String?
@@ -13866,7 +13866,7 @@ extension ElastiCacheClientTypes {
         public var nodeGroupMembers: [ElastiCacheClientTypes.NodeGroupMember]?
         /// The endpoint of the primary node in this node group (shard).
         public var primaryEndpoint: ElastiCacheClientTypes.Endpoint?
-        /// The endpoint of the replica nodes in this node group (shard).
+        /// The endpoint of the replica nodes in this node group (shard). This value is read-only.
         public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
         /// The keyspace for this node group (shard).
         public var slots: Swift.String?
@@ -17206,7 +17206,7 @@ extension ElastiCacheClientTypes {
         public var dailySnapshotTime: Swift.String?
         /// A description of the serverless cache.
         public var description: Swift.String?
-        /// Represents the information required for client programs to connect to a cache node.
+        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
         public var endpoint: ElastiCacheClientTypes.Endpoint?
         /// The engine the serverless cache is compatible with.
         public var engine: Swift.String?
@@ -17216,7 +17216,7 @@ extension ElastiCacheClientTypes {
         public var kmsKeyId: Swift.String?
         /// The version number of the engine the serverless cache is compatible with.
         public var majorEngineVersion: Swift.String?
-        /// Represents the information required for client programs to connect to a cache node.
+        /// Represents the information required for client programs to connect to a cache node. This value is read-only.
         public var readerEndpoint: ElastiCacheClientTypes.Endpoint?
         /// The IDs of the EC2 security groups associated with the serverless cache.
         public var securityGroupIds: [Swift.String]?
@@ -17226,7 +17226,7 @@ extension ElastiCacheClientTypes {
         public var snapshotRetentionLimit: Swift.Int?
         /// The current status of the serverless cache. The allowed values are CREATING, AVAILABLE, DELETING, CREATE-FAILED and MODIFYING.
         public var status: Swift.String?
-        /// If no subnet IDs are given and your VPC is in SFO, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
+        /// If no subnet IDs are given and your VPC is in us-west-1, then ElastiCache will select 2 default subnets across AZs in your VPC. For all other Regions, if no subnet IDs are given then ElastiCache will select 3 default subnets across AZs in your default VPC.
         public var subnetIds: [Swift.String]?
         /// The identifier of the user group associated with the serverless cache. Available for Redis only. Default is NULL.
         public var userGroupId: Swift.String?

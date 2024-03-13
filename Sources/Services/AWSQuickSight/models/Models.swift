@@ -10073,6 +10073,7 @@ extension QuickSightClientTypes.ColumnTooltipItem: Swift.Codable {
         case aggregation = "Aggregation"
         case column = "Column"
         case label = "Label"
+        case tooltipTarget = "TooltipTarget"
         case visibility = "Visibility"
     }
 
@@ -10086,6 +10087,9 @@ extension QuickSightClientTypes.ColumnTooltipItem: Swift.Codable {
         }
         if let label = self.label {
             try encodeContainer.encode(label, forKey: .label)
+        }
+        if let tooltipTarget = self.tooltipTarget {
+            try encodeContainer.encode(tooltipTarget.rawValue, forKey: .tooltipTarget)
         }
         if let visibility = self.visibility {
             try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
@@ -10102,6 +10106,8 @@ extension QuickSightClientTypes.ColumnTooltipItem: Swift.Codable {
         visibility = visibilityDecoded
         let aggregationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AggregationFunction.self, forKey: .aggregation)
         aggregation = aggregationDecoded
+        let tooltipTargetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TooltipTarget.self, forKey: .tooltipTarget)
+        tooltipTarget = tooltipTargetDecoded
     }
 }
 
@@ -10115,6 +10121,8 @@ extension QuickSightClientTypes {
         public var column: QuickSightClientTypes.ColumnIdentifier?
         /// The label of the tooltip item.
         public var label: Swift.String?
+        /// Determines the target of the column tooltip item in a combo chart visual.
+        public var tooltipTarget: QuickSightClientTypes.TooltipTarget?
         /// The visibility of the tooltip item.
         public var visibility: QuickSightClientTypes.Visibility?
 
@@ -10122,12 +10130,14 @@ extension QuickSightClientTypes {
             aggregation: QuickSightClientTypes.AggregationFunction? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             label: Swift.String? = nil,
+            tooltipTarget: QuickSightClientTypes.TooltipTarget? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
         )
         {
             self.aggregation = aggregation
             self.column = column
             self.label = label
+            self.tooltipTarget = tooltipTarget
             self.visibility = visibility
         }
     }
@@ -34989,6 +34999,7 @@ extension QuickSightClientTypes.FieldTooltipItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fieldId = "FieldId"
         case label = "Label"
+        case tooltipTarget = "TooltipTarget"
         case visibility = "Visibility"
     }
 
@@ -34999,6 +35010,9 @@ extension QuickSightClientTypes.FieldTooltipItem: Swift.Codable {
         }
         if let label = self.label {
             try encodeContainer.encode(label, forKey: .label)
+        }
+        if let tooltipTarget = self.tooltipTarget {
+            try encodeContainer.encode(tooltipTarget.rawValue, forKey: .tooltipTarget)
         }
         if let visibility = self.visibility {
             try encodeContainer.encode(visibility.rawValue, forKey: .visibility)
@@ -35013,6 +35027,8 @@ extension QuickSightClientTypes.FieldTooltipItem: Swift.Codable {
         label = labelDecoded
         let visibilityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.Visibility.self, forKey: .visibility)
         visibility = visibilityDecoded
+        let tooltipTargetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TooltipTarget.self, forKey: .tooltipTarget)
+        tooltipTarget = tooltipTargetDecoded
     }
 }
 
@@ -35024,17 +35040,21 @@ extension QuickSightClientTypes {
         public var fieldId: Swift.String?
         /// The label of the tooltip item.
         public var label: Swift.String?
+        /// Determines the target of the field tooltip item in a combo chart visual.
+        public var tooltipTarget: QuickSightClientTypes.TooltipTarget?
         /// The visibility of the tooltip item.
         public var visibility: QuickSightClientTypes.Visibility?
 
         public init(
             fieldId: Swift.String? = nil,
             label: Swift.String? = nil,
+            tooltipTarget: QuickSightClientTypes.TooltipTarget? = nil,
             visibility: QuickSightClientTypes.Visibility? = nil
         )
         {
             self.fieldId = fieldId
             self.label = label
+            self.tooltipTarget = tooltipTarget
             self.visibility = visibility
         }
     }
@@ -75494,6 +75514,41 @@ extension QuickSightClientTypes {
         }
     }
 
+}
+
+extension QuickSightClientTypes {
+    public enum TooltipTarget: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bar
+        case both
+        case line
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TooltipTarget] {
+            return [
+                .bar,
+                .both,
+                .line,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bar: return "BAR"
+            case .both: return "BOTH"
+            case .line: return "LINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TooltipTarget(rawValue: rawValue) ?? TooltipTarget.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension QuickSightClientTypes {

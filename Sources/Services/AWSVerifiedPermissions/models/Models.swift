@@ -566,7 +566,7 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration: Swift.Cod
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to the [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [Configuration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_Configuration.html) structure that is used as a parameter to [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
     public struct CognitoUserPoolConfiguration: Swift.Equatable {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&ExampleCogClientId;"]
         public var clientIds: [Swift.String]?
@@ -580,6 +580,146 @@ extension VerifiedPermissionsClientTypes {
         )
         {
             self.clientIds = clientIds
+            self.userPoolArn = userPoolArn
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientIds
+        case issuer
+        case userPoolArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientIds = clientIds {
+            var clientIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientIds)
+            for clientid0 in clientIds {
+                try clientIdsContainer.encode(clientid0)
+            }
+        }
+        if let issuer = self.issuer {
+            try encodeContainer.encode(issuer, forKey: .issuer)
+        }
+        if let userPoolArn = self.userPoolArn {
+            try encodeContainer.encode(userPoolArn, forKey: .userPoolArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userPoolArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolArn)
+        userPoolArn = userPoolArnDecoded
+        let clientIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clientIds)
+        var clientIdsDecoded0:[Swift.String]? = nil
+        if let clientIdsContainer = clientIdsContainer {
+            clientIdsDecoded0 = [Swift.String]()
+            for string0 in clientIdsContainer {
+                if let string0 = string0 {
+                    clientIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        clientIds = clientIdsDecoded0
+        let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
+        issuer = issuerDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of an [ConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html) structure that is part of the response to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    public struct CognitoUserPoolConfigurationDetail: Swift.Equatable {
+        /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
+        /// This member is required.
+        public var clientIds: [Swift.String]?
+        /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "userPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
+        /// This member is required.
+        public var userPoolArn: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            issuer: Swift.String? = nil,
+            userPoolArn: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.issuer = issuer
+            self.userPoolArn = userPoolArn
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientIds
+        case issuer
+        case userPoolArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientIds = clientIds {
+            var clientIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .clientIds)
+            for clientid0 in clientIds {
+                try clientIdsContainer.encode(clientid0)
+            }
+        }
+        if let issuer = self.issuer {
+            try encodeContainer.encode(issuer, forKey: .issuer)
+        }
+        if let userPoolArn = self.userPoolArn {
+            try encodeContainer.encode(userPoolArn, forKey: .userPoolArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let userPoolArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .userPoolArn)
+        userPoolArn = userPoolArnDecoded
+        let clientIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .clientIds)
+        var clientIdsDecoded0:[Swift.String]? = nil
+        if let clientIdsContainer = clientIdsContainer {
+            clientIdsDecoded0 = [Swift.String]()
+            for string0 in clientIdsContainer {
+                if let string0 = string0 {
+                    clientIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        clientIds = clientIdsDecoded0
+        let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
+        issuer = issuerDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The configuration for an identity source that represents a connection to an Amazon Cognito user pool used as an identity provider for Verified Permissions. This data type is used as a field that is part of the [ConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html) structure that is part of the response to [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html). Example:"CognitoUserPoolConfiguration":{"UserPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","ClientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}
+    public struct CognitoUserPoolConfigurationItem: Swift.Equatable {
+        /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
+        /// This member is required.
+        public var clientIds: [Swift.String]?
+        /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
+        /// This member is required.
+        public var issuer: Swift.String?
+        /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "userPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
+        /// This member is required.
+        public var userPoolArn: Swift.String?
+
+        public init(
+            clientIds: [Swift.String]? = nil,
+            issuer: Swift.String? = nil,
+            userPoolArn: Swift.String? = nil
+        )
+        {
+            self.clientIds = clientIds
+            self.issuer = issuer
             self.userPoolArn = userPoolArn
         }
     }
@@ -618,6 +758,80 @@ extension VerifiedPermissionsClientTypes {
     public enum Configuration: Swift.Equatable {
         /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.ConfigurationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cognitouserpoolconfiguration = "cognitoUserPoolConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
+                try container.encode(cognitouserpoolconfiguration, forKey: .cognitouserpoolconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let cognitouserpoolconfigurationDecoded = try values.decodeIfPresent(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail.self, forKey: .cognitouserpoolconfiguration)
+        if let cognitouserpoolconfiguration = cognitouserpoolconfigurationDecoded {
+            self = .cognitouserpoolconfiguration(cognitouserpoolconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration information about an identity source. This data type is a response parameter to the [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html) operation.
+    public enum ConfigurationDetail: Swift.Equatable {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
+        case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.ConfigurationItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cognitouserpoolconfiguration = "cognitoUserPoolConfiguration"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .cognitouserpoolconfiguration(cognitouserpoolconfiguration):
+                try container.encode(cognitouserpoolconfiguration, forKey: .cognitouserpoolconfiguration)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let cognitouserpoolconfigurationDecoded = try values.decodeIfPresent(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem.self, forKey: .cognitouserpoolconfiguration)
+        if let cognitouserpoolconfiguration = cognitouserpoolconfigurationDecoded {
+            self = .cognitouserpoolconfiguration(cognitouserpoolconfiguration)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// Contains configuration information about an identity source. This data type is a response parameter to the [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html) operation.
+    public enum ConfigurationItem: Swift.Equatable {
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
+        case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem)
         case sdkUnknown(Swift.String)
     }
 
@@ -786,7 +1000,7 @@ extension CreateIdentitySourceInput {
 }
 
 public struct CreateIdentitySourceInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
     /// Specifies the details required to communicate with the identity provider (IdP) associated with this identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a UserPoolArn, and optionally, a ClientId.
     /// This member is required.
@@ -957,7 +1171,7 @@ extension CreatePolicyInput {
 }
 
 public struct CreatePolicyInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
     /// A structure that specifies the policy type and content to use for the new policy. You must include either a static or a templateLinked element. The policy content must be written in the Cedar policy language.
     /// This member is required.
@@ -1156,7 +1370,7 @@ extension CreatePolicyStoreInput {
 }
 
 public struct CreatePolicyStoreInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
     /// Descriptive text that you can provide to help with identification of the current policy store.
     public var description: Swift.String?
@@ -1326,7 +1540,7 @@ extension CreatePolicyTemplateInput {
 }
 
 public struct CreatePolicyTemplateInput: Swift.Equatable {
-    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an IdempotentParameterMismatch error.
+    /// Specifies a unique, case-sensitive ID that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a [UUID type of value.](https://wikipedia.org/wiki/Universally_unique_identifier). If you don't provide this value, then Amazon Web Services generates a random one for you. If you retry the operation with the same ClientToken, but with different parameters, the retry fails with an ConflictException error. Verified Permissions recognizes a ClientToken for eight hours. After eight hours, the next request with the same parameters performs the operation again regardless of the value of ClientToken.
     public var clientToken: Swift.String?
     /// Specifies a description for the policy template.
     public var description: Swift.String?
@@ -2199,7 +2413,7 @@ extension GetIdentitySourceInputBody: Swift.Decodable {
 
 extension GetIdentitySourceOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetIdentitySourceOutput(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
+        "GetIdentitySourceOutput(configuration: \(Swift.String(describing: configuration)), createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension GetIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
@@ -2207,6 +2421,7 @@ extension GetIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetIdentitySourceOutputBody = try responseDecoder.decode(responseBody: data)
+            self.configuration = output.configuration
             self.createdDate = output.createdDate
             self.details = output.details
             self.identitySourceId = output.identitySourceId
@@ -2214,6 +2429,7 @@ extension GetIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
             self.policyStoreId = output.policyStoreId
             self.principalEntityType = output.principalEntityType
         } else {
+            self.configuration = nil
             self.createdDate = nil
             self.details = nil
             self.identitySourceId = nil
@@ -2225,11 +2441,13 @@ extension GetIdentitySourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetIdentitySourceOutput: Swift.Equatable {
+    /// Contains configuration information about an identity source.
+    public var configuration: VerifiedPermissionsClientTypes.ConfigurationDetail?
     /// The date and time that the identity source was originally created.
     /// This member is required.
     public var createdDate: ClientRuntime.Date?
     /// A structure that describes the configuration of the identity source.
-    /// This member is required.
+    @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration")
     public var details: VerifiedPermissionsClientTypes.IdentitySourceDetails?
     /// The ID of the identity source.
     /// This member is required.
@@ -2245,6 +2463,7 @@ public struct GetIdentitySourceOutput: Swift.Equatable {
     public var principalEntityType: Swift.String?
 
     public init(
+        configuration: VerifiedPermissionsClientTypes.ConfigurationDetail? = nil,
         createdDate: ClientRuntime.Date? = nil,
         details: VerifiedPermissionsClientTypes.IdentitySourceDetails? = nil,
         identitySourceId: Swift.String? = nil,
@@ -2253,6 +2472,7 @@ public struct GetIdentitySourceOutput: Swift.Equatable {
         principalEntityType: Swift.String? = nil
     )
     {
+        self.configuration = configuration
         self.createdDate = createdDate
         self.details = details
         self.identitySourceId = identitySourceId
@@ -2269,10 +2489,12 @@ struct GetIdentitySourceOutputBody: Swift.Equatable {
     let lastUpdatedDate: ClientRuntime.Date?
     let policyStoreId: Swift.String?
     let principalEntityType: Swift.String?
+    let configuration: VerifiedPermissionsClientTypes.ConfigurationDetail?
 }
 
 extension GetIdentitySourceOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
         case createdDate
         case details
         case identitySourceId
@@ -2295,6 +2517,8 @@ extension GetIdentitySourceOutputBody: Swift.Decodable {
         policyStoreId = policyStoreIdDecoded
         let principalEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalEntityType)
         principalEntityType = principalEntityTypeDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ConfigurationDetail.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
@@ -3049,15 +3273,20 @@ extension VerifiedPermissionsClientTypes.IdentitySourceDetails: Swift.Codable {
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A structure that contains configuration of the identity source. This data type is used as a response parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
+    /// A structure that contains configuration of the identity source. This data type was a response parameter for the [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html) operation. Replaced by [ConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationDetail.html).
+    @available(*, deprecated, message: "This shape has been replaced by ConfigurationDetail")
     public struct IdentitySourceDetails: Swift.Equatable {
         /// The application client IDs associated with the specified Amazon Cognito user pool that are enabled for this identity source.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.clientIds")
         public var clientIds: [Swift.String]?
         /// The well-known URL that points to this user pool's OIDC discovery endpoint. This is a URL string in the following format. This URL replaces the placeholders for both the Amazon Web Services Region and the user pool identifier with those appropriate for this user pool. https://cognito-idp.<region>.amazonaws.com/<user-pool-id>/.well-known/openid-configuration
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.issuer")
         public var discoveryUrl: Swift.String?
         /// A string that identifies the type of OIDC service represented by this identity source. At this time, the only valid value is cognito.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration")
         public var openIdIssuer: VerifiedPermissionsClientTypes.OpenIdIssuer?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool whose identities are accessible to this Verified Permissions policy store.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.userPoolArn")
         public var userPoolArn: Swift.String?
 
         public init(
@@ -3101,7 +3330,7 @@ extension VerifiedPermissionsClientTypes.IdentitySourceFilter: Swift.CustomDebug
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A structure that defines characteristics of an identity source that you can use to filter. This data type is used as a request parameter for the [ListIdentityStores](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html) operation.
+    /// A structure that defines characteristics of an identity source that you can use to filter. This data type is a request parameter for the [ListIdentityStores](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html) operation.
     public struct IdentitySourceFilter: Swift.Equatable {
         /// The Cedar entity type of the principals returned by the identity provider (IdP) associated with this identity source.
         public var principalEntityType: Swift.String?
@@ -3118,6 +3347,7 @@ extension VerifiedPermissionsClientTypes {
 
 extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case configuration
         case createdDate
         case details
         case identitySourceId
@@ -3128,6 +3358,9 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let configuration = self.configuration {
+            try encodeContainer.encode(configuration, forKey: .configuration)
+        }
         if let createdDate = self.createdDate {
             try encodeContainer.encodeTimestamp(createdDate, format: .dateTime, forKey: .createdDate)
         }
@@ -3162,22 +3395,26 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.Codable {
         policyStoreId = policyStoreIdDecoded
         let principalEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .principalEntityType)
         principalEntityType = principalEntityTypeDecoded
+        let configurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ConfigurationItem.self, forKey: .configuration)
+        configuration = configurationDecoded
     }
 }
 
 extension VerifiedPermissionsClientTypes.IdentitySourceItem: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "IdentitySourceItem(createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
+        "IdentitySourceItem(configuration: \(Swift.String(describing: configuration)), createdDate: \(Swift.String(describing: createdDate)), details: \(Swift.String(describing: details)), identitySourceId: \(Swift.String(describing: identitySourceId)), lastUpdatedDate: \(Swift.String(describing: lastUpdatedDate)), policyStoreId: \(Swift.String(describing: policyStoreId)), principalEntityType: \"CONTENT_REDACTED\")"}
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A structure that defines an identity source. This data type is used as a request parameter for the [ListIdentityStores](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentityStores.html) operation.
+    /// A structure that defines an identity source. This data type is a response parameter to the [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html) operation.
     public struct IdentitySourceItem: Swift.Equatable {
+        /// Contains configuration information about an identity source.
+        public var configuration: VerifiedPermissionsClientTypes.ConfigurationItem?
         /// The date and time the identity source was originally created.
         /// This member is required.
         public var createdDate: ClientRuntime.Date?
         /// A structure that contains the details of the associated identity provider (IdP).
-        /// This member is required.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration")
         public var details: VerifiedPermissionsClientTypes.IdentitySourceItemDetails?
         /// The unique identifier of the identity source.
         /// This member is required.
@@ -3193,6 +3430,7 @@ extension VerifiedPermissionsClientTypes {
         public var principalEntityType: Swift.String?
 
         public init(
+            configuration: VerifiedPermissionsClientTypes.ConfigurationItem? = nil,
             createdDate: ClientRuntime.Date? = nil,
             details: VerifiedPermissionsClientTypes.IdentitySourceItemDetails? = nil,
             identitySourceId: Swift.String? = nil,
@@ -3201,6 +3439,7 @@ extension VerifiedPermissionsClientTypes {
             principalEntityType: Swift.String? = nil
         )
         {
+            self.configuration = configuration
             self.createdDate = createdDate
             self.details = details
             self.identitySourceId = identitySourceId
@@ -3262,15 +3501,20 @@ extension VerifiedPermissionsClientTypes.IdentitySourceItemDetails: Swift.Codabl
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// A structure that contains configuration of the identity source. This data type is used as a response parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
+    /// A structure that contains configuration of the identity source. This data type was a response parameter for the [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html) operation. Replaced by [ConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ConfigurationItem.html).
+    @available(*, deprecated, message: "This shape has been replaced by ConfigurationItem")
     public struct IdentitySourceItemDetails: Swift.Equatable {
         /// The application client IDs associated with the specified Amazon Cognito user pool that are enabled for this identity source.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.clientIds")
         public var clientIds: [Swift.String]?
         /// The well-known URL that points to this user pool's OIDC discovery endpoint. This is a URL string in the following format. This URL replaces the placeholders for both the Amazon Web Services Region and the user pool identifier with those appropriate for this user pool. https://cognito-idp.<region>.amazonaws.com/<user-pool-id>/.well-known/openid-configuration
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.issuer")
         public var discoveryUrl: Swift.String?
         /// A string that identifies the type of OIDC service represented by this identity source. At this time, the only valid value is cognito.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration")
         public var openIdIssuer: VerifiedPermissionsClientTypes.OpenIdIssuer?
         /// The Amazon Cognito user pool whose identities are accessible to this Verified Permissions policy store.
+        @available(*, deprecated, message: "This attribute has been replaced by configuration.cognitoUserPoolConfiguration.userPoolArn")
         public var userPoolArn: Swift.String?
 
         public init(
@@ -3598,7 +3842,7 @@ extension IsAuthorizedWithTokenInput {
 }
 
 public struct IsAuthorizedWithTokenInput: Swift.Equatable {
-    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken, or an IdentityToken, or both.
+    /// Specifies an access token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
     public var accessToken: Swift.String?
     /// Specifies the requested action to be authorized. Is the specified principal authorized to perform this action on the specified resource.
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
@@ -3610,7 +3854,7 @@ public struct IsAuthorizedWithTokenInput: Swift.Equatable {
     ///
     /// * For action entities, you can include only their Identifier and EntityType.
     public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
-    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an AccessToken or an IdentityToken, or both.
+    /// Specifies an identity token for the principal to be authorized. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
     public var identityToken: Swift.String?
     /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
     /// This member is required.
@@ -5617,7 +5861,7 @@ extension VerifiedPermissionsClientTypes.TemplateLinkedPolicyDefinitionDetail: S
 }
 
 extension VerifiedPermissionsClientTypes {
-    /// Contains information about a policy that was created by instantiating a policy template. This
+    /// Contains information about a policy that was created by instantiating a policy template.
     public struct TemplateLinkedPolicyDefinitionDetail: Swift.Equatable {
         /// The unique identifier of the policy template used to create this policy.
         /// This member is required.
