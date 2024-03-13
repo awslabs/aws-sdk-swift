@@ -22,7 +22,7 @@ operation EventStreamOp {
 structure StructureWithStream {
     @required
     @httpPayload
-    eventStream: TestStream
+    eventStream: TestEvents
 
     @httpHeader("inputHeader1")
     inputMember1: String
@@ -37,9 +37,22 @@ structure SomeError {
 }
 
 structure MessageWithString { @eventPayload data: String }
+structure MessageWithAudio {
+    @eventHeader
+    exampleHeader: String
+
+    @eventPayload
+    audio: Audio
+}
+structure Audio {
+    rawAudio: rawData
+}
+
+blob rawData
 
 @streaming
-union TestStream {
-    MessageWithString: MessageWithString,
+union TestEvents {
+    MessageEvent: MessageWithString,
+    AudioEvent: MessageWithAudio,
     SomeError: SomeError,
 }
