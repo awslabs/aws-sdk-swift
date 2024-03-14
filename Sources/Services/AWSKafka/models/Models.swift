@@ -9782,6 +9782,74 @@ extension KafkaClientTypes {
 
 }
 
+extension KafkaClientTypes.ReplicationStartingPosition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case type = "type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicationStartingPositionType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension KafkaClientTypes {
+    /// Configuration for specifying the position in the topics to start replicating from.
+    public struct ReplicationStartingPosition: Swift.Equatable {
+        /// The type of replication starting position.
+        public var type: KafkaClientTypes.ReplicationStartingPositionType?
+
+        public init(
+            type: KafkaClientTypes.ReplicationStartingPositionType? = nil
+        )
+        {
+            self.type = type
+        }
+    }
+
+}
+
+extension KafkaClientTypes {
+    /// The type of replication starting position.
+    public enum ReplicationStartingPositionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case earliest
+        case latest
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ReplicationStartingPositionType] {
+            return [
+                .earliest,
+                .latest,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .earliest: return "EARLIEST"
+            case .latest: return "LATEST"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ReplicationStartingPositionType(rawValue: rawValue) ?? ReplicationStartingPositionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension KafkaClientTypes.ReplicationStateInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code = "code"
@@ -10764,6 +10832,7 @@ extension KafkaClientTypes.TopicReplication: Swift.Codable {
         case copyAccessControlListsForTopics = "copyAccessControlListsForTopics"
         case copyTopicConfigurations = "copyTopicConfigurations"
         case detectAndCopyNewTopics = "detectAndCopyNewTopics"
+        case startingPosition = "startingPosition"
         case topicsToExclude = "topicsToExclude"
         case topicsToReplicate = "topicsToReplicate"
     }
@@ -10778,6 +10847,9 @@ extension KafkaClientTypes.TopicReplication: Swift.Codable {
         }
         if let detectAndCopyNewTopics = self.detectAndCopyNewTopics {
             try encodeContainer.encode(detectAndCopyNewTopics, forKey: .detectAndCopyNewTopics)
+        }
+        if let startingPosition = self.startingPosition {
+            try encodeContainer.encode(startingPosition, forKey: .startingPosition)
         }
         if let topicsToExclude = topicsToExclude {
             var topicsToExcludeContainer = encodeContainer.nestedUnkeyedContainer(forKey: .topicsToExclude)
@@ -10801,6 +10873,8 @@ extension KafkaClientTypes.TopicReplication: Swift.Codable {
         copyTopicConfigurations = copyTopicConfigurationsDecoded
         let detectAndCopyNewTopicsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .detectAndCopyNewTopics)
         detectAndCopyNewTopics = detectAndCopyNewTopicsDecoded
+        let startingPositionDecoded = try containerValues.decodeIfPresent(KafkaClientTypes.ReplicationStartingPosition.self, forKey: .startingPosition)
+        startingPosition = startingPositionDecoded
         let topicsToExcludeContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .topicsToExclude)
         var topicsToExcludeDecoded0:[Swift.String]? = nil
         if let topicsToExcludeContainer = topicsToExcludeContainer {
@@ -10835,6 +10909,8 @@ extension KafkaClientTypes {
         public var copyTopicConfigurations: Swift.Bool?
         /// Whether to periodically check for new topics and partitions.
         public var detectAndCopyNewTopics: Swift.Bool?
+        /// Configuration for specifying the position in the topics to start replicating from.
+        public var startingPosition: KafkaClientTypes.ReplicationStartingPosition?
         /// List of regular expression patterns indicating the topics that should not be replicated.
         public var topicsToExclude: [Swift.String]?
         /// List of regular expression patterns indicating the topics to copy.
@@ -10845,6 +10921,7 @@ extension KafkaClientTypes {
             copyAccessControlListsForTopics: Swift.Bool? = nil,
             copyTopicConfigurations: Swift.Bool? = nil,
             detectAndCopyNewTopics: Swift.Bool? = nil,
+            startingPosition: KafkaClientTypes.ReplicationStartingPosition? = nil,
             topicsToExclude: [Swift.String]? = nil,
             topicsToReplicate: [Swift.String]? = nil
         )
@@ -10852,6 +10929,7 @@ extension KafkaClientTypes {
             self.copyAccessControlListsForTopics = copyAccessControlListsForTopics
             self.copyTopicConfigurations = copyTopicConfigurations
             self.detectAndCopyNewTopics = detectAndCopyNewTopics
+            self.startingPosition = startingPosition
             self.topicsToExclude = topicsToExclude
             self.topicsToReplicate = topicsToReplicate
         }

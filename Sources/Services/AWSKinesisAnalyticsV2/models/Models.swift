@@ -43,7 +43,7 @@ public struct AddApplicationCloudWatchLoggingOptionInput: Swift.Equatable {
     public var cloudWatchLoggingOption: KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOption?
     /// A value you use to implement strong concurrency for application updates. You must provide the CurrentApplicationVersionId or the ConditionalToken. You get the application's current ConditionalToken using [DescribeApplication]. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
     public var conditionalToken: Swift.String?
-    /// The version ID of the Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using [DescribeApplication]. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
+    /// The version ID of the SQL-based Kinesis Data Analytics application. You must provide the CurrentApplicationVersionId or the ConditionalToken.You can retrieve the application version ID using [DescribeApplication]. For better concurrency support, use the ConditionalToken parameter instead of CurrentApplicationVersionId.
     public var currentApplicationVersionId: Swift.Int?
 
     public init(
@@ -107,9 +107,9 @@ extension AddApplicationCloudWatchLoggingOptionOutput: ClientRuntime.HttpRespons
 public struct AddApplicationCloudWatchLoggingOptionOutput: Swift.Equatable {
     /// The application's ARN.
     public var applicationARN: Swift.String?
-    /// The new version ID of the Kinesis Data Analytics application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options.
+    /// The new version ID of the SQL-based Kinesis Data Analytics application. Kinesis Data Analytics updates the ApplicationVersionId each time you change the CloudWatch logging options.
     public var applicationVersionId: Swift.Int?
-    /// The descriptions of the current CloudWatch logging options for the Kinesis Data Analytics application.
+    /// The descriptions of the current CloudWatch logging options for the SQL-based Kinesis Data Analytics application.
     public var cloudWatchLoggingOptionDescriptions: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionDescription]?
 
     public init(
@@ -929,7 +929,7 @@ extension AddApplicationVpcConfigurationOutput: ClientRuntime.HttpResponseBindin
 public struct AddApplicationVpcConfigurationOutput: Swift.Equatable {
     /// The ARN of the application.
     public var applicationARN: Swift.String?
-    /// Provides the current application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
+    /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
     public var applicationVersionId: Swift.Int?
     /// The parameters of the new VPC configuration.
     public var vpcConfigurationDescription: KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription?
@@ -1103,7 +1103,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate: Swif
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes code configuration updates for an application. This is supported for a Flink-based Kinesis Data Analytics application or a SQL-based Kinesis Data Analytics application.
+    /// Describes code configuration updates for an application. This is supported for a Managed Service for Apache Flink application or a SQL-based Kinesis Data Analytics application.
     public struct ApplicationCodeConfigurationUpdate: Swift.Equatable {
         /// Describes updates to the code content type.
         public var codeContentTypeUpdate: KinesisAnalyticsV2ClientTypes.CodeContentType?
@@ -1190,21 +1190,21 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfiguration: Swift.Codable 
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Specifies the creation parameters for a Kinesis Data Analytics application.
+    /// Specifies the creation parameters for a Managed Service for Apache Flink application.
     public struct ApplicationConfiguration: Swift.Equatable {
-        /// The code location and type parameters for a Flink-based Kinesis Data Analytics application.
+        /// The code location and type parameters for a Managed Service for Apache Flink application.
         public var applicationCodeConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfiguration?
-        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration?
-        /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
+        /// Describes execution properties for a Managed Service for Apache Flink application.
         public var environmentProperties: KinesisAnalyticsV2ClientTypes.EnvironmentProperties?
-        /// The creation and update parameters for a Flink-based Kinesis Data Analytics application.
+        /// The creation and update parameters for a Managed Service for Apache Flink application.
         public var flinkApplicationConfiguration: KinesisAnalyticsV2ClientTypes.FlinkApplicationConfiguration?
         /// The creation and update parameters for a SQL-based Kinesis Data Analytics application.
         public var sqlApplicationConfiguration: KinesisAnalyticsV2ClientTypes.SqlApplicationConfiguration?
         /// The array of descriptions of VPC configurations available to the application.
         public var vpcConfigurations: [KinesisAnalyticsV2ClientTypes.VpcConfiguration]?
-        /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public var zeppelinApplicationConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration?
 
         public init(
@@ -1303,23 +1303,23 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription: Swi
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes details about the application code and starting parameters for a Kinesis Data Analytics application.
+    /// Describes details about the application code and starting parameters for a Managed Service for Apache Flink application.
     public struct ApplicationConfigurationDescription: Swift.Equatable {
-        /// The details about the application code for a Flink-based Kinesis Data Analytics application.
+        /// The details about the application code for a Managed Service for Apache Flink application.
         public var applicationCodeConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationDescription?
-        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescription?
-        /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
+        /// Describes execution properties for a Managed Service for Apache Flink application.
         public var environmentPropertyDescriptions: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyDescriptions?
-        /// The details about a Flink-based Kinesis Data Analytics application.
+        /// The details about a Managed Service for Apache Flink application.
         public var flinkApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationDescription?
-        /// The details about the starting properties for a Kinesis Data Analytics application.
+        /// The details about the starting properties for a Managed Service for Apache Flink application.
         public var runConfigurationDescription: KinesisAnalyticsV2ClientTypes.RunConfigurationDescription?
         /// The details about inputs, outputs, and reference data sources for a SQL-based Kinesis Data Analytics application.
         public var sqlApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationDescription?
         /// The array of descriptions of VPC configurations available to the application.
         public var vpcConfigurationDescriptions: [KinesisAnalyticsV2ClientTypes.VpcConfigurationDescription]?
-        /// The configuration parameters for a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for a Managed Service for Apache Flink Studio notebook.
         public var zeppelinApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescription?
 
         public init(
@@ -1418,17 +1418,17 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct ApplicationConfigurationUpdate: Swift.Equatable {
         /// Describes updates to an application's code configuration.
         public var applicationCodeConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationCodeConfigurationUpdate?
-        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         public var applicationSnapshotConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate?
-        /// Describes updates to the environment properties for a Flink-based Kinesis Data Analytics application.
+        /// Describes updates to the environment properties for a Managed Service for Apache Flink application.
         public var environmentPropertyUpdates: KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates?
-        /// Describes updates to a Flink-based Kinesis Data Analytics application's configuration.
+        /// Describes updates to a Managed Service for Apache Flink application's configuration.
         public var flinkApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationUpdate?
         /// Describes updates to a SQL-based Kinesis Data Analytics application's configuration.
         public var sqlApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.SqlApplicationConfigurationUpdate?
         /// Updates to the array of descriptions of VPC configurations available to the application.
         public var vpcConfigurationUpdates: [KinesisAnalyticsV2ClientTypes.VpcConfigurationUpdate]?
-        /// Updates to the configuration of a Kinesis Data Analytics Studio notebook.
+        /// Updates to the configuration of a Managed Service for Apache Flink Studio notebook.
         public var zeppelinApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate?
 
         public init(
@@ -1586,13 +1586,13 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the application.
         /// This member is required.
         public var applicationARN: Swift.String?
-        /// Describes details about the application code and starting parameters for a Kinesis Data Analytics application.
+        /// Describes details about the application code and starting parameters for a Managed Service for Apache Flink application.
         public var applicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationConfigurationDescription?
         /// The description of the application.
         public var applicationDescription: Swift.String?
         /// The details of the maintenance configuration for the application.
         public var applicationMaintenanceConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationMaintenanceConfigurationDescription?
-        /// To create a Kinesis Data Analytics Studio notebook, you must set the mode to INTERACTIVE. However, for a Kinesis Data Analytics for Apache Flink application, the mode is optional.
+        /// To create a Managed Service for Apache Flink Studio notebook, you must set the mode to INTERACTIVE. However, for a Managed Service for Apache Flink application, the mode is optional.
         public var applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode?
         /// The name of the application.
         /// This member is required.
@@ -1600,7 +1600,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The status of the application.
         /// This member is required.
         public var applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus?
-        /// Provides the current application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
+        /// Provides the current application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         /// This member is required.
         public var applicationVersionId: Swift.Int?
         /// If you reverted the application using [RollbackApplication], the application version when RollbackApplication was called.
@@ -1881,9 +1881,9 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfiguration: Swift.
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+    /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfiguration: Swift.Equatable {
-        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
@@ -1917,9 +1917,9 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationDescript
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+    /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfigurationDescription: Swift.Equatable {
-        /// Describes whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+        /// Describes whether snapshots are enabled for a Managed Service for Apache Flink application.
         /// This member is required.
         public var snapshotsEnabled: Swift.Bool?
 
@@ -1953,7 +1953,7 @@ extension KinesisAnalyticsV2ClientTypes.ApplicationSnapshotConfigurationUpdate: 
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis Data Analytics application.
+    /// Describes updates to whether snapshots are enabled for a Managed Service for Apache Flink application.
     public struct ApplicationSnapshotConfigurationUpdate: Swift.Equatable {
         /// Describes updates to whether snapshots are enabled for an application.
         /// This member is required.
@@ -2083,7 +2083,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The ARN of the application.
         /// This member is required.
         public var applicationARN: Swift.String?
-        /// For a Kinesis Data Analytics for Apache Flink application, the mode is STREAMING. For a Kinesis Data Analytics Studio notebook, it is INTERACTIVE.
+        /// For a Managed Service for Apache Flink application, the mode is STREAMING. For a Managed Service for Apache Flink Studio notebook, it is INTERACTIVE.
         public var applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode?
         /// The name of the application.
         /// This member is required.
@@ -2149,7 +2149,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The status of the application.
         /// This member is required.
         public var applicationStatus: KinesisAnalyticsV2ClientTypes.ApplicationStatus?
-        /// The ID of the application version. Kinesis Data Analytics updates the ApplicationVersionId each time you update the application.
+        /// The ID of the application version. Managed Service for Apache Flink updates the ApplicationVersionId each time you update the application.
         /// This member is required.
         public var applicationVersionId: Swift.Int?
 
@@ -2265,9 +2265,9 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfiguration: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+    /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
     public struct CatalogConfiguration: Swift.Equatable {
-        /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Managed Service for Apache Flink Studio notebook.
         /// This member is required.
         public var glueDataCatalogConfiguration: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfiguration?
 
@@ -2301,9 +2301,9 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfigurationDescription: Swift.C
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Kinesis Data Analytics Studio notebook.
+    /// The configuration parameters for the default Amazon Glue database. You use this database for Apache Flink SQL queries and table API transforms that you write in a Managed Service for Apache Flink Studio notebook.
     public struct CatalogConfigurationDescription: Swift.Equatable {
-        /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        /// The configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
         /// This member is required.
         public var glueDataCatalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationDescription?
 
@@ -2337,9 +2337,9 @@ extension KinesisAnalyticsV2ClientTypes.CatalogConfigurationUpdate: Swift.Codabl
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+    /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
     public struct CatalogConfigurationUpdate: Swift.Equatable {
-        /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+        /// Updates to the configuration parameters for the default Amazon Glue database. You use this database for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
         /// This member is required.
         public var glueDataCatalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate?
 
@@ -2395,9 +2395,9 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct CheckpointConfiguration: Swift.Equatable {
         /// Describes the interval in milliseconds between checkpoint operations. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public var checkpointInterval: Swift.Int?
-        /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
+        /// Describes whether checkpointing is enabled for a Managed Service for Apache Flink application. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public var checkpointingEnabled: Swift.Bool?
-        /// Describes whether the application uses Kinesis Data Analytics' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
+        /// Describes whether the application uses Managed Service for Apache Flink' default checkpointing behavior. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
         ///
         /// * CheckpointingEnabled: true
         ///
@@ -2463,13 +2463,13 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription: Swif
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes checkpointing parameters for a Flink-based Kinesis Data Analytics application.
+    /// Describes checkpointing parameters for a Managed Service for Apache Flink application.
     public struct CheckpointConfigurationDescription: Swift.Equatable {
         /// Describes the interval in milliseconds between checkpoint operations. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public var checkpointInterval: Swift.Int?
-        /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data Analytics application. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
+        /// Describes whether checkpointing is enabled for a Managed Service for Apache Flink application. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public var checkpointingEnabled: Swift.Bool?
-        /// Describes whether the application uses the default checkpointing behavior in Kinesis Data Analytics. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
+        /// Describes whether the application uses the default checkpointing behavior in Managed Service for Apache Flink. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
         ///
         /// * CheckpointingEnabled: true
         ///
@@ -2534,13 +2534,13 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate: Swift.Cod
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes updates to the checkpointing parameters for a Flink-based Kinesis Data Analytics application.
+    /// Describes updates to the checkpointing parameters for a Managed Service for Apache Flink application.
     public struct CheckpointConfigurationUpdate: Swift.Equatable {
         /// Describes updates to the interval in milliseconds between checkpoint operations. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public var checkpointIntervalUpdate: Swift.Int?
         /// Describes updates to whether checkpointing is enabled for an application. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointingEnabled value of true, even if this value is set to another value using this API or in application code.
         public var checkpointingEnabledUpdate: Swift.Bool?
-        /// Describes updates to whether the application uses the default checkpointing behavior of Kinesis Data Analytics. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
+        /// Describes updates to whether the application uses the default checkpointing behavior of Managed Service for Apache Flink. You must set this property to CUSTOM in order to set the CheckpointingEnabled, CheckpointInterval, or MinPauseBetweenCheckpoints parameters. If this value is set to DEFAULT, the application will use the following values, even if they are set to other values using APIs or application code:
         ///
         /// * CheckpointingEnabled: true
         ///
@@ -2737,13 +2737,13 @@ extension KinesisAnalyticsV2ClientTypes.CodeContent: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Specifies either the application code, or the location of the application code, for a Flink-based Kinesis Data Analytics application.
+    /// Specifies either the application code, or the location of the application code, for a Managed Service for Apache Flink application.
     public struct CodeContent: Swift.Equatable {
         /// Information about the Amazon S3 bucket that contains the application code.
         public var s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation?
-        /// The text-format code for a Flink-based Kinesis Data Analytics application.
+        /// The text-format code for a Managed Service for Apache Flink application.
         public var textContent: Swift.String?
-        /// The zip-format code for a Flink-based Kinesis Data Analytics application.
+        /// The zip-format code for a Managed Service for Apache Flink application.
         public var zipFileContent: ClientRuntime.Data?
 
         public init(
@@ -2798,7 +2798,7 @@ extension KinesisAnalyticsV2ClientTypes.CodeContentDescription: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes details about the code of a Kinesis Data Analytics application.
+    /// Describes details about the code of a Managed Service for Apache Flink application.
     public struct CodeContentDescription: Swift.Equatable {
         /// The checksum that can be used to validate zip-format code.
         public var codeMD5: Swift.String?
@@ -3113,7 +3113,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var applicationConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationConfiguration?
     /// A summary description of the application.
     public var applicationDescription: Swift.String?
-    /// Use the STREAMING mode to create a Kinesis Data Analytics For Flink application. To create a Kinesis Data Analytics Studio notebook, use the INTERACTIVE mode.
+    /// Use the STREAMING mode to create a Managed Service for Apache Flink application. To create a Managed Service for Apache Flink Studio notebook, use the INTERACTIVE mode.
     public var applicationMode: KinesisAnalyticsV2ClientTypes.ApplicationMode?
     /// The name of your application (for example, sample-app).
     /// This member is required.
@@ -3226,7 +3226,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateApplicationOutput: Swift.Equatable {
-    /// In response to your CreateApplication request, Kinesis Data Analytics returns a response with details of the application it created.
+    /// In response to your CreateApplication request, Managed Service for Apache Flink returns a response with details of the application it created.
     /// This member is required.
     public var applicationDetail: KinesisAnalyticsV2ClientTypes.ApplicationDetail?
 
@@ -3527,7 +3527,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public var artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType?
         /// The parameters required to fully specify a Maven reference.
         public var mavenReference: KinesisAnalyticsV2ClientTypes.MavenReference?
-        /// For a Kinesis Data Analytics application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
+        /// For a Managed Service for Apache Flink application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public var s3ContentLocation: KinesisAnalyticsV2ClientTypes.S3ContentLocation?
 
         public init(
@@ -3582,7 +3582,7 @@ extension KinesisAnalyticsV2ClientTypes {
         public var artifactType: KinesisAnalyticsV2ClientTypes.ArtifactType?
         /// The parameters that are required to specify a Maven dependency.
         public var mavenReferenceDescription: KinesisAnalyticsV2ClientTypes.MavenReference?
-        /// For a Kinesis Data Analytics application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
+        /// For a Managed Service for Apache Flink application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         public var s3ContentLocationDescription: KinesisAnalyticsV2ClientTypes.S3ContentLocation?
 
         public init(
@@ -4480,7 +4480,7 @@ extension DeleteApplicationVpcConfigurationOutput: ClientRuntime.HttpResponseBin
 }
 
 public struct DeleteApplicationVpcConfigurationOutput: Swift.Equatable {
-    /// The ARN of the Kinesis Data Analytics application.
+    /// The ARN of the Managed Service for Apache Flink application.
     public var applicationARN: Swift.String?
     /// The updated version ID of the application.
     public var applicationVersionId: Swift.Int?
@@ -4550,7 +4550,7 @@ extension KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfiguration: Swift.
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The information required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state.
+    /// The information required to deploy a Managed Service for Apache Flink Studio notebook as an application with durable state.
     public struct DeployAsApplicationConfiguration: Swift.Equatable {
         /// The description of an Amazon S3 object that contains the Amazon Data Analytics application, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
         /// This member is required.
@@ -4665,7 +4665,7 @@ public struct DescribeApplicationInput: Swift.Equatable {
     /// The name of the application.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// Displays verbose information about a Kinesis Data Analytics application, including the application's job plan.
+    /// Displays verbose information about a Managed Service for Apache Flink application, including the application's job plan.
     public var includeAdditionalDetails: Swift.Bool?
 
     public init(
@@ -5058,7 +5058,7 @@ extension DiscoverInputSchemaInput {
 public struct DiscoverInputSchemaInput: Swift.Equatable {
     /// The [InputProcessingConfiguration] to use to preprocess the records before discovering the schema of the records.
     public var inputProcessingConfiguration: KinesisAnalyticsV2ClientTypes.InputProcessingConfiguration?
-    /// The point at which you want Kinesis Data Analytics to start reading records from the specified streaming source discovery purposes.
+    /// The point at which you want Kinesis Data Analytics to start reading records from the specified streaming source for discovery purposes.
     public var inputStartingPositionConfiguration: KinesisAnalyticsV2ClientTypes.InputStartingPositionConfiguration?
     /// The Amazon Resource Name (ARN) of the streaming source.
     public var resourceARN: Swift.String?
@@ -5270,7 +5270,7 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentProperties: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes execution properties for a Flink-based Kinesis Data Analytics application.
+    /// Describes execution properties for a Managed Service for Apache Flink application.
     public struct EnvironmentProperties: Swift.Equatable {
         /// Describes the execution property groups.
         /// This member is required.
@@ -5365,7 +5365,7 @@ extension KinesisAnalyticsV2ClientTypes.EnvironmentPropertyUpdates: Swift.Codabl
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes updates to the execution property groups for a Flink-based Kinesis Data Analytics application or a Studio notebook.
+    /// Describes updates to the execution property groups for a Managed Service for Apache Flink application or a Studio notebook.
     public struct EnvironmentPropertyUpdates: Swift.Equatable {
         /// Describes updates to the execution property groups.
         /// This member is required.
@@ -5413,7 +5413,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfiguration: Swift.Cod
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes configuration parameters for a Flink-based Kinesis Data Analytics application or a Studio notebook.
+    /// Describes configuration parameters for a Managed Service for Apache Flink application or a Studio notebook.
     public struct FlinkApplicationConfiguration: Swift.Equatable {
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
         public var checkpointConfiguration: KinesisAnalyticsV2ClientTypes.CheckpointConfiguration?
@@ -5474,7 +5474,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationDescription
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes configuration parameters for a Flink-based Kinesis Data Analytics application.
+    /// Describes configuration parameters for a Managed Service for Apache Flink application.
     public struct FlinkApplicationConfigurationDescription: Swift.Equatable {
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public var checkpointConfigurationDescription: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription?
@@ -5533,7 +5533,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfigurationUpdate: Swi
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes updates to the configuration parameters for a Flink-based Kinesis Data Analytics application.
+    /// Describes updates to the configuration parameters for a Managed Service for Apache Flink application.
     public struct FlinkApplicationConfigurationUpdate: Swift.Equatable {
         /// Describes updates to an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public var checkpointConfigurationUpdate: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationUpdate?
@@ -5576,7 +5576,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
+    /// Describes the starting parameters for a Managed Service for Apache Flink application.
     public struct FlinkRunConfiguration: Swift.Equatable {
         /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/savepoints.html#allowing-non-restored-state) in the [Apache Flink documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public var allowNonRestoredState: Swift.Bool?
@@ -5683,7 +5683,7 @@ extension KinesisAnalyticsV2ClientTypes.GlueDataCatalogConfigurationUpdate: Swif
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Updates to the configuration of the Glue Data Catalog that you use for SQL queries that you write in a Kinesis Data Analytics Studio notebook.
+    /// Updates to the configuration of the Glue Data Catalog that you use for SQL queries that you write in a Managed Service for Apache Flink Studio notebook.
     public struct GlueDataCatalogConfigurationUpdate: Swift.Equatable {
         /// The updated Amazon Resource Name (ARN) of the database.
         /// This member is required.
@@ -8458,16 +8458,16 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfiguration: Swift.Codable 
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes parameters for how a Flink-based Kinesis Data Analytics application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
     public struct ParallelismConfiguration: Swift.Equatable {
-        /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
+        /// Describes whether the Managed Service for Apache Flink service can increase the parallelism of the application in response to increased throughput.
         public var autoScalingEnabled: Swift.Bool?
-        /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
+        /// Describes whether the application uses the default parallelism for the Managed Service for Apache Flink service. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         /// This member is required.
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
-        /// Describes the initial number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink increases the CurrentParallelism value in response to application load. The service can increase the CurrentParallelism value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var parallelism: Swift.Int?
-        /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see [Amazon Kinesis Data Analytics Pricing](http://aws.amazon.com/kinesis/data-analytics/pricing/).
+        /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit (KPU) used by the application. For more information about KPUs, see [Amazon Managed Service for Apache Flink Pricing](http://aws.amazon.com/kinesis/data-analytics/pricing/).
         public var parallelismPerKPU: Swift.Int?
 
         public init(
@@ -8530,17 +8530,17 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfigurationDescription: Swi
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes parameters for how a Flink-based Kinesis Data Analytics application executes multiple tasks simultaneously.
+    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously.
     public struct ParallelismConfigurationDescription: Swift.Equatable {
-        /// Describes whether the Kinesis Data Analytics service can increase the parallelism of the application in response to increased throughput.
+        /// Describes whether the Managed Service for Apache Flink service can increase the parallelism of the application in response to increased throughput.
         public var autoScalingEnabled: Swift.Bool?
-        /// Describes whether the application uses the default parallelism for the Kinesis Data Analytics service.
+        /// Describes whether the application uses the default parallelism for the Managed Service for Apache Flink service.
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
-        /// Describes the current number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, Kinesis Data Analytics can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the current number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, Managed Service for Apache Flink can increase this value in response to application load. The service can increase this value up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var currentParallelism: Swift.Int?
-        /// Describes the initial number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
+        /// Describes the initial number of parallel tasks that a Managed Service for Apache Flink application can perform. If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service can reduce the CurrentParallelism value down to the Parallelism setting.
         public var parallelism: Swift.Int?
-        /// Describes the number of parallel tasks that a Flink-based Kinesis Data Analytics application can perform per Kinesis Processing Unit (KPU) used by the application.
+        /// Describes the number of parallel tasks that a Managed Service for Apache Flink application can perform per Kinesis Processing Unit (KPU) used by the application.
         public var parallelismPerKPU: Swift.Int?
 
         public init(
@@ -8601,13 +8601,13 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfigurationUpdate: Swift.Co
 extension KinesisAnalyticsV2ClientTypes {
     /// Describes updates to parameters for how an application executes multiple tasks simultaneously.
     public struct ParallelismConfigurationUpdate: Swift.Equatable {
-        /// Describes updates to whether the Kinesis Data Analytics service can increase the parallelism of a Flink-based Kinesis Data Analytics application in response to increased throughput.
+        /// Describes updates to whether the Managed Service for Apache Flink service can increase the parallelism of a Managed Service for Apache Flink application in response to increased throughput.
         public var autoScalingEnabledUpdate: Swift.Bool?
-        /// Describes updates to whether the application uses the default parallelism for the Kinesis Data Analytics service, or if a custom parallelism is used. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
+        /// Describes updates to whether the application uses the default parallelism for the Managed Service for Apache Flink service, or if a custom parallelism is used. You must set this property to CUSTOM in order to change your application's AutoScalingEnabled, Parallelism, or ParallelismPerKPU properties.
         public var configurationTypeUpdate: KinesisAnalyticsV2ClientTypes.ConfigurationType?
         /// Describes updates to the number of parallel tasks an application can perform per Kinesis Processing Unit (KPU) used by the application.
         public var parallelismPerKPUUpdate: Swift.Int?
-        /// Describes updates to the initial number of parallel tasks an application can perform. If AutoScalingEnabled is set to True, then Kinesis Data Analytics can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service will reduce CurrentParallelism down to the Parallelism setting.
+        /// Describes updates to the initial number of parallel tasks an application can perform. If AutoScalingEnabled is set to True, then Managed Service for Apache Flink can increase the CurrentParallelism value in response to application load. The service can increase CurrentParallelism up to the maximum parallelism, which is ParalellismPerKPU times the maximum KPUs for the application. The maximum KPUs for an application is 32 by default, and can be increased by requesting a limit increase. If application load is reduced, the service will reduce CurrentParallelism down to the Parallelism setting.
         public var parallelismUpdate: Swift.Int?
 
         public init(
@@ -8857,7 +8857,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// Describes the format of the data in the streaming source, and how each data element maps to corresponding columns created in the in-application stream.
         /// This member is required.
         public var referenceSchema: KinesisAnalyticsV2ClientTypes.SourceSchema?
-        /// Identifies the S3 bucket and object that contains the reference data. A Kinesis Data Analytics application loads reference data only once. If the data changes, you call the [UpdateApplication] operation to trigger reloading of data into your application.
+        /// Identifies the S3 bucket and object that contains the reference data. A SQL-based Kinesis Data Analytics application loads reference data only once. If the data changes, you call the [UpdateApplication] operation to trigger reloading of data into your application.
         public var s3ReferenceDataSource: KinesisAnalyticsV2ClientTypes.S3ReferenceDataSource?
         /// The name of the in-application table to create.
         /// This member is required.
@@ -9339,11 +9339,11 @@ extension KinesisAnalyticsV2ClientTypes.RunConfiguration: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes the starting parameters for an Kinesis Data Analytics application.
+    /// Describes the starting parameters for an Managed Service for Apache Flink application.
     public struct RunConfiguration: Swift.Equatable {
         /// Describes the restore behavior of a restarting application.
         public var applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration?
-        /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a Managed Service for Apache Flink application.
         public var flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration?
         /// Describes the starting parameters for a SQL-based Kinesis Data Analytics application application.
         public var sqlRunConfigurations: [KinesisAnalyticsV2ClientTypes.SqlRunConfiguration]?
@@ -9388,11 +9388,11 @@ extension KinesisAnalyticsV2ClientTypes.RunConfigurationDescription: Swift.Codab
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes the starting properties for a Kinesis Data Analytics application.
+    /// Describes the starting properties for a Managed Service for Apache Flink application.
     public struct RunConfigurationDescription: Swift.Equatable {
         /// Describes the restore behavior of a restarting application.
         public var applicationRestoreConfigurationDescription: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration?
-        /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a Managed Service for Apache Flink application.
         public var flinkRunConfigurationDescription: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration?
 
         public init(
@@ -9433,11 +9433,11 @@ extension KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes the updates to the starting parameters for a Kinesis Data Analytics application.
+    /// Describes the updates to the starting parameters for a Managed Service for Apache Flink application.
     public struct RunConfigurationUpdate: Swift.Equatable {
         /// Describes updates to the restore behavior of a restarting application.
         public var applicationRestoreConfiguration: KinesisAnalyticsV2ClientTypes.ApplicationRestoreConfiguration?
-        /// Describes the starting parameters for a Flink-based Kinesis Data Analytics application.
+        /// Describes the starting parameters for a Managed Service for Apache Flink application.
         public var flinkRunConfiguration: KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration?
 
         public init(
@@ -9778,7 +9778,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ContentLocation: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// For a Kinesis Data Analytics application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
+    /// For a Managed Service for Apache Flink application provides a description of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3 bucket, the name of the Amazon S3 object that contains the data, and the version number of the Amazon S3 object that contains the data.
     public struct S3ContentLocation: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the S3 bucket containing the application code.
         /// This member is required.
@@ -9884,7 +9884,7 @@ extension KinesisAnalyticsV2ClientTypes.S3ReferenceDataSource: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// For a SQL-based Kinesis Data Analytics application, identifies the Amazon S3 bucket and object that contains the reference data. A Kinesis Data Analytics application loads reference data only once. If the data changes, you call the [UpdateApplication] operation to trigger reloading of data into your application.
+    /// For a SQL-based Kinesis Data Analytics application, identifies the Amazon S3 bucket and object that contains the reference data. A SQL-based Kinesis Data Analytics application loads reference data only once. If the data changes, you call the [UpdateApplication] operation to trigger reloading of data into your application.
     public struct S3ReferenceDataSource: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public var bucketARN: Swift.String?
@@ -10063,6 +10063,7 @@ extension ServiceUnavailableExceptionBody: Swift.Decodable {
 extension KinesisAnalyticsV2ClientTypes.SnapshotDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case applicationVersionId = "ApplicationVersionId"
+        case runtimeEnvironment = "RuntimeEnvironment"
         case snapshotCreationTimestamp = "SnapshotCreationTimestamp"
         case snapshotName = "SnapshotName"
         case snapshotStatus = "SnapshotStatus"
@@ -10072,6 +10073,9 @@ extension KinesisAnalyticsV2ClientTypes.SnapshotDetails: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let applicationVersionId = self.applicationVersionId {
             try encodeContainer.encode(applicationVersionId, forKey: .applicationVersionId)
+        }
+        if let runtimeEnvironment = self.runtimeEnvironment {
+            try encodeContainer.encode(runtimeEnvironment.rawValue, forKey: .runtimeEnvironment)
         }
         if let snapshotCreationTimestamp = self.snapshotCreationTimestamp {
             try encodeContainer.encodeTimestamp(snapshotCreationTimestamp, format: .epochSeconds, forKey: .snapshotCreationTimestamp)
@@ -10094,6 +10098,8 @@ extension KinesisAnalyticsV2ClientTypes.SnapshotDetails: Swift.Codable {
         applicationVersionId = applicationVersionIdDecoded
         let snapshotCreationTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .snapshotCreationTimestamp)
         snapshotCreationTimestamp = snapshotCreationTimestampDecoded
+        let runtimeEnvironmentDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RuntimeEnvironment.self, forKey: .runtimeEnvironment)
+        runtimeEnvironment = runtimeEnvironmentDecoded
     }
 }
 
@@ -10103,6 +10109,8 @@ extension KinesisAnalyticsV2ClientTypes {
         /// The current application version ID when the snapshot was created.
         /// This member is required.
         public var applicationVersionId: Swift.Int?
+        /// The Flink Runtime for the application snapshot.
+        public var runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
         /// The timestamp of the application snapshot.
         public var snapshotCreationTimestamp: ClientRuntime.Date?
         /// The identifier for the application snapshot.
@@ -10114,12 +10122,14 @@ extension KinesisAnalyticsV2ClientTypes {
 
         public init(
             applicationVersionId: Swift.Int? = nil,
+            runtimeEnvironment: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
             snapshotCreationTimestamp: ClientRuntime.Date? = nil,
             snapshotName: Swift.String? = nil,
             snapshotStatus: KinesisAnalyticsV2ClientTypes.SnapshotStatus? = nil
         )
         {
             self.applicationVersionId = applicationVersionId
+            self.runtimeEnvironment = runtimeEnvironment
             self.snapshotCreationTimestamp = snapshotCreationTimestamp
             self.snapshotName = snapshotName
             self.snapshotStatus = snapshotStatus
@@ -10583,7 +10593,7 @@ public struct StartApplicationInput: Swift.Equatable {
     /// The name of the application.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// Identifies the run configuration (start parameters) of a Kinesis Data Analytics application.
+    /// Identifies the run configuration (start parameters) of a Managed Service for Apache Flink application.
     public var runConfiguration: KinesisAnalyticsV2ClientTypes.RunConfiguration?
 
     public init(
@@ -10669,7 +10679,7 @@ public struct StopApplicationInput: Swift.Equatable {
     /// The name of the running application to stop.
     /// This member is required.
     public var applicationName: Swift.String?
-    /// Set to true to force the application to stop. If you set Force to true, Kinesis Data Analytics stops the application without taking a snapshot. Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Flink-based Kinesis Data Analytics application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
+    /// Set to true to force the application to stop. If you set Force to true, Managed Service for Apache Flink stops the application without taking a snapshot. Force-stopping your application may lead to data loss or duplication. To prevent data loss or duplicate processing of data during application restarts, we recommend you to take frequent snapshots of your application. You can only force stop a Managed Service for Apache Flink application. You can't force stop a SQL-based Kinesis Data Analytics application. The application must be in the STARTING, UPDATING, STOPPING, AUTOSCALING, or RUNNING status.
     public var force: Swift.Bool?
 
     public init(
@@ -11104,7 +11114,7 @@ extension UntagResourceInput {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The ARN of the Kinesis Data Analytics application from which to remove the tags.
+    /// The ARN of the Managed Service for Apache Flink application from which to remove the tags.
     /// This member is required.
     public var resourceARN: Swift.String?
     /// A list of keys of tags to remove from the specified application.
@@ -11183,6 +11193,7 @@ extension UpdateApplicationInput: Swift.Encodable {
         case conditionalToken = "ConditionalToken"
         case currentApplicationVersionId = "CurrentApplicationVersionId"
         case runConfigurationUpdate = "RunConfigurationUpdate"
+        case runtimeEnvironmentUpdate = "RuntimeEnvironmentUpdate"
         case serviceExecutionRoleUpdate = "ServiceExecutionRoleUpdate"
     }
 
@@ -11208,6 +11219,9 @@ extension UpdateApplicationInput: Swift.Encodable {
         }
         if let runConfigurationUpdate = self.runConfigurationUpdate {
             try encodeContainer.encode(runConfigurationUpdate, forKey: .runConfigurationUpdate)
+        }
+        if let runtimeEnvironmentUpdate = self.runtimeEnvironmentUpdate {
+            try encodeContainer.encode(runtimeEnvironmentUpdate.rawValue, forKey: .runtimeEnvironmentUpdate)
         }
         if let serviceExecutionRoleUpdate = self.serviceExecutionRoleUpdate {
             try encodeContainer.encode(serviceExecutionRoleUpdate, forKey: .serviceExecutionRoleUpdate)
@@ -11236,6 +11250,12 @@ public struct UpdateApplicationInput: Swift.Equatable {
     public var currentApplicationVersionId: Swift.Int?
     /// Describes updates to the application's starting parameters.
     public var runConfigurationUpdate: KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate?
+    /// Updates the Managed Service for Apache Flink runtime environment used to run your code. To avoid issues you must:
+    ///
+    /// * Ensure your new jar and dependencies are compatible with the new runtime selected.
+    ///
+    /// * Ensure your new code's state is compatible with the snapshot from which your application will start
+    public var runtimeEnvironmentUpdate: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
     /// Describes updates to the service execution role.
     public var serviceExecutionRoleUpdate: Swift.String?
 
@@ -11246,6 +11266,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         conditionalToken: Swift.String? = nil,
         currentApplicationVersionId: Swift.Int? = nil,
         runConfigurationUpdate: KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate? = nil,
+        runtimeEnvironmentUpdate: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment? = nil,
         serviceExecutionRoleUpdate: Swift.String? = nil
     )
     {
@@ -11255,6 +11276,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
         self.conditionalToken = conditionalToken
         self.currentApplicationVersionId = currentApplicationVersionId
         self.runConfigurationUpdate = runConfigurationUpdate
+        self.runtimeEnvironmentUpdate = runtimeEnvironmentUpdate
         self.serviceExecutionRoleUpdate = serviceExecutionRoleUpdate
     }
 }
@@ -11267,6 +11289,7 @@ struct UpdateApplicationInputBody: Swift.Equatable {
     let runConfigurationUpdate: KinesisAnalyticsV2ClientTypes.RunConfigurationUpdate?
     let cloudWatchLoggingOptionUpdates: [KinesisAnalyticsV2ClientTypes.CloudWatchLoggingOptionUpdate]?
     let conditionalToken: Swift.String?
+    let runtimeEnvironmentUpdate: KinesisAnalyticsV2ClientTypes.RuntimeEnvironment?
 }
 
 extension UpdateApplicationInputBody: Swift.Decodable {
@@ -11277,6 +11300,7 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         case conditionalToken = "ConditionalToken"
         case currentApplicationVersionId = "CurrentApplicationVersionId"
         case runConfigurationUpdate = "RunConfigurationUpdate"
+        case runtimeEnvironmentUpdate = "RuntimeEnvironmentUpdate"
         case serviceExecutionRoleUpdate = "ServiceExecutionRoleUpdate"
     }
 
@@ -11305,6 +11329,8 @@ extension UpdateApplicationInputBody: Swift.Decodable {
         cloudWatchLoggingOptionUpdates = cloudWatchLoggingOptionUpdatesDecoded0
         let conditionalTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .conditionalToken)
         conditionalToken = conditionalTokenDecoded
+        let runtimeEnvironmentUpdateDecoded = try containerValues.decodeIfPresent(KinesisAnalyticsV2ClientTypes.RuntimeEnvironment.self, forKey: .runtimeEnvironmentUpdate)
+        runtimeEnvironmentUpdate = runtimeEnvironmentUpdateDecoded
     }
 }
 
@@ -11820,15 +11846,15 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfiguration: Swift.
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The configuration of a Kinesis Data Analytics Studio notebook.
+    /// The configuration of a Managed Service for Apache Flink Studio notebook.
     public struct ZeppelinApplicationConfiguration: Swift.Equatable {
-        /// The Amazon Glue Data Catalog that you use in queries in a Kinesis Data Analytics Studio notebook.
+        /// The Amazon Glue Data Catalog that you use in queries in a Managed Service for Apache Flink Studio notebook.
         public var catalogConfiguration: KinesisAnalyticsV2ClientTypes.CatalogConfiguration?
         /// Custom artifacts are dependency JARs and user-defined functions (UDF).
         public var customArtifactsConfiguration: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]?
-        /// The information required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state.
+        /// The information required to deploy a Managed Service for Apache Flink Studio notebook as an application with durable state.
         public var deployAsApplicationConfiguration: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfiguration?
-        /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        /// The monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         public var monitoringConfiguration: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration?
 
         public init(
@@ -11897,15 +11923,15 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationDescript
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The configuration of a Kinesis Data Analytics Studio notebook.
+    /// The configuration of a Managed Service for Apache Flink Studio notebook.
     public struct ZeppelinApplicationConfigurationDescription: Swift.Equatable {
-        /// The Amazon Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        /// The Amazon Glue Data Catalog that is associated with the Managed Service for Apache Flink Studio notebook.
         public var catalogConfigurationDescription: KinesisAnalyticsV2ClientTypes.CatalogConfigurationDescription?
         /// Custom artifacts are dependency JARs and user-defined functions (UDF).
         public var customArtifactsConfigurationDescription: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfigurationDescription]?
-        /// The parameters required to deploy a Kinesis Data Analytics Studio notebook as an application with durable state.
+        /// The parameters required to deploy a Managed Service for Apache Flink Studio notebook as an application with durable state.
         public var deployAsApplicationConfigurationDescription: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationDescription?
-        /// The monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        /// The monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         /// This member is required.
         public var monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescription?
 
@@ -11975,15 +12001,15 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinApplicationConfigurationUpdate: 
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Updates to the configuration of Kinesis Data Analytics Studio notebook.
+    /// Updates to the configuration of Managed Service for Apache Flink Studio notebook.
     public struct ZeppelinApplicationConfigurationUpdate: Swift.Equatable {
-        /// Updates to the configuration of the Amazon Glue Data Catalog that is associated with the Kinesis Data Analytics Studio notebook.
+        /// Updates to the configuration of the Amazon Glue Data Catalog that is associated with the Managed Service for Apache Flink Studio notebook.
         public var catalogConfigurationUpdate: KinesisAnalyticsV2ClientTypes.CatalogConfigurationUpdate?
         /// Updates to the customer artifacts. Custom artifacts are dependency JAR files and user-defined functions (UDF).
         public var customArtifactsConfigurationUpdate: [KinesisAnalyticsV2ClientTypes.CustomArtifactConfiguration]?
         /// Updates to the configuration information required to deploy an Amazon Data Analytics Studio notebook as an application with durable state.
         public var deployAsApplicationConfigurationUpdate: KinesisAnalyticsV2ClientTypes.DeployAsApplicationConfigurationUpdate?
-        /// Updates to the monitoring configuration of a Kinesis Data Analytics Studio notebook.
+        /// Updates to the monitoring configuration of a Managed Service for Apache Flink Studio notebook.
         public var monitoringConfigurationUpdate: KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate?
 
         public init(
@@ -12022,7 +12048,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfiguration: Swift.C
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes configuration parameters for Amazon CloudWatch logging for a Kinesis Data Analytics Studio notebook. For more information about CloudWatch logging, see [Monitoring](https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html).
+    /// Describes configuration parameters for Amazon CloudWatch logging for a Managed Service for Apache Flink Studio notebook. For more information about CloudWatch logging, see [Monitoring](https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html).
     public struct ZeppelinMonitoringConfiguration: Swift.Equatable {
         /// The verbosity of the CloudWatch Logs for an application.
         /// This member is required.
@@ -12058,7 +12084,7 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationDescripti
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// The monitoring configuration for Apache Zeppelin within a Kinesis Data Analytics Studio notebook.
+    /// The monitoring configuration for Apache Zeppelin within a Managed Service for Apache Flink Studio notebook.
     public struct ZeppelinMonitoringConfigurationDescription: Swift.Equatable {
         /// Describes the verbosity of the CloudWatch Logs for an application.
         public var logLevel: KinesisAnalyticsV2ClientTypes.LogLevel?
@@ -12093,9 +12119,9 @@ extension KinesisAnalyticsV2ClientTypes.ZeppelinMonitoringConfigurationUpdate: S
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Updates to the monitoring configuration for Apache Zeppelin within a Kinesis Data Analytics Studio notebook.
+    /// Updates to the monitoring configuration for Apache Zeppelin within a Managed Service for Apache Flink Studio notebook.
     public struct ZeppelinMonitoringConfigurationUpdate: Swift.Equatable {
-        /// Updates to the logging level for Apache Zeppelin within a Kinesis Data Analytics Studio notebook.
+        /// Updates to the logging level for Apache Zeppelin within a Managed Service for Apache Flink Studio notebook.
         /// This member is required.
         public var logLevelUpdate: KinesisAnalyticsV2ClientTypes.LogLevel?
 
