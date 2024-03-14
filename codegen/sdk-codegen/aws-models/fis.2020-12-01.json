@@ -55,6 +55,12 @@
                         "smithy.api#documentation": "<p>The ID of the action.</p>"
                     }
                 },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the action.</p>"
+                    }
+                },
                 "description": {
                     "target": "com.amazonaws.fis#ActionDescription",
                     "traits": {
@@ -169,6 +175,12 @@
                         "smithy.api#documentation": "<p>The ID of the action.</p>"
                     }
                 },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the action.</p>"
+                    }
+                },
                 "description": {
                     "target": "com.amazonaws.fis#ActionDescription",
                     "traits": {
@@ -229,6 +241,23 @@
                     "max": 64
                 },
                 "smithy.api#pattern": "^[\\S]+$"
+            }
+        },
+        "com.amazonaws.fis#ActionsMode": {
+            "type": "enum",
+            "members": {
+                "SKIP_ALL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "skip-all"
+                    }
+                },
+                "RUN_ALL": {
+                    "target": "smithy.api#Unit",
+                    "traits": {
+                        "smithy.api#enumValue": "run-all"
+                    }
+                }
             }
         },
         "com.amazonaws.fis#ClientToken": {
@@ -610,7 +639,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -744,7 +773,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -802,6 +831,12 @@
                     "target": "com.amazonaws.fis#ExperimentId",
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the experiment.</p>"
+                    }
+                },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the experiment.</p>"
                     }
                 },
                 "experimentTemplateId": {
@@ -1198,6 +1233,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The empty target resolution mode for an experiment.</p>"
                     }
+                },
+                "actionsMode": {
+                    "target": "com.amazonaws.fis#ActionsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The actions mode of the experiment that is set from the StartExperiment API command.</p>"
+                    }
                 }
             },
             "traits": {
@@ -1339,6 +1380,12 @@
                         "smithy.api#documentation": "<p>The ID of the experiment.</p>"
                     }
                 },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the experiment.</p>"
+                    }
+                },
                 "experimentTemplateId": {
                     "target": "com.amazonaws.fis#ExperimentTemplateId",
                     "traits": {
@@ -1361,6 +1408,12 @@
                     "target": "com.amazonaws.fis#TagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>The tags for the experiment.</p>"
+                    }
+                },
+                "experimentOptions": {
+                    "target": "com.amazonaws.fis#ExperimentOptions",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The experiment options for the experiment.</p>"
                     }
                 }
             },
@@ -1430,7 +1483,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>"
                     }
                 },
                 "description": {
@@ -1462,7 +1515,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>"
                     }
                 },
                 "description": {
@@ -1592,6 +1645,12 @@
                     "target": "com.amazonaws.fis#ExperimentTemplateId",
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the experiment template.</p>"
+                    }
+                },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the experiment template.</p>"
                     }
                 },
                 "description": {
@@ -1965,6 +2024,12 @@
                     "target": "com.amazonaws.fis#ExperimentTemplateId",
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the experiment template.</p>"
+                    }
+                },
+                "arn": {
+                    "target": "com.amazonaws.fis#ResourceArn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The Amazon Resource Name (ARN) of the experiment template.</p>"
                     }
                 },
                 "description": {
@@ -3105,7 +3170,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3223,7 +3288,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
@@ -3677,6 +3742,13 @@
                         "smithy.api#documentation": "<p>The token for the next page of results.</p>",
                         "smithy.api#httpQuery": "nextToken"
                     }
+                },
+                "experimentTemplateId": {
+                    "target": "com.amazonaws.fis#ExperimentTemplateId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ID of the experiment template.</p>",
+                        "smithy.api#httpQuery": "experimentTemplateId"
+                    }
                 }
             },
             "traits": {
@@ -4079,6 +4151,20 @@
                 }
             }
         },
+        "com.amazonaws.fis#StartExperimentExperimentOptionsInput": {
+            "type": "structure",
+            "members": {
+                "actionsMode": {
+                    "target": "com.amazonaws.fis#ActionsMode",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies the actions mode for experiment options.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies experiment options for running an experiment.</p>"
+            }
+        },
         "com.amazonaws.fis#StartExperimentRequest": {
             "type": "structure",
             "members": {
@@ -4095,6 +4181,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The ID of the experiment template.</p>",
                         "smithy.api#required": {}
+                    }
+                },
+                "experimentOptions": {
+                    "target": "com.amazonaws.fis#StartExperimentExperimentOptionsInput",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The experiment options for running the experiment.</p>"
                     }
                 },
                 "tags": {
@@ -4297,7 +4389,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>"
                     }
                 },
                 "description": {
@@ -4339,7 +4431,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>"
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>"
                     }
                 },
                 "description": {
@@ -4893,7 +4985,7 @@
                 "accountId": {
                     "target": "com.amazonaws.fis#TargetAccountId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The AWS account ID of the target account.</p>",
+                        "smithy.api#documentation": "<p>The Amazon Web Services account ID of the target account.</p>",
                         "smithy.api#httpLabel": {},
                         "smithy.api#required": {}
                     }
