@@ -22,8 +22,11 @@ jobs:
         runner:
           - macos-13
           - macos-14
+          - macos-13-xlarge
+          - macos-14-xlarge
         xcode:
           - Xcode_14.3.1
+          - Xcode_15.0.1
           - Xcode_15.2
         #exclude:
           # Don't run old macOS with new Xcode
