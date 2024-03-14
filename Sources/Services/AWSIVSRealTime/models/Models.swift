@@ -2669,6 +2669,10 @@ enum GetStorageConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding 
 extension IVSRealTimeClientTypes.GridConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case featuredParticipantAttribute
+        case gridGap
+        case omitStoppedVideo
+        case videoAspectRatio
+        case videoFillMode
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2676,12 +2680,32 @@ extension IVSRealTimeClientTypes.GridConfiguration: Swift.Codable {
         if let featuredParticipantAttribute = self.featuredParticipantAttribute {
             try encodeContainer.encode(featuredParticipantAttribute, forKey: .featuredParticipantAttribute)
         }
+        if gridGap != 0 {
+            try encodeContainer.encode(gridGap, forKey: .gridGap)
+        }
+        if omitStoppedVideo != false {
+            try encodeContainer.encode(omitStoppedVideo, forKey: .omitStoppedVideo)
+        }
+        if let videoAspectRatio = self.videoAspectRatio {
+            try encodeContainer.encode(videoAspectRatio.rawValue, forKey: .videoAspectRatio)
+        }
+        if let videoFillMode = self.videoFillMode {
+            try encodeContainer.encode(videoFillMode.rawValue, forKey: .videoFillMode)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let featuredParticipantAttributeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredParticipantAttribute)
         featuredParticipantAttribute = featuredParticipantAttributeDecoded
+        let omitStoppedVideoDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .omitStoppedVideo) ?? false
+        omitStoppedVideo = omitStoppedVideoDecoded
+        let videoAspectRatioDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.VideoAspectRatio.self, forKey: .videoAspectRatio)
+        videoAspectRatio = videoAspectRatioDecoded
+        let videoFillModeDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.VideoFillMode.self, forKey: .videoFillMode)
+        videoFillMode = videoFillModeDecoded
+        let gridGapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gridGap) ?? 0
+        gridGap = gridGapDecoded
     }
 }
 
@@ -2690,12 +2714,28 @@ extension IVSRealTimeClientTypes {
     public struct GridConfiguration: Swift.Equatable {
         /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot.
         public var featuredParticipantAttribute: Swift.String?
+        /// Specifies the spacing between participant tiles in pixels. Default: 2.
+        public var gridGap: Swift.Int
+        /// Determines whether to omit participants with stopped video in the composition. Default: false.
+        public var omitStoppedVideo: Swift.Bool
+        /// Sets the non-featured participant display mode. Default: VIDEO.
+        public var videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio?
+        /// Defines how video fits within the participant tile. When not set, videoFillMode defaults to COVER fill mode for participants in the grid and to CONTAIN fill mode for featured participants.
+        public var videoFillMode: IVSRealTimeClientTypes.VideoFillMode?
 
         public init(
-            featuredParticipantAttribute: Swift.String? = nil
+            featuredParticipantAttribute: Swift.String? = nil,
+            gridGap: Swift.Int = 0,
+            omitStoppedVideo: Swift.Bool = false,
+            videoAspectRatio: IVSRealTimeClientTypes.VideoAspectRatio? = nil,
+            videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
         )
         {
             self.featuredParticipantAttribute = featuredParticipantAttribute
+            self.gridGap = gridGap
+            self.omitStoppedVideo = omitStoppedVideo
+            self.videoAspectRatio = videoAspectRatio
+            self.videoFillMode = videoFillMode
         }
     }
 
@@ -2762,6 +2802,7 @@ extension InternalServerExceptionBody: Swift.Decodable {
 extension IVSRealTimeClientTypes.LayoutConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case grid
+        case pip
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2769,12 +2810,17 @@ extension IVSRealTimeClientTypes.LayoutConfiguration: Swift.Codable {
         if let grid = self.grid {
             try encodeContainer.encode(grid, forKey: .grid)
         }
+        if let pip = self.pip {
+            try encodeContainer.encode(pip, forKey: .pip)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let gridDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.GridConfiguration.self, forKey: .grid)
         grid = gridDecoded
+        let pipDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.PipConfiguration.self, forKey: .pip)
+        pip = pipDecoded
     }
 }
 
@@ -2783,12 +2829,16 @@ extension IVSRealTimeClientTypes {
     public struct LayoutConfiguration: Swift.Equatable {
         /// Configuration related to grid layout. Default: Grid layout.
         public var grid: IVSRealTimeClientTypes.GridConfiguration?
+        /// Configuration related to PiP layout.
+        public var pip: IVSRealTimeClientTypes.PipConfiguration?
 
         public init(
-            grid: IVSRealTimeClientTypes.GridConfiguration? = nil
+            grid: IVSRealTimeClientTypes.GridConfiguration? = nil,
+            pip: IVSRealTimeClientTypes.PipConfiguration? = nil
         )
         {
             self.grid = grid
+            self.pip = pip
         }
     }
 
@@ -4526,6 +4576,201 @@ extension PendingVerificationBody: Swift.Decodable {
     }
 }
 
+extension IVSRealTimeClientTypes {
+    public enum PipBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `dynamic`
+        case `static`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipBehavior] {
+            return [
+                .dynamic,
+                .static,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dynamic: return "DYNAMIC"
+            case .static: return "STATIC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PipBehavior(rawValue: rawValue) ?? PipBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes.PipConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case featuredParticipantAttribute
+        case gridGap
+        case omitStoppedVideo
+        case pipBehavior
+        case pipHeight
+        case pipOffset
+        case pipParticipantAttribute
+        case pipPosition
+        case pipWidth
+        case videoFillMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let featuredParticipantAttribute = self.featuredParticipantAttribute {
+            try encodeContainer.encode(featuredParticipantAttribute, forKey: .featuredParticipantAttribute)
+        }
+        if gridGap != 0 {
+            try encodeContainer.encode(gridGap, forKey: .gridGap)
+        }
+        if omitStoppedVideo != false {
+            try encodeContainer.encode(omitStoppedVideo, forKey: .omitStoppedVideo)
+        }
+        if let pipBehavior = self.pipBehavior {
+            try encodeContainer.encode(pipBehavior.rawValue, forKey: .pipBehavior)
+        }
+        if let pipHeight = self.pipHeight {
+            try encodeContainer.encode(pipHeight, forKey: .pipHeight)
+        }
+        if pipOffset != 0 {
+            try encodeContainer.encode(pipOffset, forKey: .pipOffset)
+        }
+        if let pipParticipantAttribute = self.pipParticipantAttribute {
+            try encodeContainer.encode(pipParticipantAttribute, forKey: .pipParticipantAttribute)
+        }
+        if let pipPosition = self.pipPosition {
+            try encodeContainer.encode(pipPosition.rawValue, forKey: .pipPosition)
+        }
+        if let pipWidth = self.pipWidth {
+            try encodeContainer.encode(pipWidth, forKey: .pipWidth)
+        }
+        if let videoFillMode = self.videoFillMode {
+            try encodeContainer.encode(videoFillMode.rawValue, forKey: .videoFillMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let featuredParticipantAttributeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .featuredParticipantAttribute)
+        featuredParticipantAttribute = featuredParticipantAttributeDecoded
+        let omitStoppedVideoDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .omitStoppedVideo) ?? false
+        omitStoppedVideo = omitStoppedVideoDecoded
+        let videoFillModeDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.VideoFillMode.self, forKey: .videoFillMode)
+        videoFillMode = videoFillModeDecoded
+        let gridGapDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .gridGap) ?? 0
+        gridGap = gridGapDecoded
+        let pipParticipantAttributeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pipParticipantAttribute)
+        pipParticipantAttribute = pipParticipantAttributeDecoded
+        let pipBehaviorDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.PipBehavior.self, forKey: .pipBehavior)
+        pipBehavior = pipBehaviorDecoded
+        let pipOffsetDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pipOffset) ?? 0
+        pipOffset = pipOffsetDecoded
+        let pipPositionDecoded = try containerValues.decodeIfPresent(IVSRealTimeClientTypes.PipPosition.self, forKey: .pipPosition)
+        pipPosition = pipPositionDecoded
+        let pipWidthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pipWidth)
+        pipWidth = pipWidthDecoded
+        let pipHeightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pipHeight)
+        pipHeight = pipHeightDecoded
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    /// Configuration information specific to Picture-in-Picture (PiP) layout, for [server-side composition](https://docs.aws.amazon.com/ivs/latest/RealTimeUserGuide/server-side-composition.html).
+    public struct PipConfiguration: Swift.Equatable {
+        /// This attribute name identifies the featured slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the featured slot.
+        public var featuredParticipantAttribute: Swift.String?
+        /// Specifies the spacing between participant tiles in pixels. Default: 0.
+        public var gridGap: Swift.Int
+        /// Determines whether to omit participants with stopped video in the composition. Default: false.
+        public var omitStoppedVideo: Swift.Bool
+        /// Defines PiP behavior when all participants have left. Default: STATIC.
+        public var pipBehavior: IVSRealTimeClientTypes.PipBehavior?
+        /// Specifies the height of the PiP window in pixels. When this is not set explicitly, pipHeight’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
+        public var pipHeight: Swift.Int?
+        /// Sets the PiP window’s offset position in pixels from the closest edges determined by PipPosition. Default: 0.
+        public var pipOffset: Swift.Int
+        /// Identifies the PiP slot. A participant with this attribute set to "true" (as a string value) in [ParticipantTokenConfiguration] is placed in the PiP slot.
+        public var pipParticipantAttribute: Swift.String?
+        /// Determines the corner position of the PiP window. Default: BOTTOM_RIGHT.
+        public var pipPosition: IVSRealTimeClientTypes.PipPosition?
+        /// Specifies the width of the PiP window in pixels. When this is not set explicitly, pipWidth’s value will be based on the size of the composition and the aspect ratio of the participant’s video.
+        public var pipWidth: Swift.Int?
+        /// Defines how video fits within the participant tile. Default: COVER.
+        public var videoFillMode: IVSRealTimeClientTypes.VideoFillMode?
+
+        public init(
+            featuredParticipantAttribute: Swift.String? = nil,
+            gridGap: Swift.Int = 0,
+            omitStoppedVideo: Swift.Bool = false,
+            pipBehavior: IVSRealTimeClientTypes.PipBehavior? = nil,
+            pipHeight: Swift.Int? = nil,
+            pipOffset: Swift.Int = 0,
+            pipParticipantAttribute: Swift.String? = nil,
+            pipPosition: IVSRealTimeClientTypes.PipPosition? = nil,
+            pipWidth: Swift.Int? = nil,
+            videoFillMode: IVSRealTimeClientTypes.VideoFillMode? = nil
+        )
+        {
+            self.featuredParticipantAttribute = featuredParticipantAttribute
+            self.gridGap = gridGap
+            self.omitStoppedVideo = omitStoppedVideo
+            self.pipBehavior = pipBehavior
+            self.pipHeight = pipHeight
+            self.pipOffset = pipOffset
+            self.pipParticipantAttribute = pipParticipantAttribute
+            self.pipPosition = pipPosition
+            self.pipWidth = pipWidth
+            self.videoFillMode = videoFillMode
+        }
+    }
+
+}
+
+extension IVSRealTimeClientTypes {
+    public enum PipPosition: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case bottomLeft
+        case bottomRight
+        case topLeft
+        case topRight
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PipPosition] {
+            return [
+                .bottomLeft,
+                .bottomRight,
+                .topLeft,
+                .topRight,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .bottomLeft: return "BOTTOM_LEFT"
+            case .bottomRight: return "BOTTOM_RIGHT"
+            case .topLeft: return "TOP_LEFT"
+            case .topRight: return "TOP_RIGHT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PipPosition(rawValue: rawValue) ?? PipPosition.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IVSRealTimeClientTypes.RecordingConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case format
@@ -5922,4 +6167,77 @@ extension IVSRealTimeClientTypes {
         }
     }
 
+}
+
+extension IVSRealTimeClientTypes {
+    public enum VideoAspectRatio: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case portrait
+        case square
+        case video
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoAspectRatio] {
+            return [
+                .auto,
+                .portrait,
+                .square,
+                .video,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .portrait: return "PORTRAIT"
+            case .square: return "SQUARE"
+            case .video: return "VIDEO"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VideoAspectRatio(rawValue: rawValue) ?? VideoAspectRatio.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IVSRealTimeClientTypes {
+    public enum VideoFillMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case contain
+        case cover
+        case fill
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [VideoFillMode] {
+            return [
+                .contain,
+                .cover,
+                .fill,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .contain: return "CONTAIN"
+            case .cover: return "COVER"
+            case .fill: return "FILL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = VideoFillMode(rawValue: rawValue) ?? VideoFillMode.sdkUnknown(rawValue)
+        }
+    }
 }
