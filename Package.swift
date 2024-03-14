@@ -241,7 +241,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.43.0",
+    clientRuntimeVersion: "0.44.0",
     crtVersion: "0.26.0"
 )
 
@@ -426,7 +426,6 @@ let serviceTargets: [String] = [
     "AWSIoTFleetHub",
     "AWSIoTFleetWise",
     "AWSIoTJobsDataPlane",
-    "AWSIoTRoboRunner",
     "AWSIoTSecureTunneling",
     "AWSIoTSiteWise",
     "AWSIoTThingsGraph",
@@ -603,6 +602,7 @@ let serviceTargets: [String] = [
     "AWSSupportApp",
     "AWSSynthetics",
     "AWSTextract",
+    "AWSTimestreamInfluxDB",
     "AWSTimestreamQuery",
     "AWSTimestreamWrite",
     "AWSTnb",

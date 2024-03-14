@@ -63,6 +63,7 @@ extension FisClient {
 extension ListExperimentsInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListExperimentsInput {
         return ListExperimentsInput(
+            experimentTemplateId: self.experimentTemplateId,
             maxResults: self.maxResults,
             nextToken: token
         )}
