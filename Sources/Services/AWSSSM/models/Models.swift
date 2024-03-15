@@ -5082,9 +5082,9 @@ extension SSMClientTypes {
         public var expiresAfter: ClientRuntime.Date?
         /// The managed node IDs against which this command was requested.
         public var instanceIds: [Swift.String]?
-        /// The maximum number of managed nodes that are allowed to run the command at the same time. You can specify a number of managed nodes, such as 10, or a percentage of nodes, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see [Running commands using Systems Manager Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The maximum number of managed nodes that are allowed to run the command at the same time. You can specify a number of managed nodes, such as 10, or a percentage of nodes, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see [Amazon Web Services Systems Manager Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html) in the Amazon Web Services Systems Manager User Guide.
         public var maxConcurrency: Swift.String?
-        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see [Running commands using Systems Manager Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html) in the Amazon Web Services Systems Manager User Guide.
+        /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see [Amazon Web Services Systems Manager Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/run-command.html) in the Amazon Web Services Systems Manager User Guide.
         public var maxErrors: Swift.String?
         /// Configurations for sending notifications about command status changes.
         public var notificationConfig: SSMClientTypes.NotificationConfig?
@@ -5904,11 +5904,11 @@ extension SSMClientTypes.ComplianceExecutionSummary: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
     public struct ComplianceExecutionSummary: Swift.Equatable {
         /// An ID created by the system when PutComplianceItems was called. For example, CommandID is a valid execution ID. You can use this ID in subsequent calls.
         public var executionId: Swift.String?
-        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+        /// The time the execution ran as a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
         /// This member is required.
         public var executionTime: ClientRuntime.Date?
         /// The type of execution. For example, Command is a valid execution type.
@@ -6604,7 +6604,7 @@ public struct CreateActivationInput: Swift.Equatable {
     public var description: Swift.String?
     /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
     public var expirationDate: ClientRuntime.Date?
-    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
     /// This member is required.
     public var iamRole: Swift.String?
     /// Specify the maximum number of managed nodes you want to register. The default value is 1.
@@ -7384,7 +7384,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     public var calendarNames: [Swift.String]?
     /// The severity level to assign to the association.
     public var complianceSeverity: SSMClientTypes.AssociationComplianceSeverity?
-    /// The document version you want to associate with the target(s). Can be a specific version or the default version. State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
+    /// The document version you want to associate with the targets. Can be a specific version or the default version. State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
     public var documentVersion: Swift.String?
     /// The number of hours the association can run before it is canceled. Duration applies to associations that are currently running, and any pending and in progress commands on all targets. If a target was taken offline for the association to run, it is made available again immediately, without a reboot. The Duration parameter applies only when both these conditions are true:
     ///
@@ -7405,7 +7405,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     public var outputLocation: SSMClientTypes.InstanceAssociationOutputLocation?
     /// The parameters for the runtime configuration of the document.
     public var parameters: [Swift.String:[Swift.String]]?
-    /// A cron expression when the association will be applied to the target(s).
+    /// A cron expression when the association will be applied to the targets.
     public var scheduleExpression: Swift.String?
     /// Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see [Reference: Cron and rate expressions for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/reference-cron-and-rate-expressions.html) in the Amazon Web Services Systems Manager User Guide. To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
     public var scheduleOffset: Swift.Int?
@@ -7417,7 +7417,7 @@ public struct CreateAssociationInput: Swift.Equatable {
     public var targetLocations: [SSMClientTypes.TargetLocation]?
     /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
     public var targetMaps: [[Swift.String:[Swift.String]]]?
-    /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see [Using targets and rate controls with State Manager associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see [About targets and rate controls in State Manager associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-state-manager-targets-and-rate-controls.html) in the Amazon Web Services Systems Manager User Guide.
     public var targets: [SSMClientTypes.Target]?
 
     public init(
@@ -7774,11 +7774,11 @@ public struct CreateDocumentInput: Swift.Equatable {
     public var attachments: [SSMClientTypes.AttachmentsSource]?
     /// The content for the new SSM document in JSON or YAML format. The content of the document must not exceed 64KB. This quota also includes the content specified for input parameters at runtime. We recommend storing the contents for your new document in an external JSON or YAML file and referencing the file in a command. For examples, see the following topics in the Amazon Web Services Systems Manager User Guide.
     ///
-    /// * [Create an SSM document (Amazon Web Services API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html)
+    /// * [Create an SSM document (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-console)
     ///
-    /// * [Create an SSM document (Amazon Web Services CLI)](https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-cli.html)
+    /// * [Create an SSM document (command line)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-cli)
     ///
-    /// * [Create an SSM document (API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/create-ssm-document-api.html)
+    /// * [Create an SSM document (API)](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-using.html#create-ssm-document-api)
     /// This member is required.
     public var content: Swift.String?
     /// An optional field where you can specify a friendly name for the SSM document. This value can differ for each version of the document. You can update this value at a later time using the [UpdateDocument] operation.
@@ -8343,7 +8343,7 @@ public struct CreateOpsItemInput: Swift.Equatable {
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent when this OpsItem is edited or changed.
     public var notifications: [SSMClientTypes.OpsItemNotification]?
-    /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm. You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the [DescribeOpsItems] API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the [GetOpsItem] API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see [Creating OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html) in the Amazon Web Services Systems Manager User Guide.
+    /// Operational data is custom data that provides useful reference details about the OpsItem. For example, you can specify log files, error strings, license keys, troubleshooting tips, or other relevant data. You enter operational data as key-value pairs. The key has a maximum length of 128 characters. The value has a maximum size of 20 KB. Operational data keys can't begin with the following: amazon, aws, amzn, ssm, /amazon, /aws, /amzn, /ssm. You can choose to make the data searchable by other users in the account or you can restrict search access. Searchable data means that all users with access to the OpsItem Overview page (as provided by the [DescribeOpsItems] API operation) can view and search on the specified data. Operational data that isn't searchable is only viewable by users who have access to the OpsItem (as provided by the [GetOpsItem] API operation). Use the /aws/resources key in OperationalData to specify a related resource in the request. Use the /aws/automations key in OperationalData to associate an Automation runbook with the OpsItem. To view Amazon Web Services CLI example commands that use these keys, see [Create OpsItems manually](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-manually-create-OpsItems.html) in the Amazon Web Services Systems Manager User Guide.
     public var operationalData: [Swift.String:SSMClientTypes.OpsItemDataValue]?
     /// The type of OpsItem to create. Systems Manager supports the following types of OpsItems:
     ///
@@ -8849,7 +8849,7 @@ public struct CreatePatchBaselineInput: Swift.Equatable {
     ///
     /// * ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.
     ///
-    /// * BLOCK : Packages in the RejectedPatches list, and packages that include them as dependencies, aren't installed under any circumstances. If a package was installed before it was added to the Rejected patches list, it is considered non-compliant with the patch baseline, and its status is reported as InstalledRejected.
+    /// * BLOCK: Packages in the Rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the Rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as InstalledRejected.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
     public var sources: [SSMClientTypes.PatchSource]?
@@ -9595,7 +9595,7 @@ extension DeleteInventoryOutput: ClientRuntime.HttpResponseBinding {
 public struct DeleteInventoryOutput: Swift.Equatable {
     /// Every DeleteInventory operation is assigned a unique ID. This option returns a unique ID. You can use this ID to query the status of a delete operation. This option is useful for ensuring that a delete operation has completed before you begin other operations.
     public var deletionId: Swift.String?
-    /// A summary of the delete operation. For more information about this summary, see [Deleting custom inventory](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary) in the Amazon Web Services Systems Manager User Guide.
+    /// A summary of the delete operation. For more information about this summary, see [Understanding the delete inventory summary](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-inventory-custom.html#sysman-inventory-delete-summary) in the Amazon Web Services Systems Manager User Guide.
     public var deletionSummary: SSMClientTypes.InventoryDeletionSummary?
     /// The name of the inventory data type specified in the request.
     public var typeName: Swift.String?
@@ -15324,7 +15324,7 @@ public struct DescribeParametersInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// Filters to limit the request results.
     public var parameterFilters: [SSMClientTypes.ParameterStringFilter]?
-    /// Lists parameters that are shared with you. By default when using this option, the command returns parameters that have been shared using a standard Resource Access Manager Resource Share. In order for a parameter that was shared using the [PutResourcePolicy] command to be returned, the associated RAM Resource Share Created From Policy must have been promoted to a standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. For more information about sharing parameters, see [Working with shared parameters] in the Amazon Web Services Systems Manager User Guide.
+    /// Lists parameters that are shared with you. By default when using this option, the command returns parameters that have been shared using a standard Resource Access Manager Resource Share. In order for a parameter that was shared using the [PutResourcePolicy] command to be returned, the associated RAM Resource Share Created From Policy must have been promoted to a standard Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. For more information about sharing parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     public var shared: Swift.Bool?
 
     public init(
@@ -22663,7 +22663,7 @@ extension GetParametersInput {
 }
 
 public struct GetParametersInput: Swift.Equatable {
-    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sharing.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The names or Amazon Resource Names (ARNs) of the parameters that you want to query. For parameters shared with you from another account, you must use the full ARNs. To query by parameter label, use "Name": "name:label". To query by parameter version, use "Name": "name:version". For more information about shared parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var names: [Swift.String]?
     /// Return decrypted secure string value. Return decrypted values for secure string parameters. This flag is ignored for String and StringList parameter types.
@@ -23536,7 +23536,7 @@ extension HierarchyLevelLimitExceededException {
 public struct HierarchyLevelLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
-        /// A hierarchy can have a maximum of 15 levels. For more information, see [Requirements and constraints for parameter names](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-parameter-name-constraints.html) in the Amazon Web Services Systems Manager User Guide.
+        /// A hierarchy can have a maximum of 15 levels. For more information, see [About requirements and constraints for parameter names](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-su-create.html#sysman-parameter-name-constraints) in the Amazon Web Services Systems Manager User Guide.
         public internal(set) var message: Swift.String? = nil
     }
 
@@ -23781,7 +23781,7 @@ extension SSMClientTypes {
     public struct InstanceAggregatedAssociationOverview: Swift.Equatable {
         /// Detailed status information about the aggregated associations.
         public var detailedStatus: Swift.String?
-        /// The number of associations for the managed node(s).
+        /// The number of associations for the managed nodes.
         public var instanceAssociationStatusAggregatedCount: [Swift.String:Swift.Int]?
 
         public init(
@@ -23840,7 +23840,7 @@ extension SSMClientTypes {
         public var associationId: Swift.String?
         /// Version information for the association on the managed node.
         public var associationVersion: Swift.String?
-        /// The content of the association document for the managed node(s).
+        /// The content of the association document for the managed nodes.
         public var content: Swift.String?
         /// The managed node ID.
         public var instanceId: Swift.String?
@@ -23881,7 +23881,7 @@ extension SSMClientTypes.InstanceAssociationOutputLocation: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// An S3 bucket where you want to store the results of this request. For the minimal permissions required to enable Amazon S3 output for an association, see [Creating associations](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-state-assoc.html) in the Systems Manager User Guide.
+    /// An S3 bucket where you want to store the results of this request. For the minimal permissions required to enable Amazon S3 output for an association, see [Create an association (console)](https://docs.aws.amazon.com/systems-manager/latest/userguide/state-manager-associations-creating.html#state-manager-associations-console) in the Systems Manager User Guide.
     public struct InstanceAssociationOutputLocation: Swift.Equatable {
         /// An S3 bucket where you want to store the results of this request.
         public var s3Location: SSMClientTypes.S3OutputLocation?
@@ -24242,7 +24242,7 @@ extension SSMClientTypes {
         public var lastPingDateTime: ClientRuntime.Date?
         /// The last date the association was successfully run.
         public var lastSuccessfulAssociationExecutionDate: ClientRuntime.Date?
-        /// The name assigned to an on-premises server, edge device, or virtual machine (VM) when it is activated as a Systems Manager managed node. The name is specified as the DefaultInstanceName property using the [CreateActivation] command. It is applied to the managed node by specifying the Activation Code and Activation ID when you install SSM Agent on the node, as explained in [Install SSM Agent for a hybrid environment (Linux)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html) and [Install SSM Agent for a hybrid environment (Windows)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) in the Amazon EC2 API Reference or [describe-instances](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) in the Amazon Web Services CLI Command Reference.
+        /// The name assigned to an on-premises server, edge device, or virtual machine (VM) when it is activated as a Systems Manager managed node. The name is specified as the DefaultInstanceName property using the [CreateActivation] command. It is applied to the managed node by specifying the Activation Code and Activation ID when you install SSM Agent on the node, as explained in [Install SSM Agent for a hybrid and multicloud environment (Linux)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-linux.html) and [Install SSM Agent for a hybrid and multicloud environment (Windows)](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-managed-win.html). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see [DescribeInstances](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeInstances.html) in the Amazon EC2 API Reference or [describe-instances](https://docs.aws.amazon.com/cli/latest/reference/ec2/describe-instances.html) in the Amazon Web Services CLI Command Reference.
         public var name: Swift.String?
         /// Connection status of SSM Agent. The status Inactive has been deprecated and is no longer in use.
         public var pingStatus: SSMClientTypes.PingStatus?
@@ -24651,7 +24651,7 @@ extension SSMClientTypes {
         public var criticalNonCompliantCount: Swift.Int?
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public var failedCount: Swift.Int
-        /// An https URL or an Amazon Simple Storage Service (Amazon S3) path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see [About the ]AWS-RunPatchBaseline(https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html) SSM document in the Amazon Web Services Systems Manager User Guide.
+        /// An https URL or an Amazon Simple Storage Service (Amazon S3) path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see [About the ]AWS-RunPatchBaseline SSM document(https://docs.aws.amazon.com/systems-manager/latest/userguide/patch-manager-about-aws-runpatchbaseline.html) in the Amazon Web Services Systems Manager User Guide.
         public var installOverrideList: Swift.String?
         /// The number of patches from the patch baseline that are installed on the managed node.
         public var installedCount: Swift.Int
@@ -26105,11 +26105,11 @@ extension InvalidInstanceId {
 ///
 /// * You don't have permission to access the managed node.
 ///
-/// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+/// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
 ///
 /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
 ///
-/// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+/// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
 public struct InvalidInstanceId: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -27048,7 +27048,7 @@ extension InvalidRole {
     }
 }
 
-/// The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Configuring Amazon SNS Notifications for Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/rc-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
+/// The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Monitoring Systems Manager status changes using Amazon SNS notifications](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
 public struct InvalidRole: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -28641,7 +28641,7 @@ extension LabelParameterVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct LabelParameterVersionOutput: Swift.Equatable {
-    /// The label doesn't meet the requirements. For information about parameter label requirements, see [Labeling parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The label doesn't meet the requirements. For information about parameter label requirements, see [Working with parameter labels](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-labels.html) in the Amazon Web Services Systems Manager User Guide.
     public var invalidLabels: [Swift.String]?
     /// The version of the parameter that has been labeled.
     public var parameterVersion: Swift.Int
@@ -30423,15 +30423,15 @@ extension ListInventoryEntriesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListInventoryEntriesOutput: Swift.Equatable {
-    /// The time that inventory information was collected for the managed node(s).
+    /// The time that inventory information was collected for the managed nodes.
     public var captureTime: Swift.String?
-    /// A list of inventory items on the managed node(s).
+    /// A list of inventory items on the managed nodes.
     public var entries: [[Swift.String:Swift.String]]?
     /// The managed node ID targeted by the request to query inventory information.
     public var instanceId: Swift.String?
     /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
     public var nextToken: Swift.String?
-    /// The inventory schema version used by the managed node(s).
+    /// The inventory schema version used by the managed nodes.
     public var schemaVersion: Swift.String?
     /// The type of inventory item returned by the request.
     public var typeName: Swift.String?
@@ -34145,7 +34145,7 @@ extension SSMClientTypes.OpsItem: Swift.Codable {
 }
 
 extension SSMClientTypes {
-    /// Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational work items (OpsItems) impacting the performance and health of their Amazon Web Services resources. OpsCenter is integrated with Amazon EventBridge and Amazon CloudWatch. This means you can configure these services to automatically create an OpsItem in OpsCenter when a CloudWatch alarm enters the ALARM state or when EventBridge processes an event from any Amazon Web Services service that publishes events. Configuring Amazon CloudWatch alarms and EventBridge events to automatically create OpsItems allows you to quickly diagnose and remediate issues with Amazon Web Services resources from a single console. To help you diagnose issues, each OpsItem includes contextually relevant information such as the name and ID of the Amazon Web Services resource that generated the OpsItem, alarm or event details, alarm history, and an alarm timeline graph. For the Amazon Web Services resource, OpsCenter aggregates information from Config, CloudTrail logs, and EventBridge, so you don't have to navigate across multiple console pages during your investigation. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
+    /// Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational work items (OpsItems) impacting the performance and health of their Amazon Web Services resources. OpsCenter is integrated with Amazon EventBridge and Amazon CloudWatch. This means you can configure these services to automatically create an OpsItem in OpsCenter when a CloudWatch alarm enters the ALARM state or when EventBridge processes an event from any Amazon Web Services service that publishes events. Configuring Amazon CloudWatch alarms and EventBridge events to automatically create OpsItems allows you to quickly diagnose and remediate issues with Amazon Web Services resources from a single console. To help you diagnose issues, each OpsItem includes contextually relevant information such as the name and ID of the Amazon Web Services resource that generated the OpsItem, alarm or event details, alarm history, and an alarm timeline graph. For the Amazon Web Services resource, OpsCenter aggregates information from Config, CloudTrail logs, and EventBridge, so you don't have to navigate across multiple console pages during your investigation. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     public struct OpsItem: Swift.Equatable {
         /// The time a runbook workflow ended. Currently reported only for the OpsItem type /aws/changerequest.
         public var actualEndTime: ClientRuntime.Date?
@@ -39205,7 +39205,7 @@ public struct PutComplianceItemsInput: Swift.Equatable {
     /// Specify the compliance type. For example, specify Association (for a State Manager association), Patch, or Custom:string.
     /// This member is required.
     public var complianceType: Swift.String?
-    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
+    /// A summary of the call execution that includes an execution ID, the type of execution (for example, Command), and the date/time of the execution using a datetime object that is saved in the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
     /// This member is required.
     public var executionSummary: SSMClientTypes.ComplianceExecutionSummary?
     /// MD5 or SHA-256 content hash. The content hash is used to determine if existing information should be overwritten or ignored. If the content hashes match, the request to put compliance information is ignored.
@@ -39534,7 +39534,7 @@ public struct PutParameterInput: Swift.Equatable {
     /// * aws:ssm:integration
     ///
     ///
-    /// When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html). For more information about AMI format validation , see [Native parameter support for Amazon Machine Image (AMI) IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
+    /// When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. If the action is successful, the service sends back an HTTP 200 response which indicates a successful PutParameter call for all cases except for data type aws:ec2:image. If you call PutParameter with aws:ec2:image data type, a successful HTTP 200 response does not guarantee that your parameter was successfully created or updated. The aws:ec2:image value is validated asynchronously, and the PutParameter call returns before the validation is complete. If you submit an invalid AMI value, the PutParameter operation will return success, but the asynchronous validation will fail and the parameter will not be created or updated. To monitor whether your aws:ec2:image parameters are created successfully, see [Setting up notifications or trigger actions based on Parameter Store events](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-paramstore-cwe.html). For more information about AMI format validation , see [Native parameter support for Amazon Machine Image IDs](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-ec2-aliases.html).
     public var dataType: Swift.String?
     /// Information about the parameter that you want to add to the system. Optional but recommended. Don't enter personally identifiable information in this field.
     public var description: Swift.String?
@@ -39575,7 +39575,7 @@ public struct PutParameterInput: Swift.Equatable {
     ///
     /// To add tags to an existing Systems Manager parameter, use the [AddTagsToResource] operation.
     public var tags: [SSMClientTypes.Tag]?
-    /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an Amazon Web Services account. Standard parameters are offered at no additional cost. Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an Amazon Web Services account. Advanced parameters incur a charge. For more information, see [Standard and advanced parameter tiers](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html) in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters. If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter. Using the Default Tier Configuration In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:
+    /// The parameter tier to assign to a parameter. Parameter Store offers a standard tier and an advanced tier for parameters. Standard parameters have a content size limit of 4 KB and can't be configured to use parameter policies. You can create a maximum of 10,000 standard parameters for each Region in an Amazon Web Services account. Standard parameters are offered at no additional cost. Advanced parameters have a content size limit of 8 KB and can be configured to use parameter policies. You can create a maximum of 100,000 advanced parameters for each Region in an Amazon Web Services account. Advanced parameters incur a charge. For more information, see [Managing parameter tiers](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html) in the Amazon Web Services Systems Manager User Guide. You can change a standard parameter to an advanced parameter any time. But you can't revert an advanced parameter to a standard parameter. Reverting an advanced parameter to a standard parameter would result in data loss because the system would truncate the size of the parameter from 8 KB to 4 KB. Reverting would also remove any policies attached to the parameter. Lastly, advanced parameters use a different form of encryption than standard parameters. If you no longer need an advanced parameter, or if you no longer want to incur charges for an advanced parameter, you must delete it and recreate it as a new standard parameter. Using the Default Tier Configuration In PutParameter requests, you can specify the tier to create the parameter in. Whenever you specify a tier in the request, Parameter Store creates or updates the parameter according to that request. However, if you don't specify a tier in a request, Parameter Store assigns the tier based on the current Parameter Store default tier configuration. The default tier when you begin using Parameter Store is the standard-parameter tier. If you use the advanced-parameter tier, you can specify one of the following as the default:
     ///
     /// * Advanced: With this option, Parameter Store evaluates all requests as advanced parameters.
     ///
@@ -39591,7 +39591,7 @@ public struct PutParameterInput: Swift.Equatable {
     /// * More than 10,000 parameters already exist in your Amazon Web Services account in the current Amazon Web Services Region.
     ///
     ///
-    /// For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/ps-default-tier.html) in the Amazon Web Services Systems Manager User Guide.
+    /// For more information about configuring the default tier option, see [Specifying a default parameter tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#ps-default-tier) in the Amazon Web Services Systems Manager User Guide.
     public var tier: SSMClientTypes.ParameterTier?
     /// The type of parameter that you want to add to the system. SecureString isn't currently supported for CloudFormation templates. Items in a StringList must be separated by a comma (,). You can't use other punctuation or special character to escape items in the list. If you have a parameter value that requires a comma, then use the String data type. Specifying a parameter type isn't required when updating a parameter. You must specify a parameter type when creating a parameter.
     public var type: SSMClientTypes.ParameterType?
@@ -40496,11 +40496,7 @@ public struct RegisterTaskWithMaintenanceWindowInput: Swift.Equatable {
     public var name: Swift.String?
     /// The priority of the task in the maintenance window, the lower the number the higher the priority. Tasks in a maintenance window are scheduled in priority order with tasks that have the same priority scheduled in parallel.
     public var priority: Swift.Int?
-    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:
-    ///
-    /// * [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions)
-    ///
-    /// * [Should I use a service-linked role or a custom service role to run maintenance window tasks? ](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role)
+    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions) in the in the Amazon Web Services Systems Manager User Guide:
     public var serviceRoleArn: Swift.String?
     /// The targets (either managed nodes or maintenance window targets). One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide. Specify managed nodes using the following format: Key=InstanceIds,Values=, Specify maintenance window targets using the following format: Key=WindowTargetIds,Values=,
     public var targets: [SSMClientTypes.Target]?
@@ -41904,7 +41900,7 @@ extension SSMClientTypes {
     public struct ResourceDataSyncSource: Swift.Equatable {
         /// Information about the AwsOrganizationsSource resource data sync source. A sync source of this type can synchronize data from Organizations.
         public var awsOrganizationsSource: SSMClientTypes.ResourceDataSyncAwsOrganizationsSource?
-        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [About multiple account and Region resource data syncs](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html) in the Amazon Web Services Systems Manager User Guide.
+        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide.
         public var enableAllOpsDataSources: Swift.Bool
         /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
         public var includeFutureRegions: Swift.Bool
@@ -41999,7 +41995,7 @@ extension SSMClientTypes {
     public struct ResourceDataSyncSourceWithState: Swift.Equatable {
         /// The field name in SyncSource for the ResourceDataSyncAwsOrganizationsSource type.
         public var awsOrganizationsSource: SSMClientTypes.ResourceDataSyncAwsOrganizationsSource?
-        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [About multiple account and Region resource data syncs](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resouce-data-sync-multiple-accounts-and-regions.html) in the Amazon Web Services Systems Manager User Guide.
+        /// When you create a resource data sync, if you choose one of the Organizations options, then Systems Manager automatically enables all OpsData sources in the selected Amazon Web Services Regions for all Amazon Web Services accounts in your organization (or in the selected organization units). For more information, see [Setting up Systems Manager Explorer to display data from multiple accounts and Regions](https://docs.aws.amazon.com/systems-manager/latest/userguide/Explorer-resource-data-sync.html) in the Amazon Web Services Systems Manager User Guide.
         public var enableAllOpsDataSources: Swift.Bool
         /// Whether to automatically synchronize and aggregate data from new Amazon Web Services Regions when those Regions come online.
         public var includeFutureRegions: Swift.Bool
@@ -43365,12 +43361,12 @@ public struct SendCommandInput: Swift.Equatable {
     public var documentHash: Swift.String?
     /// Sha256 or Sha1. Sha1 hashes have been deprecated.
     public var documentHashType: SSMClientTypes.DocumentHashType?
-    /// The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document Amazon Resource Name (ARN). For more information about how to use shared documents, see [Using shared SSM documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html) in the Amazon Web Services Systems Manager User Guide. If you specify a document name or ARN that hasn't been shared with your account, you receive an InvalidDocument error.
+    /// The name of the Amazon Web Services Systems Manager document (SSM document) to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document Amazon Resource Name (ARN). For more information about how to use shared documents, see [Sharing SSM documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html) in the Amazon Web Services Systems Manager User Guide. If you specify a document name or ARN that hasn't been shared with your account, you receive an InvalidDocument error.
     /// This member is required.
     public var documentName: Swift.String?
     /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the Command Line Interface (Amazon Web Services CLI), then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
     public var documentVersion: Swift.String?
-    /// The IDs of the managed nodes where the command should run. Specifying managed node IDs is most useful when you are targeting a limited number of managed nodes, though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you prefer not to list individual node IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the managed nodes to send commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For more information about how to use targets, see [Using targets and rate controls to send commands to a fleet](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The IDs of the managed nodes where the command should run. Specifying managed node IDs is most useful when you are targeting a limited number of managed nodes, though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you prefer not to list individual node IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the managed nodes to send commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For more information about how to use targets, see [Run commands at scale](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html) in the Amazon Web Services Systems Manager User Guide.
     public var instanceIds: [Swift.String]?
     /// (Optional) The maximum number of managed nodes that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see [Using concurrency controls](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-velocity) in the Amazon Web Services Systems Manager User Guide.
     public var maxConcurrency: Swift.String?
@@ -43388,7 +43384,7 @@ public struct SendCommandInput: Swift.Equatable {
     public var parameters: [Swift.String:[Swift.String]]?
     /// The ARN of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands. This role must provide the sns:Publish permission for your notification topic. For information about creating and using this service role, see [Monitoring Systems Manager status changes using Amazon SNS notifications](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
     public var serviceRoleArn: Swift.String?
-    /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of managed nodes at once. Using Targets, which accepts tag key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or thousands of nodes at once. To send a command to a smaller number of managed nodes, you can use the InstanceIds option instead. For more information about how to use targets, see [Sending commands to a fleet](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html) in the Amazon Web Services Systems Manager User Guide.
+    /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of managed nodes at once. Using Targets, which accepts tag key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or thousands of nodes at once. To send a command to a smaller number of managed nodes, you can use the InstanceIds option instead. For more information about how to use targets, see [Run commands at scale](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html) in the Amazon Web Services Systems Manager User Guide.
     public var targets: [SSMClientTypes.Target]?
     /// If this time is reached and the command hasn't already started running, it won't run.
     public var timeoutSeconds: Swift.Int?
@@ -44475,7 +44471,7 @@ public struct StartAutomationExecutionInput: Swift.Equatable {
     public var alarmConfiguration: SSMClientTypes.AlarmConfiguration?
     /// User-provided idempotency token. The token must be unique, is case insensitive, enforces the UUID format, and can't be reused.
     public var clientToken: Swift.String?
-    /// The name of the SSM document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see [Using shared SSM documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/ssm-using-shared.html) in the Amazon Web Services Systems Manager User Guide.
+    /// The name of the SSM document to run. This can be a public document or a custom document. To run a shared document belonging to another account, specify the document ARN. For more information about how to use shared documents, see [Sharing SSM documents](https://docs.aws.amazon.com/systems-manager/latest/userguide/documents-ssm-sharing.html) in the Amazon Web Services Systems Manager User Guide.
     /// This member is required.
     public var documentName: Swift.String?
     /// The version of the Automation runbook to use for this execution.
@@ -45962,7 +45958,7 @@ extension SSMClientTypes {
     /// * State Manager association targets only: Key=InstanceIds,Values=* This example demonstrates how to target all managed instances in the Amazon Web Services Region where the association was created.
     ///
     ///
-    /// For more information about how to send commands that target managed nodes using Key,Value parameters, see [Targeting multiple instances](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting) in the Amazon Web Services Systems Manager User Guide.
+    /// For more information about how to send commands that target managed nodes using Key,Value parameters, see [Targeting multiple managed nodes](https://docs.aws.amazon.com/systems-manager/latest/userguide/send-commands-multiple.html#send-commands-targeting) in the Amazon Web Services Systems Manager User Guide.
     public struct Target: Swift.Equatable {
         /// User-defined criteria for sending commands that target managed nodes that meet the criteria.
         public var key: Swift.String?
@@ -46670,7 +46666,7 @@ extension UnsupportedFeatureRequiredException {
     }
 }
 
-/// Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Enabling the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
+/// Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Turning on the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
 public struct UnsupportedFeatureRequiredException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -46954,7 +46950,7 @@ extension UnsupportedPlatformType {
     }
 }
 
-/// The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
+/// The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
 public struct UnsupportedPlatformType: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -48739,11 +48735,7 @@ public struct UpdateMaintenanceWindowTaskInput: Swift.Equatable {
     public var priority: Swift.Int?
     /// If True, then all fields that are required by the [RegisterTaskWithMaintenanceWindow] operation are also required for this API request. Optional fields that aren't specified are set to null.
     public var replace: Swift.Bool?
-    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:
-    ///
-    /// * [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions)
-    ///
-    /// * [Should I use a service-linked role or a custom service role to run maintenance window tasks? ](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-maintenance-permissions.html#maintenance-window-tasks-service-role)
+    /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see [Using service-linked roles for Systems Manager](https://docs.aws.amazon.com/systems-manager/latest/userguide/using-service-linked-roles.html#slr-permissions) in the in the Amazon Web Services Systems Manager User Guide:
     public var serviceRoleArn: Swift.String?
     /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value. One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see [Registering maintenance window tasks without targets](https://docs.aws.amazon.com/systems-manager/latest/userguide/maintenance-windows-targetless-tasks.html) in the Amazon Web Services Systems Manager User Guide.
     public var targets: [SSMClientTypes.Target]?
@@ -49132,7 +49124,7 @@ extension UpdateManagedInstanceRoleInput {
 }
 
 public struct UpdateManagedInstanceRoleInput: Swift.Equatable {
-    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
+    /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see [Create an IAM service role for a hybrid and multicloud environment](https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-service-role.html) in the Amazon Web Services Systems Manager User Guide. You can't specify an IAM service-linked role for this parameter. You must create a unique role.
     /// This member is required.
     public var iamRole: Swift.String?
     /// The ID of the managed node where you want to update the role.
@@ -49744,7 +49736,7 @@ public struct UpdatePatchBaselineInput: Swift.Equatable {
     ///
     /// * ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.
     ///
-    /// * BLOCK : Packages in the RejectedPatches list, and packages that include them as dependencies, aren't installed under any circumstances. If a package was installed before it was added to the Rejected patches list, it is considered non-compliant with the patch baseline, and its status is reported as InstalledRejected.
+    /// * BLOCK: Packages in the Rejected patches list, and packages that include them as dependencies, aren't installed by Patch Manager under any circumstances. If a package was installed before it was added to the Rejected patches list, or is installed outside of Patch Manager afterward, it's considered noncompliant with the patch baseline and its status is reported as InstalledRejected.
     public var rejectedPatchesAction: SSMClientTypes.PatchAction?
     /// If True, then all fields that are required by the [CreatePatchBaseline] operation are also required for this API request. Optional fields that aren't specified are set to null.
     public var replace: Swift.Bool?

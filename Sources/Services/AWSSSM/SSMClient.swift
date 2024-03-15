@@ -154,7 +154,7 @@ extension SSMClient {
     /// * Key=Stack,Value=Test
     ///
     ///
-    /// Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see [Tagging your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide.
+    /// Most resources can have a maximum of 50 tags. Automations can have a maximum of 5 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters. For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see [Tag your Amazon EC2 resources](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html) in the Amazon EC2 User Guide.
     ///
     /// - Parameter AddTagsToResourceInput : [no documentation found]
     ///
@@ -279,11 +279,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public func cancelCommand(input: CancelCommandInput) async throws -> CancelCommandOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -375,7 +375,7 @@ extension SSMClient {
 
     /// Performs the `CreateActivation` operation on the `AmazonSSM` service.
     ///
-    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see [Setting up Amazon Web Services Systems Manager for hybrid environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html) in the Amazon Web Services Systems Manager User Guide. Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
+    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see [Setting up Amazon Web Services Systems Manager for hybrid and multicloud environments](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances.html) in the Amazon Web Services Systems Manager User Guide. Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
     ///
     /// - Parameter CreateActivationInput : [no documentation found]
     ///
@@ -444,18 +444,18 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidOutputLocation` : The output location isn't valid or doesn't exist.
     /// - `InvalidParameters` : You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
     /// - `InvalidSchedule` : The schedule is invalid. Verify your cron or rate expression and try again.
     /// - `InvalidTag` : The specified tag key or value isn't valid.
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
-    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
+    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
     public func createAssociation(input: CreateAssociationInput) async throws -> CreateAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -514,17 +514,17 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidOutputLocation` : The output location isn't valid or doesn't exist.
     /// - `InvalidParameters` : You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
     /// - `InvalidSchedule` : The schedule is invalid. Verify your cron or rate expression and try again.
     /// - `InvalidTarget` : The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     /// - `InvalidTargetMaps` : TargetMap parameter isn't valid.
-    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
+    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
     public func createAssociationBatch(input: CreateAssociationBatchInput) async throws -> CreateAssociationBatchOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -956,11 +956,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func deleteAssociation(input: DeleteAssociationInput) async throws -> DeleteAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -1479,7 +1479,7 @@ extension SSMClient {
     ///
     /// * OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
     ///
-    /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). For more information about cross-account sharing of parameters, see [Working with shared parameters] in the Amazon Web Services Systems Manager User Guide.
+    /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). For more information about cross-account sharing of parameters, see [Working with shared parameters](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter DeleteResourcePolicyInput : [no documentation found]
     ///
@@ -1548,11 +1548,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public func deregisterManagedInstance(input: DeregisterManagedInstanceInput) async throws -> DeregisterManagedInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1816,11 +1816,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public func describeAssociation(input: DescribeAssociationInput) async throws -> DescribeAssociationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2229,7 +2229,7 @@ extension SSMClient {
 
     /// Performs the `DescribeEffectiveInstanceAssociations` operation on the `AmazonSSM` service.
     ///
-    /// All associations for the managed node(s).
+    /// All associations for the managed nodes.
     ///
     /// - Parameter DescribeEffectiveInstanceAssociationsInput : [no documentation found]
     ///
@@ -2243,11 +2243,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func describeEffectiveInstanceAssociations(input: DescribeEffectiveInstanceAssociationsInput) async throws -> DescribeEffectiveInstanceAssociationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2342,7 +2342,7 @@ extension SSMClient {
 
     /// Performs the `DescribeInstanceAssociationsStatus` operation on the `AmazonSSM` service.
     ///
-    /// The status of the associations for the managed node(s).
+    /// The status of the associations for the managed nodes.
     ///
     /// - Parameter DescribeInstanceAssociationsStatusInput : [no documentation found]
     ///
@@ -2356,11 +2356,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func describeInstanceAssociationsStatus(input: DescribeInstanceAssociationsStatusInput) async throws -> DescribeInstanceAssociationsStatusOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -2417,11 +2417,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidInstanceInformationFilterValue` : The specified filter value isn't valid.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func describeInstanceInformation(input: DescribeInstanceInformationInput) async throws -> DescribeInstanceInformationOutput {
@@ -2582,11 +2582,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func describeInstancePatches(input: DescribeInstancePatchesInput) async throws -> DescribeInstancePatchesOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -3085,7 +3085,7 @@ extension SSMClient {
 
     /// Performs the `DescribeOpsItems` operation on the `AmazonSSM` service.
     ///
-    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
+    /// Query a set of OpsItems. You must have permission in Identity and Access Management (IAM) to query a list of OpsItems. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter DescribeOpsItemsInput : [no documentation found]
     ///
@@ -3615,11 +3615,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidPluginName` : The plugin name isn't valid.
     /// - `InvocationDoesNotExist` : The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
     public func getCommandInvocation(input: GetCommandInvocationInput) async throws -> GetCommandInvocationOutput {
@@ -3772,7 +3772,7 @@ extension SSMClient {
     ///
     /// __Possible Exceptions:__
     /// - `InternalServerError` : An error occurred on the server side.
-    /// - `UnsupportedFeatureRequiredException` : Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Enabling the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
+    /// - `UnsupportedFeatureRequiredException` : Patching for applications released by Microsoft is only available on EC2 instances and advanced instances. To patch applications released by Microsoft on on-premises servers and VMs, you must enable advanced instances. For more information, see [Turning on the advanced-instances tier](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-managedinstances-advanced.html) in the Amazon Web Services Systems Manager User Guide.
     /// - `UnsupportedOperatingSystem` : The operating systems you specified isn't supported, or the operation isn't supported for the operating system.
     public func getDeployablePatchSnapshotForInstance(input: GetDeployablePatchSnapshotForInstanceInput) async throws -> GetDeployablePatchSnapshotForInstanceOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -4229,7 +4229,7 @@ extension SSMClient {
 
     /// Performs the `GetOpsItem` operation on the `AmazonSSM` service.
     ///
-    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
+    /// Get information about an OpsItem by using the ID. You must have permission in Identity and Access Management (IAM) to view information about an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter GetOpsItemInput : [no documentation found]
     ///
@@ -4994,11 +4994,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func listCommandInvocations(input: ListCommandInvocationsInput) async throws -> ListCommandInvocationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5056,11 +5056,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     public func listCommands(input: ListCommandsInput) async throws -> ListCommandsOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -5380,11 +5380,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNextToken` : The specified token isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
     public func listInventoryEntries(input: ListInventoryEntriesInput) async throws -> ListInventoryEntriesOutput {
@@ -5893,11 +5893,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidInventoryItemContextException` : You specified invalid keys or values in the Context attribute for InventoryItem. Verify the keys and values, and try again.
     /// - `InvalidItemContentException` : One or more content items isn't valid.
     /// - `InvalidTypeNameException` : The parameter type name isn't valid.
@@ -6015,7 +6015,7 @@ extension SSMClient {
     ///
     /// * OpsItemGroup - The resource policy for OpsItemGroup enables Amazon Web Services accounts to view and interact with OpsCenter operational work items (OpsItems).
     ///
-    /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). To share a parameter, it must be in the advanced parameter tier. For information about parameter tiers, see [Managing parameter tiers](https://docs.aws.amazon.com/parameter-store-       advanced-parameters.html). For information about changing an existing standard parameter to an advanced parameter, see [Changing a standard parameter to an advanced parameter](https://docs.aws.amazon.com/parameter-store-advanced-parameters.html#parameter-       store-advanced-parameters-enabling). To share a SecureString parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see [KMS concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-mgmt) in the Key Management Service Developer Guide. While you can share a parameter using the Systems Manager PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. This is because using PutResourcePolicy requires the extra step of promoting the parameter to a standard RAM Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. Otherwise, the parameter won't be returned by the Systems Manager [DescribeParameters](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html) API operation using the --shared option. For more information, see [Sharing a parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html#share) in the Amazon Web Services Systems Manager User Guide
+    /// * Parameter - The resource policy is used to share a parameter with other accounts using Resource Access Manager (RAM). To share a parameter, it must be in the advanced parameter tier. For information about parameter tiers, see [Managing parameter tiers](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html). For information about changing an existing standard parameter to an advanced parameter, see [Changing a standard parameter to an advanced parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-advanced-parameters.html#parameter-store-advanced-parameters-enabling). To share a SecureString parameter, it must be encrypted with a customer managed key, and you must share the key separately through Key Management Service. Amazon Web Services managed keys cannot be shared. Parameters encrypted with the default Amazon Web Services managed key can be updated to use a customer managed key instead. For KMS key definitions, see [KMS concepts](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html) in the Key Management Service Developer Guide. While you can share a parameter using the Systems Manager PutResourcePolicy operation, we recommend using Resource Access Manager (RAM) instead. This is because using PutResourcePolicy requires the extra step of promoting the parameter to a standard RAM Resource Share using the RAM [PromoteResourceShareCreatedFromPolicy](https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html) API operation. Otherwise, the parameter won't be returned by the Systems Manager [DescribeParameters](https://docs.aws.amazon.com/systems-manager/latest/APIReference/API_DescribeParameters.html) API operation using the --shared option. For more information, see [Sharing a parameter](https://docs.aws.amazon.com/systems-manager/latest/userguide/parameter-store-shared-parameters.html#share) in the Amazon Web Services Systems Manager User Guide
     ///
     /// - Parameter PutResourcePolicyInput : [no documentation found]
     ///
@@ -6512,17 +6512,17 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `InvalidNotificationConfig` : One or more configuration items isn't valid. Verify that a valid Amazon Resource Name (ARN) was provided for an Amazon Simple Notification Service topic.
     /// - `InvalidOutputFolder` : The S3 bucket doesn't exist.
     /// - `InvalidParameters` : You must specify values for all required parameters in the Amazon Web Services Systems Manager document (SSM document). You can only supply values to parameters defined in the SSM document.
-    /// - `InvalidRole` : The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Configuring Amazon SNS Notifications for Run Command](https://docs.aws.amazon.com/systems-manager/latest/userguide/rc-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
+    /// - `InvalidRole` : The role name can't contain invalid characters. Also verify that you specified an IAM role for notifications that includes the required trust policy. For information about configuring the IAM role for Run Command notifications, see [Monitoring Systems Manager status changes using Amazon SNS notifications](https://docs.aws.amazon.com/systems-manager/latest/userguide/monitoring-sns-notifications.html) in the Amazon Web Services Systems Manager User Guide.
     /// - `MaxDocumentSizeExceeded` : The size limit of a document is 64 KB.
-    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
+    /// - `UnsupportedPlatformType` : The document doesn't support the platform type of the given managed node IDs. For example, you sent an document for a Windows managed node to a Linux node.
     public func sendCommand(input: SendCommandInput) async throws -> SendCommandOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -7011,11 +7011,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     /// - `StatusUnchanged` : The updated status is the same as the current status.
     /// - `TooManyUpdates` : There are concurrent updates for a resource that supports one update at a time.
     public func updateAssociationStatus(input: UpdateAssociationStatusInput) async throws -> UpdateAssociationStatusOutput {
@@ -7420,11 +7420,11 @@ extension SSMClient {
     ///
     /// * You don't have permission to access the managed node.
     ///
-    /// * Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.
+    /// * Amazon Web Services Systems Manager Agent (SSM Agent) isn't running. Verify that SSM Agent is running.
     ///
     /// * SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.
     ///
-    /// * The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// * The managed node isn't in a valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public func updateManagedInstanceRole(input: UpdateManagedInstanceRoleInput) async throws -> UpdateManagedInstanceRoleOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -7465,7 +7465,7 @@ extension SSMClient {
 
     /// Performs the `UpdateOpsItem` operation on the `AmazonSSM` service.
     ///
-    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
+    /// Edit or change an OpsItem. You must have permission in Identity and Access Management (IAM) to update an OpsItem. For more information, see [Set up OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter-setup.html) in the Amazon Web Services Systems Manager User Guide. Operations engineers and IT professionals use Amazon Web Services Systems Manager OpsCenter to view, investigate, and remediate operational issues impacting the performance and health of their Amazon Web Services resources. For more information, see [Amazon Web Services Systems Manager OpsCenter](https://docs.aws.amazon.com/systems-manager/latest/userguide/OpsCenter.html) in the Amazon Web Services Systems Manager User Guide.
     ///
     /// - Parameter UpdateOpsItemInput : [no documentation found]
     ///

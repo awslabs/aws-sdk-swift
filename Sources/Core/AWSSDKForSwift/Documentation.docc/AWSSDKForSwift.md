@@ -365,8 +365,6 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSIoTJobsDataPlane](../../../../../swift/api/awsiotjobsdataplane/latest)
 
-[AWSIoTRoboRunner](../../../../../swift/api/awsiotroborunner/latest)
-
 [AWSIoTSecureTunneling](../../../../../swift/api/awsiotsecuretunneling/latest)
 
 [AWSIoTSiteWise](../../../../../swift/api/awsiotsitewise/latest)
@@ -718,6 +716,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSSynthetics](../../../../../swift/api/awssynthetics/latest)
 
 [AWSTextract](../../../../../swift/api/awstextract/latest)
+
+[AWSTimestreamInfluxDB](../../../../../swift/api/awstimestreaminfluxdb/latest)
 
 [AWSTimestreamQuery](../../../../../swift/api/awstimestreamquery/latest)
 
