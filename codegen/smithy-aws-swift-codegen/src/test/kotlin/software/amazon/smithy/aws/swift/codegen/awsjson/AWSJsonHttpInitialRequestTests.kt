@@ -53,7 +53,7 @@ class AWSJsonHttpInitialRequestTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let initialRequestMessage = try input.makeInitialRequestMessage(encoder: encoder)
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", initialRequestMessage: initialRequestMessage))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder), initialRequestMessage: initialRequestMessage))
         """
         contents.shouldContainOnlyOnce(expectedContents)
     }

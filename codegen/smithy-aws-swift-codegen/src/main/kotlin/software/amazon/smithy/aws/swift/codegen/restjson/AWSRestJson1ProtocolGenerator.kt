@@ -6,8 +6,8 @@ package software.amazon.smithy.aws.swift.codegen.restjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
-import software.amazon.smithy.aws.swift.codegen.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.MessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait

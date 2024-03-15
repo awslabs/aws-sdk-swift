@@ -6,7 +6,8 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.XMLMessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.Shape
@@ -59,6 +60,14 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
             messageUnmarshallableGenerator.render(streamingMember)
+        }
+    }
+
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        var streamingShapes = inputStreamingShapes(ctx)
+        val messageMarshallableGenerator = XMLMessageMarshallableGenerator(ctx, defaultContentType)
+        streamingShapes.forEach { streamingMember ->
+            messageMarshallableGenerator.render(streamingMember)
         }
     }
 
