@@ -1,16 +1,20 @@
-# This script is for building the full SDK
-# It will regenerate all models, build the full SDK with the new models, and run tests.
-name: Codegen, Build, and Test
+# This script regenerate all models, then builds the full SDK with release configuration.
+#
+# The swift build command builds the SDK with debugging configuration by default, but there exist
+#   certain errors that only the release configuration build catches due to difference in
+#   compiler optimization between the two build modes.
+name: Codegen & Release Configuration Build
 
 on:
   workflow_dispatch:
-  pull_request:
+  schedule:
+    - cron: '0 7 * * *'
 
 env:
   AWS_SWIFT_SDK_USE_LOCAL_DEPS: 1
 
 jobs:
-  codegen-build-test:
+  codegen-build-with-release-configuration:
     runs-on: macos-14-xlarge
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
@@ -59,7 +63,5 @@ jobs:
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Code-Generate SDK
         run: ./scripts/ci_steps/codegen_sdk.sh
-      - name: Build SDK with Unit Tests
-        run: swift build --build-tests
-      - name: Run Unit Tests
-        run: swift test --skip-build
+      - name: Build SDK with release configuration
+        run: swift build -c release
