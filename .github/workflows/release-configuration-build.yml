@@ -1,4 +1,4 @@
-# This script regenerate all models, then builds the full SDK with release configuration.
+# This script regenerates all models, then builds the full SDK with release configuration.
 #
 # The swift build command builds the SDK with debugging configuration by default, but there exist
 #   certain errors that only the release configuration build catches due to difference in
