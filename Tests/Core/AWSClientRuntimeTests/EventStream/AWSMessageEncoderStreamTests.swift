@@ -110,4 +110,53 @@ final class AWSMessageEncoderStreamTests: XCTestCase {
         let read4 = try await sut.readAsync(upToCount: 500)
         XCTAssertNil(read4)
     }
+
+    func testInitialRequestEvent() async throws {
+        let context = HttpContextBuilder().withSigningRegion(value: region)
+            .withSigningName(value: serviceName)
+            .withRequestSignature(value: requestSignature)
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4"
+            )
+            .withIdentityResolver(
+                value: TestCustomAWSCredentialIdentityResolver(credentials: credentials),
+                schemeID: "aws.auth#sigv4a"
+            )
+            .build()
+
+        let messageSigner = AWSEventStream.AWSMessageSigner(encoder: messageEncoder) {
+            return AWSSigV4Signer()
+        } signingConfig: {
+            return try await context.makeEventStreamSigningConfig()
+        } requestSignature: {
+            return context.getRequestSignature()
+        }
+
+        let sut = EventStream.DefaultMessageEncoderStream(
+            stream: baseStream,
+            messageEncoder: messageEncoder,
+            requestEncoder: JSONEncoder(),
+            messageSigner: messageSigner,
+            initialRequestMessage: EventStream.Message(
+                headers: [EventStream.Header(name: ":event-type", value: .string("initial-request"))],
+                payload: Data()
+            )
+        )
+
+        let data = try await sut.readToEndAsync()
+
+        let messageDecoder = AWSEventStream.AWSMessageDecoder()
+        try messageDecoder.feed(data: data ?? Data())
+        let initialRequestMessage = try messageDecoder.message()
+
+        let payloadDecoder = AWSEventStream.AWSMessageDecoder()
+        try payloadDecoder.feed(data: initialRequestMessage?.payload ?? Data())
+        let initialRequestPayload = try payloadDecoder.message()
+
+        XCTAssertEqual(
+            initialRequestPayload?.headers.first(where: { $0.name == ":event-type" })?.value,
+            .string("initial-request")
+        )
+    }
 }
