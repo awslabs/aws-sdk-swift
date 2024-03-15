@@ -1404,7 +1404,7 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeStackEvents` operation on the `CloudFormation` service.
     ///
-    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, go to [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/concept-stack.html) in the CloudFormation User Guide. You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
+    /// Returns all stack related events for a specified stack in reverse chronological order. For more information about a stack's event history, see [CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide. You can list events for stacks that have failed to create or have been deleted by specifying the unique stack identifier (stack ID).
     ///
     /// - Parameter DescribeStackEventsInput : The input for [DescribeStackEvents] action.
     ///
@@ -1722,7 +1722,7 @@ extension CloudFormationClient {
 
     /// Performs the `DescribeStacks` operation on the `CloudFormation` service.
     ///
-    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. If the stack doesn't exist, a ValidationError is returned.
+    /// Returns the description for the specified stack; if no stack name was specified, then it returns the description for all the stacks created. For more information about a stack's event history, see [CloudFormation stack creation events](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stack-resource-configuration-complete.html) in the CloudFormation User Guide. If the stack doesn't exist, a ValidationError is returned.
     ///
     /// - Parameter DescribeStacksInput : The input for [DescribeStacks] action.
     ///

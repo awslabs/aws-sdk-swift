@@ -3106,7 +3106,13 @@ extension ConnectClient {
 
     /// Performs the `DeleteQuickConnect` operation on the `AmazonConnectService` service.
     ///
-    /// Deletes a quick connect.
+    /// Deletes a quick connect. After calling [DeleteUser](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteUser.html), it's important to call DeleteQuickConnect to delete any records related to the deleted users. This will help you:
+    ///
+    /// * Avoid dangling resources that impact your service quotas.
+    ///
+    /// * Remove deleted users so they don't appear to agents as transfer options.
+    ///
+    /// * Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using [Amazon Connect Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html).
     ///
     /// - Parameter DeleteQuickConnectInput : [no documentation found]
     ///
@@ -3458,7 +3464,13 @@ extension ConnectClient {
 
     /// Performs the `DeleteUser` operation on the `AmazonConnectService` service.
     ///
-    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see [Delete Users from Your Amazon Connect Instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html) in the Amazon Connect Administrator Guide.
+    /// Deletes a user account from the specified Amazon Connect instance. For information about what happens to a user's data when their account is deleted, see [Delete Users from Your Amazon Connect Instance](https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html) in the Amazon Connect Administrator Guide. After calling DeleteUser, call [DeleteQuickConnect](https://docs.aws.amazon.com/connect/latest/APIReference/API_DeleteQuickConnect.html) to delete any records related to the deleted users. This will help you:
+    ///
+    /// * Avoid dangling resources that impact your service quotas.
+    ///
+    /// * Remove deleted users so they don't appear to agents as transfer options.
+    ///
+    /// * Avoid the disruption of other Amazon Connect processes, such as instance replication and syncing if you're using [Amazon Connect Global Resiliency](https://docs.aws.amazon.com/connect/latest/adminguide/setup-connect-global-resiliency.html).
     ///
     /// - Parameter DeleteUserInput : [no documentation found]
     ///
@@ -6565,7 +6577,7 @@ extension ConnectClient {
 
     /// Performs the `ListContactReferences` operation on the `AmazonConnectService` service.
     ///
-    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact.
+    /// This API is in preview release for Amazon Connect and is subject to change. For the specified referenceTypes, returns a list of references associated with the contact. References are links to documents that are related to a contact, such as emails, attachments, or URLs.
     ///
     /// - Parameter ListContactReferencesInput : [no documentation found]
     ///
@@ -9955,7 +9967,7 @@ extension ConnectClient {
 
     /// Performs the `StopContact` operation on the `AmazonConnectService` service.
     ///
-    /// Ends the specified contact. This call does not work for voice contacts that use the following initiation methods:
+    /// Ends the specified contact. Use this API to stop queued callbacks. It does not work for voice contacts that use the following initiation methods:
     ///
     /// * DISCONNECT
     ///
@@ -9964,7 +9976,7 @@ extension ConnectClient {
     /// * QUEUE_TRANSFER
     ///
     ///
-    /// Chat and task contacts, however, can be terminated in any state, regardless of initiation method.
+    /// Chat and task contacts can be terminated in any state, regardless of initiation method.
     ///
     /// - Parameter StopContactInput : [no documentation found]
     ///

@@ -12,7 +12,6 @@ env:
 jobs:
   codegen-build-test:
     runs-on: macos-14-xlarge
-    environment: Codegen-Build-Test
     env:
       DEVELOPER_DIR: /Applications/Xcode_15.2.app/Contents/Developer
     steps:
@@ -60,8 +59,8 @@ jobs:
         run: ./scripts/ci_steps/log_tool_versions.sh
       - name: Code-Generate SDK
         run: ./scripts/ci_steps/codegen_sdk.sh
-      - name: Build and Run Unit Tests
-        run: |
-          swift build --build-tests
-          swift test --skip-build
+      - name: Build SDK with Unit Tests
+        run: swift build --build-tests
+      - name: Run Unit Tests
+        run: swift test --skip-build
 

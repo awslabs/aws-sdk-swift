@@ -36,6 +36,7 @@ extension FisClientTypes {
 
 extension FisClientTypes.Action: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
         case description
         case id
         case parameters
@@ -45,6 +46,9 @@ extension FisClientTypes.Action: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -75,6 +79,8 @@ extension FisClientTypes.Action: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let parametersContainer = try containerValues.decodeIfPresent([Swift.String: FisClientTypes.ActionParameter?].self, forKey: .parameters)
@@ -116,6 +122,8 @@ extension FisClientTypes.Action: Swift.Codable {
 extension FisClientTypes {
     /// Describes an action. For more information, see [FIS actions](https://docs.aws.amazon.com/fis/latest/userguide/fis-actions-reference.html) in the Fault Injection Service User Guide.
     public struct Action: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the action.
+        public var arn: Swift.String?
         /// The description for the action.
         public var description: Swift.String?
         /// The ID of the action.
@@ -128,6 +136,7 @@ extension FisClientTypes {
         public var targets: [Swift.String:FisClientTypes.ActionTarget]?
 
         public init(
+            arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             parameters: [Swift.String:FisClientTypes.ActionParameter]? = nil,
@@ -135,6 +144,7 @@ extension FisClientTypes {
             targets: [Swift.String:FisClientTypes.ActionTarget]? = nil
         )
         {
+            self.arn = arn
             self.description = description
             self.id = id
             self.parameters = parameters
@@ -192,6 +202,7 @@ extension FisClientTypes {
 
 extension FisClientTypes.ActionSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
         case description
         case id
         case tags
@@ -200,6 +211,9 @@ extension FisClientTypes.ActionSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
@@ -224,6 +238,8 @@ extension FisClientTypes.ActionSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let targetsContainer = try containerValues.decodeIfPresent([Swift.String: FisClientTypes.ActionTarget?].self, forKey: .targets)
@@ -254,6 +270,8 @@ extension FisClientTypes.ActionSummary: Swift.Codable {
 extension FisClientTypes {
     /// Provides a summary of an action.
     public struct ActionSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the action.
+        public var arn: Swift.String?
         /// The description for the action.
         public var description: Swift.String?
         /// The ID of the action.
@@ -264,12 +282,14 @@ extension FisClientTypes {
         public var targets: [Swift.String:FisClientTypes.ActionTarget]?
 
         public init(
+            arn: Swift.String? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             targets: [Swift.String:FisClientTypes.ActionTarget]? = nil
         )
         {
+            self.arn = arn
             self.description = description
             self.id = id
             self.tags = tags
@@ -312,6 +332,38 @@ extension FisClientTypes {
         }
     }
 
+}
+
+extension FisClientTypes {
+    public enum ActionsMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case runAll
+        case skipAll
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ActionsMode] {
+            return [
+                .runAll,
+                .skipAll,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .runAll: return "run-all"
+            case .skipAll: return "skip-all"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ActionsMode(rawValue: rawValue) ?? ActionsMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension ConflictException {
@@ -1055,7 +1107,7 @@ extension CreateTargetAccountConfigurationInput {
 }
 
 public struct CreateTargetAccountConfigurationInput: Swift.Equatable {
-    /// The AWS account ID of the target account.
+    /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
@@ -1261,7 +1313,7 @@ extension DeleteTargetAccountConfigurationInput {
 }
 
 public struct DeleteTargetAccountConfigurationInput: Swift.Equatable {
-    /// The AWS account ID of the target account.
+    /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
     /// The ID of the experiment template.
@@ -1374,6 +1426,7 @@ extension FisClientTypes {
 extension FisClientTypes.Experiment: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
+        case arn
         case creationTime
         case endTime
         case experimentOptions
@@ -1396,6 +1449,9 @@ extension FisClientTypes.Experiment: Swift.Codable {
             for (dictKey0, experimentActionMap0) in actions {
                 try actionsContainer.encode(experimentActionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
@@ -1451,6 +1507,8 @@ extension FisClientTypes.Experiment: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let experimentTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .experimentTemplateId)
         experimentTemplateId = experimentTemplateIdDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
@@ -1521,6 +1579,8 @@ extension FisClientTypes {
     public struct Experiment: Swift.Equatable {
         /// The actions for the experiment.
         public var actions: [Swift.String:FisClientTypes.ExperimentAction]?
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public var arn: Swift.String?
         /// The time that the experiment was created.
         public var creationTime: ClientRuntime.Date?
         /// The time that the experiment ended.
@@ -1550,6 +1610,7 @@ extension FisClientTypes {
 
         public init(
             actions: [Swift.String:FisClientTypes.ExperimentAction]? = nil,
+            arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             endTime: ClientRuntime.Date? = nil,
             experimentOptions: FisClientTypes.ExperimentOptions? = nil,
@@ -1566,6 +1627,7 @@ extension FisClientTypes {
         )
         {
             self.actions = actions
+            self.arn = arn
             self.creationTime = creationTime
             self.endTime = endTime
             self.experimentOptions = experimentOptions
@@ -1916,6 +1978,7 @@ extension FisClientTypes {
 extension FisClientTypes.ExperimentOptions: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountTargeting
+        case actionsMode
         case emptyTargetResolutionMode
     }
 
@@ -1923,6 +1986,9 @@ extension FisClientTypes.ExperimentOptions: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountTargeting = self.accountTargeting {
             try encodeContainer.encode(accountTargeting.rawValue, forKey: .accountTargeting)
+        }
+        if let actionsMode = self.actionsMode {
+            try encodeContainer.encode(actionsMode.rawValue, forKey: .actionsMode)
         }
         if let emptyTargetResolutionMode = self.emptyTargetResolutionMode {
             try encodeContainer.encode(emptyTargetResolutionMode.rawValue, forKey: .emptyTargetResolutionMode)
@@ -1935,6 +2001,8 @@ extension FisClientTypes.ExperimentOptions: Swift.Codable {
         accountTargeting = accountTargetingDecoded
         let emptyTargetResolutionModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.EmptyTargetResolutionMode.self, forKey: .emptyTargetResolutionMode)
         emptyTargetResolutionMode = emptyTargetResolutionModeDecoded
+        let actionsModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.ActionsMode.self, forKey: .actionsMode)
+        actionsMode = actionsModeDecoded
     }
 }
 
@@ -1943,15 +2011,19 @@ extension FisClientTypes {
     public struct ExperimentOptions: Swift.Equatable {
         /// The account targeting setting for an experiment.
         public var accountTargeting: FisClientTypes.AccountTargeting?
+        /// The actions mode of the experiment that is set from the StartExperiment API command.
+        public var actionsMode: FisClientTypes.ActionsMode?
         /// The empty target resolution mode for an experiment.
         public var emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode?
 
         public init(
             accountTargeting: FisClientTypes.AccountTargeting? = nil,
+            actionsMode: FisClientTypes.ActionsMode? = nil,
             emptyTargetResolutionMode: FisClientTypes.EmptyTargetResolutionMode? = nil
         )
         {
             self.accountTargeting = accountTargeting
+            self.actionsMode = actionsMode
             self.emptyTargetResolutionMode = emptyTargetResolutionMode
         }
     }
@@ -2142,7 +2214,9 @@ extension FisClientTypes {
 
 extension FisClientTypes.ExperimentSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
         case creationTime
+        case experimentOptions
         case experimentTemplateId
         case id
         case state
@@ -2151,8 +2225,14 @@ extension FisClientTypes.ExperimentSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let experimentTemplateId = self.experimentTemplateId {
             try encodeContainer.encode(experimentTemplateId, forKey: .experimentTemplateId)
@@ -2175,6 +2255,8 @@ extension FisClientTypes.ExperimentSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let experimentTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .experimentTemplateId)
         experimentTemplateId = experimentTemplateIdDecoded
         let stateDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentState.self, forKey: .state)
@@ -2192,14 +2274,20 @@ extension FisClientTypes.ExperimentSummary: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.ExperimentOptions.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
     }
 }
 
 extension FisClientTypes {
     /// Provides a summary of an experiment.
     public struct ExperimentSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the experiment.
+        public var arn: Swift.String?
         /// The time that the experiment was created.
         public var creationTime: ClientRuntime.Date?
+        /// The experiment options for the experiment.
+        public var experimentOptions: FisClientTypes.ExperimentOptions?
         /// The ID of the experiment template.
         public var experimentTemplateId: Swift.String?
         /// The ID of the experiment.
@@ -2210,14 +2298,18 @@ extension FisClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
+            experimentOptions: FisClientTypes.ExperimentOptions? = nil,
             experimentTemplateId: Swift.String? = nil,
             id: Swift.String? = nil,
             state: FisClientTypes.ExperimentState? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.arn = arn
             self.creationTime = creationTime
+            self.experimentOptions = experimentOptions
             self.experimentTemplateId = experimentTemplateId
             self.id = id
             self.state = state
@@ -2394,7 +2486,7 @@ extension FisClientTypes.ExperimentTargetAccountConfiguration: Swift.Codable {
 extension FisClientTypes {
     /// Describes a target account configuration for an experiment.
     public struct ExperimentTargetAccountConfiguration: Swift.Equatable {
-        /// The AWS account ID of the target account.
+        /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
         public var description: Swift.String?
@@ -2449,7 +2541,7 @@ extension FisClientTypes.ExperimentTargetAccountConfigurationSummary: Swift.Coda
 extension FisClientTypes {
     /// Provides a summary of a target account configuration.
     public struct ExperimentTargetAccountConfigurationSummary: Swift.Equatable {
-        /// The AWS account ID of the target account.
+        /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
         public var description: Swift.String?
@@ -2530,6 +2622,7 @@ extension FisClientTypes {
 extension FisClientTypes.ExperimentTemplate: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actions
+        case arn
         case creationTime
         case description
         case experimentOptions
@@ -2550,6 +2643,9 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
             for (dictKey0, experimentTemplateActionMap0) in actions {
                 try actionsContainer.encode(experimentTemplateActionMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
         }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
@@ -2599,6 +2695,8 @@ extension FisClientTypes.ExperimentTemplate: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let targetsContainer = try containerValues.decodeIfPresent([Swift.String: FisClientTypes.ExperimentTemplateTarget?].self, forKey: .targets)
@@ -2665,6 +2763,8 @@ extension FisClientTypes {
     public struct ExperimentTemplate: Swift.Equatable {
         /// The actions for the experiment.
         public var actions: [Swift.String:FisClientTypes.ExperimentTemplateAction]?
+        /// The Amazon Resource Name (ARN) of the experiment template.
+        public var arn: Swift.String?
         /// The time the experiment template was created.
         public var creationTime: ClientRuntime.Date?
         /// The description for the experiment template.
@@ -2690,6 +2790,7 @@ extension FisClientTypes {
 
         public init(
             actions: [Swift.String:FisClientTypes.ExperimentTemplateAction]? = nil,
+            arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             experimentOptions: FisClientTypes.ExperimentTemplateExperimentOptions? = nil,
@@ -2704,6 +2805,7 @@ extension FisClientTypes {
         )
         {
             self.actions = actions
+            self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.experimentOptions = experimentOptions
@@ -3140,6 +3242,7 @@ extension FisClientTypes {
 
 extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
         case creationTime
         case description
         case id
@@ -3149,6 +3252,9 @@ extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
         if let creationTime = self.creationTime {
             try encodeContainer.encodeTimestamp(creationTime, format: .epochSeconds, forKey: .creationTime)
         }
@@ -3173,6 +3279,8 @@ extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
         id = idDecoded
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let creationTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationTime)
@@ -3196,6 +3304,8 @@ extension FisClientTypes.ExperimentTemplateSummary: Swift.Codable {
 extension FisClientTypes {
     /// Provides a summary of an experiment template.
     public struct ExperimentTemplateSummary: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the experiment template.
+        public var arn: Swift.String?
         /// The time that the experiment template was created.
         public var creationTime: ClientRuntime.Date?
         /// The description of the experiment template.
@@ -3208,6 +3318,7 @@ extension FisClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
             id: Swift.String? = nil,
@@ -3215,6 +3326,7 @@ extension FisClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.arn = arn
             self.creationTime = creationTime
             self.description = description
             self.id = id
@@ -3658,7 +3770,7 @@ extension GetExperimentTargetAccountConfigurationInput {
 }
 
 public struct GetExperimentTargetAccountConfigurationInput: Swift.Equatable {
-    /// The AWS account ID of the target account.
+    /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
     /// The ID of the experiment.
@@ -3834,7 +3946,7 @@ extension GetTargetAccountConfigurationInput {
 }
 
 public struct GetTargetAccountConfigurationInput: Swift.Equatable {
-    /// The AWS account ID of the target account.
+    /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
     /// The ID of the experiment template.
@@ -4498,6 +4610,10 @@ extension ListExperimentsInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let experimentTemplateId = value.experimentTemplateId {
+            let experimentTemplateIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "experimentTemplateId".urlPercentEncoding(), value: Swift.String(experimentTemplateId).urlPercentEncoding())
+            items.append(experimentTemplateIdQueryItem)
+        }
         return items
     }
 }
@@ -4510,16 +4626,20 @@ extension ListExperimentsInput {
 }
 
 public struct ListExperimentsInput: Swift.Equatable {
+    /// The ID of the experiment template.
+    public var experimentTemplateId: Swift.String?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
 
     public init(
+        experimentTemplateId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.experimentTemplateId = experimentTemplateId
         self.maxResults = maxResults
         self.nextToken = nextToken
     }
@@ -5117,9 +5237,45 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension FisClientTypes.StartExperimentExperimentOptionsInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionsMode
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionsMode = self.actionsMode {
+            try encodeContainer.encode(actionsMode.rawValue, forKey: .actionsMode)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionsModeDecoded = try containerValues.decodeIfPresent(FisClientTypes.ActionsMode.self, forKey: .actionsMode)
+        actionsMode = actionsModeDecoded
+    }
+}
+
+extension FisClientTypes {
+    /// Specifies experiment options for running an experiment.
+    public struct StartExperimentExperimentOptionsInput: Swift.Equatable {
+        /// Specifies the actions mode for experiment options.
+        public var actionsMode: FisClientTypes.ActionsMode?
+
+        public init(
+            actionsMode: FisClientTypes.ActionsMode? = nil
+        )
+        {
+            self.actionsMode = actionsMode
+        }
+    }
+
+}
+
 extension StartExperimentInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case experimentOptions
         case experimentTemplateId
         case tags
     }
@@ -5128,6 +5284,9 @@ extension StartExperimentInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let clientToken = self.clientToken {
             try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let experimentOptions = self.experimentOptions {
+            try encodeContainer.encode(experimentOptions, forKey: .experimentOptions)
         }
         if let experimentTemplateId = self.experimentTemplateId {
             try encodeContainer.encode(experimentTemplateId, forKey: .experimentTemplateId)
@@ -5152,6 +5311,8 @@ public struct StartExperimentInput: Swift.Equatable {
     /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
+    /// The experiment options for running the experiment.
+    public var experimentOptions: FisClientTypes.StartExperimentExperimentOptionsInput?
     /// The ID of the experiment template.
     /// This member is required.
     public var experimentTemplateId: Swift.String?
@@ -5160,11 +5321,13 @@ public struct StartExperimentInput: Swift.Equatable {
 
     public init(
         clientToken: Swift.String? = nil,
+        experimentOptions: FisClientTypes.StartExperimentExperimentOptionsInput? = nil,
         experimentTemplateId: Swift.String? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
         self.clientToken = clientToken
+        self.experimentOptions = experimentOptions
         self.experimentTemplateId = experimentTemplateId
         self.tags = tags
     }
@@ -5173,12 +5336,14 @@ public struct StartExperimentInput: Swift.Equatable {
 struct StartExperimentInputBody: Swift.Equatable {
     let clientToken: Swift.String?
     let experimentTemplateId: Swift.String?
+    let experimentOptions: FisClientTypes.StartExperimentExperimentOptionsInput?
     let tags: [Swift.String:Swift.String]?
 }
 
 extension StartExperimentInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
+        case experimentOptions
         case experimentTemplateId
         case tags
     }
@@ -5189,6 +5354,8 @@ extension StartExperimentInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let experimentTemplateIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .experimentTemplateId)
         experimentTemplateId = experimentTemplateIdDecoded
+        let experimentOptionsDecoded = try containerValues.decodeIfPresent(FisClientTypes.StartExperimentExperimentOptionsInput.self, forKey: .experimentOptions)
+        experimentOptions = experimentOptionsDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -5464,7 +5631,7 @@ extension FisClientTypes.TargetAccountConfiguration: Swift.Codable {
 extension FisClientTypes {
     /// Describes a target account configuration.
     public struct TargetAccountConfiguration: Swift.Equatable {
-        /// The AWS account ID of the target account.
+        /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
         public var description: Swift.String?
@@ -5519,7 +5686,7 @@ extension FisClientTypes.TargetAccountConfigurationSummary: Swift.Codable {
 extension FisClientTypes {
     /// Provides a summary of a target account configuration.
     public struct TargetAccountConfigurationSummary: Swift.Equatable {
-        /// The AWS account ID of the target account.
+        /// The Amazon Web Services account ID of the target account.
         public var accountId: Swift.String?
         /// The description of the target account.
         public var description: Swift.String?
@@ -6397,7 +6564,7 @@ extension UpdateTargetAccountConfigurationInput {
 }
 
 public struct UpdateTargetAccountConfigurationInput: Swift.Equatable {
-    /// The AWS account ID of the target account.
+    /// The Amazon Web Services account ID of the target account.
     /// This member is required.
     public var accountId: Swift.String?
     /// The description of the target account.

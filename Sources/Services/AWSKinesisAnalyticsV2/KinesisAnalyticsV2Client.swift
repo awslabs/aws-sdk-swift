@@ -411,11 +411,11 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `AddApplicationVpcConfiguration` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Kinesis Data Analytics applications:
+    /// Adds a Virtual Private Cloud (VPC) configuration to the application. Applications can use VPCs to store and access resources securely. Note the following about VPC configurations for Managed Service for Apache Flink applications:
     ///
     /// * VPC configurations are not supported for SQL applications.
     ///
-    /// * When a VPC is added to a Kinesis Data Analytics application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
+    /// * When a VPC is added to a Managed Service for Apache Flink application, the application can no longer be accessed from the Internet directly. To enable Internet access to the application, add an Internet gateway to your VPC.
     ///
     /// - Parameter AddApplicationVpcConfigurationInput : [no documentation found]
     ///
@@ -469,7 +469,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `CreateApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Creates a Kinesis Data Analytics application. For information about creating a Kinesis Data Analytics application, see [Creating an Application](https://docs.aws.amazon.com/kinesisanalytics/latest/java/getting-started.html).
+    /// Creates a Managed Service for Apache Flink application. For information about creating a Managed Service for Apache Flink application, see [Creating an Application](https://docs.aws.amazon.com/kinesisanalytics/latest/java/getting-started.html).
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -634,7 +634,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DeleteApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Deletes the specified application. Kinesis Data Analytics halts application execution and deletes the application.
+    /// Deletes the specified application. Managed Service for Apache Flink halts application execution and deletes the application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
@@ -689,7 +689,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DeleteApplicationCloudWatchLoggingOption` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics application.
+    /// Deletes an Amazon CloudWatch log stream from an SQL-based Kinesis Data Analytics application.
     ///
     /// - Parameter DeleteApplicationCloudWatchLoggingOptionInput : [no documentation found]
     ///
@@ -961,7 +961,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DeleteApplicationVpcConfiguration` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Removes a VPC configuration from a Kinesis Data Analytics application.
+    /// Removes a VPC configuration from a Managed Service for Apache Flink application.
     ///
     /// - Parameter DeleteApplicationVpcConfigurationInput : [no documentation found]
     ///
@@ -1015,7 +1015,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DescribeApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Returns information about a specific Kinesis Data Analytics application. If you want to retrieve a list of all applications in your account, use the [ListApplications] operation.
+    /// Returns information about a specific Managed Service for Apache Flink application. If you want to retrieve a list of all applications in your account, use the [ListApplications] operation.
     ///
     /// - Parameter DescribeApplicationInput : [no documentation found]
     ///
@@ -1119,7 +1119,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `DescribeApplicationVersion` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the [ListApplicationVersions] operation. This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Provides a detailed description of a specified version of the application. To see a list of all the versions of an application, invoke the [ListApplicationVersions] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
     /// - Parameter DescribeApplicationVersionInput : [no documentation found]
     ///
@@ -1277,7 +1277,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `ListApplicationVersions` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, invoke the [DescribeApplicationVersion] operation. This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Lists all the versions for the specified application, including versions that were rolled back. The response also includes a summary of the configuration associated with each version. To get the complete description of a specific application version, invoke the [DescribeApplicationVersion] operation. This operation is supported only for Managed Service for Apache Flink.
     ///
     /// - Parameter ListApplicationVersionsInput : [no documentation found]
     ///
@@ -1329,7 +1329,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `ListApplications` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Returns a list of Kinesis Data Analytics applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use [DescribeApplication].
+    /// Returns a list of Managed Service for Apache Flink applications in your account. For each application, the response includes the application name, Amazon Resource Name (ARN), and status. If you want detailed information about a specific application, use [DescribeApplication].
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -1431,7 +1431,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `RollbackApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status. You can roll back an application only if it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Kinesis Data Analytics rejects the rollback request. This action is not supported for Kinesis Data Analytics for SQL applications.
+    /// Reverts the application to the previous running version. You can roll back an application if you suspect it is stuck in a transient status. You can roll back an application only if it is in the UPDATING or AUTOSCALING status. When you rollback an application, it loads state data from the last successful snapshot. If the application has no snapshots, Managed Service for Apache Flink rejects the rollback request. This action is not supported for Managed Service for Apache Flink for SQL applications.
     ///
     /// - Parameter RollbackApplicationInput : [no documentation found]
     ///
@@ -1486,7 +1486,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `StartApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Starts the specified Kinesis Data Analytics application. After creating an application, you must exclusively call this operation to start your application.
+    /// Starts the specified Managed Service for Apache Flink application. After creating an application, you must exclusively call this operation to start your application.
     ///
     /// - Parameter StartApplicationInput : [no documentation found]
     ///
@@ -1540,7 +1540,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `StopApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true. You can use the [DescribeApplication] operation to find the application status. Kinesis Data Analytics takes a snapshot when the application is stopped, unless Force is set to true.
+    /// Stops the application from processing data. You can stop an application only if it is in the running status, unless you set the Force parameter to true. You can use the [DescribeApplication] operation to find the application status. Managed Service for Apache Flink takes a snapshot when the application is stopped, unless Force is set to true.
     ///
     /// - Parameter StopApplicationInput : [no documentation found]
     ///
@@ -1595,7 +1595,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `TagResource` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Adds one or more key-value tags to a Kinesis Data Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    /// Adds one or more key-value tags to a Managed Service for Apache Flink application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1649,7 +1649,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `UntagResource` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Removes one or more tags from a Kinesis Data Analytics application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
+    /// Removes one or more tags from a Managed Service for Apache Flink application. For more information, see [Using Tagging](https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html).
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1703,7 +1703,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `UpdateApplication` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Updates an existing Kinesis Data Analytics application. Using this operation, you can update application code, input configuration, and output configuration. Kinesis Data Analytics updates the ApplicationVersionId each time you update your application. You cannot update the RuntimeEnvironment of an existing application. If you need to update an application's RuntimeEnvironment, you must delete the application and create it again.
+    /// Updates an existing Managed Service for Apache Flink application. Using this operation, you can update application code, input configuration, and output configuration. Managed Service for Apache Flink updates the ApplicationVersionId each time you update your application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
@@ -1760,7 +1760,7 @@ extension KinesisAnalyticsV2Client {
 
     /// Performs the `UpdateApplicationMaintenanceConfiguration` operation on the `KinesisAnalytics_20180523` service.
     ///
-    /// Updates the maintenance configuration of the Kinesis Data Analytics application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the [DescribeApplication] operation. For information about application maintenance, see [Kinesis Data Analytics for Apache Flink Maintenance](https://docs.aws.amazon.com/kinesisanalytics/latest/java/maintenance.html). This operation is supported only for Amazon Kinesis Data Analytics for Apache Flink.
+    /// Updates the maintenance configuration of the Managed Service for Apache Flink application. You can invoke this operation on an application that is in one of the two following states: READY or RUNNING. If you invoke it when the application is in a state other than these two states, it throws a ResourceInUseException. The service makes use of the updated configuration the next time it schedules maintenance for the application. If you invoke this operation after the service schedules maintenance, the service will apply the configuration update the next time it schedules maintenance for the application. This means that you might not see the maintenance configuration update applied to the maintenance process that follows a successful invocation of this operation, but to the following maintenance process instead. To see the current maintenance configuration of your application, invoke the [DescribeApplication] operation. For information about application maintenance, see [Managed Service for Apache Flink for Apache Flink Maintenance](https://docs.aws.amazon.com/kinesisanalytics/latest/java/maintenance.html). This operation is supported only for Managed Service for Apache Flink.
     ///
     /// - Parameter UpdateApplicationMaintenanceConfigurationInput : [no documentation found]
     ///

@@ -213,6 +213,7 @@ extension EC2InstanceConnectClient {
     /// - `SerialConsoleAccessDisabledException` : Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see [EnableSerialConsoleAccess](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EnableSerialConsoleAccess.html) in the Amazon EC2 API Reference.
     /// - `SerialConsoleSessionLimitExceededException` : The instance currently has 1 active serial console session. Only 1 session is supported at a time.
     /// - `SerialConsoleSessionUnavailableException` : Unable to start a serial console session. Please try again.
+    /// - `SerialConsoleSessionUnsupportedException` : Your instance's BIOS version is unsupported for serial console connection. Reboot your instance to update its BIOS, and then try again to connect.
     /// - `ServiceException` : The service encountered an error. Follow the instructions in the error message and try again.
     /// - `ThrottlingException` : The requests were made too frequently and have been throttled. Wait a while and try again. To increase the limit on your request frequency, contact AWS Support.
     public func sendSerialConsoleSSHPublicKey(input: SendSerialConsoleSSHPublicKeyInput) async throws -> SendSerialConsoleSSHPublicKeyOutput {
