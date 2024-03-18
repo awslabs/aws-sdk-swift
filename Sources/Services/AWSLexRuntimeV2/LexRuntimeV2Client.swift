@@ -505,7 +505,7 @@ extension LexRuntimeV2Client {
         operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartConversationOutput>())
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.HeaderMiddleware<StartConversationInput, StartConversationOutput>(StartConversationInput.headerProvider(_:)))
         operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartConversationInput, StartConversationOutput>(contentType: "application/json"))
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<StartConversationInput, StartConversationOutput, LexRuntimeV2ClientTypes.StartConversationRequestEventStream>(keyPath: \.requestEventStream, defaultBody: "{}"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<StartConversationInput, StartConversationOutput, LexRuntimeV2ClientTypes.StartConversationRequestEventStream>(keyPath: \.requestEventStream, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder)))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartConversationOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartConversationOutput>())
