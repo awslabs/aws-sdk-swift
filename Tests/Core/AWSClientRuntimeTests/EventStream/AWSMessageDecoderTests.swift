@@ -55,13 +55,13 @@ final class AWSMessageDecoderTests: XCTestCase {
             return
         }
 
-        var someMetadata: Tag? = nil
+        var someMetadata: String? = nil
 
         // test expected codegen
         let decoder = JSONDecoder()
         do {
             let response = try decoder.decode([String: String].self, from: initialResponse)
-            someMetadata = response["someMetadata"].map { value in Tag(value: value) }
+            someMetadata = response["someMetadata"]
         } catch {
             print("Error decoding JSON: \(error)")
             someMetadata = nil
@@ -73,21 +73,5 @@ final class AWSMessageDecoderTests: XCTestCase {
         )
 
         XCTAssertEqual(someMetadata?.value, "test")
-    }
-}
-
-private struct Tag: Swift.Equatable {
-    /// The key of the tag. Constraints: Tag keys are case-sensitive and accept a maximum of 127 Unicode characters. May not begin with aws:.
-    public var key: Swift.String?
-    /// The value of the tag. Constraints: Tag values are case-sensitive and accept a maximum of 256 Unicode characters.
-    public var value: Swift.String?
-
-    public init(
-        key: Swift.String? = nil,
-        value: Swift.String? = nil
-    )
-    {
-        self.key = key
-        self.value = value
     }
 }
