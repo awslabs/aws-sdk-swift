@@ -1,4 +1,4 @@
-package software.amazon.smithy.aws.swift.codegen
+package software.amazon.smithy.aws.swift.codegen.message
 
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.codegen.core.Symbol
