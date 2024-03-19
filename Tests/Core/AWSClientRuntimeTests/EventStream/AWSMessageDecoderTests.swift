@@ -72,6 +72,10 @@ final class AWSMessageDecoderTests: XCTestCase {
             String(data: initialResponse, encoding: .utf8)
         )
 
-        XCTAssertEqual(someMetadata?.value, "test")
+        if let someMetadataValue = someMetadata {
+            XCTAssertEqual(someMetadataValue, "test")
+        } else {
+            XCTFail("someMetadataValue is nil")
+        }
     }
 }
