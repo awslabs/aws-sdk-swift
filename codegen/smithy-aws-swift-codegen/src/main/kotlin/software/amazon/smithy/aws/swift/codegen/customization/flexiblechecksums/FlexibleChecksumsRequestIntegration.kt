@@ -56,7 +56,6 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
-        // Convert algorithmNames list to a Swift array representation
         val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)"
 
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $middlewareInit)")

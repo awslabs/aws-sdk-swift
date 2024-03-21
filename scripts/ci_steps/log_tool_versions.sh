@@ -4,6 +4,17 @@ set -e
 
 echo
 
+# Log OS version (sw_vers on Mac, uname -a on Linux)
+
+if command -v sw_vers &> /dev/null
+then
+  sw_vers
+else
+  uname -a
+fi
+
+
+
 # Log CPU for hardware in use, if running on Mac
 
 if [[ "$OSTYPE" == "darwin"* ]];

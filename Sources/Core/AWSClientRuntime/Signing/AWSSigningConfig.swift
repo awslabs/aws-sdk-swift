@@ -53,7 +53,23 @@ public struct AWSSigningConfig {
 
 extension AWSSigningConfig {
     func toCRTType() throws -> SigningConfig {
-        SigningConfig(
+        // Never include the Transfer-Encoding header in the signature,
+        // since older versions of URLSession will modify this header's value
+        // prior to sending a request.
+        //
+        // The Transfer-Encoding header does not affect the AWS operation being
+        // performed and is just there to coordinate the flow of data to the server.
+        //
+        // For all other headers, use the shouldSignHeaders block that was passed to
+        // determine if the header should be included in the signature.  If the
+        // shouldSignHeaders block was not provided, then include all headers other
+        // than Transfer-Encoding.
+        let modifiedShouldSignHeader = { (name: String) in
+            guard name.lowercased(with: Locale(identifier: "en_US_POSIX")) != "transfer-encoding" else { return false }
+            return shouldSignHeader?(name) ?? true
+        }
+
+        return SigningConfig(
             algorithm: signingAlgorithm.toCRTType(),
             signatureType: signatureType.toCRTType(),
             service: service,
@@ -67,7 +83,7 @@ extension AWSSigningConfig {
             expiration: expiration,
             signedBodyHeader: signedBodyHeader.toCRTType(),
             signedBodyValue: signedBodyValue.toCRTType(),
-            shouldSignHeader: shouldSignHeader,
+            shouldSignHeader: modifiedShouldSignHeader,
             useDoubleURIEncode: flags.useDoubleURIEncode,
             shouldNormalizeURIPath: flags.shouldNormalizeURIPath,
             omitSessionToken: flags.omitSessionToken

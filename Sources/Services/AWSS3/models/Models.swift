@@ -1832,7 +1832,7 @@ extension S3ClientTypes.ContinuationEvent {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ContinuationEvent, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.ContinuationEvent()
         }
     }
@@ -5162,7 +5162,7 @@ extension S3ClientTypes.EndEvent {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.EndEvent, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.EndEvent()
         }
     }
@@ -6431,7 +6431,7 @@ extension S3ClientTypes.EventBridgeConfiguration {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.EventBridgeConfiguration, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.EventBridgeConfiguration()
         }
     }
@@ -15529,7 +15529,7 @@ extension S3ClientTypes.ParquetInput {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.ParquetInput, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.ParquetInput()
         }
     }
@@ -20381,7 +20381,7 @@ extension S3ClientTypes.SSES3 {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SSES3, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.SSES3()
         }
     }
@@ -20982,7 +20982,7 @@ extension S3ClientTypes.SimplePrefix {
 
     static var readingClosure: SmithyReadWrite.ReadingClosure<S3ClientTypes.SimplePrefix, SmithyXML.Reader> {
         return { reader in
-            guard reader.content != nil else { return nil }
+            guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
             return S3ClientTypes.SimplePrefix()
         }
     }

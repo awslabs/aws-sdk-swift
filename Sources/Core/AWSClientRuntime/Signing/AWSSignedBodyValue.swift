@@ -13,6 +13,8 @@ public enum AWSSignedBodyValue {
     case unsignedPayload
     case streamingSha256Payload
     case streamingSha256Events
+    case streamingSha256PayloadTrailer
+    case streamingUnsignedPayloadTrailer
 }
 
 extension AWSSignedBodyValue {
@@ -23,6 +25,8 @@ extension AWSSignedBodyValue {
         case .unsignedPayload: return .unsignedPayload
         case .streamingSha256Payload: return .streamingSha256Payload
         case .streamingSha256Events: return .streamingSha256Events
+        case .streamingSha256PayloadTrailer: return .streamingSha256PayloadTrailer
+        case .streamingUnsignedPayloadTrailer: return .streamingUnSignedPayloadTrailer
         }
     }
 }

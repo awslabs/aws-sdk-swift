@@ -41,13 +41,31 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             try unsignedRequest.toHttp2Request() :
             try unsignedRequest.toHttpRequest()
 
+        let crtSigningConfig = try signingConfig.toCRTType()
+
         let crtSignedRequest = try await Signer.signRequest(
             request: crtUnsignedRequest,
-            config: signingConfig.toCRTType()
+            config: crtSigningConfig
         )
 
+        let sdkSignedRequest = requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
+
+        if crtSigningConfig.useAwsChunkedEncoding {
+            guard let requestSignature = crtSignedRequest.signature else {
+                throw ClientError.dataNotFound("Could not get request signature!")
+            }
+
+            // Set streaming body to an AwsChunked wrapped type
+            try sdkSignedRequest.setAwsChunkedBody(
+                signingConfig: crtSigningConfig,
+                signature: requestSignature,
+                trailingHeaders: unsignedRequest.trailingHeaders,
+                checksumAlgorithm: signingProperties.get(key: AttributeKeys.checksum)
+            )
+        }
+
         // Return signed request
-        return requestBuilder.update(from: crtSignedRequest, originalRequest: unsignedRequest)
+        return sdkSignedRequest
     }
 
     private func constructSigningConfig(
@@ -77,7 +95,17 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
 
         let expiration: TimeInterval = signingProperties.get(key: AttributeKeys.expiration) ?? 0
         let signedBodyHeader: AWSSignedBodyHeader = signingProperties.get(key: AttributeKeys.signedBodyHeader) ?? .none
-        let signedBodyValue: AWSSignedBodyValue = unsignedBody ? .unsignedPayload : .empty
+
+        // Determine signed body value
+        let checksum = signingProperties.get(key: AttributeKeys.checksum)
+        let isChunkedEligibleStream = signingProperties.get(key: AttributeKeys.isChunkedEligibleStream) ?? false
+
+        let signedBodyValue: AWSSignedBodyValue = determineSignedBodyValue(
+            checksum: checksum,
+            isChunkedEligbleStream: isChunkedEligibleStream,
+            isUnsignedBody: unsignedBody
+        )
+
         let flags: SigningFlags = SigningFlags(
             useDoubleURIEncode: signingProperties.get(key: AttributeKeys.useDoubleURIEncode) ?? true,
             shouldNormalizeURIPath: signingProperties.get(key: AttributeKeys.shouldNormalizeURIPath) ?? true,
@@ -215,5 +243,24 @@ public class AWSSigV4Signer: ClientRuntime.Signer {
             signatureType: signingConfig.signatureType,
             signingAlgorithm: signingConfig.signingAlgorithm
         )
+    }
+
+    private func determineSignedBodyValue(
+        checksum: ChecksumAlgorithm?,
+        isChunkedEligbleStream: Bool,
+        isUnsignedBody: Bool
+    ) -> AWSSignedBodyValue {
+        if !isChunkedEligbleStream {
+            // Normal Payloads, Event Streams, etc.
+            return isUnsignedBody ? .unsignedPayload : .empty
+        }
+
+        // streaming + eligible for chunked transfer
+        if checksum == nil {
+            return isUnsignedBody ? .unsignedPayload : .streamingSha256Payload
+        } else {
+            // checksum is present
+            return isUnsignedBody ? .streamingUnsignedPayloadTrailer : .streamingSha256PayloadTrailer
+        }
     }
 }
