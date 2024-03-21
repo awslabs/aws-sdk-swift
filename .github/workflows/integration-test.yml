@@ -98,7 +98,7 @@ jobs:
       matrix:
         os:
           - focal
-          #- amazonlinux2
+          - amazonlinux2
         version:
           - "5.7"
           - "5.8"
