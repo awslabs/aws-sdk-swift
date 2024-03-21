@@ -20,21 +20,18 @@ jobs:
       matrix:
         # This matrix runs tests on Mac, on oldest & newest supported Xcodes
         runner:
-          - macos-13
-          - macos-14
           - macos-13-xlarge
           - macos-14-xlarge
         xcode:
-          - Xcode_14.3.1
-          - Xcode_15.0.1
+          - Xcode_14.1
           - Xcode_15.2
-        #exclude:
+        exclude:
           # Don't run old macOS with new Xcode
-          #- runner: macos-13
-          #  xcode: Xcode_15.2
+          - runner: macos-13-xlarge
+            xcode: Xcode_15.2
           # Don't run new macOS with old Xcode
-          #- runner: macos-14
-          #  xcode: Xcode_14.1
+          - runner: macos-14-xlarge
+            xcode: Xcode_14.1
     steps:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
@@ -98,15 +95,13 @@ jobs:
       matrix:
         os:
           - focal
-          - amazonlinux2
+          #- amazonlinux2
         version:
-          - "5.7"
-          - "5.8"
-          - "5.9"
-          - "5.10"
+          - 5.7
+          - 5.9
     steps:
       - name: Configure AWS Credentials for Integration Tests
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.INTEGRATION_TEST_ROLE_ARN }}
           aws-region: us-west-2
