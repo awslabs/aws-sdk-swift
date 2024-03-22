@@ -28,7 +28,7 @@ class EndpointPlugin(private val serviceConfig: ServiceConfig) : Plugin {
                 writer.write("self.init(endpointResolver: try \$L())", AWSServiceTypes.DefaultEndpointResolver)
             }
             writer.openBlock("public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {", "}") {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.write("config.endpointResolver = self.endpointResolver")
                 }
             }
