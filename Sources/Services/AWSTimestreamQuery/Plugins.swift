@@ -12,7 +12,7 @@ public class TimestreamQueryClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
+        if let config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
+        if let config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
             config.authSchemeResolver = DefaultTimestreamQueryAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class TimestreamQueryClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
+        if let config = clientConfiguration as? TimestreamQueryClient.TimestreamQueryClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

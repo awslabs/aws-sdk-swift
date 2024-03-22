@@ -12,7 +12,7 @@ public class CodestarnotificationsClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
+        if let config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
+        if let config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
             config.authSchemeResolver = DefaultCodestarnotificationsAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class CodestarnotificationsClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
+        if let config = clientConfiguration as? CodestarnotificationsClient.CodestarnotificationsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

@@ -12,7 +12,7 @@ public class GreengrassV2ClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
+        if let config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
+        if let config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
             config.authSchemeResolver = DefaultGreengrassV2AuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class GreengrassV2ClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
+        if let config = clientConfiguration as? GreengrassV2Client.GreengrassV2ClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

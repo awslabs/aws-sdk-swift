@@ -12,7 +12,7 @@ public class FraudDetectorClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
+        if let config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
+        if let config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
             config.authSchemeResolver = DefaultFraudDetectorAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class FraudDetectorClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
+        if let config = clientConfiguration as? FraudDetectorClient.FraudDetectorClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

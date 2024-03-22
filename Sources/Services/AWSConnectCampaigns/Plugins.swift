@@ -12,7 +12,7 @@ public class ConnectCampaignsClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
+        if let config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
+        if let config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
             config.authSchemeResolver = DefaultConnectCampaignsAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class ConnectCampaignsClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
+        if let config = clientConfiguration as? ConnectCampaignsClient.ConnectCampaignsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

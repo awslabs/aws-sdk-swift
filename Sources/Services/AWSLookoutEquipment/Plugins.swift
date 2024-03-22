@@ -12,7 +12,7 @@ public class LookoutEquipmentClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
+        if let config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
+        if let config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
             config.authSchemeResolver = DefaultLookoutEquipmentAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class LookoutEquipmentClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
+        if let config = clientConfiguration as? LookoutEquipmentClient.LookoutEquipmentClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

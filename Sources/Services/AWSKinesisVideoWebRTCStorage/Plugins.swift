@@ -12,7 +12,7 @@ public class KinesisVideoWebRTCStorageClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
+        if let config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
+        if let config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
             config.authSchemeResolver = DefaultKinesisVideoWebRTCStorageAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class KinesisVideoWebRTCStorageClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
+        if let config = clientConfiguration as? KinesisVideoWebRTCStorageClient.KinesisVideoWebRTCStorageClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

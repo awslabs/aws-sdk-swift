@@ -12,7 +12,7 @@ public class Route53DomainsClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
+        if let config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
+        if let config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
             config.authSchemeResolver = DefaultRoute53DomainsAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class Route53DomainsClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
+        if let config = clientConfiguration as? Route53DomainsClient.Route53DomainsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

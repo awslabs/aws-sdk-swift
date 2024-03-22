@@ -12,7 +12,7 @@ public class Route53RecoveryClusterClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
             config.authSchemeResolver = DefaultRoute53RecoveryClusterAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class Route53RecoveryClusterClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryClusterClient.Route53RecoveryClusterClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
