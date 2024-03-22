@@ -12,7 +12,7 @@ public class EC2InstanceConnectClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
+        if let config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
+        if let config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
             config.authSchemeResolver = DefaultEC2InstanceConnectAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class EC2InstanceConnectClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
+        if let config = clientConfiguration as? EC2InstanceConnectClient.EC2InstanceConnectClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

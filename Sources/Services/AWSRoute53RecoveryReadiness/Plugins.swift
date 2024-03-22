@@ -12,7 +12,7 @@ public class Route53RecoveryReadinessClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
             config.authSchemeResolver = DefaultRoute53RecoveryReadinessAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class Route53RecoveryReadinessClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
+        if let config = clientConfiguration as? Route53RecoveryReadinessClient.Route53RecoveryReadinessClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

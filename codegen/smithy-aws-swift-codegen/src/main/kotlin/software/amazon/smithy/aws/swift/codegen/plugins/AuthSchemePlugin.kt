@@ -42,7 +42,7 @@ class AuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plugin {
                 writer.write("self.awsCredentialIdentityResolver = awsCredentialIdentityResolver")
             }
             writer.openBlock("public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {", "}") {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.openBlock("if (self.authSchemes != nil) {", "}") {
                         writer.write("config.authSchemes = self.authSchemes")
                     }

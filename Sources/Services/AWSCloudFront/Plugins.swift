@@ -12,7 +12,7 @@ public class CloudFrontClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
             config.authSchemeResolver = DefaultCloudFrontAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class CloudFrontClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontClient.CloudFrontClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

@@ -24,7 +24,7 @@ class DefaultAWSAuthSchemePlugin(private val serviceConfig: ServiceConfig) : Plu
             }
 
             writer.openBlock("public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {", "}") {
-                writer.openBlock("if var config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
+                writer.openBlock("if let config = clientConfiguration as? ${serviceConfig.typeName} {", "}") {
                     writer.write("config.authSchemeResolver = \$L", "Default${AuthSchemeResolverGenerator.getSdkId(ctx)}AuthSchemeResolver()")
                     writer.write("config.authSchemes = \$L", getModeledAuthSchemesSupportedBySDK(ctx))
                     writer.write("config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()")

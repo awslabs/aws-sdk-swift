@@ -12,7 +12,7 @@ public class S3OutpostsClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
+        if let config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
+        if let config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
             config.authSchemeResolver = DefaultS3OutpostsAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class S3OutpostsClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
+        if let config = clientConfiguration as? S3OutpostsClient.S3OutpostsClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

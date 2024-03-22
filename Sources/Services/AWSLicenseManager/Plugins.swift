@@ -12,7 +12,7 @@ public class LicenseManagerClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
+        if let config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
+        if let config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
             config.authSchemeResolver = DefaultLicenseManagerAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class LicenseManagerClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
+        if let config = clientConfiguration as? LicenseManagerClient.LicenseManagerClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

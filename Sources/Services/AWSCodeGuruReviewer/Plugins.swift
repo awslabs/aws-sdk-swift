@@ -12,7 +12,7 @@ public class CodeGuruReviewerClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
+        if let config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
+        if let config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
             config.authSchemeResolver = DefaultCodeGuruReviewerAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class CodeGuruReviewerClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
+        if let config = clientConfiguration as? CodeGuruReviewerClient.CodeGuruReviewerClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

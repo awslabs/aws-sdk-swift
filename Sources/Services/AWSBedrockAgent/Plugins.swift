@@ -12,7 +12,7 @@ public class BedrockAgentClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
+        if let config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
+        if let config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
             config.authSchemeResolver = DefaultBedrockAgentAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class BedrockAgentClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
+        if let config = clientConfiguration as? BedrockAgentClient.BedrockAgentClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

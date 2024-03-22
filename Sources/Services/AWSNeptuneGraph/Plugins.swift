@@ -12,7 +12,7 @@ public class NeptuneGraphClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
+        if let config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
+        if let config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
             config.authSchemeResolver = DefaultNeptuneGraphAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class NeptuneGraphClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
+        if let config = clientConfiguration as? NeptuneGraphClient.NeptuneGraphClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

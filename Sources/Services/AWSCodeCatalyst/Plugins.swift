@@ -12,7 +12,7 @@ public class CodeCatalystClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
+        if let config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
+        if let config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
             config.authSchemeResolver = DefaultCodeCatalystAuthSchemeResolver()
             config.authSchemes = []
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class CodeCatalystClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
+        if let config = clientConfiguration as? CodeCatalystClient.CodeCatalystClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

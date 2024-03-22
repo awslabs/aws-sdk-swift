@@ -12,7 +12,7 @@ public class PaymentCryptographyDataClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
+        if let config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
+        if let config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
             config.authSchemeResolver = DefaultPaymentCryptographyDataAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class PaymentCryptographyDataClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
+        if let config = clientConfiguration as? PaymentCryptographyDataClient.PaymentCryptographyDataClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
