@@ -12,7 +12,7 @@ public class AlexaForBusinessClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
+        if let config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
+        if let config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
             config.authSchemeResolver = DefaultAlexaForBusinessAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class AlexaForBusinessClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
+        if let config = clientConfiguration as? AlexaForBusinessClient.AlexaForBusinessClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

@@ -12,7 +12,7 @@ public class LexRuntimeClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
+        if let config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
+        if let config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
             config.authSchemeResolver = DefaultLexRuntimeServiceAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class LexRuntimeClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
+        if let config = clientConfiguration as? LexRuntimeClient.LexRuntimeClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

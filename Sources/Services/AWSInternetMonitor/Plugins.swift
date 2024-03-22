@@ -12,7 +12,7 @@ public class InternetMonitorClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
+        if let config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
+        if let config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
             config.authSchemeResolver = DefaultInternetMonitorAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class InternetMonitorClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
+        if let config = clientConfiguration as? InternetMonitorClient.InternetMonitorClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

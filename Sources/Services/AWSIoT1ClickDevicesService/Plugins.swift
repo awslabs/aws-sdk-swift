@@ -12,7 +12,7 @@ public class IoT1ClickDevicesClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
+        if let config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
+        if let config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
             config.authSchemeResolver = DefaultIoT1ClickDevicesServiceAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class IoT1ClickDevicesClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
+        if let config = clientConfiguration as? IoT1ClickDevicesClient.IoT1ClickDevicesClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

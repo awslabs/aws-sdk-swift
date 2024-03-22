@@ -12,7 +12,7 @@ public class FinspacedataClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
+        if let config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
+        if let config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
             config.authSchemeResolver = DefaultFinspacedataAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class FinspacedataClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
+        if let config = clientConfiguration as? FinspacedataClient.FinspacedataClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

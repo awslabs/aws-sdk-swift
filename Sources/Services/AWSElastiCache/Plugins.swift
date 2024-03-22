@@ -12,7 +12,7 @@ public class ElastiCacheClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
+        if let config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
+        if let config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
             config.authSchemeResolver = DefaultElastiCacheAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class ElastiCacheClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
+        if let config = clientConfiguration as? ElastiCacheClient.ElastiCacheClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

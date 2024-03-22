@@ -12,7 +12,7 @@ public class CloudFrontKeyValueStoreClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
             config.authSchemeResolver = DefaultCloudFrontKeyValueStoreAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme(), SigV4AAuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class CloudFrontKeyValueStoreClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
+        if let config = clientConfiguration as? CloudFrontKeyValueStoreClient.CloudFrontKeyValueStoreClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

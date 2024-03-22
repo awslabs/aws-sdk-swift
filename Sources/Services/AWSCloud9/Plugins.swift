@@ -12,7 +12,7 @@ public class Cloud9ClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
+        if let config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
+        if let config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
             config.authSchemeResolver = DefaultCloud9AuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class Cloud9ClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
+        if let config = clientConfiguration as? Cloud9Client.Cloud9ClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

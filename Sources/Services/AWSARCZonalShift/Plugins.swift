@@ -12,7 +12,7 @@ public class ARCZonalShiftClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
+        if let config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
+        if let config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
             config.authSchemeResolver = DefaultARCZonalShiftAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class ARCZonalShiftClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
+        if let config = clientConfiguration as? ARCZonalShiftClient.ARCZonalShiftClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

@@ -12,7 +12,7 @@ public class TrustedAdvisorClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
+        if let config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
+        if let config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
             config.authSchemeResolver = DefaultTrustedAdvisorAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class TrustedAdvisorClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
+        if let config = clientConfiguration as? TrustedAdvisorClient.TrustedAdvisorClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }

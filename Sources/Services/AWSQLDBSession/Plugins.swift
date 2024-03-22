@@ -12,7 +12,7 @@ public class QLDBSessionClientEndpointPlugin: Plugin {
         self.init(endpointResolver: try DefaultEndpointResolver())
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
+        if let config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
             config.endpointResolver = self.endpointResolver
         }
     }
@@ -22,7 +22,7 @@ public class DefaultAWSAuthSchemePlugin: Plugin {
     public init() {
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
+        if let config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
             config.authSchemeResolver = DefaultQLDBSessionAuthSchemeResolver()
             config.authSchemes = [SigV4AuthScheme()]
             config.awsCredentialIdentityResolver = try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver()
@@ -40,7 +40,7 @@ public class QLDBSessionClientAuthSchemePlugin: Plugin {
         self.awsCredentialIdentityResolver = awsCredentialIdentityResolver
     }
     public func configureClient(clientConfiguration: ClientRuntime.ClientConfiguration) throws {
-        if var config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
+        if let config = clientConfiguration as? QLDBSessionClient.QLDBSessionClientConfiguration {
             if (self.authSchemes != nil) {
                 config.authSchemes = self.authSchemes
             }
