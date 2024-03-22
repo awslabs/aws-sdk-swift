@@ -110,8 +110,8 @@ jobs:
           - focal
           - amazonlinux2
         version:
-          - 5.7
-          - 5.9
+          - "5.7"
+          - "5.10"
     steps:
       - name: Checkout aws-sdk-swift
         uses: actions/checkout@v3
