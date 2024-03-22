@@ -97,8 +97,8 @@ jobs:
           - focal
           #- amazonlinux2
         version:
-          - 5.7
-          - 5.9
+          - "5.7"
+          - "5.10"
     steps:
       - name: Configure AWS Credentials for Integration Tests
         uses: aws-actions/configure-aws-credentials@v4
