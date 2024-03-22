@@ -115,7 +115,7 @@ extension ComplexError {
 
 public enum GreetingWithErrorsError: HttpResponseErrorBinding {
     public static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder?) async throws -> Error {
-        let errorDetails = try await RestJSONError(httpResponse: httpResponse)
+        let errorDetails = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch errorDetails.errorType {
         case "ComplexError": return try await ComplexError(httpResponse: httpResponse, decoder: decoder, message: errorDetails.errorMessage, requestID: requestID)
