@@ -12830,6 +12830,49 @@ extension EC2Client {
         return result
     }
 
+    /// Performs the `DescribeMacHosts` operation on the `AmazonEC2` service.
+    ///
+    /// Describes the specified EC2 Mac Dedicated Host or all of your EC2 Mac Dedicated Hosts.
+    ///
+    /// - Parameter DescribeMacHostsInput : [no documentation found]
+    ///
+    /// - Returns: `DescribeMacHostsOutput` : [no documentation found]
+    public func describeMacHosts(input: DescribeMacHostsInput) async throws -> DescribeMacHostsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "describeMacHosts")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DescribeMacHostsInput, DescribeMacHostsOutput>(id: "describeMacHosts")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DescribeMacHostsInput, DescribeMacHostsOutput>(DescribeMacHostsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DescribeMacHostsInput, DescribeMacHostsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DescribeMacHostsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DescribeMacHostsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<DescribeMacHostsInput, DescribeMacHostsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<DescribeMacHostsInput, DescribeMacHostsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DescribeMacHostsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DescribeMacHostsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DescribeMacHostsOutput>(responseClosure(DescribeMacHostsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(DescribeMacHostsOutputError.httpBinding, responseDocumentBinding)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DescribeMacHostsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `DescribeManagedPrefixLists` operation on the `AmazonEC2` service.
     ///
     /// Describes your managed prefix lists and any Amazon Web Services-managed prefix lists. To view the entries for your prefix list, use [GetManagedPrefixListEntries].
@@ -19182,6 +19225,49 @@ extension EC2Client {
         return result
     }
 
+    /// Performs the `GetInstanceMetadataDefaults` operation on the `AmazonEC2` service.
+    ///
+    /// Gets the default instance metadata service (IMDS) settings that are set at the account level in the specified Amazon Web Services  Region. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter GetInstanceMetadataDefaultsInput : [no documentation found]
+    ///
+    /// - Returns: `GetInstanceMetadataDefaultsOutput` : [no documentation found]
+    public func getInstanceMetadataDefaults(input: GetInstanceMetadataDefaultsInput) async throws -> GetInstanceMetadataDefaultsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getInstanceMetadataDefaults")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput>(id: "getInstanceMetadataDefaults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput>(GetInstanceMetadataDefaultsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetInstanceMetadataDefaultsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetInstanceMetadataDefaultsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetInstanceMetadataDefaultsInput, GetInstanceMetadataDefaultsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetInstanceMetadataDefaultsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetInstanceMetadataDefaultsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetInstanceMetadataDefaultsOutput>(responseClosure(GetInstanceMetadataDefaultsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetInstanceMetadataDefaultsOutputError.httpBinding, responseDocumentBinding)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetInstanceMetadataDefaultsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetInstanceTypesFromInstanceRequirements` operation on the `AmazonEC2` service.
     ///
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see [Preview instance types with specified attributes](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html#spotfleet-get-instance-types-from-instance-requirements), [Attribute-based instance type selection for EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-attribute-based-instance-type-selection.html), [Attribute-based instance type selection for Spot Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-attribute-based-instance-type-selection.html), and [Spot placement score](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-placement-score.html) in the Amazon EC2 User Guide, and [Creating an Auto Scaling group using attribute-based instance type selection](https://docs.aws.amazon.com/autoscaling/ec2/userguide/create-asg-instance-type-requirements.html) in the Amazon EC2 Auto Scaling User Guide.
@@ -21807,6 +21893,49 @@ extension EC2Client {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ModifyInstanceMaintenanceOptionsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyInstanceMaintenanceOptionsOutput>(responseClosure(ModifyInstanceMaintenanceOptionsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ModifyInstanceMaintenanceOptionsOutputError.httpBinding, responseDocumentBinding)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyInstanceMaintenanceOptionsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ModifyInstanceMetadataDefaults` operation on the `AmazonEC2` service.
+    ///
+    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region. To remove a parameter's account-level default setting, specify no-preference. At instance launch, the value will come from the AMI, or from the launch parameter if specified. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
+    ///
+    /// - Parameter ModifyInstanceMetadataDefaultsInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyInstanceMetadataDefaultsOutput` : [no documentation found]
+    public func modifyInstanceMetadataDefaults(input: ModifyInstanceMetadataDefaultsInput) async throws -> ModifyInstanceMetadataDefaultsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyInstanceMetadataDefaults")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "ec2")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput>(id: "modifyInstanceMetadataDefaults")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput>(ModifyInstanceMetadataDefaultsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyInstanceMetadataDefaultsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ModifyInstanceMetadataDefaultsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyInstanceMetadataDefaultsInput, ModifyInstanceMetadataDefaultsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyInstanceMetadataDefaultsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ModifyInstanceMetadataDefaultsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyInstanceMetadataDefaultsOutput>(responseClosure(ModifyInstanceMetadataDefaultsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ModifyInstanceMetadataDefaultsOutputError.httpBinding, responseDocumentBinding)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyInstanceMetadataDefaultsOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

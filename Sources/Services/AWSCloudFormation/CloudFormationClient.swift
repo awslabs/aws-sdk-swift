@@ -2796,6 +2796,54 @@ extension CloudFormationClient {
         return result
     }
 
+    /// Performs the `ListStackSetAutoDeploymentTargets` operation on the `CloudFormation` service.
+    ///
+    /// Returns summary information about deployment targets for a stack set.
+    ///
+    /// - Parameter ListStackSetAutoDeploymentTargetsInput : [no documentation found]
+    ///
+    /// - Returns: `ListStackSetAutoDeploymentTargetsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `StackSetNotFoundException` : The specified stack set doesn't exist.
+    public func listStackSetAutoDeploymentTargets(input: ListStackSetAutoDeploymentTargetsInput) async throws -> ListStackSetAutoDeploymentTargetsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listStackSetAutoDeploymentTargets")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "cloudformation")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>(id: "listStackSetAutoDeploymentTargets")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>(ListStackSetAutoDeploymentTargetsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListStackSetAutoDeploymentTargetsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListStackSetAutoDeploymentTargetsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListStackSetAutoDeploymentTargetsInput, ListStackSetAutoDeploymentTargetsOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListStackSetAutoDeploymentTargetsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListStackSetAutoDeploymentTargetsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListStackSetAutoDeploymentTargetsOutput>(responseClosure(ListStackSetAutoDeploymentTargetsOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ListStackSetAutoDeploymentTargetsOutputError.httpBinding, responseDocumentBinding)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListStackSetAutoDeploymentTargetsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListStackSetOperationResults` operation on the `CloudFormation` service.
     ///
     /// Returns summary information about the results of a stack set operation.

@@ -410,6 +410,59 @@ extension ManagedBlockchainQueryClient {
         return result
     }
 
+    /// Performs the `ListFilteredTransactionEvents` operation on the `TietonChainQueryService` service.
+    ///
+    /// Lists all the transaction events for an address on the blockchain. This operation is only supported on the Bitcoin networks.
+    ///
+    /// - Parameter ListFilteredTransactionEventsInput : [no documentation found]
+    ///
+    /// - Returns: `ListFilteredTransactionEventsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : The Amazon Web Services account doesn’t have access to this resource.
+    /// - `InternalServerException` : The request processing has failed because of an internal error in the service.
+    /// - `ServiceQuotaExceededException` : The service quota has been exceeded for this resource.
+    /// - `ThrottlingException` : The request or operation couldn't be performed because a service is throttling requests. The most common source of throttling errors is when you create resources that exceed your service limit for this resource type. Request a limit increase or delete unused resources, if possible.
+    /// - `ValidationException` : The resource passed is invalid.
+    public func listFilteredTransactionEvents(input: ListFilteredTransactionEventsInput) async throws -> ListFilteredTransactionEventsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listFilteredTransactionEvents")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "managedblockchain-query")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>(id: "listFilteredTransactionEvents")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>(ListFilteredTransactionEventsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListFilteredTransactionEventsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListFilteredTransactionEventsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ListFilteredTransactionEventsInput, ListFilteredTransactionEventsOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListFilteredTransactionEventsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListFilteredTransactionEventsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListFilteredTransactionEventsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListFilteredTransactionEventsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListFilteredTransactionEventsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListTokenBalances` operation on the `TietonChainQueryService` service.
     ///
     /// This action returns the following for a given blockchain network:
@@ -474,7 +527,7 @@ extension ManagedBlockchainQueryClient {
 
     /// Performs the `ListTransactionEvents` operation on the `TietonChainQueryService` service.
     ///
-    /// An array of TransactionEvent objects. Each object contains details about the transaction event. This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
+    /// Lists all the transaction events for a transaction This action will return transaction details for all transactions that are confirmed on the blockchain, even if they have not reached [finality](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality).
     ///
     /// - Parameter ListTransactionEventsInput : [no documentation found]
     ///
@@ -527,7 +580,7 @@ extension ManagedBlockchainQueryClient {
 
     /// Performs the `ListTransactions` operation on the `TietonChainQueryService` service.
     ///
-    /// Lists all of the transactions on a given wallet address or to a specific contract.
+    /// Lists all the transaction events for a transaction.
     ///
     /// - Parameter ListTransactionsInput : [no documentation found]
     ///

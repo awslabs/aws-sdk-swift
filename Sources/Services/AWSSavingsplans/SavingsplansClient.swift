@@ -244,7 +244,7 @@ extension SavingsplansClient {
 
     /// Performs the `DescribeSavingsPlanRates` operation on the `AWSSavingsPlan` service.
     ///
-    /// Describes the specified Savings Plans rates.
+    /// Describes the rates for the specified Savings Plan.
     ///
     /// - Parameter DescribeSavingsPlanRatesInput : [no documentation found]
     ///
@@ -344,7 +344,7 @@ extension SavingsplansClient {
 
     /// Performs the `DescribeSavingsPlansOfferingRates` operation on the `AWSSavingsPlan` service.
     ///
-    /// Describes the specified Savings Plans offering rates.
+    /// Describes the offering rates for the specified Savings Plans.
     ///
     /// - Parameter DescribeSavingsPlansOfferingRatesInput : [no documentation found]
     ///
@@ -394,7 +394,7 @@ extension SavingsplansClient {
 
     /// Performs the `DescribeSavingsPlansOfferings` operation on the `AWSSavingsPlan` service.
     ///
-    /// Describes the specified Savings Plans offerings.
+    /// Describes the offerings for the specified Savings Plans.
     ///
     /// - Parameter DescribeSavingsPlansOfferingsInput : [no documentation found]
     ///
@@ -489,6 +489,59 @@ extension SavingsplansClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListTagsForResourceOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListTagsForResourceOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListTagsForResourceOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListTagsForResourceOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ReturnSavingsPlan` operation on the `AWSSavingsPlan` service.
+    ///
+    /// Returns the specified Savings Plan.
+    ///
+    /// - Parameter ReturnSavingsPlanInput : [no documentation found]
+    ///
+    /// - Returns: `ReturnSavingsPlanOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `InternalServerException` : An unexpected error occurred.
+    /// - `ResourceNotFoundException` : The specified resource was not found.
+    /// - `ServiceQuotaExceededException` : A service quota has been exceeded.
+    /// - `ValidationException` : One of the input parameters is not valid.
+    public func returnSavingsPlan(input: ReturnSavingsPlanInput) async throws -> ReturnSavingsPlanOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "returnSavingsPlan")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "savingsplans")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(id: "returnSavingsPlan")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(ReturnSavingsPlanInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ReturnSavingsPlanOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ReturnSavingsPlanOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ReturnSavingsPlanInput, ReturnSavingsPlanOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ReturnSavingsPlanOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ReturnSavingsPlanOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ReturnSavingsPlanOutput>(responseClosure(decoder: decoder), responseErrorClosure(ReturnSavingsPlanOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ReturnSavingsPlanOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

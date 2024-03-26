@@ -46,19 +46,19 @@ extension CreateSavingsPlanInput {
 }
 
 public struct CreateSavingsPlanInput: Swift.Equatable {
-    /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    /// The hourly commitment, in USD. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
+    /// The hourly commitment, in the same currency of the savingsPlanOfferingId. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
     /// This member is required.
     public var commitment: Swift.String?
-    /// The time at which to purchase the Savings Plan, in UTC format (YYYY-MM-DDTHH:MM:SSZ).
+    /// The purchase time of the Savings Plan in UTC format (YYYY-MM-DDTHH:MM:SSZ).
     public var purchaseTime: ClientRuntime.Date?
     /// The ID of the offering.
     /// This member is required.
     public var savingsPlanOfferingId: Swift.String?
     /// One or more tags.
     public var tags: [Swift.String:Swift.String]?
-    /// The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is supported only if the payment option is Partial Upfront.
+    /// The up-front payment amount. This is a whole number between 50 and 99 percent of the total value of the Savings Plan. This parameter is only supported if the payment option is Partial Upfront.
     public var upfrontPaymentAmount: Swift.String?
 
     public init(
@@ -401,7 +401,7 @@ public struct DescribeSavingsPlanRatesOutput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The ID of the Savings Plan.
     public var savingsPlanId: Swift.String?
-    /// Information about the Savings Plans rates.
+    /// Information about the Savings Plan rates.
     public var searchResults: [SavingsplansClientTypes.SavingsPlanRate]?
 
     public init(
@@ -524,7 +524,7 @@ public struct DescribeSavingsPlansInput: Swift.Equatable {
     public var savingsPlanArns: [Swift.String]?
     /// The IDs of the Savings Plans.
     public var savingsPlanIds: [Swift.String]?
-    /// The states.
+    /// The current states of the Savings Plans.
     public var states: [SavingsplansClientTypes.SavingsPlanState]?
 
     public init(
@@ -704,9 +704,9 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
     public var nextToken: Swift.String?
-    /// The specific AWS operation for the line item in the billing report.
+    /// The specific Amazon Web Services operation for the line item in the billing report.
     public var operations: [Swift.String]?
-    /// The AWS products.
+    /// The Amazon Web Services products.
     public var products: [SavingsplansClientTypes.SavingsPlanProductType]?
     /// The IDs of the offerings.
     public var savingsPlanOfferingIds: [Swift.String]?
@@ -1043,7 +1043,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
     public var currencies: [SavingsplansClientTypes.CurrencyCode]?
     /// The descriptions.
     public var descriptions: [Swift.String]?
-    /// The durations, in seconds.
+    /// The duration, in seconds.
     public var durations: [Swift.Int]?
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanOfferingFilterElement]?
@@ -1053,11 +1053,11 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The IDs of the offerings.
     public var offeringIds: [Swift.String]?
-    /// The specific AWS operation for the line item in the billing report.
+    /// The specific Amazon Web Services operation for the line item in the billing report.
     public var operations: [Swift.String]?
     /// The payment options.
     public var paymentOptions: [SavingsplansClientTypes.SavingsPlanPaymentOption]?
-    /// The plan type.
+    /// The plan types.
     public var planTypes: [SavingsplansClientTypes.SavingsPlanType]?
     /// The product type.
     public var productType: SavingsplansClientTypes.SavingsPlanProductType?
@@ -1702,6 +1702,121 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension ReturnSavingsPlanInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case savingsPlanId
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let savingsPlanId = self.savingsPlanId {
+            try encodeContainer.encode(savingsPlanId, forKey: .savingsPlanId)
+        }
+    }
+}
+
+extension ReturnSavingsPlanInput {
+
+    static func urlPathProvider(_ value: ReturnSavingsPlanInput) -> Swift.String? {
+        return "/ReturnSavingsPlan"
+    }
+}
+
+public struct ReturnSavingsPlanInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the Savings Plan.
+    /// This member is required.
+    public var savingsPlanId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        savingsPlanId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.savingsPlanId = savingsPlanId
+    }
+}
+
+struct ReturnSavingsPlanInputBody: Swift.Equatable {
+    let savingsPlanId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension ReturnSavingsPlanInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case savingsPlanId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
+        savingsPlanId = savingsPlanIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension ReturnSavingsPlanOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ReturnSavingsPlanOutputBody = try responseDecoder.decode(responseBody: data)
+            self.savingsPlanId = output.savingsPlanId
+        } else {
+            self.savingsPlanId = nil
+        }
+    }
+}
+
+public struct ReturnSavingsPlanOutput: Swift.Equatable {
+    /// The ID of the Savings Plan.
+    public var savingsPlanId: Swift.String?
+
+    public init(
+        savingsPlanId: Swift.String? = nil
+    )
+    {
+        self.savingsPlanId = savingsPlanId
+    }
+}
+
+struct ReturnSavingsPlanOutputBody: Swift.Equatable {
+    let savingsPlanId: Swift.String?
+}
+
+extension ReturnSavingsPlanOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case savingsPlanId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let savingsPlanIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .savingsPlanId)
+        savingsPlanId = savingsPlanIdDecoded
+    }
+}
+
+enum ReturnSavingsPlanOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case commitment
@@ -1714,6 +1829,7 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         case productTypes
         case recurringPaymentAmount
         case region
+        case returnableUntil
         case savingsPlanArn
         case savingsPlanId
         case savingsPlanType
@@ -1758,6 +1874,9 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
         }
         if let region = self.region {
             try encodeContainer.encode(region, forKey: .region)
+        }
+        if let returnableUntil = self.returnableUntil {
+            try encodeContainer.encode(returnableUntil, forKey: .returnableUntil)
         }
         if let savingsPlanArn = self.savingsPlanArn {
             try encodeContainer.encode(savingsPlanArn, forKey: .savingsPlanArn)
@@ -1844,13 +1963,15 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let returnableUntilDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .returnableUntil)
+        returnableUntil = returnableUntilDecoded
     }
 }
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan.
     public struct SavingsPlan: Swift.Equatable {
-        /// The hourly commitment, in USD.
+        /// The hourly commitment amount in the specified currency.
         public var commitment: Swift.String?
         /// The currency.
         public var currency: SavingsplansClientTypes.CurrencyCode?
@@ -1868,8 +1989,10 @@ extension SavingsplansClientTypes {
         public var productTypes: [SavingsplansClientTypes.SavingsPlanProductType]?
         /// The recurring payment amount.
         public var recurringPaymentAmount: Swift.String?
-        /// The AWS Region.
+        /// The Amazon Web Services Region.
         public var region: Swift.String?
+        /// The time until when a return for the Savings Plan can be requested. If the Savings Plan is not returnable, the field reflects the Savings Plan start time.
+        public var returnableUntil: Swift.String?
         /// The Amazon Resource Name (ARN) of the Savings Plan.
         public var savingsPlanArn: Swift.String?
         /// The ID of the Savings Plan.
@@ -1878,7 +2001,7 @@ extension SavingsplansClientTypes {
         public var savingsPlanType: SavingsplansClientTypes.SavingsPlanType?
         /// The start time.
         public var start: Swift.String?
-        /// The state.
+        /// The current state.
         public var state: SavingsplansClientTypes.SavingsPlanState?
         /// One or more tags.
         public var tags: [Swift.String:Swift.String]?
@@ -1898,6 +2021,7 @@ extension SavingsplansClientTypes {
             productTypes: [SavingsplansClientTypes.SavingsPlanProductType]? = nil,
             recurringPaymentAmount: Swift.String? = nil,
             region: Swift.String? = nil,
+            returnableUntil: Swift.String? = nil,
             savingsPlanArn: Swift.String? = nil,
             savingsPlanId: Swift.String? = nil,
             savingsPlanType: SavingsplansClientTypes.SavingsPlanType? = nil,
@@ -1918,6 +2042,7 @@ extension SavingsplansClientTypes {
             self.productTypes = productTypes
             self.recurringPaymentAmount = recurringPaymentAmount
             self.region = region
+            self.returnableUntil = returnableUntil
             self.savingsPlanArn = savingsPlanArn
             self.savingsPlanId = savingsPlanId
             self.savingsPlanType = savingsPlanType
@@ -1969,7 +2094,7 @@ extension SavingsplansClientTypes.SavingsPlanFilter: Swift.Codable {
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a filter.
+    /// Information about a Savings Plan filter.
     public struct SavingsPlanFilter: Swift.Equatable {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlansFilterName?
@@ -2102,7 +2227,7 @@ extension SavingsplansClientTypes {
         public var durationSeconds: Swift.Int
         /// The ID of the offering.
         public var offeringId: Swift.String?
-        /// The specific AWS operation for the line item in the billing report.
+        /// The specific Amazon Web Services operation for the line item in the billing report.
         public var operation: Swift.String?
         /// The payment option.
         public var paymentOption: SavingsplansClientTypes.SavingsPlanPaymentOption?
@@ -2217,7 +2342,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement: Swift.Codabl
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a filter.
+    /// Information about a Savings Plan offering filter.
     public struct SavingsPlanOfferingFilterElement: Swift.Equatable {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanOfferingFilterAttribute?
@@ -2262,7 +2387,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingProperty: Swift.Codable {
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a property.
+    /// Information about a Savings Plan offering property.
     public struct SavingsPlanOfferingProperty: Swift.Equatable {
         /// The property name.
         public var name: SavingsplansClientTypes.SavingsPlanOfferingPropertyKey?
@@ -2389,7 +2514,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRate: Swift.Codable {
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering rate.
     public struct SavingsPlanOfferingRate: Swift.Equatable {
-        /// The specific AWS operation for the line item in the billing report.
+        /// The specific Amazon Web Services operation for the line item in the billing report.
         public var operation: Swift.String?
         /// The product type.
         public var productType: SavingsplansClientTypes.SavingsPlanProductType?
@@ -2468,7 +2593,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement: Swift.Co
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a filter.
+    /// Information about a Savings Plan offering rate filter.
     public struct SavingsPlanOfferingRateFilterElement: Swift.Equatable {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanRateFilterAttribute?
@@ -2513,7 +2638,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty: Swift.Codable
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a property.
+    /// Information about a Savings Plan offering rate property.
     public struct SavingsPlanOfferingRateProperty: Swift.Equatable {
         /// The property name.
         public var name: Swift.String?
@@ -2683,7 +2808,7 @@ extension SavingsplansClientTypes {
     public struct SavingsPlanRate: Swift.Equatable {
         /// The currency.
         public var currency: SavingsplansClientTypes.CurrencyCode?
-        /// The specific AWS operation for the line item in the billing report.
+        /// The specific Amazon Web Services operation for the line item in the billing report.
         public var operation: Swift.String?
         /// The product type.
         public var productType: SavingsplansClientTypes.SavingsPlanProductType?
@@ -2760,7 +2885,7 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter: Swift.Codable {
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a filter.
+    /// Information about a Savings Plan rate filter.
     public struct SavingsPlanRateFilter: Swift.Equatable {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanRateFilterName?
@@ -2899,7 +3024,7 @@ extension SavingsplansClientTypes.SavingsPlanRateProperty: Swift.Codable {
 }
 
 extension SavingsplansClientTypes {
-    /// Information about a property.
+    /// Information about a Savings Plan rate property.
     public struct SavingsPlanRateProperty: Swift.Equatable {
         /// The property name.
         public var name: SavingsplansClientTypes.SavingsPlanRatePropertyKey?
@@ -3040,9 +3165,11 @@ extension SavingsplansClientTypes {
         case active
         case paymentFailed
         case paymentPending
+        case pendingReturn
         case queued
         case queuedDeleted
         case retired
+        case returned
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SavingsPlanState] {
@@ -3050,9 +3177,11 @@ extension SavingsplansClientTypes {
                 .active,
                 .paymentFailed,
                 .paymentPending,
+                .pendingReturn,
                 .queued,
                 .queuedDeleted,
                 .retired,
+                .returned,
                 .sdkUnknown("")
             ]
         }
@@ -3065,9 +3194,11 @@ extension SavingsplansClientTypes {
             case .active: return "active"
             case .paymentFailed: return "payment-failed"
             case .paymentPending: return "payment-pending"
+            case .pendingReturn: return "pending-return"
             case .queued: return "queued"
             case .queuedDeleted: return "queued-deleted"
             case .retired: return "retired"
+            case .returned: return "returned"
             case let .sdkUnknown(s): return s
             }
         }

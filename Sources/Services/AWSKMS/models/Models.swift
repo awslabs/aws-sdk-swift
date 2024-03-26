@@ -5254,8 +5254,7 @@ public struct GetKeyPolicyInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
-    /// Specifies the name of the key policy. The only valid name is default. To get the names of key policies, use [ListKeyPolicies].
-    /// This member is required.
+    /// Specifies the name of the key policy. If no policy name is specified, the default value is default. The only valid name is default. To get the names of key policies, use [ListKeyPolicies].
     public var policyName: Swift.String?
 
     public init(
@@ -5294,8 +5293,10 @@ extension GetKeyPolicyOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetKeyPolicyOutputBody = try responseDecoder.decode(responseBody: data)
             self.policy = output.policy
+            self.policyName = output.policyName
         } else {
             self.policy = nil
+            self.policyName = nil
         }
     }
 }
@@ -5303,28 +5304,36 @@ extension GetKeyPolicyOutput: ClientRuntime.HttpResponseBinding {
 public struct GetKeyPolicyOutput: Swift.Equatable {
     /// A key policy document in JSON format.
     public var policy: Swift.String?
+    /// The name of the key policy. The only valid value is default.
+    public var policyName: Swift.String?
 
     public init(
-        policy: Swift.String? = nil
+        policy: Swift.String? = nil,
+        policyName: Swift.String? = nil
     )
     {
         self.policy = policy
+        self.policyName = policyName
     }
 }
 
 struct GetKeyPolicyOutputBody: Swift.Equatable {
     let policy: Swift.String?
+    let policyName: Swift.String?
 }
 
 extension GetKeyPolicyOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case policy = "Policy"
+        case policyName = "PolicyName"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
         policy = policyDecoded
+        let policyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyName)
+        policyName = policyNameDecoded
     }
 }
 
@@ -9185,8 +9194,7 @@ public struct PutKeyPolicyInput: Swift.Equatable {
     /// For information about key policies, see [Key policies in KMS](https://docs.aws.amazon.com/kms/latest/developerguide/key-policies.html) in the Key Management Service Developer Guide.For help writing and formatting a JSON policy document, see the [IAM JSON Policy Reference](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html) in the Identity and Access Management User Guide .
     /// This member is required.
     public var policy: Swift.String?
-    /// The name of the key policy. The only valid value is default.
-    /// This member is required.
+    /// The name of the key policy. If no policy name is specified, the default value is default. The only valid value is default.
     public var policyName: Swift.String?
 
     public init(

@@ -29189,7 +29189,7 @@ extension SecurityHubClientTypes.AwsLambdaLayerVersionDetails: Swift.Codable {
 extension SecurityHubClientTypes {
     /// Details about a Lambda layer version.
     public struct AwsLambdaLayerVersionDetails: Swift.Equatable {
-        /// The layer's compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy) in the Lambda Developer Guide. Array Members: Maximum number of 5 items. Valid Values: nodejs | nodejs4.3 | nodejs6.10 | nodejs8.10 | nodejs10.x | nodejs12.x | nodejs14.x | nodejs16.x | java8 | java8.al2 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | python3.9 | dotnetcore1.0 | dotnetcore2.0 | dotnetcore2.1 | dotnetcore3.1 | dotnet6 | nodejs4.3-edge | go1.x | ruby2.5 | ruby2.7 | provided | provided.al2 | nodejs18.x | python3.10 | java17 | ruby3.2 | python3.11 | nodejs20.x | provided.al2023 | python3.12 | java21
+        /// The layer's compatible runtimes. Maximum number of five items. Valid values: nodejs10.x | nodejs12.x | java8 | java11 | python2.7 | python3.6 | python3.7 | python3.8 | dotnetcore1.0 | dotnetcore2.1 | go1.x | ruby2.5 | provided
         public var compatibleRuntimes: [Swift.String]?
         /// Indicates when the version was created. Uses the date-time format specified in [RFC 3339 section 5.6, Internet Date/Time Format](https://tools.ietf.org/html/rfc3339#section-5.6). The value cannot contain spaces, and date and time should be separated by T. For example, 2020-03-22T13:22:13.933Z.
         public var createdDate: Swift.String?
@@ -57276,12 +57276,12 @@ extension SecurityHubClientTypes.NumberFilter: Swift.Codable {
         gte = gteDecoded
         let lteDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lte)
         lte = lteDecoded
+        let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq)
+        eq = eqDecoded
         let gtDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .gt)
         gt = gtDecoded
         let ltDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .lt)
         lt = ltDecoded
-        let eqDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .eq)
-        eq = eqDecoded
     }
 }
 
@@ -66699,6 +66699,7 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
         case exploitAvailable = "ExploitAvailable"
         case fixAvailable = "FixAvailable"
         case id = "Id"
+        case lastKnownExploitAt = "LastKnownExploitAt"
         case referenceUrls = "ReferenceUrls"
         case relatedVulnerabilities = "RelatedVulnerabilities"
         case vendor = "Vendor"
@@ -66730,6 +66731,9 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
+        }
+        if let lastKnownExploitAt = self.lastKnownExploitAt {
+            try encodeContainer.encode(lastKnownExploitAt, forKey: .lastKnownExploitAt)
         }
         if let referenceUrls = referenceUrls {
             var referenceUrlsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .referenceUrls)
@@ -66810,6 +66814,8 @@ extension SecurityHubClientTypes.Vulnerability: Swift.Codable {
         epssScore = epssScoreDecoded
         let exploitAvailableDecoded = try containerValues.decodeIfPresent(SecurityHubClientTypes.VulnerabilityExploitAvailable.self, forKey: .exploitAvailable)
         exploitAvailable = exploitAvailableDecoded
+        let lastKnownExploitAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastKnownExploitAt)
+        lastKnownExploitAt = lastKnownExploitAtDecoded
         let codeVulnerabilitiesContainer = try containerValues.decodeIfPresent([SecurityHubClientTypes.VulnerabilityCodeVulnerabilities?].self, forKey: .codeVulnerabilities)
         var codeVulnerabilitiesDecoded0:[SecurityHubClientTypes.VulnerabilityCodeVulnerabilities]? = nil
         if let codeVulnerabilitiesContainer = codeVulnerabilitiesContainer {
@@ -66846,6 +66852,8 @@ extension SecurityHubClientTypes {
         /// The identifier of the vulnerability.
         /// This member is required.
         public var id: Swift.String?
+        /// The date and time of the last exploit associated with a finding discovered in your environment.
+        public var lastKnownExploitAt: Swift.String?
         /// A list of URLs that provide additional information about the vulnerability.
         public var referenceUrls: [Swift.String]?
         /// List of vulnerabilities that are related to this vulnerability.
@@ -66862,6 +66870,7 @@ extension SecurityHubClientTypes {
             exploitAvailable: SecurityHubClientTypes.VulnerabilityExploitAvailable? = nil,
             fixAvailable: SecurityHubClientTypes.VulnerabilityFixAvailable? = nil,
             id: Swift.String? = nil,
+            lastKnownExploitAt: Swift.String? = nil,
             referenceUrls: [Swift.String]? = nil,
             relatedVulnerabilities: [Swift.String]? = nil,
             vendor: SecurityHubClientTypes.VulnerabilityVendor? = nil,
@@ -66874,6 +66883,7 @@ extension SecurityHubClientTypes {
             self.exploitAvailable = exploitAvailable
             self.fixAvailable = fixAvailable
             self.id = id
+            self.lastKnownExploitAt = lastKnownExploitAt
             self.referenceUrls = referenceUrls
             self.relatedVulnerabilities = relatedVulnerabilities
             self.vendor = vendor

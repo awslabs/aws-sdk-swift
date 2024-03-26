@@ -6498,6 +6498,56 @@ extension RDSClient {
         return result
     }
 
+    /// Performs the `ModifyIntegration` operation on the `AmazonRDSv19` service.
+    ///
+    /// Modifies a zero-ETL integration with Amazon Redshift. Currently, you can only modify integrations that have Aurora MySQL source DB clusters. Integrations with Aurora PostgreSQL and RDS sources currently don't support modifying the integration.
+    ///
+    /// - Parameter ModifyIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `ModifyIntegrationOutput` : A zero-ETL integration with Amazon Redshift.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `IntegrationConflictOperationFault` : A conflicting conditional operation is currently in progress against this resource. Typically occurs when there are multiple requests being made to the same resource at the same time, and these requests conflict with each other.
+    /// - `IntegrationNotFoundFault` : The specified integration could not be found.
+    /// - `InvalidIntegrationStateFault` : The integration is in an invalid state and can't perform the requested operation.
+    public func modifyIntegration(input: ModifyIntegrationInput) async throws -> ModifyIntegrationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "modifyIntegration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "rds")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ModifyIntegrationInput, ModifyIntegrationOutput>(id: "modifyIntegration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(ModifyIntegrationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ModifyIntegrationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ModifyIntegrationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<ModifyIntegrationInput, ModifyIntegrationOutput>(contentType: "application/x-www-form-urlencoded"))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ModifyIntegrationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ModifyIntegrationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ModifyIntegrationOutput>(responseClosure(ModifyIntegrationOutput.httpBinding, responseDocumentBinding), responseErrorClosure(ModifyIntegrationOutputError.httpBinding, responseDocumentBinding)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ModifyIntegrationOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ModifyOptionGroup` operation on the `AmazonRDSv19` service.
     ///
     /// Modifies an existing option group.

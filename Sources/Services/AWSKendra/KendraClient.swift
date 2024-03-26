@@ -1200,7 +1200,7 @@ extension KendraClient {
 
     /// Performs the `DeleteIndex` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Deletes an existing Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
+    /// Deletes an Amazon Kendra index. An exception is not thrown if the index is already being deleted. While the index is being deleted, the Status field returned by a call to the DescribeIndex API is set to DELETING.
     ///
     /// - Parameter DeleteIndexInput : [no documentation found]
     ///
@@ -1365,7 +1365,7 @@ extension KendraClient {
 
     /// Performs the `DeleteThesaurus` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Deletes an existing Amazon Kendra thesaurus.
+    /// Deletes an Amazon Kendra thesaurus.
     ///
     /// - Parameter DeleteThesaurusInput : [no documentation found]
     ///
@@ -1690,7 +1690,7 @@ extension KendraClient {
 
     /// Performs the `DescribeIndex` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Gets information about an existing Amazon Kendra index.
+    /// Gets information about an Amazon Kendra index.
     ///
     /// - Parameter DescribeIndexInput : [no documentation found]
     ///
@@ -1906,7 +1906,7 @@ extension KendraClient {
 
     /// Performs the `DescribeThesaurus` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Gets information about an existing Amazon Kendra thesaurus.
+    /// Gets information about an Amazon Kendra thesaurus.
     ///
     /// - Parameter DescribeThesaurusInput : [no documentation found]
     ///
@@ -3397,7 +3397,7 @@ extension KendraClient {
 
     /// Performs the `UpdateDataSource` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Updates an existing Amazon Kendra data source connector.
+    /// Updates an Amazon Kendra data source connector.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
     ///
@@ -3562,7 +3562,7 @@ extension KendraClient {
 
     /// Performs the `UpdateIndex` operation on the `AWSKendraFrontendService` service.
     ///
-    /// Updates an existing Amazon Kendra index.
+    /// Updates an Amazon Kendra index.
     ///
     /// - Parameter UpdateIndexInput : [no documentation found]
     ///

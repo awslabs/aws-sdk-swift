@@ -336,6 +336,79 @@ enum AssociateExternalConnectionOutputError: ClientRuntime.HttpResponseErrorBind
     }
 }
 
+extension CodeartifactClientTypes.AssociatedPackage: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationType
+        case format
+        case namespace
+        case package
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let associationType = self.associationType {
+            try encodeContainer.encode(associationType.rawValue, forKey: .associationType)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let namespace = self.namespace {
+            try encodeContainer.encode(namespace, forKey: .namespace)
+        }
+        if let package = self.package {
+            try encodeContainer.encode(package, forKey: .package)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formatDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageFormat.self, forKey: .format)
+        format = formatDecoded
+        let namespaceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .namespace)
+        namespace = namespaceDecoded
+        let packageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .package)
+        package = packageDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupAssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// A package associated with a package group.
+    public struct AssociatedPackage: Swift.Equatable {
+        /// Describes the strength of the association between the package and package group. A strong match can be thought of as an exact match, and a weak match can be thought of as a variation match, for example, the package name matches a variation of the package group pattern. For more information about package group pattern matching, including strong and weak matches, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
+        public var associationType: CodeartifactClientTypes.PackageGroupAssociationType?
+        /// A format that specifies the type of the associated package.
+        public var format: CodeartifactClientTypes.PackageFormat?
+        /// The namespace of the associated package. The package component that specifies its namespace depends on its type. For example:
+        ///
+        /// * The namespace of a Maven package version is its groupId.
+        ///
+        /// * The namespace of an npm or Swift package version is its scope.
+        ///
+        /// * The namespace of a generic package is its namespace.
+        ///
+        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        public var namespace: Swift.String?
+        /// The name of the associated package.
+        public var package: Swift.String?
+
+        public init(
+            associationType: CodeartifactClientTypes.PackageGroupAssociationType? = nil,
+            format: CodeartifactClientTypes.PackageFormat? = nil,
+            namespace: Swift.String? = nil,
+            package: Swift.String? = nil
+        )
+        {
+            self.associationType = associationType
+            self.format = format
+            self.namespace = namespace
+            self.package = package
+        }
+    }
+
+}
+
 public enum CodeartifactClientTypes {}
 
 extension ConflictException {
@@ -514,15 +587,24 @@ public struct CopyPackageVersionsInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// Set to true to copy packages from repositories that are upstream from the source repository to the destination repository. The default setting is false. For more information, see [Working with upstream repositories](https://docs.aws.amazon.com/codeartifact/latest/ug/repos-upstream.html).
     public var includeFromUpstream: Swift.Bool?
-    /// The namespace of the package versions to be copied. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package versions to be copied. The package component that specifies its namespace depends on its type. For example: The namespace is required when copying package versions of the following formats:
     ///
-    /// * The namespace of a Maven package version is its groupId. The namespace is required when copying Maven package versions.
+    /// * Maven
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * Swift
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the versions to be copied.
     /// This member is required.
@@ -838,6 +920,187 @@ extension CreateDomainOutputBody: Swift.Decodable {
 }
 
 enum CreateDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreatePackageGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactInfo
+        case description
+        case packageGroup
+        case tags
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactInfo = self.contactInfo {
+            try encodeContainer.encode(contactInfo, forKey: .contactInfo)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let packageGroup = self.packageGroup {
+            try encodeContainer.encode(packageGroup, forKey: .packageGroup)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tags)
+            for tag0 in tags {
+                try tagsContainer.encode(tag0)
+            }
+        }
+    }
+}
+
+extension CreatePackageGroupInput {
+
+    static func queryItemProvider(_ value: CreatePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension CreatePackageGroupInput {
+
+    static func urlPathProvider(_ value: CreatePackageGroupInput) -> Swift.String? {
+        return "/v1/package-group"
+    }
+}
+
+public struct CreatePackageGroupInput: Swift.Equatable {
+    /// The contact information for the created package group.
+    public var contactInfo: Swift.String?
+    /// A description of the package group.
+    public var description: Swift.String?
+    /// The name of the domain in which you want to create a package group.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The pattern of the package group to create. The pattern is also the identifier of the package group.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+    /// One or more tag key-value pairs for the package group.
+    public var tags: [CodeartifactClientTypes.Tag]?
+
+    public init(
+        contactInfo: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        packageGroup: Swift.String? = nil,
+        tags: [CodeartifactClientTypes.Tag]? = nil
+    )
+    {
+        self.contactInfo = contactInfo
+        self.description = description
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.packageGroup = packageGroup
+        self.tags = tags
+    }
+}
+
+struct CreatePackageGroupInputBody: Swift.Equatable {
+    let packageGroup: Swift.String?
+    let contactInfo: Swift.String?
+    let description: Swift.String?
+    let tags: [CodeartifactClientTypes.Tag]?
+}
+
+extension CreatePackageGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactInfo
+        case description
+        case packageGroup
+        case tags
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+        let contactInfoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactInfo)
+        contactInfo = contactInfoDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.Tag?].self, forKey: .tags)
+        var tagsDecoded0:[CodeartifactClientTypes.Tag]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [CodeartifactClientTypes.Tag]()
+            for structure0 in tagsContainer {
+                if let structure0 = structure0 {
+                    tagsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreatePackageGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreatePackageGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.packageGroup = output.packageGroup
+        } else {
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct CreatePackageGroupOutput: Swift.Equatable {
+    /// Information about the created package group after processing the request.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.packageGroup = packageGroup
+    }
+}
+
+struct CreatePackageGroupOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+}
+
+extension CreatePackageGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+    }
+}
+
+enum CreatePackageGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -1266,6 +1529,125 @@ enum DeleteDomainPermissionsPolicyOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
+extension DeletePackageGroupInput {
+
+    static func queryItemProvider(_ value: DeletePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension DeletePackageGroupInput {
+
+    static func urlPathProvider(_ value: DeletePackageGroupInput) -> Swift.String? {
+        return "/v1/package-group"
+    }
+}
+
+public struct DeletePackageGroupInput: Swift.Equatable {
+    /// The domain that contains the package group to be deleted.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The pattern of the package group to be deleted.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        packageGroup: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.packageGroup = packageGroup
+    }
+}
+
+struct DeletePackageGroupInputBody: Swift.Equatable {
+}
+
+extension DeletePackageGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeletePackageGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeletePackageGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.packageGroup = output.packageGroup
+        } else {
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct DeletePackageGroupOutput: Swift.Equatable {
+    /// Information about the deleted package group after processing the request.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.packageGroup = packageGroup
+    }
+}
+
+struct DeletePackageGroupOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+}
+
+extension DeletePackageGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+    }
+}
+
+enum DeletePackageGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeletePackageInput {
 
     static func queryItemProvider(_ value: DeletePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -1322,15 +1704,24 @@ public struct DeletePackageInput: Swift.Equatable {
     /// The format of the requested package to delete.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package to delete. The package component that specifies its namespace depends on its type. For example: The namespace is required when deleting packages of the following formats:
     ///
-    /// * The namespace of a Maven package is its groupId. The namespace is required when deleting Maven package versions.
+    /// * Maven
     ///
-    /// * The namespace of an npm package is its scope.
+    /// * Swift
     ///
-    /// * Python and NuGet packages do not contain corresponding components, packages of those formats do not have a namespace.
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package to delete.
     /// This member is required.
@@ -1500,15 +1891,24 @@ public struct DeletePackageVersionsInput: Swift.Equatable {
     /// The format of the package versions to delete.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package versions to be deleted. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package versions to be deleted. The package component that specifies its namespace depends on its type. For example: The namespace is required when deleting package versions of the following formats:
     ///
-    /// * The namespace of a Maven package version is its groupId. The namespace is required when deleting Maven package versions.
+    /// * Maven
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * Swift
     ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions to delete.
     /// This member is required.
@@ -2017,6 +2417,123 @@ enum DescribeDomainOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension DescribePackageGroupInput {
+
+    static func queryItemProvider(_ value: DescribePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension DescribePackageGroupInput {
+
+    static func urlPathProvider(_ value: DescribePackageGroupInput) -> Swift.String? {
+        return "/v1/package-group"
+    }
+}
+
+public struct DescribePackageGroupInput: Swift.Equatable {
+    /// The name of the domain that contains the package group.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The pattern of the requested package group.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        packageGroup: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.packageGroup = packageGroup
+    }
+}
+
+struct DescribePackageGroupInputBody: Swift.Equatable {
+}
+
+extension DescribePackageGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DescribePackageGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DescribePackageGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.packageGroup = output.packageGroup
+        } else {
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct DescribePackageGroupOutput: Swift.Equatable {
+    /// A [PackageGroupDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html) object that contains information about the requested package group.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.packageGroup = packageGroup
+    }
+}
+
+struct DescribePackageGroupOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+}
+
+extension DescribePackageGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+    }
+}
+
+enum DescribePackageGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DescribePackageInput {
 
     static func queryItemProvider(_ value: DescribePackageInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -2073,15 +2590,24 @@ public struct DescribePackageInput: Swift.Equatable {
     /// A format that specifies the type of the requested package.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the requested package. The package component that specifies its namespace depends on its type. For example:
+    /// The namespace of the requested package. The package component that specifies its namespace depends on its type. For example: The namespace is required when requesting packages of the following formats:
     ///
-    /// * The namespace of a Maven package is its groupId. The namespace is required when requesting Maven packages.
+    /// * Maven
     ///
-    /// * The namespace of an npm package is its scope.
+    /// * Swift
     ///
-    /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the requested package.
     /// This member is required.
@@ -2235,15 +2761,24 @@ public struct DescribePackageVersionInput: Swift.Equatable {
     /// A format that specifies the type of the requested package version.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the requested package version. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the requested package version. The package component that specifies its namespace depends on its type. For example: The namespace is required when requesting package versions of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the requested package version.
     /// This member is required.
@@ -2673,15 +3208,24 @@ public struct DisposePackageVersionsInput: Swift.Equatable {
     /// A format that specifies the type of package versions you want to dispose.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package versions to be disposed. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package versions to be disposed. The package component that specifies its namespace depends on its type. For example: The namespace is required when disposing package versions of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the versions you want to dispose.
     /// This member is required.
@@ -2998,7 +3542,7 @@ extension CodeartifactClientTypes.DomainEntryPoint: Swift.Codable {
 }
 
 extension CodeartifactClientTypes {
-    /// Information about how a package originally entered the CodeArtifact domain. For packages published directly to CodeArtifact, the entry point is the repository it was published to. For packages ingested from an external repository, the entry point is the external connection that it was ingested from. An external connection is a CodeArtifact repository that is connected to an external repository such as the npm registry or NuGet gallery.
+    /// Information about how a package originally entered the CodeArtifact domain. For packages published directly to CodeArtifact, the entry point is the repository it was published to. For packages ingested from an external repository, the entry point is the external connection that it was ingested from. An external connection is a CodeArtifact repository that is connected to an external repository such as the npm registry or NuGet gallery. If a package version exists in a repository and is updated, for example if a package of the same version is added with additional assets, the package version's DomainEntryPoint will not change from the original package version's value.
     public struct DomainEntryPoint: Swift.Equatable {
         /// The name of the external connection that a package was ingested from.
         public var externalConnectionName: Swift.String?
@@ -3163,6 +3707,168 @@ extension CodeartifactClientTypes {
     }
 }
 
+extension GetAssociatedPackageGroupInput {
+
+    static func queryItemProvider(_ value: GetAssociatedPackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let package = value.package else {
+            let message = "Creating a URL Query Item failed. package is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageQueryItem = ClientRuntime.SDKURLQueryItem(name: "package".urlPercentEncoding(), value: Swift.String(package).urlPercentEncoding())
+        items.append(packageQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let format = value.format else {
+            let message = "Creating a URL Query Item failed. format is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formatQueryItem = ClientRuntime.SDKURLQueryItem(name: "format".urlPercentEncoding(), value: Swift.String(format.rawValue).urlPercentEncoding())
+        items.append(formatQueryItem)
+        if let namespace = value.namespace {
+            let namespaceQueryItem = ClientRuntime.SDKURLQueryItem(name: "namespace".urlPercentEncoding(), value: Swift.String(namespace).urlPercentEncoding())
+            items.append(namespaceQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetAssociatedPackageGroupInput {
+
+    static func urlPathProvider(_ value: GetAssociatedPackageGroupInput) -> Swift.String? {
+        return "/v1/get-associated-package-group"
+    }
+}
+
+public struct GetAssociatedPackageGroupInput: Swift.Equatable {
+    /// The name of the domain that contains the package from which to get the associated package group.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The format of the package from which to get the associated package group.
+    /// This member is required.
+    public var format: CodeartifactClientTypes.PackageFormat?
+    /// The namespace of the package from which to get the associated package group. The package component that specifies its namespace depends on its type. For example: The namespace is required when getting associated package groups from packages of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
+    ///
+    /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    public var namespace: Swift.String?
+    /// The package from which to get the associated package group.
+    /// This member is required.
+    public var package: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        format: CodeartifactClientTypes.PackageFormat? = nil,
+        namespace: Swift.String? = nil,
+        package: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.format = format
+        self.namespace = namespace
+        self.package = package
+    }
+}
+
+struct GetAssociatedPackageGroupInputBody: Swift.Equatable {
+}
+
+extension GetAssociatedPackageGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAssociatedPackageGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAssociatedPackageGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.associationType = output.associationType
+            self.packageGroup = output.packageGroup
+        } else {
+            self.associationType = nil
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct GetAssociatedPackageGroupOutput: Swift.Equatable {
+    /// Describes the strength of the association between the package and package group. A strong match is also known as an exact match, and a weak match is known as a relative match.
+    public var associationType: CodeartifactClientTypes.PackageGroupAssociationType?
+    /// The package group that is associated with the requested package.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        associationType: CodeartifactClientTypes.PackageGroupAssociationType? = nil,
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.associationType = associationType
+        self.packageGroup = packageGroup
+    }
+}
+
+struct GetAssociatedPackageGroupOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+    let associationType: CodeartifactClientTypes.PackageGroupAssociationType?
+}
+
+extension GetAssociatedPackageGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case associationType
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+        let associationTypeDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupAssociationType.self, forKey: .associationType)
+        associationType = associationTypeDecoded
+    }
+}
+
+enum GetAssociatedPackageGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetAuthorizationTokenInput {
 
     static func queryItemProvider(_ value: GetAuthorizationTokenInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -3219,6 +3925,12 @@ struct GetAuthorizationTokenInputBody: Swift.Equatable {
 extension GetAuthorizationTokenInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetAuthorizationTokenOutput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
     }
 }
 
@@ -3468,15 +4180,24 @@ public struct GetPackageVersionAssetInput: Swift.Equatable {
     /// A format that specifies the type of the package version with the requested asset file.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version with the requested asset file. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version with the requested asset file. The package component that specifies its namespace depends on its type. For example: The namespace is required when requesting assets from package versions of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package that contains the requested asset.
     /// This member is required.
@@ -3669,9 +4390,22 @@ public struct GetPackageVersionReadmeInput: Swift.Equatable {
     /// A format that specifies the type of the package version with the requested readme file.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version with the requested readme file. The package component that specifies its namespace depends on its type. For example: The namespace is required when requesting the readme from package versions of the following formats:
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
+    ///
+    /// * The namespace of a generic package is its namespace.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
@@ -3739,11 +4473,13 @@ extension GetPackageVersionReadmeOutput: ClientRuntime.HttpResponseBinding {
 public struct GetPackageVersionReadmeOutput: Swift.Equatable {
     /// The format of the package with the requested readme file.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version with the requested readme file. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version with the requested readme file. The package component that specifies its namespace depends on its type. For example:
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * The namespace of an npm or Swift package version is its scope.
+    ///
+    /// * The namespace of a generic package is its namespace.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
@@ -4209,6 +4945,329 @@ extension CodeartifactClientTypes {
 
 }
 
+extension ListAllowedRepositoriesForGroupInput {
+
+    static func queryItemProvider(_ value: ListAllowedRepositoriesForGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        guard let originRestrictionType = value.originRestrictionType else {
+            let message = "Creating a URL Query Item failed. originRestrictionType is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let originRestrictionTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "originRestrictionType".urlPercentEncoding(), value: Swift.String(originRestrictionType.rawValue).urlPercentEncoding())
+        items.append(originRestrictionTypeQueryItem)
+        return items
+    }
+}
+
+extension ListAllowedRepositoriesForGroupInput {
+
+    static func urlPathProvider(_ value: ListAllowedRepositoriesForGroupInput) -> Swift.String? {
+        return "/v1/package-group-allowed-repositories"
+    }
+}
+
+public struct ListAllowedRepositoriesForGroupInput: Swift.Equatable {
+    /// The name of the domain that contains the package group from which to list allowed repositories.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The origin configuration restriction type of which to list allowed repositories.
+    /// This member is required.
+    public var originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType?
+    /// The pattern of the package group from which to list allowed repositories.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType? = nil,
+        packageGroup: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.originRestrictionType = originRestrictionType
+        self.packageGroup = packageGroup
+    }
+}
+
+struct ListAllowedRepositoriesForGroupInputBody: Swift.Equatable {
+}
+
+extension ListAllowedRepositoriesForGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListAllowedRepositoriesForGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAllowedRepositoriesForGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.allowedRepositories = output.allowedRepositories
+            self.nextToken = output.nextToken
+        } else {
+            self.allowedRepositories = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAllowedRepositoriesForGroupOutput: Swift.Equatable {
+    /// The list of allowed repositories for the package group and origin configuration restriction type.
+    public var allowedRepositories: [Swift.String]?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+
+    public init(
+        allowedRepositories: [Swift.String]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.allowedRepositories = allowedRepositories
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAllowedRepositoriesForGroupOutputBody: Swift.Equatable {
+    let allowedRepositories: [Swift.String]?
+    let nextToken: Swift.String?
+}
+
+extension ListAllowedRepositoriesForGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedRepositories
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let allowedRepositoriesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .allowedRepositories)
+        var allowedRepositoriesDecoded0:[Swift.String]? = nil
+        if let allowedRepositoriesContainer = allowedRepositoriesContainer {
+            allowedRepositoriesDecoded0 = [Swift.String]()
+            for string0 in allowedRepositoriesContainer {
+                if let string0 = string0 {
+                    allowedRepositoriesDecoded0?.append(string0)
+                }
+            }
+        }
+        allowedRepositories = allowedRepositoriesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAllowedRepositoriesForGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListAssociatedPackagesInput {
+
+    static func queryItemProvider(_ value: ListAssociatedPackagesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let preview = value.preview {
+            let previewQueryItem = ClientRuntime.SDKURLQueryItem(name: "preview".urlPercentEncoding(), value: Swift.String(preview).urlPercentEncoding())
+            items.append(previewQueryItem)
+        }
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListAssociatedPackagesInput {
+
+    static func urlPathProvider(_ value: ListAssociatedPackagesInput) -> Swift.String? {
+        return "/v1/list-associated-packages"
+    }
+}
+
+public struct ListAssociatedPackagesInput: Swift.Equatable {
+    /// The name of the domain that contains the package group from which to list associated packages.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The pattern of the package group from which to list associated packages.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+    /// When this flag is included, ListAssociatedPackages will return a list of packages that would be associated with a package group, even if it does not exist.
+    public var preview: Swift.Bool?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageGroup: Swift.String? = nil,
+        preview: Swift.Bool? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageGroup = packageGroup
+        self.preview = preview
+    }
+}
+
+struct ListAssociatedPackagesInputBody: Swift.Equatable {
+}
+
+extension ListAssociatedPackagesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListAssociatedPackagesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAssociatedPackagesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.packages = output.packages
+        } else {
+            self.nextToken = nil
+            self.packages = nil
+        }
+    }
+}
+
+public struct ListAssociatedPackagesOutput: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The list of packages associated with the requested package group.
+    public var packages: [CodeartifactClientTypes.AssociatedPackage]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        packages: [CodeartifactClientTypes.AssociatedPackage]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.packages = packages
+    }
+}
+
+struct ListAssociatedPackagesOutputBody: Swift.Equatable {
+    let packages: [CodeartifactClientTypes.AssociatedPackage]?
+    let nextToken: Swift.String?
+}
+
+extension ListAssociatedPackagesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case packages
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packagesContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.AssociatedPackage?].self, forKey: .packages)
+        var packagesDecoded0:[CodeartifactClientTypes.AssociatedPackage]? = nil
+        if let packagesContainer = packagesContainer {
+            packagesDecoded0 = [CodeartifactClientTypes.AssociatedPackage]()
+            for structure0 in packagesContainer {
+                if let structure0 = structure0 {
+                    packagesDecoded0?.append(structure0)
+                }
+            }
+        }
+        packages = packagesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAssociatedPackagesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListDomainsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -4342,6 +5401,155 @@ enum ListDomainsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListPackageGroupsInput {
+
+    static func queryItemProvider(_ value: ListPackageGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let `prefix` = value.`prefix` {
+            let prefixQueryItem = ClientRuntime.SDKURLQueryItem(name: "prefix".urlPercentEncoding(), value: Swift.String(`prefix`).urlPercentEncoding())
+            items.append(prefixQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListPackageGroupsInput {
+
+    static func urlPathProvider(_ value: ListPackageGroupsInput) -> Swift.String? {
+        return "/v1/package-groups"
+    }
+}
+
+public struct ListPackageGroupsInput: Swift.Equatable {
+    /// The domain for which you want to list package groups.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// A prefix for which to search package groups. When included, ListPackageGroups will return only package groups with patterns that match the prefix.
+    public var `prefix`: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        `prefix`: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.`prefix` = `prefix`
+    }
+}
+
+struct ListPackageGroupsInputBody: Swift.Equatable {
+}
+
+extension ListPackageGroupsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListPackageGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListPackageGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.packageGroups = output.packageGroups
+        } else {
+            self.nextToken = nil
+            self.packageGroups = nil
+        }
+    }
+}
+
+public struct ListPackageGroupsOutput: Swift.Equatable {
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The list of package groups in the requested domain.
+    public var packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        packageGroups: [CodeartifactClientTypes.PackageGroupSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.packageGroups = packageGroups
+    }
+}
+
+struct ListPackageGroupsOutputBody: Swift.Equatable {
+    let packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListPackageGroupsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case packageGroups
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupsContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.PackageGroupSummary?].self, forKey: .packageGroups)
+        var packageGroupsDecoded0:[CodeartifactClientTypes.PackageGroupSummary]? = nil
+        if let packageGroupsContainer = packageGroupsContainer {
+            packageGroupsDecoded0 = [CodeartifactClientTypes.PackageGroupSummary]()
+            for structure0 in packageGroupsContainer {
+                if let structure0 = structure0 {
+                    packageGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        packageGroups = packageGroupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListPackageGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListPackageVersionAssetsInput {
 
     static func queryItemProvider(_ value: ListPackageVersionAssetsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -4414,15 +5622,24 @@ public struct ListPackageVersionAssetsInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version that contains the requested package version assets. The package component that specifies its namespace depends on its type. For example: The namespace is required requesting assets from package versions of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -4498,11 +5715,13 @@ public struct ListPackageVersionAssetsOutput: Swift.Equatable {
     public var assets: [CodeartifactClientTypes.AssetSummary]?
     /// The format of the package that contains the requested package version assets.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version that contains the requested package version assets. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version that contains the requested package version assets. The package component that specifies its namespace depends on its type. For example:
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * The namespace of an npm or Swift package version is its scope.
+    ///
+    /// * The namespace of a generic package is its namespace.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
@@ -4665,15 +5884,24 @@ public struct ListPackageVersionDependenciesInput: Swift.Equatable {
     /// The format of the package with the requested dependencies.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version with the requested dependencies. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version with the requested dependencies. The package component that specifies its namespace depends on its type. For example: The namespace is required when listing dependencies from package versions of the following formats:
+    ///
+    /// * Maven
+    ///
+    /// * Swift
+    ///
+    /// * generic
+    ///
+    ///
+    ///
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -4747,11 +5975,13 @@ public struct ListPackageVersionDependenciesOutput: Swift.Equatable {
     public var dependencies: [CodeartifactClientTypes.PackageDependency]?
     /// A format that specifies the type of the package that contains the returned dependencies.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version that contains the returned dependencies. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version that contains the returned dependencies. The package component that specifies its namespace depends on its type. For example:
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
+    /// * The namespace of an npm or Swift package version is its scope.
+    ///
+    /// * The namespace of a generic package is its namespace.
     ///
     /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
@@ -4926,15 +6156,24 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
-    /// The namespace of the package that contains the requested package versions. The package component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package that contains the requested package versions. The package component that specifies its namespace depends on its type. For example: The namespace is required when deleting package versions of the following formats:
     ///
-    /// * The namespace of a Maven package is its groupId.
+    /// * Maven
     ///
-    /// * The namespace of an npm package is its scope.
+    /// * Swift
     ///
-    /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    /// * generic
+    ///
+    ///
+    ///
+    ///
+    /// * The namespace of a Maven package version is its groupId.
+    ///
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5021,11 +6260,13 @@ public struct ListPackageVersionsOutput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package that contains the requested package versions. The package component that specifies its namespace depends on its type. For example:
     ///
-    /// * The namespace of a Maven package is its groupId.
+    /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package is its scope.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
-    /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
@@ -5183,13 +6424,13 @@ public struct ListPackagesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The namespace prefix used to filter requested packages. Only packages with a namespace that starts with the provided string value are returned. Note that although this option is called --namespace and not --namespace-prefix, it has prefix-matching behavior. Each package format uses namespace as follows:
     ///
-    /// * The namespace of a Maven package is its groupId.
+    /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package is its scope.
-    ///
-    /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
@@ -5598,6 +6839,158 @@ enum ListRepositoriesOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListSubPackageGroupsInput {
+
+    static func queryItemProvider(_ value: ListSubPackageGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "max-results".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "next-token".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSubPackageGroupsInput {
+
+    static func urlPathProvider(_ value: ListSubPackageGroupsInput) -> Swift.String? {
+        return "/v1/package-groups/sub-groups"
+    }
+}
+
+public struct ListSubPackageGroupsInput: Swift.Equatable {
+    /// The name of the domain which contains the package group from which to list sub package groups.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The maximum number of results to return per page.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
+    public var nextToken: Swift.String?
+    /// The pattern of the package group from which to list sub package groups.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+
+    public init(
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        packageGroup: Swift.String? = nil
+    )
+    {
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.packageGroup = packageGroup
+    }
+}
+
+struct ListSubPackageGroupsInputBody: Swift.Equatable {
+}
+
+extension ListSubPackageGroupsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListSubPackageGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSubPackageGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.packageGroups = output.packageGroups
+        } else {
+            self.nextToken = nil
+            self.packageGroups = nil
+        }
+    }
+}
+
+public struct ListSubPackageGroupsOutput: Swift.Equatable {
+    /// If there are additional results, this is the token for the next set of results.
+    public var nextToken: Swift.String?
+    /// A list of sub package groups for the requested package group.
+    public var packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        packageGroups: [CodeartifactClientTypes.PackageGroupSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.packageGroups = packageGroups
+    }
+}
+
+struct ListSubPackageGroupsOutputBody: Swift.Equatable {
+    let packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListSubPackageGroupsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken
+        case packageGroups
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupsContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.PackageGroupSummary?].self, forKey: .packageGroups)
+        var packageGroupsDecoded0:[CodeartifactClientTypes.PackageGroupSummary]? = nil
+        if let packageGroupsContainer = packageGroupsContainer {
+            packageGroupsDecoded0 = [CodeartifactClientTypes.PackageGroupSummary]()
+            for structure0 in packageGroupsContainer {
+                if let structure0 = structure0 {
+                    packageGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        packageGroups = packageGroupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListSubPackageGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListTagsForResourceInput {
 
     static func queryItemProvider(_ value: ListTagsForResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -5756,11 +7149,13 @@ extension CodeartifactClientTypes {
         public var dependencyType: Swift.String?
         /// The namespace of the package that this package depends on. The package component that specifies its namespace depends on its type. For example:
         ///
-        /// * The namespace of a Maven package is its groupId.
+        /// * The namespace of a Maven package version is its groupId.
         ///
-        /// * The namespace of an npm package is its scope.
+        /// * The namespace of an npm or Swift package version is its scope.
         ///
-        /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+        /// * The namespace of a generic package is its namespace.
+        ///
+        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The name of the package that this package depends on.
         public var package: Swift.String?
@@ -5829,13 +7224,13 @@ extension CodeartifactClientTypes {
         public var name: Swift.String?
         /// The namespace of the package. The package component that specifies its namespace depends on its type. For example:
         ///
-        /// * The namespace of a Maven package is its groupId.
+        /// * The namespace of a Maven package version is its groupId.
         ///
-        /// * The namespace of an npm package is its scope.
-        ///
-        /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+        /// * The namespace of an npm or Swift package version is its scope.
         ///
         /// * The namespace of a generic package is its namespace.
+        ///
+        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// The package origin configuration for the package.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -5898,6 +7293,575 @@ extension CodeartifactClientTypes {
             self = PackageFormat(rawValue: rawValue) ?? PackageFormat.sdkUnknown(rawValue)
         }
     }
+}
+
+extension CodeartifactClientTypes.PackageGroupAllowedRepository: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case originRestrictionType
+        case repositoryName
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let originRestrictionType = self.originRestrictionType {
+            try encodeContainer.encode(originRestrictionType.rawValue, forKey: .originRestrictionType)
+        }
+        if let repositoryName = self.repositoryName {
+            try encodeContainer.encode(repositoryName, forKey: .repositoryName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let repositoryNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .repositoryName)
+        repositoryName = repositoryNameDecoded
+        let originRestrictionTypeDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupOriginRestrictionType.self, forKey: .originRestrictionType)
+        originRestrictionType = originRestrictionTypeDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// Details about an allowed repository for a package group, including its name and origin configuration.
+    public struct PackageGroupAllowedRepository: Swift.Equatable {
+        /// The origin configuration restriction type of the allowed repository.
+        public var originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType?
+        /// The name of the allowed repository.
+        public var repositoryName: Swift.String?
+
+        public init(
+            originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType? = nil,
+            repositoryName: Swift.String? = nil
+        )
+        {
+            self.originRestrictionType = originRestrictionType
+            self.repositoryName = repositoryName
+        }
+    }
+
+}
+
+extension CodeartifactClientTypes {
+    public enum PackageGroupAllowedRepositoryUpdateType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case added
+        case removed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageGroupAllowedRepositoryUpdateType] {
+            return [
+                .added,
+                .removed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .added: return "ADDED"
+            case .removed: return "REMOVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageGroupAllowedRepositoryUpdateType(rawValue: rawValue) ?? PackageGroupAllowedRepositoryUpdateType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeartifactClientTypes {
+    public enum PackageGroupAssociationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case strong
+        case `weak`
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageGroupAssociationType] {
+            return [
+                .strong,
+                .weak,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .strong: return "STRONG"
+            case .weak: return "WEAK"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageGroupAssociationType(rawValue: rawValue) ?? PackageGroupAssociationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeartifactClientTypes.PackageGroupDescription: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case contactInfo
+        case createdTime
+        case description
+        case domainName
+        case domainOwner
+        case originConfiguration
+        case parent
+        case pattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let contactInfo = self.contactInfo {
+            try encodeContainer.encode(contactInfo, forKey: .contactInfo)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let domainOwner = self.domainOwner {
+            try encodeContainer.encode(domainOwner, forKey: .domainOwner)
+        }
+        if let originConfiguration = self.originConfiguration {
+            try encodeContainer.encode(originConfiguration, forKey: .originConfiguration)
+        }
+        if let parent = self.parent {
+            try encodeContainer.encode(parent, forKey: .parent)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let domainOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainOwner)
+        domainOwner = domainOwnerDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let contactInfoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactInfo)
+        contactInfo = contactInfoDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let originConfigurationDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupOriginConfiguration.self, forKey: .originConfiguration)
+        originConfiguration = originConfigurationDecoded
+        let parentDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupReference.self, forKey: .parent)
+        parent = parentDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// The description of the package group.
+    public struct PackageGroupDescription: Swift.Equatable {
+        /// The ARN of the package group.
+        public var arn: Swift.String?
+        /// The contact information of the package group.
+        public var contactInfo: Swift.String?
+        /// A timestamp that represents the date and time the package group was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the package group.
+        public var description: Swift.String?
+        /// The name of the domain that contains the package group.
+        public var domainName: Swift.String?
+        /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+        public var domainOwner: Swift.String?
+        /// The package group origin configuration that determines how package versions can enter repositories.
+        public var originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration?
+        /// The direct parent package group of the package group.
+        public var parent: CodeartifactClientTypes.PackageGroupReference?
+        /// The pattern of the package group. The pattern determines which packages are associated with the package group.
+        public var pattern: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            contactInfo: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            domainOwner: Swift.String? = nil,
+            originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration? = nil,
+            parent: CodeartifactClientTypes.PackageGroupReference? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.contactInfo = contactInfo
+            self.createdTime = createdTime
+            self.description = description
+            self.domainName = domainName
+            self.domainOwner = domainOwner
+            self.originConfiguration = originConfiguration
+            self.parent = parent
+            self.pattern = pattern
+        }
+    }
+
+}
+
+extension CodeartifactClientTypes.PackageGroupOriginConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case restrictions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let restrictions = restrictions {
+            var restrictionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restrictions)
+            for (dictKey0, packageGroupOriginRestrictions0) in restrictions {
+                try restrictionsContainer.encode(packageGroupOriginRestrictions0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restrictionsContainer = try containerValues.decodeIfPresent([Swift.String: CodeartifactClientTypes.PackageGroupOriginRestriction?].self, forKey: .restrictions)
+        var restrictionsDecoded0: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestriction]? = nil
+        if let restrictionsContainer = restrictionsContainer {
+            restrictionsDecoded0 = [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestriction]()
+            for (key0, packagegrouporiginrestriction0) in restrictionsContainer {
+                if let packagegrouporiginrestriction0 = packagegrouporiginrestriction0 {
+                    restrictionsDecoded0?[key0] = packagegrouporiginrestriction0
+                }
+            }
+        }
+        restrictions = restrictionsDecoded0
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// The package group origin configuration that determines how package versions can enter repositories.
+    public struct PackageGroupOriginConfiguration: Swift.Equatable {
+        /// The origin configuration settings that determine how package versions can enter repositories.
+        public var restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestriction]?
+
+        public init(
+            restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestriction]? = nil
+        )
+        {
+            self.restrictions = restrictions
+        }
+    }
+
+}
+
+extension CodeartifactClientTypes.PackageGroupOriginRestriction: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case effectiveMode
+        case inheritedFrom
+        case mode
+        case repositoriesCount
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let effectiveMode = self.effectiveMode {
+            try encodeContainer.encode(effectiveMode.rawValue, forKey: .effectiveMode)
+        }
+        if let inheritedFrom = self.inheritedFrom {
+            try encodeContainer.encode(inheritedFrom, forKey: .inheritedFrom)
+        }
+        if let mode = self.mode {
+            try encodeContainer.encode(mode.rawValue, forKey: .mode)
+        }
+        if let repositoriesCount = self.repositoriesCount {
+            try encodeContainer.encode(repositoriesCount, forKey: .repositoriesCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let modeDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupOriginRestrictionMode.self, forKey: .mode)
+        mode = modeDecoded
+        let effectiveModeDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupOriginRestrictionMode.self, forKey: .effectiveMode)
+        effectiveMode = effectiveModeDecoded
+        let inheritedFromDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupReference.self, forKey: .inheritedFrom)
+        inheritedFrom = inheritedFromDecoded
+        let repositoriesCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .repositoriesCount)
+        repositoriesCount = repositoriesCountDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// Contains information about the configured restrictions of the origin controls of a package group.
+    public struct PackageGroupOriginRestriction: Swift.Equatable {
+        /// The effective package group origin restriction setting. If the value of mode is ALLOW, ALLOW_SPECIFIC_REPOSITORIES, or BLOCK, then the value of effectiveMode is the same. Otherwise, when the value of mode is INHERIT, then the value of effectiveMode is the value of mode of the first parent group which does not have a value of INHERIT.
+        public var effectiveMode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode?
+        /// The parent package group that the package group origin restrictions are inherited from.
+        public var inheritedFrom: CodeartifactClientTypes.PackageGroupReference?
+        /// The package group origin restriction setting. If the value of mode is ALLOW, ALLOW_SPECIFIC_REPOSITORIES, or BLOCK, then the value of effectiveMode is the same. Otherwise, when the value is INHERIT, then the value of effectiveMode is the value of mode of the first parent group which does not have a value of INHERIT.
+        public var mode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode?
+        /// The number of repositories in the allowed repository list.
+        public var repositoriesCount: Swift.Int?
+
+        public init(
+            effectiveMode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode? = nil,
+            inheritedFrom: CodeartifactClientTypes.PackageGroupReference? = nil,
+            mode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode? = nil,
+            repositoriesCount: Swift.Int? = nil
+        )
+        {
+            self.effectiveMode = effectiveMode
+            self.inheritedFrom = inheritedFrom
+            self.mode = mode
+            self.repositoriesCount = repositoriesCount
+        }
+    }
+
+}
+
+extension CodeartifactClientTypes {
+    public enum PackageGroupOriginRestrictionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case allow
+        case allowSpecificRepositories
+        case block
+        case inherit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageGroupOriginRestrictionMode] {
+            return [
+                .allow,
+                .allowSpecificRepositories,
+                .block,
+                .inherit,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .allow: return "ALLOW"
+            case .allowSpecificRepositories: return "ALLOW_SPECIFIC_REPOSITORIES"
+            case .block: return "BLOCK"
+            case .inherit: return "INHERIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageGroupOriginRestrictionMode(rawValue: rawValue) ?? PackageGroupOriginRestrictionMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeartifactClientTypes {
+    public enum PackageGroupOriginRestrictionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case externalUpstream
+        case internalUpstream
+        case publish
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PackageGroupOriginRestrictionType] {
+            return [
+                .externalUpstream,
+                .internalUpstream,
+                .publish,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .externalUpstream: return "EXTERNAL_UPSTREAM"
+            case .internalUpstream: return "INTERNAL_UPSTREAM"
+            case .publish: return "PUBLISH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PackageGroupOriginRestrictionType(rawValue: rawValue) ?? PackageGroupOriginRestrictionType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeartifactClientTypes.PackageGroupReference: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case pattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// Information about the identifiers of a package group.
+    public struct PackageGroupReference: Swift.Equatable {
+        /// The ARN of the package group.
+        public var arn: Swift.String?
+        /// The pattern of the package group. The pattern determines which packages are associated with the package group, and is also the identifier of the package group.
+        public var pattern: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.pattern = pattern
+        }
+    }
+
+}
+
+extension CodeartifactClientTypes.PackageGroupSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn
+        case contactInfo
+        case createdTime
+        case description
+        case domainName
+        case domainOwner
+        case originConfiguration
+        case parent
+        case pattern
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let contactInfo = self.contactInfo {
+            try encodeContainer.encode(contactInfo, forKey: .contactInfo)
+        }
+        if let createdTime = self.createdTime {
+            try encodeContainer.encodeTimestamp(createdTime, format: .epochSeconds, forKey: .createdTime)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let domainName = self.domainName {
+            try encodeContainer.encode(domainName, forKey: .domainName)
+        }
+        if let domainOwner = self.domainOwner {
+            try encodeContainer.encode(domainOwner, forKey: .domainOwner)
+        }
+        if let originConfiguration = self.originConfiguration {
+            try encodeContainer.encode(originConfiguration, forKey: .originConfiguration)
+        }
+        if let parent = self.parent {
+            try encodeContainer.encode(parent, forKey: .parent)
+        }
+        if let pattern = self.pattern {
+            try encodeContainer.encode(pattern, forKey: .pattern)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let patternDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pattern)
+        pattern = patternDecoded
+        let domainNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainName)
+        domainName = domainNameDecoded
+        let domainOwnerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainOwner)
+        domainOwner = domainOwnerDecoded
+        let createdTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTime)
+        createdTime = createdTimeDecoded
+        let contactInfoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactInfo)
+        contactInfo = contactInfoDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let originConfigurationDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupOriginConfiguration.self, forKey: .originConfiguration)
+        originConfiguration = originConfigurationDecoded
+        let parentDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupReference.self, forKey: .parent)
+        parent = parentDecoded
+    }
+}
+
+extension CodeartifactClientTypes {
+    /// Details about a package group.
+    public struct PackageGroupSummary: Swift.Equatable {
+        /// The ARN of the package group.
+        public var arn: Swift.String?
+        /// The contact information of the package group.
+        public var contactInfo: Swift.String?
+        /// A timestamp that represents the date and time the repository was created.
+        public var createdTime: ClientRuntime.Date?
+        /// The description of the package group.
+        public var description: Swift.String?
+        /// The domain that contains the package group.
+        public var domainName: Swift.String?
+        /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+        public var domainOwner: Swift.String?
+        /// Details about the package origin configuration of a package group.
+        public var originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration?
+        /// The direct parent package group of the package group.
+        public var parent: CodeartifactClientTypes.PackageGroupReference?
+        /// The pattern of the package group. The pattern determines which packages are associated with the package group.
+        public var pattern: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            contactInfo: Swift.String? = nil,
+            createdTime: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            domainName: Swift.String? = nil,
+            domainOwner: Swift.String? = nil,
+            originConfiguration: CodeartifactClientTypes.PackageGroupOriginConfiguration? = nil,
+            parent: CodeartifactClientTypes.PackageGroupReference? = nil,
+            pattern: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.contactInfo = contactInfo
+            self.createdTime = createdTime
+            self.description = description
+            self.domainName = domainName
+            self.domainOwner = domainOwner
+            self.originConfiguration = originConfiguration
+            self.parent = parent
+            self.pattern = pattern
+        }
+    }
+
 }
 
 extension CodeartifactClientTypes.PackageOriginConfiguration: Swift.Codable {
@@ -6026,13 +7990,13 @@ extension CodeartifactClientTypes {
         public var format: CodeartifactClientTypes.PackageFormat?
         /// The namespace of the package. The package component that specifies its namespace depends on its type. For example:
         ///
-        /// * The namespace of a Maven package is its groupId.
+        /// * The namespace of a Maven package version is its groupId.
         ///
-        /// * The namespace of an npm package is its scope.
-        ///
-        /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+        /// * The namespace of an npm or Swift package version is its scope.
         ///
         /// * The namespace of a generic package is its namespace.
+        ///
+        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that contains information about the upstream and publish package origin restrictions.
         public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
@@ -6169,15 +8133,15 @@ extension CodeartifactClientTypes {
         public var homePage: Swift.String?
         /// Information about licenses associated with the package version.
         public var licenses: [CodeartifactClientTypes.LicenseInfo]?
-        /// The namespace of the package version. The package version component that specifies its namespace depends on its type. For example:
+        /// The namespace of the package version. The package component that specifies its namespace depends on its type. For example:
         ///
         /// * The namespace of a Maven package version is its groupId.
         ///
-        /// * The namespace of an npm package version is its scope.
-        ///
-        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+        /// * The namespace of an npm or Swift package version is its scope.
         ///
         /// * The namespace of a generic package is its namespace.
+        ///
+        /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
         public var namespace: Swift.String?
         /// A [PackageVersionOrigin](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html) object that contains information about how the package version was added to the repository.
         public var origin: CodeartifactClientTypes.PackageVersionOrigin?
@@ -7045,13 +9009,13 @@ public struct PutPackageOriginConfigurationInput: Swift.Equatable {
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package to be updated. The package component that specifies its namespace depends on its type. For example:
     ///
-    /// * The namespace of a Maven package is its groupId.
+    /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package is its scope.
-    ///
-    /// * Python and NuGet packages do not contain a corresponding component, packages of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package to be updated.
     /// This member is required.
@@ -8221,6 +10185,397 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdatePackageGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactInfo
+        case description
+        case packageGroup
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contactInfo = self.contactInfo {
+            try encodeContainer.encode(contactInfo, forKey: .contactInfo)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let packageGroup = self.packageGroup {
+            try encodeContainer.encode(packageGroup, forKey: .packageGroup)
+        }
+    }
+}
+
+extension UpdatePackageGroupInput {
+
+    static func queryItemProvider(_ value: UpdatePackageGroupInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension UpdatePackageGroupInput {
+
+    static func urlPathProvider(_ value: UpdatePackageGroupInput) -> Swift.String? {
+        return "/v1/package-group"
+    }
+}
+
+public struct UpdatePackageGroupInput: Swift.Equatable {
+    /// Contact information which you want to update the requested package group with.
+    public var contactInfo: Swift.String?
+    /// The description you want to update the requested package group with.
+    public var description: Swift.String?
+    /// The name of the domain which contains the package group to be updated.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The pattern of the package group to be updated.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+
+    public init(
+        contactInfo: Swift.String? = nil,
+        description: Swift.String? = nil,
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        packageGroup: Swift.String? = nil
+    )
+    {
+        self.contactInfo = contactInfo
+        self.description = description
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.packageGroup = packageGroup
+    }
+}
+
+struct UpdatePackageGroupInputBody: Swift.Equatable {
+    let packageGroup: Swift.String?
+    let contactInfo: Swift.String?
+    let description: Swift.String?
+}
+
+extension UpdatePackageGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contactInfo
+        case description
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+        let contactInfoDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactInfo)
+        contactInfo = contactInfoDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdatePackageGroupOriginConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addAllowedRepositories
+        case removeAllowedRepositories
+        case restrictions
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addAllowedRepositories = addAllowedRepositories {
+            var addAllowedRepositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .addAllowedRepositories)
+            for packagegroupallowedrepository0 in addAllowedRepositories {
+                try addAllowedRepositoriesContainer.encode(packagegroupallowedrepository0)
+            }
+        }
+        if let removeAllowedRepositories = removeAllowedRepositories {
+            var removeAllowedRepositoriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .removeAllowedRepositories)
+            for packagegroupallowedrepository0 in removeAllowedRepositories {
+                try removeAllowedRepositoriesContainer.encode(packagegroupallowedrepository0)
+            }
+        }
+        if let restrictions = restrictions {
+            var restrictionsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .restrictions)
+            for (dictKey0, originRestrictions0) in restrictions {
+                try restrictionsContainer.encode(originRestrictions0.rawValue, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension UpdatePackageGroupOriginConfigurationInput {
+
+    static func queryItemProvider(_ value: UpdatePackageGroupOriginConfigurationInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let packageGroup = value.packageGroup else {
+            let message = "Creating a URL Query Item failed. packageGroup is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let packageGroupQueryItem = ClientRuntime.SDKURLQueryItem(name: "package-group".urlPercentEncoding(), value: Swift.String(packageGroup).urlPercentEncoding())
+        items.append(packageGroupQueryItem)
+        guard let domain = value.domain else {
+            let message = "Creating a URL Query Item failed. domain is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let domainQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain".urlPercentEncoding(), value: Swift.String(domain).urlPercentEncoding())
+        items.append(domainQueryItem)
+        if let domainOwner = value.domainOwner {
+            let domainOwnerQueryItem = ClientRuntime.SDKURLQueryItem(name: "domain-owner".urlPercentEncoding(), value: Swift.String(domainOwner).urlPercentEncoding())
+            items.append(domainOwnerQueryItem)
+        }
+        return items
+    }
+}
+
+extension UpdatePackageGroupOriginConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdatePackageGroupOriginConfigurationInput) -> Swift.String? {
+        return "/v1/package-group-origin-configuration"
+    }
+}
+
+public struct UpdatePackageGroupOriginConfigurationInput: Swift.Equatable {
+    /// The repository name and restrictions to add to the allowed repository list of the specified package group.
+    public var addAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
+    /// The name of the domain which contains the package group for which to update the origin configuration.
+    /// This member is required.
+    public var domain: Swift.String?
+    /// The 12-digit account number of the Amazon Web Services account that owns the domain. It does not include dashes or spaces.
+    public var domainOwner: Swift.String?
+    /// The pattern of the package group for which to update the origin configuration.
+    /// This member is required.
+    public var packageGroup: Swift.String?
+    /// The repository name and restrictions to remove from the allowed repository list of the specified package group.
+    public var removeAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
+    /// The origin configuration settings that determine how package versions can enter repositories.
+    public var restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]?
+
+    public init(
+        addAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]? = nil,
+        domain: Swift.String? = nil,
+        domainOwner: Swift.String? = nil,
+        packageGroup: Swift.String? = nil,
+        removeAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]? = nil,
+        restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]? = nil
+    )
+    {
+        self.addAllowedRepositories = addAllowedRepositories
+        self.domain = domain
+        self.domainOwner = domainOwner
+        self.packageGroup = packageGroup
+        self.removeAllowedRepositories = removeAllowedRepositories
+        self.restrictions = restrictions
+    }
+}
+
+struct UpdatePackageGroupOriginConfigurationInputBody: Swift.Equatable {
+    let restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]?
+    let addAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
+    let removeAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
+}
+
+extension UpdatePackageGroupOriginConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addAllowedRepositories
+        case removeAllowedRepositories
+        case restrictions
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let restrictionsContainer = try containerValues.decodeIfPresent([Swift.String: CodeartifactClientTypes.PackageGroupOriginRestrictionMode?].self, forKey: .restrictions)
+        var restrictionsDecoded0: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]? = nil
+        if let restrictionsContainer = restrictionsContainer {
+            restrictionsDecoded0 = [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]()
+            for (key0, packagegrouporiginrestrictionmode0) in restrictionsContainer {
+                if let packagegrouporiginrestrictionmode0 = packagegrouporiginrestrictionmode0 {
+                    restrictionsDecoded0?[key0] = packagegrouporiginrestrictionmode0
+                }
+            }
+        }
+        restrictions = restrictionsDecoded0
+        let addAllowedRepositoriesContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.PackageGroupAllowedRepository?].self, forKey: .addAllowedRepositories)
+        var addAllowedRepositoriesDecoded0:[CodeartifactClientTypes.PackageGroupAllowedRepository]? = nil
+        if let addAllowedRepositoriesContainer = addAllowedRepositoriesContainer {
+            addAllowedRepositoriesDecoded0 = [CodeartifactClientTypes.PackageGroupAllowedRepository]()
+            for structure0 in addAllowedRepositoriesContainer {
+                if let structure0 = structure0 {
+                    addAllowedRepositoriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        addAllowedRepositories = addAllowedRepositoriesDecoded0
+        let removeAllowedRepositoriesContainer = try containerValues.decodeIfPresent([CodeartifactClientTypes.PackageGroupAllowedRepository?].self, forKey: .removeAllowedRepositories)
+        var removeAllowedRepositoriesDecoded0:[CodeartifactClientTypes.PackageGroupAllowedRepository]? = nil
+        if let removeAllowedRepositoriesContainer = removeAllowedRepositoriesContainer {
+            removeAllowedRepositoriesDecoded0 = [CodeartifactClientTypes.PackageGroupAllowedRepository]()
+            for structure0 in removeAllowedRepositoriesContainer {
+                if let structure0 = structure0 {
+                    removeAllowedRepositoriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        removeAllowedRepositories = removeAllowedRepositoriesDecoded0
+    }
+}
+
+extension UpdatePackageGroupOriginConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePackageGroupOriginConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.allowedRepositoryUpdates = output.allowedRepositoryUpdates
+            self.packageGroup = output.packageGroup
+        } else {
+            self.allowedRepositoryUpdates = nil
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct UpdatePackageGroupOriginConfigurationOutput: Swift.Equatable {
+    /// Information about the updated allowed repositories after processing the request.
+    public var allowedRepositoryUpdates: [Swift.String:[Swift.String:[Swift.String]]]?
+    /// The package group and information about it after processing the request.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        allowedRepositoryUpdates: [Swift.String:[Swift.String:[Swift.String]]]? = nil,
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.allowedRepositoryUpdates = allowedRepositoryUpdates
+        self.packageGroup = packageGroup
+    }
+}
+
+struct UpdatePackageGroupOriginConfigurationOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+    let allowedRepositoryUpdates: [Swift.String:[Swift.String:[Swift.String]]]?
+}
+
+extension UpdatePackageGroupOriginConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedRepositoryUpdates
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+        let allowedRepositoryUpdatesContainer = try containerValues.decodeIfPresent([Swift.String: [Swift.String: [Swift.String?]?]?].self, forKey: .allowedRepositoryUpdates)
+        var allowedRepositoryUpdatesDecoded0: [Swift.String:[Swift.String:[Swift.String]]]? = nil
+        if let allowedRepositoryUpdatesContainer = allowedRepositoryUpdatesContainer {
+            allowedRepositoryUpdatesDecoded0 = [Swift.String:[Swift.String:[Swift.String]]]()
+            for (key0, packagegroupallowedrepositoryupdate0) in allowedRepositoryUpdatesContainer {
+                var packagegroupallowedrepositoryupdate0Decoded0: [Swift.String: [Swift.String]]? = nil
+                if let packagegroupallowedrepositoryupdate0 = packagegroupallowedrepositoryupdate0 {
+                    packagegroupallowedrepositoryupdate0Decoded0 = [Swift.String: [Swift.String]]()
+                    for (key1, repositorynamelist1) in packagegroupallowedrepositoryupdate0 {
+                        var repositorynamelist1Decoded1: [Swift.String]? = nil
+                        if let repositorynamelist1 = repositorynamelist1 {
+                            repositorynamelist1Decoded1 = [Swift.String]()
+                            for string2 in repositorynamelist1 {
+                                if let string2 = string2 {
+                                    repositorynamelist1Decoded1?.append(string2)
+                                }
+                            }
+                        }
+                        packagegroupallowedrepositoryupdate0Decoded0?[key1] = repositorynamelist1Decoded1
+                    }
+                }
+                allowedRepositoryUpdatesDecoded0?[key0] = packagegroupallowedrepositoryupdate0Decoded0
+            }
+        }
+        allowedRepositoryUpdates = allowedRepositoryUpdatesDecoded0
+    }
+}
+
+enum UpdatePackageGroupOriginConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdatePackageGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdatePackageGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.packageGroup = output.packageGroup
+        } else {
+            self.packageGroup = nil
+        }
+    }
+}
+
+public struct UpdatePackageGroupOutput: Swift.Equatable {
+    /// The package group and information about it after the request has been processed.
+    public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+
+    public init(
+        packageGroup: CodeartifactClientTypes.PackageGroupDescription? = nil
+    )
+    {
+        self.packageGroup = packageGroup
+    }
+}
+
+struct UpdatePackageGroupOutputBody: Swift.Equatable {
+    let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
+}
+
+extension UpdatePackageGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case packageGroup
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let packageGroupDecoded = try containerValues.decodeIfPresent(CodeartifactClientTypes.PackageGroupDescription.self, forKey: .packageGroup)
+        packageGroup = packageGroupDecoded
+    }
+}
+
+enum UpdatePackageGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdatePackageVersionsStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case expectedStatus
@@ -8310,15 +10665,15 @@ public struct UpdatePackageVersionsStatusInput: Swift.Equatable {
     /// A format that specifies the type of the package with the statuses to update.
     /// This member is required.
     public var format: CodeartifactClientTypes.PackageFormat?
-    /// The namespace of the package version to be updated. The package version component that specifies its namespace depends on its type. For example:
+    /// The namespace of the package version to be updated. The package component that specifies its namespace depends on its type. For example:
     ///
     /// * The namespace of a Maven package version is its groupId.
     ///
-    /// * The namespace of an npm package version is its scope.
-    ///
-    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
+    /// * The namespace of an npm or Swift package version is its scope.
     ///
     /// * The namespace of a generic package is its namespace.
+    ///
+    /// * Python and NuGet package versions do not contain a corresponding component, package versions of those formats do not have a namespace.
     public var namespace: Swift.String?
     /// The name of the package with the version statuses to update.
     /// This member is required.

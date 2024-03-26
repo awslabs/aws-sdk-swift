@@ -1821,7 +1821,14 @@ public struct AssociateInstanceStorageConfigInput: Swift.Equatable {
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
-    /// A valid resource type.
+    /// A valid resource type. To [enable streaming for real-time analysis of contacts](https://docs.aws.amazon.com/connect/latest/adminguide/enable-contact-analysis-segment-streams.html), use the following types:
+    ///
+    /// * For chat contacts, use REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS.
+    ///
+    /// * For voice contacts, use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.
+    ///
+    ///
+    /// REAL_TIME_CONTACT_ANALYSIS_SEGMENTS is deprecated, but it is still supported and will apply only to VOICE channel contacts. Use REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS for voice contacts moving forward. If you have previously associated a stream with REAL_TIME_CONTACT_ANALYSIS_SEGMENTS, no action is needed to update the stream to REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS.
     /// This member is required.
     public var resourceType: ConnectClientTypes.InstanceStorageResourceType?
     /// A valid storage type.
@@ -2841,6 +2848,63 @@ extension ConnectClientTypes {
         {
             self.attributeType = attributeType
             self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.AttributeAndCondition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case hierarchyGroupCondition = "HierarchyGroupCondition"
+        case tagConditions = "TagConditions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let hierarchyGroupCondition = self.hierarchyGroupCondition {
+            try encodeContainer.encode(hierarchyGroupCondition, forKey: .hierarchyGroupCondition)
+        }
+        if let tagConditions = tagConditions {
+            var tagConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .tagConditions)
+            for tagcondition0 in tagConditions {
+                try tagConditionsContainer.encode(tagcondition0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tagConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.TagCondition?].self, forKey: .tagConditions)
+        var tagConditionsDecoded0:[ConnectClientTypes.TagCondition]? = nil
+        if let tagConditionsContainer = tagConditionsContainer {
+            tagConditionsDecoded0 = [ConnectClientTypes.TagCondition]()
+            for structure0 in tagConditionsContainer {
+                if let structure0 = structure0 {
+                    tagConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        tagConditions = tagConditionsDecoded0
+        let hierarchyGroupConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.HierarchyGroupCondition.self, forKey: .hierarchyGroupCondition)
+        hierarchyGroupCondition = hierarchyGroupConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// A list of conditions which would be applied together with an AND condition.
+    public struct AttributeAndCondition: Swift.Equatable {
+        /// A leaf node condition which can be used to specify a hierarchy group condition.
+        public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
+        /// A leaf node condition which can be used to specify a tag condition.
+        public var tagConditions: [ConnectClientTypes.TagCondition]?
+
+        public init(
+            hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
+            tagConditions: [ConnectClientTypes.TagCondition]? = nil
+        )
+        {
+            self.hierarchyGroupCondition = hierarchyGroupCondition
+            self.tagConditions = tagConditions
         }
     }
 
@@ -5904,6 +5968,90 @@ extension ConnectClientTypes {
 
 }
 
+extension ConnectClientTypes.ControlPlaneUserAttributeFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andCondition = "AndCondition"
+        case hierarchyGroupCondition = "HierarchyGroupCondition"
+        case orConditions = "OrConditions"
+        case tagCondition = "TagCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let andCondition = self.andCondition {
+            try encodeContainer.encode(andCondition, forKey: .andCondition)
+        }
+        if let hierarchyGroupCondition = self.hierarchyGroupCondition {
+            try encodeContainer.encode(hierarchyGroupCondition, forKey: .hierarchyGroupCondition)
+        }
+        if let orConditions = orConditions {
+            var orConditionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .orConditions)
+            for attributeandcondition0 in orConditions {
+                try orConditionsContainer.encode(attributeandcondition0)
+            }
+        }
+        if let tagCondition = self.tagCondition {
+            try encodeContainer.encode(tagCondition, forKey: .tagCondition)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orConditionsContainer = try containerValues.decodeIfPresent([ConnectClientTypes.AttributeAndCondition?].self, forKey: .orConditions)
+        var orConditionsDecoded0:[ConnectClientTypes.AttributeAndCondition]? = nil
+        if let orConditionsContainer = orConditionsContainer {
+            orConditionsDecoded0 = [ConnectClientTypes.AttributeAndCondition]()
+            for structure0 in orConditionsContainer {
+                if let structure0 = structure0 {
+                    orConditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        orConditions = orConditionsDecoded0
+        let andConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.AttributeAndCondition.self, forKey: .andCondition)
+        andCondition = andConditionDecoded
+        let tagConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.TagCondition.self, forKey: .tagCondition)
+        tagCondition = tagConditionDecoded
+        let hierarchyGroupConditionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.HierarchyGroupCondition.self, forKey: .hierarchyGroupCondition)
+        hierarchyGroupCondition = hierarchyGroupConditionDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// An object that can be used to specify Tag conditions or Hierarchy Group conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+    ///
+    /// * The top level list specifies conditions that need to be applied with OR operator
+    ///
+    /// * The inner list specifies conditions that need to be applied with AND operator.
+    ///
+    ///
+    /// Only one field can be populated. Maximum number of allowed Tag conditions is 25. Maximum number of allowed Hierarchy Group conditions is 20.
+    public struct ControlPlaneUserAttributeFilter: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        public var andCondition: ConnectClientTypes.AttributeAndCondition?
+        /// A leaf node condition which can be used to specify a hierarchy group condition.
+        public var hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition?
+        /// A list of conditions which would be applied together with an OR condition.
+        public var orConditions: [ConnectClientTypes.AttributeAndCondition]?
+        /// A leaf node condition which can be used to specify a tag condition, for example, HAVE BPO = 123.
+        public var tagCondition: ConnectClientTypes.TagCondition?
+
+        public init(
+            andCondition: ConnectClientTypes.AttributeAndCondition? = nil,
+            hierarchyGroupCondition: ConnectClientTypes.HierarchyGroupCondition? = nil,
+            orConditions: [ConnectClientTypes.AttributeAndCondition]? = nil,
+            tagCondition: ConnectClientTypes.TagCondition? = nil
+        )
+        {
+            self.andCondition = andCondition
+            self.hierarchyGroupCondition = hierarchyGroupCondition
+            self.orConditions = orConditions
+            self.tagCondition = tagCondition
+        }
+    }
+
+}
+
 extension CreateAgentStatusInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case description = "Description"
@@ -8750,9 +8898,11 @@ enum CreateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension CreateSecurityProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
         case allowedAccessControlTags = "AllowedAccessControlTags"
         case applications = "Applications"
         case description = "Description"
+        case hierarchyRestrictedResources = "HierarchyRestrictedResources"
         case permissions = "Permissions"
         case securityProfileName = "SecurityProfileName"
         case tagRestrictedResources = "TagRestrictedResources"
@@ -8761,6 +8911,9 @@ extension CreateSecurityProfileInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlHierarchyGroupId = self.allowedAccessControlHierarchyGroupId {
+            try encodeContainer.encode(allowedAccessControlHierarchyGroupId, forKey: .allowedAccessControlHierarchyGroupId)
+        }
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
             for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
@@ -8775,6 +8928,12 @@ extension CreateSecurityProfileInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let hierarchyRestrictedResources = hierarchyRestrictedResources {
+            var hierarchyRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchyRestrictedResources)
+            for hierarchyrestrictedresourcename0 in hierarchyRestrictedResources {
+                try hierarchyRestrictedResourcesContainer.encode(hierarchyrestrictedresourcename0)
+            }
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
@@ -8811,12 +8970,16 @@ extension CreateSecurityProfileInput {
 }
 
 public struct CreateSecurityProfileInput: Swift.Equatable {
+    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+    public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// This API is in preview release for Amazon Connect and is subject to change. A list of third-party applications that the security profile will give access to.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
+    /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+    public var hierarchyRestrictedResources: [Swift.String]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -8831,9 +8994,11 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var tags: [Swift.String:Swift.String]?
 
     public init(
+        allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
         applications: [ConnectClientTypes.Application]? = nil,
         description: Swift.String? = nil,
+        hierarchyRestrictedResources: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
         securityProfileName: Swift.String? = nil,
@@ -8841,9 +9006,11 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
         tags: [Swift.String:Swift.String]? = nil
     )
     {
+        self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
         self.description = description
+        self.hierarchyRestrictedResources = hierarchyRestrictedResources
         self.instanceId = instanceId
         self.permissions = permissions
         self.securityProfileName = securityProfileName
@@ -8860,13 +9027,17 @@ struct CreateSecurityProfileInputBody: Swift.Equatable {
     let allowedAccessControlTags: [Swift.String:Swift.String]?
     let tagRestrictedResources: [Swift.String]?
     let applications: [ConnectClientTypes.Application]?
+    let hierarchyRestrictedResources: [Swift.String]?
+    let allowedAccessControlHierarchyGroupId: Swift.String?
 }
 
 extension CreateSecurityProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
         case allowedAccessControlTags = "AllowedAccessControlTags"
         case applications = "Applications"
         case description = "Description"
+        case hierarchyRestrictedResources = "HierarchyRestrictedResources"
         case permissions = "Permissions"
         case securityProfileName = "SecurityProfileName"
         case tagRestrictedResources = "TagRestrictedResources"
@@ -8934,6 +9105,19 @@ extension CreateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         applications = applicationsDecoded0
+        let hierarchyRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hierarchyRestrictedResources)
+        var hierarchyRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let hierarchyRestrictedResourcesContainer = hierarchyRestrictedResourcesContainer {
+            hierarchyRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in hierarchyRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    hierarchyRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        hierarchyRestrictedResources = hierarchyRestrictedResourcesDecoded0
+        let allowedAccessControlHierarchyGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedAccessControlHierarchyGroupId)
+        allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupIdDecoded
     }
 }
 
@@ -23357,7 +23541,9 @@ extension ConnectClientTypes {
         case contactEvaluations
         case contactTraceRecords
         case mediaStreams
+        case realTimeContactAnalysisChatSegments
         case realTimeContactAnalysisSegments
+        case realTimeContactAnalysisVoiceSegments
         case scheduledReports
         case screenRecordings
         case sdkUnknown(Swift.String)
@@ -23371,7 +23557,9 @@ extension ConnectClientTypes {
                 .contactEvaluations,
                 .contactTraceRecords,
                 .mediaStreams,
+                .realTimeContactAnalysisChatSegments,
                 .realTimeContactAnalysisSegments,
+                .realTimeContactAnalysisVoiceSegments,
                 .scheduledReports,
                 .screenRecordings,
                 .sdkUnknown("")
@@ -23390,7 +23578,9 @@ extension ConnectClientTypes {
             case .contactEvaluations: return "CONTACT_EVALUATIONS"
             case .contactTraceRecords: return "CONTACT_TRACE_RECORDS"
             case .mediaStreams: return "MEDIA_STREAMS"
+            case .realTimeContactAnalysisChatSegments: return "REAL_TIME_CONTACT_ANALYSIS_CHAT_SEGMENTS"
             case .realTimeContactAnalysisSegments: return "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
+            case .realTimeContactAnalysisVoiceSegments: return "REAL_TIME_CONTACT_ANALYSIS_VOICE_SEGMENTS"
             case .scheduledReports: return "SCHEDULED_REPORTS"
             case .screenRecordings: return "SCREEN_RECORDINGS"
             case let .sdkUnknown(s): return s
@@ -41561,9 +41751,11 @@ extension ConnectClientTypes {
 
 extension ConnectClientTypes.SecurityProfile: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
         case allowedAccessControlTags = "AllowedAccessControlTags"
         case arn = "Arn"
         case description = "Description"
+        case hierarchyRestrictedResources = "HierarchyRestrictedResources"
         case id = "Id"
         case lastModifiedRegion = "LastModifiedRegion"
         case lastModifiedTime = "LastModifiedTime"
@@ -41575,6 +41767,9 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlHierarchyGroupId = self.allowedAccessControlHierarchyGroupId {
+            try encodeContainer.encode(allowedAccessControlHierarchyGroupId, forKey: .allowedAccessControlHierarchyGroupId)
+        }
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
             for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
@@ -41586,6 +41781,12 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let hierarchyRestrictedResources = hierarchyRestrictedResources {
+            var hierarchyRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchyRestrictedResources)
+            for hierarchyrestrictedresourcename0 in hierarchyRestrictedResources {
+                try hierarchyRestrictedResourcesContainer.encode(hierarchyrestrictedresourcename0)
+            }
         }
         if let id = self.id {
             try encodeContainer.encode(id, forKey: .id)
@@ -41665,18 +41866,35 @@ extension ConnectClientTypes.SecurityProfile: Swift.Codable {
         lastModifiedTime = lastModifiedTimeDecoded
         let lastModifiedRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastModifiedRegion)
         lastModifiedRegion = lastModifiedRegionDecoded
+        let hierarchyRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hierarchyRestrictedResources)
+        var hierarchyRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let hierarchyRestrictedResourcesContainer = hierarchyRestrictedResourcesContainer {
+            hierarchyRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in hierarchyRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    hierarchyRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        hierarchyRestrictedResources = hierarchyRestrictedResourcesDecoded0
+        let allowedAccessControlHierarchyGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedAccessControlHierarchyGroupId)
+        allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupIdDecoded
     }
 }
 
 extension ConnectClientTypes {
     /// Contains information about a security profile.
     public struct SecurityProfile: Swift.Equatable {
+        /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+        public var allowedAccessControlHierarchyGroupId: Swift.String?
         /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
         public var allowedAccessControlTags: [Swift.String:Swift.String]?
         /// The Amazon Resource Name (ARN) for the secruity profile.
         public var arn: Swift.String?
         /// The description of the security profile.
         public var description: Swift.String?
+        /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+        public var hierarchyRestrictedResources: [Swift.String]?
         /// The identifier for the security profile.
         public var id: Swift.String?
         /// The Amazon Web Services Region where this resource was last modified.
@@ -41693,9 +41911,11 @@ extension ConnectClientTypes {
         public var tags: [Swift.String:Swift.String]?
 
         public init(
+            allowedAccessControlHierarchyGroupId: Swift.String? = nil,
             allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
             arn: Swift.String? = nil,
             description: Swift.String? = nil,
+            hierarchyRestrictedResources: [Swift.String]? = nil,
             id: Swift.String? = nil,
             lastModifiedRegion: Swift.String? = nil,
             lastModifiedTime: ClientRuntime.Date? = nil,
@@ -41705,9 +41925,11 @@ extension ConnectClientTypes {
             tags: [Swift.String:Swift.String]? = nil
         )
         {
+            self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
             self.allowedAccessControlTags = allowedAccessControlTags
             self.arn = arn
             self.description = description
+            self.hierarchyRestrictedResources = hierarchyRestrictedResources
             self.id = id
             self.lastModifiedRegion = lastModifiedRegion
             self.lastModifiedTime = lastModifiedTime
@@ -50839,15 +51061,20 @@ enum UpdateRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateSecurityProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
         case allowedAccessControlTags = "AllowedAccessControlTags"
         case applications = "Applications"
         case description = "Description"
+        case hierarchyRestrictedResources = "HierarchyRestrictedResources"
         case permissions = "Permissions"
         case tagRestrictedResources = "TagRestrictedResources"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowedAccessControlHierarchyGroupId = self.allowedAccessControlHierarchyGroupId {
+            try encodeContainer.encode(allowedAccessControlHierarchyGroupId, forKey: .allowedAccessControlHierarchyGroupId)
+        }
         if let allowedAccessControlTags = allowedAccessControlTags {
             var allowedAccessControlTagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .allowedAccessControlTags)
             for (dictKey0, allowedAccessControlTags0) in allowedAccessControlTags {
@@ -50862,6 +51089,12 @@ extension UpdateSecurityProfileInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let hierarchyRestrictedResources = hierarchyRestrictedResources {
+            var hierarchyRestrictedResourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .hierarchyRestrictedResources)
+            for hierarchyrestrictedresourcename0 in hierarchyRestrictedResources {
+                try hierarchyRestrictedResourcesContainer.encode(hierarchyrestrictedresourcename0)
+            }
         }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
@@ -50892,12 +51125,16 @@ extension UpdateSecurityProfileInput {
 }
 
 public struct UpdateSecurityProfileInput: Swift.Equatable {
+    /// The identifier of the hierarchy group that a security profile uses to restrict access to resources in Amazon Connect.
+    public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
     /// This API is in preview release for Amazon Connect and is subject to change. A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
+    /// The list of resources that a security profile applies hierarchy restrictions to in Amazon Connect. Following are acceptable ResourceNames: User.
+    public var hierarchyRestrictedResources: [Swift.String]?
     /// The identifier of the Amazon Connect instance. You can [find the instance ID](https://docs.aws.amazon.com/connect/latest/adminguide/find-instance-arn.html) in the Amazon Resource Name (ARN) of the instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -50910,18 +51147,22 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     public var tagRestrictedResources: [Swift.String]?
 
     public init(
+        allowedAccessControlHierarchyGroupId: Swift.String? = nil,
         allowedAccessControlTags: [Swift.String:Swift.String]? = nil,
         applications: [ConnectClientTypes.Application]? = nil,
         description: Swift.String? = nil,
+        hierarchyRestrictedResources: [Swift.String]? = nil,
         instanceId: Swift.String? = nil,
         permissions: [Swift.String]? = nil,
         securityProfileId: Swift.String? = nil,
         tagRestrictedResources: [Swift.String]? = nil
     )
     {
+        self.allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupId
         self.allowedAccessControlTags = allowedAccessControlTags
         self.applications = applications
         self.description = description
+        self.hierarchyRestrictedResources = hierarchyRestrictedResources
         self.instanceId = instanceId
         self.permissions = permissions
         self.securityProfileId = securityProfileId
@@ -50935,13 +51176,17 @@ struct UpdateSecurityProfileInputBody: Swift.Equatable {
     let allowedAccessControlTags: [Swift.String:Swift.String]?
     let tagRestrictedResources: [Swift.String]?
     let applications: [ConnectClientTypes.Application]?
+    let hierarchyRestrictedResources: [Swift.String]?
+    let allowedAccessControlHierarchyGroupId: Swift.String?
 }
 
 extension UpdateSecurityProfileInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowedAccessControlHierarchyGroupId = "AllowedAccessControlHierarchyGroupId"
         case allowedAccessControlTags = "AllowedAccessControlTags"
         case applications = "Applications"
         case description = "Description"
+        case hierarchyRestrictedResources = "HierarchyRestrictedResources"
         case permissions = "Permissions"
         case tagRestrictedResources = "TagRestrictedResources"
     }
@@ -50994,6 +51239,19 @@ extension UpdateSecurityProfileInputBody: Swift.Decodable {
             }
         }
         applications = applicationsDecoded0
+        let hierarchyRestrictedResourcesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .hierarchyRestrictedResources)
+        var hierarchyRestrictedResourcesDecoded0:[Swift.String]? = nil
+        if let hierarchyRestrictedResourcesContainer = hierarchyRestrictedResourcesContainer {
+            hierarchyRestrictedResourcesDecoded0 = [Swift.String]()
+            for string0 in hierarchyRestrictedResourcesContainer {
+                if let string0 = string0 {
+                    hierarchyRestrictedResourcesDecoded0?.append(string0)
+                }
+            }
+        }
+        hierarchyRestrictedResources = hierarchyRestrictedResourcesDecoded0
+        let allowedAccessControlHierarchyGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .allowedAccessControlHierarchyGroupId)
+        allowedAccessControlHierarchyGroupId = allowedAccessControlHierarchyGroupIdDecoded
     }
 }
 
@@ -53559,6 +53817,7 @@ extension ConnectClientTypes {
 extension ConnectClientTypes.UserSearchFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tagFilter = "TagFilter"
+        case userAttributeFilter = "UserAttributeFilter"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -53566,12 +53825,17 @@ extension ConnectClientTypes.UserSearchFilter: Swift.Codable {
         if let tagFilter = self.tagFilter {
             try encodeContainer.encode(tagFilter, forKey: .tagFilter)
         }
+        if let userAttributeFilter = self.userAttributeFilter {
+            try encodeContainer.encode(userAttributeFilter, forKey: .userAttributeFilter)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let tagFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ControlPlaneTagFilter.self, forKey: .tagFilter)
         tagFilter = tagFilterDecoded
+        let userAttributeFilterDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.ControlPlaneUserAttributeFilter.self, forKey: .userAttributeFilter)
+        userAttributeFilter = userAttributeFilterDecoded
     }
 }
 
@@ -53584,12 +53848,23 @@ extension ConnectClientTypes {
         ///
         /// * Inner list specifies conditions that need to be applied with AND operator.
         public var tagFilter: ConnectClientTypes.ControlPlaneTagFilter?
+        /// An object that can be used to specify Tag conditions or Hierarchy Group conditions inside the SearchFilter. This accepts an OR of AND (List of List) input where:
+        ///
+        /// * The top level list specifies conditions that need to be applied with OR operator.
+        ///
+        /// * The inner list specifies conditions that need to be applied with AND operator.
+        ///
+        ///
+        /// Only one field can be populated. This object can’t be used along with TagFilter. Request can either contain TagFilter or UserAttributeFilter if SearchFilter is specified, combination of both is not supported and such request will throw AccessDeniedException.
+        public var userAttributeFilter: ConnectClientTypes.ControlPlaneUserAttributeFilter?
 
         public init(
-            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil
+            tagFilter: ConnectClientTypes.ControlPlaneTagFilter? = nil,
+            userAttributeFilter: ConnectClientTypes.ControlPlaneUserAttributeFilter? = nil
         )
         {
             self.tagFilter = tagFilter
+            self.userAttributeFilter = userAttributeFilter
         }
     }
 

@@ -584,7 +584,7 @@ extension TimestreamQueryClient {
 
     /// Performs the `PrepareQuery` operation on the `Timestream_20181101` service.
     ///
-    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with the PrepareQueryRequest$ValidateOnly set to true.
+    /// A synchronous operation that allows you to submit a query with parameters to be stored by Timestream for later running. Timestream only supports using this operation with ValidateOnly set to true.
     ///
     /// - Parameter PrepareQueryInput : [no documentation found]
     ///

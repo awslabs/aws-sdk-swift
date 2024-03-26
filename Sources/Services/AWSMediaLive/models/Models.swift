@@ -16193,6 +16193,72 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// H265 Mv Over Picture Boundaries
+    public enum H265MvOverPictureBoundaries: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvOverPictureBoundaries] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265MvOverPictureBoundaries(rawValue: rawValue) ?? H265MvOverPictureBoundaries.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// H265 Mv Temporal Predictor
+    public enum H265MvTemporalPredictor: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvTemporalPredictor] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265MvTemporalPredictor(rawValue: rawValue) ?? H265MvTemporalPredictor.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// H265 Profile
     public enum H265Profile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case main
@@ -16348,6 +16414,8 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         case lookAheadRateControl = "lookAheadRateControl"
         case maxBitrate = "maxBitrate"
         case minIInterval = "minIInterval"
+        case mvOverPictureBoundaries = "mvOverPictureBoundaries"
+        case mvTemporalPredictor = "mvTemporalPredictor"
         case parDenominator = "parDenominator"
         case parNumerator = "parNumerator"
         case profile = "profile"
@@ -16357,8 +16425,12 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         case sceneChangeDetect = "sceneChangeDetect"
         case slices = "slices"
         case tier = "tier"
+        case tileHeight = "tileHeight"
+        case tilePadding = "tilePadding"
+        case tileWidth = "tileWidth"
         case timecodeBurninSettings = "timecodeBurninSettings"
         case timecodeInsertion = "timecodeInsertion"
+        case treeblockSize = "treeblockSize"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16420,6 +16492,12 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         if let minIInterval = self.minIInterval {
             try encodeContainer.encode(minIInterval, forKey: .minIInterval)
         }
+        if let mvOverPictureBoundaries = self.mvOverPictureBoundaries {
+            try encodeContainer.encode(mvOverPictureBoundaries.rawValue, forKey: .mvOverPictureBoundaries)
+        }
+        if let mvTemporalPredictor = self.mvTemporalPredictor {
+            try encodeContainer.encode(mvTemporalPredictor.rawValue, forKey: .mvTemporalPredictor)
+        }
         if let parDenominator = self.parDenominator {
             try encodeContainer.encode(parDenominator, forKey: .parDenominator)
         }
@@ -16447,11 +16525,23 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         if let tier = self.tier {
             try encodeContainer.encode(tier.rawValue, forKey: .tier)
         }
+        if let tileHeight = self.tileHeight {
+            try encodeContainer.encode(tileHeight, forKey: .tileHeight)
+        }
+        if let tilePadding = self.tilePadding {
+            try encodeContainer.encode(tilePadding.rawValue, forKey: .tilePadding)
+        }
+        if let tileWidth = self.tileWidth {
+            try encodeContainer.encode(tileWidth, forKey: .tileWidth)
+        }
         if let timecodeBurninSettings = self.timecodeBurninSettings {
             try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
         }
         if let timecodeInsertion = self.timecodeInsertion {
             try encodeContainer.encode(timecodeInsertion.rawValue, forKey: .timecodeInsertion)
+        }
+        if let treeblockSize = self.treeblockSize {
+            try encodeContainer.encode(treeblockSize.rawValue, forKey: .treeblockSize)
         }
     }
 
@@ -16517,6 +16607,18 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         timecodeInsertion = timecodeInsertionDecoded
         let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
         timecodeBurninSettings = timecodeBurninSettingsDecoded
+        let mvOverPictureBoundariesDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265MvOverPictureBoundaries.self, forKey: .mvOverPictureBoundaries)
+        mvOverPictureBoundaries = mvOverPictureBoundariesDecoded
+        let mvTemporalPredictorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265MvTemporalPredictor.self, forKey: .mvTemporalPredictor)
+        mvTemporalPredictor = mvTemporalPredictorDecoded
+        let tileHeightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileHeight)
+        tileHeight = tileHeightDecoded
+        let tilePaddingDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265TilePadding.self, forKey: .tilePadding)
+        tilePadding = tilePaddingDecoded
+        let tileWidthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileWidth)
+        tileWidth = tileWidthDecoded
+        let treeblockSizeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265TreeblockSize.self, forKey: .treeblockSize)
+        treeblockSize = treeblockSizeDecoded
     }
 }
 
@@ -16563,6 +16665,10 @@ extension MediaLiveClientTypes {
         public var maxBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public var mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public var mvTemporalPredictor: MediaLiveClientTypes.H265MvTemporalPredictor?
         /// Pixel Aspect Ratio denominator.
         public var parDenominator: Swift.Int?
         /// Pixel Aspect Ratio numerator.
@@ -16587,6 +16693,12 @@ extension MediaLiveClientTypes {
         public var slices: Swift.Int?
         /// H.265 Tier.
         public var tier: MediaLiveClientTypes.H265Tier?
+        /// Set this field to set up the picture as a tile. You must also set tileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 of less. If the tile width and height are specified, MediaLive will override the video codec slices field with a value that MediaLive calculates
+        public var tileHeight: Swift.Int?
+        /// Set to "padded" to force MediaLive to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public var tilePadding: MediaLiveClientTypes.H265TilePadding?
+        /// Set this field to set up the picture as a tile. See tileHeight for more information.
+        public var tileWidth: Swift.Int?
         /// Timecode burn-in settings
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
@@ -16595,6 +16707,8 @@ extension MediaLiveClientTypes {
         ///
         /// * 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public var timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public var treeblockSize: MediaLiveClientTypes.H265TreeblockSize?
 
         public init(
             adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization? = nil,
@@ -16616,6 +16730,8 @@ extension MediaLiveClientTypes {
             lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries? = nil,
+            mvTemporalPredictor: MediaLiveClientTypes.H265MvTemporalPredictor? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
             profile: MediaLiveClientTypes.H265Profile? = nil,
@@ -16625,8 +16741,12 @@ extension MediaLiveClientTypes {
             sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
             tier: MediaLiveClientTypes.H265Tier? = nil,
+            tileHeight: Swift.Int? = nil,
+            tilePadding: MediaLiveClientTypes.H265TilePadding? = nil,
+            tileWidth: Swift.Int? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
-            timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior? = nil
+            timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior? = nil,
+            treeblockSize: MediaLiveClientTypes.H265TreeblockSize? = nil
         )
         {
             self.adaptiveQuantization = adaptiveQuantization
@@ -16648,6 +16768,8 @@ extension MediaLiveClientTypes {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.profile = profile
@@ -16657,8 +16779,12 @@ extension MediaLiveClientTypes {
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
             self.tier = tier
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
+            self.tileWidth = tileWidth
             self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
+            self.treeblockSize = treeblockSize
         }
     }
 
@@ -16698,6 +16824,39 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// H265 Tile Padding
+    public enum H265TilePadding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case padded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TilePadding] {
+            return [
+                .none,
+                .padded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .padded: return "PADDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265TilePadding(rawValue: rawValue) ?? H265TilePadding.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// H265 Timecode Insertion Behavior
     public enum H265TimecodeInsertionBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -16726,6 +16885,39 @@ extension MediaLiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = H265TimecodeInsertionBehavior(rawValue: rawValue) ?? H265TimecodeInsertionBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// H265 Treeblock Size
+    public enum H265TreeblockSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case treeSize32x32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TreeblockSize] {
+            return [
+                .auto,
+                .treeSize32x32,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .treeSize32x32: return "TREE_SIZE_32X32"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265TreeblockSize(rawValue: rawValue) ?? H265TreeblockSize.sdkUnknown(rawValue)
         }
     }
 }
