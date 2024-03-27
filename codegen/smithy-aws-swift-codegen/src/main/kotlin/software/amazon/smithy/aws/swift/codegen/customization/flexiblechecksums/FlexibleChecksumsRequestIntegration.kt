@@ -56,7 +56,10 @@ private object FlexibleChecksumRequestMiddleware : MiddlewareRenderable {
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestAlgorithmMember?.get()?.lowercaseFirstLetter()
 
-        val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}<$inputShapeName, $outputShapeName>(checksumAlgorithm: input.$inputMemberName?.rawValue)"
+        val middlewareInit =
+            "${ClientRuntimeTypes.Middleware.FlexibleChecksumsRequestMiddleware}" +
+                "<$inputShapeName, $outputShapeName>(" +
+                "checksumAlgorithm: input.$inputMemberName?.rawValue ?? config.checksumAlgorithm?.toString())"
 
         writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $middlewareInit)")
     }
