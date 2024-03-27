@@ -1639,11 +1639,6 @@ extension TooManyRequestsExceptionBody: Swift.Decodable {
     }
 }
 
-extension ValidationException: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "ValidationException(fieldList: \(Swift.String(describing: properties.fieldList)), reason: \(Swift.String(describing: properties.reason)), message: \"CONTENT_REDACTED\")"}
-}
-
 extension ValidationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
