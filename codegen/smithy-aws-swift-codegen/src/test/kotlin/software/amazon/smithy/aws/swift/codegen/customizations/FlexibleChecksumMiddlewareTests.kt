@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.customizations
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
@@ -13,7 +13,7 @@ class FlexibleChecksumMiddlewareTests {
     @Test
     fun `Test that FlexibleChecksumsRequestMiddleware and FlexibleChecksumsResponseMiddleware are properly generated`() {
         val context = setupTests("flexible-checksums.smithy", "aws.flex.checks#ChecksumTests")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/ChecksumTestsClient.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/ChecksumTestsClient.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ChecksumTestsClient {
@@ -69,7 +69,7 @@ extension ChecksumTestsClient {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+            TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

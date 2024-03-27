@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.awsrestjson
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
@@ -12,7 +12,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
     @Test
     fun `001 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/GreetingWithErrorsOutputError+HttpResponseBinding.swift"
         )
@@ -39,7 +39,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
     @Test
     fun `002 AWSJson+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/RestJson1+ServiceErrorHelperMethod.swift"
         )
@@ -59,7 +59,7 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         AWSRestJson1ProtocolGenerator().run {
             generateDeserializers(context.ctx)
