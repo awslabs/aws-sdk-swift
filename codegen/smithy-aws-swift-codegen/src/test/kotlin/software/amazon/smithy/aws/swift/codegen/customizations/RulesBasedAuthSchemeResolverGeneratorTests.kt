@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.customizations
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
@@ -17,7 +17,7 @@ class RulesBasedAuthSchemeResolverGeneratorTests {
     fun `rules based auth scheme resolver generation test with fake S3 smithy model`() {
         val context = setupTests("rules-based-auth-resolver-test.smithy", "com.test#S3")
         val contents =
-            TestContextGenerator.getFileContents(context.manifest, "Example/AuthSchemeResolver.swift")
+            TestUtils.getFileContents(context.manifest, "Example/AuthSchemeResolver.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
 """
@@ -139,7 +139,7 @@ public struct DefaultS3AuthSchemeResolver: S3AuthSchemeResolver {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.initializeMiddleware(context.ctx)

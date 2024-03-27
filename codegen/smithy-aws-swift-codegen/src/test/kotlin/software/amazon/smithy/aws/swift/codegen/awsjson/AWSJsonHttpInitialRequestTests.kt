@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 
@@ -14,7 +14,7 @@ class AWSJsonHttpInitialRequestTests {
             "awsjson/initial-request.smithy",
             "com.test#InitialRequestTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/TestStream+MessageMarshallable.swift"
         )
@@ -46,7 +46,7 @@ class AWSJsonHttpInitialRequestTests {
             "awsjson/initial-request.smithy",
             "com.test#InitialRequestTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/InitialRequestTestClient.swift"
         )
@@ -64,7 +64,7 @@ class AWSJsonHttpInitialRequestTests {
             "awsjson/initial-request.smithy",
             "com.test#InitialRequestTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/EventStreamOpInput+Encodable.swift"
         )
@@ -96,7 +96,7 @@ class AWSJsonHttpInitialRequestTests {
             "awsjson/initial-request.smithy",
             "com.test#InitialRequestTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/EventStreamOpInput+MakeInitialRequestMessage.swift"
         )
@@ -120,7 +120,7 @@ class AWSJsonHttpInitialRequestTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
         AwsJson1_0_ProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)
             generateSerializers(context.ctx)

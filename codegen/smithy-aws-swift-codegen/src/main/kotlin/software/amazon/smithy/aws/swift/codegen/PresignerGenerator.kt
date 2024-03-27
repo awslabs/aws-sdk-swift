@@ -14,7 +14,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes.Middleware.NoopHa
 import software.amazon.smithy.swift.codegen.FoundationTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.core.CodegenContext
+import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
@@ -29,7 +29,7 @@ data class PresignableOperation(
 )
 
 class PresignerGenerator : SwiftIntegration {
-    override fun writeAdditionalFiles(ctx: CodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protoCtx: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
         if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
@@ -66,7 +66,7 @@ class PresignerGenerator : SwiftIntegration {
 
     private fun renderPresigner(
         writer: SwiftWriter,
-        ctx: CodegenContext,
+        ctx: SwiftCodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,

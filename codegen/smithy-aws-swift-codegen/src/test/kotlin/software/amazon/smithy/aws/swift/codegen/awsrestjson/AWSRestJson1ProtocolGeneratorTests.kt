@@ -8,9 +8,9 @@ package software.amazon.smithy.aws.swift.codegen.awsrestjson
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getClientFileContents
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getModelFileContents
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.initContextFrom
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getModelFileContents
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
@@ -217,7 +217,7 @@ class RestJsonProtocolGeneratorTests {
         contents.shouldContainOnlyOnce(expectedContents)
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+        val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

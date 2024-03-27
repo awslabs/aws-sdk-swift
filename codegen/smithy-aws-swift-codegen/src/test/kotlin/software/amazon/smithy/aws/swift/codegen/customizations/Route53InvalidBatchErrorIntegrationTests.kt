@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.customizations
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -12,7 +12,7 @@ class Route53InvalidBatchErrorIntegrationTests {
     @Test
     fun `001 test additional structs and extensions are generated`() {
         val context = setupTests("route53-invalidbatch.smithy", "com.amazonaws.route53#Route53")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+Customization.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+Customization.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 struct CustomInvalidBatchError {
@@ -67,7 +67,7 @@ extension InvalidChangeBatch {
     @Test
     fun `002 test ChangeResourceRecordSetsOutputError+HttpResponseBinding is customized`() {
         val context = setupTests("route53-invalidbatch.smithy", "com.amazonaws.route53#Route53")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ChangeResourceRecordSetsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum ChangeResourceRecordSetsOutputError {
@@ -95,7 +95,7 @@ enum ChangeResourceRecordSetsOutputError {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         return context
     }
 }

@@ -3,7 +3,7 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 
@@ -14,7 +14,7 @@ class AWSJsonHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `001 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
         )
@@ -41,7 +41,7 @@ class AWSJsonHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `002 AWSJson+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/AwsJson10+ServiceErrorHelperMethod.swift"
         )
@@ -61,7 +61,7 @@ class AWSJsonHttpResponseBindingErrorGeneratorTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
 
         AwsJson1_0_ProtocolGenerator().run {
             generateDeserializers(context.ctx)
