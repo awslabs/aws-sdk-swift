@@ -1998,6 +1998,8 @@ extension AccessAnalyzerClientTypes {
 
 extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dynamodbstream = "dynamodbStream"
+        case dynamodbtable = "dynamodbTable"
         case ebssnapshot = "ebsSnapshot"
         case ecrrepository = "ecrRepository"
         case efsfilesystem = "efsFileSystem"
@@ -2016,6 +2018,10 @@ extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .dynamodbstream(dynamodbstream):
+                try container.encode(dynamodbstream, forKey: .dynamodbstream)
+            case let .dynamodbtable(dynamodbtable):
+                try container.encode(dynamodbtable, forKey: .dynamodbtable)
             case let .ebssnapshot(ebssnapshot):
                 try container.encode(ebssnapshot, forKey: .ebssnapshot)
             case let .ecrrepository(ecrrepository):
@@ -2107,6 +2113,16 @@ extension AccessAnalyzerClientTypes.Configuration: Swift.Codable {
             self = .s3expressdirectorybucket(s3expressdirectorybucket)
             return
         }
+        let dynamodbstreamDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.DynamodbStreamConfiguration.self, forKey: .dynamodbstream)
+        if let dynamodbstream = dynamodbstreamDecoded {
+            self = .dynamodbstream(dynamodbstream)
+            return
+        }
+        let dynamodbtableDecoded = try values.decodeIfPresent(AccessAnalyzerClientTypes.DynamodbTableConfiguration.self, forKey: .dynamodbtable)
+        if let dynamodbtable = dynamodbtableDecoded {
+            self = .dynamodbtable(dynamodbtable)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -2138,6 +2154,10 @@ extension AccessAnalyzerClientTypes {
         case sqsqueue(AccessAnalyzerClientTypes.SqsQueueConfiguration)
         /// The access control configuration is for an Amazon S3 directory bucket.
         case s3expressdirectorybucket(AccessAnalyzerClientTypes.S3ExpressDirectoryBucketConfiguration)
+        /// The access control configuration is for a DynamoDB stream.
+        case dynamodbstream(AccessAnalyzerClientTypes.DynamodbStreamConfiguration)
+        /// The access control configuration is for a DynamoDB table or index.
+        case dynamodbtable(AccessAnalyzerClientTypes.DynamodbTableConfiguration)
         case sdkUnknown(Swift.String)
     }
 
@@ -2934,6 +2954,88 @@ enum DeleteArchiveRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension AccessAnalyzerClientTypes.DynamodbStreamConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case streamPolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let streamPolicy = self.streamPolicy {
+            try encodeContainer.encode(streamPolicy, forKey: .streamPolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let streamPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamPolicy)
+        streamPolicy = streamPolicyDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// The proposed access control configuration for a DynamoDB stream. You can propose a configuration for a new DynamoDB stream or an existing DynamoDB stream that you own by specifying the policy for the DynamoDB stream. For more information, see [PutResourcePolicy](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutResourcePolicy.html).
+    ///
+    /// * If the configuration is for an existing DynamoDB stream and you do not specify the DynamoDB policy, then the access preview uses the existing DynamoDB policy for the stream.
+    ///
+    /// * If the access preview is for a new resource and you do not specify the policy, then the access preview assumes a DynamoDB stream without a policy.
+    ///
+    /// * To propose deletion of an existing DynamoDB stream policy, you can specify an empty string for the DynamoDB policy.
+    public struct DynamodbStreamConfiguration: Swift.Equatable {
+        /// The proposed resource policy defining who can access or manage the DynamoDB stream.
+        public var streamPolicy: Swift.String?
+
+        public init(
+            streamPolicy: Swift.String? = nil
+        )
+        {
+            self.streamPolicy = streamPolicy
+        }
+    }
+
+}
+
+extension AccessAnalyzerClientTypes.DynamodbTableConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case tablePolicy
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let tablePolicy = self.tablePolicy {
+            try encodeContainer.encode(tablePolicy, forKey: .tablePolicy)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let tablePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .tablePolicy)
+        tablePolicy = tablePolicyDecoded
+    }
+}
+
+extension AccessAnalyzerClientTypes {
+    /// The proposed access control configuration for a DynamoDB table or index. You can propose a configuration for a new DynamoDB table or index or an existing DynamoDB table or index that you own by specifying the policy for the DynamoDB table or index. For more information, see [PutResourcePolicy](https://docs.aws.amazon.com/amazondynamodb/latest/APIReference/API_PutResourcePolicy.html).
+    ///
+    /// * If the configuration is for an existing DynamoDB table or index and you do not specify the DynamoDB policy, then the access preview uses the existing DynamoDB policy for the table or index.
+    ///
+    /// * If the access preview is for a new resource and you do not specify the policy, then the access preview assumes a DynamoDB table without a policy.
+    ///
+    /// * To propose deletion of an existing DynamoDB table or index policy, you can specify an empty string for the DynamoDB policy.
+    public struct DynamodbTableConfiguration: Swift.Equatable {
+        /// The proposed resource policy defining who can access or manage the DynamoDB table.
+        public var tablePolicy: Swift.String?
+
+        public init(
+            tablePolicy: Swift.String? = nil
+        )
+        {
+            self.tablePolicy = tablePolicy
+        }
+    }
+
 }
 
 extension AccessAnalyzerClientTypes.EbsSnapshotConfiguration: Swift.Codable {
@@ -8140,6 +8242,8 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
 
 extension AccessAnalyzerClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsDynamodbStream
+        case awsDynamodbTable
         case awsEc2Snapshot
         case awsEcrRepository
         case awsEfsFilesystem
@@ -8158,6 +8262,8 @@ extension AccessAnalyzerClientTypes {
 
         public static var allCases: [ResourceType] {
             return [
+                .awsDynamodbStream,
+                .awsDynamodbTable,
                 .awsEc2Snapshot,
                 .awsEcrRepository,
                 .awsEfsFilesystem,
@@ -8181,6 +8287,8 @@ extension AccessAnalyzerClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .awsDynamodbStream: return "AWS::DynamoDB::Stream"
+            case .awsDynamodbTable: return "AWS::DynamoDB::Table"
             case .awsEc2Snapshot: return "AWS::EC2::Snapshot"
             case .awsEcrRepository: return "AWS::ECR::Repository"
             case .awsEfsFilesystem: return "AWS::EFS::FileSystem"
@@ -10380,6 +10488,7 @@ enum ValidatePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension AccessAnalyzerClientTypes {
     public enum ValidatePolicyResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dynamodbTable
         case roleTrust
         case s3AccessPoint
         case s3Bucket
@@ -10389,6 +10498,7 @@ extension AccessAnalyzerClientTypes {
 
         public static var allCases: [ValidatePolicyResourceType] {
             return [
+                .dynamodbTable,
                 .roleTrust,
                 .s3AccessPoint,
                 .s3Bucket,
@@ -10403,6 +10513,7 @@ extension AccessAnalyzerClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .dynamodbTable: return "AWS::DynamoDB::Table"
             case .roleTrust: return "AWS::IAM::AssumeRolePolicyDocument"
             case .s3AccessPoint: return "AWS::S3::AccessPoint"
             case .s3Bucket: return "AWS::S3::Bucket"

@@ -20,7 +20,7 @@ import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.core.CodegenContext
+import software.amazon.smithy.swift.codegen.core.SwiftCodegenContext
 import software.amazon.smithy.swift.codegen.core.toProtocolGenerationContext
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
@@ -49,7 +49,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         return presignedOperations.keys.contains(currentServiceId)
     }
 
-    override fun writeAdditionalFiles(ctx: CodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
+    override fun writeAdditionalFiles(ctx: SwiftCodegenContext, protocolGenerationContext: ProtocolGenerator.GenerationContext, delegator: SwiftDelegator) {
         val service = ctx.model.expectShape<ServiceShape>(ctx.settings.service)
 
         if (!SigV4Utils.isSupportedAuthentication(ctx.model, service)) return
@@ -89,7 +89,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
 
     private fun renderPresigner(
         writer: SwiftWriter,
-        ctx: CodegenContext,
+        ctx: SwiftCodegenContext,
         delegator: SwiftDelegator,
         op: OperationShape,
         inputType: String,
@@ -211,7 +211,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         return operationMiddlewareCopy
     }
 
-    private fun renderMiddlewareClassForQueryString(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
+    private fun renderMiddlewareClassForQueryString(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }
@@ -243,7 +243,7 @@ class PresignableUrlIntegration(private val presignedOperations: Map<String, Set
         }
     }
 
-    private fun renderMiddlewareClassForPutObject(codegenContext: CodegenContext, delegator: SwiftDelegator, op: OperationShape) {
+    private fun renderMiddlewareClassForPutObject(codegenContext: SwiftCodegenContext, delegator: SwiftDelegator, op: OperationShape) {
 
         val serviceShape = codegenContext.model.expectShape<ServiceShape>(codegenContext.settings.service)
         val ctx = codegenContext.toProtocolGenerationContext(serviceShape, delegator)?.let { it } ?: run { return }

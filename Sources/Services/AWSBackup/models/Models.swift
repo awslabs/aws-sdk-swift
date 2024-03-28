@@ -7685,7 +7685,7 @@ extension BackupClientTypes {
         /// The name of a control. This name is between 1 and 256 characters.
         /// This member is required.
         public var controlName: Swift.String?
-        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans.
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see [ControlScope].(https://docs.aws.amazon.com/aws-backup/latest/devguide/API_ControlScope.html)
         public var controlScope: BackupClientTypes.ControlScope?
 
         public init(
@@ -9926,7 +9926,7 @@ public struct ListBackupJobSummariesInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// Returns the job count for the specified resource type. Use request GetSupportedResourceTypes to obtain strings for supported resource types. The the value ANY returns count of all resource types. AGGREGATE_ALL aggregates job counts for all resource types and returns the sum. The type of Amazon Web Services resource to be backed up; for example, an Amazon Elastic Block Store (Amazon EBS) volume or an Amazon Relational Database Service (Amazon RDS) database.
     public var resourceType: Swift.String?
-    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum.
+    /// This parameter returns the job count for jobs with the specified state. The the value ANY returns count of all states. AGGREGATE_ALL aggregates job counts for all states and returns the sum. Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&State=COMPLETED GET /audit/backup-job-summaries?AggregationPeriod=FOURTEEN_DAYS&MessageCategory=SUCCESS&State=COMPLETED
     public var state: BackupClientTypes.BackupJobStatus?
 
     public init(
@@ -10165,7 +10165,7 @@ public struct ListBackupJobsInput: Swift.Equatable {
     ///
     /// * VirtualMachine for virtual machines
     public var byResourceType: Swift.String?
-    /// Returns only backup jobs that are in the specified state.
+    /// Returns only backup jobs that are in the specified state. Completed with issues is a status found only in the Backup console. For API, this status refers to jobs with a state of COMPLETED and a MessageCategory with a value other than SUCCESS; that is, the status is completed but comes with a status message. To obtain the job count for Completed with issues, run two GET requests, and subtract the second, smaller number: GET /backup-jobs/?state=COMPLETED GET /backup-jobs/?messageCategory=SUCCESS&state=COMPLETED
     public var byState: BackupClientTypes.BackupJobState?
     /// The maximum number of items to be returned.
     public var maxResults: Swift.Int?
@@ -12199,6 +12199,10 @@ extension ListRecoveryPointsByResourceInput {
             let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
         }
+        if let managedByAWSBackupOnly = value.managedByAWSBackupOnly {
+            let managedByAWSBackupOnlyQueryItem = ClientRuntime.SDKURLQueryItem(name: "managedByAWSBackupOnly".urlPercentEncoding(), value: Swift.String(managedByAWSBackupOnly).urlPercentEncoding())
+            items.append(managedByAWSBackupOnlyQueryItem)
+        }
         return items
     }
 }
@@ -12214,6 +12218,8 @@ extension ListRecoveryPointsByResourceInput {
 }
 
 public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
+    /// This attribute filters recovery points based on ownership. If this is set to TRUE, the response will contain recovery points associated with the selected resources that are managed by Backup. If this is set to FALSE, the response will contain all recovery points associated with the selected resource. Type: Boolean
+    public var managedByAWSBackupOnly: Swift.Bool?
     /// The maximum number of items to be returned. Amazon RDS requires a value of at least 20.
     public var maxResults: Swift.Int?
     /// The next item following a partial list of returned items. For example, if a request is made to return MaxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
@@ -12223,11 +12229,13 @@ public struct ListRecoveryPointsByResourceInput: Swift.Equatable {
     public var resourceArn: Swift.String?
 
     public init(
+        managedByAWSBackupOnly: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         resourceArn: Swift.String? = nil
     )
     {
+        self.managedByAWSBackupOnly = managedByAWSBackupOnly
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.resourceArn = resourceArn
@@ -14414,6 +14422,7 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         case resourceName = "ResourceName"
         case status = "Status"
         case statusMessage = "StatusMessage"
+        case vaultType = "VaultType"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -14448,6 +14457,9 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         if let statusMessage = self.statusMessage {
             try encodeContainer.encode(statusMessage, forKey: .statusMessage)
         }
+        if let vaultType = self.vaultType {
+            try encodeContainer.encode(vaultType.rawValue, forKey: .vaultType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -14472,6 +14484,8 @@ extension BackupClientTypes.RecoveryPointByResource: Swift.Codable {
         parentRecoveryPointArn = parentRecoveryPointArnDecoded
         let resourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceName)
         resourceName = resourceNameDecoded
+        let vaultTypeDecoded = try containerValues.decodeIfPresent(BackupClientTypes.VaultType.self, forKey: .vaultType)
+        vaultType = vaultTypeDecoded
     }
 }
 
@@ -14498,6 +14512,8 @@ extension BackupClientTypes {
         public var status: BackupClientTypes.RecoveryPointStatus?
         /// A message explaining the reason of the recovery point deletion failure.
         public var statusMessage: Swift.String?
+        /// This is the type of vault in which the described recovery point is stored.
+        public var vaultType: BackupClientTypes.VaultType?
 
         public init(
             backupSizeBytes: Swift.Int? = nil,
@@ -14509,7 +14525,8 @@ extension BackupClientTypes {
             recoveryPointArn: Swift.String? = nil,
             resourceName: Swift.String? = nil,
             status: BackupClientTypes.RecoveryPointStatus? = nil,
-            statusMessage: Swift.String? = nil
+            statusMessage: Swift.String? = nil,
+            vaultType: BackupClientTypes.VaultType? = nil
         )
         {
             self.backupSizeBytes = backupSizeBytes
@@ -14522,6 +14539,7 @@ extension BackupClientTypes {
             self.resourceName = resourceName
             self.status = status
             self.statusMessage = statusMessage
+            self.vaultType = vaultType
         }
     }
 

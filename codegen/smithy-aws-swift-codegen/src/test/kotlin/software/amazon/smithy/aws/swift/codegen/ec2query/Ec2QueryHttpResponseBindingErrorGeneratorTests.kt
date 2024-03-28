@@ -8,7 +8,7 @@ package software.amazon.smithy.aws.swift.codegen.ec2query
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 
@@ -17,7 +17,7 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding has with correct cases`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
@@ -46,7 +46,7 @@ enum GreetingWithErrorsOutputError {
     @Test
     fun `003 ComplexError+Init`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ComplexError+Init.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ComplexError+Init.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension ComplexError {
@@ -68,7 +68,7 @@ extension ComplexError {
     @Test
     fun `004 ComplexError constructor conforms to AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/ComplexError.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/ComplexError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -104,7 +104,7 @@ extension ComplexError {
     @Test
     fun `005 AwsEc2+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestContextGenerator.getFileContents(context.manifest, "/Example/models/AwsEc2+ServiceErrorHelperMethod.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/AwsEc2+ServiceErrorHelperMethod.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents =
             """
@@ -122,7 +122,7 @@ extension ComplexError {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
+            TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 
         Ec2QueryProtocolGenerator().run {
             generateDeserializers(context.ctx)

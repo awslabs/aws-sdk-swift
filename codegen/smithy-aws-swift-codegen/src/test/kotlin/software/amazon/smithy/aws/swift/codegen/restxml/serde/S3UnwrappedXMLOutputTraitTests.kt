@@ -3,8 +3,8 @@ package software.amazon.smithy.aws.swift.codegen.restxml.serde
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
 import software.amazon.smithy.aws.swift.codegen.restxml.RestXmlProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -32,7 +32,7 @@ extension GetBucketLocationOutput {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         val generator = RestXmlProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateDeserializers(context.ctx)

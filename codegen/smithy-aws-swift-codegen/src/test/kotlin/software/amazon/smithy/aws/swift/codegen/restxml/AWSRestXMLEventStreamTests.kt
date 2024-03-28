@@ -2,7 +2,7 @@ package software.amazon.smithy.aws.swift.codegen.restxml
 
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
+import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
@@ -13,7 +13,7 @@ class AWSRestXMLEventStreamTests {
             "restxml/xml-event-stream.smithy",
             "com.test#EventStreamTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/EventStreamTestClient.swift"
         )
@@ -29,7 +29,7 @@ class AWSRestXMLEventStreamTests {
             "restxml/xml-event-stream.smithy",
             "com.test#EventStreamTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/TestEvents+MessageMarshallable.swift"
         )
@@ -68,7 +68,7 @@ class AWSRestXMLEventStreamTests {
             "restxml/xml-event-stream.smithy",
             "com.test#EventStreamTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/MessageWithAudio+Codable.swift"
         )
@@ -101,7 +101,7 @@ class AWSRestXMLEventStreamTests {
             "restxml/xml-event-stream.smithy",
             "com.test#EventStreamTest"
         )
-        val contents = TestContextGenerator.getFileContents(
+        val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/Audio+Codable.swift"
         )
@@ -127,7 +127,7 @@ class AWSRestXMLEventStreamTests {
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestXmlTrait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
         RestXmlProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)
             generateSerializers(context.ctx)

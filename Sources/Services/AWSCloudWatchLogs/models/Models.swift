@@ -283,13 +283,13 @@ extension CloudWatchLogsClientTypes.Anomaly: Swift.Codable {
             }
         }
         histogram = histogramDecoded0
-        let logSamplesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .logSamples)
-        var logSamplesDecoded0:[Swift.String]? = nil
+        let logSamplesContainer = try containerValues.decodeIfPresent([CloudWatchLogsClientTypes.LogEvent?].self, forKey: .logSamples)
+        var logSamplesDecoded0:[CloudWatchLogsClientTypes.LogEvent]? = nil
         if let logSamplesContainer = logSamplesContainer {
-            logSamplesDecoded0 = [Swift.String]()
-            for string0 in logSamplesContainer {
-                if let string0 = string0 {
-                    logSamplesDecoded0?.append(string0)
+            logSamplesDecoded0 = [CloudWatchLogsClientTypes.LogEvent]()
+            for structure0 in logSamplesContainer {
+                if let structure0 = structure0 {
+                    logSamplesDecoded0?.append(structure0)
                 }
             }
         }
@@ -358,7 +358,7 @@ extension CloudWatchLogsClientTypes {
         public var logGroupArnList: [Swift.String]?
         /// An array of sample log event messages that are considered to be part of this anomaly.
         /// This member is required.
-        public var logSamples: [Swift.String]?
+        public var logSamples: [CloudWatchLogsClientTypes.LogEvent]?
         /// The ID of the pattern used to help identify this anomaly.
         /// This member is required.
         public var patternId: Swift.String?
@@ -392,7 +392,7 @@ extension CloudWatchLogsClientTypes {
             isPatternLevelSuppression: Swift.Bool? = nil,
             lastSeen: Swift.Int = 0,
             logGroupArnList: [Swift.String]? = nil,
-            logSamples: [Swift.String]? = nil,
+            logSamples: [CloudWatchLogsClientTypes.LogEvent]? = nil,
             patternId: Swift.String? = nil,
             patternRegex: Swift.String? = nil,
             patternString: Swift.String? = nil,
@@ -2931,7 +2931,7 @@ extension CloudWatchLogsClientTypes {
         public var arn: Swift.String?
         /// The ARN of the delivery destination that is associated with this delivery.
         public var deliveryDestinationArn: Swift.String?
-        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        /// Displays whether the delivery destination associated with this delivery is CloudWatch Logs, Amazon S3, or Firehose.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
         /// The name of the delivery source that is associated with this delivery.
         public var deliverySourceName: Swift.String?
@@ -3022,7 +3022,7 @@ extension CloudWatchLogsClientTypes.DeliveryDestination: Swift.Codable {
 }
 
 extension CloudWatchLogsClientTypes {
-    /// This structure contains information about one delivery destination in your account. A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, are supported as Kinesis Data Firehose delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
+    /// This structure contains information about one delivery destination in your account. A delivery destination is an Amazon Web Services resource that represents an Amazon Web Services service that logs can be sent to. CloudWatch Logs, Amazon S3, are supported as Firehose delivery destinations. To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
     ///
     /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
     ///
@@ -3039,7 +3039,7 @@ extension CloudWatchLogsClientTypes {
         public var arn: Swift.String?
         /// A structure that contains the ARN of the Amazon Web Services resource that will receive the logs.
         public var deliveryDestinationConfiguration: CloudWatchLogsClientTypes.DeliveryDestinationConfiguration?
-        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or Kinesis Data Firehose.
+        /// Displays whether this delivery destination is CloudWatch Logs, Amazon S3, or Firehose.
         public var deliveryDestinationType: CloudWatchLogsClientTypes.DeliveryDestinationType?
         /// The name of this delivery destination.
         public var name: Swift.String?
@@ -3090,7 +3090,7 @@ extension CloudWatchLogsClientTypes.DeliveryDestinationConfiguration: Swift.Coda
 extension CloudWatchLogsClientTypes {
     /// A structure that contains information about one logs delivery destination.
     public struct DeliveryDestinationConfiguration: Swift.Equatable {
-        /// The ARN of the Amazon Web Services destination that this delivery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Kinesis Data Firehose.
+        /// The ARN of the Amazon Web Services destination that this delivery destination represents. That Amazon Web Services destination can be a log group in CloudWatch Logs, an Amazon S3 bucket, or a delivery stream in Firehose.
         /// This member is required.
         public var destinationResourceArn: Swift.String?
 
@@ -3213,7 +3213,7 @@ extension CloudWatchLogsClientTypes.DeliverySource: Swift.Codable {
 }
 
 extension CloudWatchLogsClientTypes {
-    /// This structure contains information about one delivery source in your account. A delivery source is an Amazon Web Services resource that sends logs to an Amazon Web Services destination. The destination can be CloudWatch Logs, Amazon S3, or Kinesis Data Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
+    /// This structure contains information about one delivery source in your account. A delivery source is an Amazon Web Services resource that sends logs to an Amazon Web Services destination. The destination can be CloudWatch Logs, Amazon S3, or Firehose. Only some Amazon Web Services services support being configured as a delivery source. These services are listed as Supported [V2 Permissions] in the table at [Enabling logging from Amazon Web Services services.](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AWS-logs-and-resource-policy.html) To configure logs delivery between a supported Amazon Web Services service and a destination, you must do the following:
     ///
     /// * Create a delivery source, which is a logical object that represents the resource that is actually sending the logs. For more information, see [PutDeliverySource](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDeliverySource.html).
     ///
@@ -8605,6 +8605,51 @@ extension CloudWatchLogsClientTypes {
 
 }
 
+extension CloudWatchLogsClientTypes.LogEvent: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+        case timestamp
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encode(timestamp, forKey: .timestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timestampDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CloudWatchLogsClientTypes {
+    /// This structure contains the information for one sample log event that is associated with an anomaly found by a log anomaly detector.
+    public struct LogEvent: Swift.Equatable {
+        /// The message content of the log event.
+        public var message: Swift.String?
+        /// The time stamp of the log event.
+        public var timestamp: Swift.Int?
+
+        public init(
+            message: Swift.String? = nil,
+            timestamp: Swift.Int? = nil
+        )
+        {
+            self.message = message
+            self.timestamp = timestamp
+        }
+    }
+
+}
+
 extension CloudWatchLogsClientTypes.LogGroup: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
@@ -9633,7 +9678,7 @@ extension PutAccountPolicyInput {
 public struct PutAccountPolicyInput: Swift.Equatable {
     /// Specify the policy, in JSON. Data protection policy A data protection policy must include two JSON blocks:
     ///
-    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose streams, and S3 buckets, they must already exist.
+    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.
     ///
     /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
     ///
@@ -9644,11 +9689,11 @@ public struct PutAccountPolicyInput: Swift.Equatable {
     ///
     /// * An Kinesis Data Streams data stream in the same account as the subscription policy, for same-account delivery.
     ///
-    /// * An Kinesis Data Firehose data stream in the same account as the subscription policy, for same-account delivery.
+    /// * An Firehose data stream in the same account as the subscription policy, for same-account delivery.
     ///
     /// * A Lambda function in the same account as the subscription policy, for same-account delivery.
     ///
-    /// * A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html), for cross-account delivery. Kinesis Data Streams and Kinesis Data Firehose are supported as logical destinations.
+    /// * A logical destination in a different account created with [PutDestination](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_PutDestination.html), for cross-account delivery. Kinesis Data Streams and Firehose are supported as logical destinations.
     ///
     ///
     ///
@@ -9803,7 +9848,7 @@ public struct PutDataProtectionPolicyInput: Swift.Equatable {
     public var logGroupIdentifier: Swift.String?
     /// Specify the data protection policy, in JSON. This policy must include two JSON blocks:
     ///
-    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Kinesis Data Firehose streams, and S3 buckets, they must already exist.
+    /// * The first block must include both a DataIdentifer array and an Operation property with an Audit action. The DataIdentifer array lists the types of sensitive data that you want to mask. For more information about the available options, see [Types of data that you can mask](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/mask-sensitive-log-data-types.html). The Operation property with an Audit action is required to find the sensitive data terms. This Audit action must contain a FindingsDestination object. You can optionally use that FindingsDestination object to list one or more destinations to send audit findings to. If you specify destinations such as log groups, Firehose streams, and S3 buckets, they must already exist.
     ///
     /// * The second block must include both a DataIdentifer array and an Operation property with an Deidentify action. The DataIdentifer array must exactly match the DataIdentifer array in the first block of the policy. The Operation property with the Deidentify action is what actually masks the data, and it must contain the  "MaskConfig": {} object. The  "MaskConfig": {} object must be empty.
     ///
@@ -10223,7 +10268,13 @@ extension PutDeliverySourceInput {
 }
 
 public struct PutDeliverySourceInput: Swift.Equatable {
-    /// Defines the type of log that the source is sending. For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
+    /// Defines the type of log that the source is sending.
+    ///
+    /// * For Amazon CodeWhisperer, the valid value is EVENT_LOGS.
+    ///
+    /// * For IAM Identity Centerr, the valid value is ERROR_LOGS.
+    ///
+    /// * For Amazon WorkMail, the valid values are ACCESS_CONTROL_LOGS, AUTHENTICATION_LOGS, WORKMAIL_AVAILABILITY_PROVIDER_LOGS, and WORKMAIL_MAILBOX_ACCESS_LOGS.
     /// This member is required.
     public var logType: Swift.String?
     /// A name for this delivery source. This name must be unique for all delivery sources in your account.
@@ -11779,9 +11830,9 @@ extension CloudWatchLogsClientTypes {
     public struct RejectedLogEventsInfo: Swift.Equatable {
         /// The expired log events.
         public var expiredLogEventEndIndex: Swift.Int?
-        /// The log events that are too new.
+        /// The index of the first log event that is too new. This field is inclusive.
         public var tooNewLogEventStartIndex: Swift.Int?
-        /// The log events that are dated too far in the past.
+        /// The index of the last log event that is too old. This field is exclusive.
         public var tooOldLogEventEndIndex: Swift.Int?
 
         public init(

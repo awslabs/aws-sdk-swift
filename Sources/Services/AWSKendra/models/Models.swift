@@ -5392,7 +5392,7 @@ public struct CreateIndexInput: Swift.Equatable {
     public var tags: [KendraClientTypes.Tag]?
     /// The user context policy. ATTRIBUTE_FILTER All indexed content is searchable and displayable for all users. If you want to filter search results on user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext. USER_TOKEN Enables token-based user access control to filter search results on user context. All documents with no access control and all documents accessible to the user will be searchable and displayable.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -6146,9 +6146,9 @@ extension KendraClientTypes {
         public var confluenceConfiguration: KendraClientTypes.ConfluenceConfiguration?
         /// Provides the configuration information to connect to a database as your data source.
         public var databaseConfiguration: KendraClientTypes.DatabaseConfiguration?
-        /// Provides the configuration information to connect to Amazon FSx as your data source.
+        /// Provides the configuration information to connect to Amazon FSx as your data source. Amazon Kendra now supports an upgraded Amazon FSx Windows connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the FsxConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
         public var fsxConfiguration: KendraClientTypes.FsxConfiguration?
-        /// Provides the configuration information to connect to GitHub as your data source.
+        /// Provides the configuration information to connect to GitHub as your data source. Amazon Kendra now supports an upgraded GitHub connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the GitHubConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won’t be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
         public var gitHubConfiguration: KendraClientTypes.GitHubConfiguration?
         /// Provides the configuration information to connect to Google Drive as your data source.
         public var googleDriveConfiguration: KendraClientTypes.GoogleDriveConfiguration?
@@ -6158,7 +6158,7 @@ extension KendraClientTypes {
         public var oneDriveConfiguration: KendraClientTypes.OneDriveConfiguration?
         /// Provides the configuration information to connect to Quip as your data source.
         public var quipConfiguration: KendraClientTypes.QuipConfiguration?
-        /// Provides the configuration information to connect to an Amazon S3 bucket as your data source.
+        /// Provides the configuration information to connect to an Amazon S3 bucket as your data source. Amazon Kendra now supports an upgraded Amazon S3 connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the S3DataSourceConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
         public var s3Configuration: KendraClientTypes.S3DataSourceConfiguration?
         /// Provides the configuration information to connect to Salesforce as your data source.
         public var salesforceConfiguration: KendraClientTypes.SalesforceConfiguration?
@@ -6166,7 +6166,7 @@ extension KendraClientTypes {
         public var serviceNowConfiguration: KendraClientTypes.ServiceNowConfiguration?
         /// Provides the configuration information to connect to Microsoft SharePoint as your data source.
         public var sharePointConfiguration: KendraClientTypes.SharePointConfiguration?
-        /// Provides the configuration information to connect to Slack as your data source.
+        /// Provides the configuration information to connect to Slack as your data source. Amazon Kendra now supports an upgraded Slack connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the SlackConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
         public var slackConfiguration: KendraClientTypes.SlackConfiguration?
         /// Provides a template for the configuration information to connect to your data source.
         public var templateConfiguration: KendraClientTypes.TemplateConfiguration?
@@ -8947,17 +8947,17 @@ public struct DescribeIndexOutput: Swift.Equatable {
     public var indexStatistics: KendraClientTypes.IndexStatistics?
     /// The name of the index.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra permission to write to your Amazon Cloudwatch logs.
+    /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra permission to write to your Amazon CloudWatch logs.
     public var roleArn: Swift.String?
-    /// The identifier of the KMScustomer master key (CMK) that is used to encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
+    /// The identifier of the KMS customer master key (CMK) that is used to encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
     public var serverSideEncryptionConfiguration: KendraClientTypes.ServerSideEncryptionConfiguration?
     /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
     public var status: KendraClientTypes.IndexStatus?
-    /// The Unix when the index was last updated.
+    /// The Unix timestamp when the index was last updated.
     public var updatedAt: ClientRuntime.Date?
     /// The user context policy for the Amazon Kendra index.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Whether you have enabled the configuration for fetching access levels of groups and users from an IAM Identity Center identity source.
+    /// Whether you have enabled IAM Identity Center identity source for your users and groups. This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration for the Amazon Kendra index.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?
@@ -12738,7 +12738,7 @@ extension KendraClientTypes.FsxConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to connect to Amazon FSx as your data source.
+    /// Provides the configuration information to connect to Amazon FSx as your data source. Amazon Kendra now supports an upgraded Amazon FSx Windows connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the FsxConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
     public struct FsxConfiguration: Swift.Equatable {
         /// A list of regular expression patterns to exclude certain files in your Amazon FSx file system. Files that match the patterns are excluded from the index. Files that don't match the patterns are included in the index. If a file matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
         public var exclusionPatterns: [Swift.String]?
@@ -13547,7 +13547,7 @@ extension KendraClientTypes.GitHubConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to connect to GitHub as your data source.
+    /// Provides the configuration information to connect to GitHub as your data source. Amazon Kendra now supports an upgraded GitHub connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the GitHubConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won’t be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
     public struct GitHubConfiguration: Swift.Equatable {
         /// A list of regular expression patterns to exclude certain file names in your GitHub repository or repositories. File names that match the patterns are excluded from the index. File names that don't match the patterns are included in the index. If a file matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
         public var exclusionFileNamePatterns: [Swift.String]?
@@ -17432,7 +17432,7 @@ extension KendraClientTypes {
         /// The GitHub host URL or API endpoint URL. For example, https://on-prem-host-url/api/v3/
         /// This member is required.
         public var hostUrl: Swift.String?
-        /// The name of the organization of the GitHub Enterprise Server (in-premise) account you want to connect to. You can find your organization name by logging into GitHub desktop and selecting Your organizations under your profile picture dropdown.
+        /// The name of the organization of the GitHub Enterprise Server (on-premises) account you want to connect to. You can find your organization name by logging into GitHub desktop and selecting Your organizations under your profile picture dropdown.
         /// This member is required.
         public var organizationName: Swift.String?
         /// The path to the SSL certificate stored in an Amazon S3 bucket. You use this to connect to GitHub if you require a secure SSL connection. You can simply generate a self-signed X509 certificate on any computer using OpenSSL. For an example of using OpenSSL to create an X509 certificate, see [Create and sign an X509 certificate](https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/configuring-https-ssl.html).
@@ -18247,7 +18247,7 @@ public struct QueryInput: Swift.Equatable {
     public var pageSize: Swift.Int?
     /// Sets the type of query result or response. Only results for the specified type are returned.
     public var queryResultTypeFilter: KendraClientTypes.QueryResultType?
-    /// The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
+    /// The input query text for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries. For example, Timeoff AND October AND Category:HR is counted as 3 tokens: timeoff, october, hr. For more information, see [Searching with advanced query syntax](https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax) in the Amazon Kendra Developer Guide.
     public var queryText: Swift.String?
     /// An array of document fields/attributes to include in the response. You can limit the response to include certain document fields. By default, all document attributes are included in the response.
     public var requestedDocumentAttributes: [Swift.String]?
@@ -18736,7 +18736,7 @@ extension KendraClientTypes {
         public var feedbackToken: Swift.String?
         /// If the Type of document within the response is ANSWER, then it is either a TABLE answer or TEXT answer. If it's a table answer, a table excerpt is returned in TableExcerpt. If it's a text answer, a text excerpt is returned in DocumentExcerpt.
         public var format: KendraClientTypes.QueryResultFormat?
-        /// The identifier for the query result.
+        /// The unique identifier for the query result item id (Id) and the query result item document id (DocumentId) combined. The value of this field changes with every request, even when you have the same documents.
         public var id: Swift.String?
         /// Indicates the confidence level of Amazon Kendra providing a relevant result for the query. Each result is placed into a bin that indicates the confidence, VERY_HIGH, HIGH, MEDIUM and LOW. You can use the score to determine if a response meets the confidence needed for your application. The field is only set to LOW when the Type field is set to DOCUMENT and Amazon Kendra is not confident that the result is relevant to the query.
         public var scoreAttributes: KendraClientTypes.ScoreAttributes?
@@ -19288,13 +19288,13 @@ extension KendraClientTypes {
     public struct Relevance: Swift.Equatable {
         /// Specifies the time period that the boost applies to. For example, to make the boost apply to documents with the field value within the last month, you would use "2628000s". Once the field value is beyond the specified range, the effect of the boost drops off. The higher the importance, the faster the effect drops off. If you don't specify a value, the default is 3 months. The value of the field is a numeric string followed by the character "s", for example "86400s" for one day, or "604800s" for one week. Only applies to DATE fields.
         public var duration: Swift.String?
-        /// Indicates that this field determines how "fresh" a document is. For example, if document 1 was created on November 5, and document 2 was created on October 31, document 1 is "fresher" than document 2. You can only set the Freshness field on one DATE type field. Only applies to DATE fields.
+        /// Indicates that this field determines how "fresh" a document is. For example, if document 1 was created on November 5, and document 2 was created on October 31, document 1 is "fresher" than document 2. Only applies to DATE fields.
         public var freshness: Swift.Bool?
         /// The relative importance of the field in the search. Larger numbers provide more of a boost than smaller numbers.
         public var importance: Swift.Int?
-        /// Determines how values should be interpreted. When the RankOrder field is ASCENDING, higher numbers are better. For example, a document with a rating score of 10 is higher ranking than a document with a rating score of 1. When the RankOrder field is DESCENDING, lower numbers are better. For example, in a task tracking application, a priority 1 task is more important than a priority 5 task. Only applies to LONG and DOUBLE fields.
+        /// Determines how values should be interpreted. When the RankOrder field is ASCENDING, higher numbers are better. For example, a document with a rating score of 10 is higher ranking than a document with a rating score of 1. When the RankOrder field is DESCENDING, lower numbers are better. For example, in a task tracking application, a priority 1 task is more important than a priority 5 task. Only applies to LONG fields.
         public var rankOrder: KendraClientTypes.Order?
-        /// A list of values that should be given a different boost when they appear in the result list. For example, if you are boosting a field called "department," query terms that match the department field are boosted in the result. However, you can add entries from the department field to boost documents with those values higher. For example, you can add entries to the map with names of departments. If you add "HR",5 and "Legal",3 those departments are given special attention when they appear in the metadata of a document. When those terms appear they are given the specified importance instead of the regular importance for the boost.
+        /// A list of values that should be given a different boost when they appear in the result list. For example, if you are boosting a field called "department", query terms that match the department field are boosted in the result. However, you can add entries from the department field to boost documents with those values higher. For example, you can add entries to the map with names of departments. If you add "HR",5 and "Legal",3 those departments are given special attention when they appear in the metadata of a document. When those terms appear they are given the specified importance instead of the regular importance for the boost.
         public var valueImportanceMap: [Swift.String:Swift.Int]?
 
         public init(
@@ -19680,7 +19680,7 @@ public struct RetrieveInput: Swift.Equatable {
     public var pageNumber: Swift.Int?
     /// Sets the number of retrieved relevant passages that are returned in each page of results. The default page size is 10. The maximum number of results returned is 100. If you ask for more than 100 results, only 100 are returned.
     public var pageSize: Swift.Int?
-    /// The input query text to retrieve relevant passages for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries.
+    /// The input query text to retrieve relevant passages for the search. Amazon Kendra truncates queries at 30 token words, which excludes punctuation and stop words. Truncation still applies if you use Boolean or more advanced, complex queries. For example, Timeoff AND October AND Category:HR is counted as 3 tokens: timeoff, october, hr. For more information, see [Searching with advanced query syntax](https://docs.aws.amazon.com/kendra/latest/dg/searching-example.html#searching-index-query-syntax) in the Amazon Kendra Developer Guide.
     /// This member is required.
     public var queryText: Swift.String?
     /// A list of document fields/attributes to include in the response. You can limit the response to include certain document fields. By default, all document fields are included in the response.
@@ -20041,7 +20041,7 @@ extension KendraClientTypes.S3DataSourceConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to connect to an Amazon S3 bucket.
+    /// Provides the configuration information to connect to an Amazon S3 bucket. Amazon Kendra now supports an upgraded Amazon S3 connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the S3DataSourceConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won't be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
     public struct S3DataSourceConfiguration: Swift.Equatable {
         /// Provides the path to the S3 bucket that contains the user context filtering files for the data source. For the format of the file, see [Access control for S3 data sources](https://docs.aws.amazon.com/kendra/latest/dg/s3-acl.html).
         public var accessControlListConfiguration: KendraClientTypes.AccessControlListConfiguration?
@@ -20050,21 +20050,47 @@ extension KendraClientTypes {
         public var bucketName: Swift.String?
         /// Document metadata files that contain information such as the document access control information, source URI, document author, and custom attributes. Each metadata file contains metadata about a single document.
         public var documentsMetadataConfiguration: KendraClientTypes.DocumentsMetadataConfiguration?
-        /// A list of glob patterns for documents that should not be indexed. If a document that matches an inclusion prefix or inclusion pattern also matches an exclusion pattern, the document is not indexed. Some [examples](https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters) are:
+        /// A list of glob patterns (patterns that can expand a wildcard pattern into a list of path names that match the given pattern) for certain file names and file types to exclude from your index. If a document matches both an inclusion and exclusion prefix or pattern, the exclusion prefix takes precendence and the document is not indexed. Examples of glob patterns include:
         ///
-        /// * *.png , *.jpg will exclude all PNG and JPEG image files in a directory (files with the extensions .png and .jpg).
+        /// * /myapp/config/*—All files inside config directory.
         ///
-        /// * *internal* will exclude all files in a directory that contain 'internal' in the file name, such as 'internal', 'internal_only', 'company_internal'.
+        /// * **/*.png—All .png files in all directories.
         ///
-        /// * **/*internal* will exclude all internal-related files in a directory and its subdirectories.
+        /// * **/*.{png, ico, md}—All .png, .ico or .md files in all directories.
+        ///
+        /// * /myapp/src/**/*.ts—All .ts files inside src directory (and all its subdirectories).
+        ///
+        /// * **/!(*.module).ts—All .ts files but not .module.ts
+        ///
+        /// * *.png , *.jpg—All PNG and JPEG image files in a directory (files with the extensions .png and .jpg).
+        ///
+        /// * *internal*—All files in a directory that contain 'internal' in the file name, such as 'internal', 'internal_only', 'company_internal'.
+        ///
+        /// * **/*internal*—All internal-related files in a directory and its subdirectories.
+        ///
+        ///
+        /// For more examples, see [Use of Exclude and Include Filters](https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters) in the Amazon Web Services CLI Command Reference.
         public var exclusionPatterns: [Swift.String]?
-        /// A list of glob patterns for documents that should be indexed. If a document that matches an inclusion pattern also matches an exclusion pattern, the document is not indexed. Some [examples](https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters) are:
+        /// A list of glob patterns (patterns that can expand a wildcard pattern into a list of path names that match the given pattern) for certain file names and file types to include in your index. If a document matches both an inclusion and exclusion prefix or pattern, the exclusion prefix takes precendence and the document is not indexed. Examples of glob patterns include:
         ///
-        /// * *.txt will include all text files in a directory (files with the extension .txt).
+        /// * /myapp/config/*—All files inside config directory.
         ///
-        /// * **/*.txt will include all text files in a directory and its subdirectories.
+        /// * **/*.png—All .png files in all directories.
         ///
-        /// * *tax* will include all files in a directory that contain 'tax' in the file name, such as 'tax', 'taxes', 'income_tax'.
+        /// * **/*.{png, ico, md}—All .png, .ico or .md files in all directories.
+        ///
+        /// * /myapp/src/**/*.ts—All .ts files inside src directory (and all its subdirectories).
+        ///
+        /// * **/!(*.module).ts—All .ts files but not .module.ts
+        ///
+        /// * *.png , *.jpg—All PNG and JPEG image files in a directory (files with the extensions .png and .jpg).
+        ///
+        /// * *internal*—All files in a directory that contain 'internal' in the file name, such as 'internal', 'internal_only', 'company_internal'.
+        ///
+        /// * **/*internal*—All internal-related files in a directory and its subdirectories.
+        ///
+        ///
+        /// For more examples, see [Use of Exclude and Include Filters](https://docs.aws.amazon.com/cli/latest/reference/s3/#use-of-exclude-and-include-filters) in the Amazon Web Services CLI Command Reference.
         public var inclusionPatterns: [Swift.String]?
         /// A list of S3 prefixes for the documents that should be included in the index.
         public var inclusionPrefixes: [Swift.String]?
@@ -22159,7 +22185,7 @@ extension KendraClientTypes.SlackConfiguration: Swift.Codable {
 }
 
 extension KendraClientTypes {
-    /// Provides the configuration information to connect to Slack as your data source.
+    /// Provides the configuration information to connect to Slack as your data source. Amazon Kendra now supports an upgraded Slack connector. You must now use the [TemplateConfiguration](https://docs.aws.amazon.com/kendra/latest/APIReference/API_TemplateConfiguration.html) object instead of the SlackConfiguration object to configure your connector. Connectors configured using the older console and API architecture will continue to function as configured. However, you won’t be able to edit or update them. If you want to edit or update your connector configuration, you must create a new connector. We recommended migrating your connector workflow to the upgraded version. Support for connectors configured using the older architecture is scheduled to end by June 2024.
     public struct SlackConfiguration: Swift.Equatable {
         /// TRUE to index bot messages from your Slack workspace team.
         public var crawlBotMessage: Swift.Bool
@@ -24820,13 +24846,13 @@ public struct UpdateIndexInput: Swift.Equatable {
     /// The identifier of the index you want to update.
     /// This member is required.
     public var id: Swift.String?
-    /// The name of the index you want to update.
+    /// A new name for the index.
     public var name: Swift.String?
     /// An Identity and Access Management (IAM) role that gives Amazon Kendra permission to access Amazon CloudWatch logs and metrics.
     public var roleArn: Swift.String?
     /// The user context policy.
     public var userContextPolicy: KendraClientTypes.UserContextPolicy?
-    /// Enables fetching access levels of groups and users from an IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html).
+    /// Gets users and groups from IAM Identity Center identity source. To configure this, see [UserGroupResolutionConfiguration](https://docs.aws.amazon.com/kendra/latest/dg/API_UserGroupResolutionConfiguration.html). This is useful for user context filtering, where search results are filtered based on the user or their group access to documents.
     public var userGroupResolutionConfiguration: KendraClientTypes.UserGroupResolutionConfiguration?
     /// The user token configuration.
     public var userTokenConfigurations: [KendraClientTypes.UserTokenConfiguration]?

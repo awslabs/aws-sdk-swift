@@ -14,7 +14,6 @@ import software.amazon.smithy.model.node.Node
 import software.amazon.smithy.model.node.ObjectNode
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.validation.ValidatedResultException
-import software.amazon.smithy.swift.codegen.CodegenVisitor
 import software.amazon.smithy.swift.codegen.SwiftCodegenPlugin
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
@@ -27,9 +26,13 @@ data class TestContext(
     val manifest: MockManifest
 )
 
-class TestContextGenerator {
+class TestUtils {
     companion object {
-        fun initContextFrom(modelFile: String, serviceShapeIdWithNamespace: String, protocol: ShapeId): TestContext {
+
+        /**
+         * Execute directed codegen and returns a context containing GenerationContext and MockManifest
+         */
+        fun executeDirectedCodegen(modelFile: String, serviceShapeIdWithNamespace: String, protocol: ShapeId): TestContext {
 
             val manifest = MockManifest()
             var model = createModelFromSmithy(modelFile)
@@ -37,6 +40,7 @@ class TestContextGenerator {
             val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
             val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace, service.sdkId)
             val swiftSettings = SwiftSettings.from(model, settings)
+            val integrations = mutableListOf<SwiftIntegration>()
 
             val pluginContext = PluginContext.builder()
                 .model(model)
@@ -44,11 +48,12 @@ class TestContextGenerator {
                 .settings(settings)
                 .build()
 
-            val codegen = CodegenVisitor(pluginContext)
-            codegen.execute()
-            model = codegen.model
+            val swiftCodegenPlugin = SwiftCodegenPlugin()
 
-            val integrations = mutableListOf<SwiftIntegration>()
+            swiftCodegenPlugin.execute(pluginContext)
+
+            model = swiftCodegenPlugin.getResolvedModel()!!
+
             val provider = SwiftCodegenPlugin.createSymbolProvider(model, swiftSettings)
             val delegator = SwiftDelegator(swiftSettings, model, manifest, provider, integrations)
             val ctx = ProtocolGenerator.GenerationContext(swiftSettings, model, service, provider, integrations, protocol, delegator)
@@ -64,7 +69,7 @@ class TestContextGenerator {
         }
 
         fun getSmithyResource(smithyTestResourceName: String): URL? {
-            return TestContextGenerator::class.java.classLoader.getResource("software.amazon.smithy.aws.swift.codegen/$smithyTestResourceName")
+            return TestUtils::class.java.classLoader.getResource("software.amazon.smithy.aws.swift.codegen/$smithyTestResourceName")
         }
 
         fun buildDefaultSwiftSettingsObjectNode(
@@ -153,7 +158,7 @@ fun Model.newTestContext(
     serviceShapeId: String,
     generator: ProtocolGenerator
 ): TestContext {
-    val settings = SwiftSettings.from(this, TestContextGenerator.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
+    val settings = SwiftSettings.from(this, TestUtils.buildDefaultSwiftSettingsObjectNode("com.test#Example"))
     val provider: SymbolProvider = SwiftCodegenPlugin.createSymbolProvider(this, settings)
     val service = this.getShape(ShapeId.from(serviceShapeId)).get().asServiceShape().get()
     val delegator = SwiftDelegator(settings, this, manifest, provider)

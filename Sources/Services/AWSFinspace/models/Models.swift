@@ -1900,6 +1900,7 @@ extension CreateKxDataviewInput: Swift.Encodable {
         case clientToken
         case dataviewName
         case description
+        case readWrite
         case segmentConfigurations
         case tags
     }
@@ -1926,6 +1927,9 @@ extension CreateKxDataviewInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let readWrite = self.readWrite {
+            try encodeContainer.encode(readWrite, forKey: .readWrite)
         }
         if let segmentConfigurations = segmentConfigurations {
             var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
@@ -1960,11 +1964,7 @@ public struct CreateKxDataviewInput: Swift.Equatable {
     public var autoUpdate: Swift.Bool?
     /// The identifier of the availability zones.
     public var availabilityZoneId: Swift.String?
-    /// The number of availability zones you want to assign per cluster. This can be one of the following
-    ///
-    /// * SINGLE – Assigns one availability zone per cluster.
-    ///
-    /// * MULTI – Assigns all the availability zones per cluster.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     /// This member is required.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// A unique identifier of the changeset that you want to use to ingest data.
@@ -1983,6 +1983,16 @@ public struct CreateKxDataviewInput: Swift.Equatable {
     /// A unique identifier for the kdb environment, where you want to create the dataview.
     /// This member is required.
     public var environmentId: Swift.String?
+    /// The option to specify whether you want to make the dataview writable to perform database maintenance. The following are some considerations related to writable dataviews.  
+    ///
+    /// * You cannot create partial writable dataviews. When you create writeable dataviews you must provide the entire database path.
+    ///
+    /// * You cannot perform updates on a writeable dataview. Hence, autoUpdate must be set as False if readWrite is True for a dataview.
+    ///
+    /// * You must also use a unique volume for creating a writeable dataview. So, if you choose a volume that is already in use by another dataview, the dataview creation fails.
+    ///
+    /// * Once you create a dataview as writeable, you cannot change it to read-only. So, you cannot update the readWrite parameter later.
+    public var readWrite: Swift.Bool?
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
     public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     /// A list of key-value pairs to label the dataview. You can add up to 50 tags to a dataview.
@@ -1998,6 +2008,7 @@ public struct CreateKxDataviewInput: Swift.Equatable {
         dataviewName: Swift.String? = nil,
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
+        readWrite: Swift.Bool? = nil,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
@@ -2011,6 +2022,7 @@ public struct CreateKxDataviewInput: Swift.Equatable {
         self.dataviewName = dataviewName
         self.description = description
         self.environmentId = environmentId
+        self.readWrite = readWrite
         self.segmentConfigurations = segmentConfigurations
         self.tags = tags
     }
@@ -2023,6 +2035,7 @@ struct CreateKxDataviewInputBody: Swift.Equatable {
     let changesetId: Swift.String?
     let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     let autoUpdate: Swift.Bool?
+    let readWrite: Swift.Bool?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
@@ -2037,6 +2050,7 @@ extension CreateKxDataviewInputBody: Swift.Decodable {
         case clientToken
         case dataviewName
         case description
+        case readWrite
         case segmentConfigurations
         case tags
     }
@@ -2064,6 +2078,8 @@ extension CreateKxDataviewInputBody: Swift.Decodable {
         segmentConfigurations = segmentConfigurationsDecoded0
         let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate)
         autoUpdate = autoUpdateDecoded
+        let readWriteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readWrite)
+        readWrite = readWriteDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
@@ -2097,6 +2113,7 @@ extension CreateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.environmentId = output.environmentId
             self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.readWrite = output.readWrite
             self.segmentConfigurations = output.segmentConfigurations
             self.status = output.status
         } else {
@@ -2110,6 +2127,7 @@ extension CreateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.environmentId = nil
             self.lastModifiedTimestamp = nil
+            self.readWrite = false
             self.segmentConfigurations = nil
             self.status = nil
         }
@@ -2121,11 +2139,7 @@ public struct CreateKxDataviewOutput: Swift.Equatable {
     public var autoUpdate: Swift.Bool
     /// The identifier of the availability zones.
     public var availabilityZoneId: Swift.String?
-    /// The number of availability zones you want to assign per cluster. This can be one of the following
-    ///
-    /// * SINGLE – Assigns one availability zone per cluster.
-    ///
-    /// * MULTI – Assigns all the availability zones per cluster.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
@@ -2141,6 +2155,8 @@ public struct CreateKxDataviewOutput: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Returns True if the dataview is created as writeable and False otherwise.
+    public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
     public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     /// The status of dataview creation.
@@ -2163,6 +2179,7 @@ public struct CreateKxDataviewOutput: Swift.Equatable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
     )
@@ -2177,6 +2194,7 @@ public struct CreateKxDataviewOutput: Swift.Equatable {
         self.description = description
         self.environmentId = environmentId
         self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.readWrite = readWrite
         self.segmentConfigurations = segmentConfigurations
         self.status = status
     }
@@ -2192,6 +2210,7 @@ struct CreateKxDataviewOutputBody: Swift.Equatable {
     let segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     let description: Swift.String?
     let autoUpdate: Swift.Bool
+    let readWrite: Swift.Bool
     let createdTimestamp: ClientRuntime.Date?
     let lastModifiedTimestamp: ClientRuntime.Date?
     let status: FinspaceClientTypes.KxDataviewStatus?
@@ -2209,6 +2228,7 @@ extension CreateKxDataviewOutputBody: Swift.Decodable {
         case description
         case environmentId
         case lastModifiedTimestamp
+        case readWrite
         case segmentConfigurations
         case status
     }
@@ -2242,6 +2262,8 @@ extension CreateKxDataviewOutputBody: Swift.Decodable {
         description = descriptionDecoded
         let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
         autoUpdate = autoUpdateDecoded
+        let readWriteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readWrite) ?? false
+        readWrite = readWriteDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
         let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
@@ -2548,7 +2570,19 @@ public struct CreateKxScalingGroupInput: Swift.Equatable {
     /// A unique identifier for the kdb environment, where you want to create the scaling group.
     /// This member is required.
     public var environmentId: Swift.String?
-    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values:
+    ///
+    /// * kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
+    ///
+    /// * kx.sg.8xlarge – The host type with a configuration of 216 GiB memory and 32 vCPUs.
+    ///
+    /// * kx.sg.16xlarge – The host type with a configuration of 432 GiB memory and 64 vCPUs.
+    ///
+    /// * kx.sg.32xlarge – The host type with a configuration of 864 GiB memory and 128 vCPUs.
+    ///
+    /// * kx.sg1.16xlarge – The host type with a configuration of 1949 GiB memory and 64 vCPUs.
+    ///
+    /// * kx.sg1.24xlarge – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
     /// This member is required.
     public var hostType: Swift.String?
     /// A unique identifier for the kdb scaling group.
@@ -3004,7 +3038,7 @@ public struct CreateKxVolumeInput: Swift.Equatable {
     /// The identifier of the availability zones.
     /// This member is required.
     public var availabilityZoneIds: [Swift.String]?
-    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     /// This member is required.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// A token that ensures idempotency. This token expires in 10 minutes.
@@ -3146,7 +3180,7 @@ extension CreateKxVolumeOutput: ClientRuntime.HttpResponseBinding {
 public struct CreateKxVolumeOutput: Swift.Equatable {
     /// The identifier of the availability zones.
     public var availabilityZoneIds: [Swift.String]?
-    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var createdTimestamp: ClientRuntime.Date?
@@ -5500,6 +5534,7 @@ extension GetKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.environmentId = output.environmentId
             self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.readWrite = output.readWrite
             self.segmentConfigurations = output.segmentConfigurations
             self.status = output.status
             self.statusReason = output.statusReason
@@ -5515,6 +5550,7 @@ extension GetKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.environmentId = nil
             self.lastModifiedTimestamp = nil
+            self.readWrite = false
             self.segmentConfigurations = nil
             self.status = nil
             self.statusReason = nil
@@ -5529,11 +5565,7 @@ public struct GetKxDataviewOutput: Swift.Equatable {
     public var autoUpdate: Swift.Bool
     /// The identifier of the availability zones.
     public var availabilityZoneId: Swift.String?
-    /// The number of availability zones you want to assign per cluster. This can be one of the following
-    ///
-    /// * SINGLE – Assigns one availability zone per cluster.
-    ///
-    /// * MULTI – Assigns all the availability zones per cluster.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// A unique identifier of the changeset that you want to use to ingest data.
     public var changesetId: Swift.String?
@@ -5549,6 +5581,8 @@ public struct GetKxDataviewOutput: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Returns True if the dataview is created as writeable and False otherwise.
+    public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
     public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     /// The status of dataview creation.
@@ -5574,6 +5608,7 @@ public struct GetKxDataviewOutput: Swift.Equatable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil,
         statusReason: Swift.String? = nil
@@ -5590,6 +5625,7 @@ public struct GetKxDataviewOutput: Swift.Equatable {
         self.description = description
         self.environmentId = environmentId
         self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.readWrite = readWrite
         self.segmentConfigurations = segmentConfigurations
         self.status = status
         self.statusReason = statusReason
@@ -5606,6 +5642,7 @@ struct GetKxDataviewOutputBody: Swift.Equatable {
     let activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
     let description: Swift.String?
     let autoUpdate: Swift.Bool
+    let readWrite: Swift.Bool
     let environmentId: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
     let lastModifiedTimestamp: ClientRuntime.Date?
@@ -5626,6 +5663,7 @@ extension GetKxDataviewOutputBody: Swift.Decodable {
         case description
         case environmentId
         case lastModifiedTimestamp
+        case readWrite
         case segmentConfigurations
         case status
         case statusReason
@@ -5669,6 +5707,8 @@ extension GetKxDataviewOutputBody: Swift.Decodable {
         description = descriptionDecoded
         let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
         autoUpdate = autoUpdateDecoded
+        let readWriteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readWrite) ?? false
+        readWrite = readWriteDecoded
         let environmentIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .environmentId)
         environmentId = environmentIdDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
@@ -6037,7 +6077,19 @@ public struct GetKxScalingGroupOutput: Swift.Equatable {
     public var clusters: [Swift.String]?
     /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var createdTimestamp: ClientRuntime.Date?
-    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+    /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. It can have one of the following values:
+    ///
+    /// * kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
+    ///
+    /// * kx.sg.8xlarge – The host type with a configuration of 216 GiB memory and 32 vCPUs.
+    ///
+    /// * kx.sg.16xlarge – The host type with a configuration of 432 GiB memory and 64 vCPUs.
+    ///
+    /// * kx.sg.32xlarge – The host type with a configuration of 864 GiB memory and 128 vCPUs.
+    ///
+    /// * kx.sg1.16xlarge – The host type with a configuration of 1949 GiB memory and 64 vCPUs.
+    ///
+    /// * kx.sg1.24xlarge – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
     public var hostType: Swift.String?
     /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var lastModifiedTimestamp: ClientRuntime.Date?
@@ -6370,7 +6422,7 @@ public struct GetKxVolumeOutput: Swift.Equatable {
     public var attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
     /// The identifier of the availability zones.
     public var availabilityZoneIds: [Swift.String]?
-    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var createdTimestamp: ClientRuntime.Date?
@@ -7783,6 +7835,7 @@ extension FinspaceClientTypes.KxDataviewListEntry: Swift.Codable {
         case description
         case environmentId
         case lastModifiedTimestamp
+        case readWrite
         case segmentConfigurations
         case status
         case statusReason
@@ -7825,6 +7878,9 @@ extension FinspaceClientTypes.KxDataviewListEntry: Swift.Codable {
         }
         if let lastModifiedTimestamp = self.lastModifiedTimestamp {
             try encodeContainer.encodeTimestamp(lastModifiedTimestamp, format: .epochSeconds, forKey: .lastModifiedTimestamp)
+        }
+        if readWrite != false {
+            try encodeContainer.encode(readWrite, forKey: .readWrite)
         }
         if let segmentConfigurations = segmentConfigurations {
             var segmentConfigurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .segmentConfigurations)
@@ -7882,6 +7938,8 @@ extension FinspaceClientTypes.KxDataviewListEntry: Swift.Codable {
         description = descriptionDecoded
         let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
         autoUpdate = autoUpdateDecoded
+        let readWriteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readWrite) ?? false
+        readWrite = readWriteDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
         createdTimestamp = createdTimestampDecoded
         let lastModifiedTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedTimestamp)
@@ -7900,11 +7958,7 @@ extension FinspaceClientTypes {
         public var autoUpdate: Swift.Bool
         /// The identifier of the availability zones.
         public var availabilityZoneId: Swift.String?
-        /// The number of availability zones you want to assign per cluster. This can be one of the following
-        ///
-        /// * SINGLE – Assigns one availability zone per cluster.
-        ///
-        /// * MULTI – Assigns all the availability zones per cluster.
+        /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
         public var azMode: FinspaceClientTypes.KxAzMode?
         /// A unique identifier for the changeset.
         public var changesetId: Swift.String?
@@ -7920,6 +7974,8 @@ extension FinspaceClientTypes {
         public var environmentId: Swift.String?
         /// The last time that the dataview list was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var lastModifiedTimestamp: ClientRuntime.Date?
+        /// Returns True if the dataview is created as writeable and False otherwise.
+        public var readWrite: Swift.Bool
         /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
         public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
         /// The status of a given dataview entry.
@@ -7939,6 +7995,7 @@ extension FinspaceClientTypes {
             description: Swift.String? = nil,
             environmentId: Swift.String? = nil,
             lastModifiedTimestamp: ClientRuntime.Date? = nil,
+            readWrite: Swift.Bool = false,
             segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
             status: FinspaceClientTypes.KxDataviewStatus? = nil,
             statusReason: Swift.String? = nil
@@ -7955,6 +8012,7 @@ extension FinspaceClientTypes {
             self.description = description
             self.environmentId = environmentId
             self.lastModifiedTimestamp = lastModifiedTimestamp
+            self.readWrite = readWrite
             self.segmentConfigurations = segmentConfigurations
             self.status = status
             self.statusReason = statusReason
@@ -7966,6 +8024,7 @@ extension FinspaceClientTypes {
 extension FinspaceClientTypes.KxDataviewSegmentConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dbPaths
+        case onDemand
         case volumeName
     }
 
@@ -7976,6 +8035,9 @@ extension FinspaceClientTypes.KxDataviewSegmentConfiguration: Swift.Codable {
             for dbpath0 in dbPaths {
                 try dbPathsContainer.encode(dbpath0)
             }
+        }
+        if onDemand != false {
+            try encodeContainer.encode(onDemand, forKey: .onDemand)
         }
         if let volumeName = self.volumeName {
             try encodeContainer.encode(volumeName, forKey: .volumeName)
@@ -7997,6 +8059,8 @@ extension FinspaceClientTypes.KxDataviewSegmentConfiguration: Swift.Codable {
         dbPaths = dbPathsDecoded0
         let volumeNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .volumeName)
         volumeName = volumeNameDecoded
+        let onDemandDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .onDemand) ?? false
+        onDemand = onDemandDecoded
     }
 }
 
@@ -8006,16 +8070,20 @@ extension FinspaceClientTypes {
         /// The database path of the data that you want to place on each selected volume for the segment. Each segment must have a unique database path for each volume.
         /// This member is required.
         public var dbPaths: [Swift.String]?
+        /// Enables on-demand caching on the selected database path when a particular file or a column of the database is accessed. When on demand caching is True, dataviews perform minimal loading of files on the filesystem as needed. When it is set to False, everything is cached. The default value is False.
+        public var onDemand: Swift.Bool
         /// The name of the volume where you want to add data.
         /// This member is required.
         public var volumeName: Swift.String?
 
         public init(
             dbPaths: [Swift.String]? = nil,
+            onDemand: Swift.Bool = false,
             volumeName: Swift.String? = nil
         )
         {
             self.dbPaths = dbPaths
+            self.onDemand = onDemand
             self.volumeName = volumeName
         }
     }
@@ -8675,7 +8743,19 @@ extension FinspaceClientTypes {
         public var clusters: [Swift.String]?
         /// The timestamp at which the scaling group was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var createdTimestamp: ClientRuntime.Date?
-        /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed.
+        /// The memory and CPU capabilities of the scaling group host on which FinSpace Managed kdb clusters will be placed. You can add one of the following values:
+        ///
+        /// * kx.sg.4xlarge – The host type with a configuration of 108 GiB memory and 16 vCPUs.
+        ///
+        /// * kx.sg.8xlarge – The host type with a configuration of 216 GiB memory and 32 vCPUs.
+        ///
+        /// * kx.sg.16xlarge – The host type with a configuration of 432 GiB memory and 64 vCPUs.
+        ///
+        /// * kx.sg.32xlarge – The host type with a configuration of 864 GiB memory and 128 vCPUs.
+        ///
+        /// * kx.sg1.16xlarge – The host type with a configuration of 1949 GiB memory and 64 vCPUs.
+        ///
+        /// * kx.sg1.24xlarge – The host type with a configuration of 2948 GiB memory and 96 vCPUs.
         public var hostType: Swift.String?
         /// The last time that the scaling group was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var lastModifiedTimestamp: ClientRuntime.Date?
@@ -8991,7 +9071,7 @@ extension FinspaceClientTypes {
     public struct KxVolume: Swift.Equatable {
         /// The identifier of the availability zones.
         public var availabilityZoneIds: [Swift.String]?
-        /// The number of availability zones assigned to the volume. Currently, only SINGLE is supported.
+        /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
         public var azMode: FinspaceClientTypes.KxAzMode?
         /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public var createdTimestamp: ClientRuntime.Date?
@@ -12127,6 +12207,7 @@ extension UpdateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = output.description
             self.environmentId = output.environmentId
             self.lastModifiedTimestamp = output.lastModifiedTimestamp
+            self.readWrite = output.readWrite
             self.segmentConfigurations = output.segmentConfigurations
             self.status = output.status
         } else {
@@ -12141,6 +12222,7 @@ extension UpdateKxDataviewOutput: ClientRuntime.HttpResponseBinding {
             self.description = nil
             self.environmentId = nil
             self.lastModifiedTimestamp = nil
+            self.readWrite = false
             self.segmentConfigurations = nil
             self.status = nil
         }
@@ -12154,11 +12236,7 @@ public struct UpdateKxDataviewOutput: Swift.Equatable {
     public var autoUpdate: Swift.Bool
     /// The identifier of the availability zones.
     public var availabilityZoneId: Swift.String?
-    /// The number of availability zones you want to assign per cluster. This can be one of the following
-    ///
-    /// * SINGLE – Assigns one availability zone per cluster.
-    ///
-    /// * MULTI – Assigns all the availability zones per cluster.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// A unique identifier for the changeset.
     public var changesetId: Swift.String?
@@ -12174,6 +12252,8 @@ public struct UpdateKxDataviewOutput: Swift.Equatable {
     public var environmentId: Swift.String?
     /// The last time that the dataview was updated in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var lastModifiedTimestamp: ClientRuntime.Date?
+    /// Returns True if the dataview is created as writeable and False otherwise.
+    public var readWrite: Swift.Bool
     /// The configuration that contains the database path of the data that you want to place on each selected volume. Each segment must have a unique database path for each volume. If you do not explicitly specify any database path for a volume, they are accessible from the cluster through the default S3/object store segment.
     public var segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]?
     /// The status of dataview creation.
@@ -12197,6 +12277,7 @@ public struct UpdateKxDataviewOutput: Swift.Equatable {
         description: Swift.String? = nil,
         environmentId: Swift.String? = nil,
         lastModifiedTimestamp: ClientRuntime.Date? = nil,
+        readWrite: Swift.Bool = false,
         segmentConfigurations: [FinspaceClientTypes.KxDataviewSegmentConfiguration]? = nil,
         status: FinspaceClientTypes.KxDataviewStatus? = nil
     )
@@ -12212,6 +12293,7 @@ public struct UpdateKxDataviewOutput: Swift.Equatable {
         self.description = description
         self.environmentId = environmentId
         self.lastModifiedTimestamp = lastModifiedTimestamp
+        self.readWrite = readWrite
         self.segmentConfigurations = segmentConfigurations
         self.status = status
     }
@@ -12228,6 +12310,7 @@ struct UpdateKxDataviewOutputBody: Swift.Equatable {
     let activeVersions: [FinspaceClientTypes.KxDataviewActiveVersion]?
     let status: FinspaceClientTypes.KxDataviewStatus?
     let autoUpdate: Swift.Bool
+    let readWrite: Swift.Bool
     let description: Swift.String?
     let createdTimestamp: ClientRuntime.Date?
     let lastModifiedTimestamp: ClientRuntime.Date?
@@ -12246,6 +12329,7 @@ extension UpdateKxDataviewOutputBody: Swift.Decodable {
         case description
         case environmentId
         case lastModifiedTimestamp
+        case readWrite
         case segmentConfigurations
         case status
     }
@@ -12290,6 +12374,8 @@ extension UpdateKxDataviewOutputBody: Swift.Decodable {
         status = statusDecoded
         let autoUpdateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoUpdate) ?? false
         autoUpdate = autoUpdateDecoded
+        let readWriteDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readWrite) ?? false
+        readWrite = readWriteDecoded
         let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
         description = descriptionDecoded
         let createdTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdTimestamp)
@@ -13229,7 +13315,7 @@ public struct UpdateKxVolumeOutput: Swift.Equatable {
     public var attachedClusters: [FinspaceClientTypes.KxAttachedCluster]?
     /// The identifier of the availability zones.
     public var availabilityZoneIds: [Swift.String]?
-    /// The number of availability zones you want to assign per cluster. Currently, FinSpace only support SINGLE for volumes.
+    /// The number of availability zones you want to assign per volume. Currently, FinSpace only supports SINGLE for volumes. This places dataview in a single AZ.
     public var azMode: FinspaceClientTypes.KxAzMode?
     /// The timestamp at which the volume was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
     public var createdTimestamp: ClientRuntime.Date?

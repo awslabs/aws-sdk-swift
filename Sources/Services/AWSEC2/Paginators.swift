@@ -1762,6 +1762,38 @@ extension PaginatorSequence where OperationStackInput == DescribeLocalGatewayVir
     }
 }
 extension EC2Client {
+    /// Paginate over `[DescribeMacHostsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[DescribeMacHostsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `DescribeMacHostsOutput`
+    public func describeMacHostsPaginated(input: DescribeMacHostsInput) -> ClientRuntime.PaginatorSequence<DescribeMacHostsInput, DescribeMacHostsOutput> {
+        return ClientRuntime.PaginatorSequence<DescribeMacHostsInput, DescribeMacHostsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.describeMacHosts(input:))
+    }
+}
+
+extension DescribeMacHostsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> DescribeMacHostsInput {
+        return DescribeMacHostsInput(
+            filters: self.filters,
+            hostIds: self.hostIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == DescribeMacHostsInput, OperationStackOutput == DescribeMacHostsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `describeMacHostsPaginated`
+    /// to access the nested member `[EC2ClientTypes.MacHost]`
+    /// - Returns: `[EC2ClientTypes.MacHost]`
+    public func macHosts() async throws -> [EC2ClientTypes.MacHost] {
+        return try await self.asyncCompactMap { item in item.macHosts }
+    }
+}
+extension EC2Client {
     /// Paginate over `[DescribeManagedPrefixListsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

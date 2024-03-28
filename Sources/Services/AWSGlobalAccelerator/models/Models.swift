@@ -778,7 +778,7 @@ extension AdvertiseByoipCidrInput {
 }
 
 public struct AdvertiseByoipCidrInput: Swift.Equatable {
-    /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range.
+    /// The address range, in CIDR notation. This must be the exact range that you provisioned. You can't advertise only a portion of the provisioned range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     /// This member is required.
     public var cidr: Swift.String?
 
@@ -1190,7 +1190,7 @@ extension GlobalAcceleratorClientTypes.Attachment: Swift.Codable {
 }
 
 extension GlobalAcceleratorClientTypes {
-    /// A cross-account attachment in Global Accelerator. A cross-account attachment specifies the principals who have permission to add to accelerators in their own account the resources in your account that you also list in the attachment.
+    /// A cross-account attachment in Global Accelerator. A cross-account attachment specifies the principals who have permission to work with resources in your account, which you also list in the attachment.
     public struct Attachment: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the cross-account attachment.
         public var attachmentArn: Swift.String?
@@ -1348,7 +1348,7 @@ extension GlobalAcceleratorClientTypes {
     ///
     /// * FAILED_DEPROVISION — The request to deprovision the address range from Global Accelerator was not successful. Please make sure that you provide all of the correct information, and try again. If the request fails a second time, contact Amazon Web Services support.
     public struct ByoipCidr: Swift.Equatable {
-        /// The address range, in CIDR notation.
+        /// The address range, in CIDR notation. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
         public var cidr: Swift.String?
         /// A history of status changes for an IP address range that you bring to Global Accelerator through bring your own IP address (BYOIP).
         public var events: [GlobalAcceleratorClientTypes.ByoipCidrEvent]?
@@ -1901,11 +1901,11 @@ public struct CreateCrossAccountAttachmentInput: Swift.Equatable {
     /// The name of the cross-account attachment.
     /// This member is required.
     public var name: Swift.String?
-    /// The principals to list in the cross-account attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator.
+    /// The principals to include in the cross-account attachment. A principal can be an Amazon Web Services account number or the Amazon Resource Name (ARN) for an accelerator.
     public var principals: [Swift.String]?
-    /// The Amazon Resource Names (ARNs) for the resources to list in the cross-account attachment. A resource can be any supported Amazon Web Services resource type for Global Accelerator.
+    /// The Amazon Resource Names (ARNs) for the resources to include in the cross-account attachment. A resource can be any supported Amazon Web Services resource type for Global Accelerator or a CIDR range for a bring your own IP address (BYOIP) address pool.
     public var resources: [GlobalAcceleratorClientTypes.Resource]?
-    /// Create tags for cross-account attachment. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
+    /// Add tags for a cross-account attachment. For more information, see [Tagging in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html) in the Global Accelerator Developer Guide.
     public var tags: [GlobalAcceleratorClientTypes.Tag]?
 
     public init(
@@ -2948,6 +2948,7 @@ enum CreateListenerOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension GlobalAcceleratorClientTypes.CrossAccountResource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attachmentArn = "AttachmentArn"
+        case cidr = "Cidr"
         case endpointId = "EndpointId"
     }
 
@@ -2955,6 +2956,9 @@ extension GlobalAcceleratorClientTypes.CrossAccountResource: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let attachmentArn = self.attachmentArn {
             try encodeContainer.encode(attachmentArn, forKey: .attachmentArn)
+        }
+        if let cidr = self.cidr {
+            try encodeContainer.encode(cidr, forKey: .cidr)
         }
         if let endpointId = self.endpointId {
             try encodeContainer.encode(endpointId, forKey: .endpointId)
@@ -2965,25 +2969,31 @@ extension GlobalAcceleratorClientTypes.CrossAccountResource: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
         endpointId = endpointIdDecoded
+        let cidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidr)
+        cidr = cidrDecoded
         let attachmentArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .attachmentArn)
         attachmentArn = attachmentArnDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
-    /// An endpoint (Amazon Web Services resource) that is listed in a cross-account attachment and can be added to an accelerator by specified principals, that are also listed in the attachment.
+    /// An endpoint (Amazon Web Services resource) or an IP address range, in CIDR format, that is listed in a cross-account attachment. A cross-account resource can be added to an accelerator by specified principals, which are also listed in the attachment. For more information, see [ Working with cross-account attachments and resources in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/cross-account-resources.html) in the Global Accelerator Developer Guide.
     public struct CrossAccountResource: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the resources (endpoints or CIDR range) that can be added to accelerators and principals that have permission to add them.
         public var attachmentArn: Swift.String?
+        /// An IP address range, in CIDR format, that is specified as an Amazon Web Services resource. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
+        public var cidr: Swift.String?
         /// The endpoint ID for the endpoint that is listed in a cross-account attachment and can be added to an accelerator by specified principals.
         public var endpointId: Swift.String?
 
         public init(
             attachmentArn: Swift.String? = nil,
+            cidr: Swift.String? = nil,
             endpointId: Swift.String? = nil
         )
         {
             self.attachmentArn = attachmentArn
+            self.cidr = cidr
             self.endpointId = endpointId
         }
     }
@@ -3401,7 +3411,7 @@ extension GlobalAcceleratorClientTypes.CustomRoutingEndpointConfiguration: Swift
 extension GlobalAcceleratorClientTypes {
     /// The list of endpoint objects. For custom routing, this is a list of virtual private cloud (VPC) subnet IDs.
     public struct CustomRoutingEndpointConfiguration: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints.
         public var attachmentArn: Swift.String?
         /// An ID for the endpoint. For custom routing accelerators, this is the virtual private cloud (VPC) subnet ID.
         public var endpointId: Swift.String?
@@ -4309,7 +4319,7 @@ extension DeprovisionByoipCidrInput {
 }
 
 public struct DeprovisionByoipCidrInput: Swift.Equatable {
-    /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range.
+    /// The address range, in CIDR notation. The prefix must be the same prefix that you specified when you provisioned the address range. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     /// This member is required.
     public var cidr: Swift.String?
 
@@ -5523,11 +5533,11 @@ extension GlobalAcceleratorClientTypes.EndpointConfiguration: Swift.Codable {
 extension GlobalAcceleratorClientTypes {
     /// A complex type for endpoints. A resource must be valid and active when you add it as an endpoint.
     public struct EndpointConfiguration: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints to accelerators.
+        /// The Amazon Resource Name (ARN) of the cross-account attachment that specifies the endpoints (resources) that can be added to accelerators and principals that have permission to add the endpoints.
         public var attachmentArn: Swift.String?
         /// Indicates whether client IP address preservation is enabled for an endpoint. The value is true or false. The default value is true for Application Load Balancer endpoints. If the value is set to true, the client's IP address is preserved in the X-Forwarded-For request header as traffic travels to applications on the endpoint fronted by the accelerator. Client IP address preservation is supported, in specific Amazon Web Services Regions, for endpoints that are Application Load Balancers, Amazon EC2 instances, and Network Load Balancers with security groups. IMPORTANT: You cannot use client IP address preservation with Network Load Balancers with TLS listeners. For more information, see [ Preserve client IP addresses in Global Accelerator](https://docs.aws.amazon.com/global-accelerator/latest/dg/preserve-client-ip-address.html) in the Global Accelerator Developer Guide.
         public var clientIPPreservationEnabled: Swift.Bool?
-        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. An Application Load Balancer can be either internal or internet-facing.
+        /// An ID for the endpoint. If the endpoint is a Network Load Balancer or Application Load Balancer, this is the Amazon Resource Name (ARN) of the resource. If the endpoint is an Elastic IP address, this is the Elastic IP address allocation ID. For Amazon EC2 instances, this is the EC2 instance ID. A resource must be valid and active when you add it as an endpoint. For cross-account endpoints, this must be the ARN of the resource.
         public var endpointId: Swift.String?
         /// The weight associated with the endpoint. When you add weights to endpoints, you configure Global Accelerator to route traffic based on proportions that you specify. For example, you might specify endpoint weights of 4, 5, 5, and 6 (sum=20). The result is that 4/20 of your traffic, on average, is routed to the first endpoint, 5/20 is routed both to the second and third endpoints, and 6/20 is routed to the last endpoint. For more information, see [Endpoint weights](https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoints-endpoint-weights.html) in the Global Accelerator Developer Guide.
         public var weight: Swift.Int?
@@ -6957,7 +6967,7 @@ extension ListCrossAccountResourceAccountsOutput: ClientRuntime.HttpResponseBind
 }
 
 public struct ListCrossAccountResourceAccountsOutput: Swift.Equatable {
-    /// The account IDs of principals (resource owners) in a cross-account attachment who can add endpoints (resources) listed in the same attachment.
+    /// The account IDs of principals (resource owners) in a cross-account attachment who can work with resources listed in the same attachment.
     public var resourceOwnerAwsAccountIds: [Swift.String]?
 
     public init(
@@ -7040,7 +7050,7 @@ extension ListCrossAccountResourcesInput {
 public struct ListCrossAccountResourcesInput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) of an accelerator in a cross-account attachment.
     public var acceleratorArn: Swift.String?
-    /// The number of cross-account endpoints objects that you want to return with this call. The default value is 10.
+    /// The number of cross-account resource objects that you want to return with this call. The default value is 10.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
@@ -7105,7 +7115,7 @@ extension ListCrossAccountResourcesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct ListCrossAccountResourcesOutput: Swift.Equatable {
-    /// The endpoints attached to an accelerator in a cross-account attachment.
+    /// The cross-account resources used with an accelerator.
     public var crossAccountResources: [GlobalAcceleratorClientTypes.CrossAccountResource]?
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
@@ -8685,7 +8695,7 @@ extension ProvisionByoipCidrInput {
 }
 
 public struct ProvisionByoipCidrInput: Swift.Equatable {
-    /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this or another Region.
+    /// The public IPv4 address range, in CIDR notation. The most specific IP prefix that you can specify is /24. The address range cannot overlap with another address range that you've brought to this Amazon Web Services Region or another Region. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     /// This member is required.
     public var cidr: Swift.String?
     /// A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP.
@@ -8978,12 +8988,16 @@ enum RemoveEndpointsOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension GlobalAcceleratorClientTypes.Resource: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cidr = "Cidr"
         case endpointId = "EndpointId"
         case region = "Region"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cidr = self.cidr {
+            try encodeContainer.encode(cidr, forKey: .cidr)
+        }
         if let endpointId = self.endpointId {
             try encodeContainer.encode(endpointId, forKey: .endpointId)
         }
@@ -8996,25 +9010,30 @@ extension GlobalAcceleratorClientTypes.Resource: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endpointIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpointId)
         endpointId = endpointIdDecoded
+        let cidrDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .cidr)
+        cidr = cidrDecoded
         let regionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .region)
         region = regionDecoded
     }
 }
 
 extension GlobalAcceleratorClientTypes {
-    /// An Amazon Web Services resource that is supported by Global Accelerator and can be added as an endpoint for an accelerator.
+    /// A resource is one of the following: the ARN for an Amazon Web Services resource that is supported by Global Accelerator to be added as an endpoint, or a CIDR range that specifies a bring your own IP (BYOIP) address pool.
     public struct Resource: Swift.Equatable {
-        /// The endpoint ID for the endpoint (Amazon Web Services resource).
-        /// This member is required.
+        /// An IP address range, in CIDR format, that is specified as resource. The address must be provisioned and advertised in Global Accelerator by following the bring your own IP address (BYOIP) process for Global Accelerator For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
+        public var cidr: Swift.String?
+        /// The endpoint ID for the endpoint that is specified as a Amazon Web Services resource. An endpoint ID for the cross-account feature is the ARN of an Amazon Web Services resource, such as a Network Load Balancer, that Global Accelerator supports as an endpoint for an accelerator.
         public var endpointId: Swift.String?
-        /// The Amazon Web Services Region where a resource is located.
+        /// The Amazon Web Services Region where a shared endpoint resource is located.
         public var region: Swift.String?
 
         public init(
+            cidr: Swift.String? = nil,
             endpointId: Swift.String? = nil,
             region: Swift.String? = nil
         )
         {
+            self.cidr = cidr
             self.endpointId = endpointId
             self.region = region
         }
@@ -9694,18 +9713,18 @@ extension UpdateCrossAccountAttachmentInput {
 }
 
 public struct UpdateCrossAccountAttachmentInput: Swift.Equatable {
-    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to add the resources from another account, listed in the attachment. To add more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    /// The principals to add to the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from another account. The resources are also listed in the attachment. To add more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
     public var addPrincipals: [Swift.String]?
-    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with commas.
+    /// The resources to add to the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To add more than one resource, separate the resource ARNs with commas.
     public var addResources: [GlobalAcceleratorClientTypes.Resource]?
     /// The Amazon Resource Name (ARN) of the cross-account attachment to update.
     /// This member is required.
     public var attachmentArn: Swift.String?
     /// The name of the cross-account attachment.
     public var name: Swift.String?
-    /// The principals to remove from the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that is given permission to add the resources from another account, listed in the cross-account attachment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
+    /// The principals to remove from the cross-account attachment. A principal is an account or the Amazon Resource Name (ARN) of an accelerator that the attachment gives permission to work with resources from another account. The resources are also listed in the attachment. To remove more than one principal, separate the account numbers or accelerator ARNs, or both, with commas.
     public var removePrincipals: [Swift.String]?
-    /// The resources to remove from the cross-account attachment. A resource listed in a cross-account attachment can be added to an accelerator fy principals that are listed in the cross-account attachment. To remove more than one resource, separate the resource ARNs with commas.
+    /// The resources to remove from the cross-account attachment. A resource listed in a cross-account attachment can be used with an accelerator by the principals that are listed in the attachment. To remove more than one resource, separate the resource ARNs with commas.
     public var removeResources: [GlobalAcceleratorClientTypes.Resource]?
 
     public init(
@@ -10657,7 +10676,7 @@ extension WithdrawByoipCidrInput {
 }
 
 public struct WithdrawByoipCidrInput: Swift.Equatable {
-    /// The address range, in CIDR notation.
+    /// The address range, in CIDR notation. For more information, see [Bring your own IP addresses (BYOIP)](https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html) in the Global Accelerator Developer Guide.
     /// This member is required.
     public var cidr: Swift.String?
 
@@ -10698,7 +10717,7 @@ extension WithdrawByoipCidrOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct WithdrawByoipCidrOutput: Swift.Equatable {
-    /// Information about the address pool.
+    /// Information about the BYOIP address pool.
     public var byoipCidr: GlobalAcceleratorClientTypes.ByoipCidr?
 
     public init(

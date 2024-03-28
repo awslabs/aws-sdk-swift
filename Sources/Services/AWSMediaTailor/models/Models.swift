@@ -420,6 +420,170 @@ extension MediaTailorClientTypes {
     }
 }
 
+extension MediaTailorClientTypes.AlternateMedia: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adBreaks = "AdBreaks"
+        case clipRange = "ClipRange"
+        case durationMillis = "DurationMillis"
+        case liveSourceName = "LiveSourceName"
+        case scheduledStartTimeMillis = "ScheduledStartTimeMillis"
+        case sourceLocationName = "SourceLocationName"
+        case vodSourceName = "VodSourceName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adBreaks = adBreaks {
+            var adBreaksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adBreaks)
+            for adbreak0 in adBreaks {
+                try adBreaksContainer.encode(adbreak0)
+            }
+        }
+        if let clipRange = self.clipRange {
+            try encodeContainer.encode(clipRange, forKey: .clipRange)
+        }
+        if let durationMillis = self.durationMillis {
+            try encodeContainer.encode(durationMillis, forKey: .durationMillis)
+        }
+        if let liveSourceName = self.liveSourceName {
+            try encodeContainer.encode(liveSourceName, forKey: .liveSourceName)
+        }
+        if let scheduledStartTimeMillis = self.scheduledStartTimeMillis {
+            try encodeContainer.encode(scheduledStartTimeMillis, forKey: .scheduledStartTimeMillis)
+        }
+        if let sourceLocationName = self.sourceLocationName {
+            try encodeContainer.encode(sourceLocationName, forKey: .sourceLocationName)
+        }
+        if let vodSourceName = self.vodSourceName {
+            try encodeContainer.encode(vodSourceName, forKey: .vodSourceName)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sourceLocationNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceLocationName)
+        sourceLocationName = sourceLocationNameDecoded
+        let liveSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .liveSourceName)
+        liveSourceName = liveSourceNameDecoded
+        let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
+        vodSourceName = vodSourceNameDecoded
+        let clipRangeDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.ClipRange.self, forKey: .clipRange)
+        clipRange = clipRangeDecoded
+        let scheduledStartTimeMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .scheduledStartTimeMillis)
+        scheduledStartTimeMillis = scheduledStartTimeMillisDecoded
+        let adBreaksContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AdBreak?].self, forKey: .adBreaks)
+        var adBreaksDecoded0:[MediaTailorClientTypes.AdBreak]? = nil
+        if let adBreaksContainer = adBreaksContainer {
+            adBreaksDecoded0 = [MediaTailorClientTypes.AdBreak]()
+            for structure0 in adBreaksContainer {
+                if let structure0 = structure0 {
+                    adBreaksDecoded0?.append(structure0)
+                }
+            }
+        }
+        adBreaks = adBreaksDecoded0
+        let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
+        durationMillis = durationMillisDecoded
+    }
+}
+
+extension MediaTailorClientTypes {
+    /// A playlist of media (VOD and/or live) to be played instead of the default media on a particular program.
+    public struct AlternateMedia: Swift.Equatable {
+        /// Ad break configuration parameters defined in AlternateMedia.
+        public var adBreaks: [MediaTailorClientTypes.AdBreak]?
+        /// Clip range configuration for the VOD source associated with the program.
+        public var clipRange: MediaTailorClientTypes.ClipRange?
+        /// The duration of the alternateMedia in milliseconds.
+        public var durationMillis: Swift.Int?
+        /// The name of the live source for alternateMedia.
+        public var liveSourceName: Swift.String?
+        /// The date and time that the alternateMedia is scheduled to start, in epoch milliseconds.
+        public var scheduledStartTimeMillis: Swift.Int?
+        /// The name of the source location for alternateMedia.
+        public var sourceLocationName: Swift.String?
+        /// The name of the VOD source for alternateMedia.
+        public var vodSourceName: Swift.String?
+
+        public init(
+            adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
+            clipRange: MediaTailorClientTypes.ClipRange? = nil,
+            durationMillis: Swift.Int? = nil,
+            liveSourceName: Swift.String? = nil,
+            scheduledStartTimeMillis: Swift.Int? = nil,
+            sourceLocationName: Swift.String? = nil,
+            vodSourceName: Swift.String? = nil
+        )
+        {
+            self.adBreaks = adBreaks
+            self.clipRange = clipRange
+            self.durationMillis = durationMillis
+            self.liveSourceName = liveSourceName
+            self.scheduledStartTimeMillis = scheduledStartTimeMillis
+            self.sourceLocationName = sourceLocationName
+            self.vodSourceName = vodSourceName
+        }
+    }
+
+}
+
+extension MediaTailorClientTypes.AudienceMedia: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case alternateMedia = "AlternateMedia"
+        case audience = "Audience"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let alternateMedia = alternateMedia {
+            var alternateMediaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .alternateMedia)
+            for alternatemedia0 in alternateMedia {
+                try alternateMediaContainer.encode(alternatemedia0)
+            }
+        }
+        if let audience = self.audience {
+            try encodeContainer.encode(audience, forKey: .audience)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let audienceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .audience)
+        audience = audienceDecoded
+        let alternateMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AlternateMedia?].self, forKey: .alternateMedia)
+        var alternateMediaDecoded0:[MediaTailorClientTypes.AlternateMedia]? = nil
+        if let alternateMediaContainer = alternateMediaContainer {
+            alternateMediaDecoded0 = [MediaTailorClientTypes.AlternateMedia]()
+            for structure0 in alternateMediaContainer {
+                if let structure0 = structure0 {
+                    alternateMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        alternateMedia = alternateMediaDecoded0
+    }
+}
+
+extension MediaTailorClientTypes {
+    /// An AudienceMedia object contains an Audience and a list of AlternateMedia.
+    public struct AudienceMedia: Swift.Equatable {
+        /// The list of AlternateMedia defined in AudienceMedia.
+        public var alternateMedia: [MediaTailorClientTypes.AlternateMedia]?
+        /// The Audience defined in AudienceMedia.
+        public var audience: Swift.String?
+
+        public init(
+            alternateMedia: [MediaTailorClientTypes.AlternateMedia]? = nil,
+            audience: Swift.String? = nil
+        )
+        {
+            self.alternateMedia = alternateMedia
+            self.audience = audience
+        }
+    }
+
+}
+
 extension MediaTailorClientTypes.AvailMatchingCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dynamicVariable = "DynamicVariable"
@@ -670,6 +834,7 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes.Channel: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case audiences = "Audiences"
         case channelName = "ChannelName"
         case channelState = "ChannelState"
         case creationTime = "CreationTime"
@@ -686,6 +851,12 @@ extension MediaTailorClientTypes.Channel: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let audiences = audiences {
+            var audiencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audiences)
+            for string0 in audiences {
+                try audiencesContainer.encode(string0)
+            }
         }
         if let channelName = self.channelName {
             try encodeContainer.encode(channelName, forKey: .channelName)
@@ -767,6 +938,17 @@ extension MediaTailorClientTypes.Channel: Swift.Codable {
         tier = tierDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LogConfigurationForChannel.self, forKey: .logConfiguration)
         logConfiguration = logConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -776,6 +958,8 @@ extension MediaTailorClientTypes {
         /// The ARN of the channel.
         /// This member is required.
         public var arn: Swift.String?
+        /// The list of audiences defined in channel.
+        public var audiences: [Swift.String]?
         /// The name of the channel.
         /// This member is required.
         public var channelName: Swift.String?
@@ -805,6 +989,7 @@ extension MediaTailorClientTypes {
 
         public init(
             arn: Swift.String? = nil,
+            audiences: [Swift.String]? = nil,
             channelName: Swift.String? = nil,
             channelState: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
@@ -818,6 +1003,7 @@ extension MediaTailorClientTypes {
         )
         {
             self.arn = arn
+            self.audiences = audiences
             self.channelName = channelName
             self.channelState = channelState
             self.creationTime = creationTime
@@ -868,6 +1054,7 @@ extension MediaTailorClientTypes {
 extension MediaTailorClientTypes.ClipRange: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endOffsetMillis = "EndOffsetMillis"
+        case startOffsetMillis = "StartOffsetMillis"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -875,12 +1062,17 @@ extension MediaTailorClientTypes.ClipRange: Swift.Codable {
         if let endOffsetMillis = self.endOffsetMillis {
             try encodeContainer.encode(endOffsetMillis, forKey: .endOffsetMillis)
         }
+        if let startOffsetMillis = self.startOffsetMillis {
+            try encodeContainer.encode(startOffsetMillis, forKey: .startOffsetMillis)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let endOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .endOffsetMillis)
         endOffsetMillis = endOffsetMillisDecoded
+        let startOffsetMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .startOffsetMillis)
+        startOffsetMillis = startOffsetMillisDecoded
     }
 }
 
@@ -888,14 +1080,17 @@ extension MediaTailorClientTypes {
     /// Clip range configuration for the VOD source associated with the program.
     public struct ClipRange: Swift.Equatable {
         /// The end offset of the clip range, in milliseconds, starting from the beginning of the VOD source associated with the program.
-        /// This member is required.
         public var endOffsetMillis: Swift.Int?
+        /// The start offset of the clip range, in milliseconds. This offset truncates the start at the number of milliseconds into the duration of the VOD source.
+        public var startOffsetMillis: Swift.Int?
 
         public init(
-            endOffsetMillis: Swift.Int? = nil
+            endOffsetMillis: Swift.Int? = nil,
+            startOffsetMillis: Swift.Int? = nil
         )
         {
             self.endOffsetMillis = endOffsetMillis
+            self.startOffsetMillis = startOffsetMillis
         }
     }
 
@@ -1170,6 +1365,7 @@ enum ConfigureLogsForPlaybackConfigurationOutputError: ClientRuntime.HttpRespons
 
 extension CreateChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audiences = "Audiences"
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
         case playbackMode = "PlaybackMode"
@@ -1180,6 +1376,12 @@ extension CreateChannelInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audiences = audiences {
+            var audiencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audiences)
+            for string0 in audiences {
+                try audiencesContainer.encode(string0)
+            }
+        }
         if let fillerSlate = self.fillerSlate {
             try encodeContainer.encode(fillerSlate, forKey: .fillerSlate)
         }
@@ -1218,6 +1420,8 @@ extension CreateChannelInput {
 }
 
 public struct CreateChannelInput: Swift.Equatable {
+    /// The list of audiences defined in channel.
+    public var audiences: [Swift.String]?
     /// The name of the channel.
     /// This member is required.
     public var channelName: Swift.String?
@@ -1237,6 +1441,7 @@ public struct CreateChannelInput: Swift.Equatable {
     public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
+        audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
         outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
@@ -1246,6 +1451,7 @@ public struct CreateChannelInput: Swift.Equatable {
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
+        self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
         self.outputs = outputs
@@ -1263,10 +1469,12 @@ struct CreateChannelInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let tier: MediaTailorClientTypes.Tier?
     let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
+    let audiences: [Swift.String]?
 }
 
 extension CreateChannelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audiences = "Audiences"
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
         case playbackMode = "PlaybackMode"
@@ -1307,6 +1515,17 @@ extension CreateChannelInputBody: Swift.Decodable {
         tier = tierDecoded
         let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
         timeShiftConfiguration = timeShiftConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -1316,6 +1535,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: CreateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.audiences = output.audiences
             self.channelName = output.channelName
             self.channelState = output.channelState
             self.creationTime = output.creationTime
@@ -1328,6 +1548,7 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
+            self.audiences = nil
             self.channelName = nil
             self.channelState = nil
             self.creationTime = nil
@@ -1345,6 +1566,8 @@ extension CreateChannelOutput: ClientRuntime.HttpResponseBinding {
 public struct CreateChannelOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) to assign to the channel.
     public var arn: Swift.String?
+    /// The list of audiences defined in channel.
+    public var audiences: [Swift.String]?
     /// The name to assign to the channel.
     public var channelName: Swift.String?
     /// Indicates whether the channel is in a running state or not.
@@ -1368,6 +1591,7 @@ public struct CreateChannelOutput: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -1381,6 +1605,7 @@ public struct CreateChannelOutput: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.audiences = audiences
         self.channelName = channelName
         self.channelState = channelState
         self.creationTime = creationTime
@@ -1406,11 +1631,13 @@ struct CreateChannelOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let tier: Swift.String?
     let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
+    let audiences: [Swift.String]?
 }
 
 extension CreateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case audiences = "Audiences"
         case channelName = "ChannelName"
         case channelState = "ChannelState"
         case creationTime = "CreationTime"
@@ -1465,6 +1692,17 @@ extension CreateChannelOutputBody: Swift.Decodable {
         tier = tierDecoded
         let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
         timeShiftConfiguration = timeShiftConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -1900,6 +2138,7 @@ enum CreatePrefetchScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension CreateProgramInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
+        case audienceMedia = "AudienceMedia"
         case liveSourceName = "LiveSourceName"
         case scheduleConfiguration = "ScheduleConfiguration"
         case sourceLocationName = "SourceLocationName"
@@ -1912,6 +2151,12 @@ extension CreateProgramInput: Swift.Encodable {
             var adBreaksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adBreaks)
             for adbreak0 in adBreaks {
                 try adBreaksContainer.encode(adbreak0)
+            }
+        }
+        if let audienceMedia = audienceMedia {
+            var audienceMediaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audienceMedia)
+            for audiencemedia0 in audienceMedia {
+                try audienceMediaContainer.encode(audiencemedia0)
             }
         }
         if let liveSourceName = self.liveSourceName {
@@ -1945,6 +2190,8 @@ extension CreateProgramInput {
 public struct CreateProgramInput: Swift.Equatable {
     /// The ad break configuration settings.
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
+    /// The list of AudienceMedia defined in program.
+    public var audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
     /// The name of the channel for this Program.
     /// This member is required.
     public var channelName: Swift.String?
@@ -1964,6 +2211,7 @@ public struct CreateProgramInput: Swift.Equatable {
 
     public init(
         adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
+        audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         liveSourceName: Swift.String? = nil,
         programName: Swift.String? = nil,
@@ -1973,6 +2221,7 @@ public struct CreateProgramInput: Swift.Equatable {
     )
     {
         self.adBreaks = adBreaks
+        self.audienceMedia = audienceMedia
         self.channelName = channelName
         self.liveSourceName = liveSourceName
         self.programName = programName
@@ -1988,11 +2237,13 @@ struct CreateProgramInputBody: Swift.Equatable {
     let scheduleConfiguration: MediaTailorClientTypes.ScheduleConfiguration?
     let sourceLocationName: Swift.String?
     let vodSourceName: Swift.String?
+    let audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
 }
 
 extension CreateProgramInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
+        case audienceMedia = "AudienceMedia"
         case liveSourceName = "LiveSourceName"
         case scheduleConfiguration = "ScheduleConfiguration"
         case sourceLocationName = "SourceLocationName"
@@ -2020,6 +2271,17 @@ extension CreateProgramInputBody: Swift.Decodable {
         sourceLocationName = sourceLocationNameDecoded
         let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
         vodSourceName = vodSourceNameDecoded
+        let audienceMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AudienceMedia?].self, forKey: .audienceMedia)
+        var audienceMediaDecoded0:[MediaTailorClientTypes.AudienceMedia]? = nil
+        if let audienceMediaContainer = audienceMediaContainer {
+            audienceMediaDecoded0 = [MediaTailorClientTypes.AudienceMedia]()
+            for structure0 in audienceMediaContainer {
+                if let structure0 = structure0 {
+                    audienceMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        audienceMedia = audienceMediaDecoded0
     }
 }
 
@@ -2030,6 +2292,7 @@ extension CreateProgramOutput: ClientRuntime.HttpResponseBinding {
             let output: CreateProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
+            self.audienceMedia = output.audienceMedia
             self.channelName = output.channelName
             self.clipRange = output.clipRange
             self.creationTime = output.creationTime
@@ -2042,6 +2305,7 @@ extension CreateProgramOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.adBreaks = nil
             self.arn = nil
+            self.audienceMedia = nil
             self.channelName = nil
             self.clipRange = nil
             self.creationTime = nil
@@ -2060,6 +2324,8 @@ public struct CreateProgramOutput: Swift.Equatable {
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN to assign to the program.
     public var arn: Swift.String?
+    /// The list of AudienceMedia defined in program.
+    public var audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
     /// The name to assign to the channel for this program.
     public var channelName: Swift.String?
     /// The clip range configuration settings.
@@ -2082,6 +2348,7 @@ public struct CreateProgramOutput: Swift.Equatable {
     public init(
         adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
         arn: Swift.String? = nil,
+        audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -2095,6 +2362,7 @@ public struct CreateProgramOutput: Swift.Equatable {
     {
         self.adBreaks = adBreaks
         self.arn = arn
+        self.audienceMedia = audienceMedia
         self.channelName = channelName
         self.clipRange = clipRange
         self.creationTime = creationTime
@@ -2119,12 +2387,14 @@ struct CreateProgramOutputBody: Swift.Equatable {
     let vodSourceName: Swift.String?
     let clipRange: MediaTailorClientTypes.ClipRange?
     let durationMillis: Swift.Int?
+    let audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
 }
 
 extension CreateProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
+        case audienceMedia = "AudienceMedia"
         case channelName = "ChannelName"
         case clipRange = "ClipRange"
         case creationTime = "CreationTime"
@@ -2169,6 +2439,17 @@ extension CreateProgramOutputBody: Swift.Decodable {
         clipRange = clipRangeDecoded
         let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
         durationMillis = durationMillisDecoded
+        let audienceMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AudienceMedia?].self, forKey: .audienceMedia)
+        var audienceMediaDecoded0:[MediaTailorClientTypes.AudienceMedia]? = nil
+        if let audienceMediaContainer = audienceMediaContainer {
+            audienceMediaDecoded0 = [MediaTailorClientTypes.AudienceMedia]()
+            for structure0 in audienceMediaContainer {
+                if let structure0 = structure0 {
+                    audienceMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        audienceMedia = audienceMediaDecoded0
     }
 }
 
@@ -3374,6 +3655,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: DescribeChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.audiences = output.audiences
             self.channelName = output.channelName
             self.channelState = output.channelState
             self.creationTime = output.creationTime
@@ -3387,6 +3669,7 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
             self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
+            self.audiences = nil
             self.channelName = nil
             self.channelState = nil
             self.creationTime = nil
@@ -3405,6 +3688,8 @@ extension DescribeChannelOutput: ClientRuntime.HttpResponseBinding {
 public struct DescribeChannelOutput: Swift.Equatable {
     /// The ARN of the channel.
     public var arn: Swift.String?
+    /// The list of audiences defined in channel.
+    public var audiences: [Swift.String]?
     /// The name of the channel.
     public var channelName: Swift.String?
     /// Indicates whether the channel is in a running state or not.
@@ -3431,6 +3716,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -3445,6 +3731,7 @@ public struct DescribeChannelOutput: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.audiences = audiences
         self.channelName = channelName
         self.channelState = channelState
         self.creationTime = creationTime
@@ -3472,11 +3759,13 @@ struct DescribeChannelOutputBody: Swift.Equatable {
     let tier: Swift.String?
     let logConfiguration: MediaTailorClientTypes.LogConfigurationForChannel?
     let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
+    let audiences: [Swift.String]?
 }
 
 extension DescribeChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case audiences = "Audiences"
         case channelName = "ChannelName"
         case channelState = "ChannelState"
         case creationTime = "CreationTime"
@@ -3534,6 +3823,17 @@ extension DescribeChannelOutputBody: Swift.Decodable {
         logConfiguration = logConfigurationDecoded
         let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
         timeShiftConfiguration = timeShiftConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -3762,6 +4062,7 @@ extension DescribeProgramOutput: ClientRuntime.HttpResponseBinding {
             let output: DescribeProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
+            self.audienceMedia = output.audienceMedia
             self.channelName = output.channelName
             self.clipRange = output.clipRange
             self.creationTime = output.creationTime
@@ -3774,6 +4075,7 @@ extension DescribeProgramOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.adBreaks = nil
             self.arn = nil
+            self.audienceMedia = nil
             self.channelName = nil
             self.clipRange = nil
             self.creationTime = nil
@@ -3792,6 +4094,8 @@ public struct DescribeProgramOutput: Swift.Equatable {
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN of the program.
     public var arn: Swift.String?
+    /// The list of AudienceMedia defined in program.
+    public var audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
     /// The name of the channel that the program belongs to.
     public var channelName: Swift.String?
     /// The clip range configuration settings.
@@ -3814,6 +4118,7 @@ public struct DescribeProgramOutput: Swift.Equatable {
     public init(
         adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
         arn: Swift.String? = nil,
+        audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -3827,6 +4132,7 @@ public struct DescribeProgramOutput: Swift.Equatable {
     {
         self.adBreaks = adBreaks
         self.arn = arn
+        self.audienceMedia = audienceMedia
         self.channelName = channelName
         self.clipRange = clipRange
         self.creationTime = creationTime
@@ -3851,12 +4157,14 @@ struct DescribeProgramOutputBody: Swift.Equatable {
     let vodSourceName: Swift.String?
     let clipRange: MediaTailorClientTypes.ClipRange?
     let durationMillis: Swift.Int?
+    let audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
 }
 
 extension DescribeProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
+        case audienceMedia = "AudienceMedia"
         case channelName = "ChannelName"
         case clipRange = "ClipRange"
         case creationTime = "CreationTime"
@@ -3901,6 +4209,17 @@ extension DescribeProgramOutputBody: Swift.Decodable {
         clipRange = clipRangeDecoded
         let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
         durationMillis = durationMillisDecoded
+        let audienceMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AudienceMedia?].self, forKey: .audienceMedia)
+        var audienceMediaDecoded0:[MediaTailorClientTypes.AudienceMedia]? = nil
+        if let audienceMediaContainer = audienceMediaContainer {
+            audienceMediaDecoded0 = [MediaTailorClientTypes.AudienceMedia]()
+            for structure0 in audienceMediaContainer {
+                if let structure0 = structure0 {
+                    audienceMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        audienceMedia = audienceMediaDecoded0
     }
 }
 
@@ -4403,6 +4722,10 @@ extension GetChannelScheduleInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let audience = value.audience {
+            let audienceQueryItem = ClientRuntime.SDKURLQueryItem(name: "audience".urlPercentEncoding(), value: Swift.String(audience).urlPercentEncoding())
+            items.append(audienceQueryItem)
+        }
         if let durationMinutes = value.durationMinutes {
             let durationMinutesQueryItem = ClientRuntime.SDKURLQueryItem(name: "durationMinutes".urlPercentEncoding(), value: Swift.String(durationMinutes).urlPercentEncoding())
             items.append(durationMinutesQueryItem)
@@ -4426,6 +4749,8 @@ extension GetChannelScheduleInput {
 }
 
 public struct GetChannelScheduleInput: Swift.Equatable {
+    /// The single audience for GetChannelScheduleRequest.
+    public var audience: Swift.String?
     /// The name of the channel associated with this Channel Schedule.
     /// This member is required.
     public var channelName: Swift.String?
@@ -4437,12 +4762,14 @@ public struct GetChannelScheduleInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        audience: Swift.String? = nil,
         channelName: Swift.String? = nil,
         durationMinutes: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.audience = audience
         self.channelName = channelName
         self.durationMinutes = durationMinutes
         self.maxResults = maxResults
@@ -7974,6 +8301,7 @@ extension MediaTailorClientTypes.ScheduleEntry: Swift.Codable {
         case approximateDurationSeconds = "ApproximateDurationSeconds"
         case approximateStartTime = "ApproximateStartTime"
         case arn = "Arn"
+        case audiences = "Audiences"
         case channelName = "ChannelName"
         case liveSourceName = "LiveSourceName"
         case programName = "ProgramName"
@@ -7993,6 +8321,12 @@ extension MediaTailorClientTypes.ScheduleEntry: Swift.Codable {
         }
         if let arn = self.arn {
             try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let audiences = audiences {
+            var audiencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audiences)
+            for string0 in audiences {
+                try audiencesContainer.encode(string0)
+            }
         }
         if let channelName = self.channelName {
             try encodeContainer.encode(channelName, forKey: .channelName)
@@ -8051,6 +8385,17 @@ extension MediaTailorClientTypes.ScheduleEntry: Swift.Codable {
         sourceLocationName = sourceLocationNameDecoded
         let vodSourceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .vodSourceName)
         vodSourceName = vodSourceNameDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -8064,6 +8409,8 @@ extension MediaTailorClientTypes {
         /// The ARN of the program.
         /// This member is required.
         public var arn: Swift.String?
+        /// The list of audiences defined in ScheduleEntry.
+        public var audiences: [Swift.String]?
         /// The name of the channel that uses this schedule.
         /// This member is required.
         public var channelName: Swift.String?
@@ -8086,6 +8433,7 @@ extension MediaTailorClientTypes {
             approximateDurationSeconds: Swift.Int? = nil,
             approximateStartTime: ClientRuntime.Date? = nil,
             arn: Swift.String? = nil,
+            audiences: [Swift.String]? = nil,
             channelName: Swift.String? = nil,
             liveSourceName: Swift.String? = nil,
             programName: Swift.String? = nil,
@@ -8098,6 +8446,7 @@ extension MediaTailorClientTypes {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
+            self.audiences = audiences
             self.channelName = channelName
             self.liveSourceName = liveSourceName
             self.programName = programName
@@ -8112,12 +8461,14 @@ extension MediaTailorClientTypes {
 
 extension MediaTailorClientTypes {
     public enum ScheduleEntryType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alternateMedia
         case fillerSlate
         case program
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ScheduleEntryType] {
             return [
+                .alternateMedia,
                 .fillerSlate,
                 .program,
                 .sdkUnknown("")
@@ -8129,6 +8480,7 @@ extension MediaTailorClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .alternateMedia: return "ALTERNATE_MEDIA"
             case .fillerSlate: return "FILLER_SLATE"
             case .program: return "PROGRAM"
             case let .sdkUnknown(s): return s
@@ -9093,6 +9445,7 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateChannelInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audiences = "Audiences"
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
         case timeShiftConfiguration = "TimeShiftConfiguration"
@@ -9100,6 +9453,12 @@ extension UpdateChannelInput: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audiences = audiences {
+            var audiencesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audiences)
+            for string0 in audiences {
+                try audiencesContainer.encode(string0)
+            }
+        }
         if let fillerSlate = self.fillerSlate {
             try encodeContainer.encode(fillerSlate, forKey: .fillerSlate)
         }
@@ -9126,6 +9485,8 @@ extension UpdateChannelInput {
 }
 
 public struct UpdateChannelInput: Swift.Equatable {
+    /// The list of audiences defined in channel.
+    public var audiences: [Swift.String]?
     /// The name of the channel.
     /// This member is required.
     public var channelName: Swift.String?
@@ -9138,12 +9499,14 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
 
     public init(
+        audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         fillerSlate: MediaTailorClientTypes.SlateSource? = nil,
         outputs: [MediaTailorClientTypes.RequestOutputItem]? = nil,
         timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration? = nil
     )
     {
+        self.audiences = audiences
         self.channelName = channelName
         self.fillerSlate = fillerSlate
         self.outputs = outputs
@@ -9155,10 +9518,12 @@ struct UpdateChannelInputBody: Swift.Equatable {
     let fillerSlate: MediaTailorClientTypes.SlateSource?
     let outputs: [MediaTailorClientTypes.RequestOutputItem]?
     let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
+    let audiences: [Swift.String]?
 }
 
 extension UpdateChannelInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audiences = "Audiences"
         case fillerSlate = "FillerSlate"
         case outputs = "Outputs"
         case timeShiftConfiguration = "TimeShiftConfiguration"
@@ -9181,6 +9546,17 @@ extension UpdateChannelInputBody: Swift.Decodable {
         outputs = outputsDecoded0
         let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
         timeShiftConfiguration = timeShiftConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -9190,6 +9566,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: UpdateChannelOutputBody = try responseDecoder.decode(responseBody: data)
             self.arn = output.arn
+            self.audiences = output.audiences
             self.channelName = output.channelName
             self.channelState = output.channelState
             self.creationTime = output.creationTime
@@ -9202,6 +9579,7 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
             self.timeShiftConfiguration = output.timeShiftConfiguration
         } else {
             self.arn = nil
+            self.audiences = nil
             self.channelName = nil
             self.channelState = nil
             self.creationTime = nil
@@ -9219,6 +9597,8 @@ extension UpdateChannelOutput: ClientRuntime.HttpResponseBinding {
 public struct UpdateChannelOutput: Swift.Equatable {
     /// The Amazon Resource Name (ARN) associated with the channel.
     public var arn: Swift.String?
+    /// The list of audiences defined in channel.
+    public var audiences: [Swift.String]?
     /// The name of the channel.
     public var channelName: Swift.String?
     /// Returns the state whether the channel is running or not.
@@ -9242,6 +9622,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
 
     public init(
         arn: Swift.String? = nil,
+        audiences: [Swift.String]? = nil,
         channelName: Swift.String? = nil,
         channelState: MediaTailorClientTypes.ChannelState? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -9255,6 +9636,7 @@ public struct UpdateChannelOutput: Swift.Equatable {
     )
     {
         self.arn = arn
+        self.audiences = audiences
         self.channelName = channelName
         self.channelState = channelState
         self.creationTime = creationTime
@@ -9280,11 +9662,13 @@ struct UpdateChannelOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let tier: Swift.String?
     let timeShiftConfiguration: MediaTailorClientTypes.TimeShiftConfiguration?
+    let audiences: [Swift.String]?
 }
 
 extension UpdateChannelOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn = "Arn"
+        case audiences = "Audiences"
         case channelName = "ChannelName"
         case channelState = "ChannelState"
         case creationTime = "CreationTime"
@@ -9339,6 +9723,17 @@ extension UpdateChannelOutputBody: Swift.Decodable {
         tier = tierDecoded
         let timeShiftConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.TimeShiftConfiguration.self, forKey: .timeShiftConfiguration)
         timeShiftConfiguration = timeShiftConfigurationDecoded
+        let audiencesContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .audiences)
+        var audiencesDecoded0:[Swift.String]? = nil
+        if let audiencesContainer = audiencesContainer {
+            audiencesDecoded0 = [Swift.String]()
+            for string0 in audiencesContainer {
+                if let string0 = string0 {
+                    audiencesDecoded0?.append(string0)
+                }
+            }
+        }
+        audiences = audiencesDecoded0
     }
 }
 
@@ -9560,6 +9955,7 @@ enum UpdateLiveSourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateProgramInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
+        case audienceMedia = "AudienceMedia"
         case scheduleConfiguration = "ScheduleConfiguration"
     }
 
@@ -9569,6 +9965,12 @@ extension UpdateProgramInput: Swift.Encodable {
             var adBreaksContainer = encodeContainer.nestedUnkeyedContainer(forKey: .adBreaks)
             for adbreak0 in adBreaks {
                 try adBreaksContainer.encode(adbreak0)
+            }
+        }
+        if let audienceMedia = audienceMedia {
+            var audienceMediaContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audienceMedia)
+            for audiencemedia0 in audienceMedia {
+                try audienceMediaContainer.encode(audiencemedia0)
             }
         }
         if let scheduleConfiguration = self.scheduleConfiguration {
@@ -9593,6 +9995,8 @@ extension UpdateProgramInput {
 public struct UpdateProgramInput: Swift.Equatable {
     /// The ad break configuration settings.
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
+    /// The list of AudienceMedia defined in program.
+    public var audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
     /// The name of the channel for this Program.
     /// This member is required.
     public var channelName: Swift.String?
@@ -9605,12 +10009,14 @@ public struct UpdateProgramInput: Swift.Equatable {
 
     public init(
         adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
+        audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         programName: Swift.String? = nil,
         scheduleConfiguration: MediaTailorClientTypes.UpdateProgramScheduleConfiguration? = nil
     )
     {
         self.adBreaks = adBreaks
+        self.audienceMedia = audienceMedia
         self.channelName = channelName
         self.programName = programName
         self.scheduleConfiguration = scheduleConfiguration
@@ -9620,11 +10026,13 @@ public struct UpdateProgramInput: Swift.Equatable {
 struct UpdateProgramInputBody: Swift.Equatable {
     let adBreaks: [MediaTailorClientTypes.AdBreak]?
     let scheduleConfiguration: MediaTailorClientTypes.UpdateProgramScheduleConfiguration?
+    let audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
 }
 
 extension UpdateProgramInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
+        case audienceMedia = "AudienceMedia"
         case scheduleConfiguration = "ScheduleConfiguration"
     }
 
@@ -9643,6 +10051,17 @@ extension UpdateProgramInputBody: Swift.Decodable {
         adBreaks = adBreaksDecoded0
         let scheduleConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.UpdateProgramScheduleConfiguration.self, forKey: .scheduleConfiguration)
         scheduleConfiguration = scheduleConfigurationDecoded
+        let audienceMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AudienceMedia?].self, forKey: .audienceMedia)
+        var audienceMediaDecoded0:[MediaTailorClientTypes.AudienceMedia]? = nil
+        if let audienceMediaContainer = audienceMediaContainer {
+            audienceMediaDecoded0 = [MediaTailorClientTypes.AudienceMedia]()
+            for structure0 in audienceMediaContainer {
+                if let structure0 = structure0 {
+                    audienceMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        audienceMedia = audienceMediaDecoded0
     }
 }
 
@@ -9653,6 +10072,7 @@ extension UpdateProgramOutput: ClientRuntime.HttpResponseBinding {
             let output: UpdateProgramOutputBody = try responseDecoder.decode(responseBody: data)
             self.adBreaks = output.adBreaks
             self.arn = output.arn
+            self.audienceMedia = output.audienceMedia
             self.channelName = output.channelName
             self.clipRange = output.clipRange
             self.creationTime = output.creationTime
@@ -9665,6 +10085,7 @@ extension UpdateProgramOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.adBreaks = nil
             self.arn = nil
+            self.audienceMedia = nil
             self.channelName = nil
             self.clipRange = nil
             self.creationTime = nil
@@ -9683,6 +10104,8 @@ public struct UpdateProgramOutput: Swift.Equatable {
     public var adBreaks: [MediaTailorClientTypes.AdBreak]?
     /// The ARN to assign to the program.
     public var arn: Swift.String?
+    /// The list of AudienceMedia defined in program.
+    public var audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
     /// The name to assign to the channel for this program.
     public var channelName: Swift.String?
     /// The clip range configuration settings.
@@ -9705,6 +10128,7 @@ public struct UpdateProgramOutput: Swift.Equatable {
     public init(
         adBreaks: [MediaTailorClientTypes.AdBreak]? = nil,
         arn: Swift.String? = nil,
+        audienceMedia: [MediaTailorClientTypes.AudienceMedia]? = nil,
         channelName: Swift.String? = nil,
         clipRange: MediaTailorClientTypes.ClipRange? = nil,
         creationTime: ClientRuntime.Date? = nil,
@@ -9718,6 +10142,7 @@ public struct UpdateProgramOutput: Swift.Equatable {
     {
         self.adBreaks = adBreaks
         self.arn = arn
+        self.audienceMedia = audienceMedia
         self.channelName = channelName
         self.clipRange = clipRange
         self.creationTime = creationTime
@@ -9742,12 +10167,14 @@ struct UpdateProgramOutputBody: Swift.Equatable {
     let clipRange: MediaTailorClientTypes.ClipRange?
     let durationMillis: Swift.Int?
     let scheduledStartTime: ClientRuntime.Date?
+    let audienceMedia: [MediaTailorClientTypes.AudienceMedia]?
 }
 
 extension UpdateProgramOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case adBreaks = "AdBreaks"
         case arn = "Arn"
+        case audienceMedia = "AudienceMedia"
         case channelName = "ChannelName"
         case clipRange = "ClipRange"
         case creationTime = "CreationTime"
@@ -9792,6 +10219,17 @@ extension UpdateProgramOutputBody: Swift.Decodable {
         durationMillis = durationMillisDecoded
         let scheduledStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .scheduledStartTime)
         scheduledStartTime = scheduledStartTimeDecoded
+        let audienceMediaContainer = try containerValues.decodeIfPresent([MediaTailorClientTypes.AudienceMedia?].self, forKey: .audienceMedia)
+        var audienceMediaDecoded0:[MediaTailorClientTypes.AudienceMedia]? = nil
+        if let audienceMediaContainer = audienceMediaContainer {
+            audienceMediaDecoded0 = [MediaTailorClientTypes.AudienceMedia]()
+            for structure0 in audienceMediaContainer {
+                if let structure0 = structure0 {
+                    audienceMediaDecoded0?.append(structure0)
+                }
+            }
+        }
+        audienceMedia = audienceMediaDecoded0
     }
 }
 

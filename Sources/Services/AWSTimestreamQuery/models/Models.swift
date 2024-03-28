@@ -4044,7 +4044,7 @@ extension TimestreamQueryClientTypes {
         public var arrayColumnInfo: TimestreamQueryClientTypes.ColumnInfo?
         /// Indicates if the column is a row.
         public var rowColumnInfo: [TimestreamQueryClientTypes.ColumnInfo]?
-        /// Indicates if the column is of type string, integer, Boolean, double, timestamp, date, time.
+        /// Indicates if the column is of type string, integer, Boolean, double, timestamp, date, time. For more information, see [Supported data types](https://docs.aws.amazon.com/timestream/latest/developerguide/supported-data-types.html).
         public var scalarType: TimestreamQueryClientTypes.ScalarType?
         /// Indicates if the column is a timeseries data type.
         public var timeSeriesMeasureValueColumnInfo: TimestreamQueryClientTypes.ColumnInfo?

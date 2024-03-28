@@ -490,6 +490,7 @@ extension BackupClient {
 extension ListRecoveryPointsByResourceInput: ClientRuntime.PaginateToken {
     public func usingPaginationToken(_ token: Swift.String) -> ListRecoveryPointsByResourceInput {
         return ListRecoveryPointsByResourceInput(
+            managedByAWSBackupOnly: self.managedByAWSBackupOnly,
             maxResults: self.maxResults,
             nextToken: token,
             resourceArn: self.resourceArn

@@ -1860,15 +1860,15 @@ public struct CreateChangeSetInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///
@@ -2284,7 +2284,7 @@ public struct CreateStackInput: Swift.Equatable {
     ///
     /// If your stack template contains these resources, we recommend that you review all permissions associated with them and edit their permissions if necessary.
     ///
-    /// * [AWS::IAM::AccessKey] AWS::IAM::AccessKey(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
+    /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
     /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
@@ -8903,6 +8903,116 @@ enum ListStackResourcesOutputError {
     }
 }
 
+extension ListStackSetAutoDeploymentTargetsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case callAs = "CallAs"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+        case stackSetName = "StackSetName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let callAs = callAs {
+            try container.encode(callAs, forKey: ClientRuntime.Key("CallAs"))
+        }
+        if let maxResults = maxResults {
+            try container.encode(maxResults, forKey: ClientRuntime.Key("MaxResults"))
+        }
+        if let nextToken = nextToken {
+            try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
+        }
+        if let stackSetName = stackSetName {
+            try container.encode(stackSetName, forKey: ClientRuntime.Key("StackSetName"))
+        }
+        try container.encode("ListStackSetAutoDeploymentTargets", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2010-05-15", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ListStackSetAutoDeploymentTargetsInput {
+
+    static func urlPathProvider(_ value: ListStackSetAutoDeploymentTargetsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListStackSetAutoDeploymentTargetsInput: Swift.Equatable {
+    /// Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for StackSets with self-managed permissions.
+    ///
+    /// * If you are signed in to the management account, specify SELF.
+    ///
+    /// * If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see [Register a delegated administrator](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacksets-orgs-delegated-admin.html) in the CloudFormation User Guide.
+    public var callAs: CloudFormationClientTypes.CallAs?
+    /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
+    public var maxResults: Swift.Int?
+    /// A string that identifies the next page of stack set deployment targets that you want to retrieve.
+    public var nextToken: Swift.String?
+    /// The name or unique ID of the stack set that you want to get automatic deployment targets for.
+    /// This member is required.
+    public var stackSetName: Swift.String?
+
+    public init(
+        callAs: CloudFormationClientTypes.CallAs? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        stackSetName: Swift.String? = nil
+    )
+    {
+        self.callAs = callAs
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.stackSetName = stackSetName
+    }
+}
+
+extension ListStackSetAutoDeploymentTargetsOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ListStackSetAutoDeploymentTargetsOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ListStackSetAutoDeploymentTargetsResult"]
+            var value = ListStackSetAutoDeploymentTargetsOutput()
+            value.nextToken = try reader["NextToken"].readIfPresent()
+            value.summaries = try reader["Summaries"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+public struct ListStackSetAutoDeploymentTargetsOutput: Swift.Equatable {
+    /// If the request doesn't return all the remaining results, NextToken is set to a token. To retrieve the next set of results, call [ListStackSetAutoDeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html) again and use that value for the NextToken parameter. If the request returns all results, NextToken is set to an empty string.
+    public var nextToken: Swift.String?
+    /// An array of summaries of the deployment targets for the stack set.
+    public var summaries: [CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        summaries: [CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.summaries = summaries
+    }
+}
+
+enum ListStackSetAutoDeploymentTargetsOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "StackSetNotFoundException": return try await StackSetNotFoundException.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension ListStackSetOperationResultsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case callAs = "CallAs"
@@ -14035,6 +14145,8 @@ extension CloudFormationClientTypes {
         ///
         /// * FAILED: The operation in the specified account and Region failed. If the stack set operation fails in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
         ///
+        /// * FAILED_IMPORT: The import of the stack instance in the specified account and Region failed and left the stack in an unstable state. Once the issues causing the failure are fixed, the import operation can be retried. If enough stack set operations fail in enough accounts within a Region, the failure tolerance for the stack set operation as a whole might be exceeded.
+        ///
         /// * INOPERABLE: A DeleteStackInstances operation has failed and left the stack in an unstable state. Stacks in this state are excluded from further UpdateStackSet operations. You might need to perform a DeleteStackInstances operation, with RetainStacks set to true, to delete the stack instance, and then delete the stack manually.
         ///
         /// * PENDING: The operation in the specified account and Region has yet to start.
@@ -15489,6 +15601,62 @@ extension CloudFormationClientTypes {
             self.status = status
             self.tags = tags
             self.templateBody = templateBody
+        }
+    }
+
+}
+
+extension CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case organizationalUnitId = "OrganizationalUnitId"
+        case regions = "Regions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let organizationalUnitId = organizationalUnitId {
+            try container.encode(organizationalUnitId, forKey: ClientRuntime.Key("OrganizationalUnitId"))
+        }
+        if let regions = regions {
+            if !regions.isEmpty {
+                var regionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Regions"))
+                for (index0, region0) in regions.enumerated() {
+                    try regionsContainer.encode(region0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
+                }
+            }
+            else {
+                var regionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Regions"))
+                try regionsContainer.encode("", forKey: ClientRuntime.Key(""))
+            }
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudFormationClientTypes.StackSetAutoDeploymentTargetSummary()
+            value.organizationalUnitId = try reader["OrganizationalUnitId"].readIfPresent()
+            value.regions = try reader["Regions"].readListIfPresent(memberReadingClosure: Swift.String.readingClosure, memberNodeInfo: "member", isFlattened: false)
+            return value
+        }
+    }
+}
+
+extension CloudFormationClientTypes {
+    /// One of the targets for the stack set. Returned by the [ListStackSetAutoDeploymentTargets](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_ListStackSetAutoDeploymentTargets.html) API operation.
+    public struct StackSetAutoDeploymentTargetSummary: Swift.Equatable {
+        /// The organization root ID or organizational unit (OU) IDs where the stack set is targeted.
+        public var organizationalUnitId: Swift.String?
+        /// The list of Regions targeted for this organization or OU.
+        public var regions: [Swift.String]?
+
+        public init(
+            organizationalUnitId: Swift.String? = nil,
+            regions: [Swift.String]? = nil
+        )
+        {
+            self.organizationalUnitId = organizationalUnitId
+            self.regions = regions
         }
     }
 
@@ -17074,7 +17242,7 @@ extension CloudFormationClientTypes {
         /// * RETAIN - retain all resources when the stack is deleted.
         ///
         ///
-        /// For more information, see [DeletionPolicy] attribute(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) in the CloudFormation User Guide.
+        /// For more information, see [DeletionPolicy attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-deletionpolicy.html) in the CloudFormation User Guide.
         public var deletionPolicy: CloudFormationClientTypes.GeneratedTemplateDeletionPolicy?
         /// The UpdateReplacePolicy assigned to resources in the generated template. Supported values are:
         ///
@@ -17083,7 +17251,7 @@ extension CloudFormationClientTypes {
         /// * RETAIN - retain all resources when the resource is replaced during an update operation.
         ///
         ///
-        /// For more information, see [UpdateReplacePolicy] attribute(https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) in the CloudFormation User Guide.
+        /// For more information, see [UpdateReplacePolicy attribute](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-attribute-updatereplacepolicy.html) in the CloudFormation User Guide.
         public var updateReplacePolicy: CloudFormationClientTypes.GeneratedTemplateUpdateReplacePolicy?
 
         public init(
@@ -18517,15 +18685,15 @@ public struct UpdateStackInput: Swift.Equatable {
     ///
     /// * [AWS::IAM::AccessKey](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-accesskey.html)
     ///
-    /// * [AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
+    /// * [ AWS::IAM::Group](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-group.html)
     ///
     /// * [AWS::IAM::InstanceProfile](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-instanceprofile.html)
     ///
-    /// * [ AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
+    /// * [AWS::IAM::Policy](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-policy.html)
     ///
-    /// * [AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
+    /// * [ AWS::IAM::Role](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-iam-role.html)
     ///
-    /// * [AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
+    /// * [ AWS::IAM::User](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-user.html)
     ///
     /// * [AWS::IAM::UserToGroupAddition](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-iam-addusertogroup.html)
     ///

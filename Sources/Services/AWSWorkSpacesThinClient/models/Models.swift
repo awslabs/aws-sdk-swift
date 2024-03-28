@@ -3532,13 +3532,12 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension UpdateDeviceInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "UpdateDeviceInput(desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), id: \(Swift.String(describing: id)), kmsKeyArn: \(Swift.String(describing: kmsKeyArn)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), name: \"CONTENT_REDACTED\")"}
+        "UpdateDeviceInput(desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), id: \(Swift.String(describing: id)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension UpdateDeviceInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredSoftwareSetId
-        case kmsKeyArn
         case name
         case softwareSetUpdateSchedule
     }
@@ -3547,9 +3546,6 @@ extension UpdateDeviceInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let desiredSoftwareSetId = self.desiredSoftwareSetId {
             try encodeContainer.encode(desiredSoftwareSetId, forKey: .desiredSoftwareSetId)
-        }
-        if let kmsKeyArn = self.kmsKeyArn {
-            try encodeContainer.encode(kmsKeyArn, forKey: .kmsKeyArn)
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
@@ -3576,8 +3572,6 @@ public struct UpdateDeviceInput: Swift.Equatable {
     /// The ID of the device to update.
     /// This member is required.
     public var id: Swift.String?
-    /// The Amazon Resource Name (ARN) of the Key Management Service key to use for the update.
-    public var kmsKeyArn: Swift.String?
     /// The name of the device to update.
     public var name: Swift.String?
     /// An option to define if software updates should be applied within a maintenance window.
@@ -3586,14 +3580,12 @@ public struct UpdateDeviceInput: Swift.Equatable {
     public init(
         desiredSoftwareSetId: Swift.String? = nil,
         id: Swift.String? = nil,
-        kmsKeyArn: Swift.String? = nil,
         name: Swift.String? = nil,
         softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil
     )
     {
         self.desiredSoftwareSetId = desiredSoftwareSetId
         self.id = id
-        self.kmsKeyArn = kmsKeyArn
         self.name = name
         self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
     }
@@ -3603,13 +3595,11 @@ struct UpdateDeviceInputBody: Swift.Equatable {
     let name: Swift.String?
     let desiredSoftwareSetId: Swift.String?
     let softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
-    let kmsKeyArn: Swift.String?
 }
 
 extension UpdateDeviceInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case desiredSoftwareSetId
-        case kmsKeyArn
         case name
         case softwareSetUpdateSchedule
     }
@@ -3622,8 +3612,6 @@ extension UpdateDeviceInputBody: Swift.Decodable {
         desiredSoftwareSetId = desiredSoftwareSetIdDecoded
         let softwareSetUpdateScheduleDecoded = try containerValues.decodeIfPresent(WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule.self, forKey: .softwareSetUpdateSchedule)
         softwareSetUpdateSchedule = softwareSetUpdateScheduleDecoded
-        let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
-        kmsKeyArn = kmsKeyArnDecoded
     }
 }
 
