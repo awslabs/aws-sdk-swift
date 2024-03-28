@@ -19,10 +19,6 @@ public class AWSClientConfigDefaultsProvider {
     public static let idempotencyTokenGenerator: IdempotencyTokenGenerator
         = RuntimeConfigType.defaultIdempotencyTokenGenerator
 
-    public static func logger(_ clientName: String) -> LogAgent {
-        return RuntimeConfigType.defaultLogger(clientName: clientName)
-    }
-
     public static let clientLogMode: ClientLogMode = RuntimeConfigType.defaultClientLogMode
 
     public static func awsCredentialIdentityResolver(
