@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
@@ -17,6 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
@@ -34,7 +34,7 @@ class S3ErrorIntegration : SwiftIntegration {
             SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
             SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
-            SectionWriterBinding(AWSRestXMLHttpResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
+            SectionWriterBinding(HTTPResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
 
         )
 

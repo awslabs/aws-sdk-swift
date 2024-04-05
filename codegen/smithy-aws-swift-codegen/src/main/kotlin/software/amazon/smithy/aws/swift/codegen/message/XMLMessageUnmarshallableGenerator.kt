@@ -79,7 +79,9 @@ class XMLMessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationCon
                                     writer.indent {
                                         val targetShape = ctx.model.expectShape(member.target)
                                         val symbol = ctx.symbolProvider.toSymbol(targetShape)
-                                        writer.write("return try decoder.decode(responseBody: message.payload) as \$N", symbol)
+                                        val documentReadingClosure = DocumentReadingClosureUtils(ctx, writer).closure(member)
+                                        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
+                                        writer.write("return try \$L(message.payload, \$L)", documentReadingClosure, readingClosure)
                                     }
                                 }
                                 writer.write("default:")

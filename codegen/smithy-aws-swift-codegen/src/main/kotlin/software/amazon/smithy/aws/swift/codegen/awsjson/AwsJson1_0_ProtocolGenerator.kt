@@ -7,25 +7,24 @@ package software.amazon.smithy.aws.swift.codegen.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
-import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
+import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysCustomizable
-import software.amazon.smithy.swift.codegen.integration.codingKeys.DefaultCodingKeysGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
 open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
-    override val codingKeysGenerator = DefaultCodingKeysGenerator(DefaultCodingKeysCustomizable())
     override val defaultContentType = "application/x-amz-json-1.0"
     override val defaultTimestampFormat = TimestampFormatTrait.Format.EPOCH_SECONDS
     override val protocol: ShapeId = AwsJson1_0Trait.ID
@@ -33,8 +32,9 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val httpResponseGenerator = HttpResponseGenerator(
         unknownServiceErrorSymbol,
         defaultTimestampFormat,
-        HttpResponseBindingOutputGenerator(),
-        AWSJsonHttpResponseBindingErrorGenerator()
+        XMLHttpResponseBindingOutputGenerator(),
+        AWSJsonHttpResponseBindingErrorGenerator(),
+        XMLHttpResponseBindingErrorInitGenerator(defaultTimestampFormat)
     )
     override val shouldRenderEncodableConformance: Boolean = true
     override val shouldRenderDecodableBodyStructForInputShapes: Boolean = true
@@ -62,7 +62,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
+        val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
             messageUnmarshallableGenerator.render(streamingMember)
         }
@@ -70,7 +70,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         val streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
+        val messageMarshallableGenerator = XMLMessageMarshallableGenerator(ctx, defaultContentType)
         for (streamingShape in streamingShapes) {
             messageMarshallableGenerator.render(streamingShape)
         }

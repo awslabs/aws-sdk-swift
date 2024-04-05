@@ -6,16 +6,16 @@
 //
 
 import SmithyReadWrite
-import SmithyXML
+import class SmithyXML.Reader
 import ClientRuntime
 
 public struct Ec2Response {
     public var errors: Ec2Errors?
     public var requestId: String?
 
-    public static var httpBinding: HTTPResponseOutputBinding<Ec2Response, Reader> {
-        return { httpResponse, responseDocumentBinding in
-            let reader = try await responseDocumentBinding(httpResponse)
+    public static var httpBinding: WireResponseOutputBinding<HttpResponse, Ec2Response, SmithyXML.Reader> {
+        return { httpResponse, wireResponseDocumentBinding in
+            let reader = try await wireResponseDocumentBinding(httpResponse)
             var value = Ec2Response()
             value.errors = try reader["Errors"].readIfPresent(readingClosure: Ec2Errors.readingClosure)
             value.requestId = try reader["RequestId"].readIfPresent() ?? reader["RequestID"].readIfPresent()

@@ -1,6 +1,5 @@
 package software.amazon.smithy.aws.swift.codegen.customization.route53
 
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
@@ -13,6 +12,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 
 class Route53InvalidBatchErrorIntegration : SwiftIntegration {
@@ -22,7 +22,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
 
     override val sectionWriters: List<SectionWriterBinding>
         get() = listOf(
-            SectionWriterBinding(AWSRestXMLHttpResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBindingErrorGenerator)
+            SectionWriterBinding(HTTPResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBindingErrorGenerator)
         )
 
     private val httpResponseBindingErrorGenerator = SectionWriter { writer, previousCode ->

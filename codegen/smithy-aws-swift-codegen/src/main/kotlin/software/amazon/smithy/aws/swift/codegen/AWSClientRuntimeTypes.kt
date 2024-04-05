@@ -15,6 +15,7 @@ object AWSClientRuntimeTypes {
         val Ec2QueryError = runtimeSymbol("Ec2QueryError")
     }
     object AWSJSON {
+        val AWSJSONError = runtimeSymbol("AWSJSONError")
         val XAmzTargetMiddleware = runtimeSymbol("XAmzTargetMiddleware")
     }
     object RestJSON {

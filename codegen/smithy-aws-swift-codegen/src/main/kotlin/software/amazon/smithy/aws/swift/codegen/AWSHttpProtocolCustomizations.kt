@@ -53,19 +53,6 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         EndpointResolverGenerator().render(ctx)
     }
 
-    override fun getClientProperties(): List<ClientProperty> {
-        val properties = mutableListOf<ClientProperty>()
-        val requestEncoderOptions = mutableMapOf<String, String>()
-        val responseDecoderOptions = mutableMapOf<String, String>()
-        requestEncoderOptions["dateEncodingStrategy"] = ".secondsSince1970"
-        requestEncoderOptions["nonConformingFloatEncodingStrategy"] = ".convertToString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
-        responseDecoderOptions["dateDecodingStrategy"] = ".secondsSince1970"
-        responseDecoderOptions["nonConformingFloatDecodingStrategy"] = ".convertFromString(positiveInfinity: \"Infinity\", negativeInfinity: \"-Infinity\", nan: \"NaN\")"
-        properties.add(AWSHttpRequestJsonEncoder(requestEncoderOptions))
-        properties.add(AWSHttpResponseJsonDecoder(responseDecoderOptions))
-        return properties
-    }
-
     override fun serviceClient(
         ctx: ProtocolGenerator.GenerationContext,
         writer: SwiftWriter,

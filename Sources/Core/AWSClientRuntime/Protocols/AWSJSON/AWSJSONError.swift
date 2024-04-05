@@ -5,26 +5,9 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
-//import class ClientRuntime.HttpResponse
-//import class SmithyXML.Reader
-//import func SmithyReadWrite.wireResponseDocumentBinding
-//
-//public struct Ec2QueryError {
-//    public var errorCode: String?
-//    public var requestId: String?
-//    public var message: String?
-//
-//    public init(httpResponse: HttpResponse) async throws {
-//        let response = try await Ec2Response.httpBinding(httpResponse, wireResponseDocumentBinding())
-//        self.errorCode = response.errors?.error?.code
-//        self.message = response.errors?.error?.message
-//        self.requestId = response.requestId
-//    }
-//}
+import class SmithyJSON.Reader
 
-import class SmithyXML.Reader
-
-public struct Ec2QueryError {
+public struct AWSJSONError {
     public let code: String
     public let message: String?
     public let requestID: String?
@@ -39,7 +22,7 @@ public struct Ec2QueryError {
         let message: String? = try reader["Message"].readIfPresent()
         let requestID: String? = try responseReader["RequestId"].readIfPresent()
         guard let code else {
-            throw Ec2QueryDecodeError.missingRequiredData
+            throw AWSJSONDecodeError.missingRequiredData
         }
         self.code = code
         self.message = message
@@ -53,6 +36,6 @@ public struct Ec2QueryError {
     }
 }
 
-public enum Ec2QueryDecodeError: Error {
+public enum AWSJSONDecodeError: Error {
     case missingRequiredData
 }

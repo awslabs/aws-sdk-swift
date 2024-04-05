@@ -12,29 +12,11 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingErrorInitGeneratorFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
 import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitPayloadFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.HttpResponseTraitWithoutHttpPayloadFactory
 import software.amazon.smithy.swift.codegen.integration.httpResponse.bindingTraits.XMLHttpResponseTraitPayload
-
-class AWSEc2QueryHttpResponseBindingErrorInitGeneratorFactory : HttpResponseBindingErrorInitGeneratorFactory {
-    override fun construct(
-        ctx: ProtocolGenerator.GenerationContext,
-        structureShape: StructureShape,
-        httpBindingResolver: HttpBindingResolver,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-    ): HttpResponseBindingRenderable {
-        return XMLHttpResponseBindingErrorInitGenerator(
-            ctx,
-            structureShape,
-            httpBindingResolver,
-            defaultTimestampFormat,
-            AWSEc2QueryHttpResponseTraitPayloadFactory()
-        )
-    }
-}
 
 class AWSEc2QueryHttpResponseTraitPayloadFactory : HttpResponseTraitPayloadFactory {
     override fun construct(
