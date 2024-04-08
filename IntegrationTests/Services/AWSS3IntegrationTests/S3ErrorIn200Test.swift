@@ -26,6 +26,7 @@ public class MockHttpClientEngine: HTTPClient {
                 <HostId>WWoZlnK4pTjKCYn6eNV7GgOurabfqLkjbSyqTvDMGBaI9uwzyNhSaDhOCPs8paFGye7S6b/AB3A=</HostId>
             </Error>
         """
+        request.withHeader(name: "Date", value: "Wed, 21 Oct 2015 07:28:00 GMT")
         return HttpResponse(
             headers: request.headers,
             body: ByteStream.data(errorResponsePayload.data(using: .utf8)),
