@@ -2189,6 +2189,7 @@ extension OAMClientTypes {
     public enum ResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case awsApplicationinsightsApplication
         case awsCloudwatchMetric
+        case awsInternetmonitorMonitor
         case awsLogsLoggroup
         case awsXrayTrace
         case sdkUnknown(Swift.String)
@@ -2197,6 +2198,7 @@ extension OAMClientTypes {
             return [
                 .awsApplicationinsightsApplication,
                 .awsCloudwatchMetric,
+                .awsInternetmonitorMonitor,
                 .awsLogsLoggroup,
                 .awsXrayTrace,
                 .sdkUnknown("")
@@ -2210,6 +2212,7 @@ extension OAMClientTypes {
             switch self {
             case .awsApplicationinsightsApplication: return "AWS::ApplicationInsights::Application"
             case .awsCloudwatchMetric: return "AWS::CloudWatch::Metric"
+            case .awsInternetmonitorMonitor: return "AWS::InternetMonitor::Monitor"
             case .awsLogsLoggroup: return "AWS::Logs::LogGroup"
             case .awsXrayTrace: return "AWS::XRay::Trace"
             case let .sdkUnknown(s): return s

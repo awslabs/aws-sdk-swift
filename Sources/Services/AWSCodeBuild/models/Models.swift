@@ -159,6 +159,7 @@ extension CodeBuildClientTypes {
 extension CodeBuildClientTypes {
     public enum AuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case basicAuth
+        case codeconnections
         case oauth
         case personalAccessToken
         case sdkUnknown(Swift.String)
@@ -166,6 +167,7 @@ extension CodeBuildClientTypes {
         public static var allCases: [AuthType] {
             return [
                 .basicAuth,
+                .codeconnections,
                 .oauth,
                 .personalAccessToken,
                 .sdkUnknown("")
@@ -178,6 +180,7 @@ extension CodeBuildClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .basicAuth: return "BASIC_AUTH"
+            case .codeconnections: return "CODECONNECTIONS"
             case .oauth: return "OAUTH"
             case .personalAccessToken: return "PERSONAL_ACCESS_TOKEN"
             case let .sdkUnknown(s): return s
@@ -3298,6 +3301,7 @@ extension CreateFleetInput: Swift.Encodable {
         case computeType
         case environmentType
         case name
+        case overflowBehavior
         case scalingConfiguration
         case tags
     }
@@ -3315,6 +3319,9 @@ extension CreateFleetInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let overflowBehavior = self.overflowBehavior {
+            try encodeContainer.encode(overflowBehavior.rawValue, forKey: .overflowBehavior)
         }
         if let scalingConfiguration = self.scalingConfiguration {
             try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
@@ -3392,6 +3399,12 @@ public struct CreateFleetInput: Swift.Equatable {
     /// The name of the compute fleet.
     /// This member is required.
     public var name: Swift.String?
+    /// The compute fleet overflow behavior.
+    ///
+    /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
+    ///
+    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+    public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -3402,6 +3415,7 @@ public struct CreateFleetInput: Swift.Equatable {
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
         name: Swift.String? = nil,
+        overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil
     )
@@ -3410,6 +3424,7 @@ public struct CreateFleetInput: Swift.Equatable {
         self.computeType = computeType
         self.environmentType = environmentType
         self.name = name
+        self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
     }
@@ -3421,6 +3436,7 @@ struct CreateFleetInputBody: Swift.Equatable {
     let environmentType: CodeBuildClientTypes.EnvironmentType?
     let computeType: CodeBuildClientTypes.ComputeType?
     let scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    let overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     let tags: [CodeBuildClientTypes.Tag]?
 }
 
@@ -3430,6 +3446,7 @@ extension CreateFleetInputBody: Swift.Decodable {
         case computeType
         case environmentType
         case name
+        case overflowBehavior
         case scalingConfiguration
         case tags
     }
@@ -3446,6 +3463,8 @@ extension CreateFleetInputBody: Swift.Decodable {
         computeType = computeTypeDecoded
         let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationInput.self, forKey: .scalingConfiguration)
         scalingConfiguration = scalingConfigurationDecoded
+        let overflowBehaviorDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetOverflowBehavior.self, forKey: .overflowBehavior)
+        overflowBehavior = overflowBehaviorDecoded
         let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -5749,6 +5768,7 @@ extension CodeBuildClientTypes.Fleet: Swift.Codable {
         case id
         case lastModified
         case name
+        case overflowBehavior
         case scalingConfiguration
         case status
         case tags
@@ -5779,6 +5799,9 @@ extension CodeBuildClientTypes.Fleet: Swift.Codable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let overflowBehavior = self.overflowBehavior {
+            try encodeContainer.encode(overflowBehavior.rawValue, forKey: .overflowBehavior)
         }
         if let scalingConfiguration = self.scalingConfiguration {
             try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
@@ -5816,6 +5839,8 @@ extension CodeBuildClientTypes.Fleet: Swift.Codable {
         computeType = computeTypeDecoded
         let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationOutput.self, forKey: .scalingConfiguration)
         scalingConfiguration = scalingConfigurationDecoded
+        let overflowBehaviorDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetOverflowBehavior.self, forKey: .overflowBehavior)
+        overflowBehavior = overflowBehaviorDecoded
         let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -5893,6 +5918,12 @@ extension CodeBuildClientTypes {
         public var lastModified: ClientRuntime.Date?
         /// The name of the compute fleet.
         public var name: Swift.String?
+        /// The compute fleet overflow behavior.
+        ///
+        /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
+        ///
+        /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+        public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
         /// The scaling configuration of the compute fleet.
         public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput?
         /// The status of the compute fleet.
@@ -5909,6 +5940,7 @@ extension CodeBuildClientTypes {
             id: Swift.String? = nil,
             lastModified: ClientRuntime.Date? = nil,
             name: Swift.String? = nil,
+            overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
             scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationOutput? = nil,
             status: CodeBuildClientTypes.FleetStatus? = nil,
             tags: [CodeBuildClientTypes.Tag]? = nil
@@ -5922,6 +5954,7 @@ extension CodeBuildClientTypes {
             self.id = id
             self.lastModified = lastModified
             self.name = name
+            self.overflowBehavior = overflowBehavior
             self.scalingConfiguration = scalingConfiguration
             self.status = status
             self.tags = tags
@@ -5958,6 +5991,38 @@ extension CodeBuildClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = FleetContextCode(rawValue: rawValue) ?? FleetContextCode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CodeBuildClientTypes {
+    public enum FleetOverflowBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case onDemand
+        case queue
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [FleetOverflowBehavior] {
+            return [
+                .onDemand,
+                .queue,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .onDemand: return "ON_DEMAND"
+            case .queue: return "QUEUE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = FleetOverflowBehavior(rawValue: rawValue) ?? FleetOverflowBehavior.sdkUnknown(rawValue)
         }
     }
 }
@@ -6105,6 +6170,8 @@ extension CodeBuildClientTypes {
         ///
         /// * ROTATING: The compute fleet is being rotated.
         ///
+        /// * PENDING_DELETION: The compute fleet is pending deletion.
+        ///
         /// * DELETING: The compute fleet is being deleted.
         ///
         /// * CREATE_FAILED: The compute fleet has failed to create.
@@ -6134,6 +6201,7 @@ extension CodeBuildClientTypes {
         case createFailed
         case creating
         case deleting
+        case pendingDeletion
         case rotating
         case updateRollbackFailed
         case updating
@@ -6145,6 +6213,7 @@ extension CodeBuildClientTypes {
                 .createFailed,
                 .creating,
                 .deleting,
+                .pendingDeletion,
                 .rotating,
                 .updateRollbackFailed,
                 .updating,
@@ -6161,6 +6230,7 @@ extension CodeBuildClientTypes {
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .pendingDeletion: return "PENDING_DELETION"
             case .rotating: return "ROTATING"
             case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
             case .updating: return "UPDATING"
@@ -10366,12 +10436,14 @@ extension CodeBuildClientTypes {
         ///
         /// * For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitHub account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.
         ///
+        /// * For source code in an GitLab or self-managed GitLab repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitLab account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitLab, on the Connections Authorize application page, choose Authorize. Then on the CodeStar Connections Create GitLab connection page, choose Connect to GitLab. (After you have connected to your GitLab account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to override the default connection and use this connection instead, set the auth object's type value to CODECONNECTIONS in the source object.
+        ///
         /// * For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your Bitbucket account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.
         ///
         ///
         /// If you specify CODEPIPELINE for the Type property, don't specify this property. For all of the other types, you must specify Location.
         public var location: Swift.String?
-        /// Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider. If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
+        /// Set to true to report the status of a build's start and finish to your source provider. This option is valid only when your source provider is GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket. If this is set and you use a different source provider, an invalidInputException is thrown. To be able to report the build status to the source provider, the user associated with the source provider must have write access to the repo. If the user does not have write access, the build status cannot be updated. For more information, see [Source provider access](https://docs.aws.amazon.com/codebuild/latest/userguide/access-tokens.html) in the CodeBuild User Guide. The status of a build triggered by a webhook is always reported to your source provider. If your project's builds are triggered by a webhook, you must push a new commit to the repo for a change to this property to take effect.
         public var reportBuildStatus: Swift.Bool?
         /// An identifier for this project source. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         public var sourceIdentifier: Swift.String?
@@ -10383,9 +10455,13 @@ extension CodeBuildClientTypes {
         ///
         /// * CODEPIPELINE: The source code settings are specified in the source action of a pipeline in CodePipeline.
         ///
-        /// * GITHUB: The source code is in a GitHub or GitHub Enterprise Cloud repository.
+        /// * GITHUB: The source code is in a GitHub repository.
         ///
         /// * GITHUB_ENTERPRISE: The source code is in a GitHub Enterprise Server repository.
+        ///
+        /// * GITLAB: The source code is in a GitLab repository.
+        ///
+        /// * GITLAB_SELF_MANAGED: The source code is in a self-managed GitLab repository.
         ///
         /// * NO_SOURCE: The project does not have input source code.
         ///
@@ -10456,7 +10532,7 @@ extension CodeBuildClientTypes {
         ///
         /// * For CodeCommit: the commit ID, branch, or Git tag to use.
         ///
-        /// * For GitHub: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
+        /// * For GitHub or GitLab: the commit ID, pull request ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a pull request ID is specified, it must use the format pr/pull-request-ID (for example, pr/25). If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
         ///
         /// * For Bitbucket: the commit ID, branch name, or tag name that corresponds to the version of the source code you want to build. If a branch name is specified, the branch's HEAD commit ID is used. If not specified, the default branch's HEAD commit ID is used.
         ///
@@ -12164,6 +12240,8 @@ extension CodeBuildClientTypes {
         case bitbucket
         case github
         case githubEnterprise
+        case gitlab
+        case gitlabSelfManaged
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ServerType] {
@@ -12171,6 +12249,8 @@ extension CodeBuildClientTypes {
                 .bitbucket,
                 .github,
                 .githubEnterprise,
+                .gitlab,
+                .gitlabSelfManaged,
                 .sdkUnknown("")
             ]
         }
@@ -12183,6 +12263,8 @@ extension CodeBuildClientTypes {
             case .bitbucket: return "BITBUCKET"
             case .github: return "GITHUB"
             case .githubEnterprise: return "GITHUB_ENTERPRISE"
+            case .gitlab: return "GITLAB"
+            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -12288,7 +12370,7 @@ extension CodeBuildClientTypes {
     public struct SourceAuth: Swift.Equatable {
         /// The resource value that applies to the specified authorization type.
         public var resource: Swift.String?
-        /// This data type is deprecated and is no longer accurate or used. The authorization type to use. The only valid value is OAUTH, which represents the OAuth authorization type.
+        /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
         /// This member is required.
         public var type: CodeBuildClientTypes.SourceAuthType?
 
@@ -12306,11 +12388,13 @@ extension CodeBuildClientTypes {
 
 extension CodeBuildClientTypes {
     public enum SourceAuthType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case codeconnections
         case oauth
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SourceAuthType] {
             return [
+                .codeconnections,
                 .oauth,
                 .sdkUnknown("")
             ]
@@ -12321,6 +12405,7 @@ extension CodeBuildClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .codeconnections: return "CODECONNECTIONS"
             case .oauth: return "OAUTH"
             case let .sdkUnknown(s): return s
             }
@@ -12337,6 +12422,7 @@ extension CodeBuildClientTypes.SourceCredentialsInfo: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case arn
         case authType
+        case resource
         case serverType
     }
 
@@ -12347,6 +12433,9 @@ extension CodeBuildClientTypes.SourceCredentialsInfo: Swift.Codable {
         }
         if let authType = self.authType {
             try encodeContainer.encode(authType.rawValue, forKey: .authType)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
         }
         if let serverType = self.serverType {
             try encodeContainer.encode(serverType.rawValue, forKey: .serverType)
@@ -12361,27 +12450,33 @@ extension CodeBuildClientTypes.SourceCredentialsInfo: Swift.Codable {
         serverType = serverTypeDecoded
         let authTypeDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.AuthType.self, forKey: .authType)
         authType = authTypeDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resource)
+        resource = resourceDecoded
     }
 }
 
 extension CodeBuildClientTypes {
-    /// Information about the credentials for a GitHub, GitHub Enterprise, or Bitbucket repository.
+    /// Information about the credentials for a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
     public struct SourceCredentialsInfo: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the token.
         public var arn: Swift.String?
-        /// The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, or PERSONAL_ACCESS_TOKEN.
+        /// The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
         public var authType: CodeBuildClientTypes.AuthType?
-        /// The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
+        /// The connection ARN if your serverType type is GITLAB or GITLAB_SELF_MANAGED and your authType is CODECONNECTIONS.
+        public var resource: Swift.String?
+        /// The type of source provider. The valid options are GITHUB, GITHUB_ENTERPRISE, GITLAB, GITLAB_SELF_MANAGED, or BITBUCKET.
         public var serverType: CodeBuildClientTypes.ServerType?
 
         public init(
             arn: Swift.String? = nil,
             authType: CodeBuildClientTypes.AuthType? = nil,
+            resource: Swift.String? = nil,
             serverType: CodeBuildClientTypes.ServerType? = nil
         )
         {
             self.arn = arn
             self.authType = authType
+            self.resource = resource
             self.serverType = serverType
         }
     }
@@ -12395,6 +12490,8 @@ extension CodeBuildClientTypes {
         case codepipeline
         case github
         case githubEnterprise
+        case gitlab
+        case gitlabSelfManaged
         case noSource
         case s3
         case sdkUnknown(Swift.String)
@@ -12406,6 +12503,8 @@ extension CodeBuildClientTypes {
                 .codepipeline,
                 .github,
                 .githubEnterprise,
+                .gitlab,
+                .gitlabSelfManaged,
                 .noSource,
                 .s3,
                 .sdkUnknown("")
@@ -12422,6 +12521,8 @@ extension CodeBuildClientTypes {
             case .codepipeline: return "CODEPIPELINE"
             case .github: return "GITHUB"
             case .githubEnterprise: return "GITHUB_ENTERPRISE"
+            case .gitlab: return "GITLAB"
+            case .gitlabSelfManaged: return "GITLAB_SELF_MANAGED"
             case .noSource: return "NO_SOURCE"
             case .s3: return "S3"
             case let .sdkUnknown(s): return s
@@ -14038,6 +14139,7 @@ extension UpdateFleetInput: Swift.Encodable {
         case baseCapacity
         case computeType
         case environmentType
+        case overflowBehavior
         case scalingConfiguration
         case tags
     }
@@ -14055,6 +14157,9 @@ extension UpdateFleetInput: Swift.Encodable {
         }
         if let environmentType = self.environmentType {
             try encodeContainer.encode(environmentType.rawValue, forKey: .environmentType)
+        }
+        if let overflowBehavior = self.overflowBehavior {
+            try encodeContainer.encode(overflowBehavior.rawValue, forKey: .overflowBehavior)
         }
         if let scalingConfiguration = self.scalingConfiguration {
             try encodeContainer.encode(scalingConfiguration, forKey: .scalingConfiguration)
@@ -14129,6 +14234,12 @@ public struct UpdateFleetInput: Swift.Equatable {
     ///
     /// For more information, see [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild user guide.
     public var environmentType: CodeBuildClientTypes.EnvironmentType?
+    /// The compute fleet overflow behavior.
+    ///
+    /// * For overflow behavior QUEUE, your overflow builds need to wait on the existing fleet instance to become available.
+    ///
+    /// * For overflow behavior ON_DEMAND, your overflow builds run on CodeBuild on-demand.
+    public var overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     /// The scaling configuration of the compute fleet.
     public var scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
     /// A list of tag key and value pairs associated with this compute fleet. These tags are available for use by Amazon Web Services services that support CodeBuild build project tags.
@@ -14139,6 +14250,7 @@ public struct UpdateFleetInput: Swift.Equatable {
         baseCapacity: Swift.Int? = nil,
         computeType: CodeBuildClientTypes.ComputeType? = nil,
         environmentType: CodeBuildClientTypes.EnvironmentType? = nil,
+        overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior? = nil,
         scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput? = nil,
         tags: [CodeBuildClientTypes.Tag]? = nil
     )
@@ -14147,6 +14259,7 @@ public struct UpdateFleetInput: Swift.Equatable {
         self.baseCapacity = baseCapacity
         self.computeType = computeType
         self.environmentType = environmentType
+        self.overflowBehavior = overflowBehavior
         self.scalingConfiguration = scalingConfiguration
         self.tags = tags
     }
@@ -14158,6 +14271,7 @@ struct UpdateFleetInputBody: Swift.Equatable {
     let environmentType: CodeBuildClientTypes.EnvironmentType?
     let computeType: CodeBuildClientTypes.ComputeType?
     let scalingConfiguration: CodeBuildClientTypes.ScalingConfigurationInput?
+    let overflowBehavior: CodeBuildClientTypes.FleetOverflowBehavior?
     let tags: [CodeBuildClientTypes.Tag]?
 }
 
@@ -14167,6 +14281,7 @@ extension UpdateFleetInputBody: Swift.Decodable {
         case baseCapacity
         case computeType
         case environmentType
+        case overflowBehavior
         case scalingConfiguration
         case tags
     }
@@ -14183,6 +14298,8 @@ extension UpdateFleetInputBody: Swift.Decodable {
         computeType = computeTypeDecoded
         let scalingConfigurationDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.ScalingConfigurationInput.self, forKey: .scalingConfiguration)
         scalingConfiguration = scalingConfigurationDecoded
+        let overflowBehaviorDecoded = try containerValues.decodeIfPresent(CodeBuildClientTypes.FleetOverflowBehavior.self, forKey: .overflowBehavior)
+        overflowBehavior = overflowBehaviorDecoded
         let tagsContainer = try containerValues.decodeIfPresent([CodeBuildClientTypes.Tag?].self, forKey: .tags)
         var tagsDecoded0:[CodeBuildClientTypes.Tag]? = nil
         if let tagsContainer = tagsContainer {
@@ -15392,11 +15509,11 @@ extension CodeBuildClientTypes {
         /// For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build. For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
         /// This member is required.
         public var pattern: Swift.String?
-        /// The type of webhook filter. There are six webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, and COMMIT_MESSAGE.
+        /// The type of webhook filter. There are eight webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, and RELEASE_NAME.
         ///
         /// * EVENT
         ///
-        /// * A webhook event triggers a build when the provided pattern matches one of six event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, and PULL_REQUEST_MERGED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only.
+        /// * A webhook event triggers a build when the provided pattern matches one of eight event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, PULL_REQUEST_MERGED, RELEASED, and PRERELEASED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only. The RELEASED and PRERELEASED work with GitHub only.
         ///
         ///
         ///
@@ -15432,6 +15549,20 @@ extension CodeBuildClientTypes {
         /// * COMMIT_MESSAGE
         ///
         /// * A webhook triggers a build when the head commit message matches the regular expression pattern. Works with GitHub and Bitbucket events push and pull requests events. Also works with GitHub Enterprise push events, but does not work with GitHub Enterprise pull request events.
+        ///
+        ///
+        ///
+        ///
+        /// * TAG_NAME
+        ///
+        /// * A webhook triggers a build when the tag name of the release matches the regular expression pattern. Works with RELEASED and PRERELEASED events only.
+        ///
+        ///
+        ///
+        ///
+        /// * RELEASE_NAME
+        ///
+        /// * A webhook triggers a build when the release name matches the regular expression pattern. Works with RELEASED and PRERELEASED events only.
         /// This member is required.
         public var type: CodeBuildClientTypes.WebhookFilterType?
 

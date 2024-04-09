@@ -2,7 +2,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
 import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 
@@ -230,7 +230,7 @@ extension EventStreamTestClientTypes.TestStream: ClientRuntime.MessageUnmarshall
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
-        val context = TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, RestJson1Trait.ID)
+        val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestJson1Trait.ID)
 
         val generator = AWSRestJson1ProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)

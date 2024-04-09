@@ -921,6 +921,7 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum CustomizableMetricHeadroom: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case percent0
+        case percent10
         case percent20
         case percent30
         case sdkUnknown(Swift.String)
@@ -928,6 +929,7 @@ extension ComputeOptimizerClientTypes {
         public static var allCases: [CustomizableMetricHeadroom] {
             return [
                 .percent0,
+                .percent10,
                 .percent20,
                 .percent30,
                 .sdkUnknown("")
@@ -940,6 +942,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .percent0: return "PERCENT_0"
+            case .percent10: return "PERCENT_10"
             case .percent20: return "PERCENT_20"
             case .percent30: return "PERCENT_30"
             case let .sdkUnknown(s): return s
@@ -956,11 +959,13 @@ extension ComputeOptimizerClientTypes {
 extension ComputeOptimizerClientTypes {
     public enum CustomizableMetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cpuUtilization
+        case memoryUtilization
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CustomizableMetricName] {
             return [
                 .cpuUtilization,
+                .memoryUtilization,
                 .sdkUnknown("")
             ]
         }
@@ -971,6 +976,7 @@ extension ComputeOptimizerClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cpuUtilization: return "CpuUtilization"
+            case .memoryUtilization: return "MemoryUtilization"
             case let .sdkUnknown(s): return s
             }
         }
@@ -1010,9 +1016,13 @@ extension ComputeOptimizerClientTypes.CustomizableMetricParameters: Swift.Codabl
 extension ComputeOptimizerClientTypes {
     /// Defines the various metric parameters that can be customized, such as threshold and headroom.
     public struct CustomizableMetricParameters: Swift.Equatable {
-        /// The headroom threshold value in percentage used for the specified metric parameter.
+        /// The headroom value in percentage used for the specified metric parameter. The following lists the valid values for CPU and memory utilization.
+        ///
+        /// * CPU utilization: PERCENT_30 | PERCENT_20 | PERCENT_0
+        ///
+        /// * Memory utilization: PERCENT_30 | PERCENT_20 | PERCENT_10
         public var headroom: ComputeOptimizerClientTypes.CustomizableMetricHeadroom?
-        /// The threshold value used for the specified metric parameter.
+        /// The threshold value used for the specified metric parameter. You can only specify the threshold value for CPU utilization.
         public var threshold: ComputeOptimizerClientTypes.CustomizableMetricThreshold?
 
         public init(
@@ -3079,7 +3089,7 @@ extension ComputeOptimizerClientTypes {
         public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
         /// Describes the savings estimation mode applied for calculating savings opportunity for a resource.
         public var savingsEstimationMode: ComputeOptimizerClientTypes.InstanceSavingsEstimationMode?
-        /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that are used to generate rightsizing recommendations. This preference is only available for the Amazon EC2 instance resource type.
+        /// The resource’s CPU and memory utilization preferences, such as threshold and headroom, that are used to generate rightsizing recommendations. This preference is only available for the Amazon EC2 instance resource type.
         public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
@@ -7288,7 +7298,7 @@ public struct GetEffectiveRecommendationPreferencesOutput: Swift.Equatable {
     public var lookBackPeriod: ComputeOptimizerClientTypes.LookBackPeriodPreference?
     /// The resource type values that are considered as candidates when generating rightsizing recommendations. This object resolves any wildcard expressions and returns the effective list of candidate resource type values. It also considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
     public var preferredResources: [ComputeOptimizerClientTypes.EffectivePreferredResource]?
-    /// The resource’s CPU utilization threshold preferences, such as threshold and headroom, that were used to generate rightsizing recommendations. It considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
+    /// The resource’s CPU and memory utilization preferences, such as threshold and headroom, that were used to generate rightsizing recommendations. It considers all applicable preferences that you set at the resource, account, and organization level. To validate that the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations or GetEC2InstanceRecommendations actions.
     public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
     public init(
@@ -12109,14 +12119,23 @@ public struct PutRecommendationPreferencesInput: Swift.Equatable {
     public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
     /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide. You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
     public var scope: ComputeOptimizerClientTypes.Scope?
-    /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. When this preference isn't specified, we use the following default values:
+    /// The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. When this preference isn't specified, we use the following default values. CPU utilization:
     ///
     /// * P99_5 for threshold
     ///
-    /// * PERCENT_17 for headroom
+    /// * PERCENT_20 for headroom
     ///
     ///
-    /// You can only set this preference for the Amazon EC2 instance resource type.
+    /// Memory utilization:
+    ///
+    /// * PERCENT_20 for headroom
+    ///
+    ///
+    ///
+    ///
+    /// * You can only set CPU and memory utilization preferences for the Amazon EC2 instance resource type.
+    ///
+    /// * The threshold setting isn’t available for memory utilization.
     public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
     public init(
@@ -12584,7 +12603,7 @@ extension ComputeOptimizerClientTypes {
         public var savingsEstimationMode: ComputeOptimizerClientTypes.SavingsEstimationMode?
         /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see [Activating enhanced infrastructure metrics](https://docs.aws.amazon.com/compute-optimizer/latest/ug/enhanced-infrastructure-metrics.html) in the Compute Optimizer User Guide.
         public var scope: ComputeOptimizerClientTypes.Scope?
-        /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. If the preference isn’t set, this object is null. This preference is only available for the Amazon EC2 instance resource type.
+        /// The preference to control the resource’s CPU utilization threshold, CPU utilization headroom, and memory utilization headroom. If the preference isn’t set, this object is null. This preference is only available for the Amazon EC2 instance resource type.
         public var utilizationPreferences: [ComputeOptimizerClientTypes.UtilizationPreference]?
 
         public init(
@@ -13856,7 +13875,7 @@ extension ComputeOptimizerClientTypes.UtilizationPreference: Swift.Codable {
 extension ComputeOptimizerClientTypes {
     /// The preference to control the resource’s CPU utilization thresholds - threshold and headroom. This preference is only available for the Amazon EC2 instance resource type.
     public struct UtilizationPreference: Swift.Equatable {
-        /// The name of the resource utilization metric name to customize. Compute Optimizer only supports CpuUtilization.
+        /// The name of the resource utilization metric name to customize.
         public var metricName: ComputeOptimizerClientTypes.CustomizableMetricName?
         /// The parameters to set when customizing the resource utilization thresholds.
         public var metricParameters: ComputeOptimizerClientTypes.CustomizableMetricParameters?

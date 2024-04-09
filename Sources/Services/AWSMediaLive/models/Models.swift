@@ -1348,12 +1348,14 @@ extension MediaLiveClientTypes {
 
 extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case audioDashRoles = "audioDashRoles"
         case audioNormalizationSettings = "audioNormalizationSettings"
         case audioSelectorName = "audioSelectorName"
         case audioType = "audioType"
         case audioTypeControl = "audioTypeControl"
         case audioWatermarkingSettings = "audioWatermarkingSettings"
         case codecSettings = "codecSettings"
+        case dvbDashAccessibility = "dvbDashAccessibility"
         case languageCode = "languageCode"
         case languageCodeControl = "languageCodeControl"
         case name = "name"
@@ -1363,6 +1365,12 @@ extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let audioDashRoles = audioDashRoles {
+            var audioDashRolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .audioDashRoles)
+            for dashroleaudio0 in audioDashRoles {
+                try audioDashRolesContainer.encode(dashroleaudio0.rawValue)
+            }
+        }
         if let audioNormalizationSettings = self.audioNormalizationSettings {
             try encodeContainer.encode(audioNormalizationSettings, forKey: .audioNormalizationSettings)
         }
@@ -1380,6 +1388,9 @@ extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
         }
         if let codecSettings = self.codecSettings {
             try encodeContainer.encode(codecSettings, forKey: .codecSettings)
+        }
+        if let dvbDashAccessibility = self.dvbDashAccessibility {
+            try encodeContainer.encode(dvbDashAccessibility.rawValue, forKey: .dvbDashAccessibility)
         }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode, forKey: .languageCode)
@@ -1422,12 +1433,27 @@ extension MediaLiveClientTypes.AudioDescription: Swift.Codable {
         remixSettings = remixSettingsDecoded
         let streamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .streamName)
         streamName = streamNameDecoded
+        let audioDashRolesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.DashRoleAudio?].self, forKey: .audioDashRoles)
+        var audioDashRolesDecoded0:[MediaLiveClientTypes.DashRoleAudio]? = nil
+        if let audioDashRolesContainer = audioDashRolesContainer {
+            audioDashRolesDecoded0 = [MediaLiveClientTypes.DashRoleAudio]()
+            for enum0 in audioDashRolesContainer {
+                if let enum0 = enum0 {
+                    audioDashRolesDecoded0?.append(enum0)
+                }
+            }
+        }
+        audioDashRoles = audioDashRolesDecoded0
+        let dvbDashAccessibilityDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DvbDashAccessibility.self, forKey: .dvbDashAccessibility)
+        dvbDashAccessibility = dvbDashAccessibilityDecoded
     }
 }
 
 extension MediaLiveClientTypes {
     /// Audio Description
     public struct AudioDescription: Swift.Equatable {
+        /// Identifies the DASH roles to assign to this audio output. Applies only when the audio output is configured for DVB DASH accessibility signaling.
+        public var audioDashRoles: [MediaLiveClientTypes.DashRoleAudio]?
         /// Advanced audio normalization settings.
         public var audioNormalizationSettings: MediaLiveClientTypes.AudioNormalizationSettings?
         /// The name of the AudioSelector used as the source for this AudioDescription.
@@ -1441,6 +1467,8 @@ extension MediaLiveClientTypes {
         public var audioWatermarkingSettings: MediaLiveClientTypes.AudioWatermarkSettings?
         /// Audio codec settings.
         public var codecSettings: MediaLiveClientTypes.AudioCodecSettings?
+        /// Identifies DVB DASH accessibility signaling in this audio output. Used in Microsoft Smooth Streaming outputs to signal accessibility information to packagers.
+        public var dvbDashAccessibility: MediaLiveClientTypes.DvbDashAccessibility?
         /// RFC 5646 language code representing the language of the audio output track. Only used if languageControlMode is useConfigured, or there is no ISO 639 language code specified in the input.
         public var languageCode: Swift.String?
         /// Choosing followInput will cause the ISO 639 language code of the output to follow the ISO 639 language code of the input. The languageCode will be used when useConfigured is set, or when followInput is selected but there is no ISO 639 language code specified by the input.
@@ -1454,12 +1482,14 @@ extension MediaLiveClientTypes {
         public var streamName: Swift.String?
 
         public init(
+            audioDashRoles: [MediaLiveClientTypes.DashRoleAudio]? = nil,
             audioNormalizationSettings: MediaLiveClientTypes.AudioNormalizationSettings? = nil,
             audioSelectorName: Swift.String? = nil,
             audioType: MediaLiveClientTypes.AudioType? = nil,
             audioTypeControl: MediaLiveClientTypes.AudioDescriptionAudioTypeControl? = nil,
             audioWatermarkingSettings: MediaLiveClientTypes.AudioWatermarkSettings? = nil,
             codecSettings: MediaLiveClientTypes.AudioCodecSettings? = nil,
+            dvbDashAccessibility: MediaLiveClientTypes.DvbDashAccessibility? = nil,
             languageCode: Swift.String? = nil,
             languageCodeControl: MediaLiveClientTypes.AudioDescriptionLanguageCodeControl? = nil,
             name: Swift.String? = nil,
@@ -1467,12 +1497,14 @@ extension MediaLiveClientTypes {
             streamName: Swift.String? = nil
         )
         {
+            self.audioDashRoles = audioDashRoles
             self.audioNormalizationSettings = audioNormalizationSettings
             self.audioSelectorName = audioSelectorName
             self.audioType = audioType
             self.audioTypeControl = audioTypeControl
             self.audioWatermarkingSettings = audioWatermarkingSettings
             self.codecSettings = codecSettings
+            self.dvbDashAccessibility = dvbDashAccessibility
             self.languageCode = languageCode
             self.languageCodeControl = languageCodeControl
             self.name = name
@@ -4365,8 +4397,10 @@ enum CancelInputDeviceTransferOutputError: ClientRuntime.HttpResponseErrorBindin
 extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accessibility = "accessibility"
+        case captionDashRoles = "captionDashRoles"
         case captionSelectorName = "captionSelectorName"
         case destinationSettings = "destinationSettings"
+        case dvbDashAccessibility = "dvbDashAccessibility"
         case languageCode = "languageCode"
         case languageDescription = "languageDescription"
         case name = "name"
@@ -4377,11 +4411,20 @@ extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
         if let accessibility = self.accessibility {
             try encodeContainer.encode(accessibility.rawValue, forKey: .accessibility)
         }
+        if let captionDashRoles = captionDashRoles {
+            var captionDashRolesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .captionDashRoles)
+            for dashrolecaption0 in captionDashRoles {
+                try captionDashRolesContainer.encode(dashrolecaption0.rawValue)
+            }
+        }
         if let captionSelectorName = self.captionSelectorName {
             try encodeContainer.encode(captionSelectorName, forKey: .captionSelectorName)
         }
         if let destinationSettings = self.destinationSettings {
             try encodeContainer.encode(destinationSettings, forKey: .destinationSettings)
+        }
+        if let dvbDashAccessibility = self.dvbDashAccessibility {
+            try encodeContainer.encode(dvbDashAccessibility.rawValue, forKey: .dvbDashAccessibility)
         }
         if let languageCode = self.languageCode {
             try encodeContainer.encode(languageCode, forKey: .languageCode)
@@ -4408,6 +4451,19 @@ extension MediaLiveClientTypes.CaptionDescription: Swift.Codable {
         languageDescription = languageDescriptionDecoded
         let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
         name = nameDecoded
+        let captionDashRolesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.DashRoleCaption?].self, forKey: .captionDashRoles)
+        var captionDashRolesDecoded0:[MediaLiveClientTypes.DashRoleCaption]? = nil
+        if let captionDashRolesContainer = captionDashRolesContainer {
+            captionDashRolesDecoded0 = [MediaLiveClientTypes.DashRoleCaption]()
+            for enum0 in captionDashRolesContainer {
+                if let enum0 = enum0 {
+                    captionDashRolesDecoded0?.append(enum0)
+                }
+            }
+        }
+        captionDashRoles = captionDashRolesDecoded0
+        let dvbDashAccessibilityDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.DvbDashAccessibility.self, forKey: .dvbDashAccessibility)
+        dvbDashAccessibility = dvbDashAccessibilityDecoded
     }
 }
 
@@ -4416,11 +4472,15 @@ extension MediaLiveClientTypes {
     public struct CaptionDescription: Swift.Equatable {
         /// Indicates whether the caption track implements accessibility features such as written descriptions of spoken dialog, music, and sounds. This signaling is added to HLS output group and MediaPackage output group.
         public var accessibility: MediaLiveClientTypes.AccessibilityType?
+        /// Identifies the DASH roles to assign to this captions output. Applies only when the captions output is configured for DVB DASH accessibility signaling.
+        public var captionDashRoles: [MediaLiveClientTypes.DashRoleCaption]?
         /// Specifies which input caption selector to use as a caption source when generating output captions. This field should match a captionSelector name.
         /// This member is required.
         public var captionSelectorName: Swift.String?
         /// Additional settings for captions destination that depend on the destination type.
         public var destinationSettings: MediaLiveClientTypes.CaptionDestinationSettings?
+        /// Identifies DVB DASH accessibility signaling in this captions output. Used in Microsoft Smooth Streaming outputs to signal accessibility information to packagers.
+        public var dvbDashAccessibility: MediaLiveClientTypes.DvbDashAccessibility?
         /// ISO 639-2 three-digit code: http://www.loc.gov/standards/iso639-2/
         public var languageCode: Swift.String?
         /// Human readable information to indicate captions available for players (eg. English, or Spanish).
@@ -4431,16 +4491,20 @@ extension MediaLiveClientTypes {
 
         public init(
             accessibility: MediaLiveClientTypes.AccessibilityType? = nil,
+            captionDashRoles: [MediaLiveClientTypes.DashRoleCaption]? = nil,
             captionSelectorName: Swift.String? = nil,
             destinationSettings: MediaLiveClientTypes.CaptionDestinationSettings? = nil,
+            dvbDashAccessibility: MediaLiveClientTypes.DvbDashAccessibility? = nil,
             languageCode: Swift.String? = nil,
             languageDescription: Swift.String? = nil,
             name: Swift.String? = nil
         )
         {
             self.accessibility = accessibility
+            self.captionDashRoles = captionDashRoles
             self.captionSelectorName = captionSelectorName
             self.destinationSettings = destinationSettings
+            self.dvbDashAccessibility = dvbDashAccessibility
             self.languageCode = languageCode
             self.languageDescription = languageDescription
             self.name = name
@@ -5689,6 +5753,193 @@ enum ClaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.CmafIngestGroupSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destination = "destination"
+        case nielsenId3Behavior = "nielsenId3Behavior"
+        case scte35Type = "scte35Type"
+        case segmentLength = "segmentLength"
+        case segmentLengthUnits = "segmentLengthUnits"
+        case sendDelayMs = "sendDelayMs"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destination = self.destination {
+            try encodeContainer.encode(destination, forKey: .destination)
+        }
+        if let nielsenId3Behavior = self.nielsenId3Behavior {
+            try encodeContainer.encode(nielsenId3Behavior.rawValue, forKey: .nielsenId3Behavior)
+        }
+        if let scte35Type = self.scte35Type {
+            try encodeContainer.encode(scte35Type.rawValue, forKey: .scte35Type)
+        }
+        if let segmentLength = self.segmentLength {
+            try encodeContainer.encode(segmentLength, forKey: .segmentLength)
+        }
+        if let segmentLengthUnits = self.segmentLengthUnits {
+            try encodeContainer.encode(segmentLengthUnits.rawValue, forKey: .segmentLengthUnits)
+        }
+        if let sendDelayMs = self.sendDelayMs {
+            try encodeContainer.encode(sendDelayMs, forKey: .sendDelayMs)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.OutputLocationRef.self, forKey: .destination)
+        destination = destinationDecoded
+        let nielsenId3BehaviorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CmafNielsenId3Behavior.self, forKey: .nielsenId3Behavior)
+        nielsenId3Behavior = nielsenId3BehaviorDecoded
+        let scte35TypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.Scte35Type.self, forKey: .scte35Type)
+        scte35Type = scte35TypeDecoded
+        let segmentLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .segmentLength)
+        segmentLength = segmentLengthDecoded
+        let segmentLengthUnitsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CmafIngestSegmentLengthUnits.self, forKey: .segmentLengthUnits)
+        segmentLengthUnits = segmentLengthUnitsDecoded
+        let sendDelayMsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .sendDelayMs)
+        sendDelayMs = sendDelayMsDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Cmaf Ingest Group Settings
+    public struct CmafIngestGroupSettings: Swift.Equatable {
+        /// A HTTP destination for the tracks
+        /// This member is required.
+        public var destination: MediaLiveClientTypes.OutputLocationRef?
+        /// If set to passthrough, Nielsen inaudible tones for media tracking will be detected in the input audio and an equivalent ID3 tag will be inserted in the output.
+        public var nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior?
+        /// Type of scte35 track to add. none or scte35WithoutSegmentation
+        public var scte35Type: MediaLiveClientTypes.Scte35Type?
+        /// The nominal duration of segments. The units are specified in SegmentLengthUnits. The segments will end on the next keyframe after the specified duration, so the actual segment length might be longer, and it might be a fraction of the units.
+        public var segmentLength: Swift.Int?
+        /// Time unit for segment length parameter.
+        public var segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits?
+        /// Number of milliseconds to delay the output from the second pipeline.
+        public var sendDelayMs: Swift.Int?
+
+        public init(
+            destination: MediaLiveClientTypes.OutputLocationRef? = nil,
+            nielsenId3Behavior: MediaLiveClientTypes.CmafNielsenId3Behavior? = nil,
+            scte35Type: MediaLiveClientTypes.Scte35Type? = nil,
+            segmentLength: Swift.Int? = nil,
+            segmentLengthUnits: MediaLiveClientTypes.CmafIngestSegmentLengthUnits? = nil,
+            sendDelayMs: Swift.Int? = nil
+        )
+        {
+            self.destination = destination
+            self.nielsenId3Behavior = nielsenId3Behavior
+            self.scte35Type = scte35Type
+            self.segmentLength = segmentLength
+            self.segmentLengthUnits = segmentLengthUnits
+            self.sendDelayMs = sendDelayMs
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.CmafIngestOutputSettings: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nameModifier = "nameModifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let nameModifier = self.nameModifier {
+            try encodeContainer.encode(nameModifier, forKey: .nameModifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameModifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nameModifier)
+        nameModifier = nameModifierDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Cmaf Ingest Output Settings
+    public struct CmafIngestOutputSettings: Swift.Equatable {
+        /// String concatenated to the end of the destination filename. Required for multiple outputs of the same type.
+        public var nameModifier: Swift.String?
+
+        public init(
+            nameModifier: Swift.String? = nil
+        )
+        {
+            self.nameModifier = nameModifier
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// Cmaf Ingest Segment Length Units
+    public enum CmafIngestSegmentLengthUnits: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case milliseconds
+        case seconds
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafIngestSegmentLengthUnits] {
+            return [
+                .milliseconds,
+                .seconds,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .milliseconds: return "MILLISECONDS"
+            case .seconds: return "SECONDS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmafIngestSegmentLengthUnits(rawValue: rawValue) ?? CmafIngestSegmentLengthUnits.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Cmaf Nielsen Id3 Behavior
+    public enum CmafNielsenId3Behavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case noPassthrough
+        case passthrough
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CmafNielsenId3Behavior] {
+            return [
+                .noPassthrough,
+                .passthrough,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .noPassthrough: return "NO_PASSTHROUGH"
+            case .passthrough: return "PASSTHROUGH"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CmafNielsenId3Behavior(rawValue: rawValue) ?? CmafNielsenId3Behavior.sdkUnknown(rawValue)
         }
     }
 }
@@ -7239,6 +7490,126 @@ enum CreateTagsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Dash Role Audio
+    public enum DashRoleAudio: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alternate
+        case commentary
+        case description
+        case dub
+        case emergency
+        case enhancedAudioIntelligibility
+        case karaoke
+        case main
+        case supplementary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashRoleAudio] {
+            return [
+                .alternate,
+                .commentary,
+                .description,
+                .dub,
+                .emergency,
+                .enhancedAudioIntelligibility,
+                .karaoke,
+                .main,
+                .supplementary,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternate: return "ALTERNATE"
+            case .commentary: return "COMMENTARY"
+            case .description: return "DESCRIPTION"
+            case .dub: return "DUB"
+            case .emergency: return "EMERGENCY"
+            case .enhancedAudioIntelligibility: return "ENHANCED-AUDIO-INTELLIGIBILITY"
+            case .karaoke: return "KARAOKE"
+            case .main: return "MAIN"
+            case .supplementary: return "SUPPLEMENTARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashRoleAudio(rawValue: rawValue) ?? DashRoleAudio.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Dash Role Caption
+    public enum DashRoleCaption: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case alternate
+        case caption
+        case commentary
+        case description
+        case dub
+        case easyreader
+        case emergency
+        case forcedSubtitle
+        case karaoke
+        case main
+        case metadata
+        case subtitle
+        case supplementary
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashRoleCaption] {
+            return [
+                .alternate,
+                .caption,
+                .commentary,
+                .description,
+                .dub,
+                .easyreader,
+                .emergency,
+                .forcedSubtitle,
+                .karaoke,
+                .main,
+                .metadata,
+                .subtitle,
+                .supplementary,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .alternate: return "ALTERNATE"
+            case .caption: return "CAPTION"
+            case .commentary: return "COMMENTARY"
+            case .description: return "DESCRIPTION"
+            case .dub: return "DUB"
+            case .easyreader: return "EASYREADER"
+            case .emergency: return "EMERGENCY"
+            case .forcedSubtitle: return "FORCED-SUBTITLE"
+            case .karaoke: return "KARAOKE"
+            case .main: return "MAIN"
+            case .metadata: return "METADATA"
+            case .subtitle: return "SUBTITLE"
+            case .supplementary: return "SUPPLEMENTARY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashRoleCaption(rawValue: rawValue) ?? DashRoleCaption.sdkUnknown(rawValue)
         }
     }
 }
@@ -10953,6 +11324,54 @@ extension MediaLiveClientTypes {
         public init() { }
     }
 
+}
+
+extension MediaLiveClientTypes {
+    /// Dvb Dash Accessibility
+    public enum DvbDashAccessibility: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dvbdash1VisuallyImpaired
+        case dvbdash2HardOfHearing
+        case dvbdash3SupplementalCommentary
+        case dvbdash4DirectorsCommentary
+        case dvbdash5EducationalNotes
+        case dvbdash6MainProgram
+        case dvbdash7CleanFeed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DvbDashAccessibility] {
+            return [
+                .dvbdash1VisuallyImpaired,
+                .dvbdash2HardOfHearing,
+                .dvbdash3SupplementalCommentary,
+                .dvbdash4DirectorsCommentary,
+                .dvbdash5EducationalNotes,
+                .dvbdash6MainProgram,
+                .dvbdash7CleanFeed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dvbdash1VisuallyImpaired: return "DVBDASH_1_VISUALLY_IMPAIRED"
+            case .dvbdash2HardOfHearing: return "DVBDASH_2_HARD_OF_HEARING"
+            case .dvbdash3SupplementalCommentary: return "DVBDASH_3_SUPPLEMENTAL_COMMENTARY"
+            case .dvbdash4DirectorsCommentary: return "DVBDASH_4_DIRECTORS_COMMENTARY"
+            case .dvbdash5EducationalNotes: return "DVBDASH_5_EDUCATIONAL_NOTES"
+            case .dvbdash6MainProgram: return "DVBDASH_6_MAIN_PROGRAM"
+            case .dvbdash7CleanFeed: return "DVBDASH_7_CLEAN_FEED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DvbDashAccessibility(rawValue: rawValue) ?? DvbDashAccessibility.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaLiveClientTypes.DvbNitSettings: Swift.Codable {
@@ -16193,6 +16612,72 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// H265 Mv Over Picture Boundaries
+    public enum H265MvOverPictureBoundaries: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvOverPictureBoundaries] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265MvOverPictureBoundaries(rawValue: rawValue) ?? H265MvOverPictureBoundaries.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// H265 Mv Temporal Predictor
+    public enum H265MvTemporalPredictor: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265MvTemporalPredictor] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265MvTemporalPredictor(rawValue: rawValue) ?? H265MvTemporalPredictor.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// H265 Profile
     public enum H265Profile: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case main
@@ -16348,6 +16833,8 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         case lookAheadRateControl = "lookAheadRateControl"
         case maxBitrate = "maxBitrate"
         case minIInterval = "minIInterval"
+        case mvOverPictureBoundaries = "mvOverPictureBoundaries"
+        case mvTemporalPredictor = "mvTemporalPredictor"
         case parDenominator = "parDenominator"
         case parNumerator = "parNumerator"
         case profile = "profile"
@@ -16357,8 +16844,12 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         case sceneChangeDetect = "sceneChangeDetect"
         case slices = "slices"
         case tier = "tier"
+        case tileHeight = "tileHeight"
+        case tilePadding = "tilePadding"
+        case tileWidth = "tileWidth"
         case timecodeBurninSettings = "timecodeBurninSettings"
         case timecodeInsertion = "timecodeInsertion"
+        case treeblockSize = "treeblockSize"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -16420,6 +16911,12 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         if let minIInterval = self.minIInterval {
             try encodeContainer.encode(minIInterval, forKey: .minIInterval)
         }
+        if let mvOverPictureBoundaries = self.mvOverPictureBoundaries {
+            try encodeContainer.encode(mvOverPictureBoundaries.rawValue, forKey: .mvOverPictureBoundaries)
+        }
+        if let mvTemporalPredictor = self.mvTemporalPredictor {
+            try encodeContainer.encode(mvTemporalPredictor.rawValue, forKey: .mvTemporalPredictor)
+        }
         if let parDenominator = self.parDenominator {
             try encodeContainer.encode(parDenominator, forKey: .parDenominator)
         }
@@ -16447,11 +16944,23 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         if let tier = self.tier {
             try encodeContainer.encode(tier.rawValue, forKey: .tier)
         }
+        if let tileHeight = self.tileHeight {
+            try encodeContainer.encode(tileHeight, forKey: .tileHeight)
+        }
+        if let tilePadding = self.tilePadding {
+            try encodeContainer.encode(tilePadding.rawValue, forKey: .tilePadding)
+        }
+        if let tileWidth = self.tileWidth {
+            try encodeContainer.encode(tileWidth, forKey: .tileWidth)
+        }
         if let timecodeBurninSettings = self.timecodeBurninSettings {
             try encodeContainer.encode(timecodeBurninSettings, forKey: .timecodeBurninSettings)
         }
         if let timecodeInsertion = self.timecodeInsertion {
             try encodeContainer.encode(timecodeInsertion.rawValue, forKey: .timecodeInsertion)
+        }
+        if let treeblockSize = self.treeblockSize {
+            try encodeContainer.encode(treeblockSize.rawValue, forKey: .treeblockSize)
         }
     }
 
@@ -16517,6 +17026,18 @@ extension MediaLiveClientTypes.H265Settings: Swift.Codable {
         timecodeInsertion = timecodeInsertionDecoded
         let timecodeBurninSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.TimecodeBurninSettings.self, forKey: .timecodeBurninSettings)
         timecodeBurninSettings = timecodeBurninSettingsDecoded
+        let mvOverPictureBoundariesDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265MvOverPictureBoundaries.self, forKey: .mvOverPictureBoundaries)
+        mvOverPictureBoundaries = mvOverPictureBoundariesDecoded
+        let mvTemporalPredictorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265MvTemporalPredictor.self, forKey: .mvTemporalPredictor)
+        mvTemporalPredictor = mvTemporalPredictorDecoded
+        let tileHeightDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileHeight)
+        tileHeight = tileHeightDecoded
+        let tilePaddingDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265TilePadding.self, forKey: .tilePadding)
+        tilePadding = tilePaddingDecoded
+        let tileWidthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .tileWidth)
+        tileWidth = tileWidthDecoded
+        let treeblockSizeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.H265TreeblockSize.self, forKey: .treeblockSize)
+        treeblockSize = treeblockSizeDecoded
     }
 }
 
@@ -16563,6 +17084,10 @@ extension MediaLiveClientTypes {
         public var maxBitrate: Swift.Int?
         /// Only meaningful if sceneChangeDetect is set to enabled. Defaults to 5 if multiplex rate control is used. Enforces separation between repeated (cadence) I-frames and I-frames inserted by Scene Change Detection. If a scene change I-frame is within I-interval frames of a cadence I-frame, the GOP is shrunk and/or stretched to the scene change I-frame. GOP stretch requires enabling lookahead as well as setting I-interval. The normal cadence resumes for the next GOP. Note: Maximum GOP stretch = GOP size + Min-I-interval - 1
         public var minIInterval: Swift.Int?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In all other configurations, you typically enter "enabled".
+        public var mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries?
+        /// If you are setting up the picture as a tile, you must set this to "disabled". In other configurations, you typically enter "enabled".
+        public var mvTemporalPredictor: MediaLiveClientTypes.H265MvTemporalPredictor?
         /// Pixel Aspect Ratio denominator.
         public var parDenominator: Swift.Int?
         /// Pixel Aspect Ratio numerator.
@@ -16587,6 +17112,12 @@ extension MediaLiveClientTypes {
         public var slices: Swift.Int?
         /// H.265 Tier.
         public var tier: MediaLiveClientTypes.H265Tier?
+        /// Set this field to set up the picture as a tile. You must also set tileWidth. The tile height must result in 22 or fewer rows in the frame. The tile width must result in 20 or fewer columns in the frame. And finally, the product of the column count and row count must be 64 of less. If the tile width and height are specified, MediaLive will override the video codec slices field with a value that MediaLive calculates
+        public var tileHeight: Swift.Int?
+        /// Set to "padded" to force MediaLive to add padding to the frame, to obtain a frame that is a whole multiple of the tile size. If you are setting up the picture as a tile, you must enter "padded". In all other configurations, you typically enter "none".
+        public var tilePadding: MediaLiveClientTypes.H265TilePadding?
+        /// Set this field to set up the picture as a tile. See tileHeight for more information.
+        public var tileWidth: Swift.Int?
         /// Timecode burn-in settings
         public var timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings?
         /// Determines how timecodes should be inserted into the video elementary stream.
@@ -16595,6 +17126,8 @@ extension MediaLiveClientTypes {
         ///
         /// * 'picTimingSei': Pass through picture timing SEI messages from the source specified in Timecode Config
         public var timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior?
+        /// Select the tree block size used for encoding. If you enter "auto", the encoder will pick the best size. If you are setting up the picture as a tile, you must set this to 32x32. In all other configurations, you typically enter "auto".
+        public var treeblockSize: MediaLiveClientTypes.H265TreeblockSize?
 
         public init(
             adaptiveQuantization: MediaLiveClientTypes.H265AdaptiveQuantization? = nil,
@@ -16616,6 +17149,8 @@ extension MediaLiveClientTypes {
             lookAheadRateControl: MediaLiveClientTypes.H265LookAheadRateControl? = nil,
             maxBitrate: Swift.Int? = nil,
             minIInterval: Swift.Int? = nil,
+            mvOverPictureBoundaries: MediaLiveClientTypes.H265MvOverPictureBoundaries? = nil,
+            mvTemporalPredictor: MediaLiveClientTypes.H265MvTemporalPredictor? = nil,
             parDenominator: Swift.Int? = nil,
             parNumerator: Swift.Int? = nil,
             profile: MediaLiveClientTypes.H265Profile? = nil,
@@ -16625,8 +17160,12 @@ extension MediaLiveClientTypes {
             sceneChangeDetect: MediaLiveClientTypes.H265SceneChangeDetect? = nil,
             slices: Swift.Int? = nil,
             tier: MediaLiveClientTypes.H265Tier? = nil,
+            tileHeight: Swift.Int? = nil,
+            tilePadding: MediaLiveClientTypes.H265TilePadding? = nil,
+            tileWidth: Swift.Int? = nil,
             timecodeBurninSettings: MediaLiveClientTypes.TimecodeBurninSettings? = nil,
-            timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior? = nil
+            timecodeInsertion: MediaLiveClientTypes.H265TimecodeInsertionBehavior? = nil,
+            treeblockSize: MediaLiveClientTypes.H265TreeblockSize? = nil
         )
         {
             self.adaptiveQuantization = adaptiveQuantization
@@ -16648,6 +17187,8 @@ extension MediaLiveClientTypes {
             self.lookAheadRateControl = lookAheadRateControl
             self.maxBitrate = maxBitrate
             self.minIInterval = minIInterval
+            self.mvOverPictureBoundaries = mvOverPictureBoundaries
+            self.mvTemporalPredictor = mvTemporalPredictor
             self.parDenominator = parDenominator
             self.parNumerator = parNumerator
             self.profile = profile
@@ -16657,8 +17198,12 @@ extension MediaLiveClientTypes {
             self.sceneChangeDetect = sceneChangeDetect
             self.slices = slices
             self.tier = tier
+            self.tileHeight = tileHeight
+            self.tilePadding = tilePadding
+            self.tileWidth = tileWidth
             self.timecodeBurninSettings = timecodeBurninSettings
             self.timecodeInsertion = timecodeInsertion
+            self.treeblockSize = treeblockSize
         }
     }
 
@@ -16698,6 +17243,39 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// H265 Tile Padding
+    public enum H265TilePadding: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case padded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TilePadding] {
+            return [
+                .none,
+                .padded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .padded: return "PADDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265TilePadding(rawValue: rawValue) ?? H265TilePadding.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
     /// H265 Timecode Insertion Behavior
     public enum H265TimecodeInsertionBehavior: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -16726,6 +17304,39 @@ extension MediaLiveClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = H265TimecodeInsertionBehavior(rawValue: rawValue) ?? H265TimecodeInsertionBehavior.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// H265 Treeblock Size
+    public enum H265TreeblockSize: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case treeSize32x32
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [H265TreeblockSize] {
+            return [
+                .auto,
+                .treeSize32x32,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .treeSize32x32: return "TREE_SIZE_32X32"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = H265TreeblockSize(rawValue: rawValue) ?? H265TreeblockSize.sdkUnknown(rawValue)
         }
     }
 }
@@ -29340,6 +29951,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.OutputGroupSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case archiveGroupSettings = "archiveGroupSettings"
+        case cmafIngestGroupSettings = "cmafIngestGroupSettings"
         case frameCaptureGroupSettings = "frameCaptureGroupSettings"
         case hlsGroupSettings = "hlsGroupSettings"
         case mediaPackageGroupSettings = "mediaPackageGroupSettings"
@@ -29353,6 +29965,9 @@ extension MediaLiveClientTypes.OutputGroupSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let archiveGroupSettings = self.archiveGroupSettings {
             try encodeContainer.encode(archiveGroupSettings, forKey: .archiveGroupSettings)
+        }
+        if let cmafIngestGroupSettings = self.cmafIngestGroupSettings {
+            try encodeContainer.encode(cmafIngestGroupSettings, forKey: .cmafIngestGroupSettings)
         }
         if let frameCaptureGroupSettings = self.frameCaptureGroupSettings {
             try encodeContainer.encode(frameCaptureGroupSettings, forKey: .frameCaptureGroupSettings)
@@ -29395,6 +30010,8 @@ extension MediaLiveClientTypes.OutputGroupSettings: Swift.Codable {
         rtmpGroupSettings = rtmpGroupSettingsDecoded
         let udpGroupSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.UdpGroupSettings.self, forKey: .udpGroupSettings)
         udpGroupSettings = udpGroupSettingsDecoded
+        let cmafIngestGroupSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CmafIngestGroupSettings.self, forKey: .cmafIngestGroupSettings)
+        cmafIngestGroupSettings = cmafIngestGroupSettingsDecoded
     }
 }
 
@@ -29403,6 +30020,8 @@ extension MediaLiveClientTypes {
     public struct OutputGroupSettings: Swift.Equatable {
         /// Archive Group Settings
         public var archiveGroupSettings: MediaLiveClientTypes.ArchiveGroupSettings?
+        /// Cmaf Ingest Group Settings
+        public var cmafIngestGroupSettings: MediaLiveClientTypes.CmafIngestGroupSettings?
         /// Frame Capture Group Settings
         public var frameCaptureGroupSettings: MediaLiveClientTypes.FrameCaptureGroupSettings?
         /// Hls Group Settings
@@ -29420,6 +30039,7 @@ extension MediaLiveClientTypes {
 
         public init(
             archiveGroupSettings: MediaLiveClientTypes.ArchiveGroupSettings? = nil,
+            cmafIngestGroupSettings: MediaLiveClientTypes.CmafIngestGroupSettings? = nil,
             frameCaptureGroupSettings: MediaLiveClientTypes.FrameCaptureGroupSettings? = nil,
             hlsGroupSettings: MediaLiveClientTypes.HlsGroupSettings? = nil,
             mediaPackageGroupSettings: MediaLiveClientTypes.MediaPackageGroupSettings? = nil,
@@ -29430,6 +30050,7 @@ extension MediaLiveClientTypes {
         )
         {
             self.archiveGroupSettings = archiveGroupSettings
+            self.cmafIngestGroupSettings = cmafIngestGroupSettings
             self.frameCaptureGroupSettings = frameCaptureGroupSettings
             self.hlsGroupSettings = hlsGroupSettings
             self.mediaPackageGroupSettings = mediaPackageGroupSettings
@@ -29525,6 +30146,7 @@ extension MediaLiveClientTypes {
 extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case archiveOutputSettings = "archiveOutputSettings"
+        case cmafIngestOutputSettings = "cmafIngestOutputSettings"
         case frameCaptureOutputSettings = "frameCaptureOutputSettings"
         case hlsOutputSettings = "hlsOutputSettings"
         case mediaPackageOutputSettings = "mediaPackageOutputSettings"
@@ -29538,6 +30160,9 @@ extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let archiveOutputSettings = self.archiveOutputSettings {
             try encodeContainer.encode(archiveOutputSettings, forKey: .archiveOutputSettings)
+        }
+        if let cmafIngestOutputSettings = self.cmafIngestOutputSettings {
+            try encodeContainer.encode(cmafIngestOutputSettings, forKey: .cmafIngestOutputSettings)
         }
         if let frameCaptureOutputSettings = self.frameCaptureOutputSettings {
             try encodeContainer.encode(frameCaptureOutputSettings, forKey: .frameCaptureOutputSettings)
@@ -29580,6 +30205,8 @@ extension MediaLiveClientTypes.OutputSettings: Swift.Codable {
         rtmpOutputSettings = rtmpOutputSettingsDecoded
         let udpOutputSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.UdpOutputSettings.self, forKey: .udpOutputSettings)
         udpOutputSettings = udpOutputSettingsDecoded
+        let cmafIngestOutputSettingsDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CmafIngestOutputSettings.self, forKey: .cmafIngestOutputSettings)
+        cmafIngestOutputSettings = cmafIngestOutputSettingsDecoded
     }
 }
 
@@ -29588,6 +30215,8 @@ extension MediaLiveClientTypes {
     public struct OutputSettings: Swift.Equatable {
         /// Archive Output Settings
         public var archiveOutputSettings: MediaLiveClientTypes.ArchiveOutputSettings?
+        /// Cmaf Ingest Output Settings
+        public var cmafIngestOutputSettings: MediaLiveClientTypes.CmafIngestOutputSettings?
         /// Frame Capture Output Settings
         public var frameCaptureOutputSettings: MediaLiveClientTypes.FrameCaptureOutputSettings?
         /// Hls Output Settings
@@ -29605,6 +30234,7 @@ extension MediaLiveClientTypes {
 
         public init(
             archiveOutputSettings: MediaLiveClientTypes.ArchiveOutputSettings? = nil,
+            cmafIngestOutputSettings: MediaLiveClientTypes.CmafIngestOutputSettings? = nil,
             frameCaptureOutputSettings: MediaLiveClientTypes.FrameCaptureOutputSettings? = nil,
             hlsOutputSettings: MediaLiveClientTypes.HlsOutputSettings? = nil,
             mediaPackageOutputSettings: MediaLiveClientTypes.MediaPackageOutputSettings? = nil,
@@ -29615,6 +30245,7 @@ extension MediaLiveClientTypes {
         )
         {
             self.archiveOutputSettings = archiveOutputSettings
+            self.cmafIngestOutputSettings = cmafIngestOutputSettings
             self.frameCaptureOutputSettings = frameCaptureOutputSettings
             self.hlsOutputSettings = hlsOutputSettings
             self.mediaPackageOutputSettings = mediaPackageOutputSettings
@@ -33209,6 +33840,39 @@ extension MediaLiveClientTypes {
         }
     }
 
+}
+
+extension MediaLiveClientTypes {
+    /// Scte35 Type
+    public enum Scte35Type: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case `none`
+        case scte35WithoutSegmentation
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [Scte35Type] {
+            return [
+                .none,
+                .scte35WithoutSegmentation,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .none: return "NONE"
+            case .scte35WithoutSegmentation: return "SCTE_35_WITHOUT_SEGMENTATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = Scte35Type(rawValue: rawValue) ?? Scte35Type.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaLiveClientTypes {

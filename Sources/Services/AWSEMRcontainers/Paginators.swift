@@ -125,6 +125,7 @@ extension ListVirtualClustersInput: ClientRuntime.PaginateToken {
             containerProviderType: self.containerProviderType,
             createdAfter: self.createdAfter,
             createdBefore: self.createdBefore,
+            eksAccessEntryIntegrated: self.eksAccessEntryIntegrated,
             maxResults: self.maxResults,
             nextToken: token,
             states: self.states

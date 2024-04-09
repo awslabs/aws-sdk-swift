@@ -3561,22 +3561,6 @@ extension ListRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRulesOutput: Swift.Equatable {
-    /// The token that identifies which batch of results you want to see.
-    public var nextToken: Swift.String?
-    /// A list of readiness rules for a specific resource type.
-    public var rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]?
-
-    public init(
-        nextToken: Swift.String? = nil,
-        rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]? = nil
-    )
-    {
-        self.nextToken = nextToken
-        self.rules = rules
-    }
-}
-
 extension Route53RecoveryReadinessClientTypes {
     /// Readiness rule information, including the resource type, rule ID, and rule description.
     public struct ListRulesOutput: Swift.Equatable {
@@ -3602,6 +3586,22 @@ extension Route53RecoveryReadinessClientTypes {
         }
     }
 
+}
+
+public struct ListRulesOutput: Swift.Equatable {
+    /// The token that identifies which batch of results you want to see.
+    public var nextToken: Swift.String?
+    /// A list of readiness rules for a specific resource type.
+    public var rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        rules: [Route53RecoveryReadinessClientTypes.ListRulesOutput]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.rules = rules
+    }
 }
 
 struct ListRulesOutputBody: Swift.Equatable {

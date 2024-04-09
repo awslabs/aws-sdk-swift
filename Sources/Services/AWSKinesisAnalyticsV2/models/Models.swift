@@ -2391,7 +2391,7 @@ extension KinesisAnalyticsV2ClientTypes.CheckpointConfiguration: Swift.Codable {
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+    /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/).
     public struct CheckpointConfiguration: Swift.Equatable {
         /// Describes the interval in milliseconds between checkpoint operations. If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a CheckpointInterval value of 60000, even if this value is set to another value using this API or in application code.
         public var checkpointInterval: Swift.Int?
@@ -2406,7 +2406,7 @@ extension KinesisAnalyticsV2ClientTypes {
         /// * MinPauseBetweenCheckpoints: 5000
         /// This member is required.
         public var configurationType: KinesisAnalyticsV2ClientTypes.ConfigurationType?
-        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see [ Tuning Checkpointing](https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/large_state_tuning.html#tuning-checkpointing) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
+        /// Describes the minimum time in milliseconds after a checkpoint operation completes that a new checkpoint operation can start. If a checkpoint operation takes longer than the CheckpointInterval, the application otherwise performs continual checkpoint operations. For more information, see [ Tuning Checkpointing](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/ops/state/large_state_tuning/#tuning-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/). If CheckpointConfiguration.ConfigurationType is DEFAULT, the application will use a MinPauseBetweenCheckpoints value of 5000, even if this value is set using this API or in application code.
         public var minPauseBetweenCheckpoints: Swift.Int?
 
         public init(
@@ -5415,7 +5415,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkApplicationConfiguration: Swift.Cod
 extension KinesisAnalyticsV2ClientTypes {
     /// Describes configuration parameters for a Managed Service for Apache Flink application or a Studio notebook.
     public struct FlinkApplicationConfiguration: Swift.Equatable {
-        /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+        /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance. For more information, see [ Checkpoints for Fault Tolerance](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/dev/datastream/fault-tolerance/checkpointing/#enabling-and-configuring-checkpointing) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/).
         public var checkpointConfiguration: KinesisAnalyticsV2ClientTypes.CheckpointConfiguration?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
         public var monitoringConfiguration: KinesisAnalyticsV2ClientTypes.MonitoringConfiguration?
@@ -5478,7 +5478,7 @@ extension KinesisAnalyticsV2ClientTypes {
     public struct FlinkApplicationConfigurationDescription: Swift.Equatable {
         /// Describes an application's checkpointing configuration. Checkpointing is the process of persisting application state for fault tolerance.
         public var checkpointConfigurationDescription: KinesisAnalyticsV2ClientTypes.CheckpointConfigurationDescription?
-        /// The job plan for an application. For more information about the job plan, see [Jobs and Scheduling](https://ci.apache.org/projects/flink/flink-docs-release-1.8/internals/job_scheduling.html) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). To retrieve the job plan for the application, use the [DescribeApplicationRequest$IncludeAdditionalDetails] parameter of the [DescribeApplication] operation.
+        /// The job plan for an application. For more information about the job plan, see [Jobs and Scheduling](https://nightlies.apache.org/flink/flink-docs-release-1.18/internals/job_scheduling.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/). To retrieve the job plan for the application, use the [DescribeApplicationRequest$IncludeAdditionalDetails] parameter of the [DescribeApplication] operation.
         public var jobPlanDescription: Swift.String?
         /// Describes configuration parameters for Amazon CloudWatch logging for an application.
         public var monitoringConfigurationDescription: KinesisAnalyticsV2ClientTypes.MonitoringConfigurationDescription?
@@ -5578,7 +5578,7 @@ extension KinesisAnalyticsV2ClientTypes.FlinkRunConfiguration: Swift.Codable {
 extension KinesisAnalyticsV2ClientTypes {
     /// Describes the starting parameters for a Managed Service for Apache Flink application.
     public struct FlinkRunConfiguration: Swift.Equatable {
-        /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/savepoints.html#allowing-non-restored-state) in the [Apache Flink documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
+        /// When restoring from a snapshot, specifies whether the runtime is allowed to skip a state that cannot be mapped to the new program. This will happen if the program is updated between snapshots to remove stateful parameters, and state data in the snapshot no longer corresponds to valid application data. For more information, see [ Allowing Non-Restored State](https://nightlies.apache.org/flink/flink-docs-release-1.18/docs/ops/state/savepoints/#allowing-non-restored-state) in the [Apache Flink documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/). This value defaults to false. If you update your application without specifying this parameter, AllowNonRestoredState will be set to false, even if it was previously set to true.
         public var allowNonRestoredState: Swift.Bool?
 
         public init(
@@ -8458,7 +8458,7 @@ extension KinesisAnalyticsV2ClientTypes.ParallelismConfiguration: Swift.Codable 
 }
 
 extension KinesisAnalyticsV2ClientTypes {
-    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html) in the [Apache Flink Documentation](https://ci.apache.org/projects/flink/flink-docs-release-1.8/).
+    /// Describes parameters for how a Managed Service for Apache Flink application executes multiple tasks simultaneously. For more information about parallelism, see [Parallel Execution](https://nightlies.apache.org/flink/flink-docs-release-1.18/dev/parallel.html) in the [Apache Flink Documentation](https://nightlies.apache.org/flink/flink-docs-release-1.18/).
     public struct ParallelismConfiguration: Swift.Equatable {
         /// Describes whether the Managed Service for Apache Flink service can increase the parallelism of the application in response to increased throughput.
         public var autoScalingEnabled: Swift.Bool?
@@ -9457,6 +9457,7 @@ extension KinesisAnalyticsV2ClientTypes {
         case flink111
         case flink113
         case flink115
+        case flink118
         case flink16
         case flink18
         case sql10
@@ -9470,6 +9471,7 @@ extension KinesisAnalyticsV2ClientTypes {
                 .flink111,
                 .flink113,
                 .flink115,
+                .flink118,
                 .flink16,
                 .flink18,
                 .sql10,
@@ -9488,6 +9490,7 @@ extension KinesisAnalyticsV2ClientTypes {
             case .flink111: return "FLINK-1_11"
             case .flink113: return "FLINK-1_13"
             case .flink115: return "FLINK-1_15"
+            case .flink118: return "FLINK-1_18"
             case .flink16: return "FLINK-1_6"
             case .flink18: return "FLINK-1_8"
             case .sql10: return "SQL-1_0"

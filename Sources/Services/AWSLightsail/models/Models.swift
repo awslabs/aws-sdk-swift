@@ -7678,11 +7678,13 @@ extension CreateDistributionInput: Swift.Encodable {
         case bundleId
         case cacheBehaviorSettings
         case cacheBehaviors
+        case certificateName
         case defaultCacheBehavior
         case distributionName
         case ipAddressType
         case origin
         case tags
+        case viewerMinimumTlsProtocolVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -7698,6 +7700,9 @@ extension CreateDistributionInput: Swift.Encodable {
             for cachebehaviorperpath0 in cacheBehaviors {
                 try cacheBehaviorsContainer.encode(cachebehaviorperpath0)
             }
+        }
+        if let certificateName = self.certificateName {
+            try encodeContainer.encode(certificateName, forKey: .certificateName)
         }
         if let defaultCacheBehavior = self.defaultCacheBehavior {
             try encodeContainer.encode(defaultCacheBehavior, forKey: .defaultCacheBehavior)
@@ -7717,6 +7722,9 @@ extension CreateDistributionInput: Swift.Encodable {
                 try tagsContainer.encode(tag0)
             }
         }
+        if let viewerMinimumTlsProtocolVersion = self.viewerMinimumTlsProtocolVersion {
+            try encodeContainer.encode(viewerMinimumTlsProtocolVersion.rawValue, forKey: .viewerMinimumTlsProtocolVersion)
+        }
     }
 }
 
@@ -7735,6 +7743,8 @@ public struct CreateDistributionInput: Swift.Equatable {
     public var cacheBehaviorSettings: LightsailClientTypes.CacheSettings?
     /// An array of objects that describe the per-path cache behavior for the distribution.
     public var cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]?
+    /// The name of the SSL/TLS certificate that you want to attach to the distribution. Use the [GetCertificates](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html) action to get a list of certificate names that you can specify.
+    public var certificateName: Swift.String?
     /// An object that describes the default cache behavior for the distribution.
     /// This member is required.
     public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
@@ -7748,26 +7758,32 @@ public struct CreateDistributionInput: Swift.Equatable {
     public var origin: LightsailClientTypes.InputOrigin?
     /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
     public var tags: [LightsailClientTypes.Tag]?
+    /// The minimum TLS protocol version for the SSL/TLS certificate.
+    public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
 
     public init(
         bundleId: Swift.String? = nil,
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
         cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]? = nil,
+        certificateName: Swift.String? = nil,
         defaultCacheBehavior: LightsailClientTypes.CacheBehavior? = nil,
         distributionName: Swift.String? = nil,
         ipAddressType: LightsailClientTypes.IpAddressType? = nil,
         origin: LightsailClientTypes.InputOrigin? = nil,
-        tags: [LightsailClientTypes.Tag]? = nil
+        tags: [LightsailClientTypes.Tag]? = nil,
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
     )
     {
         self.bundleId = bundleId
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
+        self.certificateName = certificateName
         self.defaultCacheBehavior = defaultCacheBehavior
         self.distributionName = distributionName
         self.ipAddressType = ipAddressType
         self.origin = origin
         self.tags = tags
+        self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
     }
 }
 
@@ -7780,6 +7796,8 @@ struct CreateDistributionInputBody: Swift.Equatable {
     let bundleId: Swift.String?
     let ipAddressType: LightsailClientTypes.IpAddressType?
     let tags: [LightsailClientTypes.Tag]?
+    let certificateName: Swift.String?
+    let viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
 }
 
 extension CreateDistributionInputBody: Swift.Decodable {
@@ -7787,11 +7805,13 @@ extension CreateDistributionInputBody: Swift.Decodable {
         case bundleId
         case cacheBehaviorSettings
         case cacheBehaviors
+        case certificateName
         case defaultCacheBehavior
         case distributionName
         case ipAddressType
         case origin
         case tags
+        case viewerMinimumTlsProtocolVersion
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -7830,6 +7850,10 @@ extension CreateDistributionInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let certificateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateName)
+        certificateName = certificateNameDecoded
+        let viewerMinimumTlsProtocolVersionDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum.self, forKey: .viewerMinimumTlsProtocolVersion)
+        viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersionDecoded
     }
 }
 
@@ -24493,6 +24517,7 @@ extension LightsailClientTypes.InputOrigin: Swift.Codable {
         case name
         case protocolPolicy
         case regionName
+        case responseTimeout
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -24506,6 +24531,9 @@ extension LightsailClientTypes.InputOrigin: Swift.Codable {
         if let regionName = self.regionName {
             try encodeContainer.encode(regionName.rawValue, forKey: .regionName)
         }
+        if let responseTimeout = self.responseTimeout {
+            try encodeContainer.encode(responseTimeout, forKey: .responseTimeout)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -24516,6 +24544,8 @@ extension LightsailClientTypes.InputOrigin: Swift.Codable {
         regionName = regionNameDecoded
         let protocolPolicyDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.OriginProtocolPolicyEnum.self, forKey: .protocolPolicy)
         protocolPolicy = protocolPolicyDecoded
+        let responseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseTimeout)
+        responseTimeout = responseTimeoutDecoded
     }
 }
 
@@ -24528,16 +24558,20 @@ extension LightsailClientTypes {
         public var protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum?
         /// The AWS Region name of the origin resource.
         public var regionName: LightsailClientTypes.RegionName?
+        /// The amount of time, in seconds, that the distribution waits for a response after forwarding a request to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds.
+        public var responseTimeout: Swift.Int?
 
         public init(
             name: Swift.String? = nil,
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
-            regionName: LightsailClientTypes.RegionName? = nil
+            regionName: LightsailClientTypes.RegionName? = nil,
+            responseTimeout: Swift.Int? = nil
         )
         {
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
+            self.responseTimeout = responseTimeout
         }
     }
 
@@ -26643,6 +26677,7 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
         case status
         case supportCode
         case tags
+        case viewerMinimumTlsProtocolVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -26716,6 +26751,9 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
                 try tagsContainer.encode(tag0)
             }
         }
+        if let viewerMinimumTlsProtocolVersion = self.viewerMinimumTlsProtocolVersion {
+            try encodeContainer.encode(viewerMinimumTlsProtocolVersion, forKey: .viewerMinimumTlsProtocolVersion)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -26787,6 +26825,8 @@ extension LightsailClientTypes.LightsailDistribution: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let viewerMinimumTlsProtocolVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewerMinimumTlsProtocolVersion)
+        viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersionDecoded
     }
 }
 
@@ -26833,6 +26873,8 @@ extension LightsailClientTypes {
         public var supportCode: Swift.String?
         /// The tag keys and optional values for the resource. For more information about tags in Lightsail, see the [Amazon Lightsail Developer Guide](https://lightsail.aws.amazon.com/ls/docs/en_us/articles/amazon-lightsail-tags).
         public var tags: [LightsailClientTypes.Tag]?
+        /// The minimum TLS protocol version that the distribution can use to communicate with viewers.
+        public var viewerMinimumTlsProtocolVersion: Swift.String?
 
         public init(
             ableToUpdateBundle: Swift.Bool? = nil,
@@ -26854,7 +26896,8 @@ extension LightsailClientTypes {
             resourceType: LightsailClientTypes.ResourceType? = nil,
             status: Swift.String? = nil,
             supportCode: Swift.String? = nil,
-            tags: [LightsailClientTypes.Tag]? = nil
+            tags: [LightsailClientTypes.Tag]? = nil,
+            viewerMinimumTlsProtocolVersion: Swift.String? = nil
         )
         {
             self.ableToUpdateBundle = ableToUpdateBundle
@@ -26877,6 +26920,7 @@ extension LightsailClientTypes {
             self.status = status
             self.supportCode = supportCode
             self.tags = tags
+            self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
         }
     }
 
@@ -29685,6 +29729,7 @@ extension LightsailClientTypes.Origin: Swift.Codable {
         case protocolPolicy
         case regionName
         case resourceType
+        case responseTimeout
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -29701,6 +29746,9 @@ extension LightsailClientTypes.Origin: Swift.Codable {
         if let resourceType = self.resourceType {
             try encodeContainer.encode(resourceType.rawValue, forKey: .resourceType)
         }
+        if let responseTimeout = self.responseTimeout {
+            try encodeContainer.encode(responseTimeout, forKey: .responseTimeout)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -29713,6 +29761,8 @@ extension LightsailClientTypes.Origin: Swift.Codable {
         regionName = regionNameDecoded
         let protocolPolicyDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.OriginProtocolPolicyEnum.self, forKey: .protocolPolicy)
         protocolPolicy = protocolPolicyDecoded
+        let responseTimeoutDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .responseTimeout)
+        responseTimeout = responseTimeoutDecoded
     }
 }
 
@@ -29727,18 +29777,22 @@ extension LightsailClientTypes {
         public var regionName: LightsailClientTypes.RegionName?
         /// The resource type of the origin resource (Instance).
         public var resourceType: LightsailClientTypes.ResourceType?
+        /// The amount of time, in seconds, that the distribution waits for a response after forwarding a request to the origin. The minimum timeout is 1 second, the maximum is 60 seconds, and the default (if you don't specify otherwise) is 30 seconds.
+        public var responseTimeout: Swift.Int?
 
         public init(
             name: Swift.String? = nil,
             protocolPolicy: LightsailClientTypes.OriginProtocolPolicyEnum? = nil,
             regionName: LightsailClientTypes.RegionName? = nil,
-            resourceType: LightsailClientTypes.ResourceType? = nil
+            resourceType: LightsailClientTypes.ResourceType? = nil,
+            responseTimeout: Swift.Int? = nil
         )
         {
             self.name = name
             self.protocolPolicy = protocolPolicy
             self.regionName = regionName
             self.resourceType = resourceType
+            self.responseTimeout = responseTimeout
         }
     }
 
@@ -36750,10 +36804,13 @@ extension UpdateDistributionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheBehaviorSettings
         case cacheBehaviors
+        case certificateName
         case defaultCacheBehavior
         case distributionName
         case isEnabled
         case origin
+        case useDefaultCertificate
+        case viewerMinimumTlsProtocolVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -36767,6 +36824,9 @@ extension UpdateDistributionInput: Swift.Encodable {
                 try cacheBehaviorsContainer.encode(cachebehaviorperpath0)
             }
         }
+        if let certificateName = self.certificateName {
+            try encodeContainer.encode(certificateName, forKey: .certificateName)
+        }
         if let defaultCacheBehavior = self.defaultCacheBehavior {
             try encodeContainer.encode(defaultCacheBehavior, forKey: .defaultCacheBehavior)
         }
@@ -36778,6 +36838,12 @@ extension UpdateDistributionInput: Swift.Encodable {
         }
         if let origin = self.origin {
             try encodeContainer.encode(origin, forKey: .origin)
+        }
+        if let useDefaultCertificate = self.useDefaultCertificate {
+            try encodeContainer.encode(useDefaultCertificate, forKey: .useDefaultCertificate)
+        }
+        if let viewerMinimumTlsProtocolVersion = self.viewerMinimumTlsProtocolVersion {
+            try encodeContainer.encode(viewerMinimumTlsProtocolVersion.rawValue, forKey: .viewerMinimumTlsProtocolVersion)
         }
     }
 }
@@ -36794,6 +36860,8 @@ public struct UpdateDistributionInput: Swift.Equatable {
     public var cacheBehaviorSettings: LightsailClientTypes.CacheSettings?
     /// An array of objects that describe the per-path cache behavior for the distribution.
     public var cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]?
+    /// The name of the SSL/TLS certificate that you want to attach to the distribution. Only certificates with a status of ISSUED can be attached to a distribution. Use the [GetCertificates](https://docs.aws.amazon.com/lightsail/2016-11-28/api-reference/API_GetCertificates.html) action to get a list of certificate names that you can specify.
+    public var certificateName: Swift.String?
     /// An object that describes the default cache behavior for the distribution.
     public var defaultCacheBehavior: LightsailClientTypes.CacheBehavior?
     /// The name of the distribution to update. Use the GetDistributions action to get a list of distribution names that you can specify.
@@ -36803,22 +36871,32 @@ public struct UpdateDistributionInput: Swift.Equatable {
     public var isEnabled: Swift.Bool?
     /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
     public var origin: LightsailClientTypes.InputOrigin?
+    /// Indicates whether the default SSL/TLS certificate is attached to the distribution. The default value is true. When true, the distribution uses the default domain name such as d111111abcdef8.cloudfront.net. Set this value to false to attach a new certificate to the distribution.
+    public var useDefaultCertificate: Swift.Bool?
+    /// Use this parameter to update the minimum TLS protocol version for the SSL/TLS certificate that's attached to the distribution.
+    public var viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
 
     public init(
         cacheBehaviorSettings: LightsailClientTypes.CacheSettings? = nil,
         cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]? = nil,
+        certificateName: Swift.String? = nil,
         defaultCacheBehavior: LightsailClientTypes.CacheBehavior? = nil,
         distributionName: Swift.String? = nil,
         isEnabled: Swift.Bool? = nil,
-        origin: LightsailClientTypes.InputOrigin? = nil
+        origin: LightsailClientTypes.InputOrigin? = nil,
+        useDefaultCertificate: Swift.Bool? = nil,
+        viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum? = nil
     )
     {
         self.cacheBehaviorSettings = cacheBehaviorSettings
         self.cacheBehaviors = cacheBehaviors
+        self.certificateName = certificateName
         self.defaultCacheBehavior = defaultCacheBehavior
         self.distributionName = distributionName
         self.isEnabled = isEnabled
         self.origin = origin
+        self.useDefaultCertificate = useDefaultCertificate
+        self.viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersion
     }
 }
 
@@ -36829,16 +36907,22 @@ struct UpdateDistributionInputBody: Swift.Equatable {
     let cacheBehaviorSettings: LightsailClientTypes.CacheSettings?
     let cacheBehaviors: [LightsailClientTypes.CacheBehaviorPerPath]?
     let isEnabled: Swift.Bool?
+    let viewerMinimumTlsProtocolVersion: LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum?
+    let certificateName: Swift.String?
+    let useDefaultCertificate: Swift.Bool?
 }
 
 extension UpdateDistributionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cacheBehaviorSettings
         case cacheBehaviors
+        case certificateName
         case defaultCacheBehavior
         case distributionName
         case isEnabled
         case origin
+        case useDefaultCertificate
+        case viewerMinimumTlsProtocolVersion
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -36864,6 +36948,12 @@ extension UpdateDistributionInputBody: Swift.Decodable {
         cacheBehaviors = cacheBehaviorsDecoded0
         let isEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isEnabled)
         isEnabled = isEnabledDecoded
+        let viewerMinimumTlsProtocolVersionDecoded = try containerValues.decodeIfPresent(LightsailClientTypes.ViewerMinimumTlsProtocolVersionEnum.self, forKey: .viewerMinimumTlsProtocolVersion)
+        viewerMinimumTlsProtocolVersion = viewerMinimumTlsProtocolVersionDecoded
+        let certificateNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .certificateName)
+        certificateName = certificateNameDecoded
+        let useDefaultCertificateDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .useDefaultCertificate)
+        useDefaultCertificate = useDefaultCertificateDecoded
     }
 }
 
@@ -37750,6 +37840,44 @@ enum UpdateRelationalDatabaseParametersOutputError: ClientRuntime.HttpResponseEr
             case "ServiceException": return try await ServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnauthenticatedException": return try await UnauthenticatedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension LightsailClientTypes {
+    public enum ViewerMinimumTlsProtocolVersionEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case tlsv112016
+        case tlsv122018
+        case tlsv122019
+        case tlsv122021
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ViewerMinimumTlsProtocolVersionEnum] {
+            return [
+                .tlsv112016,
+                .tlsv122018,
+                .tlsv122019,
+                .tlsv122021,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .tlsv112016: return "TLSv1.1_2016"
+            case .tlsv122018: return "TLSv1.2_2018"
+            case .tlsv122019: return "TLSv1.2_2019"
+            case .tlsv122021: return "TLSv1.2_2021"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ViewerMinimumTlsProtocolVersionEnum(rawValue: rawValue) ?? ViewerMinimumTlsProtocolVersionEnum.sdkUnknown(rawValue)
         }
     }
 }

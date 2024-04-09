@@ -59,6 +59,54 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ManagedBlockchainQueryClientTypes.AddressIdentifierFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case transactionEventToAddress
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let transactionEventToAddress = transactionEventToAddress {
+            var transactionEventToAddressContainer = encodeContainer.nestedUnkeyedContainer(forKey: .transactionEventToAddress)
+            for chainaddress0 in transactionEventToAddress {
+                try transactionEventToAddressContainer.encode(chainaddress0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let transactionEventToAddressContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .transactionEventToAddress)
+        var transactionEventToAddressDecoded0:[Swift.String]? = nil
+        if let transactionEventToAddressContainer = transactionEventToAddressContainer {
+            transactionEventToAddressDecoded0 = [Swift.String]()
+            for string0 in transactionEventToAddressContainer {
+                if let string0 = string0 {
+                    transactionEventToAddressDecoded0?.append(string0)
+                }
+            }
+        }
+        transactionEventToAddress = transactionEventToAddressDecoded0
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// This is the container for the unique public address on the blockchain.
+    public struct AddressIdentifierFilter: Swift.Equatable {
+        /// The container for the recipient address of the transaction.
+        /// This member is required.
+        public var transactionEventToAddress: [Swift.String]?
+
+        public init(
+            transactionEventToAddress: [Swift.String]? = nil
+        )
+        {
+            self.transactionEventToAddress = transactionEventToAddress
+        }
+    }
+
+}
+
 extension ManagedBlockchainQueryClientTypes.AssetContract: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contractIdentifier
@@ -180,7 +228,7 @@ extension ManagedBlockchainQueryClientTypes {
         /// The type of error.
         /// This member is required.
         public var errorType: ManagedBlockchainQueryClientTypes.ErrorType?
-        /// The container for the identifier of the owner.
+        /// The container for the owner identifier.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
         /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
         public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
@@ -301,7 +349,7 @@ extension ManagedBlockchainQueryClientTypes {
     public struct BatchGetTokenBalanceInputItem: Swift.Equatable {
         /// The container for time.
         public var atBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
-        /// The container for the identifier of the owner.
+        /// The container for the owner identifier.
         /// This member is required.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
         /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
@@ -462,7 +510,7 @@ extension ManagedBlockchainQueryClientTypes {
         public var balance: Swift.String?
         /// The container for time.
         public var lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
-        /// The container for the identifier of the owner.
+        /// The container for the owner identifier.
         public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
         /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
         public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
@@ -1067,7 +1115,7 @@ public struct GetTokenBalanceOutput: Swift.Equatable {
     public var balance: Swift.String?
     /// The container for time.
     public var lastUpdatedTime: ManagedBlockchainQueryClientTypes.BlockchainInstant?
-    /// The container for the identifier of the owner.
+    /// The container for the owner identifier.
     public var ownerIdentifier: ManagedBlockchainQueryClientTypes.OwnerIdentifier?
     /// The container for the identifier for the token including the unique token ID and its blockchain network. Only the native tokens BTC and ETH, and the ERC-20, ERC-721, and ERC 1155 token standards are supported.
     public var tokenIdentifier: ManagedBlockchainQueryClientTypes.TokenIdentifier?
@@ -1140,6 +1188,7 @@ extension GetTransactionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case network
         case transactionHash
+        case transactionId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1149,6 +1198,9 @@ extension GetTransactionInput: Swift.Encodable {
         }
         if let transactionHash = self.transactionHash {
             try encodeContainer.encode(transactionHash, forKey: .transactionHash)
+        }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
         }
     }
 }
@@ -1164,22 +1216,26 @@ public struct GetTransactionInput: Swift.Equatable {
     /// The blockchain network where the transaction occurred.
     /// This member is required.
     public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-    /// The hash of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
-    /// This member is required.
+    /// The hash of a transaction. It is generated when a transaction is created.
     public var transactionHash: Swift.String?
+    /// The identifier of a Bitcoin transaction. It is generated when a transaction is created. transactionId is only supported on the Bitcoin networks.
+    public var transactionId: Swift.String?
 
     public init(
         network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
-        transactionHash: Swift.String? = nil
+        transactionHash: Swift.String? = nil,
+        transactionId: Swift.String? = nil
     )
     {
         self.network = network
         self.transactionHash = transactionHash
+        self.transactionId = transactionId
     }
 }
 
 struct GetTransactionInputBody: Swift.Equatable {
     let transactionHash: Swift.String?
+    let transactionId: Swift.String?
     let network: ManagedBlockchainQueryClientTypes.QueryNetwork?
 }
 
@@ -1187,12 +1243,15 @@ extension GetTransactionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case network
         case transactionHash
+        case transactionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionHash)
         transactionHash = transactionHashDecoded
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
         let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
         network = networkDecoded
     }
@@ -1282,7 +1341,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
         /// The container for the exception message.
         /// This member is required.
         public internal(set) var message: Swift.String? = nil
-        /// The container of the retryAfterSeconds value.
+        /// Specifies the retryAfterSeconds value.
         public internal(set) var retryAfterSeconds: Swift.Int? = nil
     }
 
@@ -1353,7 +1412,7 @@ public struct ListAssetContractsInput: Swift.Equatable {
     /// Contains the filter parameter for the request.
     /// This member is required.
     public var contractFilter: ManagedBlockchainQueryClientTypes.ContractFilter?
-    /// The maximum number of contracts to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of contracts to list. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
@@ -1469,6 +1528,290 @@ enum ListAssetContractsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListFilteredTransactionEventsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addressIdentifierFilter
+        case confirmationStatusFilter
+        case maxResults
+        case network
+        case nextToken
+        case sort
+        case timeFilter
+        case voutFilter
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let addressIdentifierFilter = self.addressIdentifierFilter {
+            try encodeContainer.encode(addressIdentifierFilter, forKey: .addressIdentifierFilter)
+        }
+        if let confirmationStatusFilter = self.confirmationStatusFilter {
+            try encodeContainer.encode(confirmationStatusFilter, forKey: .confirmationStatusFilter)
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let network = self.network {
+            try encodeContainer.encode(network, forKey: .network)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+        if let sort = self.sort {
+            try encodeContainer.encode(sort, forKey: .sort)
+        }
+        if let timeFilter = self.timeFilter {
+            try encodeContainer.encode(timeFilter, forKey: .timeFilter)
+        }
+        if let voutFilter = self.voutFilter {
+            try encodeContainer.encode(voutFilter, forKey: .voutFilter)
+        }
+    }
+}
+
+extension ListFilteredTransactionEventsInput {
+
+    static func urlPathProvider(_ value: ListFilteredTransactionEventsInput) -> Swift.String? {
+        return "/list-filtered-transaction-events"
+    }
+}
+
+public struct ListFilteredTransactionEventsInput: Swift.Equatable {
+    /// This is the unique public address on the blockchain for which the transaction events are being requested.
+    /// This member is required.
+    public var addressIdentifierFilter: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?
+    /// The container for the ConfirmationStatusFilter that filters for the [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality) of the results.
+    public var confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?
+    /// The maximum number of transaction events to list. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    public var maxResults: Swift.Int?
+    /// The blockchain network where the transaction occurred. Valid Values: BITCOIN_MAINNET | BITCOIN_TESTNET
+    /// This member is required.
+    public var network: Swift.String?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+    /// The order by which the results will be sorted.
+    public var sort: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort?
+    /// This container specifies the time frame for the transaction events returned in the response.
+    public var timeFilter: ManagedBlockchainQueryClientTypes.TimeFilter?
+    /// This container specifies filtering attributes related to BITCOIN_VOUT event types
+    public var voutFilter: ManagedBlockchainQueryClientTypes.VoutFilter?
+
+    public init(
+        addressIdentifierFilter: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter? = nil,
+        confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter? = nil,
+        maxResults: Swift.Int? = nil,
+        network: Swift.String? = nil,
+        nextToken: Swift.String? = nil,
+        sort: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort? = nil,
+        timeFilter: ManagedBlockchainQueryClientTypes.TimeFilter? = nil,
+        voutFilter: ManagedBlockchainQueryClientTypes.VoutFilter? = nil
+    )
+    {
+        self.addressIdentifierFilter = addressIdentifierFilter
+        self.confirmationStatusFilter = confirmationStatusFilter
+        self.maxResults = maxResults
+        self.network = network
+        self.nextToken = nextToken
+        self.sort = sort
+        self.timeFilter = timeFilter
+        self.voutFilter = voutFilter
+    }
+}
+
+struct ListFilteredTransactionEventsInputBody: Swift.Equatable {
+    let network: Swift.String?
+    let addressIdentifierFilter: ManagedBlockchainQueryClientTypes.AddressIdentifierFilter?
+    let timeFilter: ManagedBlockchainQueryClientTypes.TimeFilter?
+    let voutFilter: ManagedBlockchainQueryClientTypes.VoutFilter?
+    let confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?
+    let sort: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListFilteredTransactionEventsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case addressIdentifierFilter
+        case confirmationStatusFilter
+        case maxResults
+        case network
+        case nextToken
+        case sort
+        case timeFilter
+        case voutFilter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let networkDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .network)
+        network = networkDecoded
+        let addressIdentifierFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.AddressIdentifierFilter.self, forKey: .addressIdentifierFilter)
+        addressIdentifierFilter = addressIdentifierFilterDecoded
+        let timeFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.TimeFilter.self, forKey: .timeFilter)
+        timeFilter = timeFilterDecoded
+        let voutFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.VoutFilter.self, forKey: .voutFilter)
+        voutFilter = voutFilterDecoded
+        let confirmationStatusFilterDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter.self, forKey: .confirmationStatusFilter)
+        confirmationStatusFilter = confirmationStatusFilterDecoded
+        let sortDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort.self, forKey: .sort)
+        sort = sortDecoded
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListFilteredTransactionEventsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListFilteredTransactionEventsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.events = output.events
+            self.nextToken = output.nextToken
+        } else {
+            self.events = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListFilteredTransactionEventsOutput: Swift.Equatable {
+    /// The transaction events returned by the request.
+    /// This member is required.
+    public var events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
+    /// The pagination token that indicates the next set of results to retrieve.
+    public var nextToken: Swift.String?
+
+    public init(
+        events: [ManagedBlockchainQueryClientTypes.TransactionEvent]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.events = events
+        self.nextToken = nextToken
+    }
+}
+
+struct ListFilteredTransactionEventsOutputBody: Swift.Equatable {
+    let events: [ManagedBlockchainQueryClientTypes.TransactionEvent]?
+    let nextToken: Swift.String?
+}
+
+extension ListFilteredTransactionEventsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case events
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventsContainer = try containerValues.decodeIfPresent([ManagedBlockchainQueryClientTypes.TransactionEvent?].self, forKey: .events)
+        var eventsDecoded0:[ManagedBlockchainQueryClientTypes.TransactionEvent]? = nil
+        if let eventsContainer = eventsContainer {
+            eventsDecoded0 = [ManagedBlockchainQueryClientTypes.TransactionEvent]()
+            for structure0 in eventsContainer {
+                if let structure0 = structure0 {
+                    eventsDecoded0?.append(structure0)
+                }
+            }
+        }
+        events = eventsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListFilteredTransactionEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSort: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sortBy
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sortBy = self.sortBy {
+            try encodeContainer.encode(sortBy.rawValue, forKey: .sortBy)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortByDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSortBy.self, forKey: .sortBy)
+        sortBy = sortByDecoded
+        let sortOrderDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// Lists all the transaction events for an address on the blockchain. This operation is only supported on the Bitcoin blockchain networks.
+    public struct ListFilteredTransactionEventsSort: Swift.Equatable {
+        /// Container on how the results will be sorted by?
+        public var sortBy: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSortBy?
+        /// The container for the sort order for ListFilteredTransactionEvents. The SortOrder field only accepts the values ASCENDING and DESCENDING. Not providing SortOrder will default to ASCENDING.
+        public var sortOrder: ManagedBlockchainQueryClientTypes.SortOrder?
+
+        public init(
+            sortBy: ManagedBlockchainQueryClientTypes.ListFilteredTransactionEventsSortBy? = nil,
+            sortOrder: ManagedBlockchainQueryClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortBy = sortBy
+            self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    public enum ListFilteredTransactionEventsSortBy: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        /// Timestamp of a transaction
+        case blockchaininstant
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ListFilteredTransactionEventsSortBy] {
+            return [
+                .blockchaininstant,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .blockchaininstant: return "blockchainInstant"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ListFilteredTransactionEventsSortBy(rawValue: rawValue) ?? ListFilteredTransactionEventsSortBy.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension ListTokenBalancesInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults
@@ -1502,7 +1845,7 @@ extension ListTokenBalancesInput {
 }
 
 public struct ListTokenBalancesInput: Swift.Equatable {
-    /// The maximum number of token balances to return. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of token balances to return. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
@@ -1635,6 +1978,7 @@ extension ListTransactionEventsInput: Swift.Encodable {
         case network
         case nextToken
         case transactionHash
+        case transactionId
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1651,6 +1995,9 @@ extension ListTransactionEventsInput: Swift.Encodable {
         if let transactionHash = self.transactionHash {
             try encodeContainer.encode(transactionHash, forKey: .transactionHash)
         }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
+        }
     }
 }
 
@@ -1662,33 +2009,37 @@ extension ListTransactionEventsInput {
 }
 
 public struct ListTransactionEventsInput: Swift.Equatable {
-    /// The maximum number of transaction events to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of transaction events to list. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The blockchain network where the transaction events occurred.
     /// This member is required.
     public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
-    /// The hash of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
-    /// This member is required.
+    /// The hash of a transaction. It is generated when a transaction is created.
     public var transactionHash: Swift.String?
+    /// The identifier of a Bitcoin transaction. It is generated when a transaction is created. transactionId is only supported on the Bitcoin networks.
+    public var transactionId: Swift.String?
 
     public init(
         maxResults: Swift.Int? = nil,
         network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
         nextToken: Swift.String? = nil,
-        transactionHash: Swift.String? = nil
+        transactionHash: Swift.String? = nil,
+        transactionId: Swift.String? = nil
     )
     {
         self.maxResults = maxResults
         self.network = network
         self.nextToken = nextToken
         self.transactionHash = transactionHash
+        self.transactionId = transactionId
     }
 }
 
 struct ListTransactionEventsInputBody: Swift.Equatable {
     let transactionHash: Swift.String?
+    let transactionId: Swift.String?
     let network: ManagedBlockchainQueryClientTypes.QueryNetwork?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1700,12 +2051,15 @@ extension ListTransactionEventsInputBody: Swift.Decodable {
         case network
         case nextToken
         case transactionHash
+        case transactionId
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionHash)
         transactionHash = transactionHashDecoded
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
         let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
         network = networkDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
@@ -1842,18 +2196,18 @@ public struct ListTransactionsInput: Swift.Equatable {
     /// The address (either a contract or wallet), whose transactions are being requested.
     /// This member is required.
     public var address: Swift.String?
-    /// This filter is used to include transactions in the response that haven't reached [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality). Transactions that have reached finiality are always part of the response.
+    /// This filter is used to include transactions in the response that haven't reached [ finality ](https://docs.aws.amazon.com/managed-blockchain/latest/ambq-dg/key-concepts.html#finality). Transactions that have reached finality are always part of the response.
     public var confirmationStatusFilter: ManagedBlockchainQueryClientTypes.ConfirmationStatusFilter?
     /// The container for time.
     public var fromBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
-    /// The maximum number of transactions to list. Default:100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
+    /// The maximum number of transactions to list. Default: 100 Even if additional results can be retrieved, the request can return less results than maxResults or an empty array of results. To retrieve the next set of results, make another request with the returned nextToken value. The value of nextToken is null when there are no more results to return
     public var maxResults: Swift.Int?
     /// The blockchain network where the transactions occurred.
     /// This member is required.
     public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
     /// The pagination token that indicates the next set of results to retrieve.
     public var nextToken: Swift.String?
-    /// The order by which the results will be sorted. If ASCENNDING is selected, the results will be ordered by fromTime.
+    /// The order by which the results will be sorted.
     public var sort: ManagedBlockchainQueryClientTypes.ListTransactionsSort?
     /// The container for time.
     public var toBlockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
@@ -2132,7 +2486,7 @@ extension ManagedBlockchainQueryClientTypes.OwnerIdentifier: Swift.Codable {
 }
 
 extension ManagedBlockchainQueryClientTypes {
-    /// The container for the identifier of the owner.
+    /// The container for the owner identifier.
     public struct OwnerIdentifier: Swift.Equatable {
         /// The contract or wallet address for the owner.
         /// This member is required.
@@ -2626,6 +2980,51 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension ManagedBlockchainQueryClientTypes.TimeFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case from
+        case to
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let from = self.from {
+            try encodeContainer.encode(from, forKey: .from)
+        }
+        if let to = self.to {
+            try encodeContainer.encode(to, forKey: .to)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.BlockchainInstant.self, forKey: .from)
+        from = fromDecoded
+        let toDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.BlockchainInstant.self, forKey: .to)
+        to = toDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// This container is used to specify a time frame.
+    public struct TimeFilter: Swift.Equatable {
+        /// The container for time.
+        public var from: ManagedBlockchainQueryClientTypes.BlockchainInstant?
+        /// The container for time.
+        public var to: ManagedBlockchainQueryClientTypes.BlockchainInstant?
+
+        public init(
+            from: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
+            to: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil
+        )
+        {
+            self.from = from
+            self.to = to
+        }
+    }
+
+}
+
 extension ManagedBlockchainQueryClientTypes.TokenBalance: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case atBlockchainInstant
@@ -2990,10 +3389,10 @@ extension ManagedBlockchainQueryClientTypes {
         public var to: Swift.String?
         /// The transaction fee.
         public var transactionFee: Swift.String?
-        /// The hash of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
+        /// The hash of a transaction. It is generated when a transaction is created.
         /// This member is required.
         public var transactionHash: Swift.String?
-        /// The unique identifier of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
+        /// The identifier of a Bitcoin transaction. It is generated when a transaction is created.
         public var transactionId: Swift.String?
         /// The index of the transaction within a blockchain.
         /// This member is required.
@@ -3052,20 +3451,32 @@ extension ManagedBlockchainQueryClientTypes {
 
 extension ManagedBlockchainQueryClientTypes.TransactionEvent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case blockchainInstant
+        case confirmationStatus
         case contractAddress
         case eventType
         case from
         case network
+        case spentVoutIndex
+        case spentVoutTransactionHash
+        case spentVoutTransactionId
         case to
         case tokenId
         case transactionHash
         case transactionId
         case value
         case voutIndex
+        case voutSpent
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let blockchainInstant = self.blockchainInstant {
+            try encodeContainer.encode(blockchainInstant, forKey: .blockchainInstant)
+        }
+        if let confirmationStatus = self.confirmationStatus {
+            try encodeContainer.encode(confirmationStatus.rawValue, forKey: .confirmationStatus)
+        }
         if let contractAddress = self.contractAddress {
             try encodeContainer.encode(contractAddress, forKey: .contractAddress)
         }
@@ -3077,6 +3488,15 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent: Swift.Codable {
         }
         if let network = self.network {
             try encodeContainer.encode(network.rawValue, forKey: .network)
+        }
+        if let spentVoutIndex = self.spentVoutIndex {
+            try encodeContainer.encode(spentVoutIndex, forKey: .spentVoutIndex)
+        }
+        if let spentVoutTransactionHash = self.spentVoutTransactionHash {
+            try encodeContainer.encode(spentVoutTransactionHash, forKey: .spentVoutTransactionHash)
+        }
+        if let spentVoutTransactionId = self.spentVoutTransactionId {
+            try encodeContainer.encode(spentVoutTransactionId, forKey: .spentVoutTransactionId)
         }
         if let to = self.to {
             try encodeContainer.encode(to, forKey: .to)
@@ -3095,6 +3515,9 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent: Swift.Codable {
         }
         if let voutIndex = self.voutIndex {
             try encodeContainer.encode(voutIndex, forKey: .voutIndex)
+        }
+        if let voutSpent = self.voutSpent {
+            try encodeContainer.encode(voutSpent, forKey: .voutSpent)
         }
     }
 
@@ -3120,13 +3543,29 @@ extension ManagedBlockchainQueryClientTypes.TransactionEvent: Swift.Codable {
         transactionId = transactionIdDecoded
         let voutIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .voutIndex)
         voutIndex = voutIndexDecoded
+        let voutSpentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .voutSpent)
+        voutSpent = voutSpentDecoded
+        let spentVoutTransactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spentVoutTransactionId)
+        spentVoutTransactionId = spentVoutTransactionIdDecoded
+        let spentVoutTransactionHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .spentVoutTransactionHash)
+        spentVoutTransactionHash = spentVoutTransactionHashDecoded
+        let spentVoutIndexDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .spentVoutIndex)
+        spentVoutIndex = spentVoutIndexDecoded
+        let blockchainInstantDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.BlockchainInstant.self, forKey: .blockchainInstant)
+        blockchainInstant = blockchainInstantDecoded
+        let confirmationStatusDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.ConfirmationStatus.self, forKey: .confirmationStatus)
+        confirmationStatus = confirmationStatusDecoded
     }
 }
 
 extension ManagedBlockchainQueryClientTypes {
     /// The container for the properties of a transaction event.
     public struct TransactionEvent: Swift.Equatable {
-        /// The blockchain address. for the contract
+        /// The container for time.
+        public var blockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant?
+        /// This container specifies whether the transaction has reached Finality.
+        public var confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus?
+        /// The blockchain address for the contract
         public var contractAddress: Swift.String?
         /// The type of transaction event.
         /// This member is required.
@@ -3136,43 +3575,63 @@ extension ManagedBlockchainQueryClientTypes {
         /// The blockchain network where the transaction occurred.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
+        /// The position of the spent transaction output in the output list of the creating transaction. This is only returned for BITCOIN_VIN event types.
+        public var spentVoutIndex: Swift.Int?
+        /// The transactionHash that created the spent transaction output. This is only returned for BITCOIN_VIN event types.
+        public var spentVoutTransactionHash: Swift.String?
+        /// The transactionId that created the spent transaction output. This is only returned for BITCOIN_VIN event types.
+        public var spentVoutTransactionId: Swift.String?
         /// The wallet address receiving the transaction. It can either be a public key or a contract.
         public var to: Swift.String?
         /// The unique identifier for the token involved in the transaction.
         public var tokenId: Swift.String?
-        /// The hash of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
+        /// The hash of a transaction. It is generated when a transaction is created.
         /// This member is required.
         public var transactionHash: Swift.String?
-        /// The unique identifier of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
+        /// The identifier of a Bitcoin transaction. It is generated when a transaction is created.
         public var transactionId: Swift.String?
         /// The value that was transacted.
         public var value: Swift.String?
-        /// The position of the vout in the transaction output list.
+        /// The position of the transaction output in the transaction output list.
         public var voutIndex: Swift.Int?
+        /// Specifies if the transaction output is spent or unspent. This is only returned for BITCOIN_VOUT event types. This is only returned for BITCOIN_VOUT event types.
+        public var voutSpent: Swift.Bool?
 
         public init(
+            blockchainInstant: ManagedBlockchainQueryClientTypes.BlockchainInstant? = nil,
+            confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus? = nil,
             contractAddress: Swift.String? = nil,
             eventType: ManagedBlockchainQueryClientTypes.QueryTransactionEventType? = nil,
             from: Swift.String? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
+            spentVoutIndex: Swift.Int? = nil,
+            spentVoutTransactionHash: Swift.String? = nil,
+            spentVoutTransactionId: Swift.String? = nil,
             to: Swift.String? = nil,
             tokenId: Swift.String? = nil,
             transactionHash: Swift.String? = nil,
             transactionId: Swift.String? = nil,
             value: Swift.String? = nil,
-            voutIndex: Swift.Int? = nil
+            voutIndex: Swift.Int? = nil,
+            voutSpent: Swift.Bool? = nil
         )
         {
+            self.blockchainInstant = blockchainInstant
+            self.confirmationStatus = confirmationStatus
             self.contractAddress = contractAddress
             self.eventType = eventType
             self.from = from
             self.network = network
+            self.spentVoutIndex = spentVoutIndex
+            self.spentVoutTransactionHash = spentVoutTransactionHash
+            self.spentVoutTransactionId = spentVoutTransactionId
             self.to = to
             self.tokenId = tokenId
             self.transactionHash = transactionHash
             self.transactionId = transactionId
             self.value = value
             self.voutIndex = voutIndex
+            self.voutSpent = voutSpent
         }
     }
 
@@ -3183,6 +3642,7 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
         case confirmationStatus
         case network
         case transactionHash
+        case transactionId
         case transactionTimestamp
     }
 
@@ -3197,6 +3657,9 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
         if let transactionHash = self.transactionHash {
             try encodeContainer.encode(transactionHash, forKey: .transactionHash)
         }
+        if let transactionId = self.transactionId {
+            try encodeContainer.encode(transactionId, forKey: .transactionId)
+        }
         if let transactionTimestamp = self.transactionTimestamp {
             try encodeContainer.encodeTimestamp(transactionTimestamp, format: .epochSeconds, forKey: .transactionTimestamp)
         }
@@ -3206,6 +3669,8 @@ extension ManagedBlockchainQueryClientTypes.TransactionOutputItem: Swift.Codable
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let transactionHashDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionHash)
         transactionHash = transactionHashDecoded
+        let transactionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .transactionId)
+        transactionId = transactionIdDecoded
         let networkDecoded = try containerValues.decodeIfPresent(ManagedBlockchainQueryClientTypes.QueryNetwork.self, forKey: .network)
         network = networkDecoded
         let transactionTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .transactionTimestamp)
@@ -3223,9 +3688,11 @@ extension ManagedBlockchainQueryClientTypes {
         /// The blockchain network where the transaction occurred.
         /// This member is required.
         public var network: ManagedBlockchainQueryClientTypes.QueryNetwork?
-        /// The hash of the transaction. It is generated whenever a transaction is verified and added to the blockchain.
+        /// The hash of a transaction. It is generated when a transaction is created.
         /// This member is required.
         public var transactionHash: Swift.String?
+        /// The identifier of a Bitcoin transaction. It is generated when a transaction is created.
+        public var transactionId: Swift.String?
         /// The time when the transaction occurred.
         /// This member is required.
         public var transactionTimestamp: ClientRuntime.Date?
@@ -3234,12 +3701,14 @@ extension ManagedBlockchainQueryClientTypes {
             confirmationStatus: ManagedBlockchainQueryClientTypes.ConfirmationStatus? = nil,
             network: ManagedBlockchainQueryClientTypes.QueryNetwork? = nil,
             transactionHash: Swift.String? = nil,
+            transactionId: Swift.String? = nil,
             transactionTimestamp: ClientRuntime.Date? = nil
         )
         {
             self.confirmationStatus = confirmationStatus
             self.network = network
             self.transactionHash = transactionHash
+            self.transactionId = transactionId
             self.transactionTimestamp = transactionTimestamp
         }
     }
@@ -3416,4 +3885,40 @@ extension ManagedBlockchainQueryClientTypes {
             self = ValidationExceptionReason(rawValue: rawValue) ?? ValidationExceptionReason.sdkUnknown(rawValue)
         }
     }
+}
+
+extension ManagedBlockchainQueryClientTypes.VoutFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case voutSpent
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let voutSpent = self.voutSpent {
+            try encodeContainer.encode(voutSpent, forKey: .voutSpent)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let voutSpentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .voutSpent)
+        voutSpent = voutSpentDecoded
+    }
+}
+
+extension ManagedBlockchainQueryClientTypes {
+    /// This container specifies filtering attributes related to BITCOIN_VOUT event types
+    public struct VoutFilter: Swift.Equatable {
+        /// Specifies if the transaction output is spent or unspent.
+        /// This member is required.
+        public var voutSpent: Swift.Bool?
+
+        public init(
+            voutSpent: Swift.Bool? = nil
+        )
+        {
+            self.voutSpent = voutSpent
+        }
+    }
+
 }

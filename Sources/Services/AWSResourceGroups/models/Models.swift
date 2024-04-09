@@ -159,7 +159,7 @@ public struct CreateGroupInput: Swift.Equatable {
     public var configuration: [ResourceGroupsClientTypes.GroupConfigurationItem]?
     /// The description of the resource group. Descriptions can consist of letters, numbers, hyphens, underscores, periods, and spaces.
     public var description: Swift.String?
-    /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS or aws; these are reserved. A resource group name must be unique within each Amazon Web Services Region in your Amazon Web Services account.
+    /// The name of the group, which is the identifier of the group in other operations. You can't change the name of a resource group after you create it. A resource group name can consist of letters, numbers, hyphens, periods, and underscores. The name cannot start with AWS, aws, or any other possible capitalization; these are reserved. A resource group name must be unique within each Amazon Web Services Region in your Amazon Web Services account.
     /// This member is required.
     public var name: Swift.String?
     /// The resource query that determines which Amazon Web Services resources are members of this group. For more information about resource queries, see [Create a tag-based group in Resource Groups](https://docs.aws.amazon.com/ARG/latest/userguide/gettingstarted-query.html#gettingstarted-query-cli-tag). A resource group can contain either a ResourceQuery or a Configuration, but not both.
@@ -2041,7 +2041,7 @@ extension ListGroupResourcesOutput: ClientRuntime.HttpResponseBinding {
 public struct ListGroupResourcesOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
-    /// A list of QueryError objects. Each error is an object that contains ErrorCode and Message structures. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE and CLOUDFORMATION_STACK_NOT_EXISTING.
+    /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode are CLOUDFORMATION_STACK_INACTIVE, CLOUDFORMATION_STACK_NOT_EXISTING, CLOUDFORMATION_STACK_UNASSUMABLE_ROLE and RESOURCE_TYPE_NOT_SUPPORTED.
     public var queryErrors: [ResourceGroupsClientTypes.QueryError]?
     /// Deprecated - don't use this parameter. Use the Resources response field instead.
     @available(*, deprecated, message: "This field is deprecated, use Resources instead.")
@@ -2177,13 +2177,21 @@ extension ListGroupsInput {
 public struct ListGroupsInput: Swift.Equatable {
     /// Filters, formatted as [GroupFilter] objects, that you want to apply to a ListGroups operation.
     ///
-    /// * resource-type - Filter the results to include only those of the specified resource types. Specify up to five resource types in the format AWS::ServiceCode::ResourceType . For example, AWS::EC2::Instance, or AWS::S3::Bucket.
+    /// * resource-type - Filter the results to include only those resource groups that have the specified resource type in their ResourceTypeFilter. For example, AWS::EC2::Instance would return any resource group with a ResourceTypeFilter that includes AWS::EC2::Instance.
     ///
     /// * configuration-type - Filter the results to include only those groups that have the specified configuration types attached. The current supported values are:
+    ///
+    /// * AWS::AppRegistry::Application
+    ///
+    /// * AWS::AppRegistry::ApplicationResourceGroups
+    ///
+    /// * AWS::CloudFormation::Stack
     ///
     /// * AWS::EC2::CapacityReservationPool
     ///
     /// * AWS::EC2::HostManagement
+    ///
+    /// * AWS::NetworkFirewall::RuleGroup
     public var filters: [ResourceGroupsClientTypes.GroupFilter]?
     /// The total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the maximum you specify, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
@@ -2590,11 +2598,11 @@ extension ResourceGroupsClientTypes.QueryError: Swift.Codable {
 }
 
 extension ResourceGroupsClientTypes {
-    /// A two-part error structure that can occur in ListGroupResources or SearchResources operations on CloudFront stack-based queries. The error occurs if the CloudFront stack on which the query is based either does not exist, or has a status that renders the stack inactive. A QueryError occurrence does not necessarily mean that Resource Groups could not complete the operation, but the resulting group might have no member resources.
+    /// A two-part error structure that can occur in ListGroupResources or SearchResources.
     public struct QueryError: Swift.Equatable {
         /// Specifies the error code that was raised.
         public var errorCode: ResourceGroupsClientTypes.QueryErrorCode?
-        /// A message that explains the ErrorCode value. Messages might state that the specified CloudFront stack does not exist (or no longer exists). For CLOUDFORMATION_STACK_INACTIVE, the message typically states that the CloudFront stack has a status that is not (or no longer) active, such as CREATE_FAILED.
+        /// A message that explains the ErrorCode.
         public var message: Swift.String?
 
         public init(
@@ -2614,6 +2622,7 @@ extension ResourceGroupsClientTypes {
         case cloudformationStackInactive
         case cloudformationStackNotExisting
         case cloudformationStackUnassumableRole
+        case resourceTypeNotSupported
         case sdkUnknown(Swift.String)
 
         public static var allCases: [QueryErrorCode] {
@@ -2621,6 +2630,7 @@ extension ResourceGroupsClientTypes {
                 .cloudformationStackInactive,
                 .cloudformationStackNotExisting,
                 .cloudformationStackUnassumableRole,
+                .resourceTypeNotSupported,
                 .sdkUnknown("")
             ]
         }
@@ -2633,6 +2643,7 @@ extension ResourceGroupsClientTypes {
             case .cloudformationStackInactive: return "CLOUDFORMATION_STACK_INACTIVE"
             case .cloudformationStackNotExisting: return "CLOUDFORMATION_STACK_NOT_EXISTING"
             case .cloudformationStackUnassumableRole: return "CLOUDFORMATION_STACK_UNASSUMABLE_ROLE"
+            case .resourceTypeNotSupported: return "RESOURCE_TYPE_NOT_SUPPORTED"
             case let .sdkUnknown(s): return s
             }
         }
@@ -3045,11 +3056,13 @@ extension SearchResourcesOutput: ClientRuntime.HttpResponseBinding {
 public struct SearchResourcesOutput: Swift.Equatable {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
-    /// A list of QueryError objects. Each error is an object that contains ErrorCode and Message structures. Possible values for ErrorCode:
+    /// A list of QueryError objects. Each error contains an ErrorCode and Message. Possible values for ErrorCode:
     ///
     /// * CLOUDFORMATION_STACK_INACTIVE
     ///
     /// * CLOUDFORMATION_STACK_NOT_EXISTING
+    ///
+    /// * CLOUDFORMATION_STACK_UNASSUMABLE_ROLE
     public var queryErrors: [ResourceGroupsClientTypes.QueryError]?
     /// The ARNs and resource types of resources that are members of the group that you specified.
     public var resourceIdentifiers: [ResourceGroupsClientTypes.ResourceIdentifier]?

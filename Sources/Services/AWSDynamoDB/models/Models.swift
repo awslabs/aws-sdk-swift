@@ -1516,7 +1516,7 @@ extension BatchGetItemInput {
 
 /// Represents the input of a BatchGetItem operation.
 public struct BatchGetItemInput: Swift.Equatable {
-    /// A map of one or more table names and, for each table, a map that describes one or more items to retrieve from that table. Each table name can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:
+    /// A map of one or more table names or table ARNs and, for each table, a map that describes one or more items to retrieve from that table. Each table name or ARN can be used only once per BatchGetItem request. Each element in the map of items to retrieve consists of the following:
     ///
     /// * ConsistentRead - If true, a strongly consistent read is used; if false (the default), an eventually consistent read is used.
     ///
@@ -1625,7 +1625,7 @@ public struct BatchGetItemOutput: Swift.Equatable {
     ///
     /// * CapacityUnits - The total number of capacity units consumed.
     public var consumedCapacity: [DynamoDBClientTypes.ConsumedCapacity]?
-    /// A map of table name to a list of items. Each object in Responses consists of a table name, along with a map of attribute data consisting of the data type and attribute value.
+    /// A map of table name or table ARN to a list of items. Each object in Responses consists of a table name or ARN, along with a map of attribute data consisting of the data type and attribute value.
     public var responses: [Swift.String:[[Swift.String:DynamoDBClientTypes.AttributeValue]]]?
     /// A map of tables and their respective keys that were not processed with the current response. The UnprocessedKeys value is in the same form as RequestItems, so the value can be provided directly to a subsequent BatchGetItem operation. For more information, see RequestItems in the Request Parameters section. Each element consists of:
     ///
@@ -2040,7 +2040,7 @@ extension BatchWriteItemInput {
 
 /// Represents the input of a BatchWriteItem operation.
 public struct BatchWriteItemInput: Swift.Equatable {
-    /// A map of one or more table names and, for each table, a list of operations to be performed (DeleteRequest or PutRequest). Each element in the map consists of the following:
+    /// A map of one or more table names or table ARNs and, for each table, a list of operations to be performed (DeleteRequest or PutRequest). Each element in the map consists of the following:
     ///
     /// * DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
     ///
@@ -2147,7 +2147,7 @@ public struct BatchWriteItemOutput: Swift.Equatable {
     ///
     /// * SizeEstimateRangeGB - An estimate of item collection size, expressed in GB. This is a two-element array containing a lower bound and an upper bound for the estimate. The estimate includes the size of all the items in the table, plus the size of all attributes projected into all of the local secondary indexes on the table. Use this estimate to measure whether a local secondary index is approaching its size limit. The estimate is subject to change over time; therefore, do not rely on the precision or accuracy of the estimate.
     public var itemCollectionMetrics: [Swift.String:[DynamoDBClientTypes.ItemCollectionMetrics]]?
-    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
+    /// A map of tables and requests against those tables that were not processed. The UnprocessedItems value is in the same form as RequestItems, so you can provide this value directly to a subsequent BatchWriteItem operation. For more information, see RequestItems in the Request Parameters section. Each UnprocessedItems entry consists of a table name or table ARN and, for that table, a list of operations to perform (DeleteRequest or PutRequest).
     ///
     /// * DeleteRequest - Perform a DeleteItem operation on the specified item. The item to be deleted is identified by a Key subelement:
     ///
@@ -2719,7 +2719,7 @@ extension DynamoDBClientTypes {
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the ConditionCheck condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table for the check item request.
+        /// Name of the table for the check item request. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -2942,7 +2942,7 @@ extension DynamoDBClientTypes {
         public var readCapacityUnits: Swift.Double?
         /// The amount of throughput consumed on the table affected by the operation.
         public var table: DynamoDBClientTypes.Capacity?
-        /// The name of the table that was affected by the operation.
+        /// The name of the table that was affected by the operation. If you had specified the Amazon Resource Name (ARN) of a table in the input, you'll see the table ARN in the response.
         public var tableName: Swift.String?
         /// The total number of write capacity units consumed by the operation.
         public var writeCapacityUnits: Swift.Double?
@@ -3258,7 +3258,7 @@ public struct CreateBackupInput: Swift.Equatable {
     /// Specified name for the backup.
     /// This member is required.
     public var backupName: Swift.String?
-    /// The name of the table.
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -3691,6 +3691,7 @@ extension CreateTableInput: Swift.Encodable {
         case keySchema = "KeySchema"
         case localSecondaryIndexes = "LocalSecondaryIndexes"
         case provisionedThroughput = "ProvisionedThroughput"
+        case resourcePolicy = "ResourcePolicy"
         case sseSpecification = "SSESpecification"
         case streamSpecification = "StreamSpecification"
         case tableClass = "TableClass"
@@ -3732,6 +3733,9 @@ extension CreateTableInput: Swift.Encodable {
         }
         if let provisionedThroughput = self.provisionedThroughput {
             try encodeContainer.encode(provisionedThroughput, forKey: .provisionedThroughput)
+        }
+        if let resourcePolicy = self.resourcePolicy {
+            try encodeContainer.encode(resourcePolicy, forKey: .resourcePolicy)
         }
         if let sseSpecification = self.sseSpecification {
             try encodeContainer.encode(sseSpecification, forKey: .sseSpecification)
@@ -3840,6 +3844,8 @@ public struct CreateTableInput: Swift.Equatable {
     public var localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]?
     /// Represents the provisioned throughput settings for a specified table or index. The settings can be modified using the UpdateTable operation. If you set BillingMode as PROVISIONED, you must specify this property. If you set BillingMode as PAY_PER_REQUEST, you cannot specify this property. For current minimum and maximum provisioned throughput values, see [Service, Account, and Table Quotas](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Limits.html) in the Amazon DynamoDB Developer Guide.
     public var provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput?
+    /// An Amazon Web Services resource-based policy document in JSON format that will be attached to the table. When you attach a resource-based policy while creating a table, the policy creation is strongly consistent. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. You can’t request an increase for this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
+    public var resourcePolicy: Swift.String?
     /// Represents the settings used to enable server-side encryption.
     public var sseSpecification: DynamoDBClientTypes.SSESpecification?
     /// The settings for DynamoDB Streams on the table. These settings consist of:
@@ -3858,7 +3864,7 @@ public struct CreateTableInput: Swift.Equatable {
     public var streamSpecification: DynamoDBClientTypes.StreamSpecification?
     /// The table class of the new table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
     public var tableClass: DynamoDBClientTypes.TableClass?
-    /// The name of the table to create.
+    /// The name of the table to create. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
     /// A list of key-value pairs to label the table. For more information, see [Tagging for DynamoDB](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Tagging.html).
@@ -3872,6 +3878,7 @@ public struct CreateTableInput: Swift.Equatable {
         keySchema: [DynamoDBClientTypes.KeySchemaElement]? = nil,
         localSecondaryIndexes: [DynamoDBClientTypes.LocalSecondaryIndex]? = nil,
         provisionedThroughput: DynamoDBClientTypes.ProvisionedThroughput? = nil,
+        resourcePolicy: Swift.String? = nil,
         sseSpecification: DynamoDBClientTypes.SSESpecification? = nil,
         streamSpecification: DynamoDBClientTypes.StreamSpecification? = nil,
         tableClass: DynamoDBClientTypes.TableClass? = nil,
@@ -3886,6 +3893,7 @@ public struct CreateTableInput: Swift.Equatable {
         self.keySchema = keySchema
         self.localSecondaryIndexes = localSecondaryIndexes
         self.provisionedThroughput = provisionedThroughput
+        self.resourcePolicy = resourcePolicy
         self.sseSpecification = sseSpecification
         self.streamSpecification = streamSpecification
         self.tableClass = tableClass
@@ -3907,6 +3915,7 @@ struct CreateTableInputBody: Swift.Equatable {
     let tags: [DynamoDBClientTypes.Tag]?
     let tableClass: DynamoDBClientTypes.TableClass?
     let deletionProtectionEnabled: Swift.Bool?
+    let resourcePolicy: Swift.String?
 }
 
 extension CreateTableInputBody: Swift.Decodable {
@@ -3918,6 +3927,7 @@ extension CreateTableInputBody: Swift.Decodable {
         case keySchema = "KeySchema"
         case localSecondaryIndexes = "LocalSecondaryIndexes"
         case provisionedThroughput = "ProvisionedThroughput"
+        case resourcePolicy = "ResourcePolicy"
         case sseSpecification = "SSESpecification"
         case streamSpecification = "StreamSpecification"
         case tableClass = "TableClass"
@@ -3996,6 +4006,8 @@ extension CreateTableInputBody: Swift.Decodable {
         tableClass = tableClassDecoded
         let deletionProtectionEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .deletionProtectionEnabled)
         deletionProtectionEnabled = deletionProtectionEnabledDecoded
+        let resourcePolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourcePolicy)
+        resourcePolicy = resourcePolicyDecoded
     }
 }
 
@@ -4210,7 +4222,7 @@ extension DynamoDBClientTypes {
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Delete condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table in which the item to be deleted resides.
+        /// Name of the table in which the item to be deleted resides. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -4515,7 +4527,7 @@ public struct DeleteItemInput: Swift.Equatable {
     public var returnValues: DynamoDBClientTypes.ReturnValue?
     /// An optional parameter that returns the item attributes for a DeleteItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
     public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-    /// The name of the table from which to delete the item.
+    /// The name of the table from which to delete the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -4851,6 +4863,123 @@ extension DynamoDBClientTypes {
 
 }
 
+extension DeleteResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expectedRevisionId = "ExpectedRevisionId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expectedRevisionId = self.expectedRevisionId {
+            try encodeContainer.encode(expectedRevisionId, forKey: .expectedRevisionId)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension DeleteResourcePolicyInput {
+
+    static func urlPathProvider(_ value: DeleteResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteResourcePolicyInput: Swift.Equatable {
+    /// A string value that you can use to conditionally delete your policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, the request will fail and return a PolicyNotFoundException.
+    public var expectedRevisionId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the DynamoDB resource from which the policy will be removed. The resources you can specify include tables and streams. If you remove the policy of a table, it will also remove the permissions for the table's indexes defined in that policy document. This is because index permissions are defined in the table's policy.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        expectedRevisionId: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.expectedRevisionId = expectedRevisionId
+        self.resourceArn = resourceArn
+    }
+}
+
+struct DeleteResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let expectedRevisionId: Swift.String?
+}
+
+extension DeleteResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expectedRevisionId = "ExpectedRevisionId"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let expectedRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedRevisionId)
+        expectedRevisionId = expectedRevisionIdDecoded
+    }
+}
+
+extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.revisionId = output.revisionId
+        } else {
+            self.revisionId = nil
+        }
+    }
+}
+
+public struct DeleteResourcePolicyOutput: Swift.Equatable {
+    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic. This value will be empty if you make a request against a resource without a policy.
+    public var revisionId: Swift.String?
+
+    public init(
+        revisionId: Swift.String? = nil
+    )
+    {
+        self.revisionId = revisionId
+    }
+}
+
+struct DeleteResourcePolicyOutputBody: Swift.Equatable {
+    let revisionId: Swift.String?
+}
+
+extension DeleteResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revisionId = "RevisionId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+enum DeleteResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PolicyNotFoundException": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DeleteTableInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tableName = "TableName"
@@ -4873,7 +5002,7 @@ extension DeleteTableInput {
 
 /// Represents the input of a DeleteTable operation.
 public struct DeleteTableInput: Swift.Equatable {
-    /// The name of the table to delete.
+    /// The name of the table to delete. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -5080,7 +5209,7 @@ extension DescribeContinuousBackupsInput {
 }
 
 public struct DescribeContinuousBackupsInput: Swift.Equatable {
-    /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings.
+    /// Name of the table for which the customer wants to check the continuous backups and point in time recovery settings. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -5188,7 +5317,7 @@ extension DescribeContributorInsightsInput {
 public struct DescribeContributorInsightsInput: Swift.Equatable {
     /// The name of the global secondary index to describe, if applicable.
     public var indexName: Swift.String?
-    /// The name of the table to describe.
+    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -5877,7 +6006,7 @@ extension DescribeKinesisStreamingDestinationInput {
 }
 
 public struct DescribeKinesisStreamingDestinationInput: Swift.Equatable {
-    /// The name of the table being described.
+    /// The name of the table being described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -6112,7 +6241,7 @@ extension DescribeTableInput {
 
 /// Represents the input of a DescribeTable operation.
 public struct DescribeTableInput: Swift.Equatable {
-    /// The name of the table to describe.
+    /// The name of the table to describe. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -6215,7 +6344,7 @@ extension DescribeTableReplicaAutoScalingInput {
 }
 
 public struct DescribeTableReplicaAutoScalingInput: Swift.Equatable {
-    /// The name of the table.
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -6316,7 +6445,7 @@ extension DescribeTimeToLiveInput {
 }
 
 public struct DescribeTimeToLiveInput: Swift.Equatable {
-    /// The name of the table to be described.
+    /// The name of the table to be described. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -6475,7 +6604,7 @@ public struct DisableKinesisStreamingDestinationInput: Swift.Equatable {
     /// The ARN for a Kinesis data stream.
     /// This member is required.
     public var streamArn: Swift.String?
-    /// The name of the DynamoDB table.
+    /// The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -6726,7 +6855,7 @@ public struct EnableKinesisStreamingDestinationInput: Swift.Equatable {
     /// The ARN for a Kinesis data stream.
     /// This member is required.
     public var streamArn: Swift.String?
-    /// The name of the DynamoDB table.
+    /// The name of the DynamoDB table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -8324,7 +8453,7 @@ extension DynamoDBClientTypes {
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// A string that identifies one or more attributes of the specified item to retrieve from the table. The attributes in the expression must be separated by commas. If no attribute names are specified, then all attributes of the specified item are returned. If any of the requested attributes are not found, they do not appear in the result.
         public var projectionExpression: Swift.String?
-        /// The name of the table from which to retrieve the specified item.
+        /// The name of the table from which to retrieve the specified item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -8442,7 +8571,7 @@ public struct GetItemInput: Swift.Equatable {
     ///
     /// * NONE - No ConsumedCapacity details are included in the response.
     public var returnConsumedCapacity: DynamoDBClientTypes.ReturnConsumedCapacity?
-    /// The name of the table containing the requested item.
+    /// The name of the table containing the requested item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -8602,6 +8731,119 @@ enum GetItemOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ProvisionedThroughputExceededException": return try await ProvisionedThroughputExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "RequestLimitExceeded": return try await RequestLimitExceeded(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension GetResourcePolicyInput {
+
+    static func urlPathProvider(_ value: GetResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetResourcePolicyInput: Swift.Equatable {
+    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy is attached. The resources you can specify include tables and streams.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.resourceArn = resourceArn
+    }
+}
+
+struct GetResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+}
+
+extension GetResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+    }
+}
+
+extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.policy = output.policy
+            self.revisionId = output.revisionId
+        } else {
+            self.policy = nil
+            self.revisionId = nil
+        }
+    }
+}
+
+public struct GetResourcePolicyOutput: Swift.Equatable {
+    /// The resource-based policy document attached to the resource, which can be a table or stream, in JSON format.
+    public var policy: Swift.String?
+    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+    public var revisionId: Swift.String?
+
+    public init(
+        policy: Swift.String? = nil,
+        revisionId: Swift.String? = nil
+    )
+    {
+        self.policy = policy
+        self.revisionId = revisionId
+    }
+}
+
+struct GetResourcePolicyOutputBody: Swift.Equatable {
+    let policy: Swift.String?
+    let revisionId: Swift.String?
+}
+
+extension GetResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case policy = "Policy"
+        case revisionId = "RevisionId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+enum GetResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PolicyNotFoundException": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -11137,7 +11379,7 @@ public struct ListBackupsInput: Swift.Equatable {
     public var exclusiveStartBackupArn: Swift.String?
     /// Maximum number of backups to return at once.
     public var limit: Swift.Int?
-    /// The backups from the table specified by TableName are listed.
+    /// Lists the backups from the table specified in TableName. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     public var tableName: Swift.String?
     /// Only backups created after this time are listed. TimeRangeLowerBound is inclusive.
     public var timeRangeLowerBound: ClientRuntime.Date?
@@ -11302,7 +11544,7 @@ public struct ListContributorInsightsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// A token to for the desired page, if there is one.
     public var nextToken: Swift.String?
-    /// The name of the table.
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     public var tableName: Swift.String?
 
     public init(
@@ -12611,6 +12853,61 @@ extension PointInTimeRecoveryUnavailableExceptionBody: Swift.Decodable {
     }
 }
 
+extension PolicyNotFoundException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PolicyNotFoundExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The operation tried to access a nonexistent resource-based policy. If you specified an ExpectedRevisionId, it's possible that a policy is present for the resource but its revision ID didn't match the expected value.
+public struct PolicyNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "PolicyNotFoundException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct PolicyNotFoundExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension PolicyNotFoundExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension DynamoDBClientTypes.Projection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case nonKeyAttributes = "NonKeyAttributes"
@@ -13024,7 +13321,7 @@ extension DynamoDBClientTypes {
         public var item: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Put condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table in which to write the item.
+        /// Name of the table in which to write the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         /// This member is required.
         public var tableName: Swift.String?
 
@@ -13189,7 +13486,7 @@ public struct PutItemInput: Swift.Equatable {
     public var returnValues: DynamoDBClientTypes.ReturnValue?
     /// An optional parameter that returns the item attributes for a PutItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
     public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-    /// The name of the table to contain the item.
+    /// The name of the table to contain the item. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -13453,6 +13750,140 @@ extension DynamoDBClientTypes {
 
 }
 
+extension PutResourcePolicyInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expectedRevisionId = "ExpectedRevisionId"
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let expectedRevisionId = self.expectedRevisionId {
+            try encodeContainer.encode(expectedRevisionId, forKey: .expectedRevisionId)
+        }
+        if let policy = self.policy {
+            try encodeContainer.encode(policy, forKey: .policy)
+        }
+        if let resourceArn = self.resourceArn {
+            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
+        }
+    }
+}
+
+extension PutResourcePolicyInput {
+
+    static func urlPathProvider(_ value: PutResourcePolicyInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct PutResourcePolicyInput: Swift.Equatable {
+    /// Set this parameter to true to confirm that you want to remove your permissions to change the policy of this resource in the future.
+    public var confirmRemoveSelfResourceAccess: Swift.Bool?
+    /// A string value that you can use to conditionally update your policy. You can provide the revision ID of your existing policy to make mutating requests against that policy. When you provide an expected revision ID, if the revision ID of the existing policy on the resource doesn't match or if there's no policy attached to the resource, your request will be rejected with a PolicyNotFoundException. To conditionally put a policy when no policy exists for the resource, specify NO_POLICY for the revision ID.
+    public var expectedRevisionId: Swift.String?
+    /// An Amazon Web Services resource-based policy document in JSON format. The maximum size supported for a resource-based policy document is 20 KB. DynamoDB counts whitespaces when calculating the size of a policy against this limit. For a full list of all considerations that you should keep in mind while attaching a resource-based policy, see [Resource-based policy considerations](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/rbac-considerations.html).
+    /// This member is required.
+    public var policy: Swift.String?
+    /// The Amazon Resource Name (ARN) of the DynamoDB resource to which the policy will be attached. The resources you can specify include tables and streams. You can control index permissions using the base table's policy. To specify the same permission level for your table and its indexes, you can provide both the table and index Amazon Resource Name (ARN)s in the Resource field of a given Statement in your policy document. Alternatively, to specify different permissions for your table, indexes, or both, you can define multiple Statement fields in your policy document.
+    /// This member is required.
+    public var resourceArn: Swift.String?
+
+    public init(
+        confirmRemoveSelfResourceAccess: Swift.Bool? = nil,
+        expectedRevisionId: Swift.String? = nil,
+        policy: Swift.String? = nil,
+        resourceArn: Swift.String? = nil
+    )
+    {
+        self.confirmRemoveSelfResourceAccess = confirmRemoveSelfResourceAccess
+        self.expectedRevisionId = expectedRevisionId
+        self.policy = policy
+        self.resourceArn = resourceArn
+    }
+}
+
+struct PutResourcePolicyInputBody: Swift.Equatable {
+    let resourceArn: Swift.String?
+    let policy: Swift.String?
+    let expectedRevisionId: Swift.String?
+}
+
+extension PutResourcePolicyInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case expectedRevisionId = "ExpectedRevisionId"
+        case policy = "Policy"
+        case resourceArn = "ResourceArn"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
+        resourceArn = resourceArnDecoded
+        let policyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policy)
+        policy = policyDecoded
+        let expectedRevisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .expectedRevisionId)
+        expectedRevisionId = expectedRevisionIdDecoded
+    }
+}
+
+extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutResourcePolicyOutputBody = try responseDecoder.decode(responseBody: data)
+            self.revisionId = output.revisionId
+        } else {
+            self.revisionId = nil
+        }
+    }
+}
+
+public struct PutResourcePolicyOutput: Swift.Equatable {
+    /// A unique string that represents the revision ID of the policy. If you are comparing revision IDs, make sure to always use string comparison logic.
+    public var revisionId: Swift.String?
+
+    public init(
+        revisionId: Swift.String? = nil
+    )
+    {
+        self.revisionId = revisionId
+    }
+}
+
+struct PutResourcePolicyOutputBody: Swift.Equatable {
+    let revisionId: Swift.String?
+}
+
+extension PutResourcePolicyOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case revisionId = "RevisionId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let revisionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revisionId)
+        revisionId = revisionIdDecoded
+    }
+}
+
+enum PutResourcePolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServerError": return try await InternalServerError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidEndpointException": return try await InvalidEndpointException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "PolicyNotFoundException": return try await PolicyNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceInUseException": return try await ResourceInUseException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension QueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case attributesToGet = "AttributesToGet"
@@ -13672,7 +14103,7 @@ public struct QueryInput: Swift.Equatable {
     ///
     /// If neither Select nor ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and ProjectionExpression together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without any value for Select.) If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
     public var select: DynamoDBClientTypes.Select?
-    /// The name of the table containing the requested items.
+    /// The name of the table containing the requested items. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -16485,7 +16916,7 @@ public struct ScanInput: Swift.Equatable {
     ///
     /// If neither Select nor ProjectionExpression are specified, DynamoDB defaults to ALL_ATTRIBUTES when accessing a table, and ALL_PROJECTED_ATTRIBUTES when accessing an index. You cannot use both Select and ProjectionExpression together in a single request, unless the value for Select is SPECIFIC_ATTRIBUTES. (This usage is equivalent to specifying ProjectionExpression without any value for Select.) If you use the ProjectionExpression parameter, then the value for Select can only be SPECIFIC_ATTRIBUTES. Any other value for Select will return an error.
     public var select: DynamoDBClientTypes.Select?
-    /// The name of the table containing the requested items; or, if you provide IndexName, the name of the table to which that index belongs.
+    /// The name of the table containing the requested items or if you provide IndexName, the name of the table to which that index belongs. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
     /// For a parallel Scan request, TotalSegments represents the total number of segments into which the Scan operation will be divided. The value of TotalSegments corresponds to the number of application workers that will perform the parallel scan. For example, if you want to use four application threads to scan a table or an index, specify a TotalSegments value of 4. The value for TotalSegments must be greater than or equal to 1, and less than or equal to 1000000. If you specify a TotalSegments value of 1, the Scan operation will be sequential rather than parallel. If you specify TotalSegments, you must also specify Segment.
@@ -19329,7 +19760,7 @@ extension DynamoDBClientTypes {
         public var key: [Swift.String:DynamoDBClientTypes.AttributeValue]?
         /// Use ReturnValuesOnConditionCheckFailure to get the item attributes if the Update condition fails. For ReturnValuesOnConditionCheckFailure, the valid values are: NONE and ALL_OLD.
         public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-        /// Name of the table for the UpdateItem request.
+        /// Name of the table for the UpdateItem request. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
         /// This member is required.
         public var tableName: Swift.String?
         /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new value(s) for them.
@@ -19386,7 +19817,7 @@ public struct UpdateContinuousBackupsInput: Swift.Equatable {
     /// Represents the settings used to enable point in time recovery.
     /// This member is required.
     public var pointInTimeRecoverySpecification: DynamoDBClientTypes.PointInTimeRecoverySpecification?
-    /// The name of the table.
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -19508,7 +19939,7 @@ public struct UpdateContributorInsightsInput: Swift.Equatable {
     public var contributorInsightsAction: DynamoDBClientTypes.ContributorInsightsAction?
     /// The global secondary index name, if applicable.
     public var indexName: Swift.String?
-    /// The name of the table.
+    /// The name of the table. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -20170,7 +20601,7 @@ public struct UpdateItemInput: Swift.Equatable {
     public var returnValues: DynamoDBClientTypes.ReturnValue?
     /// An optional parameter that returns the item attributes for an UpdateItem operation that failed a condition check. There is no additional cost associated with requesting a return value aside from the small network and processing overhead of receiving a larger response. No read capacity units are consumed.
     public var returnValuesOnConditionCheckFailure: DynamoDBClientTypes.ReturnValuesOnConditionCheckFailure?
-    /// The name of the table containing the item to update.
+    /// The name of the table containing the item to update. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
     /// An expression that defines one or more attributes to be updated, the action to be performed on them, and new values for them. The following action values are available for UpdateExpression.
@@ -20498,10 +20929,10 @@ extension UpdateKinesisStreamingDestinationInput {
 }
 
 public struct UpdateKinesisStreamingDestinationInput: Swift.Equatable {
-    /// The ARN for the Kinesis stream input.
+    /// The Amazon Resource Name (ARN) for the Kinesis stream input.
     /// This member is required.
     public var streamArn: Swift.String?
-    /// The table name for the Kinesis streaming destination input.
+    /// The table name for the Kinesis streaming destination input. You can also provide the ARN of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
     /// The command to update the Kinesis stream configuration.
@@ -20814,7 +21245,7 @@ public struct UpdateTableInput: Swift.Equatable {
     public var streamSpecification: DynamoDBClientTypes.StreamSpecification?
     /// The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
     public var tableClass: DynamoDBClientTypes.TableClass?
-    /// The name of the table to be updated.
+    /// The name of the table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -21024,7 +21455,7 @@ public struct UpdateTableReplicaAutoScalingInput: Swift.Equatable {
     public var provisionedWriteCapacityAutoScalingUpdate: DynamoDBClientTypes.AutoScalingSettingsUpdate?
     /// Represents the auto scaling settings of replicas of the table that will be modified.
     public var replicaUpdates: [DynamoDBClientTypes.ReplicaAutoScalingUpdate]?
-    /// The name of the global table to be updated.
+    /// The name of the global table to be updated. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
 
@@ -21168,7 +21599,7 @@ extension UpdateTimeToLiveInput {
 
 /// Represents the input of an UpdateTimeToLive operation.
 public struct UpdateTimeToLiveInput: Swift.Equatable {
-    /// The name of the table to be configured.
+    /// The name of the table to be configured. You can also provide the Amazon Resource Name (ARN) of the table in this parameter.
     /// This member is required.
     public var tableName: Swift.String?
     /// Represents the settings used to enable or disable Time to Live for the specified table.

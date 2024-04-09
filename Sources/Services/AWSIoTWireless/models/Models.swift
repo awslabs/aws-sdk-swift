@@ -212,6 +212,41 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes {
+    public enum AggregationPeriod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case oneday
+        case onehour
+        case oneweek
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AggregationPeriod] {
+            return [
+                .oneday,
+                .onehour,
+                .oneweek,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .oneday: return "OneDay"
+            case .onehour: return "OneHour"
+            case .oneweek: return "OneWeek"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AggregationPeriod(rawValue: rawValue) ?? AggregationPeriod.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension IoTWirelessClientTypes.ApplicationConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destinationName = "DestinationName"
@@ -4785,6 +4820,83 @@ extension IoTWirelessClientTypes {
     }
 }
 
+extension IoTWirelessClientTypes.Dimension: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name.rawValue, forKey: .name)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.DimensionName.self, forKey: .name)
+        name = nameDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The required list of dimensions for the metric.
+    public struct Dimension: Swift.Equatable {
+        /// The name of the dimension.
+        public var name: IoTWirelessClientTypes.DimensionName?
+        /// The dimension's value.
+        public var value: Swift.String?
+
+        public init(
+            name: IoTWirelessClientTypes.DimensionName? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.value = value
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes {
+    public enum DimensionName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deviceid
+        case gatewayid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DimensionName] {
+            return [
+                .deviceid,
+                .gatewayid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deviceid: return "DeviceId"
+            case .gatewayid: return "GatewayId"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DimensionName(rawValue: rawValue) ?? DimensionName.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DisassociateAwsAccountFromPartnerAccountInput {
 
     static func queryItemProvider(_ value: DisassociateAwsAccountFromPartnerAccountInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -6643,6 +6755,208 @@ enum GetLogLevelsByResourceTypesOutputError: ClientRuntime.HttpResponseErrorBind
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetMetricConfigurationInput {
+
+    static func urlPathProvider(_ value: GetMetricConfigurationInput) -> Swift.String? {
+        return "/metric-configuration"
+    }
+}
+
+public struct GetMetricConfigurationInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetMetricConfigurationInputBody: Swift.Equatable {
+}
+
+extension GetMetricConfigurationInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetMetricConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMetricConfigurationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.summaryMetric = output.summaryMetric
+        } else {
+            self.summaryMetric = nil
+        }
+    }
+}
+
+public struct GetMetricConfigurationOutput: Swift.Equatable {
+    /// The account's configuration status for summary metric aggregation.
+    public var summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration?
+
+    public init(
+        summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration? = nil
+    )
+    {
+        self.summaryMetric = summaryMetric
+    }
+}
+
+struct GetMetricConfigurationOutputBody: Swift.Equatable {
+    let summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration?
+}
+
+extension GetMetricConfigurationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetric = "SummaryMetric"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let summaryMetricDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SummaryMetricConfiguration.self, forKey: .summaryMetric)
+        summaryMetric = summaryMetricDecoded
+    }
+}
+
+enum GetMetricConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetMetricsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetricQueries = "SummaryMetricQueries"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let summaryMetricQueries = summaryMetricQueries {
+            var summaryMetricQueriesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .summaryMetricQueries)
+            for summarymetricquery0 in summaryMetricQueries {
+                try summaryMetricQueriesContainer.encode(summarymetricquery0)
+            }
+        }
+    }
+}
+
+extension GetMetricsInput {
+
+    static func urlPathProvider(_ value: GetMetricsInput) -> Swift.String? {
+        return "/metrics"
+    }
+}
+
+public struct GetMetricsInput: Swift.Equatable {
+    /// The list of queries to retrieve summary metrics.
+    public var summaryMetricQueries: [IoTWirelessClientTypes.SummaryMetricQuery]?
+
+    public init(
+        summaryMetricQueries: [IoTWirelessClientTypes.SummaryMetricQuery]? = nil
+    )
+    {
+        self.summaryMetricQueries = summaryMetricQueries
+    }
+}
+
+struct GetMetricsInputBody: Swift.Equatable {
+    let summaryMetricQueries: [IoTWirelessClientTypes.SummaryMetricQuery]?
+}
+
+extension GetMetricsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetricQueries = "SummaryMetricQueries"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let summaryMetricQueriesContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.SummaryMetricQuery?].self, forKey: .summaryMetricQueries)
+        var summaryMetricQueriesDecoded0:[IoTWirelessClientTypes.SummaryMetricQuery]? = nil
+        if let summaryMetricQueriesContainer = summaryMetricQueriesContainer {
+            summaryMetricQueriesDecoded0 = [IoTWirelessClientTypes.SummaryMetricQuery]()
+            for structure0 in summaryMetricQueriesContainer {
+                if let structure0 = structure0 {
+                    summaryMetricQueriesDecoded0?.append(structure0)
+                }
+            }
+        }
+        summaryMetricQueries = summaryMetricQueriesDecoded0
+    }
+}
+
+extension GetMetricsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMetricsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.summaryMetricQueryResults = output.summaryMetricQueryResults
+        } else {
+            self.summaryMetricQueryResults = nil
+        }
+    }
+}
+
+public struct GetMetricsOutput: Swift.Equatable {
+    /// The list of retrieved metrics.
+    public var summaryMetricQueryResults: [IoTWirelessClientTypes.SummaryMetricQueryResult]?
+
+    public init(
+        summaryMetricQueryResults: [IoTWirelessClientTypes.SummaryMetricQueryResult]? = nil
+    )
+    {
+        self.summaryMetricQueryResults = summaryMetricQueryResults
+    }
+}
+
+struct GetMetricsOutputBody: Swift.Equatable {
+    let summaryMetricQueryResults: [IoTWirelessClientTypes.SummaryMetricQueryResult]?
+}
+
+extension GetMetricsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetricQueryResults = "SummaryMetricQueryResults"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let summaryMetricQueryResultsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.SummaryMetricQueryResult?].self, forKey: .summaryMetricQueryResults)
+        var summaryMetricQueryResultsDecoded0:[IoTWirelessClientTypes.SummaryMetricQueryResult]? = nil
+        if let summaryMetricQueryResultsContainer = summaryMetricQueryResultsContainer {
+            summaryMetricQueryResultsDecoded0 = [IoTWirelessClientTypes.SummaryMetricQueryResult]()
+            for structure0 in summaryMetricQueryResultsContainer {
+                if let structure0 = structure0 {
+                    summaryMetricQueryResultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        summaryMetricQueryResults = summaryMetricQueryResultsDecoded0
+    }
+}
+
+enum GetMetricsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -14527,6 +14841,239 @@ extension IoTWirelessClientTypes {
 }
 
 extension IoTWirelessClientTypes {
+    public enum MetricName: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case awsaccountactivedevicecount
+        case awsaccountactivegatewaycount
+        case awsaccountdevicecount
+        case awsaccountdownlinkcount
+        case awsaccountgatewaycount
+        case awsaccountjoinacceptcount
+        case awsaccountjoinrequestcount
+        case awsaccountroamingdownlinkcount
+        case awsaccountroaminguplinkcount
+        case awsaccountuplinkcount
+        case awsaccountuplinklostcount
+        case awsaccountuplinklostrate
+        case devicedownlinkcount
+        case devicejoinacceptcount
+        case devicejoinrequestcount
+        case devicerssi
+        case deviceroamingdownlinkcount
+        case deviceroaminguplinkcount
+        case devicesnr
+        case deviceuplinkcount
+        case deviceuplinklostcount
+        case deviceuplinklostrate
+        case gatewaydowntime
+        case gatewaydownlinkcount
+        case gatewayjoinacceptcount
+        case gatewayjoinrequestcount
+        case gatewayrssi
+        case gatewaysnr
+        case gatewayuptime
+        case gatewayuplinkcount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricName] {
+            return [
+                .awsaccountactivedevicecount,
+                .awsaccountactivegatewaycount,
+                .awsaccountdevicecount,
+                .awsaccountdownlinkcount,
+                .awsaccountgatewaycount,
+                .awsaccountjoinacceptcount,
+                .awsaccountjoinrequestcount,
+                .awsaccountroamingdownlinkcount,
+                .awsaccountroaminguplinkcount,
+                .awsaccountuplinkcount,
+                .awsaccountuplinklostcount,
+                .awsaccountuplinklostrate,
+                .devicedownlinkcount,
+                .devicejoinacceptcount,
+                .devicejoinrequestcount,
+                .devicerssi,
+                .deviceroamingdownlinkcount,
+                .deviceroaminguplinkcount,
+                .devicesnr,
+                .deviceuplinkcount,
+                .deviceuplinklostcount,
+                .deviceuplinklostrate,
+                .gatewaydowntime,
+                .gatewaydownlinkcount,
+                .gatewayjoinacceptcount,
+                .gatewayjoinrequestcount,
+                .gatewayrssi,
+                .gatewaysnr,
+                .gatewayuptime,
+                .gatewayuplinkcount,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .awsaccountactivedevicecount: return "AwsAccountActiveDeviceCount"
+            case .awsaccountactivegatewaycount: return "AwsAccountActiveGatewayCount"
+            case .awsaccountdevicecount: return "AwsAccountDeviceCount"
+            case .awsaccountdownlinkcount: return "AwsAccountDownlinkCount"
+            case .awsaccountgatewaycount: return "AwsAccountGatewayCount"
+            case .awsaccountjoinacceptcount: return "AwsAccountJoinAcceptCount"
+            case .awsaccountjoinrequestcount: return "AwsAccountJoinRequestCount"
+            case .awsaccountroamingdownlinkcount: return "AwsAccountRoamingDownlinkCount"
+            case .awsaccountroaminguplinkcount: return "AwsAccountRoamingUplinkCount"
+            case .awsaccountuplinkcount: return "AwsAccountUplinkCount"
+            case .awsaccountuplinklostcount: return "AwsAccountUplinkLostCount"
+            case .awsaccountuplinklostrate: return "AwsAccountUplinkLostRate"
+            case .devicedownlinkcount: return "DeviceDownlinkCount"
+            case .devicejoinacceptcount: return "DeviceJoinAcceptCount"
+            case .devicejoinrequestcount: return "DeviceJoinRequestCount"
+            case .devicerssi: return "DeviceRSSI"
+            case .deviceroamingdownlinkcount: return "DeviceRoamingDownlinkCount"
+            case .deviceroaminguplinkcount: return "DeviceRoamingUplinkCount"
+            case .devicesnr: return "DeviceSNR"
+            case .deviceuplinkcount: return "DeviceUplinkCount"
+            case .deviceuplinklostcount: return "DeviceUplinkLostCount"
+            case .deviceuplinklostrate: return "DeviceUplinkLostRate"
+            case .gatewaydowntime: return "GatewayDownTime"
+            case .gatewaydownlinkcount: return "GatewayDownlinkCount"
+            case .gatewayjoinacceptcount: return "GatewayJoinAcceptCount"
+            case .gatewayjoinrequestcount: return "GatewayJoinRequestCount"
+            case .gatewayrssi: return "GatewayRSSI"
+            case .gatewaysnr: return "GatewaySNR"
+            case .gatewayuptime: return "GatewayUpTime"
+            case .gatewayuplinkcount: return "GatewayUplinkCount"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricName(rawValue: rawValue) ?? MetricName.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTWirelessClientTypes {
+    public enum MetricQueryStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetricQueryStatus] {
+            return [
+                .failed,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "Failed"
+            case .succeeded: return "Succeeded"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetricQueryStatus(rawValue: rawValue) ?? MetricQueryStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTWirelessClientTypes.MetricQueryValue: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case avg = "Avg"
+        case max = "Max"
+        case min = "Min"
+        case p90 = "P90"
+        case std = "Std"
+        case sum = "Sum"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let avg = self.avg {
+            try encodeContainer.encode(avg, forKey: .avg)
+        }
+        if let max = self.max {
+            try encodeContainer.encode(max, forKey: .max)
+        }
+        if let min = self.min {
+            try encodeContainer.encode(min, forKey: .min)
+        }
+        if let p90 = self.p90 {
+            try encodeContainer.encode(p90, forKey: .p90)
+        }
+        if let std = self.std {
+            try encodeContainer.encode(std, forKey: .std)
+        }
+        if let sum = self.sum {
+            try encodeContainer.encode(sum, forKey: .sum)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let minDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .min)
+        min = minDecoded
+        let maxDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .max)
+        max = maxDecoded
+        let sumDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .sum)
+        sum = sumDecoded
+        let avgDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .avg)
+        avg = avgDecoded
+        let stdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .std)
+        std = stdDecoded
+        let p90Decoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .p90)
+        p90 = p90Decoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The aggregated values of the metric.
+    public struct MetricQueryValue: Swift.Equatable {
+        /// The average of the values of the all data points collected during the period.
+        public var avg: Swift.Double?
+        /// The maximum of the values of the all data points collected during the period.
+        public var max: Swift.Double?
+        /// The minimum of the values of the all data points collected during the period.
+        public var min: Swift.Double?
+        /// The 90th percentile of the values of the all data points collected during the period.
+        public var p90: Swift.Double?
+        /// The standard deviation of the values of the all data points collected during the period.
+        public var std: Swift.Double?
+        /// The sum of the values of the all data points collected during the period.
+        public var sum: Swift.Double?
+
+        public init(
+            avg: Swift.Double? = nil,
+            max: Swift.Double? = nil,
+            min: Swift.Double? = nil,
+            p90: Swift.Double? = nil,
+            std: Swift.Double? = nil,
+            sum: Swift.Double? = nil
+        )
+        {
+            self.avg = avg
+            self.max = max
+            self.min = min
+            self.p90 = p90
+            self.std = std
+            self.sum = sum
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes {
     /// FrameInfo of your multicast group resources for the trace content. Use FrameInfo to debug the multicast communication between your multicast groups and the network server.
     public enum MulticastFrameInfo: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
@@ -14807,13 +15354,13 @@ extension IoTWirelessClientTypes.OtaaV1_0_x: Swift.Codable {
 extension IoTWirelessClientTypes {
     /// OTAA device object for v1.0.x
     public struct OtaaV1_0_x: Swift.Equatable {
-        /// The AppEUI value.
+        /// The AppEUI value. You specify this value when using LoRaWAN versions v1.0.2 or v1.0.3.
         public var appEui: Swift.String?
         /// The AppKey value.
         public var appKey: Swift.String?
         /// The GenAppKey value.
         public var genAppKey: Swift.String?
-        /// The JoinEUI value.
+        /// The JoinEUI value. You specify this value instead of the AppEUI when using LoRaWAN version v1.0.4.
         public var joinEui: Swift.String?
 
         public init(
@@ -18006,6 +18553,341 @@ enum StartWirelessDeviceImportTaskOutputError: ClientRuntime.HttpResponseErrorBi
     }
 }
 
+extension IoTWirelessClientTypes.SummaryMetricConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case status = "Status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SummaryMetricConfigurationStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The configuration of summary metric.
+    public struct SummaryMetricConfiguration: Swift.Equatable {
+        /// The configuration of summary metric.
+        public var status: IoTWirelessClientTypes.SummaryMetricConfigurationStatus?
+
+        public init(
+            status: IoTWirelessClientTypes.SummaryMetricConfigurationStatus? = nil
+        )
+        {
+            self.status = status
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes {
+    public enum SummaryMetricConfigurationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SummaryMetricConfigurationStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "Disabled"
+            case .enabled: return "Enabled"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SummaryMetricConfigurationStatus(rawValue: rawValue) ?? SummaryMetricConfigurationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension IoTWirelessClientTypes.SummaryMetricQuery: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case dimensions = "Dimensions"
+        case endTimestamp = "EndTimestamp"
+        case metricName = "MetricName"
+        case queryId = "QueryId"
+        case startTimestamp = "StartTimestamp"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregationPeriod = self.aggregationPeriod {
+            try encodeContainer.encode(aggregationPeriod.rawValue, forKey: .aggregationPeriod)
+        }
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
+            for dimension0 in dimensions {
+                try dimensionsContainer.encode(dimension0)
+            }
+        }
+        if let endTimestamp = self.endTimestamp {
+            try encodeContainer.encodeTimestamp(endTimestamp, format: .epochSeconds, forKey: .endTimestamp)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
+        }
+        if let queryId = self.queryId {
+            try encodeContainer.encode(queryId, forKey: .queryId)
+        }
+        if let startTimestamp = self.startTimestamp {
+            try encodeContainer.encodeTimestamp(startTimestamp, format: .epochSeconds, forKey: .startTimestamp)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.MetricName.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let dimensionsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.Dimension?].self, forKey: .dimensions)
+        var dimensionsDecoded0:[IoTWirelessClientTypes.Dimension]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [IoTWirelessClientTypes.Dimension]()
+            for structure0 in dimensionsContainer {
+                if let structure0 = structure0 {
+                    dimensionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.AggregationPeriod.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let startTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTimestamp)
+        startTimestamp = startTimestampDecoded
+        let endTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTimestamp)
+        endTimestamp = endTimestampDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The metric query object.
+    public struct SummaryMetricQuery: Swift.Equatable {
+        /// The aggregation period of the metric.
+        public var aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod?
+        /// The dimensions of the metric.
+        public var dimensions: [IoTWirelessClientTypes.Dimension]?
+        /// The end timestamp for summary metric query.
+        public var endTimestamp: ClientRuntime.Date?
+        /// The name of the metric.
+        public var metricName: IoTWirelessClientTypes.MetricName?
+        /// The id of the query.
+        public var queryId: Swift.String?
+        /// The start timestamp for summary metric query.
+        public var startTimestamp: ClientRuntime.Date?
+
+        public init(
+            aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod? = nil,
+            dimensions: [IoTWirelessClientTypes.Dimension]? = nil,
+            endTimestamp: ClientRuntime.Date? = nil,
+            metricName: IoTWirelessClientTypes.MetricName? = nil,
+            queryId: Swift.String? = nil,
+            startTimestamp: ClientRuntime.Date? = nil
+        )
+        {
+            self.aggregationPeriod = aggregationPeriod
+            self.dimensions = dimensions
+            self.endTimestamp = endTimestamp
+            self.metricName = metricName
+            self.queryId = queryId
+            self.startTimestamp = startTimestamp
+        }
+    }
+
+}
+
+extension IoTWirelessClientTypes.SummaryMetricQueryResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case aggregationPeriod = "AggregationPeriod"
+        case dimensions = "Dimensions"
+        case endTimestamp = "EndTimestamp"
+        case error = "Error"
+        case metricName = "MetricName"
+        case queryId = "QueryId"
+        case queryStatus = "QueryStatus"
+        case startTimestamp = "StartTimestamp"
+        case timestamps = "Timestamps"
+        case unit = "Unit"
+        case values = "Values"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let aggregationPeriod = self.aggregationPeriod {
+            try encodeContainer.encode(aggregationPeriod.rawValue, forKey: .aggregationPeriod)
+        }
+        if let dimensions = dimensions {
+            var dimensionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dimensions)
+            for dimension0 in dimensions {
+                try dimensionsContainer.encode(dimension0)
+            }
+        }
+        if let endTimestamp = self.endTimestamp {
+            try encodeContainer.encodeTimestamp(endTimestamp, format: .epochSeconds, forKey: .endTimestamp)
+        }
+        if let error = self.error {
+            try encodeContainer.encode(error, forKey: .error)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName.rawValue, forKey: .metricName)
+        }
+        if let queryId = self.queryId {
+            try encodeContainer.encode(queryId, forKey: .queryId)
+        }
+        if let queryStatus = self.queryStatus {
+            try encodeContainer.encode(queryStatus.rawValue, forKey: .queryStatus)
+        }
+        if let startTimestamp = self.startTimestamp {
+            try encodeContainer.encodeTimestamp(startTimestamp, format: .epochSeconds, forKey: .startTimestamp)
+        }
+        if let timestamps = timestamps {
+            var timestampsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .timestamps)
+            for metricquerytimestamp0 in timestamps {
+                try timestampsContainer.encodeTimestamp(metricquerytimestamp0, format: .epochSeconds)
+            }
+        }
+        if let unit = self.unit {
+            try encodeContainer.encode(unit, forKey: .unit)
+        }
+        if let values = values {
+            var valuesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .values)
+            for metricqueryvalue0 in values {
+                try valuesContainer.encode(metricqueryvalue0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let queryIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryId)
+        queryId = queryIdDecoded
+        let queryStatusDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.MetricQueryStatus.self, forKey: .queryStatus)
+        queryStatus = queryStatusDecoded
+        let errorDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .error)
+        error = errorDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.MetricName.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let dimensionsContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.Dimension?].self, forKey: .dimensions)
+        var dimensionsDecoded0:[IoTWirelessClientTypes.Dimension]? = nil
+        if let dimensionsContainer = dimensionsContainer {
+            dimensionsDecoded0 = [IoTWirelessClientTypes.Dimension]()
+            for structure0 in dimensionsContainer {
+                if let structure0 = structure0 {
+                    dimensionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dimensions = dimensionsDecoded0
+        let aggregationPeriodDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.AggregationPeriod.self, forKey: .aggregationPeriod)
+        aggregationPeriod = aggregationPeriodDecoded
+        let startTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .startTimestamp)
+        startTimestamp = startTimestampDecoded
+        let endTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .endTimestamp)
+        endTimestamp = endTimestampDecoded
+        let timestampsContainer = try containerValues.decodeIfPresent([ClientRuntime.Date?].self, forKey: .timestamps)
+        var timestampsDecoded0:[ClientRuntime.Date]? = nil
+        if let timestampsContainer = timestampsContainer {
+            timestampsDecoded0 = [ClientRuntime.Date]()
+            for timestamp0 in timestampsContainer {
+                if let timestamp0 = timestamp0 {
+                    timestampsDecoded0?.append(timestamp0)
+                }
+            }
+        }
+        timestamps = timestampsDecoded0
+        let valuesContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.MetricQueryValue?].self, forKey: .values)
+        var valuesDecoded0:[IoTWirelessClientTypes.MetricQueryValue]? = nil
+        if let valuesContainer = valuesContainer {
+            valuesDecoded0 = [IoTWirelessClientTypes.MetricQueryValue]()
+            for structure0 in valuesContainer {
+                if let structure0 = structure0 {
+                    valuesDecoded0?.append(structure0)
+                }
+            }
+        }
+        values = valuesDecoded0
+        let unitDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .unit)
+        unit = unitDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// The result of metrics aggregation operation.
+    public struct SummaryMetricQueryResult: Swift.Equatable {
+        /// The aggregation period of the metric.
+        public var aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod?
+        /// The dimensions of the metric.
+        public var dimensions: [IoTWirelessClientTypes.Dimension]?
+        /// The end timestamp for summary metric query.
+        public var endTimestamp: ClientRuntime.Date?
+        /// The error message for the summary metric query.
+        public var error: Swift.String?
+        /// The name of the metric.
+        public var metricName: IoTWirelessClientTypes.MetricName?
+        /// The id of the query.
+        public var queryId: Swift.String?
+        /// The status of the metric query.
+        public var queryStatus: IoTWirelessClientTypes.MetricQueryStatus?
+        /// The start timestamp for summary metric query.
+        public var startTimestamp: ClientRuntime.Date?
+        /// The timestamp of each aggregation result.
+        public var timestamps: [ClientRuntime.Date]?
+        /// The units of measurement to be used for interpreting the aggregation result.
+        public var unit: Swift.String?
+        /// The list of aggregated metrics.
+        public var values: [IoTWirelessClientTypes.MetricQueryValue]?
+
+        public init(
+            aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod? = nil,
+            dimensions: [IoTWirelessClientTypes.Dimension]? = nil,
+            endTimestamp: ClientRuntime.Date? = nil,
+            error: Swift.String? = nil,
+            metricName: IoTWirelessClientTypes.MetricName? = nil,
+            queryId: Swift.String? = nil,
+            queryStatus: IoTWirelessClientTypes.MetricQueryStatus? = nil,
+            startTimestamp: ClientRuntime.Date? = nil,
+            timestamps: [ClientRuntime.Date]? = nil,
+            unit: Swift.String? = nil,
+            values: [IoTWirelessClientTypes.MetricQueryValue]? = nil
+        )
+        {
+            self.aggregationPeriod = aggregationPeriod
+            self.dimensions = dimensions
+            self.endTimestamp = endTimestamp
+            self.error = error
+            self.metricName = metricName
+            self.queryId = queryId
+            self.queryStatus = queryStatus
+            self.startTimestamp = startTimestamp
+            self.timestamps = timestamps
+            self.unit = unit
+            self.values = values
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes {
     /// Supported RfRegions
     public enum SupportedRfRegion: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
@@ -19458,6 +20340,80 @@ public struct UpdateLogLevelsByResourceTypesOutput: Swift.Equatable {
 }
 
 enum UpdateLogLevelsByResourceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateMetricConfigurationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetric = "SummaryMetric"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let summaryMetric = self.summaryMetric {
+            try encodeContainer.encode(summaryMetric, forKey: .summaryMetric)
+        }
+    }
+}
+
+extension UpdateMetricConfigurationInput {
+
+    static func urlPathProvider(_ value: UpdateMetricConfigurationInput) -> Swift.String? {
+        return "/metric-configuration"
+    }
+}
+
+public struct UpdateMetricConfigurationInput: Swift.Equatable {
+    /// The value to be used to set summary metric configuration.
+    public var summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration?
+
+    public init(
+        summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration? = nil
+    )
+    {
+        self.summaryMetric = summaryMetric
+    }
+}
+
+struct UpdateMetricConfigurationInputBody: Swift.Equatable {
+    let summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration?
+}
+
+extension UpdateMetricConfigurationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case summaryMetric = "SummaryMetric"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let summaryMetricDecoded = try containerValues.decodeIfPresent(IoTWirelessClientTypes.SummaryMetricConfiguration.self, forKey: .summaryMetric)
+        summaryMetric = summaryMetricDecoded
+    }
+}
+
+extension UpdateMetricConfigurationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateMetricConfigurationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateMetricConfigurationOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId

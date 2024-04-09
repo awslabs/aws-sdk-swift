@@ -1050,19 +1050,6 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-/// The CreateJobResponse structure.
-public struct CreateJobOutput: Swift.Equatable {
-    /// A section of the response body that provides information about the job that is created.
-    public var job: ElasticTranscoderClientTypes.Job?
-
-    public init(
-        job: ElasticTranscoderClientTypes.Job? = nil
-    )
-    {
-        self.job = job
-    }
-}
-
 extension ElasticTranscoderClientTypes {
     /// The CreateJobOutput structure.
     public struct CreateJobOutput: Swift.Equatable {
@@ -1134,6 +1121,19 @@ extension ElasticTranscoderClientTypes {
         }
     }
 
+}
+
+/// The CreateJobResponse structure.
+public struct CreateJobOutput: Swift.Equatable {
+    /// A section of the response body that provides information about the job that is created.
+    public var job: ElasticTranscoderClientTypes.Job?
+
+    public init(
+        job: ElasticTranscoderClientTypes.Job? = nil
+    )
+    {
+        self.job = job
+    }
 }
 
 struct CreateJobOutputBody: Swift.Equatable {

@@ -7840,6 +7840,8 @@ enum CreateGlobalClusterOutputError {
 extension CreateIntegrationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalEncryptionContext = "AdditionalEncryptionContext"
+        case dataFilter = "DataFilter"
+        case description = "Description"
         case integrationName = "IntegrationName"
         case kmsKeyId = "KMSKeyId"
         case sourceArn = "SourceArn"
@@ -7860,6 +7862,12 @@ extension CreateIntegrationInput: Swift.Encodable {
                 var valueContainer0 = entryContainer0.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("value"))
                 try valueContainer0.encode(stringValue0, forKey: ClientRuntime.Key(""))
             }
+        }
+        if let dataFilter = dataFilter {
+            try container.encode(dataFilter, forKey: ClientRuntime.Key("DataFilter"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
         if let integrationName = integrationName {
             try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
@@ -7900,6 +7908,10 @@ extension CreateIntegrationInput {
 public struct CreateIntegrationInput: Swift.Equatable {
     /// An optional set of non-secret key–value pairs that contains additional contextual information about the data. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide. You can only include this parameter if you specify the KMSKeyId parameter.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// Data filtering options for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/zero-etl.filtering.html). Valid for: Integrations with Aurora MySQL source DB clusters only
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
     /// The name of the integration.
     /// This member is required.
     public var integrationName: Swift.String?
@@ -7916,6 +7928,8 @@ public struct CreateIntegrationInput: Swift.Equatable {
 
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
         integrationName: Swift.String? = nil,
         kmsKeyId: Swift.String? = nil,
         sourceArn: Swift.String? = nil,
@@ -7924,6 +7938,8 @@ public struct CreateIntegrationInput: Swift.Equatable {
     )
     {
         self.additionalEncryptionContext = additionalEncryptionContext
+        self.dataFilter = dataFilter
+        self.description = description
         self.integrationName = integrationName
         self.kmsKeyId = kmsKeyId
         self.sourceArn = sourceArn
@@ -7941,6 +7957,8 @@ extension CreateIntegrationOutput {
             var value = CreateIntegrationOutput()
             value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
             value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
+            value.dataFilter = try reader["DataFilter"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
             value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.readingClosure, memberNodeInfo: "IntegrationError", isFlattened: false)
             value.integrationArn = try reader["IntegrationArn"].readIfPresent()
             value.integrationName = try reader["IntegrationName"].readIfPresent()
@@ -7960,6 +7978,10 @@ public struct CreateIntegrationOutput: Swift.Equatable {
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The time when the integration was created, in Universal Coordinated Time (UTC).
     public var createTime: ClientRuntime.Date?
+    /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
     /// Any errors associated with the integration.
     public var errors: [RDSClientTypes.IntegrationError]?
     /// The ARN of the integration.
@@ -7980,6 +8002,8 @@ public struct CreateIntegrationOutput: Swift.Equatable {
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
         createTime: ClientRuntime.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
         errors: [RDSClientTypes.IntegrationError]? = nil,
         integrationArn: Swift.String? = nil,
         integrationName: Swift.String? = nil,
@@ -7992,6 +8016,8 @@ public struct CreateIntegrationOutput: Swift.Equatable {
     {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
         self.errors = errors
         self.integrationArn = integrationArn
         self.integrationName = integrationName
@@ -18148,6 +18174,8 @@ extension DeleteIntegrationOutput {
             var value = DeleteIntegrationOutput()
             value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
             value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
+            value.dataFilter = try reader["DataFilter"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
             value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.readingClosure, memberNodeInfo: "IntegrationError", isFlattened: false)
             value.integrationArn = try reader["IntegrationArn"].readIfPresent()
             value.integrationName = try reader["IntegrationName"].readIfPresent()
@@ -18167,6 +18195,10 @@ public struct DeleteIntegrationOutput: Swift.Equatable {
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The time when the integration was created, in Universal Coordinated Time (UTC).
     public var createTime: ClientRuntime.Date?
+    /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
     /// Any errors associated with the integration.
     public var errors: [RDSClientTypes.IntegrationError]?
     /// The ARN of the integration.
@@ -18187,6 +18219,8 @@ public struct DeleteIntegrationOutput: Swift.Equatable {
     public init(
         additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
         createTime: ClientRuntime.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
         errors: [RDSClientTypes.IntegrationError]? = nil,
         integrationArn: Swift.String? = nil,
         integrationName: Swift.String? = nil,
@@ -18199,6 +18233,8 @@ public struct DeleteIntegrationOutput: Swift.Equatable {
     {
         self.additionalEncryptionContext = additionalEncryptionContext
         self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
         self.errors = errors
         self.integrationArn = integrationArn
         self.integrationName = integrationName
@@ -27143,6 +27179,8 @@ extension RDSClientTypes.Integration: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case additionalEncryptionContext = "AdditionalEncryptionContext"
         case createTime = "CreateTime"
+        case dataFilter = "DataFilter"
+        case description = "Description"
         case errors = "Errors"
         case integrationArn = "IntegrationArn"
         case integrationName = "IntegrationName"
@@ -27169,6 +27207,12 @@ extension RDSClientTypes.Integration: Swift.Encodable {
         }
         if let createTime = createTime {
             try container.encodeTimestamp(createTime, format: .dateTime, forKey: ClientRuntime.Key("CreateTime"))
+        }
+        if let dataFilter = dataFilter {
+            try container.encode(dataFilter, forKey: ClientRuntime.Key("DataFilter"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
         }
         if let errors = errors {
             if !errors.isEmpty {
@@ -27228,6 +27272,8 @@ extension RDSClientTypes.Integration: Swift.Encodable {
             value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
             value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
             value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.readingClosure, memberNodeInfo: "IntegrationError", isFlattened: false)
+            value.dataFilter = try reader["DataFilter"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
             return value
         }
     }
@@ -27240,6 +27286,10 @@ extension RDSClientTypes {
         public var additionalEncryptionContext: [Swift.String:Swift.String]?
         /// The time when the integration was created, in Universal Coordinated Time (UTC).
         public var createTime: ClientRuntime.Date?
+        /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
+        public var dataFilter: Swift.String?
+        /// A description of the integration.
+        public var description: Swift.String?
         /// Any errors associated with the integration.
         public var errors: [RDSClientTypes.IntegrationError]?
         /// The ARN of the integration.
@@ -27260,6 +27310,8 @@ extension RDSClientTypes {
         public init(
             additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
             createTime: ClientRuntime.Date? = nil,
+            dataFilter: Swift.String? = nil,
+            description: Swift.String? = nil,
             errors: [RDSClientTypes.IntegrationError]? = nil,
             integrationArn: Swift.String? = nil,
             integrationName: Swift.String? = nil,
@@ -27272,6 +27324,8 @@ extension RDSClientTypes {
         {
             self.additionalEncryptionContext = additionalEncryptionContext
             self.createTime = createTime
+            self.dataFilter = dataFilter
+            self.description = description
             self.errors = errors
             self.integrationArn = integrationArn
             self.integrationName = integrationName
@@ -32880,6 +32934,165 @@ enum ModifyGlobalClusterOutputError {
                 case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidDBInstanceState": return try await InvalidDBInstanceStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
+extension ModifyIntegrationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dataFilter = "DataFilter"
+        case description = "Description"
+        case integrationIdentifier = "IntegrationIdentifier"
+        case integrationName = "IntegrationName"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let dataFilter = dataFilter {
+            try container.encode(dataFilter, forKey: ClientRuntime.Key("DataFilter"))
+        }
+        if let description = description {
+            try container.encode(description, forKey: ClientRuntime.Key("Description"))
+        }
+        if let integrationIdentifier = integrationIdentifier {
+            try container.encode(integrationIdentifier, forKey: ClientRuntime.Key("IntegrationIdentifier"))
+        }
+        if let integrationName = integrationName {
+            try container.encode(integrationName, forKey: ClientRuntime.Key("IntegrationName"))
+        }
+        try container.encode("ModifyIntegration", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension ModifyIntegrationInput {
+
+    static func urlPathProvider(_ value: ModifyIntegrationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ModifyIntegrationInput: Swift.Equatable {
+    /// A new data filter for the integration. For more information, see [Data filtering for Aurora zero-ETL integrations with Amazon Redshift](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_Zero_ETL_Filtering.html).
+    public var dataFilter: Swift.String?
+    /// A new description for the integration.
+    public var description: Swift.String?
+    /// The unique identifier of the integration to modify.
+    /// This member is required.
+    public var integrationIdentifier: Swift.String?
+    /// A new name for the integration.
+    public var integrationName: Swift.String?
+
+    public init(
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        integrationIdentifier: Swift.String? = nil,
+        integrationName: Swift.String? = nil
+    )
+    {
+        self.dataFilter = dataFilter
+        self.description = description
+        self.integrationIdentifier = integrationIdentifier
+        self.integrationName = integrationName
+    }
+}
+
+extension ModifyIntegrationOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<ModifyIntegrationOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["ModifyIntegrationResult"]
+            var value = ModifyIntegrationOutput()
+            value.additionalEncryptionContext = try reader["AdditionalEncryptionContext"].readMapIfPresent(valueReadingClosure: Swift.String.readingClosure, keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: false)
+            value.createTime = try reader["CreateTime"].readTimestampIfPresent(format: .dateTime)
+            value.dataFilter = try reader["DataFilter"].readIfPresent()
+            value.description = try reader["Description"].readIfPresent()
+            value.errors = try reader["Errors"].readListIfPresent(memberReadingClosure: RDSClientTypes.IntegrationError.readingClosure, memberNodeInfo: "IntegrationError", isFlattened: false)
+            value.integrationArn = try reader["IntegrationArn"].readIfPresent()
+            value.integrationName = try reader["IntegrationName"].readIfPresent()
+            value.kmsKeyId = try reader["KMSKeyId"].readIfPresent()
+            value.sourceArn = try reader["SourceArn"].readIfPresent()
+            value.status = try reader["Status"].readIfPresent()
+            value.tags = try reader["Tags"].readListIfPresent(memberReadingClosure: RDSClientTypes.Tag.readingClosure, memberNodeInfo: "Tag", isFlattened: false)
+            value.targetArn = try reader["TargetArn"].readIfPresent()
+            return value
+        }
+    }
+}
+
+/// A zero-ETL integration with Amazon Redshift.
+public struct ModifyIntegrationOutput: Swift.Equatable {
+    /// The encryption context for the integration. For more information, see [Encryption context](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#encrypt_context) in the Amazon Web Services Key Management Service Developer Guide.
+    public var additionalEncryptionContext: [Swift.String:Swift.String]?
+    /// The time when the integration was created, in Universal Coordinated Time (UTC).
+    public var createTime: ClientRuntime.Date?
+    /// Data filters for the integration. These filters determine which tables from the source database are sent to the target Amazon Redshift data warehouse.
+    public var dataFilter: Swift.String?
+    /// A description of the integration.
+    public var description: Swift.String?
+    /// Any errors associated with the integration.
+    public var errors: [RDSClientTypes.IntegrationError]?
+    /// The ARN of the integration.
+    public var integrationArn: Swift.String?
+    /// The name of the integration.
+    public var integrationName: Swift.String?
+    /// The Amazon Web Services Key Management System (Amazon Web Services KMS) key identifier for the key used to to encrypt the integration.
+    public var kmsKeyId: Swift.String?
+    /// The Amazon Resource Name (ARN) of the database used as the source for replication.
+    public var sourceArn: Swift.String?
+    /// The current status of the integration.
+    public var status: RDSClientTypes.IntegrationStatus?
+    /// A list of tags. For more information, see [Tagging Amazon RDS Resources](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html) in the Amazon RDS User Guide.
+    public var tags: [RDSClientTypes.Tag]?
+    /// The ARN of the Redshift data warehouse used as the target for replication.
+    public var targetArn: Swift.String?
+
+    public init(
+        additionalEncryptionContext: [Swift.String:Swift.String]? = nil,
+        createTime: ClientRuntime.Date? = nil,
+        dataFilter: Swift.String? = nil,
+        description: Swift.String? = nil,
+        errors: [RDSClientTypes.IntegrationError]? = nil,
+        integrationArn: Swift.String? = nil,
+        integrationName: Swift.String? = nil,
+        kmsKeyId: Swift.String? = nil,
+        sourceArn: Swift.String? = nil,
+        status: RDSClientTypes.IntegrationStatus? = nil,
+        tags: [RDSClientTypes.Tag]? = nil,
+        targetArn: Swift.String? = nil
+    )
+    {
+        self.additionalEncryptionContext = additionalEncryptionContext
+        self.createTime = createTime
+        self.dataFilter = dataFilter
+        self.description = description
+        self.errors = errors
+        self.integrationArn = integrationArn
+        self.integrationName = integrationName
+        self.kmsKeyId = kmsKeyId
+        self.sourceArn = sourceArn
+        self.status = status
+        self.tags = tags
+        self.targetArn = targetArn
+    }
+}
+
+enum ModifyIntegrationOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "IntegrationConflictOperationFault": return try await IntegrationConflictOperationFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "IntegrationNotFoundFault": return try await IntegrationNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidIntegrationStateFault": return try await InvalidIntegrationStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
             }
         }

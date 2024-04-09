@@ -115,7 +115,7 @@ extension CreateProfileInput {
 }
 
 public struct CreateProfileInput: Swift.Equatable {
-    /// The number of seconds the vended session credentials are valid for.
+    /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// Specifies whether the profile is enabled.
     public var enabled: Swift.Bool?
@@ -2923,7 +2923,7 @@ extension RolesAnywhereClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Web Services account that created the profile.
         public var createdBy: Swift.String?
-        /// The number of seconds the vended session credentials are valid for.
+        /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
         public var durationSeconds: Swift.Int?
         /// Indicates whether the profile is enabled.
         public var enabled: Swift.Bool?
@@ -4237,7 +4237,7 @@ extension UpdateProfileInput {
 }
 
 public struct UpdateProfileInput: Swift.Equatable {
-    /// The number of seconds the vended session credentials are valid for.
+    /// Used to determine how long sessions vended using this profile are valid for. See the Expiration section of the [CreateSession API documentation](https://docs.aws.amazon.com/rolesanywhere/latest/userguide/authentication-create-session.html#credentials-object) page for more details. In requests, if this value is not provided, the default value will be 3600.
     public var durationSeconds: Swift.Int?
     /// A list of managed policy ARNs that apply to the vended session credentials.
     public var managedPolicyArns: [Swift.String]?

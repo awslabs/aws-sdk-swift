@@ -55,7 +55,7 @@ extension BedrockAgentClient {
 
         public var endpointResolver: EndpointResolver
 
-        public var logger: ClientRuntime.LogAgent
+        public var telemetryProvider: ClientRuntime.TelemetryProvider
 
         public var retryStrategyOptions: ClientRuntime.RetryStrategyOptions
 
@@ -73,7 +73,9 @@ extension BedrockAgentClient {
 
         public var authSchemeResolver: ClientRuntime.AuthSchemeResolver
 
-        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any AWSClientRuntime.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ logger: ClientRuntime.LogAgent, _ retryStrategyOptions: ClientRuntime.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: ClientRuntime.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: [ClientRuntime.AuthScheme]?, _ authSchemeResolver: ClientRuntime.AuthSchemeResolver) {
+        internal let logger: ClientRuntime.LogAgent
+
+        private init(_ useFIPS: Swift.Bool?, _ useDualStack: Swift.Bool?, _ appID: Swift.String?, _ awsCredentialIdentityResolver: any AWSClientRuntime.AWSCredentialIdentityResolver, _ awsRetryMode: AWSClientRuntime.AWSRetryMode, _ region: Swift.String?, _ signingRegion: Swift.String?, _ endpointResolver: EndpointResolver, _ telemetryProvider: ClientRuntime.TelemetryProvider, _ retryStrategyOptions: ClientRuntime.RetryStrategyOptions, _ clientLogMode: ClientRuntime.ClientLogMode, _ endpoint: Swift.String?, _ idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator, _ httpClientEngine: ClientRuntime.HTTPClient, _ httpClientConfiguration: ClientRuntime.HttpClientConfiguration, _ authSchemes: [ClientRuntime.AuthScheme]?, _ authSchemeResolver: ClientRuntime.AuthSchemeResolver) {
             self.useFIPS = useFIPS
             self.useDualStack = useDualStack
             self.appID = appID
@@ -82,7 +84,7 @@ extension BedrockAgentClient {
             self.region = region
             self.signingRegion = signingRegion
             self.endpointResolver = endpointResolver
-            self.logger = logger
+            self.telemetryProvider = telemetryProvider
             self.retryStrategyOptions = retryStrategyOptions
             self.clientLogMode = clientLogMode
             self.endpoint = endpoint
@@ -91,22 +93,23 @@ extension BedrockAgentClient {
             self.httpClientConfiguration = httpClientConfiguration
             self.authSchemes = authSchemes
             self.authSchemeResolver = authSchemeResolver
+            self.logger = telemetryProvider.loggerProvider.getLogger(name: BedrockAgentClient.clientName)
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, logger: ClientRuntime.LogAgent? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), logger ?? AWSClientConfigDefaultsProvider.logger(clientName), try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultBedrockAgentAuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), region, signingRegion, try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultBedrockAgentAuthSchemeResolver())
         }
 
-        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, logger: ClientRuntime.LogAgent? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) async throws {
-            self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientConfigDefaultsProvider.region(region), try await AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), logger ?? AWSClientConfigDefaultsProvider.logger(clientName), try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultBedrockAgentAuthSchemeResolver())
+        public convenience init(useFIPS: Swift.Bool? = nil, useDualStack: Swift.Bool? = nil, appID: Swift.String? = nil, awsCredentialIdentityResolver: (any AWSClientRuntime.AWSCredentialIdentityResolver)? = nil, awsRetryMode: AWSClientRuntime.AWSRetryMode? = nil, region: Swift.String? = nil, signingRegion: Swift.String? = nil, endpointResolver: EndpointResolver? = nil, telemetryProvider: ClientRuntime.TelemetryProvider? = nil, retryStrategyOptions: ClientRuntime.RetryStrategyOptions? = nil, clientLogMode: ClientRuntime.ClientLogMode? = nil, endpoint: Swift.String? = nil, idempotencyTokenGenerator: ClientRuntime.IdempotencyTokenGenerator? = nil, httpClientEngine: ClientRuntime.HTTPClient? = nil, httpClientConfiguration: ClientRuntime.HttpClientConfiguration? = nil, authSchemes: [ClientRuntime.AuthScheme]? = nil, authSchemeResolver: ClientRuntime.AuthSchemeResolver? = nil) async throws {
+            self.init(useFIPS, useDualStack, try appID ?? AWSClientConfigDefaultsProvider.appID(), try awsCredentialIdentityResolver ?? AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(awsCredentialIdentityResolver), try awsRetryMode ?? AWSClientConfigDefaultsProvider.retryMode(), try await AWSClientConfigDefaultsProvider.region(region), try await AWSClientConfigDefaultsProvider.region(region), try endpointResolver ?? DefaultEndpointResolver(), telemetryProvider ?? ClientRuntime.DefaultTelemetry.provider, try retryStrategyOptions ?? AWSClientConfigDefaultsProvider.retryStrategyOptions(), clientLogMode ?? AWSClientConfigDefaultsProvider.clientLogMode, endpoint, idempotencyTokenGenerator ?? AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, httpClientEngine ?? AWSClientConfigDefaultsProvider.httpClientEngine, httpClientConfiguration ?? AWSClientConfigDefaultsProvider.httpClientConfiguration, authSchemes ?? [SigV4AuthScheme()], authSchemeResolver ?? DefaultBedrockAgentAuthSchemeResolver())
         }
 
         public convenience required init() async throws {
-            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, logger: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil)
+            try await self.init(useFIPS: nil, useDualStack: nil, appID: nil, awsCredentialIdentityResolver: nil, awsRetryMode: nil, region: nil, signingRegion: nil, endpointResolver: nil, telemetryProvider: nil, retryStrategyOptions: nil, clientLogMode: nil, endpoint: nil, idempotencyTokenGenerator: nil, httpClientEngine: nil, httpClientConfiguration: nil, authSchemes: nil, authSchemeResolver: nil)
         }
 
         public convenience init(region: String) throws {
-            self.init(nil, nil, try AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), AWSClientConfigDefaultsProvider.logger(clientName), try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [SigV4AuthScheme()], DefaultBedrockAgentAuthSchemeResolver())
+            self.init(nil, nil, try AWSClientConfigDefaultsProvider.appID(), try AWSClientConfigDefaultsProvider.awsCredentialIdentityResolver(), try AWSClientConfigDefaultsProvider.retryMode(), region, region, try DefaultEndpointResolver(), ClientRuntime.DefaultTelemetry.provider, try AWSClientConfigDefaultsProvider.retryStrategyOptions(), AWSClientConfigDefaultsProvider.clientLogMode, nil, AWSClientConfigDefaultsProvider.idempotencyTokenGenerator, AWSClientConfigDefaultsProvider.httpClientEngine, AWSClientConfigDefaultsProvider.httpClientConfiguration, [SigV4AuthScheme()], DefaultBedrockAgentAuthSchemeResolver())
         }
 
         public var partitionID: String? {
@@ -139,22 +142,22 @@ public struct BedrockAgentClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFa
 extension BedrockAgentClient {
     /// Performs the `AssociateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Associate a Knowledge Base to an existing Amazon Bedrock Agent
+    /// Associates a knowledge base with an agent. If a knowledge base is associated and its indexState is set to Enabled, the agent queries the knowledge base for information to augment its response to the user.
     ///
-    /// - Parameter AssociateAgentKnowledgeBaseInput : Associate Agent Knowledge Base Request
+    /// - Parameter AssociateAgentKnowledgeBaseInput : [no documentation found]
     ///
-    /// - Returns: `AssociateAgentKnowledgeBaseOutput` : Associate Agent Knowledge Base Response
+    /// - Returns: `AssociateAgentKnowledgeBaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func associateAgentKnowledgeBase(input: AssociateAgentKnowledgeBaseInput) async throws -> AssociateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -194,21 +197,36 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Creates an Amazon Bedrock Agent
+    /// Creates an agent that orchestrates interactions between foundation models, data sources, software applications, user conversations, and APIs to carry out tasks to help customers.
     ///
-    /// - Parameter CreateAgentInput : Create Agent Request
+    /// * Specify the following fields for security purposes.
     ///
-    /// - Returns: `CreateAgentOutput` : Create Agent Response
+    /// * agentResourceRoleArn – The ARN of the role with permissions to create an agent.
+    ///
+    /// * (Optional) customerEncryptionKeyArn – The ARN of a KMS key to encrypt the creation of the agent.
+    ///
+    /// * (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.
+    ///
+    ///
+    ///
+    ///
+    /// * To override the default prompt behavior for agent orchestration and to use advanced prompts, include a promptOverrideConfiguration object. For more information, see [Advanced prompts](https://docs.aws.amazon.com/bedrock/latest/userguide/advanced-prompts.html).
+    ///
+    /// * If you agent fails to be created, the response returns a list of failureReasons alongside a list of recommendedActions for you to troubleshoot.
+    ///
+    /// - Parameter CreateAgentInput : [no documentation found]
+    ///
+    /// - Returns: `CreateAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createAgent(input: CreateAgentInput) async throws -> CreateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -249,22 +267,22 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Creates an Action Group for existing Amazon Bedrock Agent
+    /// Creates an action group for an agent. An action group represents the actions that an agent can carry out for the customer by defining the APIs that an agent can call and the logic for calling them. To allow your agent to request the user for additional information when trying to complete a task, add an action group with the parentActionGroupSignature field set to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     ///
-    /// - Parameter CreateAgentActionGroupInput : Create Action Group Request
+    /// - Parameter CreateAgentActionGroupInput : [no documentation found]
     ///
-    /// - Returns: `CreateAgentActionGroupOutput` : Create Action Group Response
+    /// - Returns: `CreateAgentActionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createAgentActionGroup(input: CreateAgentActionGroupInput) async throws -> CreateAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -305,22 +323,22 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Creates an Alias for an existing Amazon Bedrock Agent
+    /// Creates an alias of an agent that can be used to deploy the agent.
     ///
-    /// - Parameter CreateAgentAliasInput : Create Agent Alias Request
+    /// - Parameter CreateAgentAliasInput : [no documentation found]
     ///
-    /// - Returns: `CreateAgentAliasOutput` : Create Agent Alias Response
+    /// - Returns: `CreateAgentAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createAgentAlias(input: CreateAgentAliasInput) async throws -> CreateAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -361,7 +379,7 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Create a new data source
+    /// Sets up a data source to be added to a knowledge base. You can't change the chunkingConfiguration after you create the data source.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
     ///
@@ -370,13 +388,13 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -417,7 +435,23 @@ extension BedrockAgentClient {
 
     /// Performs the `CreateKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Create a new knowledge base
+    /// Creates a knowledge base that contains data sources from which information can be queried and used by LLMs. To create a knowledge base, you must first set up your data sources and configure a supported vector store. For more information, see [Set up your data for ingestion](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup.html). If you prefer to let Amazon Bedrock create and manage a vector store for you in Amazon OpenSearch Service, use the console. For more information, see [Create a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-create).
+    ///
+    /// * Provide the name and an optional description.
+    ///
+    /// * Provide the ARN with permissions to create a knowledge base in the roleArn field.
+    ///
+    /// * Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.
+    ///
+    /// * Provide the configuration for your vector store in the storageConfiguration object.
+    ///
+    /// * For an Amazon OpenSearch Service database, use the opensearchServerlessConfiguration object. For more information, see [Create a vector store in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
+    ///
+    /// * For an Amazon Aurora database, use the RdsConfiguration object. For more information, see [Create a vector store in Amazon Aurora](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
+    ///
+    /// * For a Pinecone database, use the pineconeConfiguration object. For more information, see [Create a vector store in Pinecone](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-pinecone.html).
+    ///
+    /// * For a Redis Enterprise Cloud database, use the redisEnterpriseCloudConfiguration object. For more information, see [Create a vector store in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-redis.html).
     ///
     /// - Parameter CreateKnowledgeBaseInput : [no documentation found]
     ///
@@ -426,12 +460,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func createKnowledgeBase(input: CreateKnowledgeBaseInput) async throws -> CreateKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -472,21 +506,21 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Deletes an Agent for existing Amazon Bedrock Agent
+    /// Deletes an agent.
     ///
-    /// - Parameter DeleteAgentInput : Delete Agent Request
+    /// - Parameter DeleteAgentInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAgentOutput` : Delete Agent Response
+    /// - Returns: `DeleteAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -524,21 +558,21 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Deletes an Action Group for existing Amazon Bedrock Agent.
+    /// Deletes an action group in an agent.
     ///
-    /// - Parameter DeleteAgentActionGroupInput : Delete Action Group Request
+    /// - Parameter DeleteAgentActionGroupInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAgentActionGroupOutput` : Delete Action Group Response
+    /// - Returns: `DeleteAgentActionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentActionGroup(input: DeleteAgentActionGroupInput) async throws -> DeleteAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -576,20 +610,20 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Deletes an Alias for a Amazon Bedrock Agent
+    /// Deletes an alias of an agent.
     ///
-    /// - Parameter DeleteAgentAliasInput : Delete Agent Alias Request
+    /// - Parameter DeleteAgentAliasInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAgentAliasOutput` : Delete Agent Alias Response
+    /// - Returns: `DeleteAgentAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentAlias(input: DeleteAgentAliasInput) async throws -> DeleteAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -626,21 +660,21 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteAgentVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Deletes an Agent version for existing Amazon Bedrock Agent
+    /// Deletes a version of an agent.
     ///
-    /// - Parameter DeleteAgentVersionInput : Delete Agent Version Request
+    /// - Parameter DeleteAgentVersionInput : [no documentation found]
     ///
-    /// - Returns: `DeleteAgentVersionOutput` : Delete Agent Version Response
+    /// - Returns: `DeleteAgentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentVersion(input: DeleteAgentVersionInput) async throws -> DeleteAgentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -678,7 +712,7 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Delete an existing data source
+    /// Deletes a data source from a knowledge base.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
     ///
@@ -687,12 +721,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -729,7 +763,7 @@ extension BedrockAgentClient {
 
     /// Performs the `DeleteKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Delete an existing knowledge base
+    /// Deletes a knowledge base. Before deleting a knowledge base, you should disassociate the knowledge base from any agents that it is associated with by making a [DisassociateAgentKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_DisassociateAgentKnowledgeBase.html) request.
     ///
     /// - Parameter DeleteKnowledgeBaseInput : [no documentation found]
     ///
@@ -738,12 +772,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -780,21 +814,21 @@ extension BedrockAgentClient {
 
     /// Performs the `DisassociateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Disassociate an existing Knowledge Base from an Amazon Bedrock Agent
+    /// Disassociates a knowledge base from an agent.
     ///
-    /// - Parameter DisassociateAgentKnowledgeBaseInput : Disassociate Agent Knowledge Base Request
+    /// - Parameter DisassociateAgentKnowledgeBaseInput : [no documentation found]
     ///
-    /// - Returns: `DisassociateAgentKnowledgeBaseOutput` : Disassociate Agent Knowledge Base Response
+    /// - Returns: `DisassociateAgentKnowledgeBaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func disassociateAgentKnowledgeBase(input: DisassociateAgentKnowledgeBaseInput) async throws -> DisassociateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -831,20 +865,20 @@ extension BedrockAgentClient {
 
     /// Performs the `GetAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Gets an Agent for existing Amazon Bedrock Agent
+    /// Gets information about an agent.
     ///
-    /// - Parameter GetAgentInput : Get Agent Request
+    /// - Parameter GetAgentInput : [no documentation found]
     ///
-    /// - Returns: `GetAgentOutput` : Get Agent Response
+    /// - Returns: `GetAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgent(input: GetAgentInput) async throws -> GetAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -881,20 +915,20 @@ extension BedrockAgentClient {
 
     /// Performs the `GetAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Gets an Action Group for existing Amazon Bedrock Agent Version
+    /// Gets information about an action group for an agent.
     ///
-    /// - Parameter GetAgentActionGroupInput : Get Action Group Request
+    /// - Parameter GetAgentActionGroupInput : [no documentation found]
     ///
-    /// - Returns: `GetAgentActionGroupOutput` : Get Action Group Response
+    /// - Returns: `GetAgentActionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentActionGroup(input: GetAgentActionGroupInput) async throws -> GetAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -931,20 +965,20 @@ extension BedrockAgentClient {
 
     /// Performs the `GetAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Describes an Alias for a Amazon Bedrock Agent
+    /// Gets information about an alias of an agent.
     ///
-    /// - Parameter GetAgentAliasInput : Get Agent Alias Request
+    /// - Parameter GetAgentAliasInput : [no documentation found]
     ///
-    /// - Returns: `GetAgentAliasOutput` : Get Agent Alias Response
+    /// - Returns: `GetAgentAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentAlias(input: GetAgentAliasInput) async throws -> GetAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -981,20 +1015,20 @@ extension BedrockAgentClient {
 
     /// Performs the `GetAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Gets a knowledge base associated to an existing Amazon Bedrock Agent Version
+    /// Gets information about a knowledge base associated with an agent.
     ///
-    /// - Parameter GetAgentKnowledgeBaseInput : Get Agent Knowledge Base Request
+    /// - Parameter GetAgentKnowledgeBaseInput : [no documentation found]
     ///
-    /// - Returns: `GetAgentKnowledgeBaseOutput` : Get Agent Knowledge Base Response
+    /// - Returns: `GetAgentKnowledgeBaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentKnowledgeBase(input: GetAgentKnowledgeBaseInput) async throws -> GetAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1031,20 +1065,20 @@ extension BedrockAgentClient {
 
     /// Performs the `GetAgentVersion` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Gets an Agent version for existing Amazon Bedrock Agent
+    /// Gets details about a version of an agent.
     ///
-    /// - Parameter GetAgentVersionInput : Get Agent Version Request
+    /// - Parameter GetAgentVersionInput : [no documentation found]
     ///
-    /// - Returns: `GetAgentVersionOutput` : Get Agent Version Response
+    /// - Returns: `GetAgentVersionOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentVersion(input: GetAgentVersionInput) async throws -> GetAgentVersionOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1081,7 +1115,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Get an existing data source
+    /// Gets information about a data source.
     ///
     /// - Parameter GetDataSourceInput : [no documentation found]
     ///
@@ -1090,11 +1124,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1131,7 +1165,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetIngestionJob` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Get an ingestion job
+    /// Gets information about a ingestion job, in which a data source is added to a knowledge base.
     ///
     /// - Parameter GetIngestionJobInput : [no documentation found]
     ///
@@ -1140,11 +1174,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getIngestionJob(input: GetIngestionJobInput) async throws -> GetIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1181,7 +1215,7 @@ extension BedrockAgentClient {
 
     /// Performs the `GetKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Get an existing knowledge base
+    /// Gets information about a knoweldge base.
     ///
     /// - Parameter GetKnowledgeBaseInput : [no documentation found]
     ///
@@ -1190,11 +1224,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1231,20 +1265,20 @@ extension BedrockAgentClient {
 
     /// Performs the `ListAgentActionGroups` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Lists an Action Group for existing Amazon Bedrock Agent Version
+    /// Lists the action groups for an agent and information about each one.
     ///
-    /// - Parameter ListAgentActionGroupsInput : List Action Groups Request
+    /// - Parameter ListAgentActionGroupsInput : [no documentation found]
     ///
-    /// - Returns: `ListAgentActionGroupsOutput` : List Action Groups Response
+    /// - Returns: `ListAgentActionGroupsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentActionGroups(input: ListAgentActionGroupsInput) async throws -> ListAgentActionGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1284,20 +1318,20 @@ extension BedrockAgentClient {
 
     /// Performs the `ListAgentAliases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Lists all the Aliases for an Amazon Bedrock Agent
+    /// Lists the aliases of an agent and information about each one.
     ///
-    /// - Parameter ListAgentAliasesInput : List Agent Aliases Request
+    /// - Parameter ListAgentAliasesInput : [no documentation found]
     ///
-    /// - Returns: `ListAgentAliasesOutput` : List Agent Aliases Response
+    /// - Returns: `ListAgentAliasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentAliases(input: ListAgentAliasesInput) async throws -> ListAgentAliasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1337,20 +1371,20 @@ extension BedrockAgentClient {
 
     /// Performs the `ListAgentKnowledgeBases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// List of Knowledge Bases associated to an existing Amazon Bedrock Agent Version
+    /// Lists knowledge bases associated with an agent and information about each one.
     ///
-    /// - Parameter ListAgentKnowledgeBasesInput : List Agent Knowledge Bases Request
+    /// - Parameter ListAgentKnowledgeBasesInput : [no documentation found]
     ///
-    /// - Returns: `ListAgentKnowledgeBasesOutput` : List Agent Knowledge Bases Response
+    /// - Returns: `ListAgentKnowledgeBasesOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentKnowledgeBases(input: ListAgentKnowledgeBasesInput) async throws -> ListAgentKnowledgeBasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1390,20 +1424,20 @@ extension BedrockAgentClient {
 
     /// Performs the `ListAgentVersions` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Lists Agent Versions
+    /// Lists the versions of an agent and information about each version.
     ///
-    /// - Parameter ListAgentVersionsInput : List Agent Versions Request
+    /// - Parameter ListAgentVersionsInput : [no documentation found]
     ///
-    /// - Returns: `ListAgentVersionsOutput` : List Agent Versions Response
+    /// - Returns: `ListAgentVersionsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentVersions(input: ListAgentVersionsInput) async throws -> ListAgentVersionsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1443,19 +1477,19 @@ extension BedrockAgentClient {
 
     /// Performs the `ListAgents` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Lists Agents
+    /// Lists the agents belonging to an account and information about each agent.
     ///
-    /// - Parameter ListAgentsInput : List Agent Request
+    /// - Parameter ListAgentsInput : [no documentation found]
     ///
-    /// - Returns: `ListAgentsOutput` : List Agent Response
+    /// - Returns: `ListAgentsOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgents(input: ListAgentsInput) async throws -> ListAgentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1495,7 +1529,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListDataSources` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// List data sources
+    /// Lists the data sources in a knowledge base and information about each one.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
     ///
@@ -1504,11 +1538,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1548,7 +1582,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListIngestionJobs` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// List ingestion jobs
+    /// Lists the ingestion jobs for a data source and information about each of them.
     ///
     /// - Parameter ListIngestionJobsInput : [no documentation found]
     ///
@@ -1557,11 +1591,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listIngestionJobs(input: ListIngestionJobsInput) async throws -> ListIngestionJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1601,7 +1635,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListKnowledgeBases` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// List Knowledge Bases
+    /// Lists the knowledge bases in an account and information about each of them.
     ///
     /// - Parameter ListKnowledgeBasesInput : [no documentation found]
     ///
@@ -1610,10 +1644,10 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listKnowledgeBases(input: ListKnowledgeBasesInput) async throws -> ListKnowledgeBasesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1653,7 +1687,7 @@ extension BedrockAgentClient {
 
     /// Performs the `ListTagsForResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// List tags for a resource
+    /// List all the tags for the resource you specify.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -1662,11 +1696,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1703,22 +1737,22 @@ extension BedrockAgentClient {
 
     /// Performs the `PrepareAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Prepares an existing Amazon Bedrock Agent to receive runtime requests
+    /// Creates a DRAFT version of the agent that can be used for internal testing.
     ///
-    /// - Parameter PrepareAgentInput : PrepareAgent Request
+    /// - Parameter PrepareAgentInput : [no documentation found]
     ///
-    /// - Returns: `PrepareAgentOutput` : PrepareAgent Response
+    /// - Returns: `PrepareAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func prepareAgent(input: PrepareAgentInput) async throws -> PrepareAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1755,7 +1789,7 @@ extension BedrockAgentClient {
 
     /// Performs the `StartIngestionJob` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Start a new ingestion job
+    /// Begins an ingestion job, in which a data source is added to a knowledge base.
     ///
     /// - Parameter StartIngestionJobInput : [no documentation found]
     ///
@@ -1764,13 +1798,13 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func startIngestionJob(input: StartIngestionJobInput) async throws -> StartIngestionJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1811,7 +1845,7 @@ extension BedrockAgentClient {
 
     /// Performs the `TagResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Tag a resource
+    /// Associate tags with a resource. For more information, see [Tagging resources](https://docs.aws.amazon.com/bedrock/latest/userguide/what-is-service.html) in the Amazon Bedrock User Guide.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -1820,12 +1854,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1865,7 +1899,7 @@ extension BedrockAgentClient {
 
     /// Performs the `UntagResource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Untag a resource
+    /// Remove tags from a resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -1874,11 +1908,11 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1916,22 +1950,22 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateAgent` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Updates an existing Amazon Bedrock Agent
+    /// Updates the configuration of an agent.
     ///
-    /// - Parameter UpdateAgentInput : Update Agent Request
+    /// - Parameter UpdateAgentInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAgentOutput` : Update Agent Response
+    /// - Returns: `UpdateAgentOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateAgent(input: UpdateAgentInput) async throws -> UpdateAgentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1971,22 +2005,22 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateAgentActionGroup` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Updates an existing Action Group for Amazon Bedrock Agent
+    /// Updates the configuration for an action group for an agent.
     ///
-    /// - Parameter UpdateAgentActionGroupInput : Update Action Group Request
+    /// - Parameter UpdateAgentActionGroupInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAgentActionGroupOutput` : Update Action Group Response
+    /// - Returns: `UpdateAgentActionGroupOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateAgentActionGroup(input: UpdateAgentActionGroupInput) async throws -> UpdateAgentActionGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2026,22 +2060,22 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateAgentAlias` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Updates an existing Alias for an Amazon Bedrock Agent
+    /// Updates configurations for an alias of an agent.
     ///
-    /// - Parameter UpdateAgentAliasInput : Update Agent Alias Request
+    /// - Parameter UpdateAgentAliasInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAgentAliasOutput` : Update Agent Alias Response
+    /// - Returns: `UpdateAgentAliasOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ServiceQuotaExceededException` : This exception is thrown when a request is made beyond the service quota
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateAgentAlias(input: UpdateAgentAliasInput) async throws -> UpdateAgentAliasOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2081,21 +2115,21 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateAgentKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Updates an existing Knowledge Base associated to an Amazon Bedrock Agent
+    /// Updates the configuration for a knowledge base that has been associated with an agent.
     ///
-    /// - Parameter UpdateAgentKnowledgeBaseInput : Update Agent Knowledge Base Request
+    /// - Parameter UpdateAgentKnowledgeBaseInput : [no documentation found]
     ///
-    /// - Returns: `UpdateAgentKnowledgeBaseOutput` : Update Agent Knowledge Base Response
+    /// - Returns: `UpdateAgentKnowledgeBaseOutput` : [no documentation found]
     ///
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateAgentKnowledgeBase(input: UpdateAgentKnowledgeBaseInput) async throws -> UpdateAgentKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2135,7 +2169,7 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateDataSource` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Update an existing data source
+    /// Updates configurations for a data source. You can't change the chunkingConfiguration after you create the data source. Specify the existing chunkingConfiguration.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
     ///
@@ -2144,12 +2178,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2189,7 +2223,16 @@ extension BedrockAgentClient {
 
     /// Performs the `UpdateKnowledgeBase` operation on the `AmazonBedrockAgentBuildTimeLambda` service.
     ///
-    /// Update an existing knowledge base
+    /// Updates the configuration of a knowledge base with the fields that you specify. Because all fields will be overwritten, you must include the same values for fields that you want to keep the same. You can change the following fields:
+    ///
+    /// * name
+    ///
+    /// * description
+    ///
+    /// * roleArn
+    ///
+    ///
+    /// You can't change the knowledgeBaseConfiguration or storageConfiguration fields, so you must specify the same configurations as when you created the knowledge base. You can send a [GetKnowledgeBase](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetKnowledgeBase.html) request and copy the same configurations.
     ///
     /// - Parameter UpdateKnowledgeBaseInput : [no documentation found]
     ///
@@ -2198,12 +2241,12 @@ extension BedrockAgentClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
-    /// - `AccessDeniedException` : This exception is thrown when a request is denied per access permissions
-    /// - `ConflictException` : This exception is thrown when there is a conflict performing an operation
-    /// - `InternalServerException` : This exception is thrown if there was an unexpected error during processing of request
-    /// - `ResourceNotFoundException` : This exception is thrown when a resource referenced by the operation does not exist
-    /// - `ThrottlingException` : This exception is thrown when the number of requests exceeds the limit
-    /// - `ValidationException` : This exception is thrown when the request's input validation fails
+    /// - `AccessDeniedException` : The request is denied because of missing access permissions.
+    /// - `ConflictException` : There was a conflict performing an operation.
+    /// - `InternalServerException` : An internal server error occurred. Retry your request.
+    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
+    /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateKnowledgeBase(input: UpdateKnowledgeBaseInput) async throws -> UpdateKnowledgeBaseOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)

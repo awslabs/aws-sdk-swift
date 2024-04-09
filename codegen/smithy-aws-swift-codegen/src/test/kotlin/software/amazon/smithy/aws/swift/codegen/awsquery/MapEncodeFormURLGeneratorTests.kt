@@ -8,8 +8,8 @@ package software.amazon.smithy.aws.swift.codegen.awsquery
 import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator
-import software.amazon.smithy.aws.swift.codegen.TestContextGenerator.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.TestUtils
+import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 
@@ -132,7 +132,7 @@ extension QueryMapsInput: Swift.Encodable {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
-            TestContextGenerator.initContextFrom(smithyFile, serviceShapeId, AwsQueryTrait.ID)
+            TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
         val generator = AwsQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateSerializers(context.ctx)
