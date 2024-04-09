@@ -19,12 +19,23 @@ public struct XAmzTargetMiddleware<OperationStackInput, OperationStackOutput>: M
           Self.MOutput == H.Output,
           Self.Context == H.Context {
 
-        input.builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
-
+        addHeader(builder: input.builder)
         return try await next.handle(context: context, input: input)
+    }
+
+    private func addHeader(builder: SdkHttpRequestBuilder) {
+        builder.withHeader(name: "X-Amz-Target", value: xAmzTarget)
     }
 
     public typealias MInput = SerializeStepInput<OperationStackInput>
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext
+}
+
+extension XAmzTargetMiddleware: HttpInterceptor {
+    public func modifyBeforeRetryLoop(context: some MutableRequest<Self.RequestType, Self.AttributesType>) async throws {
+        let builder = context.getRequest().toBuilder()
+        addHeader(builder: builder)
+        context.updateRequest(updated: builder.build())
+    }
 }

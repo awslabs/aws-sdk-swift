@@ -48,63 +48,10 @@ public struct EndpointResolverMiddleware<OperationStackOutput>: ClientRuntime.Mi
     Self.MOutput == H.Output,
     Self.Context == H.Context
     {
-        let endpoint = try endpointResolver.resolve(params: endpointParams)
-
-        var signingName: String? = nil
-        var signingRegion: String? = nil
-        var signingAlgorithm: String? = nil
-        if let authSchemes = endpoint.authSchemes() {
-            let schemes = try authSchemes.map { try AuthScheme(from: ${'$'}0) }
-            let authScheme = try authSchemeResolver.resolve(authSchemes: schemes)
-            signingAlgorithm = authScheme.name
-            switch authScheme {
-            case .sigV4(let param):
-                signingName = param.signingName
-                signingRegion = param.signingRegion
-            case .sigV4A(let param):
-                signingName = param.signingName
-                signingRegion = param.signingRegionSet?.first
-            case .none:
-                break
-            }
-        }
-
-        let awsEndpoint = AWSEndpoint(endpoint: endpoint, signingName: signingName, signingRegion: signingRegion)
-
-        var host = ""
-        if let hostOverride = context.getHost() {
-            host = hostOverride
-        } else {
-            host = "\(context.getHostPrefix() ?? "")\(awsEndpoint.endpoint.host)"
-        }
-
-        if let protocolType = awsEndpoint.endpoint.protocolType {
-            input.withProtocol(protocolType)
-        }
-
-        if let signingRegion = signingRegion {
-            context.attributes.set(key: AttributeKeys.signingRegion, value: signingRegion)
-            context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingRegion, value: signingRegion))
-        }
-        if let signingName = signingName {
-            context.attributes.set(key: AttributeKeys.signingName, value: signingName)
-            context.attributes.set(key: AttributeKeys.selectedAuthScheme, value: context.getSelectedAuthScheme()?.getCopyWithUpdatedSigningProperty(key: AttributeKeys.signingName, value: signingName))
-        }
-        if let signingAlgorithm = signingAlgorithm {
-            context.attributes.set(key: AttributeKeys.signingAlgorithm, value: AWSSigningAlgorithm(rawValue: signingAlgorithm))
-        }
-
-        if let headers = endpoint.headers {
-            input.withHeaders(headers)
-        }
-
-        input.withMethod(context.getMethod())
-            .withHost(host)
-            .withPort(awsEndpoint.endpoint.port)
-            .withPath(awsEndpoint.endpoint.path.appendingPathComponent(context.getPath()))
-            .withHeader(name: "Host", value: host)
-
-        return try await next.handle(context: context, input: input)
+        let selectedAuthScheme = context.getSelectedAuthScheme()
+        let request = input.build()
+        let updatedRequest = try await apply(request: request, selectedAuthScheme: selectedAuthScheme, attributes: context)
+        return try await next.handle(context: context, input: updatedRequest.toBuilder())
     }
 
     public typealias MInput = ClientRuntime.SdkHttpRequestBuilder

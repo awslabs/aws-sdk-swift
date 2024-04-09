@@ -7814,3 +7814,11 @@ public struct PredictInputEndpointURLHostMiddleware: ClientRuntime.Middleware {
     public typealias MOutput = ClientRuntime.OperationOutput<PredictOutput>
     public typealias Context = ClientRuntime.HttpContext
 }
+extension PredictInputEndpointURLHostMiddleware: HttpInterceptor {
+    public func modifyBeforeSerialization(context: some MutableInput<HttpContext>) async throws {
+        let input: PredictInput = context.getInput()!
+        if let endpoint = input.predictEndpoint, let url = ClientRuntime.URL(string: endpoint), let host = url.host {
+            context.getAttributes().set(key: AttributeKey<String>(name: "Host"), value: host)
+        }
+    }
+}

@@ -18,13 +18,20 @@ class PutObjectPresignedURLMiddlewareRenderable : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
-        writer.write(
-            "\$L.\$L.intercept(position: \$L, middleware: \$L())",
-            operationStackName,
-            middlewareStep.stringValue(),
-            position.stringValue(),
-            name
-        )
+    override fun render(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape,
+        operationStackName: String
+    ) {
+        super.renderSpecific(ctx, writer, op, operationStackName, "serialize")
+    }
+
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+        writer.write("\$L()", name)
     }
 }

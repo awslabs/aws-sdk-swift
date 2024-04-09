@@ -47,7 +47,12 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
+
         val outputShapeName = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, ctx.model, op).name
         val httpChecksumTrait = op.getTrait(HttpChecksumTrait::class.java).orElse(null)
         val inputMemberName = httpChecksumTrait?.requestValidationModeMember?.get()
@@ -56,7 +61,6 @@ private object FlexibleChecksumResponseMiddleware : MiddlewareRenderable {
 
         // Will pass the validation mode to validation middleware
         val validationMode: Boolean = requestValidationModeEnumShape.members().map { it.memberName }.first().equals("ENABLED")
-        val middlewareInit = "${ClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware}<$outputShapeName>(validationMode: $validationMode)"
-        writer.write("$operationStackName.${middlewareStep.stringValue()}.intercept(position: ${position.stringValue()}, middleware: $middlewareInit)")
+        writer.write("${ClientRuntimeTypes.Middleware.FlexibleChecksumsResponseMiddleware}<$outputShapeName>(validationMode: $validationMode)")
     }
 }

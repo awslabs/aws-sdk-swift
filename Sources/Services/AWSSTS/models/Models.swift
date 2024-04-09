@@ -967,6 +967,9 @@ extension GetCallerIdentityInput {
     public func presign(config: STSClient.STSClientConfiguration, expiration: Foundation.TimeInterval) async throws -> ClientRuntime.SdkHttpRequest? {
         let serviceName = "STS"
         let input = self
+        let client: (SdkHttpRequest, HttpContext) async throws -> HttpResponse = { (_, _) in
+            throw ClientRuntime.ClientError.unknownError("No HTTP client configured for presigned request")
+        }
         let encoder = ClientRuntime.FormURLEncoder()
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -987,25 +990,25 @@ extension GetCallerIdentityInput {
                       .withSigningName(value: "sts")
                       .withSigningRegion(value: config.signingRegion)
                       .build()
-        var operation = ClientRuntime.OperationStack<GetCallerIdentityInput, GetCallerIdentityOutput>(id: "getCallerIdentity")
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(GetCallerIdentityInput.urlPathProvider(_:)))
-        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
+        let builder = OrchestratorBuilder<GetCallerIdentityInput, GetCallerIdentityOutput, SdkHttpRequest, HttpResponse, HttpContext>()
+        builder.interceptors.add(ClientRuntime.URLPathMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(GetCallerIdentityInput.urlPathProvider(_:)))
+        builder.interceptors.add(ClientRuntime.URLHostMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>())
         let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false, useGlobalEndpoint: config.useGlobalEndpoint ?? false)
-        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCallerIdentityOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
-        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
-        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
-        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
-        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCallerIdentityOutput>(options: config.retryStrategyOptions))
-        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(responseClosure(GetCallerIdentityOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetCallerIdentityOutputError.httpBinding, responseDocumentBinding)))
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
-        let presignedRequestBuilder = try await operation.presignedRequest(context: context, input: input, output: GetCallerIdentityOutput(), next: ClientRuntime.NoopHandler())
-        guard let builtRequest = presignedRequestBuilder?.build() else {
-            return nil
-        }
-        return builtRequest
+        builder.applyEndpoint(EndpointResolverMiddleware<GetCallerIdentityOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        builder.interceptors.add(AWSClientRuntime.UserAgentMiddleware<GetCallerIdentityOutput>(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        builder.selectAuthScheme(ClientRuntime.AuthSchemeMiddleware<GetCallerIdentityOutput>())
+        builder.serialize(ClientRuntime.BodyMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput, ClientRuntime.FormURLWriter>(documentWritingClosure: ClientRuntime.FormURLReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: FormURLReadWrite.writingClosure()))
+        builder.interceptors.add(ContentTypeMiddleware<GetCallerIdentityInput, GetCallerIdentityOutput>(contentType: "application/x-www-form-urlencoded"))
+        builder.interceptors.add(ClientRuntime.ContentLengthMiddleware<GetCallerIdentityOutput>())
+        builder.retryStrategy(ClientRuntime.DefaultRetryStrategy(options: config.retryStrategyOptions))
+        builder.retryErrorInfoProvider(AWSClientRuntime.AWSRetryErrorInfoProvider.errorInfo(for:))
+        builder.applySigner(ClientRuntime.SignerMiddleware<GetCallerIdentityOutput>())
+        builder.deserialize(ClientRuntime.DeserializeMiddleware<GetCallerIdentityOutput>(responseClosure(GetCallerIdentityOutput.httpBinding, responseDocumentBinding), responseErrorClosure(GetCallerIdentityOutputError.httpBinding, responseDocumentBinding)))
+        builder.interceptors.add(ClientRuntime.LoggerMiddleware<GetCallerIdentityOutput>(clientLogMode: config.clientLogMode))
+        let op = builder.attributes(context)
+            .executeRequest(client)
+            .build()
+        return try await op.presignRequest(input: input)
     }
 }
 
