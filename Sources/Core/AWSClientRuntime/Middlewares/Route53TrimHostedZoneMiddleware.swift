@@ -24,16 +24,32 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
     Self.Context == H.Context {
+        let updatedInput = getUpdatedInput(input: input)
+        return try await next.handle(context: context, input: updatedInput)
+    }
+
+    private func getUpdatedInput(input: Input) -> Input {
         guard let hostedZoneId = input[keyPath: hostedZoneIDKeyPath] else {
-            return try await next.handle(context: context, input: input)
+            return input
         }
         var copiedInput = input
         let stripped = hostedZoneId.stripFirstMatching(prefixes: prefixes)
         copiedInput[keyPath: hostedZoneIDKeyPath] = stripped
-        return try await next.handle(context: context, input: copiedInput)
+        return copiedInput
     }
 
     public typealias MInput = Input
     public typealias MOutput = ClientRuntime.OperationOutput<Output>
     public typealias Context = ClientRuntime.HttpContext
+}
+
+extension Route53TrimHostedZoneMiddleware: HttpInterceptor {
+    public typealias InputType = Input
+    public typealias OutputType = Output
+
+    public func modifyBeforeSerialization(
+        context: some MutableInput<Self.InputType, Self.AttributesType>
+    ) async throws {
+        context.updateInput(updated: getUpdatedInput(input: context.getInput()))
+    }
 }

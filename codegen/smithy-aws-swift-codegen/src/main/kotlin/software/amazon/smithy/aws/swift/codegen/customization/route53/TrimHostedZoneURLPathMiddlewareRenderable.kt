@@ -6,6 +6,7 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.middlewares.handlers.MiddlewareShapeUtils
 import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
@@ -22,16 +23,16 @@ class TrimHostedZoneURLPathMiddlewareRenderable(
 
     override val position = MiddlewarePosition.AFTER
 
-    override fun render(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, op: OperationShape, operationStackName: String) {
+    override fun renderMiddlewareInit(
+        ctx: ProtocolGenerator.GenerationContext,
+        writer: SwiftWriter,
+        op: OperationShape
+    ) {
         val inputShape = model.expectShape<StructureShape>(op.inputShape)
         val hostedZoneIDMember = inputShape.members().first { it.hasTrait<TrimHostedZone>() }
         val hostedZoneIDKeyPath = ctx.symbolProvider.toMemberName(hostedZoneIDMember)
-        writer.write(
-            "\$L.\$L.intercept(position: \$L, middleware: Route53TrimHostedZoneMiddleware(\\.\$L))",
-            operationStackName,
-            middlewareStep.stringValue(),
-            position.stringValue(),
-            hostedZoneIDKeyPath,
-        )
+        val inputSymbol = MiddlewareShapeUtils.inputSymbol(ctx.symbolProvider, model, op)
+        val outputShape = MiddlewareShapeUtils.outputSymbol(ctx.symbolProvider, model, op)
+        writer.write("$name<\$N, \$N>(\\.\$L)", inputSymbol, outputShape, hostedZoneIDKeyPath)
     }
 }

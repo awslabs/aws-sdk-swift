@@ -7,7 +7,7 @@
 
 import ClientRuntime
 
-public struct UserAgentMiddleware<OperationStackOutput>: Middleware {
+public struct UserAgentMiddleware<OperationStackInput, OperationStackOutput>: Middleware {
     public let id: String = "UserAgentHeader"
 
     private let X_AMZ_USER_AGENT: String = "x-amz-user-agent"
@@ -26,12 +26,28 @@ public struct UserAgentMiddleware<OperationStackOutput>: Middleware {
           Self.MInput == H.Input,
           Self.MOutput == H.Output,
           Self.Context == H.Context {
-        input.withHeader(name: USER_AGENT, value: metadata.userAgent)
-
+        addHeader(builder: input)
         return try await next.handle(context: context, input: input)
+    }
+
+    private func addHeader(builder: SdkHttpRequestBuilder) {
+        builder.withHeader(name: USER_AGENT, value: metadata.userAgent)
     }
 
     public typealias MInput = SdkHttpRequestBuilder
     public typealias MOutput = OperationOutput<OperationStackOutput>
     public typealias Context = HttpContext
+}
+
+extension UserAgentMiddleware: HttpInterceptor {
+    public typealias InputType = OperationStackInput
+    public typealias OutputType = OperationStackOutput
+
+    public func modifyBeforeRetryLoop(
+        context: some MutableRequest<Self.InputType, SdkHttpRequest, HttpContext>
+    ) async throws {
+        let builder = context.getRequest().toBuilder()
+        addHeader(builder: builder)
+        context.updateRequest(updated: builder.build())
+    }
 }
