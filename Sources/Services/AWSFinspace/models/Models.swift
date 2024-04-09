@@ -756,7 +756,7 @@ extension CreateKxChangesetInput {
 }
 
 public struct CreateKxChangesetInput: Swift.Equatable {
-    /// A list of change request objects that are run in order. A change request object consists of changeType , s3Path, and dbPath. A changeType can has the following values:
+    /// A list of change request objects that are run in order. A change request object consists of changeType , s3Path, and dbPath. A changeType can have the following values:
     ///
     /// * PUT – Adds or updates files in a database.
     ///
@@ -3487,6 +3487,79 @@ struct DeleteKxClusterInputBody: Swift.Equatable {
 extension DeleteKxClusterInputBody: Swift.Decodable {
 
     public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKxClusterNodeInput {
+
+    static func urlPathProvider(_ value: DeleteKxClusterNodeInput) -> Swift.String? {
+        guard let environmentId = value.environmentId else {
+            return nil
+        }
+        guard let clusterName = value.clusterName else {
+            return nil
+        }
+        guard let nodeId = value.nodeId else {
+            return nil
+        }
+        return "/kx/environments/\(environmentId.urlPercentEncoding())/clusters/\(clusterName.urlPercentEncoding())/nodes/\(nodeId.urlPercentEncoding())"
+    }
+}
+
+public struct DeleteKxClusterNodeInput: Swift.Equatable {
+    /// The name of the cluster, for which you want to delete the nodes.
+    /// This member is required.
+    public var clusterName: Swift.String?
+    /// A unique identifier for the kdb environment.
+    /// This member is required.
+    public var environmentId: Swift.String?
+    /// A unique identifier for the node that you want to delete.
+    /// This member is required.
+    public var nodeId: Swift.String?
+
+    public init(
+        clusterName: Swift.String? = nil,
+        environmentId: Swift.String? = nil,
+        nodeId: Swift.String? = nil
+    )
+    {
+        self.clusterName = clusterName
+        self.environmentId = environmentId
+        self.nodeId = nodeId
+    }
+}
+
+struct DeleteKxClusterNodeInputBody: Swift.Equatable {
+}
+
+extension DeleteKxClusterNodeInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteKxClusterNodeOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteKxClusterNodeOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteKxClusterNodeOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -8468,7 +8541,7 @@ extension FinspaceClientTypes.KxNAS1Configuration: Swift.Codable {
 extension FinspaceClientTypes {
     /// The structure containing the size and type of the network attached storage (NAS_1) file system volume.
     public struct KxNAS1Configuration: Swift.Equatable {
-        /// The size of the network attached storage.
+        /// The size of the network attached storage. For storage type SSD_1000 and SSD_250 you can select the minimum size as 1200 GB or increments of 2400 GB. For storage type HDD_12 you can select the minimum size as 6000 GB or increments of 6000 GB.
         public var size: Swift.Int?
         /// The type of the network attached storage.
         public var type: FinspaceClientTypes.KxNAS1Type?
@@ -8525,6 +8598,7 @@ extension FinspaceClientTypes.KxNode: Swift.Codable {
         case availabilityZoneId
         case launchTime
         case nodeId
+        case status
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8538,6 +8612,9 @@ extension FinspaceClientTypes.KxNode: Swift.Codable {
         if let nodeId = self.nodeId {
             try encodeContainer.encode(nodeId, forKey: .nodeId)
         }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -8548,6 +8625,8 @@ extension FinspaceClientTypes.KxNode: Swift.Codable {
         availabilityZoneId = availabilityZoneIdDecoded
         let launchTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .launchTime)
         launchTime = launchTimeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(FinspaceClientTypes.KxNodeStatus.self, forKey: .status)
+        status = statusDecoded
     }
 }
 
@@ -8560,19 +8639,59 @@ extension FinspaceClientTypes {
         public var launchTime: ClientRuntime.Date?
         /// A unique identifier for the node.
         public var nodeId: Swift.String?
+        /// Specifies the status of the cluster nodes.
+        ///
+        /// * RUNNING – The node is actively serving.
+        ///
+        /// * PROVISIONING – The node is being prepared.
+        public var status: FinspaceClientTypes.KxNodeStatus?
 
         public init(
             availabilityZoneId: Swift.String? = nil,
             launchTime: ClientRuntime.Date? = nil,
-            nodeId: Swift.String? = nil
+            nodeId: Swift.String? = nil,
+            status: FinspaceClientTypes.KxNodeStatus? = nil
         )
         {
             self.availabilityZoneId = availabilityZoneId
             self.launchTime = launchTime
             self.nodeId = nodeId
+            self.status = status
         }
     }
 
+}
+
+extension FinspaceClientTypes {
+    public enum KxNodeStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case provisioning
+        case running
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KxNodeStatus] {
+            return [
+                .provisioning,
+                .running,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .provisioning: return "PROVISIONING"
+            case .running: return "RUNNING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KxNodeStatus(rawValue: rawValue) ?? KxNodeStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension FinspaceClientTypes.KxSavedownStorageConfiguration: Swift.Codable {

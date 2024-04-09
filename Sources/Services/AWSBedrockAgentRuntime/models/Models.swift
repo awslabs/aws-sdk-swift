@@ -385,7 +385,11 @@ extension BedrockAgentRuntimeClientTypes.Citation: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// An object containing a segment of the generated response that is based on a source in the knowledge base, alongside information about the source.
+    /// An object containing a segment of the generated response that is based on a source in the knowledge base, alongside information about the source. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the citations field
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the citations field
     public struct Citation: Swift.Equatable {
         /// Contains the generated response and metadata
         public var generatedResponsePart: BedrockAgentRuntimeClientTypes.GeneratedResponsePart?
@@ -651,6 +655,55 @@ extension BedrockAgentRuntimeClientTypes {
 
 }
 
+extension BedrockAgentRuntimeClientTypes.FilterAttribute: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(ClientRuntime.Document.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Specifies the name that the metadata attribute must match and the value to which to compare the value of the metadata attribute. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
+    public struct FilterAttribute: Swift.Equatable {
+        /// The name that the metadata attribute must match.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The value to whcih to compare the value of the metadata attribute.
+        /// This member is required.
+        public var value: ClientRuntime.Document?
+
+        public init(
+            key: Swift.String? = nil,
+            value: ClientRuntime.Document? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes.FinalResponse: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text
@@ -716,7 +769,11 @@ extension BedrockAgentRuntimeClientTypes.GeneratedResponsePart: Swift.CustomDebu
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains metadata about a part of the generated response that is accompanied by a citation.
+    /// Contains metadata about a part of the generated response that is accompanied by a citation. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the generatedResponsePart field
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the generatedResponsePart field
     public struct GeneratedResponsePart: Swift.Equatable {
         /// Contains metadata about a textual part of the generated response that is accompanied by a citation.
         public var textResponsePart: BedrockAgentRuntimeClientTypes.TextResponsePart?
@@ -726,6 +783,43 @@ extension BedrockAgentRuntimeClientTypes {
         )
         {
             self.textResponsePart = textResponsePart
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.GenerationConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case promptTemplate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let promptTemplate = self.promptTemplate {
+            try encodeContainer.encode(promptTemplate, forKey: .promptTemplate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let promptTemplateDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.PromptTemplate.self, forKey: .promptTemplate)
+        promptTemplate = promptTemplateDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains configurations for response generation based on the knowledge base query results. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
+    public struct GenerationConfiguration: Swift.Equatable {
+        /// Contains the template for the prompt that's sent to the model for response generation.
+        public var promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate?
+
+        public init(
+            promptTemplate: BedrockAgentRuntimeClientTypes.PromptTemplate? = nil
+        )
+        {
+            self.promptTemplate = promptTemplate
         }
     }
 
@@ -1061,7 +1155,7 @@ public struct InvokeAgentInput: Swift.Equatable {
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
     public var sessionId: Swift.String?
-    /// Contains parameters that specify various attributes of the session.
+    /// Contains parameters that specify various attributes of the session. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
     public var sessionState: BedrockAgentRuntimeClientTypes.SessionState?
 
     public init(
@@ -1299,7 +1393,9 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery: Swift.CustomDebugSt
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the query made to the knowledge base.
+    /// Contains the query made to the knowledge base. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the retrievalQuery field
     public struct KnowledgeBaseQuery: Swift.Equatable {
         /// The text of the query made to the knowledge base.
         /// This member is required.
@@ -1335,13 +1431,13 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration: Sw
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains details about how the results should be returned. This data type is used in the following API operations:
+    /// Contains configurations for the knowledge base query and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). This data type is used in the following API operations:
     ///
-    /// * [Retrieve request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the retrievalConfiguration field
     ///
-    /// * [RetrieveAndGenerate request body](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax)
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the retrievalConfiguration field
     public struct KnowledgeBaseRetrievalConfiguration: Swift.Equatable {
-        /// Contains details about how the results from the vector search should be returned.
+        /// Contains details about how the results from the vector search should be returned. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
         /// This member is required.
         public var vectorSearchConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration?
 
@@ -1359,6 +1455,7 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.Cod
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content
         case location
+        case metadata
         case score
     }
 
@@ -1369,6 +1466,12 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.Cod
         }
         if let location = self.location {
             try encodeContainer.encode(location, forKey: .location)
+        }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, retrievalResultMetadata0) in metadata {
+                try metadataContainer.encode(retrievalResultMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let score = self.score {
             try encodeContainer.encode(score, forKey: .score)
@@ -1383,33 +1486,50 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.Cod
         location = locationDecoded
         let scoreDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .score)
         score = scoreDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: ClientRuntime.Document?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:ClientRuntime.Document]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:ClientRuntime.Document]()
+            for (key0, retrievalresultmetadatavalue0) in metadataContainer {
+                if let retrievalresultmetadatavalue0 = retrievalresultmetadatavalue0 {
+                    metadataDecoded0?[key0] = retrievalresultmetadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
     }
 }
 
 extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalResult: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "KnowledgeBaseRetrievalResult(score: \(Swift.String(describing: score)), content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\")"}
+        "KnowledgeBaseRetrievalResult(score: \(Swift.String(describing: score)), content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Details about a result from querying the knowledge base.
+    /// Details about a result from querying the knowledge base. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the retrievalResults field
     public struct KnowledgeBaseRetrievalResult: Swift.Equatable {
         /// Contains a chunk of text from a data source in the knowledge base.
         /// This member is required.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
         /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
+        /// Contains metadata attributes and their values for the file in the data source. For more information, see [Metadata and filtering](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-metadata).
+        public var metadata: [Swift.String:ClientRuntime.Document]?
         /// The level of relevance of the result to the query.
         public var score: Swift.Double?
 
         public init(
             content: BedrockAgentRuntimeClientTypes.RetrievalResultContent? = nil,
             location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
+            metadata: [Swift.String:ClientRuntime.Document]? = nil,
             score: Swift.Double? = nil
         )
         {
             self.content = content
             self.location = location
+            self.metadata = metadata
             self.score = score
         }
     }
@@ -1418,6 +1538,7 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case generationConfiguration
         case knowledgeBaseId
         case modelArn
         case retrievalConfiguration
@@ -1425,6 +1546,9 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let generationConfiguration = self.generationConfiguration {
+            try encodeContainer.encode(generationConfiguration, forKey: .generationConfiguration)
+        }
         if let knowledgeBaseId = self.knowledgeBaseId {
             try encodeContainer.encode(knowledgeBaseId, forKey: .knowledgeBaseId)
         }
@@ -1444,12 +1568,20 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfigu
         modelArn = modelArnDecoded
         let retrievalConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration.self, forKey: .retrievalConfiguration)
         retrievalConfiguration = retrievalConfigurationDecoded
+        let generationConfigurationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.GenerationConfiguration.self, forKey: .generationConfiguration)
+        generationConfiguration = generationConfigurationDecoded
     }
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains details about the resource being queried.
+    /// Contains details about the resource being queried. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the knowledgeBaseConfiguration field
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the knowledgeBaseConfiguration field
     public struct KnowledgeBaseRetrieveAndGenerateConfiguration: Swift.Equatable {
+        /// Contains configurations for response generation based on the knowwledge base query results.
+        public var generationConfiguration: BedrockAgentRuntimeClientTypes.GenerationConfiguration?
         /// The unique identifier of the knowledge base that is queried and the foundation model used for generation.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
@@ -1460,11 +1592,13 @@ extension BedrockAgentRuntimeClientTypes {
         public var retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration?
 
         public init(
+            generationConfiguration: BedrockAgentRuntimeClientTypes.GenerationConfiguration? = nil,
             knowledgeBaseId: Swift.String? = nil,
             modelArn: Swift.String? = nil,
             retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration? = nil
         )
         {
+            self.generationConfiguration = generationConfiguration
             self.knowledgeBaseId = knowledgeBaseId
             self.modelArn = modelArn
             self.retrievalConfiguration = retrievalConfiguration
@@ -1475,12 +1609,16 @@ extension BedrockAgentRuntimeClientTypes {
 
 extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case filter
         case numberOfResults
         case overrideSearchType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let filter = self.filter {
+            try encodeContainer.encode(filter, forKey: .filter)
+        }
         if let numberOfResults = self.numberOfResults {
             try encodeContainer.encode(numberOfResults, forKey: .numberOfResults)
         }
@@ -1495,22 +1633,37 @@ extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration:
         numberOfResults = numberOfResultsDecoded
         let overrideSearchTypeDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.SearchType.self, forKey: .overrideSearchType)
         overrideSearchType = overrideSearchTypeDecoded
+        let filterDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.RetrievalFilter.self, forKey: .filter)
+        filter = filterDecoded
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.KnowledgeBaseVectorSearchConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "KnowledgeBaseVectorSearchConfiguration(numberOfResults: \(Swift.String(describing: numberOfResults)), overrideSearchType: \(Swift.String(describing: overrideSearchType)), filter: \"CONTENT_REDACTED\")"}
+}
+
 extension BedrockAgentRuntimeClientTypes {
-    /// Configurations for how to carry out the search.
+    /// Configurations for how to perform the search query and return results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the vectorSearchConfiguration field
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the vectorSearchConfiguration field
     public struct KnowledgeBaseVectorSearchConfiguration: Swift.Equatable {
-        /// The number of results to return. The numberOfResults field is currently unsupported for RetrieveAndGenerate. Don't include it in this field if you are sending a RetrieveAndGenerate request.
+        /// Specifies the filters to use on the metadata in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
+        public var filter: BedrockAgentRuntimeClientTypes.RetrievalFilter?
+        /// The number of source chunks to retrieve.
         public var numberOfResults: Swift.Int?
         /// By default, Amazon Bedrock decides a search strategy for you. If you're using an Amazon OpenSearch Serverless vector store that contains a filterable text field, you can specify whether to query the knowledge base with a HYBRID search using both vector embeddings and raw text, or SEMANTIC search using only vector embeddings. For other vector store configurations, only SEMANTIC search is available. For more information, see [Test a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-test.html).
         public var overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType?
 
         public init(
+            filter: BedrockAgentRuntimeClientTypes.RetrievalFilter? = nil,
             numberOfResults: Swift.Int? = nil,
             overrideSearchType: BedrockAgentRuntimeClientTypes.SearchType? = nil
         )
         {
+            self.filter = filter
             self.numberOfResults = numberOfResults
             self.overrideSearchType = overrideSearchType
         }
@@ -2205,6 +2358,52 @@ extension BedrockAgentRuntimeClientTypes {
 
 }
 
+extension BedrockAgentRuntimeClientTypes.PromptTemplate: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case textPromptTemplate
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let textPromptTemplate = self.textPromptTemplate {
+            try encodeContainer.encode(textPromptTemplate, forKey: .textPromptTemplate)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let textPromptTemplateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .textPromptTemplate)
+        textPromptTemplate = textPromptTemplateDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.PromptTemplate: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "PromptTemplate(textPromptTemplate: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the template for the prompt that's sent to the model for response generation. For more information, see [Knowledge base prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html#kb-test-config-sysprompt). This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the filter field
+    public struct PromptTemplate: Swift.Equatable {
+        /// The template for the prompt that's sent to the model for response generation. You can include prompt placeholders, which become replaced before the prompt is sent to the model to provide instructions and context to the model. In addition, you can include XML tags to delineate meaningful sections of the prompt template. For more information, see the following resources:
+        ///
+        /// * [Knowledge base prompt templates](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html#kb-test-config-sysprompt)
+        ///
+        /// * [Use XML tags with Anthropic Claude models](https://docs.anthropic.com/claude/docs/use-xml-tags)
+        public var textPromptTemplate: Swift.String?
+
+        public init(
+            textPromptTemplate: Swift.String? = nil
+        )
+        {
+            self.textPromptTemplate = textPromptTemplate
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes {
     public enum PromptType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case knowledgeBaseResponseGeneration
@@ -2537,6 +2736,171 @@ extension BedrockAgentRuntimeClientTypes {
 
 }
 
+extension BedrockAgentRuntimeClientTypes.RetrievalFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andall = "andAll"
+        case equals
+        case greaterthan = "greaterThan"
+        case greaterthanorequals = "greaterThanOrEquals"
+        case `in` = "in"
+        case lessthan = "lessThan"
+        case lessthanorequals = "lessThanOrEquals"
+        case notequals = "notEquals"
+        case notin = "notIn"
+        case orall = "orAll"
+        case sdkUnknown
+        case startswith = "startsWith"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .andall(andall):
+                var andallContainer = container.nestedUnkeyedContainer(forKey: .andall)
+                for retrievalfilter0 in andall {
+                    try andallContainer.encode(retrievalfilter0)
+                }
+            case let .equals(equals):
+                try container.encode(equals, forKey: .equals)
+            case let .greaterthan(greaterthan):
+                try container.encode(greaterthan, forKey: .greaterthan)
+            case let .greaterthanorequals(greaterthanorequals):
+                try container.encode(greaterthanorequals, forKey: .greaterthanorequals)
+            case let .`in`(`in`):
+                try container.encode(`in`, forKey: .`in`)
+            case let .lessthan(lessthan):
+                try container.encode(lessthan, forKey: .lessthan)
+            case let .lessthanorequals(lessthanorequals):
+                try container.encode(lessthanorequals, forKey: .lessthanorequals)
+            case let .notequals(notequals):
+                try container.encode(notequals, forKey: .notequals)
+            case let .notin(notin):
+                try container.encode(notin, forKey: .notin)
+            case let .orall(orall):
+                var orallContainer = container.nestedUnkeyedContainer(forKey: .orall)
+                for retrievalfilter0 in orall {
+                    try orallContainer.encode(retrievalfilter0)
+                }
+            case let .startswith(startswith):
+                try container.encode(startswith, forKey: .startswith)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let equalsDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .equals)
+        if let equals = equalsDecoded {
+            self = .equals(equals)
+            return
+        }
+        let notequalsDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .notequals)
+        if let notequals = notequalsDecoded {
+            self = .notequals(notequals)
+            return
+        }
+        let greaterthanDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .greaterthan)
+        if let greaterthan = greaterthanDecoded {
+            self = .greaterthan(greaterthan)
+            return
+        }
+        let greaterthanorequalsDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .greaterthanorequals)
+        if let greaterthanorequals = greaterthanorequalsDecoded {
+            self = .greaterthanorequals(greaterthanorequals)
+            return
+        }
+        let lessthanDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .lessthan)
+        if let lessthan = lessthanDecoded {
+            self = .lessthan(lessthan)
+            return
+        }
+        let lessthanorequalsDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .lessthanorequals)
+        if let lessthanorequals = lessthanorequalsDecoded {
+            self = .lessthanorequals(lessthanorequals)
+            return
+        }
+        let inDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .in)
+        if let `in` = inDecoded {
+            self = .`in`(`in`)
+            return
+        }
+        let notinDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .notin)
+        if let notin = notinDecoded {
+            self = .notin(notin)
+            return
+        }
+        let startswithDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FilterAttribute.self, forKey: .startswith)
+        if let startswith = startswithDecoded {
+            self = .startswith(startswith)
+            return
+        }
+        let andallContainer = try values.decodeIfPresent([BedrockAgentRuntimeClientTypes.RetrievalFilter?].self, forKey: .andall)
+        var andallDecoded0:[BedrockAgentRuntimeClientTypes.RetrievalFilter]? = nil
+        if let andallContainer = andallContainer {
+            andallDecoded0 = [BedrockAgentRuntimeClientTypes.RetrievalFilter]()
+            for union0 in andallContainer {
+                if let union0 = union0 {
+                    andallDecoded0?.append(union0)
+                }
+            }
+        }
+        if let andall = andallDecoded0 {
+            self = .andall(andall)
+            return
+        }
+        let orallContainer = try values.decodeIfPresent([BedrockAgentRuntimeClientTypes.RetrievalFilter?].self, forKey: .orall)
+        var orallDecoded0:[BedrockAgentRuntimeClientTypes.RetrievalFilter]? = nil
+        if let orallContainer = orallContainer {
+            orallDecoded0 = [BedrockAgentRuntimeClientTypes.RetrievalFilter]()
+            for union0 in orallContainer {
+                if let union0 = union0 {
+                    orallDecoded0?.append(union0)
+                }
+            }
+        }
+        if let orall = orallDecoded0 {
+            self = .orall(orall)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html). This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax) – in the filter field
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the filter field
+    public indirect enum RetrievalFilter: Swift.Equatable {
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value matches the value in this object are returned.
+        case equals(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value doesn't match the value in this object are returned.
+        case notequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than the value in this object are returned.
+        case greaterthan(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is greater than or equal to the value in this object are returned.
+        case greaterthanorequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than the value in this object are returned.
+        case lessthan(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is less than or equal to the value in this object are returned.
+        case lessthanorequals(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value is in the list specified in the value in this object are returned.
+        case `in`(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value isn't in the list specified in the value in this object are returned.
+        case notin(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources that contain a metadata attribute whose name matches the key and whose value starts with the value in this object are returned. This filter is currently only supported for Amazon OpenSearch Serverless vector stores.
+        case startswith(BedrockAgentRuntimeClientTypes.FilterAttribute)
+        /// Knowledge base data sources whose metadata attributes fulfill all the filter conditions inside this list are returned.
+        case andall([BedrockAgentRuntimeClientTypes.RetrievalFilter])
+        /// Knowledge base data sources whose metadata attributes fulfill at least one of the filter conditions inside this list are returned.
+        case orall([BedrockAgentRuntimeClientTypes.RetrievalFilter])
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes.RetrievalResultContent: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text
@@ -2563,7 +2927,13 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultContent: Swift.CustomDeb
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the cited text from the data source.
+    /// Contains the cited text from the data source. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the content field
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the content field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the content field
     public struct RetrievalResultContent: Swift.Equatable {
         /// The cited text from the data source.
         /// This member is required.
@@ -2611,7 +2981,13 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultLocation: Swift.CustomDe
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about the location of the data source.
+    /// Contains information about the location of the data source. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the location field
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the location field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the locatino field
     public struct RetrievalResultLocation: Swift.Equatable {
         /// Contains the S3 location of the data source.
         public var s3Location: BedrockAgentRuntimeClientTypes.RetrievalResultS3Location?
@@ -2680,7 +3056,13 @@ extension BedrockAgentRuntimeClientTypes.RetrievalResultS3Location: Swift.Codabl
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the S3 location of the data source.
+    /// Contains the S3 location of the data source. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the s3Location field
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the s3Location field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the s3Location field
     public struct RetrievalResultS3Location: Swift.Equatable {
         /// The S3 URI of the data source.
         public var uri: Swift.String?
@@ -2721,7 +3103,9 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration: Swift
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains details about the resource being queried.
+    /// Contains details about the resource being queried. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the retrieveAndGenerateConfiguration field
     public struct RetrieveAndGenerateConfiguration: Swift.Equatable {
         /// Contains details about the resource being queried.
         public var knowledgeBaseConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrieveAndGenerateConfiguration?
@@ -2804,7 +3188,9 @@ extension RetrieveAndGenerateInput {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the query made to the knowledge base.
+    /// Contains the query made to the knowledge base. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the input field
     public struct RetrieveAndGenerateInput: Swift.Equatable {
         /// The query made to the knowledge base.
         /// This member is required.
@@ -2821,10 +3207,10 @@ extension BedrockAgentRuntimeClientTypes {
 }
 
 public struct RetrieveAndGenerateInput: Swift.Equatable {
-    /// Contains the query made to the knowledge base.
+    /// Contains the query to be made to the knowledge base.
     /// This member is required.
     public var input: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateInput?
-    /// Contains details about the resource being queried and the foundation model used for generation.
+    /// Contains configurations for the knowledge base query and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
     public var retrieveAndGenerateConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateConfiguration?
     /// Contains details about the session with the knowledge base.
     public var sessionConfiguration: BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration?
@@ -2920,7 +3306,9 @@ extension RetrieveAndGenerateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the response generated from querying the knowledge base.
+    /// Contains the response generated from querying the knowledge base. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the output field
     public struct RetrieveAndGenerateOutput: Swift.Equatable {
         /// The response generated from querying the knowledge base.
         /// This member is required.
@@ -3030,7 +3418,9 @@ extension BedrockAgentRuntimeClientTypes.RetrieveAndGenerateSessionConfiguration
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains configuration about the session with the knowledge base.
+    /// Contains configuration about the session with the knowledge base. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_RequestSyntax) – in the sessionConfiguration field
     public struct RetrieveAndGenerateSessionConfiguration: Swift.Equatable {
         /// The ARN of the KMS key encrypting the session.
         /// This member is required.
@@ -3117,9 +3507,9 @@ public struct RetrieveInput: Swift.Equatable {
     public var knowledgeBaseId: Swift.String?
     /// If there are more results than can fit in the response, the response returns a nextToken. Use this token in the nextToken field of another request to retrieve the next batch of results.
     public var nextToken: Swift.String?
-    /// Contains details about how the results should be returned.
+    /// Contains configurations for the knowledge base query and retrieval process. For more information, see [Query configurations](https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html).
     public var retrievalConfiguration: BedrockAgentRuntimeClientTypes.KnowledgeBaseRetrievalConfiguration?
-    /// The query to send the knowledge base.
+    /// Contains the query to send the knowledge base.
     /// This member is required.
     public var retrievalQuery: BedrockAgentRuntimeClientTypes.KnowledgeBaseQuery?
 
@@ -3249,6 +3639,7 @@ extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case content
         case location
+        case metadata
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3259,6 +3650,12 @@ extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.Codable {
         if let location = self.location {
             try encodeContainer.encode(location, forKey: .location)
         }
+        if let metadata = metadata {
+            var metadataContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .metadata)
+            for (dictKey0, retrievalResultMetadata0) in metadata {
+                try metadataContainer.encode(retrievalResultMetadata0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3267,29 +3664,48 @@ extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.Codable {
         content = contentDecoded
         let locationDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.RetrievalResultLocation.self, forKey: .location)
         location = locationDecoded
+        let metadataContainer = try containerValues.decodeIfPresent([Swift.String: ClientRuntime.Document?].self, forKey: .metadata)
+        var metadataDecoded0: [Swift.String:ClientRuntime.Document]? = nil
+        if let metadataContainer = metadataContainer {
+            metadataDecoded0 = [Swift.String:ClientRuntime.Document]()
+            for (key0, retrievalresultmetadatavalue0) in metadataContainer {
+                if let retrievalresultmetadatavalue0 = retrievalresultmetadatavalue0 {
+                    metadataDecoded0?[key0] = retrievalresultmetadatavalue0
+                }
+            }
+        }
+        metadata = metadataDecoded0
     }
 }
 
 extension BedrockAgentRuntimeClientTypes.RetrievedReference: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RetrievedReference(content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\")"}
+        "RetrievedReference(content: \"CONTENT_REDACTED\", location: \"CONTENT_REDACTED\", metadata: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains metadata about a sources cited for the generated response.
+    /// Contains metadata about a source cited for the generated response. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the retrievedReferences field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the retrievedReferences field
     public struct RetrievedReference: Swift.Equatable {
         /// Contains the cited text from the data source.
         public var content: BedrockAgentRuntimeClientTypes.RetrievalResultContent?
         /// Contains information about the location of the data source.
         public var location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation?
+        /// Contains metadata attributes and their values for the file in the data source. For more information, see [Metadata and filtering](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-ds.html#kb-ds-metadata).
+        public var metadata: [Swift.String:ClientRuntime.Document]?
 
         public init(
             content: BedrockAgentRuntimeClientTypes.RetrievalResultContent? = nil,
-            location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil
+            location: BedrockAgentRuntimeClientTypes.RetrievalResultLocation? = nil,
+            metadata: [Swift.String:ClientRuntime.Document]? = nil
         )
         {
             self.content = content
             self.location = location
+            self.metadata = metadata
         }
     }
 
@@ -3451,7 +3867,7 @@ extension BedrockAgentRuntimeClientTypes.SessionState: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Session context](https://docs.aws.amazon.com/bedrock/latest/userguide/sessionstate.html).
+    /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
     public struct SessionState: Swift.Equatable {
         /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
         public var promptSessionAttributes: [Swift.String:Swift.String]?
@@ -3531,7 +3947,11 @@ extension BedrockAgentRuntimeClientTypes.Span: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about where the text with a citation begins and ends in the generated output.
+    /// Contains information about where the text with a citation begins and ends in the generated output. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the span field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the span field
     public struct Span: Swift.Equatable {
         /// Where the text with a citation ends in the generated output.
         public var end: Swift.Int?
@@ -3582,7 +4002,11 @@ extension BedrockAgentRuntimeClientTypes.TextResponsePart: Swift.CustomDebugStri
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains the part of the generated text that contains a citation, alongside where it begins and ends.
+    /// Contains the part of the generated text that contains a citation, alongside where it begins and ends. This data type is used in the following API operations:
+    ///
+    /// * [RetrieveAndGenerate response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_RetrieveAndGenerate.html#API_agent-runtime_RetrieveAndGenerate_ResponseSyntax) – in the textResponsePart field
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax) – in the textResponsePart field
     public struct TextResponsePart: Swift.Equatable {
         /// Contains information about where the text with a citation begins and ends in the generated output.
         public var span: BedrockAgentRuntimeClientTypes.Span?

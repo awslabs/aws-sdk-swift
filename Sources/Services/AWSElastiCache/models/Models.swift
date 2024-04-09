@@ -5573,6 +5573,7 @@ extension ElastiCacheClientTypes {
 extension ElastiCacheClientTypes.DataStorage: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maximum = "Maximum"
+        case minimum = "Minimum"
         case unit = "Unit"
     }
 
@@ -5580,6 +5581,9 @@ extension ElastiCacheClientTypes.DataStorage: Swift.Encodable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let maximum = maximum {
             try container.encode(maximum, forKey: ClientRuntime.Key("Maximum"))
+        }
+        if let minimum = minimum {
+            try container.encode(minimum, forKey: ClientRuntime.Key("Minimum"))
         }
         if let unit = unit {
             try container.encode(unit, forKey: ClientRuntime.Key("Unit"))
@@ -5591,6 +5595,7 @@ extension ElastiCacheClientTypes.DataStorage: Swift.Encodable {
             guard reader.content != nil else { return nil }
             var value = ElastiCacheClientTypes.DataStorage()
             value.maximum = try reader["Maximum"].readIfPresent()
+            value.minimum = try reader["Minimum"].readIfPresent()
             value.unit = try reader["Unit"].readIfPresent()
             return value
         }
@@ -5601,18 +5606,21 @@ extension ElastiCacheClientTypes {
     /// The data storage limit.
     public struct DataStorage: Swift.Equatable {
         /// The upper limit for data storage the cache is set to use.
-        /// This member is required.
         public var maximum: Swift.Int?
+        /// The lower limit for data storage the cache is set to use.
+        public var minimum: Swift.Int?
         /// The unit that the storage is measured in, in GB.
         /// This member is required.
         public var unit: ElastiCacheClientTypes.DataStorageUnit?
 
         public init(
             maximum: Swift.Int? = nil,
+            minimum: Swift.Int? = nil,
             unit: ElastiCacheClientTypes.DataStorageUnit? = nil
         )
         {
             self.maximum = maximum
+            self.minimum = minimum
             self.unit = unit
         }
     }
@@ -9619,12 +9627,16 @@ extension ElastiCacheClientTypes {
 extension ElastiCacheClientTypes.ECPUPerSecond: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maximum = "Maximum"
+        case minimum = "Minimum"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let maximum = maximum {
             try container.encode(maximum, forKey: ClientRuntime.Key("Maximum"))
+        }
+        if let minimum = minimum {
+            try container.encode(minimum, forKey: ClientRuntime.Key("Minimum"))
         }
     }
 
@@ -9633,6 +9645,7 @@ extension ElastiCacheClientTypes.ECPUPerSecond: Swift.Encodable {
             guard reader.content != nil else { return nil }
             var value = ElastiCacheClientTypes.ECPUPerSecond()
             value.maximum = try reader["Maximum"].readIfPresent()
+            value.minimum = try reader["Minimum"].readIfPresent()
             return value
         }
     }
@@ -9642,14 +9655,17 @@ extension ElastiCacheClientTypes {
     /// The configuration for the number of ElastiCache Processing Units (ECPU) the cache can consume per second.
     public struct ECPUPerSecond: Swift.Equatable {
         /// The configuration for the maximum number of ECPUs the cache can consume per second.
-        /// This member is required.
         public var maximum: Swift.Int?
+        /// The configuration for the minimum number of ECPUs the cache should be able consume per second.
+        public var minimum: Swift.Int?
 
         public init(
-            maximum: Swift.Int? = nil
+            maximum: Swift.Int? = nil,
+            minimum: Swift.Int? = nil
         )
         {
             self.maximum = maximum
+            self.minimum = minimum
         }
     }
 

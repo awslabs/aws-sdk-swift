@@ -1237,6 +1237,8 @@ extension GroundStationClientTypes.ContactData: Swift.Codable {
         case satelliteArn
         case startTime
         case tags
+        case visibilityEndTime
+        case visibilityStartTime
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1283,6 +1285,12 @@ extension GroundStationClientTypes.ContactData: Swift.Codable {
                 try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
+        if let visibilityEndTime = self.visibilityEndTime {
+            try encodeContainer.encodeTimestamp(visibilityEndTime, format: .epochSeconds, forKey: .visibilityEndTime)
+        }
+        if let visibilityStartTime = self.visibilityStartTime {
+            try encodeContainer.encodeTimestamp(visibilityStartTime, format: .epochSeconds, forKey: .visibilityStartTime)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1322,6 +1330,10 @@ extension GroundStationClientTypes.ContactData: Swift.Codable {
             }
         }
         tags = tagsDecoded0
+        let visibilityStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .visibilityStartTime)
+        visibilityStartTime = visibilityStartTimeDecoded
+        let visibilityEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .visibilityEndTime)
+        visibilityEndTime = visibilityEndTimeDecoded
     }
 }
 
@@ -1354,6 +1366,10 @@ extension GroundStationClientTypes {
         public var startTime: ClientRuntime.Date?
         /// Tags assigned to a contact.
         public var tags: [Swift.String:Swift.String]?
+        /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
+        public var visibilityEndTime: ClientRuntime.Date?
+        /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts. This field is not present for contacts with a SCHEDULING or SCHEDULED status.
+        public var visibilityStartTime: ClientRuntime.Date?
 
         public init(
             contactId: Swift.String? = nil,
@@ -1368,7 +1384,9 @@ extension GroundStationClientTypes {
             region: Swift.String? = nil,
             satelliteArn: Swift.String? = nil,
             startTime: ClientRuntime.Date? = nil,
-            tags: [Swift.String:Swift.String]? = nil
+            tags: [Swift.String:Swift.String]? = nil,
+            visibilityEndTime: ClientRuntime.Date? = nil,
+            visibilityStartTime: ClientRuntime.Date? = nil
         )
         {
             self.contactId = contactId
@@ -1384,6 +1402,8 @@ extension GroundStationClientTypes {
             self.satelliteArn = satelliteArn
             self.startTime = startTime
             self.tags = tags
+            self.visibilityEndTime = visibilityEndTime
+            self.visibilityStartTime = visibilityStartTime
         }
     }
 
@@ -2042,9 +2062,9 @@ extension CreateMissionProfileInput {
 
 ///
 public struct CreateMissionProfileInput: Swift.Equatable {
-    /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
+    /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
     /// This member is required.
@@ -3027,6 +3047,8 @@ extension DescribeContactOutput: ClientRuntime.HttpResponseBinding {
             self.satelliteArn = output.satelliteArn
             self.startTime = output.startTime
             self.tags = output.tags
+            self.visibilityEndTime = output.visibilityEndTime
+            self.visibilityStartTime = output.visibilityStartTime
         } else {
             self.contactId = nil
             self.contactStatus = nil
@@ -3042,6 +3064,8 @@ extension DescribeContactOutput: ClientRuntime.HttpResponseBinding {
             self.satelliteArn = nil
             self.startTime = nil
             self.tags = nil
+            self.visibilityEndTime = nil
+            self.visibilityStartTime = nil
         }
     }
 }
@@ -3076,6 +3100,10 @@ public struct DescribeContactOutput: Swift.Equatable {
     public var startTime: ClientRuntime.Date?
     /// Tags assigned to a contact.
     public var tags: [Swift.String:Swift.String]?
+    /// Projected time in UTC your satellite will set below the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+    public var visibilityEndTime: ClientRuntime.Date?
+    /// Projected time in UTC your satellite will rise above the [receive mask](https://docs.aws.amazon.com/ground-station/latest/ug/site-masks.html). This time is based on the satellite's current active ephemeris for future contacts and the ephemeris that was active during contact execution for completed contacts.
+    public var visibilityStartTime: ClientRuntime.Date?
 
     public init(
         contactId: Swift.String? = nil,
@@ -3091,7 +3119,9 @@ public struct DescribeContactOutput: Swift.Equatable {
         region: Swift.String? = nil,
         satelliteArn: Swift.String? = nil,
         startTime: ClientRuntime.Date? = nil,
-        tags: [Swift.String:Swift.String]? = nil
+        tags: [Swift.String:Swift.String]? = nil,
+        visibilityEndTime: ClientRuntime.Date? = nil,
+        visibilityStartTime: ClientRuntime.Date? = nil
     )
     {
         self.contactId = contactId
@@ -3108,6 +3138,8 @@ public struct DescribeContactOutput: Swift.Equatable {
         self.satelliteArn = satelliteArn
         self.startTime = startTime
         self.tags = tags
+        self.visibilityEndTime = visibilityEndTime
+        self.visibilityStartTime = visibilityStartTime
     }
 }
 
@@ -3126,6 +3158,8 @@ struct DescribeContactOutputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let region: Swift.String?
     let dataflowList: [GroundStationClientTypes.DataflowDetail]?
+    let visibilityStartTime: ClientRuntime.Date?
+    let visibilityEndTime: ClientRuntime.Date?
 }
 
 extension DescribeContactOutputBody: Swift.Decodable {
@@ -3144,6 +3178,8 @@ extension DescribeContactOutputBody: Swift.Decodable {
         case satelliteArn
         case startTime
         case tags
+        case visibilityEndTime
+        case visibilityStartTime
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3194,6 +3230,10 @@ extension DescribeContactOutputBody: Swift.Decodable {
             }
         }
         dataflowList = dataflowListDecoded0
+        let visibilityStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .visibilityStartTime)
+        visibilityStartTime = visibilityStartTimeDecoded
+        let visibilityEndTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .visibilityEndTime)
+        visibilityEndTime = visibilityEndTimeDecoded
     }
 }
 
@@ -8661,9 +8701,9 @@ extension UpdateMissionProfileInput {
 
 ///
 public struct UpdateMissionProfileInput: Swift.Equatable {
-    /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
-    /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
+    /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPrePassDurationSeconds: Swift.Int?
     /// A list of lists of ARNs. Each list of ARNs is an edge, with a from Config and a to Config.
     public var dataflowEdges: [[Swift.String]]?

@@ -1048,6 +1048,10 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.Codable {
         case dicomPatientId = "DICOMPatientId"
         case dicomPatientName = "DICOMPatientName"
         case dicomPatientSex = "DICOMPatientSex"
+        case dicomSeriesBodyPart = "DICOMSeriesBodyPart"
+        case dicomSeriesInstanceUID = "DICOMSeriesInstanceUID"
+        case dicomSeriesModality = "DICOMSeriesModality"
+        case dicomSeriesNumber = "DICOMSeriesNumber"
         case dicomStudyDate = "DICOMStudyDate"
         case dicomStudyDescription = "DICOMStudyDescription"
         case dicomStudyId = "DICOMStudyId"
@@ -1077,6 +1081,18 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.Codable {
         }
         if let dicomPatientSex = self.dicomPatientSex {
             try encodeContainer.encode(dicomPatientSex, forKey: .dicomPatientSex)
+        }
+        if let dicomSeriesBodyPart = self.dicomSeriesBodyPart {
+            try encodeContainer.encode(dicomSeriesBodyPart, forKey: .dicomSeriesBodyPart)
+        }
+        if let dicomSeriesInstanceUID = self.dicomSeriesInstanceUID {
+            try encodeContainer.encode(dicomSeriesInstanceUID, forKey: .dicomSeriesInstanceUID)
+        }
+        if let dicomSeriesModality = self.dicomSeriesModality {
+            try encodeContainer.encode(dicomSeriesModality, forKey: .dicomSeriesModality)
+        }
+        if let dicomSeriesNumber = self.dicomSeriesNumber {
+            try encodeContainer.encode(dicomSeriesNumber, forKey: .dicomSeriesNumber)
         }
         if let dicomStudyDate = self.dicomStudyDate {
             try encodeContainer.encode(dicomStudyDate, forKey: .dicomStudyDate)
@@ -1117,6 +1133,14 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.Codable {
         dicomNumberOfStudyRelatedInstances = dicomNumberOfStudyRelatedInstancesDecoded
         let dicomAccessionNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomAccessionNumber)
         dicomAccessionNumber = dicomAccessionNumberDecoded
+        let dicomSeriesInstanceUIDDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomSeriesInstanceUID)
+        dicomSeriesInstanceUID = dicomSeriesInstanceUIDDecoded
+        let dicomSeriesModalityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomSeriesModality)
+        dicomSeriesModality = dicomSeriesModalityDecoded
+        let dicomSeriesBodyPartDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomSeriesBodyPart)
+        dicomSeriesBodyPart = dicomSeriesBodyPartDecoded
+        let dicomSeriesNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .dicomSeriesNumber)
+        dicomSeriesNumber = dicomSeriesNumberDecoded
         let dicomStudyDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomStudyDate)
         dicomStudyDate = dicomStudyDateDecoded
         let dicomStudyTimeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dicomStudyTime)
@@ -1126,7 +1150,7 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.Codable {
 
 extension MedicalImagingClientTypes.DICOMTags: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DICOMTags(dicomNumberOfStudyRelatedInstances: \(Swift.String(describing: dicomNumberOfStudyRelatedInstances)), dicomNumberOfStudyRelatedSeries: \(Swift.String(describing: dicomNumberOfStudyRelatedSeries)), dicomAccessionNumber: \"CONTENT_REDACTED\", dicomPatientBirthDate: \"CONTENT_REDACTED\", dicomPatientId: \"CONTENT_REDACTED\", dicomPatientName: \"CONTENT_REDACTED\", dicomPatientSex: \"CONTENT_REDACTED\", dicomStudyDate: \"CONTENT_REDACTED\", dicomStudyDescription: \"CONTENT_REDACTED\", dicomStudyId: \"CONTENT_REDACTED\", dicomStudyInstanceUID: \"CONTENT_REDACTED\", dicomStudyTime: \"CONTENT_REDACTED\")"}
+        "DICOMTags(dicomNumberOfStudyRelatedInstances: \(Swift.String(describing: dicomNumberOfStudyRelatedInstances)), dicomNumberOfStudyRelatedSeries: \(Swift.String(describing: dicomNumberOfStudyRelatedSeries)), dicomAccessionNumber: \"CONTENT_REDACTED\", dicomPatientBirthDate: \"CONTENT_REDACTED\", dicomPatientId: \"CONTENT_REDACTED\", dicomPatientName: \"CONTENT_REDACTED\", dicomPatientSex: \"CONTENT_REDACTED\", dicomSeriesBodyPart: \"CONTENT_REDACTED\", dicomSeriesInstanceUID: \"CONTENT_REDACTED\", dicomSeriesModality: \"CONTENT_REDACTED\", dicomSeriesNumber: \"CONTENT_REDACTED\", dicomStudyDate: \"CONTENT_REDACTED\", dicomStudyDescription: \"CONTENT_REDACTED\", dicomStudyId: \"CONTENT_REDACTED\", dicomStudyInstanceUID: \"CONTENT_REDACTED\", dicomStudyTime: \"CONTENT_REDACTED\")"}
 }
 
 extension MedicalImagingClientTypes {
@@ -1146,13 +1170,21 @@ extension MedicalImagingClientTypes {
         public var dicomPatientName: Swift.String?
         /// The patient sex.
         public var dicomPatientSex: Swift.String?
+        /// The DICOM provided identifier for the series Body Part Examined.
+        public var dicomSeriesBodyPart: Swift.String?
+        /// The DICOM provided identifier for the Series Instance UID.
+        public var dicomSeriesInstanceUID: Swift.String?
+        /// The DICOM provided identifier for the series Modality.
+        public var dicomSeriesModality: Swift.String?
+        /// The DICOM provided identifier for the Series Number.
+        public var dicomSeriesNumber: Swift.Int?
         /// The study date.
         public var dicomStudyDate: Swift.String?
-        /// The description of the study.
+        /// The DICOM provided Study Description.
         public var dicomStudyDescription: Swift.String?
-        /// The DICOM provided studyId.
+        /// The DICOM provided identifier for the Study ID.
         public var dicomStudyId: Swift.String?
-        /// The DICOM provided identifier for studyInstanceUid.>
+        /// The DICOM provided identifier for the Study Instance UID.
         public var dicomStudyInstanceUID: Swift.String?
         /// The study time.
         public var dicomStudyTime: Swift.String?
@@ -1165,6 +1197,10 @@ extension MedicalImagingClientTypes {
             dicomPatientId: Swift.String? = nil,
             dicomPatientName: Swift.String? = nil,
             dicomPatientSex: Swift.String? = nil,
+            dicomSeriesBodyPart: Swift.String? = nil,
+            dicomSeriesInstanceUID: Swift.String? = nil,
+            dicomSeriesModality: Swift.String? = nil,
+            dicomSeriesNumber: Swift.Int? = nil,
             dicomStudyDate: Swift.String? = nil,
             dicomStudyDescription: Swift.String? = nil,
             dicomStudyId: Swift.String? = nil,
@@ -1179,6 +1215,10 @@ extension MedicalImagingClientTypes {
             self.dicomPatientId = dicomPatientId
             self.dicomPatientName = dicomPatientName
             self.dicomPatientSex = dicomPatientSex
+            self.dicomSeriesBodyPart = dicomSeriesBodyPart
+            self.dicomSeriesInstanceUID = dicomSeriesInstanceUID
+            self.dicomSeriesModality = dicomSeriesModality
+            self.dicomSeriesNumber = dicomSeriesNumber
             self.dicomStudyDate = dicomStudyDate
             self.dicomStudyDescription = dicomStudyDescription
             self.dicomStudyId = dicomStudyId
@@ -3393,11 +3433,13 @@ extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case dicomaccessionnumber = "DICOMAccessionNumber"
         case dicompatientid = "DICOMPatientId"
+        case dicomseriesinstanceuid = "DICOMSeriesInstanceUID"
         case dicomstudydateandtime = "DICOMStudyDateAndTime"
         case dicomstudyid = "DICOMStudyId"
         case dicomstudyinstanceuid = "DICOMStudyInstanceUID"
         case createdat = "createdAt"
         case sdkUnknown
+        case updatedat = "updatedAt"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3407,6 +3449,8 @@ extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.Codable {
                 try container.encode(dicomaccessionnumber, forKey: .dicomaccessionnumber)
             case let .dicompatientid(dicompatientid):
                 try container.encode(dicompatientid, forKey: .dicompatientid)
+            case let .dicomseriesinstanceuid(dicomseriesinstanceuid):
+                try container.encode(dicomseriesinstanceuid, forKey: .dicomseriesinstanceuid)
             case let .dicomstudydateandtime(dicomstudydateandtime):
                 try container.encode(dicomstudydateandtime, forKey: .dicomstudydateandtime)
             case let .dicomstudyid(dicomstudyid):
@@ -3415,6 +3459,8 @@ extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.Codable {
                 try container.encode(dicomstudyinstanceuid, forKey: .dicomstudyinstanceuid)
             case let .createdat(createdat):
                 try container.encodeTimestamp(createdat, format: .epochSeconds, forKey: .createdat)
+            case let .updatedat(updatedat):
+                try container.encodeTimestamp(updatedat, format: .epochSeconds, forKey: .updatedat)
             case let .sdkUnknown(sdkUnknown):
                 try container.encode(sdkUnknown, forKey: .sdkUnknown)
         }
@@ -3442,9 +3488,19 @@ extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.Codable {
             self = .dicomstudyinstanceuid(dicomstudyinstanceuid)
             return
         }
+        let dicomseriesinstanceuidDecoded = try values.decodeIfPresent(Swift.String.self, forKey: .dicomseriesinstanceuid)
+        if let dicomseriesinstanceuid = dicomseriesinstanceuidDecoded {
+            self = .dicomseriesinstanceuid(dicomseriesinstanceuid)
+            return
+        }
         let createdatDecoded = try values.decodeTimestampIfPresent(.epochSeconds, forKey: .createdat)
         if let createdat = createdatDecoded {
             self = .createdat(createdat)
+            return
+        }
+        let updatedatDecoded = try values.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedat)
+        if let updatedat = updatedatDecoded {
+            self = .updatedat(updatedat)
             return
         }
         let dicomstudydateandtimeDecoded = try values.decodeIfPresent(MedicalImagingClientTypes.DICOMStudyDateAndTime.self, forKey: .dicomstudydateandtime)
@@ -3467,8 +3523,12 @@ extension MedicalImagingClientTypes {
         case dicomstudyid(Swift.String)
         /// The DICOM study instance UID for search.
         case dicomstudyinstanceuid(Swift.String)
+        /// The Series Instance UID input for search.
+        case dicomseriesinstanceuid(Swift.String)
         /// The created at time of the image set provided for search.
         case createdat(ClientRuntime.Date)
+        /// The timestamp input for search.
+        case updatedat(ClientRuntime.Date)
         /// The aggregated structure containing DICOM study date and study time for search.
         case dicomstudydateandtime(MedicalImagingClientTypes.DICOMStudyDateAndTime)
         case sdkUnknown(Swift.String)
@@ -3479,6 +3539,7 @@ extension MedicalImagingClientTypes {
 extension MedicalImagingClientTypes.SearchCriteria: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filters
+        case sort
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -3488,6 +3549,9 @@ extension MedicalImagingClientTypes.SearchCriteria: Swift.Codable {
             for searchfilter0 in filters {
                 try filtersContainer.encode(searchfilter0)
             }
+        }
+        if let sort = self.sort {
+            try encodeContainer.encode(sort, forKey: .sort)
         }
     }
 
@@ -3504,6 +3568,8 @@ extension MedicalImagingClientTypes.SearchCriteria: Swift.Codable {
             }
         }
         filters = filtersDecoded0
+        let sortDecoded = try containerValues.decodeIfPresent(MedicalImagingClientTypes.Sort.self, forKey: .sort)
+        sort = sortDecoded
     }
 }
 
@@ -3518,12 +3584,16 @@ extension MedicalImagingClientTypes {
     public struct SearchCriteria: Swift.Equatable {
         /// The filters for the search criteria.
         public var filters: [MedicalImagingClientTypes.SearchFilter]?
+        /// The sort input for search criteria.
+        public var sort: MedicalImagingClientTypes.Sort?
 
         public init(
-            filters: [MedicalImagingClientTypes.SearchFilter]? = nil
+            filters: [MedicalImagingClientTypes.SearchFilter]? = nil,
+            sort: MedicalImagingClientTypes.Sort? = nil
         )
         {
             self.filters = filters
+            self.sort = sort
         }
     }
 
@@ -3680,9 +3750,11 @@ extension SearchImageSetsOutput: ClientRuntime.HttpResponseBinding {
             let output: SearchImageSetsOutputBody = try responseDecoder.decode(responseBody: data)
             self.imageSetsMetadataSummaries = output.imageSetsMetadataSummaries
             self.nextToken = output.nextToken
+            self.sort = output.sort
         } else {
             self.imageSetsMetadataSummaries = nil
             self.nextToken = nil
+            self.sort = nil
         }
     }
 }
@@ -3693,19 +3765,24 @@ public struct SearchImageSetsOutput: Swift.Equatable {
     public var imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]?
     /// The token for pagination results.
     public var nextToken: Swift.String?
+    /// The sort order for image set search results.
+    public var sort: MedicalImagingClientTypes.Sort?
 
     public init(
         imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]? = nil,
-        nextToken: Swift.String? = nil
+        nextToken: Swift.String? = nil,
+        sort: MedicalImagingClientTypes.Sort? = nil
     )
     {
         self.imageSetsMetadataSummaries = imageSetsMetadataSummaries
         self.nextToken = nextToken
+        self.sort = sort
     }
 }
 
 struct SearchImageSetsOutputBody: Swift.Equatable {
     let imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]?
+    let sort: MedicalImagingClientTypes.Sort?
     let nextToken: Swift.String?
 }
 
@@ -3713,6 +3790,7 @@ extension SearchImageSetsOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case imageSetsMetadataSummaries
         case nextToken
+        case sort
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3728,6 +3806,8 @@ extension SearchImageSetsOutputBody: Swift.Decodable {
             }
         }
         imageSetsMetadataSummaries = imageSetsMetadataSummariesDecoded0
+        let sortDecoded = try containerValues.decodeIfPresent(MedicalImagingClientTypes.Sort.self, forKey: .sort)
+        sort = sortDecoded
         let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
         nextToken = nextTokenDecoded
     }
@@ -3802,6 +3882,120 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension MedicalImagingClientTypes.Sort: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case sortField
+        case sortOrder
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let sortField = self.sortField {
+            try encodeContainer.encode(sortField.rawValue, forKey: .sortField)
+        }
+        if let sortOrder = self.sortOrder {
+            try encodeContainer.encode(sortOrder.rawValue, forKey: .sortOrder)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sortOrderDecoded = try containerValues.decodeIfPresent(MedicalImagingClientTypes.SortOrder.self, forKey: .sortOrder)
+        sortOrder = sortOrderDecoded
+        let sortFieldDecoded = try containerValues.decodeIfPresent(MedicalImagingClientTypes.SortField.self, forKey: .sortField)
+        sortField = sortFieldDecoded
+    }
+}
+
+extension MedicalImagingClientTypes {
+    /// Sort search results.
+    public struct Sort: Swift.Equatable {
+        /// The sort field for search criteria.
+        /// This member is required.
+        public var sortField: MedicalImagingClientTypes.SortField?
+        /// The sort order for search criteria.
+        /// This member is required.
+        public var sortOrder: MedicalImagingClientTypes.SortOrder?
+
+        public init(
+            sortField: MedicalImagingClientTypes.SortField? = nil,
+            sortOrder: MedicalImagingClientTypes.SortOrder? = nil
+        )
+        {
+            self.sortField = sortField
+            self.sortOrder = sortOrder
+        }
+    }
+
+}
+
+extension MedicalImagingClientTypes {
+    public enum SortField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case dicomstudydateandtime
+        case createdat
+        case updatedat
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortField] {
+            return [
+                .dicomstudydateandtime,
+                .createdat,
+                .updatedat,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .dicomstudydateandtime: return "DICOMStudyDateAndTime"
+            case .createdat: return "createdAt"
+            case .updatedat: return "updatedAt"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortField(rawValue: rawValue) ?? SortField.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MedicalImagingClientTypes {
+    public enum SortOrder: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asc
+        case desc
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SortOrder] {
+            return [
+                .asc,
+                .desc,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asc: return "ASC"
+            case .desc: return "DESC"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
     }
 }
 

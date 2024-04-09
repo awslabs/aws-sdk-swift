@@ -241,7 +241,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.45.0",
+    clientRuntimeVersion: "0.46.0",
     crtVersion: "0.29.0"
 )
 
@@ -320,6 +320,7 @@ let serviceTargets: [String] = [
     "AWSCodeBuild",
     "AWSCodeCatalyst",
     "AWSCodeCommit",
+    "AWSCodeConnections",
     "AWSCodeDeploy",
     "AWSCodeGuruProfiler",
     "AWSCodeGuruReviewer",
@@ -341,6 +342,7 @@ let serviceTargets: [String] = [
     "AWSConnectCases",
     "AWSConnectContactLens",
     "AWSConnectParticipant",
+    "AWSControlCatalog",
     "AWSControlTower",
     "AWSCostExplorer",
     "AWSCostOptimizationHub",
@@ -354,6 +356,7 @@ let serviceTargets: [String] = [
     "AWSDataSync",
     "AWSDataZone",
     "AWSDatabaseMigrationService",
+    "AWSDeadline",
     "AWSDetective",
     "AWSDevOpsGuru",
     "AWSDeviceFarm",

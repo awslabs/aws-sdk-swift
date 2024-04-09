@@ -1430,7 +1430,7 @@ extension TransferClient {
 
     /// Performs the `DescribeSecurityPolicy` operation on the `TransferService` service.
     ///
-    /// Describes the security policy that is attached to your file transfer protocol-enabled server. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html).
+    /// Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
     /// - Parameter DescribeSecurityPolicyInput : [no documentation found]
     ///
@@ -2183,7 +2183,7 @@ extension TransferClient {
 
     /// Performs the `ListSecurityPolicies` operation on the `TransferService` service.
     ///
-    /// Lists the security policies that are attached to your file transfer protocol-enabled servers.
+    /// Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     ///
     /// - Parameter ListSecurityPoliciesInput : [no documentation found]
     ///

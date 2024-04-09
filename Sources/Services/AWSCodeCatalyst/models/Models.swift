@@ -409,7 +409,7 @@ extension CreateDevEnvironmentInput: Swift.Encodable {
                 try idesContainer.encode(ideconfiguration0)
             }
         }
-        if inactivityTimeoutMinutes != 0 {
+        if let inactivityTimeoutMinutes = self.inactivityTimeoutMinutes {
             try encodeContainer.encode(inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
         }
         if let instanceType = self.instanceType {
@@ -451,7 +451,7 @@ public struct CreateDevEnvironmentInput: Swift.Equatable {
     /// Information about the integrated development environment (IDE) configured for a Dev Environment. An IDE is required to create a Dev Environment. For Dev Environment creation, this field contains configuration information and must be provided.
     public var ides: [CodeCatalystClientTypes.IdeConfiguration]?
     /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are allowed. Dev Environments consume compute minutes when running.
-    public var inactivityTimeoutMinutes: Swift.Int
+    public var inactivityTimeoutMinutes: Swift.Int?
     /// The Amazon EC2 instace type to use for the Dev Environment.
     /// This member is required.
     public var instanceType: CodeCatalystClientTypes.InstanceType?
@@ -466,14 +466,14 @@ public struct CreateDevEnvironmentInput: Swift.Equatable {
     /// The name of the space.
     /// This member is required.
     public var spaceName: Swift.String?
-    /// The name of the connection to use connect to a Amazon VPC.
+    /// The name of the connection that will be used to connect to Amazon VPC, if any.
     public var vpcConnectionName: Swift.String?
 
     public init(
         alias: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         ides: [CodeCatalystClientTypes.IdeConfiguration]? = nil,
-        inactivityTimeoutMinutes: Swift.Int = 0,
+        inactivityTimeoutMinutes: Swift.Int? = nil,
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         persistentStorage: CodeCatalystClientTypes.PersistentStorageConfiguration? = nil,
         projectName: Swift.String? = nil,
@@ -501,7 +501,7 @@ struct CreateDevEnvironmentInputBody: Swift.Equatable {
     let alias: Swift.String?
     let ides: [CodeCatalystClientTypes.IdeConfiguration]?
     let instanceType: CodeCatalystClientTypes.InstanceType?
-    let inactivityTimeoutMinutes: Swift.Int
+    let inactivityTimeoutMinutes: Swift.Int?
     let persistentStorage: CodeCatalystClientTypes.PersistentStorageConfiguration?
     let vpcConnectionName: Swift.String?
 }
@@ -548,7 +548,7 @@ extension CreateDevEnvironmentInputBody: Swift.Decodable {
         ides = idesDecoded0
         let instanceTypeDecoded = try containerValues.decodeIfPresent(CodeCatalystClientTypes.InstanceType.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
-        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes) ?? 0
+        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes)
         inactivityTimeoutMinutes = inactivityTimeoutMinutesDecoded
         let persistentStorageDecoded = try containerValues.decodeIfPresent(CodeCatalystClientTypes.PersistentStorageConfiguration.self, forKey: .persistentStorage)
         persistentStorage = persistentStorageDecoded
@@ -3349,9 +3349,13 @@ extension GetSubscriptionOutput: ClientRuntime.HttpResponseBinding {
             let responseDecoder = decoder {
             let output: GetSubscriptionOutputBody = try responseDecoder.decode(responseBody: data)
             self.awsAccountName = output.awsAccountName
+            self.pendingSubscriptionStartTime = output.pendingSubscriptionStartTime
+            self.pendingSubscriptionType = output.pendingSubscriptionType
             self.subscriptionType = output.subscriptionType
         } else {
             self.awsAccountName = nil
+            self.pendingSubscriptionStartTime = nil
+            self.pendingSubscriptionType = nil
             self.subscriptionType = nil
         }
     }
@@ -3360,15 +3364,23 @@ extension GetSubscriptionOutput: ClientRuntime.HttpResponseBinding {
 public struct GetSubscriptionOutput: Swift.Equatable {
     /// The display name of the Amazon Web Services account used for billing for the space.
     public var awsAccountName: Swift.String?
+    /// The day and time the pending change will be applied to the space, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
+    public var pendingSubscriptionStartTime: ClientRuntime.Date?
+    /// The type of the billing plan that the space will be changed to at the start of the next billing cycle. This applies only to changes that reduce the functionality available for the space. Billing plan changes that increase functionality are applied immediately. For more information, see [Pricing](https://codecatalyst.aws/explore/pricing).
+    public var pendingSubscriptionType: Swift.String?
     /// The type of the billing plan for the space.
     public var subscriptionType: Swift.String?
 
     public init(
         awsAccountName: Swift.String? = nil,
+        pendingSubscriptionStartTime: ClientRuntime.Date? = nil,
+        pendingSubscriptionType: Swift.String? = nil,
         subscriptionType: Swift.String? = nil
     )
     {
         self.awsAccountName = awsAccountName
+        self.pendingSubscriptionStartTime = pendingSubscriptionStartTime
+        self.pendingSubscriptionType = pendingSubscriptionType
         self.subscriptionType = subscriptionType
     }
 }
@@ -3376,11 +3388,15 @@ public struct GetSubscriptionOutput: Swift.Equatable {
 struct GetSubscriptionOutputBody: Swift.Equatable {
     let subscriptionType: Swift.String?
     let awsAccountName: Swift.String?
+    let pendingSubscriptionType: Swift.String?
+    let pendingSubscriptionStartTime: ClientRuntime.Date?
 }
 
 extension GetSubscriptionOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case awsAccountName
+        case pendingSubscriptionStartTime
+        case pendingSubscriptionType
         case subscriptionType
     }
 
@@ -3390,6 +3406,10 @@ extension GetSubscriptionOutputBody: Swift.Decodable {
         subscriptionType = subscriptionTypeDecoded
         let awsAccountNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .awsAccountName)
         awsAccountName = awsAccountNameDecoded
+        let pendingSubscriptionTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pendingSubscriptionType)
+        pendingSubscriptionType = pendingSubscriptionTypeDecoded
+        let pendingSubscriptionStartTimeDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .pendingSubscriptionStartTime)
+        pendingSubscriptionStartTime = pendingSubscriptionStartTimeDecoded
     }
 }
 
@@ -6313,7 +6333,7 @@ extension StartDevEnvironmentInput: Swift.Encodable {
                 try idesContainer.encode(ideconfiguration0)
             }
         }
-        if inactivityTimeoutMinutes != 0 {
+        if let inactivityTimeoutMinutes = self.inactivityTimeoutMinutes {
             try encodeContainer.encode(inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
         }
         if let instanceType = self.instanceType {
@@ -6345,7 +6365,7 @@ public struct StartDevEnvironmentInput: Swift.Equatable {
     /// Information about the integrated development environment (IDE) configured for a Dev Environment.
     public var ides: [CodeCatalystClientTypes.IdeConfiguration]?
     /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are allowed. Dev Environments consume compute minutes when running.
-    public var inactivityTimeoutMinutes: Swift.Int
+    public var inactivityTimeoutMinutes: Swift.Int?
     /// The Amazon EC2 instace type to use for the Dev Environment.
     public var instanceType: CodeCatalystClientTypes.InstanceType?
     /// The name of the project in the space.
@@ -6358,7 +6378,7 @@ public struct StartDevEnvironmentInput: Swift.Equatable {
     public init(
         id: Swift.String? = nil,
         ides: [CodeCatalystClientTypes.IdeConfiguration]? = nil,
-        inactivityTimeoutMinutes: Swift.Int = 0,
+        inactivityTimeoutMinutes: Swift.Int? = nil,
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
@@ -6376,7 +6396,7 @@ public struct StartDevEnvironmentInput: Swift.Equatable {
 struct StartDevEnvironmentInputBody: Swift.Equatable {
     let ides: [CodeCatalystClientTypes.IdeConfiguration]?
     let instanceType: CodeCatalystClientTypes.InstanceType?
-    let inactivityTimeoutMinutes: Swift.Int
+    let inactivityTimeoutMinutes: Swift.Int?
 }
 
 extension StartDevEnvironmentInputBody: Swift.Decodable {
@@ -6401,7 +6421,7 @@ extension StartDevEnvironmentInputBody: Swift.Decodable {
         ides = idesDecoded0
         let instanceTypeDecoded = try containerValues.decodeIfPresent(CodeCatalystClientTypes.InstanceType.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
-        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes) ?? 0
+        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes)
         inactivityTimeoutMinutes = inactivityTimeoutMinutesDecoded
     }
 }
@@ -7190,7 +7210,7 @@ extension UpdateDevEnvironmentInput: Swift.Encodable {
                 try idesContainer.encode(ideconfiguration0)
             }
         }
-        if inactivityTimeoutMinutes != 0 {
+        if let inactivityTimeoutMinutes = self.inactivityTimeoutMinutes {
             try encodeContainer.encode(inactivityTimeoutMinutes, forKey: .inactivityTimeoutMinutes)
         }
         if let instanceType = self.instanceType {
@@ -7226,7 +7246,7 @@ public struct UpdateDevEnvironmentInput: Swift.Equatable {
     /// Information about the integrated development environment (IDE) configured for a Dev Environment.
     public var ides: [CodeCatalystClientTypes.IdeConfiguration]?
     /// The amount of time the Dev Environment will run without any activity detected before stopping, in minutes. Only whole integers are allowed. Dev Environments consume compute minutes when running. Changing this value will cause a restart of the Dev Environment if it is running.
-    public var inactivityTimeoutMinutes: Swift.Int
+    public var inactivityTimeoutMinutes: Swift.Int?
     /// The Amazon EC2 instace type to use for the Dev Environment. Changing this value will cause a restart of the Dev Environment if it is running.
     public var instanceType: CodeCatalystClientTypes.InstanceType?
     /// The name of the project in the space.
@@ -7241,7 +7261,7 @@ public struct UpdateDevEnvironmentInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         id: Swift.String? = nil,
         ides: [CodeCatalystClientTypes.IdeConfiguration]? = nil,
-        inactivityTimeoutMinutes: Swift.Int = 0,
+        inactivityTimeoutMinutes: Swift.Int? = nil,
         instanceType: CodeCatalystClientTypes.InstanceType? = nil,
         projectName: Swift.String? = nil,
         spaceName: Swift.String? = nil
@@ -7262,7 +7282,7 @@ struct UpdateDevEnvironmentInputBody: Swift.Equatable {
     let alias: Swift.String?
     let ides: [CodeCatalystClientTypes.IdeConfiguration]?
     let instanceType: CodeCatalystClientTypes.InstanceType?
-    let inactivityTimeoutMinutes: Swift.Int
+    let inactivityTimeoutMinutes: Swift.Int?
     let clientToken: Swift.String?
 }
 
@@ -7292,7 +7312,7 @@ extension UpdateDevEnvironmentInputBody: Swift.Decodable {
         ides = idesDecoded0
         let instanceTypeDecoded = try containerValues.decodeIfPresent(CodeCatalystClientTypes.InstanceType.self, forKey: .instanceType)
         instanceType = instanceTypeDecoded
-        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes) ?? 0
+        let inactivityTimeoutMinutesDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .inactivityTimeoutMinutes)
         inactivityTimeoutMinutes = inactivityTimeoutMinutesDecoded
         let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
         clientToken = clientTokenDecoded

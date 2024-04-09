@@ -5720,7 +5720,7 @@ extension B2biClientTypes {
     public struct X12Details: Swift.Equatable {
         /// Returns an enumerated type where each value identifies an X12 transaction set. Transaction sets are maintained by the X12 Accredited Standards Committee.
         public var transactionSet: B2biClientTypes.X12TransactionSet?
-        /// Returns the version to use for the specified X12 transaction set. Supported versions are 4010, 4030, and 5010.
+        /// Returns the version to use for the specified X12 transaction set.
         public var version: B2biClientTypes.X12Version?
 
         public init(
@@ -5741,17 +5741,61 @@ extension B2biClientTypes {
         case x12180
         case x12204
         case x12210
+        case x12211
         case x12214
         case x12215
+        case x12259
+        case x12260
+        case x12266
+        case x12269
+        case x12270
+        case x12270X279
+        case x12271
+        case x12271X279
+        case x12274
+        case x12275
+        case x12275X210
+        case x12275X211
+        case x12276
+        case x12276X212
+        case x12277
+        case x12277X212
+        case x12277X214
+        case x12277X364
+        case x12278
+        case x12278X217
         case x12310
         case x12315
         case x12322
         case x12404
         case x12410
+        case x12417
+        case x12421
+        case x12426
+        case x12810
         case x12820
+        case x12820X218
+        case x12820X306
         case x12824
+        case x12824X186
         case x12830
+        case x12832
+        case x12834
+        case x12834X220
+        case x12834X307
+        case x12834X318
+        case x12835
+        case x12835X221
+        case x12837
+        case x12837X222
+        case x12837X223
+        case x12837X224
+        case x12837X291
+        case x12837X292
+        case x12837X298
+        case x12844
         case x12846
+        case x12849
         case x12850
         case x12852
         case x12855
@@ -5759,9 +5803,15 @@ extension B2biClientTypes {
         case x12860
         case x12861
         case x12864
+        case x12865
+        case x12869
+        case x12870
         case x12940
+        case x12945
         case x12990
         case x12997
+        case x12999
+        case x12999X231
         case sdkUnknown(Swift.String)
 
         public static var allCases: [X12TransactionSet] {
@@ -5770,17 +5820,61 @@ extension B2biClientTypes {
                 .x12180,
                 .x12204,
                 .x12210,
+                .x12211,
                 .x12214,
                 .x12215,
+                .x12259,
+                .x12260,
+                .x12266,
+                .x12269,
+                .x12270,
+                .x12270X279,
+                .x12271,
+                .x12271X279,
+                .x12274,
+                .x12275,
+                .x12275X210,
+                .x12275X211,
+                .x12276,
+                .x12276X212,
+                .x12277,
+                .x12277X212,
+                .x12277X214,
+                .x12277X364,
+                .x12278,
+                .x12278X217,
                 .x12310,
                 .x12315,
                 .x12322,
                 .x12404,
                 .x12410,
+                .x12417,
+                .x12421,
+                .x12426,
+                .x12810,
                 .x12820,
+                .x12820X218,
+                .x12820X306,
                 .x12824,
+                .x12824X186,
                 .x12830,
+                .x12832,
+                .x12834,
+                .x12834X220,
+                .x12834X307,
+                .x12834X318,
+                .x12835,
+                .x12835X221,
+                .x12837,
+                .x12837X222,
+                .x12837X223,
+                .x12837X224,
+                .x12837X291,
+                .x12837X292,
+                .x12837X298,
+                .x12844,
                 .x12846,
+                .x12849,
                 .x12850,
                 .x12852,
                 .x12855,
@@ -5788,9 +5882,15 @@ extension B2biClientTypes {
                 .x12860,
                 .x12861,
                 .x12864,
+                .x12865,
+                .x12869,
+                .x12870,
                 .x12940,
+                .x12945,
                 .x12990,
                 .x12997,
+                .x12999,
+                .x12999X231,
                 .sdkUnknown("")
             ]
         }
@@ -5804,17 +5904,61 @@ extension B2biClientTypes {
             case .x12180: return "X12_180"
             case .x12204: return "X12_204"
             case .x12210: return "X12_210"
+            case .x12211: return "X12_211"
             case .x12214: return "X12_214"
             case .x12215: return "X12_215"
+            case .x12259: return "X12_259"
+            case .x12260: return "X12_260"
+            case .x12266: return "X12_266"
+            case .x12269: return "X12_269"
+            case .x12270: return "X12_270"
+            case .x12270X279: return "X12_270_X279"
+            case .x12271: return "X12_271"
+            case .x12271X279: return "X12_271_X279"
+            case .x12274: return "X12_274"
+            case .x12275: return "X12_275"
+            case .x12275X210: return "X12_275_X210"
+            case .x12275X211: return "X12_275_X211"
+            case .x12276: return "X12_276"
+            case .x12276X212: return "X12_276_X212"
+            case .x12277: return "X12_277"
+            case .x12277X212: return "X12_277_X212"
+            case .x12277X214: return "X12_277_X214"
+            case .x12277X364: return "X12_277_X364"
+            case .x12278: return "X12_278"
+            case .x12278X217: return "X12_278_X217"
             case .x12310: return "X12_310"
             case .x12315: return "X12_315"
             case .x12322: return "X12_322"
             case .x12404: return "X12_404"
             case .x12410: return "X12_410"
+            case .x12417: return "X12_417"
+            case .x12421: return "X12_421"
+            case .x12426: return "X12_426"
+            case .x12810: return "X12_810"
             case .x12820: return "X12_820"
+            case .x12820X218: return "X12_820_X218"
+            case .x12820X306: return "X12_820_X306"
             case .x12824: return "X12_824"
+            case .x12824X186: return "X12_824_X186"
             case .x12830: return "X12_830"
+            case .x12832: return "X12_832"
+            case .x12834: return "X12_834"
+            case .x12834X220: return "X12_834_X220"
+            case .x12834X307: return "X12_834_X307"
+            case .x12834X318: return "X12_834_X318"
+            case .x12835: return "X12_835"
+            case .x12835X221: return "X12_835_X221"
+            case .x12837: return "X12_837"
+            case .x12837X222: return "X12_837_X222"
+            case .x12837X223: return "X12_837_X223"
+            case .x12837X224: return "X12_837_X224"
+            case .x12837X291: return "X12_837_X291"
+            case .x12837X292: return "X12_837_X292"
+            case .x12837X298: return "X12_837_X298"
+            case .x12844: return "X12_844"
             case .x12846: return "X12_846"
+            case .x12849: return "X12_849"
             case .x12850: return "X12_850"
             case .x12852: return "X12_852"
             case .x12855: return "X12_855"
@@ -5822,9 +5966,15 @@ extension B2biClientTypes {
             case .x12860: return "X12_860"
             case .x12861: return "X12_861"
             case .x12864: return "X12_864"
+            case .x12865: return "X12_865"
+            case .x12869: return "X12_869"
+            case .x12870: return "X12_870"
             case .x12940: return "X12_940"
+            case .x12945: return "X12_945"
             case .x12990: return "X12_990"
             case .x12997: return "X12_997"
+            case .x12999: return "X12_999"
+            case .x12999X231: return "X12_999_X231"
             case let .sdkUnknown(s): return s
             }
         }
@@ -5841,6 +5991,7 @@ extension B2biClientTypes {
         case version4010
         case version4030
         case version5010
+        case version5010Hipaa
         case sdkUnknown(Swift.String)
 
         public static var allCases: [X12Version] {
@@ -5848,6 +5999,7 @@ extension B2biClientTypes {
                 .version4010,
                 .version4030,
                 .version5010,
+                .version5010Hipaa,
                 .sdkUnknown("")
             ]
         }
@@ -5860,6 +6012,7 @@ extension B2biClientTypes {
             case .version4010: return "VERSION_4010"
             case .version4030: return "VERSION_4030"
             case .version5010: return "VERSION_5010"
+            case .version5010Hipaa: return "VERSION_5010_HIPAA"
             case let .sdkUnknown(s): return s
             }
         }

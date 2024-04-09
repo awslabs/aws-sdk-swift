@@ -937,6 +937,7 @@ extension CreateConnectorInput: Swift.Encodable {
         case accessRole = "AccessRole"
         case as2Config = "As2Config"
         case loggingRole = "LoggingRole"
+        case securityPolicyName = "SecurityPolicyName"
         case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
@@ -952,6 +953,9 @@ extension CreateConnectorInput: Swift.Encodable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let securityPolicyName = self.securityPolicyName {
+            try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
         }
         if let sftpConfig = self.sftpConfig {
             try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
@@ -983,6 +987,8 @@ public struct CreateConnectorInput: Swift.Equatable {
     public var as2Config: TransferClientTypes.As2ConnectorConfig?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
+    /// Specifies the name of the security policy for the connector.
+    public var securityPolicyName: Swift.String?
     /// A structure that contains the parameters for an SFTP connector object.
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
     /// Key-value pairs that can be used to group and search for connectors. Tags are metadata attached to connectors for any purpose.
@@ -995,6 +1001,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         accessRole: Swift.String? = nil,
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         loggingRole: Swift.String? = nil,
+        securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         tags: [TransferClientTypes.Tag]? = nil,
         url: Swift.String? = nil
@@ -1003,6 +1010,7 @@ public struct CreateConnectorInput: Swift.Equatable {
         self.accessRole = accessRole
         self.as2Config = as2Config
         self.loggingRole = loggingRole
+        self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
         self.tags = tags
         self.url = url
@@ -1016,6 +1024,7 @@ struct CreateConnectorInputBody: Swift.Equatable {
     let loggingRole: Swift.String?
     let tags: [TransferClientTypes.Tag]?
     let sftpConfig: TransferClientTypes.SftpConnectorConfig?
+    let securityPolicyName: Swift.String?
 }
 
 extension CreateConnectorInputBody: Swift.Decodable {
@@ -1023,6 +1032,7 @@ extension CreateConnectorInputBody: Swift.Decodable {
         case accessRole = "AccessRole"
         case as2Config = "As2Config"
         case loggingRole = "LoggingRole"
+        case securityPolicyName = "SecurityPolicyName"
         case sftpConfig = "SftpConfig"
         case tags = "Tags"
         case url = "Url"
@@ -1051,6 +1061,8 @@ extension CreateConnectorInputBody: Swift.Decodable {
         tags = tagsDecoded0
         let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
         sftpConfig = sftpConfigDecoded
+        let securityPolicyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityPolicyName)
+        securityPolicyName = securityPolicyNameDecoded
     }
 }
 
@@ -1448,7 +1460,7 @@ public struct CreateServerInput: Swift.Equatable {
     public var protocols: [TransferClientTypes.ModelProtocol]?
     /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
-    /// Specifies the name of the security policy that is attached to the server.
+    /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
     /// Specifies the log groups to which your server logs are sent. To specify a log group, you must provide the ARN for an existing log group. In this case, the format of the log group is as follows: arn:aws:logs:region-name:amazon-account-id:log-group:log-group-name:* For example, arn:aws:logs:us-east-1:111122223333:log-group:mytestgroup:* If you have previously specified a log group for a server, you can clear it, and in effect turn off structured logging, by providing an empty value for this parameter in an update-server call. For example: update-server --server-id s-1234567890abcdef0 --structured-log-destinations
     public var structuredLogDestinations: [Swift.String]?
@@ -3983,7 +3995,7 @@ extension DescribeSecurityPolicyInput {
 }
 
 public struct DescribeSecurityPolicyInput: Swift.Equatable {
-    /// Specifies the name of the security policy that is attached to the server.
+    /// Specify the text name of the security policy for which you want the details.
     /// This member is required.
     public var securityPolicyName: Swift.String?
 
@@ -4837,6 +4849,7 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case securityPolicyName = "SecurityPolicyName"
         case serviceManagedEgressIpAddresses = "ServiceManagedEgressIpAddresses"
         case sftpConfig = "SftpConfig"
         case tags = "Tags"
@@ -4859,6 +4872,9 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let securityPolicyName = self.securityPolicyName {
+            try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
         }
         if let serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses {
             var serviceManagedEgressIpAddressesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .serviceManagedEgressIpAddresses)
@@ -4918,6 +4934,8 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
             }
         }
         serviceManagedEgressIpAddresses = serviceManagedEgressIpAddressesDecoded0
+        let securityPolicyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityPolicyName)
+        securityPolicyName = securityPolicyNameDecoded
     }
 }
 
@@ -4935,6 +4953,8 @@ extension TransferClientTypes {
         public var connectorId: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
         public var loggingRole: Swift.String?
+        /// The text name of the security policy for the specified connector.
+        public var securityPolicyName: Swift.String?
         /// The list of egress IP addresses of this connector. These IP addresses are assigned automatically when you create the connector.
         public var serviceManagedEgressIpAddresses: [Swift.String]?
         /// A structure that contains the parameters for an SFTP connector object.
@@ -4950,6 +4970,7 @@ extension TransferClientTypes {
             as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
             connectorId: Swift.String? = nil,
             loggingRole: Swift.String? = nil,
+            securityPolicyName: Swift.String? = nil,
             serviceManagedEgressIpAddresses: [Swift.String]? = nil,
             sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
             tags: [TransferClientTypes.Tag]? = nil,
@@ -4961,6 +4982,7 @@ extension TransferClientTypes {
             self.as2Config = as2Config
             self.connectorId = connectorId
             self.loggingRole = loggingRole
+            self.securityPolicyName = securityPolicyName
             self.serviceManagedEgressIpAddresses = serviceManagedEgressIpAddresses
             self.sftpConfig = sftpConfig
             self.tags = tags
@@ -5306,17 +5328,26 @@ extension TransferClientTypes {
 extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fips = "Fips"
+        case protocols = "Protocols"
         case securityPolicyName = "SecurityPolicyName"
         case sshCiphers = "SshCiphers"
+        case sshHostKeyAlgorithms = "SshHostKeyAlgorithms"
         case sshKexs = "SshKexs"
         case sshMacs = "SshMacs"
         case tlsCiphers = "TlsCiphers"
+        case type = "Type"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let fips = self.fips {
             try encodeContainer.encode(fips, forKey: .fips)
+        }
+        if let protocols = protocols {
+            var protocolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .protocols)
+            for securitypolicyprotocol0 in protocols {
+                try protocolsContainer.encode(securitypolicyprotocol0.rawValue)
+            }
         }
         if let securityPolicyName = self.securityPolicyName {
             try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
@@ -5325,6 +5356,12 @@ extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
             var sshCiphersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshCiphers)
             for securitypolicyoption0 in sshCiphers {
                 try sshCiphersContainer.encode(securitypolicyoption0)
+            }
+        }
+        if let sshHostKeyAlgorithms = sshHostKeyAlgorithms {
+            var sshHostKeyAlgorithmsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sshHostKeyAlgorithms)
+            for securitypolicyoption0 in sshHostKeyAlgorithms {
+                try sshHostKeyAlgorithmsContainer.encode(securitypolicyoption0)
             }
         }
         if let sshKexs = sshKexs {
@@ -5344,6 +5381,9 @@ extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
             for securitypolicyoption0 in tlsCiphers {
                 try tlsCiphersContainer.encode(securitypolicyoption0)
             }
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
         }
     }
 
@@ -5397,41 +5437,77 @@ extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
             }
         }
         tlsCiphers = tlsCiphersDecoded0
+        let sshHostKeyAlgorithmsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .sshHostKeyAlgorithms)
+        var sshHostKeyAlgorithmsDecoded0:[Swift.String]? = nil
+        if let sshHostKeyAlgorithmsContainer = sshHostKeyAlgorithmsContainer {
+            sshHostKeyAlgorithmsDecoded0 = [Swift.String]()
+            for string0 in sshHostKeyAlgorithmsContainer {
+                if let string0 = string0 {
+                    sshHostKeyAlgorithmsDecoded0?.append(string0)
+                }
+            }
+        }
+        sshHostKeyAlgorithms = sshHostKeyAlgorithmsDecoded0
+        let typeDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SecurityPolicyResourceType.self, forKey: .type)
+        type = typeDecoded
+        let protocolsContainer = try containerValues.decodeIfPresent([TransferClientTypes.SecurityPolicyProtocol?].self, forKey: .protocols)
+        var protocolsDecoded0:[TransferClientTypes.SecurityPolicyProtocol]? = nil
+        if let protocolsContainer = protocolsContainer {
+            protocolsDecoded0 = [TransferClientTypes.SecurityPolicyProtocol]()
+            for enum0 in protocolsContainer {
+                if let enum0 = enum0 {
+                    protocolsDecoded0?.append(enum0)
+                }
+            }
+        }
+        protocols = protocolsDecoded0
     }
 }
 
 extension TransferClientTypes {
-    /// Describes the properties of a security policy that was specified. For more information about security policies, see [Working with security policies](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html).
+    /// Describes the properties of a security policy that you specify. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
     public struct DescribedSecurityPolicy: Swift.Equatable {
-        /// Specifies whether this policy enables Federal Information Processing Standards (FIPS).
+        /// Specifies whether this policy enables Federal Information Processing Standards (FIPS). This parameter applies to both server and connector security policies.
         public var fips: Swift.Bool?
-        /// Specifies the name of the security policy that is attached to the server.
+        /// Lists the file transfer protocols that the security policy applies to.
+        public var protocols: [TransferClientTypes.SecurityPolicyProtocol]?
+        /// The text name of the specified security policy.
         /// This member is required.
         public var securityPolicyName: Swift.String?
-        /// Specifies the enabled Secure Shell (SSH) cipher encryption algorithms in the security policy that is attached to the server.
+        /// Lists the enabled Secure Shell (SSH) cipher encryption algorithms in the security policy that is attached to the server or connector. This parameter applies to both server and connector security policies.
         public var sshCiphers: [Swift.String]?
-        /// Specifies the enabled SSH key exchange (KEX) encryption algorithms in the security policy that is attached to the server.
+        /// Lists the host key algorithms for the security policy. This parameter only applies to security policies for connectors.
+        public var sshHostKeyAlgorithms: [Swift.String]?
+        /// Lists the enabled SSH key exchange (KEX) encryption algorithms in the security policy that is attached to the server or connector. This parameter applies to both server and connector security policies.
         public var sshKexs: [Swift.String]?
-        /// Specifies the enabled SSH message authentication code (MAC) encryption algorithms in the security policy that is attached to the server.
+        /// Lists the enabled SSH message authentication code (MAC) encryption algorithms in the security policy that is attached to the server or connector. This parameter applies to both server and connector security policies.
         public var sshMacs: [Swift.String]?
-        /// Specifies the enabled Transport Layer Security (TLS) cipher encryption algorithms in the security policy that is attached to the server.
+        /// Lists the enabled Transport Layer Security (TLS) cipher encryption algorithms in the security policy that is attached to the server. This parameter only applies to security policies for servers.
         public var tlsCiphers: [Swift.String]?
+        /// The resource type to which the security policy applies, either server or connector.
+        public var type: TransferClientTypes.SecurityPolicyResourceType?
 
         public init(
             fips: Swift.Bool? = nil,
+            protocols: [TransferClientTypes.SecurityPolicyProtocol]? = nil,
             securityPolicyName: Swift.String? = nil,
             sshCiphers: [Swift.String]? = nil,
+            sshHostKeyAlgorithms: [Swift.String]? = nil,
             sshKexs: [Swift.String]? = nil,
             sshMacs: [Swift.String]? = nil,
-            tlsCiphers: [Swift.String]? = nil
+            tlsCiphers: [Swift.String]? = nil,
+            type: TransferClientTypes.SecurityPolicyResourceType? = nil
         )
         {
             self.fips = fips
+            self.protocols = protocols
             self.securityPolicyName = securityPolicyName
             self.sshCiphers = sshCiphers
+            self.sshHostKeyAlgorithms = sshHostKeyAlgorithms
             self.sshKexs = sshKexs
             self.sshMacs = sshMacs
             self.tlsCiphers = tlsCiphers
+            self.type = type
         }
     }
 
@@ -5693,7 +5769,7 @@ extension TransferClientTypes {
         public var protocols: [TransferClientTypes.ModelProtocol]?
         /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
-        /// Specifies the name of the security policy that is attached to the server.
+        /// Specifies the name of the security policy for the server.
         public var securityPolicyName: Swift.String?
         /// Specifies the unique system-assigned identifier for a server that you instantiate.
         public var serverId: Swift.String?
@@ -10975,6 +11051,70 @@ extension TransferClientTypes {
 
 }
 
+extension TransferClientTypes {
+    public enum SecurityPolicyProtocol: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ftps
+        case sftp
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityPolicyProtocol] {
+            return [
+                .ftps,
+                .sftp,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .ftps: return "FTPS"
+            case .sftp: return "SFTP"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SecurityPolicyProtocol(rawValue: rawValue) ?? SecurityPolicyProtocol.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension TransferClientTypes {
+    public enum SecurityPolicyResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case connector
+        case server
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SecurityPolicyResourceType] {
+            return [
+                .connector,
+                .server,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .connector: return "CONNECTOR"
+            case .server: return "SERVER"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SecurityPolicyResourceType(rawValue: rawValue) ?? SecurityPolicyResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension SendWorkflowStepStateInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case executionId = "ExecutionId"
@@ -13051,6 +13191,7 @@ extension UpdateConnectorInput: Swift.Encodable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case securityPolicyName = "SecurityPolicyName"
         case sftpConfig = "SftpConfig"
         case url = "Url"
     }
@@ -13068,6 +13209,9 @@ extension UpdateConnectorInput: Swift.Encodable {
         }
         if let loggingRole = self.loggingRole {
             try encodeContainer.encode(loggingRole, forKey: .loggingRole)
+        }
+        if let securityPolicyName = self.securityPolicyName {
+            try encodeContainer.encode(securityPolicyName, forKey: .securityPolicyName)
         }
         if let sftpConfig = self.sftpConfig {
             try encodeContainer.encode(sftpConfig, forKey: .sftpConfig)
@@ -13095,6 +13239,8 @@ public struct UpdateConnectorInput: Swift.Equatable {
     public var connectorId: Swift.String?
     /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a connector to turn on CloudWatch logging for Amazon S3 events. When set, you can view connector activity in your CloudWatch logs.
     public var loggingRole: Swift.String?
+    /// Specifies the name of the security policy for the connector.
+    public var securityPolicyName: Swift.String?
     /// A structure that contains the parameters for an SFTP connector object.
     public var sftpConfig: TransferClientTypes.SftpConnectorConfig?
     /// The URL of the partner's AS2 or SFTP endpoint.
@@ -13105,6 +13251,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
         as2Config: TransferClientTypes.As2ConnectorConfig? = nil,
         connectorId: Swift.String? = nil,
         loggingRole: Swift.String? = nil,
+        securityPolicyName: Swift.String? = nil,
         sftpConfig: TransferClientTypes.SftpConnectorConfig? = nil,
         url: Swift.String? = nil
     )
@@ -13113,6 +13260,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
         self.as2Config = as2Config
         self.connectorId = connectorId
         self.loggingRole = loggingRole
+        self.securityPolicyName = securityPolicyName
         self.sftpConfig = sftpConfig
         self.url = url
     }
@@ -13125,6 +13273,7 @@ struct UpdateConnectorInputBody: Swift.Equatable {
     let accessRole: Swift.String?
     let loggingRole: Swift.String?
     let sftpConfig: TransferClientTypes.SftpConnectorConfig?
+    let securityPolicyName: Swift.String?
 }
 
 extension UpdateConnectorInputBody: Swift.Decodable {
@@ -13133,6 +13282,7 @@ extension UpdateConnectorInputBody: Swift.Decodable {
         case as2Config = "As2Config"
         case connectorId = "ConnectorId"
         case loggingRole = "LoggingRole"
+        case securityPolicyName = "SecurityPolicyName"
         case sftpConfig = "SftpConfig"
         case url = "Url"
     }
@@ -13151,6 +13301,8 @@ extension UpdateConnectorInputBody: Swift.Decodable {
         loggingRole = loggingRoleDecoded
         let sftpConfigDecoded = try containerValues.decodeIfPresent(TransferClientTypes.SftpConnectorConfig.self, forKey: .sftpConfig)
         sftpConfig = sftpConfigDecoded
+        let securityPolicyNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .securityPolicyName)
+        securityPolicyName = securityPolicyNameDecoded
     }
 }
 
@@ -13634,7 +13786,7 @@ public struct UpdateServerInput: Swift.Equatable {
     public var protocols: [TransferClientTypes.ModelProtocol]?
     /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
     public var s3StorageOptions: TransferClientTypes.S3StorageOptions?
-    /// Specifies the name of the security policy that is attached to the server.
+    /// Specifies the name of the security policy for the server.
     public var securityPolicyName: Swift.String?
     /// A system-assigned unique identifier for a server instance that the Transfer Family user is assigned to.
     /// This member is required.
