@@ -11798,6 +11798,109 @@ public struct SubscriptionNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
+extension SwitchoverGlobalClusterInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case globalClusterIdentifier = "GlobalClusterIdentifier"
+        case targetDbClusterIdentifier = "TargetDbClusterIdentifier"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let globalClusterIdentifier = globalClusterIdentifier {
+            try container.encode(globalClusterIdentifier, forKey: ClientRuntime.Key("GlobalClusterIdentifier"))
+        }
+        if let targetDbClusterIdentifier = targetDbClusterIdentifier {
+            try container.encode(targetDbClusterIdentifier, forKey: ClientRuntime.Key("TargetDbClusterIdentifier"))
+        }
+        try container.encode("SwitchoverGlobalCluster", forKey:ClientRuntime.Key("Action"))
+        try container.encode("2014-10-31", forKey:ClientRuntime.Key("Version"))
+    }
+}
+
+extension SwitchoverGlobalClusterInput {
+
+    static func urlPathProvider(_ value: SwitchoverGlobalClusterInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct SwitchoverGlobalClusterInput: Swift.Equatable {
+    /// The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isn’t case-sensitive. Constraints:
+    ///
+    /// * Must match the identifier of an existing global cluster (Amazon DocumentDB global database).
+    ///
+    /// * Minimum length of 1. Maximum length of 255.
+    ///
+    ///
+    /// Pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// This member is required.
+    public var globalClusterIdentifier: Swift.String?
+    /// The identifier of the secondary Amazon DocumentDB cluster to promote to the new primary for the global database cluster. Use the Amazon Resource Name (ARN) for the identifier so that Amazon DocumentDB can locate the cluster in its Amazon Web Services region. Constraints:
+    ///
+    /// * Must match the identifier of an existing secondary cluster.
+    ///
+    /// * Minimum length of 1. Maximum length of 255.
+    ///
+    ///
+    /// Pattern: [A-Za-z][0-9A-Za-z-:._]*
+    /// This member is required.
+    public var targetDbClusterIdentifier: Swift.String?
+
+    public init(
+        globalClusterIdentifier: Swift.String? = nil,
+        targetDbClusterIdentifier: Swift.String? = nil
+    )
+    {
+        self.globalClusterIdentifier = globalClusterIdentifier
+        self.targetDbClusterIdentifier = targetDbClusterIdentifier
+    }
+}
+
+extension SwitchoverGlobalClusterOutput {
+
+    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<SwitchoverGlobalClusterOutput, SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["SwitchoverGlobalClusterResult"]
+            var value = SwitchoverGlobalClusterOutput()
+            value.globalCluster = try reader["GlobalCluster"].readIfPresent(readingClosure: DocDBClientTypes.GlobalCluster.readingClosure)
+            return value
+        }
+    }
+}
+
+public struct SwitchoverGlobalClusterOutput: Swift.Equatable {
+    /// A data type representing an Amazon DocumentDB global cluster.
+    public var globalCluster: DocDBClientTypes.GlobalCluster?
+
+    public init(
+        globalCluster: DocDBClientTypes.GlobalCluster? = nil
+    )
+    {
+        self.globalCluster = globalCluster
+    }
+}
+
+enum SwitchoverGlobalClusterOutputError {
+
+    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+        { httpResponse, responseDocumentClosure in
+            let responseReader = try await responseDocumentClosure(httpResponse)
+            let reader = responseReader["Error"]
+            let requestID: String? = try responseReader["RequestId"].readIfPresent()
+            let code: String? = try reader["Code"].readIfPresent()
+            let message: String? = try reader["Message"].readIfPresent()
+            switch code {
+                case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "GlobalClusterNotFoundFault": return try await GlobalClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidDBClusterStateFault": return try await InvalidDBClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "InvalidGlobalClusterStateFault": return try await InvalidGlobalClusterStateFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: code)
+            }
+        }
+    }
+}
+
 extension DocDBClientTypes.Tag: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case key = "Key"

@@ -4,12 +4,16 @@ import ClientRuntime
 
 extension DataZoneClientTypes.AcceptChoice: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case editedValue
         case predictionChoice
         case predictionTarget
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let editedValue = self.editedValue {
+            try encodeContainer.encode(editedValue, forKey: .editedValue)
+        }
         if let predictionChoice = self.predictionChoice {
             try encodeContainer.encode(predictionChoice, forKey: .predictionChoice)
         }
@@ -24,22 +28,34 @@ extension DataZoneClientTypes.AcceptChoice: Swift.Codable {
         predictionTarget = predictionTargetDecoded
         let predictionChoiceDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .predictionChoice)
         predictionChoice = predictionChoiceDecoded
+        let editedValueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .editedValue)
+        editedValue = editedValueDecoded
     }
+}
+
+extension DataZoneClientTypes.AcceptChoice: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "AcceptChoice(predictionChoice: \(Swift.String(describing: predictionChoice)), predictionTarget: \(Swift.String(describing: predictionTarget)), editedValue: \"CONTENT_REDACTED\")"}
 }
 
 extension DataZoneClientTypes {
     /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted.
     public struct AcceptChoice: Swift.Equatable {
+        /// The edit of the prediction.
+        public var editedValue: Swift.String?
         /// Specifies the prediction (aka, the automatically generated piece of metadata) that can be accepted.
         public var predictionChoice: Swift.Int?
         /// Specifies the target (for example, a column name) where a prediction can be accepted.
+        /// This member is required.
         public var predictionTarget: Swift.String?
 
         public init(
+            editedValue: Swift.String? = nil,
             predictionChoice: Swift.Int? = nil,
             predictionTarget: Swift.String? = nil
         )
         {
+            self.editedValue = editedValue
             self.predictionChoice = predictionChoice
             self.predictionTarget = predictionTarget
         }
@@ -97,7 +113,7 @@ extension AcceptPredictionsInput {
 }
 
 public struct AcceptPredictionsInput: Swift.Equatable {
-    ///
+    /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be accepted.
     public var acceptChoices: [DataZoneClientTypes.AcceptChoice]?
     /// Specifies the rule (or the conditions) under which a prediction can be accepted.
     public var acceptRule: DataZoneClientTypes.AcceptRule?
@@ -106,10 +122,10 @@ public struct AcceptPredictionsInput: Swift.Equatable {
     /// The identifier of the Amazon DataZone domain.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    ///
+    /// The identifier of the asset.
     /// This member is required.
     public var identifier: Swift.String?
-    ///
+    /// The revision that is to be made to the asset.
     public var revision: Swift.String?
 
     public init(
@@ -180,13 +196,13 @@ extension AcceptPredictionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct AcceptPredictionsOutput: Swift.Equatable {
-    ///
+    /// The ID of the asset.
     /// This member is required.
     public var assetId: Swift.String?
-    ///
+    /// The identifier of the Amazon DataZone domain.
     /// This member is required.
     public var domainId: Swift.String?
-    ///
+    /// The revision that is to be made to the asset.
     /// This member is required.
     public var revision: Swift.String?
 
@@ -837,6 +853,7 @@ extension DataZoneClientTypes {
 extension DataZoneClientTypes.AssetItemAdditionalAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case formsOutput
+        case latestTimeSeriesDataPointFormsOutput
         case readOnlyFormsOutput
     }
 
@@ -846,6 +863,12 @@ extension DataZoneClientTypes.AssetItemAdditionalAttributes: Swift.Codable {
             var formsOutputContainer = encodeContainer.nestedUnkeyedContainer(forKey: .formsOutput)
             for formoutput0 in formsOutput {
                 try formsOutputContainer.encode(formoutput0)
+            }
+        }
+        if let latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput {
+            var latestTimeSeriesDataPointFormsOutputContainer = encodeContainer.nestedUnkeyedContainer(forKey: .latestTimeSeriesDataPointFormsOutput)
+            for timeseriesdatapointsummaryformoutput0 in latestTimeSeriesDataPointFormsOutput {
+                try latestTimeSeriesDataPointFormsOutputContainer.encode(timeseriesdatapointsummaryformoutput0)
             }
         }
         if let readOnlyFormsOutput = readOnlyFormsOutput {
@@ -880,6 +903,17 @@ extension DataZoneClientTypes.AssetItemAdditionalAttributes: Swift.Codable {
             }
         }
         readOnlyFormsOutput = readOnlyFormsOutputDecoded0
+        let latestTimeSeriesDataPointFormsOutputContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointFormsOutput)
+        var latestTimeSeriesDataPointFormsOutputDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsOutputContainer = latestTimeSeriesDataPointFormsOutputContainer {
+            latestTimeSeriesDataPointFormsOutputDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsOutputContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsOutputDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutputDecoded0
     }
 }
 
@@ -888,15 +922,19 @@ extension DataZoneClientTypes {
     public struct AssetItemAdditionalAttributes: Swift.Equatable {
         /// The forms included in the additional attributes of an inventory asset.
         public var formsOutput: [DataZoneClientTypes.FormOutput]?
+        /// The latest time series data points forms included in the additional attributes of an asset.
+        public var latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
         /// The read-only forms included in the additional attributes of an inventory asset.
         public var readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]?
 
         public init(
             formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
+            latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
             readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]? = nil
         )
         {
             self.formsOutput = formsOutput
+            self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
             self.readOnlyFormsOutput = readOnlyFormsOutput
         }
     }
@@ -911,6 +949,7 @@ extension DataZoneClientTypes.AssetListing: Swift.Codable {
         case createdAt
         case forms
         case glossaryTerms
+        case latestTimeSeriesDataPointForms
         case owningProjectId
     }
 
@@ -937,6 +976,12 @@ extension DataZoneClientTypes.AssetListing: Swift.Codable {
                 try glossaryTermsContainer.encode(detailedglossaryterm0)
             }
         }
+        if let latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms {
+            var latestTimeSeriesDataPointFormsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .latestTimeSeriesDataPointForms)
+            for timeseriesdatapointsummaryformoutput0 in latestTimeSeriesDataPointForms {
+                try latestTimeSeriesDataPointFormsContainer.encode(timeseriesdatapointsummaryformoutput0)
+            }
+        }
         if let owningProjectId = self.owningProjectId {
             try encodeContainer.encode(owningProjectId, forKey: .owningProjectId)
         }
@@ -954,6 +999,17 @@ extension DataZoneClientTypes.AssetListing: Swift.Codable {
         createdAt = createdAtDecoded
         let formsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .forms)
         forms = formsDecoded
+        let latestTimeSeriesDataPointFormsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointForms)
+        var latestTimeSeriesDataPointFormsDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsContainer = latestTimeSeriesDataPointFormsContainer {
+            latestTimeSeriesDataPointFormsDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointForms = latestTimeSeriesDataPointFormsDecoded0
         let glossaryTermsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.DetailedGlossaryTerm?].self, forKey: .glossaryTerms)
         var glossaryTermsDecoded0:[DataZoneClientTypes.DetailedGlossaryTerm]? = nil
         if let glossaryTermsContainer = glossaryTermsContainer {
@@ -985,6 +1041,8 @@ extension DataZoneClientTypes {
         public var forms: Swift.String?
         /// The glossary terms attached to an asset published in an Amazon DataZone catalog.
         public var glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]?
+        /// The latest time series data points forms included in the additional attributes of an asset.
+        public var latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
         /// The identifier of the project where an asset published in an Amazon DataZone catalog exists.
         public var owningProjectId: Swift.String?
 
@@ -995,6 +1053,7 @@ extension DataZoneClientTypes {
             createdAt: ClientRuntime.Date? = nil,
             forms: Swift.String? = nil,
             glossaryTerms: [DataZoneClientTypes.DetailedGlossaryTerm]? = nil,
+            latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
             owningProjectId: Swift.String? = nil
         )
         {
@@ -1004,6 +1063,7 @@ extension DataZoneClientTypes {
             self.createdAt = createdAt
             self.forms = forms
             self.glossaryTerms = glossaryTerms
+            self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
             self.owningProjectId = owningProjectId
         }
     }
@@ -1232,6 +1292,7 @@ extension DataZoneClientTypes {
 extension DataZoneClientTypes.AssetListingItemAdditionalAttributes: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case forms
+        case latestTimeSeriesDataPointForms
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1239,12 +1300,29 @@ extension DataZoneClientTypes.AssetListingItemAdditionalAttributes: Swift.Codabl
         if let forms = self.forms {
             try encodeContainer.encode(forms, forKey: .forms)
         }
+        if let latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms {
+            var latestTimeSeriesDataPointFormsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .latestTimeSeriesDataPointForms)
+            for timeseriesdatapointsummaryformoutput0 in latestTimeSeriesDataPointForms {
+                try latestTimeSeriesDataPointFormsContainer.encode(timeseriesdatapointsummaryformoutput0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let formsDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .forms)
         forms = formsDecoded
+        let latestTimeSeriesDataPointFormsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointForms)
+        var latestTimeSeriesDataPointFormsDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsContainer = latestTimeSeriesDataPointFormsContainer {
+            latestTimeSeriesDataPointFormsDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointForms = latestTimeSeriesDataPointFormsDecoded0
     }
 }
 
@@ -1253,12 +1331,16 @@ extension DataZoneClientTypes {
     public struct AssetListingItemAdditionalAttributes: Swift.Equatable {
         /// The metadata forms that form additional attributes of the metadata asset.
         public var forms: Swift.String?
+        /// The latest time series data points forms included in the additional attributes of an asset.
+        public var latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
 
         public init(
-            forms: Swift.String? = nil
+            forms: Swift.String? = nil,
+            latestTimeSeriesDataPointForms: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
         )
         {
             self.forms = forms
+            self.latestTimeSeriesDataPointForms = latestTimeSeriesDataPointForms
         }
     }
 
@@ -1365,7 +1447,7 @@ extension DataZoneClientTypes.AssetTargetNameMap: Swift.Codable {
 }
 
 extension DataZoneClientTypes {
-    ///
+    /// The name map for assets.
     public struct AssetTargetNameMap: Swift.Equatable {
         /// The identifier of the inventory asset.
         /// This member is required.
@@ -1618,6 +1700,74 @@ extension DataZoneClientTypes {
         }
     }
 
+}
+
+extension CancelMetadataGenerationRunInput {
+
+    static func urlPathProvider(_ value: CancelMetadataGenerationRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs/\(identifier.urlPercentEncoding())/cancel"
+    }
+}
+
+public struct CancelMetadataGenerationRunInput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain in which the metadata generation run is to be cancelled.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the metadata generation run.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+struct CancelMetadataGenerationRunInputBody: Swift.Equatable {
+}
+
+extension CancelMetadataGenerationRunInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CancelMetadataGenerationRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelMetadataGenerationRunOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelMetadataGenerationRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension CancelSubscriptionInput {
@@ -2174,7 +2324,7 @@ public struct CreateAssetInput: Swift.Equatable {
     /// Amazon DataZone domain where the asset is created.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    ///
+    /// The external identifier of the asset.
     public var externalIdentifier: Swift.String?
     /// Metadata forms attached to the asset.
     public var formsInput: [DataZoneClientTypes.FormInput]?
@@ -2294,7 +2444,7 @@ extension CreateAssetInputBody: Swift.Decodable {
 
 extension CreateAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAssetOutput: ClientRuntime.HttpResponseBinding {
@@ -2312,6 +2462,7 @@ extension CreateAssetOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = output.formsOutput
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
+            self.latestTimeSeriesDataPointFormsOutput = output.latestTimeSeriesDataPointFormsOutput
             self.listing = output.listing
             self.name = output.name
             self.owningProjectId = output.owningProjectId
@@ -2331,6 +2482,7 @@ extension CreateAssetOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = nil
             self.glossaryTerms = nil
             self.id = nil
+            self.latestTimeSeriesDataPointFormsOutput = nil
             self.listing = nil
             self.name = nil
             self.owningProjectId = nil
@@ -2353,7 +2505,7 @@ public struct CreateAssetOutput: Swift.Equatable {
     /// The ID of the Amazon DataZone domain in which the asset was created.
     /// This member is required.
     public var domainId: Swift.String?
-    ///
+    /// The external identifier of the asset.
     public var externalIdentifier: Swift.String?
     /// The timestamp of when the first revision of the asset took place.
     public var firstRevisionCreatedAt: ClientRuntime.Date?
@@ -2367,7 +2519,9 @@ public struct CreateAssetOutput: Swift.Equatable {
     /// The unique identifier of the created asset.
     /// This member is required.
     public var id: Swift.String?
-    ///
+    /// The latest data point that was imported into the time series form for the asset.
+    public var latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+    /// The details of an asset published in an Amazon DataZone catalog.
     public var listing: DataZoneClientTypes.AssetListingDetails?
     /// The name of the created asset.
     /// This member is required.
@@ -2400,6 +2554,7 @@ public struct CreateAssetOutput: Swift.Equatable {
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
+        latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
@@ -2420,6 +2575,7 @@ public struct CreateAssetOutput: Swift.Equatable {
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
         self.id = id
+        self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
         self.name = name
         self.owningProjectId = owningProjectId
@@ -2449,6 +2605,7 @@ struct CreateAssetOutputBody: Swift.Equatable {
     let listing: DataZoneClientTypes.AssetListingDetails?
     let formsOutput: [DataZoneClientTypes.FormOutput]?
     let readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]?
+    let latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
     let predictionConfiguration: DataZoneClientTypes.PredictionConfiguration?
 }
 
@@ -2464,6 +2621,7 @@ extension CreateAssetOutputBody: Swift.Decodable {
         case formsOutput
         case glossaryTerms
         case id
+        case latestTimeSeriesDataPointFormsOutput
         case listing
         case name
         case owningProjectId
@@ -2537,6 +2695,17 @@ extension CreateAssetOutputBody: Swift.Decodable {
             }
         }
         readOnlyFormsOutput = readOnlyFormsOutputDecoded0
+        let latestTimeSeriesDataPointFormsOutputContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointFormsOutput)
+        var latestTimeSeriesDataPointFormsOutputDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsOutputContainer = latestTimeSeriesDataPointFormsOutputContainer {
+            latestTimeSeriesDataPointFormsOutputDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsOutputContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsOutputDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutputDecoded0
         let predictionConfigurationDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.PredictionConfiguration.self, forKey: .predictionConfiguration)
         predictionConfiguration = predictionConfigurationDecoded
     }
@@ -2729,7 +2898,7 @@ extension CreateAssetRevisionInputBody: Swift.Decodable {
 
 extension CreateAssetRevisionOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "CreateAssetRevisionOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), predictionConfiguration: \(Swift.String(describing: predictionConfiguration)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension CreateAssetRevisionOutput: ClientRuntime.HttpResponseBinding {
@@ -2747,6 +2916,7 @@ extension CreateAssetRevisionOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = output.formsOutput
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
+            self.latestTimeSeriesDataPointFormsOutput = output.latestTimeSeriesDataPointFormsOutput
             self.listing = output.listing
             self.name = output.name
             self.owningProjectId = output.owningProjectId
@@ -2766,6 +2936,7 @@ extension CreateAssetRevisionOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = nil
             self.glossaryTerms = nil
             self.id = nil
+            self.latestTimeSeriesDataPointFormsOutput = nil
             self.listing = nil
             self.name = nil
             self.owningProjectId = nil
@@ -2788,7 +2959,7 @@ public struct CreateAssetRevisionOutput: Swift.Equatable {
     /// The unique identifier of the Amazon DataZone domain where the asset was revised.
     /// This member is required.
     public var domainId: Swift.String?
-    ///
+    /// The external identifier of the asset.
     public var externalIdentifier: Swift.String?
     /// The timestamp of when the first asset revision occured.
     public var firstRevisionCreatedAt: ClientRuntime.Date?
@@ -2802,7 +2973,9 @@ public struct CreateAssetRevisionOutput: Swift.Equatable {
     /// The unique identifier of the asset revision.
     /// This member is required.
     public var id: Swift.String?
-    ///
+    /// The latest data point that was imported into the time series form for the asset.
+    public var latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+    /// The details of an asset published in an Amazon DataZone catalog.
     public var listing: DataZoneClientTypes.AssetListingDetails?
     /// The revised name of the asset.
     /// This member is required.
@@ -2835,6 +3008,7 @@ public struct CreateAssetRevisionOutput: Swift.Equatable {
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
+        latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
@@ -2855,6 +3029,7 @@ public struct CreateAssetRevisionOutput: Swift.Equatable {
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
         self.id = id
+        self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
         self.name = name
         self.owningProjectId = owningProjectId
@@ -2884,6 +3059,7 @@ struct CreateAssetRevisionOutputBody: Swift.Equatable {
     let listing: DataZoneClientTypes.AssetListingDetails?
     let formsOutput: [DataZoneClientTypes.FormOutput]?
     let readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]?
+    let latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
     let predictionConfiguration: DataZoneClientTypes.PredictionConfiguration?
 }
 
@@ -2899,6 +3075,7 @@ extension CreateAssetRevisionOutputBody: Swift.Decodable {
         case formsOutput
         case glossaryTerms
         case id
+        case latestTimeSeriesDataPointFormsOutput
         case listing
         case name
         case owningProjectId
@@ -2972,6 +3149,17 @@ extension CreateAssetRevisionOutputBody: Swift.Decodable {
             }
         }
         readOnlyFormsOutput = readOnlyFormsOutputDecoded0
+        let latestTimeSeriesDataPointFormsOutputContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointFormsOutput)
+        var latestTimeSeriesDataPointFormsOutputDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsOutputContainer = latestTimeSeriesDataPointFormsOutputContainer {
+            latestTimeSeriesDataPointFormsOutputDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsOutputContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsOutputDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutputDecoded0
         let predictionConfigurationDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.PredictionConfiguration.self, forKey: .predictionConfiguration)
         predictionConfiguration = predictionConfigurationDecoded
     }
@@ -5787,20 +5975,20 @@ extension CreateListingChangeSetInput {
 }
 
 public struct CreateListingChangeSetInput: Swift.Equatable {
-    ///
+    /// Specifies whether to publish or unpublish a listing.
     /// This member is required.
     public var action: DataZoneClientTypes.ChangeAction?
-    ///
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
     public var clientToken: Swift.String?
-    ///
+    /// The ID of the Amazon DataZone domain.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    ///
+    /// The ID of the asset.
     /// This member is required.
     public var entityIdentifier: Swift.String?
-    ///
+    /// The revision of an asset.
     public var entityRevision: Swift.String?
-    ///
+    /// The type of an entity.
     /// This member is required.
     public var entityType: DataZoneClientTypes.EntityType?
 
@@ -5871,13 +6059,13 @@ extension CreateListingChangeSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateListingChangeSetOutput: Swift.Equatable {
-    ///
+    /// The ID of the listing (a record of an asset at a given time).
     /// This member is required.
     public var listingId: Swift.String?
-    ///
+    /// The revision of a listing.
     /// This member is required.
     public var listingRevision: Swift.String?
-    ///
+    /// Specifies the status of the listing.
     /// This member is required.
     public var status: DataZoneClientTypes.ListingStatus?
 
@@ -6184,7 +6372,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     /// The identifier of the Amazon DataZone domain in which the project was created.
     /// This member is required.
     public var domainId: Swift.String?
-    /// Reasons for failed project deletion
+    /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms that can be used in the project.
     public var glossaryTerms: [Swift.String]?
@@ -6196,7 +6384,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
-    /// Status of the project
+    /// The status of the Amazon DataZone project that was created.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
@@ -6663,7 +6851,7 @@ public struct CreateSubscriptionRequestInput: Swift.Equatable {
     /// The reason for the subscription request.
     /// This member is required.
     public var requestReason: Swift.String?
-    ///
+    /// The published asset for which the subscription grant is to be created.
     /// This member is required.
     public var subscribedListings: [DataZoneClientTypes.SubscribedListingInput]?
     /// The Amazon DataZone principals for whom the subscription request is created.
@@ -6794,7 +6982,7 @@ public struct CreateSubscriptionRequestOutput: Swift.Equatable {
     /// The status of the subscription request.
     /// This member is required.
     public var status: DataZoneClientTypes.SubscriptionRequestStatus?
-    ///
+    /// The published asset for which the subscription grant is to be created.
     /// This member is required.
     public var subscribedListings: [DataZoneClientTypes.SubscribedListing]?
     /// The subscribed principals of the subscription request.
@@ -9161,7 +9349,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     /// The identifier of the Amazon Web Services domain that is to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Optional flag to delete all child entities within the domain
+    /// Specifies the optional flag to delete all child entities within the domain.
     public var skipDeletionCheck: Swift.Bool?
 
     public init(
@@ -9661,10 +9849,10 @@ extension DeleteListingInput {
 }
 
 public struct DeleteListingInput: Swift.Equatable {
-    ///
+    /// The ID of the Amazon DataZone domain.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    ///
+    /// The ID of the listing to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
 
@@ -9747,7 +9935,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     /// The identifier of the project that is to be deleted.
     /// This member is required.
     public var identifier: Swift.String?
-    /// Optional flag to asynchronously delete child entities within the project
+    /// Specifies the optional flag to delete all child entities within the project.
     public var skipDeletionCheck: Swift.Bool?
 
     public init(
@@ -10241,6 +10429,108 @@ enum DeleteSubscriptionTargetOutputError: ClientRuntime.HttpResponseErrorBinding
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteTimeSeriesDataPointsInput {
+
+    static func queryItemProvider(_ value: DeleteTimeSeriesDataPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let clientToken = value.clientToken {
+            let clientTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "clientToken".urlPercentEncoding(), value: Swift.String(clientToken).urlPercentEncoding())
+            items.append(clientTokenQueryItem)
+        }
+        guard let formName = value.formName else {
+            let message = "Creating a URL Query Item failed. formName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "formName".urlPercentEncoding(), value: Swift.String(formName).urlPercentEncoding())
+        items.append(formNameQueryItem)
+        return items
+    }
+}
+
+extension DeleteTimeSeriesDataPointsInput {
+
+    static func urlPathProvider(_ value: DeleteTimeSeriesDataPointsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/time-series-data-points"
+    }
+}
+
+public struct DeleteTimeSeriesDataPointsInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The ID of the Amazon DataZone domain that houses the asset for which you want to delete a time series form.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the asset for which you want to delete a time series form.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset for which you want to delete a time series form.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The name of the time series form that you want to delete.
+    /// This member is required.
+    public var formName: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        formName: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.formName = formName
+    }
+}
+
+struct DeleteTimeSeriesDataPointsInputBody: Swift.Equatable {
+}
+
+extension DeleteTimeSeriesDataPointsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteTimeSeriesDataPointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteTimeSeriesDataPointsOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteTimeSeriesDataPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -12217,7 +12507,7 @@ extension GetAssetInputBody: Swift.Decodable {
 
 extension GetAssetOutput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
+        "GetAssetOutput(createdAt: \(Swift.String(describing: createdAt)), createdBy: \(Swift.String(describing: createdBy)), domainId: \(Swift.String(describing: domainId)), firstRevisionCreatedAt: \(Swift.String(describing: firstRevisionCreatedAt)), firstRevisionCreatedBy: \(Swift.String(describing: firstRevisionCreatedBy)), formsOutput: \(Swift.String(describing: formsOutput)), glossaryTerms: \(Swift.String(describing: glossaryTerms)), id: \(Swift.String(describing: id)), latestTimeSeriesDataPointFormsOutput: \(Swift.String(describing: latestTimeSeriesDataPointFormsOutput)), listing: \(Swift.String(describing: listing)), owningProjectId: \(Swift.String(describing: owningProjectId)), readOnlyFormsOutput: \(Swift.String(describing: readOnlyFormsOutput)), revision: \(Swift.String(describing: revision)), typeIdentifier: \(Swift.String(describing: typeIdentifier)), typeRevision: \(Swift.String(describing: typeRevision)), description: \"CONTENT_REDACTED\", externalIdentifier: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension GetAssetOutput: ClientRuntime.HttpResponseBinding {
@@ -12235,6 +12525,7 @@ extension GetAssetOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = output.formsOutput
             self.glossaryTerms = output.glossaryTerms
             self.id = output.id
+            self.latestTimeSeriesDataPointFormsOutput = output.latestTimeSeriesDataPointFormsOutput
             self.listing = output.listing
             self.name = output.name
             self.owningProjectId = output.owningProjectId
@@ -12253,6 +12544,7 @@ extension GetAssetOutput: ClientRuntime.HttpResponseBinding {
             self.formsOutput = nil
             self.glossaryTerms = nil
             self.id = nil
+            self.latestTimeSeriesDataPointFormsOutput = nil
             self.listing = nil
             self.name = nil
             self.owningProjectId = nil
@@ -12274,7 +12566,7 @@ public struct GetAssetOutput: Swift.Equatable {
     /// The ID of the Amazon DataZone domain to which the asset belongs.
     /// This member is required.
     public var domainId: Swift.String?
-    ///
+    /// The external ID of the asset.
     public var externalIdentifier: Swift.String?
     /// The timestamp of when the first revision of the asset was created.
     public var firstRevisionCreatedAt: ClientRuntime.Date?
@@ -12288,7 +12580,9 @@ public struct GetAssetOutput: Swift.Equatable {
     /// The ID of the asset.
     /// This member is required.
     public var id: Swift.String?
-    ///
+    /// The latest data point that was imported into the time series form for the asset.
+    public var latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+    /// The listing of the asset.
     public var listing: DataZoneClientTypes.AssetListingDetails?
     /// The name of the asset.
     /// This member is required.
@@ -12319,6 +12613,7 @@ public struct GetAssetOutput: Swift.Equatable {
         formsOutput: [DataZoneClientTypes.FormOutput]? = nil,
         glossaryTerms: [Swift.String]? = nil,
         id: Swift.String? = nil,
+        latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
         listing: DataZoneClientTypes.AssetListingDetails? = nil,
         name: Swift.String? = nil,
         owningProjectId: Swift.String? = nil,
@@ -12338,6 +12633,7 @@ public struct GetAssetOutput: Swift.Equatable {
         self.formsOutput = formsOutput
         self.glossaryTerms = glossaryTerms
         self.id = id
+        self.latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutput
         self.listing = listing
         self.name = name
         self.owningProjectId = owningProjectId
@@ -12366,6 +12662,7 @@ struct GetAssetOutputBody: Swift.Equatable {
     let listing: DataZoneClientTypes.AssetListingDetails?
     let formsOutput: [DataZoneClientTypes.FormOutput]?
     let readOnlyFormsOutput: [DataZoneClientTypes.FormOutput]?
+    let latestTimeSeriesDataPointFormsOutput: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
 }
 
 extension GetAssetOutputBody: Swift.Decodable {
@@ -12380,6 +12677,7 @@ extension GetAssetOutputBody: Swift.Decodable {
         case formsOutput
         case glossaryTerms
         case id
+        case latestTimeSeriesDataPointFormsOutput
         case listing
         case name
         case owningProjectId
@@ -12452,6 +12750,17 @@ extension GetAssetOutputBody: Swift.Decodable {
             }
         }
         readOnlyFormsOutput = readOnlyFormsOutputDecoded0
+        let latestTimeSeriesDataPointFormsOutputContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .latestTimeSeriesDataPointFormsOutput)
+        var latestTimeSeriesDataPointFormsOutputDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let latestTimeSeriesDataPointFormsOutputContainer = latestTimeSeriesDataPointFormsOutputContainer {
+            latestTimeSeriesDataPointFormsOutputDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in latestTimeSeriesDataPointFormsOutputContainer {
+                if let structure0 = structure0 {
+                    latestTimeSeriesDataPointFormsOutputDecoded0?.append(structure0)
+                }
+            }
+        }
+        latestTimeSeriesDataPointFormsOutput = latestTimeSeriesDataPointFormsOutputDecoded0
     }
 }
 
@@ -12849,7 +13158,7 @@ public struct GetDataSourceOutput: Swift.Equatable {
     public var projectId: Swift.String?
     /// Specifies whether the assets that this data source creates in the inventory are to be also automatically published to the catalog.
     public var publishOnImport: Swift.Bool?
-    ///
+    /// The recommendation configuration of the data source.
     public var recommendation: DataZoneClientTypes.RecommendationConfiguration?
     /// The schedule of the data source runs.
     public var schedule: DataZoneClientTypes.ScheduleConfiguration?
@@ -15361,13 +15670,13 @@ extension GetListingInput {
 }
 
 public struct GetListingInput: Swift.Equatable {
-    ///
+    /// The ID of the Amazon DataZone domain.
     /// This member is required.
     public var domainIdentifier: Swift.String?
-    ///
+    /// The ID of the listing.
     /// This member is required.
     public var identifier: Swift.String?
-    ///
+    /// The revision of the listing.
     public var listingRevision: Swift.String?
 
     public init(
@@ -15429,26 +15738,26 @@ extension GetListingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetListingOutput: Swift.Equatable {
-    ///
+    /// The timestamp of when the listing was created.
     public var createdAt: ClientRuntime.Date?
     /// The Amazon DataZone user who created the listing.
     public var createdBy: Swift.String?
-    ///
+    /// The description of the listing.
     public var description: Swift.String?
-    ///
+    /// The ID of the Amazon DataZone domain.
     /// This member is required.
     public var domainId: Swift.String?
-    ///
+    /// The ID of the listing.
     /// This member is required.
     public var id: Swift.String?
-    ///
+    /// The details of a listing.
     public var item: DataZoneClientTypes.ListingItem?
-    ///
+    /// The revision of a listing.
     /// This member is required.
     public var listingRevision: Swift.String?
-    ///
+    /// The name of the listing.
     public var name: Swift.String?
-    ///
+    /// The status of the listing.
     public var status: DataZoneClientTypes.ListingStatus?
     /// The timestamp of when the listing was updated.
     public var updatedAt: ClientRuntime.Date?
@@ -15556,6 +15865,176 @@ enum GetListingOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetMetadataGenerationRunInput {
+
+    static func urlPathProvider(_ value: GetMetadataGenerationRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetMetadataGenerationRunInput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain the metadata generation run of which you want to get.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The identifier of the metadata generation run.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.identifier = identifier
+    }
+}
+
+struct GetMetadataGenerationRunInputBody: Swift.Equatable {
+}
+
+extension GetMetadataGenerationRunInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetMetadataGenerationRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetMetadataGenerationRunOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.createdBy = output.createdBy
+            self.domainId = output.domainId
+            self.id = output.id
+            self.owningProjectId = output.owningProjectId
+            self.status = output.status
+            self.target = output.target
+            self.type = output.type
+        } else {
+            self.createdAt = nil
+            self.createdBy = nil
+            self.domainId = nil
+            self.id = nil
+            self.owningProjectId = nil
+            self.status = nil
+            self.target = nil
+            self.type = nil
+        }
+    }
+}
+
+public struct GetMetadataGenerationRunOutput: Swift.Equatable {
+    /// The timestamp of when the metadata generation run was start.
+    public var createdAt: ClientRuntime.Date?
+    /// The Amazon DataZone user who started the metadata generation run.
+    public var createdBy: Swift.String?
+    /// The ID of the Amazon DataZone domain the metadata generation run of which you want to get.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the metadata generation run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ID of the project that owns the assets for which you're running metadata generation.
+    /// This member is required.
+    public var owningProjectId: Swift.String?
+    /// The status of the metadata generation run.
+    public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    /// The asset for which you're generating metadata.
+    public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
+    /// The type of metadata generation run.
+    public var type: DataZoneClientTypes.MetadataGenerationRunType?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+        target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.id = id
+        self.owningProjectId = owningProjectId
+        self.status = status
+        self.target = target
+        self.type = type
+    }
+}
+
+struct GetMetadataGenerationRunOutputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let id: Swift.String?
+    let target: DataZoneClientTypes.MetadataGenerationRunTarget?
+    let status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    let type: DataZoneClientTypes.MetadataGenerationRunType?
+    let createdAt: ClientRuntime.Date?
+    let createdBy: Swift.String?
+    let owningProjectId: Swift.String?
+}
+
+extension GetMetadataGenerationRunOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case createdBy
+        case domainId
+        case id
+        case owningProjectId
+        case status
+        case target
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunTarget.self, forKey: .target)
+        target = targetDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunStatus.self, forKey: .status)
+        status = statusDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunType.self, forKey: .type)
+        type = typeDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let owningProjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningProjectId)
+        owningProjectId = owningProjectIdDecoded
+    }
+}
+
+enum GetMetadataGenerationRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetProjectInput {
 
     static func urlPathProvider(_ value: GetProjectInput) -> Swift.String? {
@@ -15642,7 +16121,7 @@ public struct GetProjectOutput: Swift.Equatable {
     /// The ID of the Amazon DataZone domain in which the project exists.
     /// This member is required.
     public var domainId: Swift.String?
-    /// Reasons for failed project deletion
+    /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The business glossary terms that can be used in the project.
     public var glossaryTerms: [Swift.String]?
@@ -15654,7 +16133,7 @@ public struct GetProjectOutput: Swift.Equatable {
     /// The name of the project.
     /// This member is required.
     public var name: Swift.String?
-    /// Status of the project
+    /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
@@ -16074,7 +16553,7 @@ public struct GetSubscriptionOutput: Swift.Equatable {
     /// The status of the subscription.
     /// This member is required.
     public var status: DataZoneClientTypes.SubscriptionStatus?
-    ///
+    /// The details of the published asset for which the subscription grant is created.
     /// This member is required.
     public var subscribedListing: DataZoneClientTypes.SubscribedListing?
     /// The principal that owns the subscription.
@@ -16718,6 +17197,178 @@ enum GetSubscriptionTargetOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetTimeSeriesDataPointInput {
+
+    static func queryItemProvider(_ value: GetTimeSeriesDataPointInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let formName = value.formName else {
+            let message = "Creating a URL Query Item failed. formName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "formName".urlPercentEncoding(), value: Swift.String(formName).urlPercentEncoding())
+        items.append(formNameQueryItem)
+        return items
+    }
+}
+
+extension GetTimeSeriesDataPointInput {
+
+    static func urlPathProvider(_ value: GetTimeSeriesDataPointInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/time-series-data-points/\(identifier.urlPercentEncoding())"
+    }
+}
+
+public struct GetTimeSeriesDataPointInput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain that houses the asset for which you want to get the data point.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the asset for which you want to get the data point.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset for which you want to get the data point.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The name of the time series form that houses the data point that you want to get.
+    /// This member is required.
+    public var formName: Swift.String?
+    /// The ID of the data point that you want to get.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        formName: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.formName = formName
+        self.identifier = identifier
+    }
+}
+
+struct GetTimeSeriesDataPointInputBody: Swift.Equatable {
+}
+
+extension GetTimeSeriesDataPointInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetTimeSeriesDataPointOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetTimeSeriesDataPointOutputBody = try responseDecoder.decode(responseBody: data)
+            self.domainId = output.domainId
+            self.entityId = output.entityId
+            self.entityType = output.entityType
+            self.form = output.form
+            self.formName = output.formName
+        } else {
+            self.domainId = nil
+            self.entityId = nil
+            self.entityType = nil
+            self.form = nil
+            self.formName = nil
+        }
+    }
+}
+
+public struct GetTimeSeriesDataPointOutput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain that houses the asset data point that you want to get.
+    public var domainId: Swift.String?
+    /// The ID of the asset for which you want to get the data point.
+    public var entityId: Swift.String?
+    /// The type of the asset for which you want to get the data point.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The time series form that houses the data point that you want to get.
+    public var form: DataZoneClientTypes.TimeSeriesDataPointFormOutput?
+    /// The name of the time series form that houses the data point that you want to get.
+    public var formName: Swift.String?
+
+    public init(
+        domainId: Swift.String? = nil,
+        entityId: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        form: DataZoneClientTypes.TimeSeriesDataPointFormOutput? = nil,
+        formName: Swift.String? = nil
+    )
+    {
+        self.domainId = domainId
+        self.entityId = entityId
+        self.entityType = entityType
+        self.form = form
+        self.formName = formName
+    }
+}
+
+struct GetTimeSeriesDataPointOutputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let entityId: Swift.String?
+    let entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    let formName: Swift.String?
+    let form: DataZoneClientTypes.TimeSeriesDataPointFormOutput?
+}
+
+extension GetTimeSeriesDataPointOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId
+        case entityId
+        case entityType
+        case form
+        case formName
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
+        entityId = entityIdDecoded
+        let entityTypeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.TimeSeriesEntityType.self, forKey: .entityType)
+        entityType = entityTypeDecoded
+        let formNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .formName)
+        formName = formNameDecoded
+        let formDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.TimeSeriesDataPointFormOutput.self, forKey: .form)
+        form = formDecoded
+    }
+}
+
+enum GetTimeSeriesDataPointOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetUserProfileInput {
 
     static func queryItemProvider(_ value: GetUserProfileInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -17226,12 +17877,16 @@ extension DataZoneClientTypes {
 
 extension DataZoneClientTypes.GlueRunConfigurationInput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case autoImportDataQualityResult
         case dataAccessRole
         case relationalFilterConfigurations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let autoImportDataQualityResult = self.autoImportDataQualityResult {
+            try encodeContainer.encode(autoImportDataQualityResult, forKey: .autoImportDataQualityResult)
+        }
         if let dataAccessRole = self.dataAccessRole {
             try encodeContainer.encode(dataAccessRole, forKey: .dataAccessRole)
         }
@@ -17258,12 +17913,16 @@ extension DataZoneClientTypes.GlueRunConfigurationInput: Swift.Codable {
             }
         }
         relationalFilterConfigurations = relationalFilterConfigurationsDecoded0
+        let autoImportDataQualityResultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoImportDataQualityResult)
+        autoImportDataQualityResult = autoImportDataQualityResultDecoded
     }
 }
 
 extension DataZoneClientTypes {
     /// The configuration details of the Amazon Web Services Glue data source.
     public struct GlueRunConfigurationInput: Swift.Equatable {
+        /// Specifies whether to automatically import data quality metrics as part of the data source run.
+        public var autoImportDataQualityResult: Swift.Bool?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public var dataAccessRole: Swift.String?
         /// The relational filter configurations included in the configuration details of the Amazon Web Services Glue data source.
@@ -17271,10 +17930,12 @@ extension DataZoneClientTypes {
         public var relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]?
 
         public init(
+            autoImportDataQualityResult: Swift.Bool? = nil,
             dataAccessRole: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
         )
         {
+            self.autoImportDataQualityResult = autoImportDataQualityResult
             self.dataAccessRole = dataAccessRole
             self.relationalFilterConfigurations = relationalFilterConfigurations
         }
@@ -17285,6 +17946,7 @@ extension DataZoneClientTypes {
 extension DataZoneClientTypes.GlueRunConfigurationOutput: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId
+        case autoImportDataQualityResult
         case dataAccessRole
         case region
         case relationalFilterConfigurations
@@ -17294,6 +17956,9 @@ extension DataZoneClientTypes.GlueRunConfigurationOutput: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let accountId = self.accountId {
             try encodeContainer.encode(accountId, forKey: .accountId)
+        }
+        if let autoImportDataQualityResult = self.autoImportDataQualityResult {
+            try encodeContainer.encode(autoImportDataQualityResult, forKey: .autoImportDataQualityResult)
         }
         if let dataAccessRole = self.dataAccessRole {
             try encodeContainer.encode(dataAccessRole, forKey: .dataAccessRole)
@@ -17328,6 +17993,8 @@ extension DataZoneClientTypes.GlueRunConfigurationOutput: Swift.Codable {
             }
         }
         relationalFilterConfigurations = relationalFilterConfigurationsDecoded0
+        let autoImportDataQualityResultDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .autoImportDataQualityResult)
+        autoImportDataQualityResult = autoImportDataQualityResultDecoded
     }
 }
 
@@ -17336,6 +18003,8 @@ extension DataZoneClientTypes {
     public struct GlueRunConfigurationOutput: Swift.Equatable {
         /// The Amazon Web Services account ID included in the configuration details of the Amazon Web Services Glue data source.
         public var accountId: Swift.String?
+        /// Specifies whether to automatically import data quality metrics as part of the data source run.
+        public var autoImportDataQualityResult: Swift.Bool?
         /// The data access role included in the configuration details of the Amazon Web Services Glue data source.
         public var dataAccessRole: Swift.String?
         /// The Amazon Web Services region included in the configuration details of the Amazon Web Services Glue data source.
@@ -17346,12 +18015,14 @@ extension DataZoneClientTypes {
 
         public init(
             accountId: Swift.String? = nil,
+            autoImportDataQualityResult: Swift.Bool? = nil,
             dataAccessRole: Swift.String? = nil,
             region: Swift.String? = nil,
             relationalFilterConfigurations: [DataZoneClientTypes.RelationalFilterConfiguration]? = nil
         )
         {
             self.accountId = accountId
+            self.autoImportDataQualityResult = autoImportDataQualityResult
             self.dataAccessRole = dataAccessRole
             self.region = region
             self.relationalFilterConfigurations = relationalFilterConfigurations
@@ -19073,7 +19744,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     public var environmentProfileIdentifier: Swift.String?
     /// The maximum number of environments to return in a single call to ListEnvironments. When the number of environments to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListEnvironments to list the next set of environments.
     public var maxResults: Swift.Int?
-    ///
+    /// The name of the environment.
     public var name: Swift.String?
     /// When the number of environments is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of environments, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListEnvironments to list the next set of environments.
     public var nextToken: Swift.String?
@@ -19191,6 +19862,154 @@ enum ListEnvironmentsOutputError: ClientRuntime.HttpResponseErrorBinding {
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListMetadataGenerationRunsInput {
+
+    static func queryItemProvider(_ value: ListMetadataGenerationRunsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let type = value.type {
+            let typeQueryItem = ClientRuntime.SDKURLQueryItem(name: "type".urlPercentEncoding(), value: Swift.String(type.rawValue).urlPercentEncoding())
+            items.append(typeQueryItem)
+        }
+        if let status = value.status {
+            let statusQueryItem = ClientRuntime.SDKURLQueryItem(name: "status".urlPercentEncoding(), value: Swift.String(status.rawValue).urlPercentEncoding())
+            items.append(statusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListMetadataGenerationRunsInput {
+
+    static func urlPathProvider(_ value: ListMetadataGenerationRunsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs"
+    }
+}
+
+public struct ListMetadataGenerationRunsInput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain where you want to list metadata generation runs.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The maximum number of metadata generation runs to return in a single call to ListMetadataGenerationRuns. When the number of metadata generation runs to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
+    public var maxResults: Swift.Int?
+    /// When the number of metadata generation runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of metadata generation runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
+    public var nextToken: Swift.String?
+    /// The status of the metadata generation runs.
+    public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    /// The type of the metadata generation runs.
+    public var type: DataZoneClientTypes.MetadataGenerationRunType?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.status = status
+        self.type = type
+    }
+}
+
+struct ListMetadataGenerationRunsInputBody: Swift.Equatable {
+}
+
+extension ListMetadataGenerationRunsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListMetadataGenerationRunsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListMetadataGenerationRunsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListMetadataGenerationRunsOutput: Swift.Equatable {
+    /// The results of the ListMetadataGenerationRuns action.
+    public var items: [DataZoneClientTypes.MetadataGenerationRunItem]?
+    /// When the number of metadata generation runs is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of metadata generation runs, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListMetadataGenerationRuns to list the next set of revisions.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.MetadataGenerationRunItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListMetadataGenerationRunsOutputBody: Swift.Equatable {
+    let items: [DataZoneClientTypes.MetadataGenerationRunItem]?
+    let nextToken: Swift.String?
+}
+
+extension ListMetadataGenerationRunsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.MetadataGenerationRunItem?].self, forKey: .items)
+        var itemsDecoded0:[DataZoneClientTypes.MetadataGenerationRunItem]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [DataZoneClientTypes.MetadataGenerationRunItem]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListMetadataGenerationRunsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -19582,7 +20401,7 @@ public struct ListProjectsInput: Swift.Equatable {
     public var groupIdentifier: Swift.String?
     /// The maximum number of projects to return in a single call to ListProjects. When the number of projects to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListProjects to list the next set of projects.
     public var maxResults: Swift.Int?
-    ///
+    /// The name of the project.
     public var name: Swift.String?
     /// When the number of projects is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of projects, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListProjects to list the next set of projects.
     public var nextToken: Swift.String?
@@ -20495,6 +21314,181 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListTimeSeriesDataPointsInput {
+
+    static func queryItemProvider(_ value: ListTimeSeriesDataPointsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let endedAt = value.endedAt {
+            let endedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "endedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endedAt)).urlPercentEncoding())
+            items.append(endedAtQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let formName = value.formName else {
+            let message = "Creating a URL Query Item failed. formName is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let formNameQueryItem = ClientRuntime.SDKURLQueryItem(name: "formName".urlPercentEncoding(), value: Swift.String(formName).urlPercentEncoding())
+        items.append(formNameQueryItem)
+        if let startedAt = value.startedAt {
+            let startedAtQueryItem = ClientRuntime.SDKURLQueryItem(name: "startedAt".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startedAt)).urlPercentEncoding())
+            items.append(startedAtQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListTimeSeriesDataPointsInput {
+
+    static func urlPathProvider(_ value: ListTimeSeriesDataPointsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/time-series-data-points"
+    }
+}
+
+public struct ListTimeSeriesDataPointsInput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain that houses the assets for which you want to list time series data points.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The timestamp at which the data points that you wanted to list ended.
+    public var endedAt: ClientRuntime.Date?
+    /// The ID of the asset for which you want to list data points.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset for which you want to list data points.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The name of the time series data points form.
+    /// This member is required.
+    public var formName: Swift.String?
+    /// The maximum number of data points to return in a single call to ListTimeSeriesDataPoints. When the number of data points to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
+    public var maxResults: Swift.Int?
+    /// When the number of data points is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data points, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
+    public var nextToken: Swift.String?
+    /// The timestamp at which the data points that you want to list started.
+    public var startedAt: ClientRuntime.Date?
+
+    public init(
+        domainIdentifier: Swift.String? = nil,
+        endedAt: ClientRuntime.Date? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        formName: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.domainIdentifier = domainIdentifier
+        self.endedAt = endedAt
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.formName = formName
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startedAt = startedAt
+    }
+}
+
+struct ListTimeSeriesDataPointsInputBody: Swift.Equatable {
+}
+
+extension ListTimeSeriesDataPointsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListTimeSeriesDataPointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListTimeSeriesDataPointsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.items = output.items
+            self.nextToken = output.nextToken
+        } else {
+            self.items = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListTimeSeriesDataPointsOutput: Swift.Equatable {
+    /// The results of the ListTimeSeriesDataPoints action.
+    public var items: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+    /// When the number of data points is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of data points, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListTimeSeriesDataPoints to list the next set of data points.
+    public var nextToken: Swift.String?
+
+    public init(
+        items: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.items = items
+        self.nextToken = nextToken
+    }
+}
+
+struct ListTimeSeriesDataPointsOutputBody: Swift.Equatable {
+    let items: [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]?
+    let nextToken: Swift.String?
+}
+
+extension ListTimeSeriesDataPointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case items
+        case nextToken
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let itemsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput?].self, forKey: .items)
+        var itemsDecoded0:[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]? = nil
+        if let itemsContainer = itemsContainer {
+            itemsDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]()
+            for structure0 in itemsContainer {
+                if let structure0 = structure0 {
+                    itemsDecoded0?.append(structure0)
+                }
+            }
+        }
+        items = itemsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListTimeSeriesDataPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DataZoneClientTypes.ListingItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case assetlisting = "assetListing"
@@ -20755,6 +21749,270 @@ extension DataZoneClientTypes {
 
 }
 
+extension DataZoneClientTypes.MetadataGenerationRunItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case createdBy
+        case domainId
+        case id
+        case owningProjectId
+        case status
+        case target
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let createdBy = self.createdBy {
+            try encodeContainer.encode(createdBy, forKey: .createdBy)
+        }
+        if let domainId = self.domainId {
+            try encodeContainer.encode(domainId, forKey: .domainId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let owningProjectId = self.owningProjectId {
+            try encodeContainer.encode(owningProjectId, forKey: .owningProjectId)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunTarget.self, forKey: .target)
+        target = targetDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunStatus.self, forKey: .status)
+        status = statusDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunType.self, forKey: .type)
+        type = typeDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let owningProjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningProjectId)
+        owningProjectId = owningProjectIdDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The metadata generation run.
+    public struct MetadataGenerationRunItem: Swift.Equatable {
+        /// The timestamp at which the metadata generation run was created.
+        public var createdAt: ClientRuntime.Date?
+        /// The user who created the metadata generation run.
+        public var createdBy: Swift.String?
+        /// The ID of the Amazon DataZone domain in which the metadata generation run was created.
+        /// This member is required.
+        public var domainId: Swift.String?
+        /// The ID of the metadata generation run.
+        /// This member is required.
+        public var id: Swift.String?
+        /// The ID of the project that owns the asset for which the metadata generation was ran.
+        /// This member is required.
+        public var owningProjectId: Swift.String?
+        /// The status of the metadata generation run.
+        public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+        /// The asset for which metadata was generated.
+        public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
+        /// The type of the metadata generation run.
+        public var type: DataZoneClientTypes.MetadataGenerationRunType?
+
+        public init(
+            createdAt: ClientRuntime.Date? = nil,
+            createdBy: Swift.String? = nil,
+            domainId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            owningProjectId: Swift.String? = nil,
+            status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+            target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
+            type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+        )
+        {
+            self.createdAt = createdAt
+            self.createdBy = createdBy
+            self.domainId = domainId
+            self.id = id
+            self.owningProjectId = owningProjectId
+            self.status = status
+            self.target = target
+            self.type = type
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    public enum MetadataGenerationRunStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case canceled
+        case failed
+        case inProgress
+        case submitted
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataGenerationRunStatus] {
+            return [
+                .canceled,
+                .failed,
+                .inProgress,
+                .submitted,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .canceled: return "CANCELED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .submitted: return "SUBMITTED"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetadataGenerationRunStatus(rawValue: rawValue) ?? MetadataGenerationRunStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataZoneClientTypes.MetadataGenerationRunTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case identifier
+        case revision
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let identifier = self.identifier {
+            try encodeContainer.encode(identifier, forKey: .identifier)
+        }
+        if let revision = self.revision {
+            try encodeContainer.encode(revision, forKey: .revision)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationTargetType.self, forKey: .type)
+        type = typeDecoded
+        let identifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identifier)
+        identifier = identifierDecoded
+        let revisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .revision)
+        revision = revisionDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The asset for which metadata was generated.
+    public struct MetadataGenerationRunTarget: Swift.Equatable {
+        /// The ID of the metadata generation run's target.
+        /// This member is required.
+        public var identifier: Swift.String?
+        /// The revision of the asset for which metadata was generated.
+        public var revision: Swift.String?
+        /// The type of the asset for which metadata was generated.
+        /// This member is required.
+        public var type: DataZoneClientTypes.MetadataGenerationTargetType?
+
+        public init(
+            identifier: Swift.String? = nil,
+            revision: Swift.String? = nil,
+            type: DataZoneClientTypes.MetadataGenerationTargetType? = nil
+        )
+        {
+            self.identifier = identifier
+            self.revision = revision
+            self.type = type
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    public enum MetadataGenerationRunType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case businessDescriptions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataGenerationRunType] {
+            return [
+                .businessDescriptions,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .businessDescriptions: return "BUSINESS_DESCRIPTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetadataGenerationRunType(rawValue: rawValue) ?? MetadataGenerationRunType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DataZoneClientTypes {
+    public enum MetadataGenerationTargetType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asset
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [MetadataGenerationTargetType] {
+            return [
+                .asset,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asset: return "ASSET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = MetadataGenerationTargetType(rawValue: rawValue) ?? MetadataGenerationTargetType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension DataZoneClientTypes.Model: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sdkUnknown
@@ -20783,9 +22041,9 @@ extension DataZoneClientTypes.Model: Swift.Codable {
 }
 
 extension DataZoneClientTypes {
-    ///
+    /// The model of the API.
     public enum Model: Swift.Equatable {
-        ///
+        /// Indicates the smithy model of the API.
         case smithy(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -21112,6 +22370,201 @@ extension DataZoneClientTypes {
     }
 }
 
+extension PostTimeSeriesDataPointsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case forms
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let forms = forms {
+            var formsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .forms)
+            for timeseriesdatapointforminput0 in forms {
+                try formsContainer.encode(timeseriesdatapointforminput0)
+            }
+        }
+    }
+}
+
+extension PostTimeSeriesDataPointsInput {
+
+    static func urlPathProvider(_ value: PostTimeSeriesDataPointsInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        guard let entityType = value.entityType else {
+            return nil
+        }
+        guard let entityIdentifier = value.entityIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/entities/\(entityType.rawValue.urlPercentEncoding())/\(entityIdentifier.urlPercentEncoding())/time-series-data-points"
+    }
+}
+
+public struct PostTimeSeriesDataPointsInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier that is provided to ensure the idempotency of the request.
+    public var clientToken: Swift.String?
+    /// The ID of the Amazon DataZone domain in which you want to post time series data points.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the asset for which you want to post time series data points.
+    /// This member is required.
+    public var entityIdentifier: Swift.String?
+    /// The type of the asset for which you want to post data points.
+    /// This member is required.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The forms that contain the data points that you want to post.
+    /// This member is required.
+    public var forms: [DataZoneClientTypes.TimeSeriesDataPointFormInput]?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        entityIdentifier: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        forms: [DataZoneClientTypes.TimeSeriesDataPointFormInput]? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.entityIdentifier = entityIdentifier
+        self.entityType = entityType
+        self.forms = forms
+    }
+}
+
+struct PostTimeSeriesDataPointsInputBody: Swift.Equatable {
+    let forms: [DataZoneClientTypes.TimeSeriesDataPointFormInput]?
+    let clientToken: Swift.String?
+}
+
+extension PostTimeSeriesDataPointsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case forms
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointFormInput?].self, forKey: .forms)
+        var formsDecoded0:[DataZoneClientTypes.TimeSeriesDataPointFormInput]? = nil
+        if let formsContainer = formsContainer {
+            formsDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointFormInput]()
+            for structure0 in formsContainer {
+                if let structure0 = structure0 {
+                    formsDecoded0?.append(structure0)
+                }
+            }
+        }
+        forms = formsDecoded0
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension PostTimeSeriesDataPointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PostTimeSeriesDataPointsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.domainId = output.domainId
+            self.entityId = output.entityId
+            self.entityType = output.entityType
+            self.forms = output.forms
+        } else {
+            self.domainId = nil
+            self.entityId = nil
+            self.entityType = nil
+            self.forms = nil
+        }
+    }
+}
+
+public struct PostTimeSeriesDataPointsOutput: Swift.Equatable {
+    /// The ID of the Amazon DataZone domain in which you want to post time series data points.
+    public var domainId: Swift.String?
+    /// The ID of the asset for which you want to post time series data points.
+    public var entityId: Swift.String?
+    /// The type of the asset for which you want to post data points.
+    public var entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    /// The forms that contain the data points that you have posted.
+    public var forms: [DataZoneClientTypes.TimeSeriesDataPointFormOutput]?
+
+    public init(
+        domainId: Swift.String? = nil,
+        entityId: Swift.String? = nil,
+        entityType: DataZoneClientTypes.TimeSeriesEntityType? = nil,
+        forms: [DataZoneClientTypes.TimeSeriesDataPointFormOutput]? = nil
+    )
+    {
+        self.domainId = domainId
+        self.entityId = entityId
+        self.entityType = entityType
+        self.forms = forms
+    }
+}
+
+struct PostTimeSeriesDataPointsOutputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let entityId: Swift.String?
+    let entityType: DataZoneClientTypes.TimeSeriesEntityType?
+    let forms: [DataZoneClientTypes.TimeSeriesDataPointFormOutput]?
+}
+
+extension PostTimeSeriesDataPointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case domainId
+        case entityId
+        case entityType
+        case forms
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let entityIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .entityId)
+        entityId = entityIdDecoded
+        let entityTypeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.TimeSeriesEntityType.self, forKey: .entityType)
+        entityType = entityTypeDecoded
+        let formsContainer = try containerValues.decodeIfPresent([DataZoneClientTypes.TimeSeriesDataPointFormOutput?].self, forKey: .forms)
+        var formsDecoded0:[DataZoneClientTypes.TimeSeriesDataPointFormOutput]? = nil
+        if let formsContainer = formsContainer {
+            formsDecoded0 = [DataZoneClientTypes.TimeSeriesDataPointFormOutput]()
+            for structure0 in formsContainer {
+                if let structure0 = structure0 {
+                    formsDecoded0?.append(structure0)
+                }
+            }
+        }
+        forms = formsDecoded0
+    }
+}
+
+enum PostTimeSeriesDataPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension DataZoneClientTypes.PredictionConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case businessNameGeneration
@@ -21173,11 +22626,11 @@ extension DataZoneClientTypes.ProjectDeletionError: Swift.Codable {
 }
 
 extension DataZoneClientTypes {
-    /// Error that occurred during project deletion
+    /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public struct ProjectDeletionError: Swift.Equatable {
-        /// Project Deletion Error Code
+        /// The code of the project deletion error.
         public var code: Swift.String?
-        /// Project Deletion Error Message
+        /// The message of the project deletion error.
         public var message: Swift.String?
 
         public init(
@@ -21371,7 +22824,7 @@ extension DataZoneClientTypes {
         /// The identifier of a Amazon DataZone domain where the project exists.
         /// This member is required.
         public var domainId: Swift.String?
-        /// Reasons for failed project deletion
+        /// Specifies the error message that is returned if the operation cannot be successfully completed.
         public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
         /// The identifier of a project.
         /// This member is required.
@@ -21379,7 +22832,7 @@ extension DataZoneClientTypes {
         /// The name of a project.
         /// This member is required.
         public var name: Swift.String?
-        /// Status of the project
+        /// The status of the project.
         public var projectStatus: DataZoneClientTypes.ProjectStatus?
         /// The timestamp of when the project was updated.
         public var updatedAt: ClientRuntime.Date?
@@ -22149,6 +23602,7 @@ extension DataZoneClientTypes {
         /// Specifies the the automatically generated business metadata that can be rejected.
         public var predictionChoices: [Swift.Int]?
         /// Specifies the target (for example, a column name) where a prediction can be rejected.
+        /// This member is required.
         public var predictionTarget: Swift.String?
 
         public init(
@@ -22221,11 +23675,11 @@ public struct RejectPredictionsInput: Swift.Equatable {
     /// The identifier of the prediction.
     /// This member is required.
     public var identifier: Swift.String?
-    ///
+    /// Specifies the prediction (aka, the automatically generated piece of metadata) and the target (for example, a column name) that can be rejected.
     public var rejectChoices: [DataZoneClientTypes.RejectChoice]?
-    ///
+    /// Specifies the rule (or the conditions) under which a prediction can be rejected.
     public var rejectRule: DataZoneClientTypes.RejectRule?
-    ///
+    /// The revision that is to be made to the asset.
     public var revision: Swift.String?
 
     public init(
@@ -22296,13 +23750,13 @@ extension RejectPredictionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct RejectPredictionsOutput: Swift.Equatable {
-    ///
+    /// The ID of the asset.
     /// This member is required.
     public var assetId: Swift.String?
-    ///
+    /// The revision that is to be made to the asset.
     /// This member is required.
     public var assetRevision: Swift.String?
-    ///
+    /// The ID of the Amazon DataZone domain.
     /// This member is required.
     public var domainId: Swift.String?
 
@@ -22350,6 +23804,7 @@ enum RejectPredictionsOutputError: ClientRuntime.HttpResponseErrorBinding {
         if let error = serviceError { return error }
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -23536,7 +24991,7 @@ public struct SearchInput: Swift.Equatable {
     public var nextToken: Swift.String?
     /// The identifier of the owning project specified for the search.
     public var owningProjectIdentifier: Swift.String?
-    ///
+    /// The details of the search.
     public var searchIn: [DataZoneClientTypes.SearchInItem]?
     /// The scope of the search.
     /// This member is required.
@@ -23770,7 +25225,7 @@ public struct SearchListingsInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchListings to list the next set of results.
     public var nextToken: Swift.String?
-    ///
+    /// The details of the search.
     public var searchIn: [DataZoneClientTypes.SearchInItem]?
     /// Specifies the text for which to search.
     public var searchText: Swift.String?
@@ -23981,11 +25436,13 @@ public struct SearchOutput: Swift.Equatable {
 extension DataZoneClientTypes {
     public enum SearchOutputAdditionalAttribute: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case forms
+        case timeSeriesDataPointForms
         case sdkUnknown(Swift.String)
 
         public static var allCases: [SearchOutputAdditionalAttribute] {
             return [
                 .forms,
+                .timeSeriesDataPointForms,
                 .sdkUnknown("")
             ]
         }
@@ -23996,6 +25453,7 @@ extension DataZoneClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .forms: return "FORMS"
+            case .timeSeriesDataPointForms: return "TIME_SERIES_DATA_POINT_FORMS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -24199,14 +25657,14 @@ public struct SearchTypesInput: Swift.Equatable {
     public var domainIdentifier: Swift.String?
     /// The filters for the SearchTypes action.
     public var filters: DataZoneClientTypes.FilterClause?
-    ///
+    /// Specifies whether the search is managed.
     /// This member is required.
     public var managed: Swift.Bool?
     /// The maximum number of results to return in a single call to SearchTypes. When the number of results to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to SearchTypes to list the next set of results.
     public var maxResults: Swift.Int?
     /// When the number of results is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of results, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to SearchTypes to list the next set of results.
     public var nextToken: Swift.String?
-    ///
+    /// The details of the search.
     public var searchIn: [DataZoneClientTypes.SearchInItem]?
     /// Specifies the scope of the search for types.
     /// This member is required.
@@ -25085,6 +26543,222 @@ extension StartDataSourceRunOutputBody: Swift.Decodable {
 }
 
 enum StartDataSourceRunOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await DataZoneClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMetadataGenerationRunInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case owningProjectIdentifier
+        case target
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let owningProjectIdentifier = self.owningProjectIdentifier {
+            try encodeContainer.encode(owningProjectIdentifier, forKey: .owningProjectIdentifier)
+        }
+        if let target = self.target {
+            try encodeContainer.encode(target, forKey: .target)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+}
+
+extension StartMetadataGenerationRunInput {
+
+    static func urlPathProvider(_ value: StartMetadataGenerationRunInput) -> Swift.String? {
+        guard let domainIdentifier = value.domainIdentifier else {
+            return nil
+        }
+        return "/v2/domains/\(domainIdentifier.urlPercentEncoding())/metadata-generation-runs"
+    }
+}
+
+public struct StartMetadataGenerationRunInput: Swift.Equatable {
+    /// A unique, case-sensitive identifier to ensure idempotency of the request. This field is automatically populated if not provided.
+    public var clientToken: Swift.String?
+    /// The ID of the Amazon DataZone domain where you want to start a metadata generation run.
+    /// This member is required.
+    public var domainIdentifier: Swift.String?
+    /// The ID of the project that owns the asset for which you want to start a metadata generation run.
+    /// This member is required.
+    public var owningProjectIdentifier: Swift.String?
+    /// The asset for which you want to start a metadata generation run.
+    /// This member is required.
+    public var target: DataZoneClientTypes.MetadataGenerationRunTarget?
+    /// The type of the metadata generation run.
+    /// This member is required.
+    public var type: DataZoneClientTypes.MetadataGenerationRunType?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        domainIdentifier: Swift.String? = nil,
+        owningProjectIdentifier: Swift.String? = nil,
+        target: DataZoneClientTypes.MetadataGenerationRunTarget? = nil,
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.domainIdentifier = domainIdentifier
+        self.owningProjectIdentifier = owningProjectIdentifier
+        self.target = target
+        self.type = type
+    }
+}
+
+struct StartMetadataGenerationRunInputBody: Swift.Equatable {
+    let type: DataZoneClientTypes.MetadataGenerationRunType?
+    let target: DataZoneClientTypes.MetadataGenerationRunTarget?
+    let clientToken: Swift.String?
+    let owningProjectIdentifier: Swift.String?
+}
+
+extension StartMetadataGenerationRunInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case owningProjectIdentifier
+        case target
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunType.self, forKey: .type)
+        type = typeDecoded
+        let targetDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunTarget.self, forKey: .target)
+        target = targetDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+        let owningProjectIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningProjectIdentifier)
+        owningProjectIdentifier = owningProjectIdentifierDecoded
+    }
+}
+
+extension StartMetadataGenerationRunOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMetadataGenerationRunOutputBody = try responseDecoder.decode(responseBody: data)
+            self.createdAt = output.createdAt
+            self.createdBy = output.createdBy
+            self.domainId = output.domainId
+            self.id = output.id
+            self.owningProjectId = output.owningProjectId
+            self.status = output.status
+            self.type = output.type
+        } else {
+            self.createdAt = nil
+            self.createdBy = nil
+            self.domainId = nil
+            self.id = nil
+            self.owningProjectId = nil
+            self.status = nil
+            self.type = nil
+        }
+    }
+}
+
+public struct StartMetadataGenerationRunOutput: Swift.Equatable {
+    /// The timestamp at which the metadata generation run was started.
+    public var createdAt: ClientRuntime.Date?
+    /// The ID of the user who started the metadata generation run.
+    public var createdBy: Swift.String?
+    /// The ID of the Amazon DataZone domain in which the metadata generation run was started.
+    /// This member is required.
+    public var domainId: Swift.String?
+    /// The ID of the metadata generation run.
+    /// This member is required.
+    public var id: Swift.String?
+    /// The ID of the project that owns the asset for which the metadata generation run was started.
+    public var owningProjectId: Swift.String?
+    /// The status of the metadata generation run.
+    public var status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    /// The type of the metadata generation run.
+    public var type: DataZoneClientTypes.MetadataGenerationRunType?
+
+    public init(
+        createdAt: ClientRuntime.Date? = nil,
+        createdBy: Swift.String? = nil,
+        domainId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        owningProjectId: Swift.String? = nil,
+        status: DataZoneClientTypes.MetadataGenerationRunStatus? = nil,
+        type: DataZoneClientTypes.MetadataGenerationRunType? = nil
+    )
+    {
+        self.createdAt = createdAt
+        self.createdBy = createdBy
+        self.domainId = domainId
+        self.id = id
+        self.owningProjectId = owningProjectId
+        self.status = status
+        self.type = type
+    }
+}
+
+struct StartMetadataGenerationRunOutputBody: Swift.Equatable {
+    let domainId: Swift.String?
+    let id: Swift.String?
+    let status: DataZoneClientTypes.MetadataGenerationRunStatus?
+    let type: DataZoneClientTypes.MetadataGenerationRunType?
+    let createdAt: ClientRuntime.Date?
+    let createdBy: Swift.String?
+    let owningProjectId: Swift.String?
+}
+
+extension StartMetadataGenerationRunOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case createdAt
+        case createdBy
+        case domainId
+        case id
+        case owningProjectId
+        case status
+        case type
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let domainIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .domainId)
+        domainId = domainIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunStatus.self, forKey: .status)
+        status = statusDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(DataZoneClientTypes.MetadataGenerationRunType.self, forKey: .type)
+        type = typeDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let createdByDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .createdBy)
+        createdBy = createdByDecoded
+        let owningProjectIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .owningProjectId)
+        owningProjectId = owningProjectIdDecoded
+    }
+}
+
+enum StartMetadataGenerationRunOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -26797,6 +28471,292 @@ extension ThrottlingExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension DataZoneClientTypes.TimeSeriesDataPointFormInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case formName
+        case timestamp
+        case typeIdentifier
+        case typeRevision
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let formName = self.formName {
+            try encodeContainer.encode(formName, forKey: .formName)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let typeIdentifier = self.typeIdentifier {
+            try encodeContainer.encode(typeIdentifier, forKey: .typeIdentifier)
+        }
+        if let typeRevision = self.typeRevision {
+            try encodeContainer.encode(typeRevision, forKey: .typeRevision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .formName)
+        formName = formNameDecoded
+        let typeIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeIdentifier)
+        typeIdentifier = typeIdentifierDecoded
+        let typeRevisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeRevision)
+        typeRevision = typeRevisionDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The time series data points form.
+    public struct TimeSeriesDataPointFormInput: Swift.Equatable {
+        /// The content of the time series data points form.
+        public var content: Swift.String?
+        /// The name of the time series data points form.
+        /// This member is required.
+        public var formName: Swift.String?
+        /// The timestamp of the time series data points form.
+        /// This member is required.
+        public var timestamp: ClientRuntime.Date?
+        /// The ID of the type of the time series data points form.
+        /// This member is required.
+        public var typeIdentifier: Swift.String?
+        /// The revision type of the time series data points form.
+        public var typeRevision: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            formName: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil,
+            typeIdentifier: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.formName = formName
+            self.timestamp = timestamp
+            self.typeIdentifier = typeIdentifier
+            self.typeRevision = typeRevision
+        }
+    }
+
+}
+
+extension DataZoneClientTypes.TimeSeriesDataPointFormOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+        case formName
+        case id
+        case timestamp
+        case typeIdentifier
+        case typeRevision
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = self.content {
+            try encodeContainer.encode(content, forKey: .content)
+        }
+        if let formName = self.formName {
+            try encodeContainer.encode(formName, forKey: .formName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let typeIdentifier = self.typeIdentifier {
+            try encodeContainer.encode(typeIdentifier, forKey: .typeIdentifier)
+        }
+        if let typeRevision = self.typeRevision {
+            try encodeContainer.encode(typeRevision, forKey: .typeRevision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .formName)
+        formName = formNameDecoded
+        let typeIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeIdentifier)
+        typeIdentifier = typeIdentifierDecoded
+        let typeRevisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeRevision)
+        typeRevision = typeRevisionDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let contentDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .content)
+        content = contentDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The time series data points form.
+    public struct TimeSeriesDataPointFormOutput: Swift.Equatable {
+        /// The content of the time series data points form.
+        public var content: Swift.String?
+        /// The name of the time series data points form.
+        /// This member is required.
+        public var formName: Swift.String?
+        /// The ID of the time series data points form.
+        public var id: Swift.String?
+        /// The timestamp of the time series data points form.
+        /// This member is required.
+        public var timestamp: ClientRuntime.Date?
+        /// The ID of the type of the time series data points form.
+        /// This member is required.
+        public var typeIdentifier: Swift.String?
+        /// The revision type of the time series data points form.
+        public var typeRevision: Swift.String?
+
+        public init(
+            content: Swift.String? = nil,
+            formName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil,
+            typeIdentifier: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.content = content
+            self.formName = formName
+            self.id = id
+            self.timestamp = timestamp
+            self.typeIdentifier = typeIdentifier
+            self.typeRevision = typeRevision
+        }
+    }
+
+}
+
+extension DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentSummary
+        case formName
+        case id
+        case timestamp
+        case typeIdentifier
+        case typeRevision
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contentSummary = self.contentSummary {
+            try encodeContainer.encode(contentSummary, forKey: .contentSummary)
+        }
+        if let formName = self.formName {
+            try encodeContainer.encode(formName, forKey: .formName)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let timestamp = self.timestamp {
+            try encodeContainer.encodeTimestamp(timestamp, format: .epochSeconds, forKey: .timestamp)
+        }
+        if let typeIdentifier = self.typeIdentifier {
+            try encodeContainer.encode(typeIdentifier, forKey: .typeIdentifier)
+        }
+        if let typeRevision = self.typeRevision {
+            try encodeContainer.encode(typeRevision, forKey: .typeRevision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let formNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .formName)
+        formName = formNameDecoded
+        let typeIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeIdentifier)
+        typeIdentifier = typeIdentifierDecoded
+        let typeRevisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .typeRevision)
+        typeRevision = typeRevisionDecoded
+        let timestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .timestamp)
+        timestamp = timestampDecoded
+        let contentSummaryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contentSummary)
+        contentSummary = contentSummaryDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+    }
+}
+
+extension DataZoneClientTypes {
+    /// The summary of the time series data points form.
+    public struct TimeSeriesDataPointSummaryFormOutput: Swift.Equatable {
+        /// The content of the summary of the time series data points form.
+        public var contentSummary: Swift.String?
+        /// The name of the time series data points summary form.
+        /// This member is required.
+        public var formName: Swift.String?
+        /// The ID of the time series data points summary form.
+        public var id: Swift.String?
+        /// The timestamp of the time series data points summary form.
+        /// This member is required.
+        public var timestamp: ClientRuntime.Date?
+        /// The type ID of the time series data points summary form.
+        /// This member is required.
+        public var typeIdentifier: Swift.String?
+        /// The type revision of the time series data points summary form.
+        public var typeRevision: Swift.String?
+
+        public init(
+            contentSummary: Swift.String? = nil,
+            formName: Swift.String? = nil,
+            id: Swift.String? = nil,
+            timestamp: ClientRuntime.Date? = nil,
+            typeIdentifier: Swift.String? = nil,
+            typeRevision: Swift.String? = nil
+        )
+        {
+            self.contentSummary = contentSummary
+            self.formName = formName
+            self.id = id
+            self.timestamp = timestamp
+            self.typeIdentifier = typeIdentifier
+            self.typeRevision = typeRevision
+        }
+    }
+
+}
+
+extension DataZoneClientTypes {
+    public enum TimeSeriesEntityType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case asset
+        case listing
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TimeSeriesEntityType] {
+            return [
+                .asset,
+                .listing,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .asset: return "ASSET"
+            case .listing: return "LISTING"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TimeSeriesEntityType(rawValue: rawValue) ?? TimeSeriesEntityType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -29410,7 +31370,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     /// The identifier of the Amazon DataZone domain in which a project is updated.
     /// This member is required.
     public var domainId: Swift.String?
-    /// Reasons for failed project deletion
+    /// Specifies the error message that is returned if the operation cannot be successfully completed.
     public var failureReasons: [DataZoneClientTypes.ProjectDeletionError]?
     /// The glossary terms of the project that are to be updated.
     public var glossaryTerms: [Swift.String]?
@@ -29422,7 +31382,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     /// The name of the project that is to be updated.
     /// This member is required.
     public var name: Swift.String?
-    /// Status of the project
+    /// The status of the project.
     public var projectStatus: DataZoneClientTypes.ProjectStatus?
 
     public init(
@@ -29670,7 +31630,7 @@ extension UpdateSubscriptionGrantStatusOutput: ClientRuntime.HttpResponseBinding
 }
 
 public struct UpdateSubscriptionGrantStatusOutput: Swift.Equatable {
-    ///
+    /// The details of the asset for which the subscription grant is created.
     public var assets: [DataZoneClientTypes.SubscribedAsset]?
     /// The timestamp of when the subscription grant status was created.
     /// This member is required.

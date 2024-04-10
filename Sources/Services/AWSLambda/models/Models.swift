@@ -2594,7 +2594,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     public var functionName: Swift.String?
     /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see [Lambda programming model](https://docs.aws.amazon.com/lambda/latest/dg/foundation-progmodel.html).
     public var handler: Swift.String?
-    /// Container image [configuration values](https://docs.aws.amazon.com/lambda/latest/dg/configuration-images.html#configuration-images-settings) that override the values in the container image Dockerfile.
+    /// Container image [configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms) that override the values in the container image Dockerfile.
     public var imageConfig: LambdaClientTypes.ImageConfig?
     /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?
@@ -16239,6 +16239,7 @@ extension LambdaClientTypes {
         case ruby25
         case ruby27
         case ruby32
+        case ruby33
         case sdkUnknown(Swift.String)
 
         public static var allCases: [Runtime] {
@@ -16280,6 +16281,7 @@ extension LambdaClientTypes {
                 .ruby25,
                 .ruby27,
                 .ruby32,
+                .ruby33,
                 .sdkUnknown("")
             ]
         }
@@ -16326,6 +16328,7 @@ extension LambdaClientTypes {
             case .ruby25: return "ruby2.5"
             case .ruby27: return "ruby2.7"
             case .ruby32: return "ruby3.2"
+            case .ruby33: return "ruby3.3"
             case let .sdkUnknown(s): return s
             }
         }
@@ -19485,7 +19488,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     public var functionName: Swift.String?
     /// The name of the method within your code that Lambda calls to run your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see [Lambda programming model](https://docs.aws.amazon.com/lambda/latest/dg/foundation-progmodel.html).
     public var handler: Swift.String?
-    /// [Container image configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html) that override the values in the container image Docker file.
+    /// [Container image configuration values](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms) that override the values in the container image Docker file.
     public var imageConfig: LambdaClientTypes.ImageConfig?
     /// The ARN of the Key Management Service (KMS) customer managed key that's used to encrypt your function's [environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-encryption). When [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart-security.html) is activated, Lambda also uses this key is to encrypt your function's snapshot. If you deploy your function using a container image, Lambda also uses this key to encrypt your function when it's deployed. Note that this is not the same key that's used to protect your container image in the Amazon Elastic Container Registry (Amazon ECR). If you don't provide a customer managed key, Lambda uses a default service key.
     public var kmsKeyArn: Swift.String?

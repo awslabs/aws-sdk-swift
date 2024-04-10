@@ -4074,6 +4074,7 @@ extension MarketplaceCatalogClientTypes.OfferFilters: Swift.Codable {
         case name = "Name"
         case productId = "ProductId"
         case releaseDate = "ReleaseDate"
+        case resaleAuthorizationId = "ResaleAuthorizationId"
         case state = "State"
         case targeting = "Targeting"
     }
@@ -4101,6 +4102,9 @@ extension MarketplaceCatalogClientTypes.OfferFilters: Swift.Codable {
         if let releaseDate = self.releaseDate {
             try encodeContainer.encode(releaseDate, forKey: .releaseDate)
         }
+        if let resaleAuthorizationId = self.resaleAuthorizationId {
+            try encodeContainer.encode(resaleAuthorizationId, forKey: .resaleAuthorizationId)
+        }
         if let state = self.state {
             try encodeContainer.encode(state, forKey: .state)
         }
@@ -4117,6 +4121,8 @@ extension MarketplaceCatalogClientTypes.OfferFilters: Swift.Codable {
         name = nameDecoded
         let productIdDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.OfferProductIdFilter.self, forKey: .productId)
         productId = productIdDecoded
+        let resaleAuthorizationIdDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter.self, forKey: .resaleAuthorizationId)
+        resaleAuthorizationId = resaleAuthorizationIdDecoded
         let releaseDateDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.OfferReleaseDateFilter.self, forKey: .releaseDate)
         releaseDate = releaseDateDecoded
         let availabilityEndDateDecoded = try containerValues.decodeIfPresent(MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter.self, forKey: .availabilityEndDate)
@@ -4149,6 +4155,8 @@ extension MarketplaceCatalogClientTypes {
         public var productId: MarketplaceCatalogClientTypes.OfferProductIdFilter?
         /// Allows filtering on the ReleaseDate of an offer.
         public var releaseDate: MarketplaceCatalogClientTypes.OfferReleaseDateFilter?
+        /// Allows filtering on the ResaleAuthorizationId of an offer. Not all offers have a ResaleAuthorizationId. The response will only include offers for which you have permissions.
+        public var resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter?
         /// Allows filtering on the State of an offer.
         public var state: MarketplaceCatalogClientTypes.OfferStateFilter?
         /// Allows filtering on the Targeting of an offer.
@@ -4162,6 +4170,7 @@ extension MarketplaceCatalogClientTypes {
             name: MarketplaceCatalogClientTypes.OfferNameFilter? = nil,
             productId: MarketplaceCatalogClientTypes.OfferProductIdFilter? = nil,
             releaseDate: MarketplaceCatalogClientTypes.OfferReleaseDateFilter? = nil,
+            resaleAuthorizationId: MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateFilter? = nil,
             targeting: MarketplaceCatalogClientTypes.OfferTargetingFilter? = nil
         )
@@ -4173,6 +4182,7 @@ extension MarketplaceCatalogClientTypes {
             self.name = name
             self.productId = productId
             self.releaseDate = releaseDate
+            self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
             self.targeting = targeting
         }
@@ -4444,6 +4454,53 @@ extension MarketplaceCatalogClientTypes {
 
 }
 
+extension MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case valueList = "ValueList"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let valueList = valueList {
+            var valueListContainer = encodeContainer.nestedUnkeyedContainer(forKey: .valueList)
+            for offerresaleauthorizationidstring0 in valueList {
+                try valueListContainer.encode(offerresaleauthorizationidstring0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let valueListContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .valueList)
+        var valueListDecoded0:[Swift.String]? = nil
+        if let valueListContainer = valueListContainer {
+            valueListDecoded0 = [Swift.String]()
+            for string0 in valueListContainer {
+                if let string0 = string0 {
+                    valueListDecoded0?.append(string0)
+                }
+            }
+        }
+        valueList = valueListDecoded0
+    }
+}
+
+extension MarketplaceCatalogClientTypes {
+    /// Allows filtering on the ResaleAuthorizationId of an offer. Not all offers have a ResaleAuthorizationId. The response will only include offers for which you have permissions.
+    public struct OfferResaleAuthorizationIdFilter: Swift.Equatable {
+        /// Allows filtering on the ResaleAuthorizationId of an offer with list input.
+        public var valueList: [Swift.String]?
+
+        public init(
+            valueList: [Swift.String]? = nil
+        )
+        {
+            self.valueList = valueList
+        }
+    }
+
+}
+
 extension MarketplaceCatalogClientTypes.OfferSort: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case sortBy = "SortBy"
@@ -4498,6 +4555,7 @@ extension MarketplaceCatalogClientTypes {
         case name
         case productid
         case releasedate
+        case resaleauthorizationid
         case state
         case targeting
         case sdkUnknown(Swift.String)
@@ -4511,6 +4569,7 @@ extension MarketplaceCatalogClientTypes {
                 .name,
                 .productid,
                 .releasedate,
+                .resaleauthorizationid,
                 .state,
                 .targeting,
                 .sdkUnknown("")
@@ -4529,6 +4588,7 @@ extension MarketplaceCatalogClientTypes {
             case .name: return "Name"
             case .productid: return "ProductId"
             case .releasedate: return "ReleaseDate"
+            case .resaleauthorizationid: return "ResaleAuthorizationId"
             case .state: return "State"
             case .targeting: return "Targeting"
             case let .sdkUnknown(s): return s
@@ -4628,6 +4688,7 @@ extension MarketplaceCatalogClientTypes.OfferSummary: Swift.Codable {
         case name = "Name"
         case productId = "ProductId"
         case releaseDate = "ReleaseDate"
+        case resaleAuthorizationId = "ResaleAuthorizationId"
         case state = "State"
         case targeting = "Targeting"
     }
@@ -4652,6 +4713,9 @@ extension MarketplaceCatalogClientTypes.OfferSummary: Swift.Codable {
         if let releaseDate = self.releaseDate {
             try encodeContainer.encode(releaseDate, forKey: .releaseDate)
         }
+        if let resaleAuthorizationId = self.resaleAuthorizationId {
+            try encodeContainer.encode(resaleAuthorizationId, forKey: .resaleAuthorizationId)
+        }
         if let state = self.state {
             try encodeContainer.encode(state.rawValue, forKey: .state)
         }
@@ -4669,6 +4733,8 @@ extension MarketplaceCatalogClientTypes.OfferSummary: Swift.Codable {
         name = nameDecoded
         let productIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .productId)
         productId = productIdDecoded
+        let resaleAuthorizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resaleAuthorizationId)
+        resaleAuthorizationId = resaleAuthorizationIdDecoded
         let releaseDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .releaseDate)
         releaseDate = releaseDateDecoded
         let availabilityEndDateDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .availabilityEndDate)
@@ -4713,6 +4779,8 @@ extension MarketplaceCatalogClientTypes {
         public var productId: Swift.String?
         /// The release date of the offer.
         public var releaseDate: Swift.String?
+        /// The ResaleAuthorizationId of the offer.
+        public var resaleAuthorizationId: Swift.String?
         /// The status of the offer.
         public var state: MarketplaceCatalogClientTypes.OfferStateString?
         /// The targeting in the offer.
@@ -4724,6 +4792,7 @@ extension MarketplaceCatalogClientTypes {
             name: Swift.String? = nil,
             productId: Swift.String? = nil,
             releaseDate: Swift.String? = nil,
+            resaleAuthorizationId: Swift.String? = nil,
             state: MarketplaceCatalogClientTypes.OfferStateString? = nil,
             targeting: [MarketplaceCatalogClientTypes.OfferTargetingString]? = nil
         )
@@ -4733,6 +4802,7 @@ extension MarketplaceCatalogClientTypes {
             self.name = name
             self.productId = productId
             self.releaseDate = releaseDate
+            self.resaleAuthorizationId = resaleAuthorizationId
             self.state = state
             self.targeting = targeting
         }

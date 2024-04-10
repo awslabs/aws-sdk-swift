@@ -608,16 +608,13 @@ extension NeptuneGraphClient {
 
     /// Performs the `ExecuteQuery` operation on the `AmazonNeptuneGraph` service.
     ///
-    /// Execute an openCypher query. Currently, the SDK does not support parameterized queries. If you want to make a parameterized query call, you can use an HTTP request. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
+    /// Execute an openCypher query. When invoking this operation in a Neptune Analytics cluster, the IAM user or role making the request must have a policy attached that allows one of the following IAM actions in that cluster, depending on the query:
     ///
     /// * neptune-graph:ReadDataViaQuery
     ///
     /// * neptune-graph:WriteDataViaQuery
     ///
     /// * neptune-graph:DeleteDataViaQuery
-    ///
-    ///
-    /// Non-parametrized queries are not considered for plan caching. You can force plan caching with planCache=enabled. The plan cache will be reused only for the same exact query. Slight variations in the query will not be able to reuse the query plan cache.
     ///
     /// - Parameter ExecuteQueryInput : [no documentation found]
     ///
@@ -1371,6 +1368,59 @@ extension NeptuneGraphClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<RestoreGraphFromSnapshotOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<RestoreGraphFromSnapshotOutput>(responseClosure(decoder: decoder), responseErrorClosure(RestoreGraphFromSnapshotOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<RestoreGraphFromSnapshotOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StartImportTask` operation on the `AmazonNeptuneGraph` service.
+    ///
+    /// Import data into existing Neptune Analytics graph from Amazon Simple Storage Service (S3). The graph needs to be empty and in the AVAILABLE state.
+    ///
+    /// - Parameter StartImportTaskInput : [no documentation found]
+    ///
+    /// - Returns: `StartImportTaskOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `ConflictException` : Raised when a conflict is encountered.
+    /// - `InternalServerException` : A failure occurred on the server.
+    /// - `ResourceNotFoundException` : A specified resource could not be located.
+    /// - `ThrottlingException` : The exception was interrupted by throttling.
+    /// - `ValidationException` : A resource could not be validated.
+    public func startImportTask(input: StartImportTaskInput) async throws -> StartImportTaskOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startImportTask")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "neptune-graph")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartImportTaskInput, StartImportTaskOutput>(id: "startImportTask")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartImportTaskInput, StartImportTaskOutput>(StartImportTaskInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartImportTaskInput, StartImportTaskOutput>())
+        let endpointParams = EndpointParams(apiType: "ControlPlane", endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartImportTaskOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartImportTaskOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartImportTaskInput, StartImportTaskOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartImportTaskInput, StartImportTaskOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartImportTaskOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartImportTaskOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartImportTaskOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartImportTaskOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartImportTaskOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -572,6 +572,18 @@ extension InternetMonitorClientTypes {
 
 extension GetHealthEventInput {
 
+    static func queryItemProvider(_ value: GetHealthEventInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let linkedAccountId = value.linkedAccountId {
+            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            items.append(linkedAccountIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetHealthEventInput {
+
     static func urlPathProvider(_ value: GetHealthEventInput) -> Swift.String? {
         guard let monitorName = value.monitorName else {
             return nil
@@ -587,16 +599,20 @@ public struct GetHealthEventInput: Swift.Equatable {
     /// The internally-generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must URL-encode the EventID field in the request URL.
     /// This member is required.
     public var eventId: Swift.String?
+    /// TBD
+    public var linkedAccountId: Swift.String?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
 
     public init(
         eventId: Swift.String? = nil,
+        linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil
     )
     {
         self.eventId = eventId
+        self.linkedAccountId = linkedAccountId
         self.monitorName = monitorName
     }
 }
@@ -782,6 +798,18 @@ enum GetHealthEventOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension GetMonitorInput {
 
+    static func queryItemProvider(_ value: GetMonitorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let linkedAccountId = value.linkedAccountId {
+            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            items.append(linkedAccountIdQueryItem)
+        }
+        return items
+    }
+}
+
+extension GetMonitorInput {
+
     static func urlPathProvider(_ value: GetMonitorInput) -> Swift.String? {
         guard let monitorName = value.monitorName else {
             return nil
@@ -791,14 +819,18 @@ extension GetMonitorInput {
 }
 
 public struct GetMonitorInput: Swift.Equatable {
+    /// TBD
+    public var linkedAccountId: Swift.String?
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
 
     public init(
+        linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil
     )
     {
+        self.linkedAccountId = linkedAccountId
         self.monitorName = monitorName
     }
 }
@@ -2005,6 +2037,10 @@ extension ListHealthEventsInput {
 
     static func queryItemProvider(_ value: ListHealthEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
         var items = [ClientRuntime.SDKURLQueryItem]()
+        if let linkedAccountId = value.linkedAccountId {
+            let linkedAccountIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "LinkedAccountId".urlPercentEncoding(), value: Swift.String(linkedAccountId).urlPercentEncoding())
+            items.append(linkedAccountIdQueryItem)
+        }
         if let endTime = value.endTime {
             let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
             items.append(endTimeQueryItem)
@@ -2044,6 +2080,8 @@ public struct ListHealthEventsInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The status of a health event.
     public var eventStatus: InternetMonitorClientTypes.HealthEventStatus?
+    /// TBD
+    public var linkedAccountId: Swift.String?
     /// The number of health event objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The name of the monitor.
@@ -2057,6 +2095,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     public init(
         endTime: ClientRuntime.Date? = nil,
         eventStatus: InternetMonitorClientTypes.HealthEventStatus? = nil,
+        linkedAccountId: Swift.String? = nil,
         maxResults: Swift.Int? = nil,
         monitorName: Swift.String? = nil,
         nextToken: Swift.String? = nil,
@@ -2065,6 +2104,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     {
         self.endTime = endTime
         self.eventStatus = eventStatus
+        self.linkedAccountId = linkedAccountId
         self.maxResults = maxResults
         self.monitorName = monitorName
         self.nextToken = nextToken
@@ -2163,6 +2203,10 @@ extension ListMonitorsInput {
             let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
             items.append(nextTokenQueryItem)
         }
+        if let includeLinkedAccounts = value.includeLinkedAccounts {
+            let includeLinkedAccountsQueryItem = ClientRuntime.SDKURLQueryItem(name: "IncludeLinkedAccounts".urlPercentEncoding(), value: Swift.String(includeLinkedAccounts).urlPercentEncoding())
+            items.append(includeLinkedAccountsQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -2183,6 +2227,8 @@ extension ListMonitorsInput {
 }
 
 public struct ListMonitorsInput: Swift.Equatable {
+    /// TBD
+    public var includeLinkedAccounts: Swift.Bool?
     /// The number of monitor objects that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The status of a monitor. This includes the status of the data processing for the monitor and the status of the monitor itself. For information about the statuses for a monitor, see [ Monitor](https://docs.aws.amazon.com/internet-monitor/latest/api/API_Monitor.html).
@@ -2191,11 +2237,13 @@ public struct ListMonitorsInput: Swift.Equatable {
     public var nextToken: Swift.String?
 
     public init(
+        includeLinkedAccounts: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         monitorStatus: Swift.String? = nil,
         nextToken: Swift.String? = nil
     )
     {
+        self.includeLinkedAccounts = includeLinkedAccounts
         self.maxResults = maxResults
         self.monitorStatus = monitorStatus
         self.nextToken = nextToken
@@ -3221,6 +3269,7 @@ extension StartQueryInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime = "EndTime"
         case filterParameters = "FilterParameters"
+        case linkedAccountId = "LinkedAccountId"
         case queryType = "QueryType"
         case startTime = "StartTime"
     }
@@ -3235,6 +3284,9 @@ extension StartQueryInput: Swift.Encodable {
             for filterparameter0 in filterParameters {
                 try filterParametersContainer.encode(filterparameter0)
             }
+        }
+        if let linkedAccountId = self.linkedAccountId {
+            try encodeContainer.encode(linkedAccountId, forKey: .linkedAccountId)
         }
         if let queryType = self.queryType {
             try encodeContainer.encode(queryType.rawValue, forKey: .queryType)
@@ -3261,6 +3313,8 @@ public struct StartQueryInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The FilterParameters field that you use with Amazon CloudWatch Internet Monitor queries is a string the defines how you want a query to be filtered. The filter parameters that you can specify depend on the query type, since each query type returns a different set of Internet Monitor data. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var filterParameters: [InternetMonitorClientTypes.FilterParameter]?
+    /// TBD
+    public var linkedAccountId: Swift.String?
     /// The name of the monitor to query.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -3283,6 +3337,7 @@ public struct StartQueryInput: Swift.Equatable {
     public init(
         endTime: ClientRuntime.Date? = nil,
         filterParameters: [InternetMonitorClientTypes.FilterParameter]? = nil,
+        linkedAccountId: Swift.String? = nil,
         monitorName: Swift.String? = nil,
         queryType: InternetMonitorClientTypes.QueryType? = nil,
         startTime: ClientRuntime.Date? = nil
@@ -3290,6 +3345,7 @@ public struct StartQueryInput: Swift.Equatable {
     {
         self.endTime = endTime
         self.filterParameters = filterParameters
+        self.linkedAccountId = linkedAccountId
         self.monitorName = monitorName
         self.queryType = queryType
         self.startTime = startTime
@@ -3301,12 +3357,14 @@ struct StartQueryInputBody: Swift.Equatable {
     let endTime: ClientRuntime.Date?
     let queryType: InternetMonitorClientTypes.QueryType?
     let filterParameters: [InternetMonitorClientTypes.FilterParameter]?
+    let linkedAccountId: Swift.String?
 }
 
 extension StartQueryInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case endTime = "EndTime"
         case filterParameters = "FilterParameters"
+        case linkedAccountId = "LinkedAccountId"
         case queryType = "QueryType"
         case startTime = "StartTime"
     }
@@ -3330,6 +3388,8 @@ extension StartQueryInputBody: Swift.Decodable {
             }
         }
         filterParameters = filterParametersDecoded0
+        let linkedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkedAccountId)
+        linkedAccountId = linkedAccountIdDecoded
     }
 }
 

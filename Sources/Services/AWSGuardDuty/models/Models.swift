@@ -2116,7 +2116,7 @@ extension GuardDutyClientTypes.CoverageEc2InstanceDetails: Swift.Codable {
 }
 
 extension GuardDutyClientTypes {
-    /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Contains information about the Amazon EC2 instance runtime coverage details.
+    /// Contains information about the Amazon EC2 instance runtime coverage details.
     public struct CoverageEc2InstanceDetails: Swift.Equatable {
         /// Information about the installed security agent.
         public var agentDetails: GuardDutyClientTypes.AgentDetails?
@@ -2639,7 +2639,7 @@ extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
 extension GuardDutyClientTypes {
     /// Information about the resource for each individual EKS cluster.
     public struct CoverageResourceDetails: Swift.Equatable {
-        /// This API is also used when you use GuardDuty Runtime Monitoring for your Amazon EC2 instances (currently in preview release) and is subject to change. The use of this API is subject to Section 2 of the [Amazon Web Services Service Terms](http://aws.amazon.com/service-terms/) ("Betas and Previews"). Information about the Amazon EC2 instance assessed for runtime coverage.
+        /// Information about the Amazon EC2 instance assessed for runtime coverage.
         public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
         /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
         public var ecsClusterDetails: GuardDutyClientTypes.CoverageEcsClusterDetails?
@@ -6729,7 +6729,7 @@ extension GuardDutyClientTypes {
         public var blocked: Swift.Bool?
         /// The domain information for the DNS query.
         public var domain: Swift.String?
-        /// The second and top level domain involved in the activity that prompted GuardDuty to generate this finding.
+        /// The second and top level domain involved in the activity that potentially prompted GuardDuty to generate this finding. For a list of top-level and second-level domains, see [public suffix list](https://publicsuffix.org/).
         public var domainWithSuffix: Swift.String?
         /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
         public var `protocol`: Swift.String?
@@ -7597,12 +7597,14 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum FeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2AgentManagement
         case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [FeatureAdditionalConfiguration] {
             return [
+                .ec2AgentManagement,
                 .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
@@ -7614,6 +7616,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ec2AgentManagement: return "EC2_AGENT_MANAGEMENT"
             case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
@@ -14982,12 +14985,14 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes {
     public enum OrgFeatureAdditionalConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case ec2AgentManagement
         case ecsFargateAgentManagement
         case eksAddonManagement
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OrgFeatureAdditionalConfiguration] {
             return [
+                .ec2AgentManagement,
                 .ecsFargateAgentManagement,
                 .eksAddonManagement,
                 .sdkUnknown("")
@@ -14999,6 +15004,7 @@ extension GuardDutyClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .ec2AgentManagement: return "EC2_AGENT_MANAGEMENT"
             case .ecsFargateAgentManagement: return "ECS_FARGATE_AGENT_MANAGEMENT"
             case .eksAddonManagement: return "EKS_ADDON_MANAGEMENT"
             case let .sdkUnknown(s): return s
@@ -17374,6 +17380,7 @@ extension GuardDutyClientTypes {
 extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addressFamily = "addressFamily"
+        case commandLineExample = "commandLineExample"
         case fileSystemType = "fileSystemType"
         case flags = "flags"
         case ianaProtocolNumber = "ianaProtocolNumber"
@@ -17390,15 +17397,22 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
         case releaseAgentPath = "releaseAgentPath"
         case runcBinaryPath = "runcBinaryPath"
         case scriptPath = "scriptPath"
+        case serviceName = "serviceName"
         case shellHistoryFilePath = "shellHistoryFilePath"
         case socketPath = "socketPath"
         case targetProcess = "targetProcess"
+        case threatFilePath = "threatFilePath"
+        case toolCategory = "toolCategory"
+        case toolName = "toolName"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let addressFamily = self.addressFamily {
             try encodeContainer.encode(addressFamily, forKey: .addressFamily)
+        }
+        if let commandLineExample = self.commandLineExample {
+            try encodeContainer.encode(commandLineExample, forKey: .commandLineExample)
         }
         if let fileSystemType = self.fileSystemType {
             try encodeContainer.encode(fileSystemType, forKey: .fileSystemType)
@@ -17454,6 +17468,9 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
         if let scriptPath = self.scriptPath {
             try encodeContainer.encode(scriptPath, forKey: .scriptPath)
         }
+        if let serviceName = self.serviceName {
+            try encodeContainer.encode(serviceName, forKey: .serviceName)
+        }
         if let shellHistoryFilePath = self.shellHistoryFilePath {
             try encodeContainer.encode(shellHistoryFilePath, forKey: .shellHistoryFilePath)
         }
@@ -17462,6 +17479,15 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
         }
         if let targetProcess = self.targetProcess {
             try encodeContainer.encode(targetProcess, forKey: .targetProcess)
+        }
+        if let threatFilePath = self.threatFilePath {
+            try encodeContainer.encode(threatFilePath, forKey: .threatFilePath)
+        }
+        if let toolCategory = self.toolCategory {
+            try encodeContainer.encode(toolCategory, forKey: .toolCategory)
+        }
+        if let toolName = self.toolName {
+            try encodeContainer.encode(toolName, forKey: .toolName)
         }
     }
 
@@ -17525,6 +17551,16 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
             }
         }
         memoryRegions = memoryRegionsDecoded0
+        let toolNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toolName)
+        toolName = toolNameDecoded
+        let toolCategoryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toolCategory)
+        toolCategory = toolCategoryDecoded
+        let serviceNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .serviceName)
+        serviceName = serviceNameDecoded
+        let commandLineExampleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .commandLineExample)
+        commandLineExample = commandLineExampleDecoded
+        let threatFilePathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .threatFilePath)
+        threatFilePath = threatFilePathDecoded
     }
 }
 
@@ -17533,6 +17569,8 @@ extension GuardDutyClientTypes {
     public struct RuntimeContext: Swift.Equatable {
         /// Represents the communication protocol associated with the address. For example, the address family AF_INET is used for IP version of 4 protocol.
         public var addressFamily: Swift.String?
+        /// Example of the command line involved in the suspicious activity.
+        public var commandLineExample: Swift.String?
         /// Represents the type of mounted fileSystem.
         public var fileSystemType: Swift.String?
         /// Represents options that control the behavior of a runtime operation or action. For example, a filesystem mount operation may contain a read-only flag.
@@ -17565,15 +17603,24 @@ extension GuardDutyClientTypes {
         public var runcBinaryPath: Swift.String?
         /// The path to the script that was executed.
         public var scriptPath: Swift.String?
+        /// Name of the security service that has been potentially disabled.
+        public var serviceName: Swift.String?
         /// The path to the modified shell history file.
         public var shellHistoryFilePath: Swift.String?
         /// The path to the docket socket that was accessed.
         public var socketPath: Swift.String?
         /// Information about the process that had its memory overwritten by the current process.
         public var targetProcess: GuardDutyClientTypes.ProcessDetails?
+        /// The suspicious file path for which the threat intelligence details were found.
+        public var threatFilePath: Swift.String?
+        /// Category that the tool belongs to. Some of the examples are Backdoor Tool, Pentest Tool, Network Scanner, and Network Sniffer.
+        public var toolCategory: Swift.String?
+        /// Name of the potentially suspicious tool.
+        public var toolName: Swift.String?
 
         public init(
             addressFamily: Swift.String? = nil,
+            commandLineExample: Swift.String? = nil,
             fileSystemType: Swift.String? = nil,
             flags: [Swift.String]? = nil,
             ianaProtocolNumber: Swift.Int? = nil,
@@ -17590,12 +17637,17 @@ extension GuardDutyClientTypes {
             releaseAgentPath: Swift.String? = nil,
             runcBinaryPath: Swift.String? = nil,
             scriptPath: Swift.String? = nil,
+            serviceName: Swift.String? = nil,
             shellHistoryFilePath: Swift.String? = nil,
             socketPath: Swift.String? = nil,
-            targetProcess: GuardDutyClientTypes.ProcessDetails? = nil
+            targetProcess: GuardDutyClientTypes.ProcessDetails? = nil,
+            threatFilePath: Swift.String? = nil,
+            toolCategory: Swift.String? = nil,
+            toolName: Swift.String? = nil
         )
         {
             self.addressFamily = addressFamily
+            self.commandLineExample = commandLineExample
             self.fileSystemType = fileSystemType
             self.flags = flags
             self.ianaProtocolNumber = ianaProtocolNumber
@@ -17612,9 +17664,13 @@ extension GuardDutyClientTypes {
             self.releaseAgentPath = releaseAgentPath
             self.runcBinaryPath = runcBinaryPath
             self.scriptPath = scriptPath
+            self.serviceName = serviceName
             self.shellHistoryFilePath = shellHistoryFilePath
             self.socketPath = socketPath
             self.targetProcess = targetProcess
+            self.threatFilePath = threatFilePath
+            self.toolCategory = toolCategory
+            self.toolName = toolName
         }
     }
 
@@ -19729,12 +19785,16 @@ extension GuardDutyClientTypes {
 
 extension GuardDutyClientTypes.ThreatIntelligenceDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case threatFileSha256 = "threatFileSha256"
         case threatListName = "threatListName"
         case threatNames = "threatNames"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let threatFileSha256 = self.threatFileSha256 {
+            try encodeContainer.encode(threatFileSha256, forKey: .threatFileSha256)
+        }
         if let threatListName = self.threatListName {
             try encodeContainer.encode(threatListName, forKey: .threatListName)
         }
@@ -19761,22 +19821,28 @@ extension GuardDutyClientTypes.ThreatIntelligenceDetail: Swift.Codable {
             }
         }
         threatNames = threatNamesDecoded0
+        let threatFileSha256Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .threatFileSha256)
+        threatFileSha256 = threatFileSha256Decoded
     }
 }
 
 extension GuardDutyClientTypes {
     /// An instance of a threat intelligence detail that constitutes evidence for the finding.
     public struct ThreatIntelligenceDetail: Swift.Equatable {
+        /// SHA256 of the file that generated the finding.
+        public var threatFileSha256: Swift.String?
         /// The name of the threat intelligence list that triggered the finding.
         public var threatListName: Swift.String?
         /// A list of names of the threats in the threat intelligence list that triggered the finding.
         public var threatNames: [Swift.String]?
 
         public init(
+            threatFileSha256: Swift.String? = nil,
             threatListName: Swift.String? = nil,
             threatNames: [Swift.String]? = nil
         )
         {
+            self.threatFileSha256 = threatFileSha256
             self.threatListName = threatListName
             self.threatNames = threatNames
         }

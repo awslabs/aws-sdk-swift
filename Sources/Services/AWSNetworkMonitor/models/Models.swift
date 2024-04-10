@@ -191,7 +191,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     public var aggregationPeriod: Swift.Int?
     /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
     public var clientToken: Swift.String?
-    /// The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 255 characters.
+    /// The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 200 characters.
     /// This member is required.
     public var monitorName: Swift.String?
     /// Displays a list of all of the probes created for a monitor.
@@ -286,7 +286,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateMonitorOutput: Swift.Equatable {
-    /// The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This will be either 30 or 60.
+    /// The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This must be either 30 or 60.
     public var aggregationPeriod: Swift.Int?
     /// The ARN of the monitor.
     /// This member is required.
@@ -437,16 +437,16 @@ extension NetworkMonitorClientTypes.CreateMonitorProbeInput: Swift.Codable {
 extension NetworkMonitorClientTypes {
     /// Creates a monitor probe.
     public struct CreateMonitorProbeInput: Swift.Equatable {
-        /// The destination IP address. This will be either IPV4 or IPV6.
+        /// The destination IP address. This must be either IPV4 or IPV6.
         /// This member is required.
         public var destination: Swift.String?
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public var destinationPort: Swift.Int?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public var packetSize: Swift.Int?
         /// The list of key-value pairs created and assigned to the monitor.
         public var probeTags: [Swift.String:Swift.String]?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         /// This member is required.
         public var `protocol`: NetworkMonitorClientTypes.ModelProtocol?
         /// The ARN of the subnet.
@@ -607,20 +607,20 @@ public struct CreateProbeOutput: Swift.Equatable {
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
     public var createdAt: ClientRuntime.Date?
-    /// The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.
+    /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
     /// This member is required.
     public var destination: Swift.String?
     /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date when the probe was last modified.
     public var modifiedAt: ClientRuntime.Date?
-    /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+    /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
     public var packetSize: Swift.Int?
     /// The ARN of the probe.
     public var probeArn: Swift.String?
     /// The ID of the probe for which details are returned.
     public var probeId: Swift.String?
-    /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+    /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
     /// This member is required.
     public var `protocol`: NetworkMonitorClientTypes.ModelProtocol?
     /// The ARN of the probe.
@@ -1139,20 +1139,20 @@ public struct GetProbeOutput: Swift.Equatable {
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
     public var createdAt: ClientRuntime.Date?
-    /// The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.
+    /// The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.
     /// This member is required.
     public var destination: Swift.String?
     /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date that the probe was last modified.
     public var modifiedAt: ClientRuntime.Date?
-    /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+    /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
     public var packetSize: Swift.Int?
     /// The ARN of the probe.
     public var probeArn: Swift.String?
     /// The ID of the probe for which details are returned.
     public var probeId: Swift.String?
-    /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+    /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
     /// This member is required.
     public var `protocol`: NetworkMonitorClientTypes.ModelProtocol?
     /// The ARN of the probe.
@@ -1934,14 +1934,14 @@ extension NetworkMonitorClientTypes.ProbeInput: Swift.Codable {
 extension NetworkMonitorClientTypes {
     /// Defines a probe when creating a probe or monitor.
     public struct ProbeInput: Swift.Equatable {
-        /// The destination IP address. This will be either IPV4 or IPV6.
+        /// The destination IP address. This must be either IPV4 or IPV6.
         /// This member is required.
         public var destination: Swift.String?
         /// The port associated with the destination. This is required only if the protocol is TCP and must be a number between 1 and 65536.
         public var destinationPort: Swift.Int?
-        /// The size of the packets sent between the source and destination. This will be a number between 56 and 8500.
+        /// The size of the packets sent between the source and destination. This must be a number between 56 and 8500.
         public var packetSize: Swift.Int?
-        /// The protocol used for the network traffic between the source and destination. This will be either TCP or ICMP.
+        /// The protocol used for the network traffic between the source and destination. This must be either TCP or ICMP.
         /// This member is required.
         public var `protocol`: NetworkMonitorClientTypes.ModelProtocol?
         /// The ARN of the subnet.
@@ -2699,14 +2699,14 @@ extension UpdateProbeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct UpdateProbeOutput: Swift.Equatable {
-    /// The updated IP address family. This will be either IPV4 or IPV6.
+    /// The updated IP address family. This must be either IPV4 or IPV6.
     public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
     /// The time and date that the probe was created.
     public var createdAt: ClientRuntime.Date?
     /// The updated destination IP address for the probe.
     /// This member is required.
     public var destination: Swift.String?
-    /// The updated destination port. This will be a number between 1 and 65536.
+    /// The updated destination port. This must be a number between 1 and 65536.
     public var destinationPort: Swift.Int?
     /// The time and date that the probe was last updated.
     public var modifiedAt: ClientRuntime.Date?

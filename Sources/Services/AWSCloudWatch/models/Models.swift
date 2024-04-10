@@ -221,7 +221,7 @@ extension CloudWatchClientTypes.AnomalyDetector: Swift.Encodable {
 }
 
 extension CloudWatchClientTypes {
-    /// An anomaly detection model associated with a particular CloudWatch metric, statistic, or metric math expression. You can use the model to display a band of expected, normal values when the metric is graphed.
+    /// An anomaly detection model associated with a particular CloudWatch metric, statistic, or metric math expression. You can use the model to display a band of expected, normal values when the metric is graphed. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account.
     public struct AnomalyDetector: Swift.Equatable {
         /// The configuration specifies details about how the anomaly detection model is to be trained, including time ranges to exclude from use for training the model, and the time zone to use for the metric.
         public var configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration?
@@ -2919,7 +2919,7 @@ public struct GetMetricDataInput: Swift.Equatable {
     public var metricDataQueries: [CloudWatchClientTypes.MetricDataQuery]?
     /// Include this value, if it was returned by the previous GetMetricData operation, to get the next set of data points.
     public var nextToken: Swift.String?
-    /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached.
+    /// The order in which data points should be returned. TimestampDescending returns the newest data first and paginates when the MaxDatapoints limit is reached. TimestampAscending returns the oldest data first and paginates when the MaxDatapoints limit is reached. If you omit this parameter, the default of TimestampDescending is used.
     public var scanBy: CloudWatchClientTypes.ScanBy?
     /// The time stamp indicating the earliest data to be returned. The value specified is inclusive; results include data points with the specified time stamp. CloudWatch rounds the specified time stamp as follows:
     ///
@@ -6161,7 +6161,7 @@ public struct PutAnomalyDetectorInput: Swift.Equatable {
     ///
     /// * Stat
     ///
-    /// * the MetricMatchAnomalyDetector parameters of PutAnomalyDetectorInput
+    /// * the MetricMathAnomalyDetector parameters of PutAnomalyDetectorInput
     ///
     ///
     /// Instead, specify the single metric anomaly detector attributes as part of the property SingleMetricAnomalyDetector.
@@ -6332,7 +6332,16 @@ public struct PutCompositeAlarmInput: Swift.Equatable {
     public var actionsSuppressorExtensionPeriod: Swift.Int?
     /// The maximum time in seconds that the composite alarm waits for the suppressor alarm to go into the ALARM state. After this time, the composite alarm performs its actions. WaitPeriod is required only when ActionsSuppressor is specified.
     public var actionsSuppressorWaitPeriod: Swift.Int?
-    /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name  | arn:aws:ssm:region:account-id:opsitem:severity
+    /// The actions to execute when this alarm transitions to the ALARM state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ] Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///
+    ///
+    /// Systems Manager actions: arn:aws:ssm:region:account-id:opsitem:severity
     public var alarmActions: [Swift.String]?
     /// The description for the composite alarm.
     public var alarmDescription: Swift.String?
@@ -6364,11 +6373,23 @@ public struct PutCompositeAlarmInput: Swift.Equatable {
     /// The AlarmRule can specify as many as 100 "children" alarms. The AlarmRule expression can have as many as 500 elements. Elements are child alarms, TRUE or FALSE statements, and parentheses.
     /// This member is required.
     public var alarmRule: Swift.String?
-    /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
+    /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ] Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     public var insufficientDataActions: [Swift.String]?
-    /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: arn:aws:sns:region:account-id:sns-topic-name
+    /// The actions to execute when this alarm transitions to an OK state from any other state. Each action is specified as an Amazon Resource Name (ARN). Valid Values: ] Amazon SNS actions: arn:aws:sns:region:account-id:sns-topic-name  Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
     public var okActions: [Swift.String]?
-    /// A list of key-value pairs to associate with the composite alarm. You can associate as many as 50 tags with an alarm. Tags can help you organize and categorize your resources. You can also use them to scope user permissions, by granting a user permission to access or change only resources with certain tag values.
+    /// A list of key-value pairs to associate with the alarm. You can associate as many as 50 tags with an alarm. To be able to associate tags with the alarm when you create the alarm, you must have the cloudwatch:TagResource permission. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. If you are using this operation to update an existing alarm, any tags you specify in this parameter are ignored. To change the tags of an existing alarm, use [TagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html) or [UntagResource](https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html).
     public var tags: [CloudWatchClientTypes.Tag]?
 
     public init(
@@ -6893,9 +6914,18 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
+    /// Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///
+    ///
     /// SNS notification action:
     ///
-    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    /// * arn:aws:sns:region:account-id:sns-topic-name
     ///
     ///
     /// SSM integration actions:
@@ -6972,9 +7002,18 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
+    /// Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///
+    ///
     /// SNS notification action:
     ///
-    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    /// * arn:aws:sns:region:account-id:sns-topic-name
     ///
     ///
     /// SSM integration actions:
@@ -7013,9 +7052,18 @@ public struct PutMetricAlarmInput: Swift.Equatable {
     /// * arn:aws:autoscaling:region:account-id:scalingPolicy:policy-id:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
     ///
     ///
+    /// Lambda actions:
+    ///
+    /// * Invoke the latest version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name
+    ///
+    /// * Invoke a specific version of a Lambda function: arn:aws:lambda:region:account-id:function:function-name:version-number
+    ///
+    /// * Invoke a function by using an alias Lambda function: arn:aws:lambda:region:account-id:function:function-name:alias-name
+    ///
+    ///
     /// SNS notification action:
     ///
-    /// * arn:aws:sns:region:account-id:sns-topic-name:autoScalingGroupName/group-friendly-name:policyName/policy-friendly-name
+    /// * arn:aws:sns:region:account-id:sns-topic-name
     ///
     ///
     /// SSM integration actions:
@@ -7681,6 +7729,7 @@ enum SetAlarmStateOutputError {
 
 extension CloudWatchClientTypes.SingleMetricAnomalyDetector: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountId = "AccountId"
         case dimensions = "Dimensions"
         case metricName = "MetricName"
         case namespace = "Namespace"
@@ -7689,6 +7738,9 @@ extension CloudWatchClientTypes.SingleMetricAnomalyDetector: Swift.Encodable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let accountId = accountId {
+            try container.encode(accountId, forKey: ClientRuntime.Key("AccountId"))
+        }
         if let dimensions = dimensions {
             if !dimensions.isEmpty {
                 var dimensionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Dimensions"))
@@ -7716,6 +7768,7 @@ extension CloudWatchClientTypes.SingleMetricAnomalyDetector: Swift.Encodable {
         return { reader in
             guard reader.content != nil else { return nil }
             var value = CloudWatchClientTypes.SingleMetricAnomalyDetector()
+            value.accountId = try reader["AccountId"].readIfPresent()
             value.namespace = try reader["Namespace"].readIfPresent()
             value.metricName = try reader["MetricName"].readIfPresent()
             value.dimensions = try reader["Dimensions"].readListIfPresent(memberReadingClosure: CloudWatchClientTypes.Dimension.readingClosure, memberNodeInfo: "member", isFlattened: false)
@@ -7726,8 +7779,10 @@ extension CloudWatchClientTypes.SingleMetricAnomalyDetector: Swift.Encodable {
 }
 
 extension CloudWatchClientTypes {
-    /// Designates the CloudWatch metric and statistic that provides the time series the anomaly detector uses as input.
+    /// Designates the CloudWatch metric and statistic that provides the time series the anomaly detector uses as input. If you have enabled unified cross-account observability, and this account is a monitoring account, the metric can be in the same account or a source account.
     public struct SingleMetricAnomalyDetector: Swift.Equatable {
+        /// If the CloudWatch metric that provides the time series that the anomaly detector uses as input is in another account, specify that account ID here. If you omit this parameter, the current account is used.
+        public var accountId: Swift.String?
         /// The metric dimensions to create the anomaly detection model for.
         public var dimensions: [CloudWatchClientTypes.Dimension]?
         /// The name of the metric to create the anomaly detection model for.
@@ -7738,12 +7793,14 @@ extension CloudWatchClientTypes {
         public var stat: Swift.String?
 
         public init(
+            accountId: Swift.String? = nil,
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
             stat: Swift.String? = nil
         )
         {
+            self.accountId = accountId
             self.dimensions = dimensions
             self.metricName = metricName
             self.namespace = namespace

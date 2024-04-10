@@ -3350,7 +3350,7 @@ extension MgnClient {
 
     /// Performs the `UpdateLaunchConfiguration` operation on the `ApplicationMigrationService` service.
     ///
-    /// Updates multiple LaunchConfigurations by Source Server ID.
+    /// Updates multiple LaunchConfigurations by Source Server ID. bootMode valid values are LEGACY_BIOS | UEFI
     ///
     /// - Parameter UpdateLaunchConfigurationInput : [no documentation found]
     ///

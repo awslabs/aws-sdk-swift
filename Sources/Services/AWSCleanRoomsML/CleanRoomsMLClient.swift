@@ -152,7 +152,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
@@ -205,7 +205,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
@@ -248,7 +248,7 @@ extension CleanRoomsMLClient {
 
     /// Performs the `CreateTrainingDataset` operation on the `AWSStarkControlService` service.
     ///
-    /// Defines the information necessary to create a training dataset, or seed audience. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
+    /// Defines the information necessary to create a training dataset. In Clean Rooms ML, the TrainingDataset is metadata that points to a Glue table, which is read only during AudienceModel creation.
     ///
     /// - Parameter CreateTrainingDatasetInput : [no documentation found]
     ///
@@ -258,7 +258,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func createTrainingDataset(input: CreateTrainingDatasetInput) async throws -> CreateTrainingDatasetOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -309,7 +309,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteAudienceGenerationJob(input: DeleteAudienceGenerationJobInput) async throws -> DeleteAudienceGenerationJobOutput {
@@ -358,7 +358,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteAudienceModel(input: DeleteAudienceModelInput) async throws -> DeleteAudienceModelOutput {
@@ -407,7 +407,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteConfiguredAudienceModel(input: DeleteConfiguredAudienceModelInput) async throws -> DeleteConfiguredAudienceModelOutput {
@@ -504,7 +504,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func deleteTrainingDataset(input: DeleteTrainingDatasetInput) async throws -> DeleteTrainingDatasetOutput {
@@ -1132,7 +1132,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
@@ -1185,7 +1185,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ServiceQuotaExceededException` : You have exceeded your service quota.
     /// - `ValidationException` : The request parameters for this request are incorrect.
@@ -1338,7 +1338,7 @@ extension CleanRoomsMLClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
-    /// - `ConflictException` : A resource with that name already exists in this region.
+    /// - `ConflictException` : You can't complete this action because another resource depends on this resource.
     /// - `ResourceNotFoundException` : The resource you are requesting does not exist.
     /// - `ValidationException` : The request parameters for this request are incorrect.
     public func updateConfiguredAudienceModel(input: UpdateConfiguredAudienceModelInput) async throws -> UpdateConfiguredAudienceModelOutput {

@@ -426,6 +426,42 @@ extension PaginatorSequence where OperationStackInput == ListSubscriptionTargets
     }
 }
 extension DataZoneClient {
+    /// Paginate over `[ListTimeSeriesDataPointsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListTimeSeriesDataPointsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListTimeSeriesDataPointsOutput`
+    public func listTimeSeriesDataPointsPaginated(input: ListTimeSeriesDataPointsInput) -> ClientRuntime.PaginatorSequence<ListTimeSeriesDataPointsInput, ListTimeSeriesDataPointsOutput> {
+        return ClientRuntime.PaginatorSequence<ListTimeSeriesDataPointsInput, ListTimeSeriesDataPointsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listTimeSeriesDataPoints(input:))
+    }
+}
+
+extension ListTimeSeriesDataPointsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListTimeSeriesDataPointsInput {
+        return ListTimeSeriesDataPointsInput(
+            domainIdentifier: self.domainIdentifier,
+            endedAt: self.endedAt,
+            entityIdentifier: self.entityIdentifier,
+            entityType: self.entityType,
+            formName: self.formName,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startedAt: self.startedAt
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListTimeSeriesDataPointsInput, OperationStackOutput == ListTimeSeriesDataPointsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listTimeSeriesDataPointsPaginated`
+    /// to access the nested member `[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]`
+    /// - Returns: `[DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput]`
+    public func items() async throws -> [DataZoneClientTypes.TimeSeriesDataPointSummaryFormOutput] {
+        return try await self.asyncCompactMap { item in item.items }
+    }
+}
+extension DataZoneClient {
     /// Paginate over `[SearchOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

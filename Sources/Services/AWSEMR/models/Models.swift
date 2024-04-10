@@ -1970,7 +1970,7 @@ extension EMRClientTypes {
         public var logUri: Swift.String?
         /// The DNS name of the master node. If the cluster is on a private subnet, this is the private DNS name. On a public subnet, this is the public DNS name.
         public var masterPublicDnsName: Swift.String?
-        /// The name of the cluster.
+        /// The name of the cluster. This parameter can't contain the characters <, >, $, |, or ` (backtick).
         public var name: Swift.String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an Amazon EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public var normalizedInstanceHours: Swift.Int?
@@ -9032,7 +9032,7 @@ extension EMRClientTypes {
         public var instanceFleets: [EMRClientTypes.InstanceFleetConfig]?
         /// Configuration for the instance groups in a cluster.
         public var instanceGroups: [EMRClientTypes.InstanceGroupConfig]?
-        /// Specifies whether the cluster should remain available after completing all steps. Defaults to true. For more information about configuring cluster termination, see [Control Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html) in the EMR Management Guide.
+        /// Specifies whether the cluster should remain available after completing all steps. Defaults to false. For more information about configuring cluster termination, see [Control Cluster Termination](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-plan-termination.html) in the EMR Management Guide.
         public var keepJobFlowAliveWhenNoSteps: Swift.Bool?
         /// The Amazon EC2 instance type of the master node.
         public var masterInstanceType: Swift.String?

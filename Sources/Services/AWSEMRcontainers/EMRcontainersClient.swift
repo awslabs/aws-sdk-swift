@@ -302,6 +302,7 @@ extension EMRcontainersClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `EKSRequestThrottledException` : The request exceeded the Amazon EKS API operation limits.
     /// - `InternalServerException` : This is an internal server exception.
     /// - `ResourceNotFoundException` : The specified resource was not found.
     /// - `ValidationException` : There are invalid parameters in the client request.
