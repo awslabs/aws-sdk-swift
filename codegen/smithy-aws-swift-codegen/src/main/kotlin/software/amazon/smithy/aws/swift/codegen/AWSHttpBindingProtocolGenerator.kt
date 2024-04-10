@@ -96,7 +96,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String?
     ) {
-        StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, writer).render()
+        StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
     }
 
     override fun renderStructDecode(

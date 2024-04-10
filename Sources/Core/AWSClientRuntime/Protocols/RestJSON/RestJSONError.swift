@@ -49,15 +49,6 @@ import class SmithyJSON.Reader
 //        self.errorType = RestJSONError.sanitizeErrorType(type)
 //        self.errorMessage = message
 //    }
-//
-//    /// Filter additional information from error name and sanitize it
-//    /// Reference: https://awslabs.github.io/smithy/1.0/spec/aws/aws-restjson1-protocol.html#operation-error-serialization
-//    static func sanitizeErrorType(_ type: String?) -> String? {
-//        guard let errorType = type else {
-//            return type
-//        }
-//        return errorType.substringAfter("#").substringBefore(":").trim()
-//    }
 //}
 
 public struct RestJSONError {
@@ -71,13 +62,13 @@ public struct RestJSONError {
 
     public init(responseReader: Reader, noErrorWrapping: Bool) throws {
         let reader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
-        let code: String? = try reader["Code"].readIfPresent()
+        let code: String? = try reader["code"].readIfPresent() ?? reader["__type"].readIfPresent()
         let message: String? = try reader["Message"].readIfPresent()
         let requestID: String? = try responseReader["RequestId"].readIfPresent()
         guard let code else {
             throw RestJSONDecodeError.missingRequiredData
         }
-        self.code = code
+        self.code = sanitizeErrorType(code)
         self.message = message
         self.requestID = requestID
     }
@@ -92,3 +83,9 @@ public struct RestJSONError {
 public enum RestJSONDecodeError: Error {
     case missingRequiredData
 }
+
+    /// Filter additional information from error name and sanitize it
+    /// Reference: https://awslabs.github.io/smithy/1.0/spec/aws/aws-restjson1-protocol.html#operation-error-serialization
+    private func sanitizeErrorType(_ type: String) -> String {
+        return type.substringAfter("#").substringBefore(":").trim()
+    }

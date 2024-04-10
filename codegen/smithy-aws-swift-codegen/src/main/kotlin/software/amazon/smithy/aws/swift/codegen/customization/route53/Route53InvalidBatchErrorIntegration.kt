@@ -59,7 +59,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                     "}",
                     SmithyXMLTypes.Reader,
                 ) {
-                    writer.write("guard reader.content != nil else { return nil }")
+                    writer.write("guard reader.hasContent else { return nil }")
                     writer.write("var value = Message()")
                     writer.write("value.message = try reader[\"Message\"].readIfPresent()")
                     writer.write("return value")
@@ -77,7 +77,7 @@ class Route53InvalidBatchErrorIntegration : SwiftIntegration {
                 "}",
                 SmithyXMLTypes.Reader,
             ) {
-                writer.write("guard reader.content != nil else { return nil }")
+                writer.write("guard reader.hasContent else { return nil }")
                 writer.write("var value = CustomInvalidBatchError()")
                 writer.write("value.requestID = try reader[\"RequestId\"].readIfPresent()")
                 writer.write("value.message = try reader[\"Message\"].readIfPresent()")

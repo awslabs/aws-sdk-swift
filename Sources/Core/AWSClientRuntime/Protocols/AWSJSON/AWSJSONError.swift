@@ -18,7 +18,7 @@ public struct AWSJSONError {
 
     public init(responseReader: Reader, noErrorWrapping: Bool) throws {
         let reader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
-        let code: String? = try reader["Code"].readIfPresent()
+        let code: String? = try reader["code"].readIfPresent() ?? reader["__type"].readIfPresent()
         let message: String? = try reader["Message"].readIfPresent()
         let requestID: String? = try responseReader["RequestId"].readIfPresent()
         guard let code else {

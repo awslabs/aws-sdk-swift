@@ -78,6 +78,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
             ctx,
             shapeContainingMembers,
             members,
+            shapeMetadata,
             writer,
         ).render()
     }
