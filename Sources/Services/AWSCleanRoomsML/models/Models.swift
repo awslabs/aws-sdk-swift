@@ -279,9 +279,13 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource: Swift.Codable
 }
 
 extension CleanRoomsMLClientTypes {
-    /// Defines the Amazon S3 bucket where the training data for the configured audience is stored.
+    /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored.
     public struct AudienceGenerationJobDataSource: Swift.Equatable {
-        /// The Amazon S3 bucket where the training data for the configured audience is stored.
+        /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format: {"user_id": "111111"}
+        ///     {"user_id": "222222"}
+        ///
+        ///
+        ///     ...
         /// This member is required.
         public var dataSource: CleanRoomsMLClientTypes.S3ConfigMap?
         /// The ARN of the IAM role that can read the Amazon S3 bucket where the training data is stored.
@@ -468,102 +472,6 @@ extension CleanRoomsMLClientTypes {
 
 }
 
-extension CleanRoomsMLClientTypes.AudienceModelMetric: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case forTopKItemPredictions
-        case type
-        case value
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let forTopKItemPredictions = self.forTopKItemPredictions {
-            try encodeContainer.encode(forTopKItemPredictions, forKey: .forTopKItemPredictions)
-        }
-        if let type = self.type {
-            try encodeContainer.encode(type.rawValue, forKey: .type)
-        }
-        if let value = self.value {
-            try encodeContainer.encode(value, forKey: .value)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsMLClientTypes.AudienceModelMetricType.self, forKey: .type)
-        type = typeDecoded
-        let forTopKItemPredictionsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .forTopKItemPredictions)
-        forTopKItemPredictions = forTopKItemPredictionsDecoded
-        let valueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .value)
-        value = valueDecoded
-    }
-}
-
-extension CleanRoomsMLClientTypes {
-    /// The audience model metrics.
-    public struct AudienceModelMetric: Swift.Equatable {
-        /// The number of users that were used to generate these model metrics.
-        /// This member is required.
-        public var forTopKItemPredictions: Swift.Int?
-        /// The audience model metric.
-        /// This member is required.
-        public var type: CleanRoomsMLClientTypes.AudienceModelMetricType?
-        /// The value of the audience model metric
-        /// This member is required.
-        public var value: Swift.Double?
-
-        public init(
-            forTopKItemPredictions: Swift.Int? = nil,
-            type: CleanRoomsMLClientTypes.AudienceModelMetricType? = nil,
-            value: Swift.Double? = nil
-        )
-        {
-            self.forTopKItemPredictions = forTopKItemPredictions
-            self.type = type
-            self.value = value
-        }
-    }
-
-}
-
-extension CleanRoomsMLClientTypes {
-    public enum AudienceModelMetricType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
-        case meanReciprocalRank
-        case normalizedDiscountedCumulativeGain
-        case precision
-        case recall
-        case sdkUnknown(Swift.String)
-
-        public static var allCases: [AudienceModelMetricType] {
-            return [
-                .meanReciprocalRank,
-                .normalizedDiscountedCumulativeGain,
-                .precision,
-                .recall,
-                .sdkUnknown("")
-            ]
-        }
-        public init?(rawValue: Swift.String) {
-            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
-            self = value ?? Self.sdkUnknown(rawValue)
-        }
-        public var rawValue: Swift.String {
-            switch self {
-            case .meanReciprocalRank: return "MEAN_RECIPROCAL_RANK"
-            case .normalizedDiscountedCumulativeGain: return "NORMALIZED_DISCOUNTED_CUMULATIVE_GAIN"
-            case .precision: return "PRECISION"
-            case .recall: return "RECALL"
-            case let .sdkUnknown(s): return s
-            }
-        }
-        public init(from decoder: Swift.Decoder) throws {
-            let container = try decoder.singleValueContainer()
-            let rawValue = try container.decode(RawValue.self)
-            self = AudienceModelMetricType(rawValue: rawValue) ?? AudienceModelMetricType.sdkUnknown(rawValue)
-        }
-    }
-}
-
 extension CleanRoomsMLClientTypes {
     public enum AudienceModelStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
@@ -714,11 +622,15 @@ extension CleanRoomsMLClientTypes {
 
 extension CleanRoomsMLClientTypes.AudienceQualityMetrics: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case recallMetric
         case relevanceMetrics
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let recallMetric = self.recallMetric {
+            try encodeContainer.encode(recallMetric, forKey: .recallMetric)
+        }
         if let relevanceMetrics = relevanceMetrics {
             var relevanceMetricsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .relevanceMetrics)
             for relevancemetric0 in relevanceMetrics {
@@ -740,20 +652,26 @@ extension CleanRoomsMLClientTypes.AudienceQualityMetrics: Swift.Codable {
             }
         }
         relevanceMetrics = relevanceMetricsDecoded0
+        let recallMetricDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .recallMetric)
+        recallMetric = recallMetricDecoded
     }
 }
 
 extension CleanRoomsMLClientTypes {
     /// Metrics that describe the quality of the generated audience.
     public struct AudienceQualityMetrics: Swift.Equatable {
+        /// The recall score of the generated audience. Recall is the percentage of the most similar users (by default, the most similar 20%) from a sample of the training data that are included in the seed audience by the audience generation job. Values range from 0-1, larger values indicate a better audience. A recall value approximately equal to the maximum bin size indicates that the audience model is equivalent to random selection.
+        public var recallMetric: Swift.Double?
         /// The relevance scores of the generated audience.
         /// This member is required.
         public var relevanceMetrics: [CleanRoomsMLClientTypes.RelevanceMetric]?
 
         public init(
+            recallMetric: Swift.Double? = nil,
             relevanceMetrics: [CleanRoomsMLClientTypes.RelevanceMetric]? = nil
         )
         {
+            self.recallMetric = recallMetric
             self.relevanceMetrics = relevanceMetrics
         }
     }
@@ -1203,7 +1121,7 @@ extension ConflictException {
     }
 }
 
-/// A resource with that name already exists in this region.
+/// You can't complete this action because another resource depends on this resource.
 public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -1313,7 +1231,7 @@ public struct CreateAudienceModelInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [Swift.String:Swift.String]?
     /// The end date and time of the training window.
     public var trainingDataEndTime: ClientRuntime.Date?
@@ -1516,7 +1434,7 @@ public struct CreateConfiguredAudienceModelInput: Swift.Equatable {
     public var childResourceTagOnCreatePolicy: CleanRoomsMLClientTypes.TagOnCreatePolicy?
     /// The description of the configured audience model.
     public var description: Swift.String?
-    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model.
+    /// The minimum number of users from the seed audience that must match with users in the training data of the audience model. The default value is 500.
     public var minMatchingSeedSize: Swift.Int?
     /// The name of the configured audience model.
     /// This member is required.
@@ -1541,7 +1459,7 @@ public struct CreateConfiguredAudienceModelInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -2417,7 +2335,7 @@ public struct GetAudienceGenerationJobOutput: Swift.Equatable {
     public var description: Swift.String?
     /// Configure whether the seed users are included in the output audience. By default, Clean Rooms ML removes seed users from the output audience. If you specify TRUE, the seed users will appear first in the output. Clean Rooms ML does not explicitly reveal whether a user was in the seed, but the recipient of the audience will know that the first minimumSeedSize count of users are from the seed.
     public var includeSeedInOutput: Swift.Bool?
-    /// The relevance scores for different audience sizes.
+    /// The relevance scores for different audience sizes and the recall score of the generated audience.
     public var metrics: CleanRoomsMLClientTypes.AudienceQualityMetrics?
     /// The name of the audience generation job.
     /// This member is required.
@@ -2602,7 +2520,6 @@ extension GetAudienceModelOutput: ClientRuntime.HttpResponseBinding {
             self.createTime = output.createTime
             self.description = output.description
             self.kmsKeyArn = output.kmsKeyArn
-            self.metrics = output.metrics
             self.name = output.name
             self.status = output.status
             self.statusDetails = output.statusDetails
@@ -2616,7 +2533,6 @@ extension GetAudienceModelOutput: ClientRuntime.HttpResponseBinding {
             self.createTime = nil
             self.description = nil
             self.kmsKeyArn = nil
-            self.metrics = nil
             self.name = nil
             self.status = nil
             self.statusDetails = nil
@@ -2640,8 +2556,6 @@ public struct GetAudienceModelOutput: Swift.Equatable {
     public var description: Swift.String?
     /// The KMS key ARN used for the audience model.
     public var kmsKeyArn: Swift.String?
-    /// Accuracy metrics for the model.
-    public var metrics: [CleanRoomsMLClientTypes.AudienceModelMetric]?
     /// The name of the audience model.
     /// This member is required.
     public var name: Swift.String?
@@ -2668,7 +2582,6 @@ public struct GetAudienceModelOutput: Swift.Equatable {
         createTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
         kmsKeyArn: Swift.String? = nil,
-        metrics: [CleanRoomsMLClientTypes.AudienceModelMetric]? = nil,
         name: Swift.String? = nil,
         status: CleanRoomsMLClientTypes.AudienceModelStatus? = nil,
         statusDetails: CleanRoomsMLClientTypes.StatusDetails? = nil,
@@ -2683,7 +2596,6 @@ public struct GetAudienceModelOutput: Swift.Equatable {
         self.createTime = createTime
         self.description = description
         self.kmsKeyArn = kmsKeyArn
-        self.metrics = metrics
         self.name = name
         self.status = status
         self.statusDetails = statusDetails
@@ -2705,7 +2617,6 @@ struct GetAudienceModelOutputBody: Swift.Equatable {
     let trainingDatasetArn: Swift.String?
     let status: CleanRoomsMLClientTypes.AudienceModelStatus?
     let statusDetails: CleanRoomsMLClientTypes.StatusDetails?
-    let metrics: [CleanRoomsMLClientTypes.AudienceModelMetric]?
     let kmsKeyArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let description: Swift.String?
@@ -2717,7 +2628,6 @@ extension GetAudienceModelOutputBody: Swift.Decodable {
         case createTime
         case description
         case kmsKeyArn
-        case metrics
         case name
         case status
         case statusDetails
@@ -2748,17 +2658,6 @@ extension GetAudienceModelOutputBody: Swift.Decodable {
         status = statusDecoded
         let statusDetailsDecoded = try containerValues.decodeIfPresent(CleanRoomsMLClientTypes.StatusDetails.self, forKey: .statusDetails)
         statusDetails = statusDetailsDecoded
-        let metricsContainer = try containerValues.decodeIfPresent([CleanRoomsMLClientTypes.AudienceModelMetric?].self, forKey: .metrics)
-        var metricsDecoded0:[CleanRoomsMLClientTypes.AudienceModelMetric]? = nil
-        if let metricsContainer = metricsContainer {
-            metricsDecoded0 = [CleanRoomsMLClientTypes.AudienceModelMetric]()
-            for structure0 in metricsContainer {
-                if let structure0 = structure0 {
-                    metricsDecoded0?.append(structure0)
-                }
-            }
-        }
-        metrics = metricsDecoded0
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
@@ -4688,7 +4587,7 @@ public struct StartAudienceGenerationJobInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms ML considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     public var tags: [Swift.String:Swift.String]?
 
     public init(
@@ -4937,7 +4836,7 @@ public struct TagResourceInput: Swift.Equatable {
     ///
     /// * Tag keys and values are case sensitive.
     ///
-    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
+    /// * Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Clean Rooms considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
 

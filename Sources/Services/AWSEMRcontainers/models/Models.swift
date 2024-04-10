@@ -1106,6 +1106,7 @@ enum CreateVirtualClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "EKSRequestThrottledException": return try await EKSRequestThrottledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -1774,6 +1775,61 @@ enum DescribeVirtualClusterOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
+    }
+}
+
+extension EKSRequestThrottledException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: EKSRequestThrottledExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request exceeded the Amazon EKS API operation limits.
+public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "EKSRequestThrottledException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct EKSRequestThrottledExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension EKSRequestThrottledExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
     }
 }
 
@@ -3476,6 +3532,10 @@ extension ListVirtualClustersInput {
             let containerProviderIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "containerProviderId".urlPercentEncoding(), value: Swift.String(containerProviderId).urlPercentEncoding())
             items.append(containerProviderIdQueryItem)
         }
+        if let eksAccessEntryIntegrated = value.eksAccessEntryIntegrated {
+            let eksAccessEntryIntegratedQueryItem = ClientRuntime.SDKURLQueryItem(name: "eksAccessEntryIntegrated".urlPercentEncoding(), value: Swift.String(eksAccessEntryIntegrated).urlPercentEncoding())
+            items.append(eksAccessEntryIntegratedQueryItem)
+        }
         if let maxResults = value.maxResults {
             let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
             items.append(maxResultsQueryItem)
@@ -3522,6 +3582,8 @@ public struct ListVirtualClustersInput: Swift.Equatable {
     public var createdAfter: ClientRuntime.Date?
     /// The date and time before which the virtual clusters are created.
     public var createdBefore: ClientRuntime.Date?
+    /// Optional Boolean that specifies whether the operation should return the virtual clusters that have the access entry integration enabled or disabled. If not specified, the operation returns all applicable virtual clusters.
+    public var eksAccessEntryIntegrated: Swift.Bool?
     /// The maximum number of virtual clusters that can be listed.
     public var maxResults: Swift.Int?
     /// The token for the next set of virtual clusters to return.
@@ -3534,6 +3596,7 @@ public struct ListVirtualClustersInput: Swift.Equatable {
         containerProviderType: EMRcontainersClientTypes.ContainerProviderType? = nil,
         createdAfter: ClientRuntime.Date? = nil,
         createdBefore: ClientRuntime.Date? = nil,
+        eksAccessEntryIntegrated: Swift.Bool? = nil,
         maxResults: Swift.Int? = nil,
         nextToken: Swift.String? = nil,
         states: [EMRcontainersClientTypes.VirtualClusterState]? = nil
@@ -3543,6 +3606,7 @@ public struct ListVirtualClustersInput: Swift.Equatable {
         self.containerProviderType = containerProviderType
         self.createdAfter = createdAfter
         self.createdBefore = createdBefore
+        self.eksAccessEntryIntegrated = eksAccessEntryIntegrated
         self.maxResults = maxResults
         self.nextToken = nextToken
         self.states = states

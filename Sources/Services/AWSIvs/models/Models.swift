@@ -716,6 +716,7 @@ extension IvsClientTypes.Channel: Swift.Codable {
         case playbackUrl
         case preset
         case recordingConfigurationArn
+        case srt
         case tags
         case type
     }
@@ -751,6 +752,9 @@ extension IvsClientTypes.Channel: Swift.Codable {
         }
         if let recordingConfigurationArn = self.recordingConfigurationArn {
             try encodeContainer.encode(recordingConfigurationArn, forKey: .recordingConfigurationArn)
+        }
+        if let srt = self.srt {
+            try encodeContainer.encode(srt, forKey: .srt)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -796,6 +800,8 @@ extension IvsClientTypes.Channel: Swift.Codable {
         insecureIngest = insecureIngestDecoded
         let presetDecoded = try containerValues.decodeIfPresent(IvsClientTypes.TranscodePreset.self, forKey: .preset)
         preset = presetDecoded
+        let srtDecoded = try containerValues.decodeIfPresent(IvsClientTypes.Srt.self, forKey: .srt)
+        srt = srtDecoded
         let playbackRestrictionPolicyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .playbackRestrictionPolicyArn)
         playbackRestrictionPolicyArn = playbackRestrictionPolicyArnDecoded
     }
@@ -824,6 +830,8 @@ extension IvsClientTypes {
         public var preset: IvsClientTypes.TranscodePreset?
         /// Recording-configuration ARN. A valid ARN value here both specifies the ARN and enables recording. Default: "" (empty string, recording is disabled).
         public var recordingConfigurationArn: Swift.String?
+        /// Specifies the endpoint and optional passphrase for streaming with the SRT protocol.
+        public var srt: IvsClientTypes.Srt?
         /// Tags attached to the resource. Array of 1-50 maps, each of the form string:string (key:value). See [Tagging Amazon Web Services Resources](https://docs.aws.amazon.com/general/latest/gr/aws_tagging.html) for more information, including restrictions that apply to tags and "Tag naming limits and requirements"; Amazon IVS has no service-specific constraints beyond what is documented there.
         public var tags: [Swift.String:Swift.String]?
         /// Channel type, which determines the allowable resolution and bitrate. If you exceed the allowable input resolution or bitrate, the stream probably will disconnect immediately. Default: STANDARD. For details, see [Channel Types](https://docs.aws.amazon.com/ivs/latest/LowLatencyAPIReference/channel-types.html).
@@ -840,6 +848,7 @@ extension IvsClientTypes {
             playbackUrl: Swift.String? = nil,
             preset: IvsClientTypes.TranscodePreset? = nil,
             recordingConfigurationArn: Swift.String? = nil,
+            srt: IvsClientTypes.Srt? = nil,
             tags: [Swift.String:Swift.String]? = nil,
             type: IvsClientTypes.ChannelType? = nil
         )
@@ -854,6 +863,7 @@ extension IvsClientTypes {
             self.playbackUrl = playbackUrl
             self.preset = preset
             self.recordingConfigurationArn = recordingConfigurationArn
+            self.srt = srt
             self.tags = tags
             self.type = type
         }
@@ -1238,7 +1248,7 @@ extension CreateChannelInput {
 public struct CreateChannelInput: Swift.Equatable {
     /// Whether the channel is private (enabled for playback authorization). Default: false.
     public var authorized: Swift.Bool
-    /// Whether the channel allows insecure RTMP ingest. Default: false.
+    /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers. Default: LOW.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?
@@ -5462,6 +5472,56 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension IvsClientTypes.Srt: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case endpoint
+        case passphrase
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let endpoint = self.endpoint {
+            try encodeContainer.encode(endpoint, forKey: .endpoint)
+        }
+        if let passphrase = self.passphrase {
+            try encodeContainer.encode(passphrase, forKey: .passphrase)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let endpointDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .endpoint)
+        endpoint = endpointDecoded
+        let passphraseDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .passphrase)
+        passphrase = passphraseDecoded
+    }
+}
+
+extension IvsClientTypes.Srt: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "Srt(endpoint: \(Swift.String(describing: endpoint)), passphrase: \"CONTENT_REDACTED\")"}
+}
+
+extension IvsClientTypes {
+    /// Specifies information needed to stream using the SRT protocol.
+    public struct Srt: Swift.Equatable {
+        /// The endpoint to be used when streaming with IVS using the SRT protocol.
+        public var endpoint: Swift.String?
+        /// Auto-generated passphrase to enable encryption. This field is applicable only if the end user has not enabled the insecureIngest option for the channel.
+        public var passphrase: Swift.String?
+
+        public init(
+            endpoint: Swift.String? = nil,
+            passphrase: Swift.String? = nil
+        )
+        {
+            self.endpoint = endpoint
+            self.passphrase = passphrase
+        }
+    }
+
+}
+
 extension StartViewerSessionRevocationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case channelArn
@@ -6811,7 +6871,7 @@ public struct UpdateChannelInput: Swift.Equatable {
     public var arn: Swift.String?
     /// Whether the channel is private (enabled for playback authorization).
     public var authorized: Swift.Bool
-    /// Whether the channel allows insecure RTMP ingest. Default: false.
+    /// Whether the channel allows insecure RTMP and SRT ingest. Default: false.
     public var insecureIngest: Swift.Bool
     /// Channel latency mode. Use NORMAL to broadcast and deliver live video up to Full HD. Use LOW for near-real-time interaction with viewers.
     public var latencyMode: IvsClientTypes.ChannelLatencyMode?

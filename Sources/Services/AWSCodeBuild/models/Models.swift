@@ -6201,6 +6201,7 @@ extension CodeBuildClientTypes {
         case createFailed
         case creating
         case deleting
+        case pendingDeletion
         case rotating
         case updateRollbackFailed
         case updating
@@ -6212,6 +6213,7 @@ extension CodeBuildClientTypes {
                 .createFailed,
                 .creating,
                 .deleting,
+                .pendingDeletion,
                 .rotating,
                 .updateRollbackFailed,
                 .updating,
@@ -6228,6 +6230,7 @@ extension CodeBuildClientTypes {
             case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
+            case .pendingDeletion: return "PENDING_DELETION"
             case .rotating: return "ROTATING"
             case .updateRollbackFailed: return "UPDATE_ROLLBACK_FAILED"
             case .updating: return "UPDATING"

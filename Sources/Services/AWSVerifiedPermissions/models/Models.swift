@@ -347,13 +347,13 @@ extension VerifiedPermissionsClientTypes.BatchIsAuthorizedInputItem: Swift.Codab
 extension VerifiedPermissionsClientTypes {
     /// An authorization request that you include in a BatchIsAuthorized API request.
     public struct BatchIsAuthorizedInputItem: Swift.Equatable {
-        /// Specifies the requested action to be authorized. For example, is the principal authorized to perform this action on the resource?
+        /// Specifies the requested action to be authorized. For example, PhotoFlash::ReadPhoto.
         public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
         /// Specifies additional context that can be used to make more granular authorization decisions.
         public var context: VerifiedPermissionsClientTypes.ContextDefinition?
         /// Specifies the principal for which the authorization decision is to be made.
         public var principal: VerifiedPermissionsClientTypes.EntityIdentifier?
-        /// Specifies the resource for which the authorization decision is to be made.
+        /// Specifies the resource that you want an authorization decision for. For example, PhotoFlash::Photo.
         public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
 
         public init(
@@ -505,7 +505,7 @@ extension VerifiedPermissionsClientTypes {
         /// The list of determining policies used to make the authorization decision. For example, if there are two matching policies, where one is a forbid and the other is a permit, then the forbid policy will be the determining policy. In the case of multiple matching permit policies then there would be multiple determining policies. In the case that no policies match, and hence the response is DENY, there would be no determining policies.
         /// This member is required.
         public var determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
-        /// Errors that occurred while making an authorization decision, for example, a policy references an Entity or entity Attribute that does not exist in the slice.
+        /// Errors that occurred while making an authorization decision. For example, a policy might reference an entity or attribute that doesn't exist in the request.
         /// This member is required.
         public var errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
         /// The authorization request that initiated the decision.
@@ -528,9 +528,471 @@ extension VerifiedPermissionsClientTypes {
 
 }
 
+extension BatchIsAuthorizedWithTokenInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "BatchIsAuthorizedWithTokenInput(entities: \(Swift.String(describing: entities)), policyStoreId: \(Swift.String(describing: policyStoreId)), requests: \(Swift.String(describing: requests)), accessToken: \"CONTENT_REDACTED\", identityToken: \"CONTENT_REDACTED\")"}
+}
+
+extension BatchIsAuthorizedWithTokenInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessToken
+        case entities
+        case identityToken
+        case policyStoreId
+        case requests
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accessToken = self.accessToken {
+            try encodeContainer.encode(accessToken, forKey: .accessToken)
+        }
+        if let entities = self.entities {
+            try encodeContainer.encode(entities, forKey: .entities)
+        }
+        if let identityToken = self.identityToken {
+            try encodeContainer.encode(identityToken, forKey: .identityToken)
+        }
+        if let policyStoreId = self.policyStoreId {
+            try encodeContainer.encode(policyStoreId, forKey: .policyStoreId)
+        }
+        if let requests = requests {
+            var requestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .requests)
+            for batchisauthorizedwithtokeninputitem0 in requests {
+                try requestsContainer.encode(batchisauthorizedwithtokeninputitem0)
+            }
+        }
+    }
+}
+
+extension BatchIsAuthorizedWithTokenInput {
+
+    static func urlPathProvider(_ value: BatchIsAuthorizedWithTokenInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct BatchIsAuthorizedWithTokenInput: Swift.Equatable {
+    /// Specifies an access token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an access token. Verified Permissions returns an error if the token_use claim in the submitted token isn't access.
+    public var accessToken: Swift.String?
+    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
+    ///
+    /// * The BatchIsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
+    ///
+    /// * For action entities, you can include only their Identifier and EntityType.
+    public var entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    /// Specifies an identity (ID) token for the principal that you want to authorize in each request. This token is provided to you by the identity provider (IdP) associated with the specified identity source. You must specify either an accessToken, an identityToken, or both. Must be an ID token. Verified Permissions returns an error if the token_use claim in the submitted token isn't id.
+    public var identityToken: Swift.String?
+    /// Specifies the ID of the policy store. Policies in this policy store will be used to make an authorization decision for the input.
+    /// This member is required.
+    public var policyStoreId: Swift.String?
+    /// An array of up to 30 requests that you want Verified Permissions to evaluate.
+    /// This member is required.
+    public var requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]?
+
+    public init(
+        accessToken: Swift.String? = nil,
+        entities: VerifiedPermissionsClientTypes.EntitiesDefinition? = nil,
+        identityToken: Swift.String? = nil,
+        policyStoreId: Swift.String? = nil,
+        requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]? = nil
+    )
+    {
+        self.accessToken = accessToken
+        self.entities = entities
+        self.identityToken = identityToken
+        self.policyStoreId = policyStoreId
+        self.requests = requests
+    }
+}
+
+struct BatchIsAuthorizedWithTokenInputBody: Swift.Equatable {
+    let policyStoreId: Swift.String?
+    let identityToken: Swift.String?
+    let accessToken: Swift.String?
+    let entities: VerifiedPermissionsClientTypes.EntitiesDefinition?
+    let requests: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]?
+}
+
+extension BatchIsAuthorizedWithTokenInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accessToken
+        case entities
+        case identityToken
+        case policyStoreId
+        case requests
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let policyStoreIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .policyStoreId)
+        policyStoreId = policyStoreIdDecoded
+        let identityTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .identityToken)
+        identityToken = identityTokenDecoded
+        let accessTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accessToken)
+        accessToken = accessTokenDecoded
+        let entitiesDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntitiesDefinition.self, forKey: .entities)
+        entities = entitiesDecoded
+        let requestsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem?].self, forKey: .requests)
+        var requestsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]? = nil
+        if let requestsContainer = requestsContainer {
+            requestsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem]()
+            for structure0 in requestsContainer {
+                if let structure0 = structure0 {
+                    requestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requests = requestsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case action
+        case context
+        case resource
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let action = self.action {
+            try encodeContainer.encode(action, forKey: .action)
+        }
+        if let context = self.context {
+            try encodeContainer.encode(context, forKey: .context)
+        }
+        if let resource = self.resource {
+            try encodeContainer.encode(resource, forKey: .resource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ActionIdentifier.self, forKey: .action)
+        action = actionDecoded
+        let resourceDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .resource)
+        resource = resourceDecoded
+        let contextDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.ContextDefinition.self, forKey: .context)
+        context = contextDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// An authorization request that you include in a BatchIsAuthorizedWithToken API request.
+    public struct BatchIsAuthorizedWithTokenInputItem: Swift.Equatable {
+        /// Specifies the requested action to be authorized. For example, PhotoFlash::ReadPhoto.
+        public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
+        /// Specifies additional context that can be used to make more granular authorization decisions.
+        public var context: VerifiedPermissionsClientTypes.ContextDefinition?
+        /// Specifies the resource that you want an authorization decision for. For example, PhotoFlash::Photo.
+        public var resource: VerifiedPermissionsClientTypes.EntityIdentifier?
+
+        public init(
+            action: VerifiedPermissionsClientTypes.ActionIdentifier? = nil,
+            context: VerifiedPermissionsClientTypes.ContextDefinition? = nil,
+            resource: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
+        )
+        {
+            self.action = action
+            self.context = context
+            self.resource = resource
+        }
+    }
+
+}
+
+extension BatchIsAuthorizedWithTokenOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchIsAuthorizedWithTokenOutputBody = try responseDecoder.decode(responseBody: data)
+            self.principal = output.principal
+            self.results = output.results
+        } else {
+            self.principal = nil
+            self.results = nil
+        }
+    }
+}
+
+public struct BatchIsAuthorizedWithTokenOutput: Swift.Equatable {
+    /// The identifier of the principal in the ID or access token.
+    public var principal: VerifiedPermissionsClientTypes.EntityIdentifier?
+    /// A series of Allow or Deny decisions for each request, and the policies that produced them.
+    /// This member is required.
+    public var results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]?
+
+    public init(
+        principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil,
+        results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]? = nil
+    )
+    {
+        self.principal = principal
+        self.results = results
+    }
+}
+
+struct BatchIsAuthorizedWithTokenOutputBody: Swift.Equatable {
+    let principal: VerifiedPermissionsClientTypes.EntityIdentifier?
+    let results: [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]?
+}
+
+extension BatchIsAuthorizedWithTokenOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case principal
+        case results
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let principalDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .principal)
+        principal = principalDecoded
+        let resultsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem?].self, forKey: .results)
+        var resultsDecoded0:[VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]? = nil
+        if let resultsContainer = resultsContainer {
+            resultsDecoded0 = [VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem]()
+            for structure0 in resultsContainer {
+                if let structure0 = structure0 {
+                    resultsDecoded0?.append(structure0)
+                }
+            }
+        }
+        results = resultsDecoded0
+    }
+}
+
+enum BatchIsAuthorizedWithTokenOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await VerifiedPermissionsClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenOutputItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case decision
+        case determiningPolicies
+        case errors
+        case request
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let decision = self.decision {
+            try encodeContainer.encode(decision.rawValue, forKey: .decision)
+        }
+        if let determiningPolicies = determiningPolicies {
+            var determiningPoliciesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .determiningPolicies)
+            for determiningpolicyitem0 in determiningPolicies {
+                try determiningPoliciesContainer.encode(determiningpolicyitem0)
+            }
+        }
+        if let errors = errors {
+            var errorsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .errors)
+            for evaluationerroritem0 in errors {
+                try errorsContainer.encode(evaluationerroritem0)
+            }
+        }
+        if let request = self.request {
+            try encodeContainer.encode(request, forKey: .request)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let requestDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem.self, forKey: .request)
+        request = requestDecoded
+        let decisionDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.Decision.self, forKey: .decision)
+        decision = decisionDecoded
+        let determiningPoliciesContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.DeterminingPolicyItem?].self, forKey: .determiningPolicies)
+        var determiningPoliciesDecoded0:[VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil
+        if let determiningPoliciesContainer = determiningPoliciesContainer {
+            determiningPoliciesDecoded0 = [VerifiedPermissionsClientTypes.DeterminingPolicyItem]()
+            for structure0 in determiningPoliciesContainer {
+                if let structure0 = structure0 {
+                    determiningPoliciesDecoded0?.append(structure0)
+                }
+            }
+        }
+        determiningPolicies = determiningPoliciesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([VerifiedPermissionsClientTypes.EvaluationErrorItem?].self, forKey: .errors)
+        var errorsDecoded0:[VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [VerifiedPermissionsClientTypes.EvaluationErrorItem]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// The decision, based on policy evaluation, from an individual authorization request in a BatchIsAuthorizedWithToken API request.
+    public struct BatchIsAuthorizedWithTokenOutputItem: Swift.Equatable {
+        /// An authorization decision that indicates if the authorization request should be allowed or denied.
+        /// This member is required.
+        public var decision: VerifiedPermissionsClientTypes.Decision?
+        /// The list of determining policies used to make the authorization decision. For example, if there are two matching policies, where one is a forbid and the other is a permit, then the forbid policy will be the determining policy. In the case of multiple matching permit policies then there would be multiple determining policies. In the case that no policies match, and hence the response is DENY, there would be no determining policies.
+        /// This member is required.
+        public var determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
+        /// Errors that occurred while making an authorization decision. For example, a policy might reference an entity or attribute that doesn't exist in the request.
+        /// This member is required.
+        public var errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
+        /// The authorization request that initiated the decision.
+        /// This member is required.
+        public var request: VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem?
+
+        public init(
+            decision: VerifiedPermissionsClientTypes.Decision? = nil,
+            determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
+            errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
+            request: VerifiedPermissionsClientTypes.BatchIsAuthorizedWithTokenInputItem? = nil
+        )
+        {
+            self.decision = decision
+            self.determiningPolicies = determiningPolicies
+            self.errors = errors
+            self.request = request
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupEntityType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupEntityType = self.groupEntityType {
+            try encodeContainer.encode(groupEntityType, forKey: .groupEntityType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupEntityType)
+        groupEntityType = groupEntityTypeDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CognitoGroupConfiguration(groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of a [CognitoUserPoolConfiguration](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfiguration.html) structure and is a request parameter in [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html).
+    public struct CognitoGroupConfiguration: Swift.Equatable {
+        /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupEntityType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupEntityType = self.groupEntityType {
+            try encodeContainer.encode(groupEntityType, forKey: .groupEntityType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupEntityType)
+        groupEntityType = groupEntityTypeDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CognitoGroupConfigurationDetail(groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationDetail](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationItem.html) structure and is a response parameter to [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html).
+    public struct CognitoGroupConfigurationDetail: Swift.Equatable {
+        /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupEntityType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupEntityType = self.groupEntityType {
+            try encodeContainer.encode(groupEntityType, forKey: .groupEntityType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupEntityType)
+        groupEntityType = groupEntityTypeDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CognitoGroupConfigurationItem(groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// A list of user groups and entities from an Amazon Cognito user pool identity source. This data type is part of an [CognitoUserPoolConfigurationItem](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CognitoUserPoolConfigurationDetail.html) structure and is a response parameter to [ListIdentitySources](http://forums.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html).
+    public struct CognitoGroupConfigurationItem: Swift.Equatable {
+        /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
 extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientIds
+        case groupConfiguration
         case userPoolArn
     }
 
@@ -541,6 +1003,9 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration: Swift.Cod
             for clientid0 in clientIds {
                 try clientIdsContainer.encode(clientid0)
             }
+        }
+        if let groupConfiguration = self.groupConfiguration {
+            try encodeContainer.encode(groupConfiguration, forKey: .groupConfiguration)
         }
         if let userPoolArn = self.userPoolArn {
             try encodeContainer.encode(userPoolArn, forKey: .userPoolArn)
@@ -562,6 +1027,8 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration: Swift.Cod
             }
         }
         clientIds = clientIdsDecoded0
+        let groupConfigurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.CognitoGroupConfiguration.self, forKey: .groupConfiguration)
+        groupConfiguration = groupConfigurationDecoded
     }
 }
 
@@ -570,16 +1037,20 @@ extension VerifiedPermissionsClientTypes {
     public struct CognitoUserPoolConfiguration: Swift.Equatable {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "ClientIds": ["&ExampleCogClientId;"]
         public var clientIds: [Swift.String]?
+        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfiguration?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool that contains the identities to be authorized. Example: "UserPoolArn": "arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5"
         /// This member is required.
         public var userPoolArn: Swift.String?
 
         public init(
             clientIds: [Swift.String]? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfiguration? = nil,
             userPoolArn: Swift.String? = nil
         )
         {
             self.clientIds = clientIds
+            self.groupConfiguration = groupConfiguration
             self.userPoolArn = userPoolArn
         }
     }
@@ -589,6 +1060,7 @@ extension VerifiedPermissionsClientTypes {
 extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientIds
+        case groupConfiguration
         case issuer
         case userPoolArn
     }
@@ -600,6 +1072,9 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail: Swi
             for clientid0 in clientIds {
                 try clientIdsContainer.encode(clientid0)
             }
+        }
+        if let groupConfiguration = self.groupConfiguration {
+            try encodeContainer.encode(groupConfiguration, forKey: .groupConfiguration)
         }
         if let issuer = self.issuer {
             try encodeContainer.encode(issuer, forKey: .issuer)
@@ -626,6 +1101,8 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail: Swi
         clientIds = clientIdsDecoded0
         let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
         issuer = issuerDecoded
+        let groupConfigurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail.self, forKey: .groupConfiguration)
+        groupConfiguration = groupConfigurationDecoded
     }
 }
 
@@ -635,6 +1112,8 @@ extension VerifiedPermissionsClientTypes {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
         /// This member is required.
         public var clientIds: [Swift.String]?
+        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         /// This member is required.
         public var issuer: Swift.String?
@@ -644,11 +1123,13 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             clientIds: [Swift.String]? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationDetail? = nil,
             issuer: Swift.String? = nil,
             userPoolArn: Swift.String? = nil
         )
         {
             self.clientIds = clientIds
+            self.groupConfiguration = groupConfiguration
             self.issuer = issuer
             self.userPoolArn = userPoolArn
         }
@@ -659,6 +1140,7 @@ extension VerifiedPermissionsClientTypes {
 extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientIds
+        case groupConfiguration
         case issuer
         case userPoolArn
     }
@@ -670,6 +1152,9 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem: Swift
             for clientid0 in clientIds {
                 try clientIdsContainer.encode(clientid0)
             }
+        }
+        if let groupConfiguration = self.groupConfiguration {
+            try encodeContainer.encode(groupConfiguration, forKey: .groupConfiguration)
         }
         if let issuer = self.issuer {
             try encodeContainer.encode(issuer, forKey: .issuer)
@@ -696,6 +1181,8 @@ extension VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem: Swift
         clientIds = clientIdsDecoded0
         let issuerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .issuer)
         issuer = issuerDecoded
+        let groupConfigurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem.self, forKey: .groupConfiguration)
+        groupConfiguration = groupConfigurationDecoded
     }
 }
 
@@ -705,6 +1192,8 @@ extension VerifiedPermissionsClientTypes {
         /// The unique application client IDs that are associated with the specified Amazon Cognito user pool. Example: "clientIds": ["&ExampleCogClientId;"]
         /// This member is required.
         public var clientIds: [Swift.String]?
+        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem?
         /// The OpenID Connect (OIDC) issuer ID of the Amazon Cognito user pool that contains the identities to be authorized. Example: "issuer": "https://cognito-idp.us-east-1.amazonaws.com/us-east-1_1a2b3c4d5"
         /// This member is required.
         public var issuer: Swift.String?
@@ -714,11 +1203,13 @@ extension VerifiedPermissionsClientTypes {
 
         public init(
             clientIds: [Swift.String]? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.CognitoGroupConfigurationItem? = nil,
             issuer: Swift.String? = nil,
             userPoolArn: Swift.String? = nil
         )
         {
             self.clientIds = clientIds
+            self.groupConfiguration = groupConfiguration
             self.issuer = issuer
             self.userPoolArn = userPoolArn
         }
@@ -756,7 +1247,7 @@ extension VerifiedPermissionsClientTypes.Configuration: Swift.Codable {
 extension VerifiedPermissionsClientTypes {
     /// Contains configuration information used when creating a new identity source. At this time, the only valid member of this structure is a Amazon Cognito user pool configuration. You must specify a userPoolArn, and optionally, a ClientId. This data type is used as a request parameter for the [CreateIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_CreateIdentitySource.html) operation.
     public enum Configuration: Swift.Equatable {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfiguration)
         case sdkUnknown(Swift.String)
     }
@@ -793,7 +1284,7 @@ extension VerifiedPermissionsClientTypes.ConfigurationDetail: Swift.Codable {
 extension VerifiedPermissionsClientTypes {
     /// Contains configuration information about an identity source. This data type is a response parameter to the [GetIdentitySource](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_GetIdentitySource.html) operation.
     public enum ConfigurationDetail: Swift.Equatable {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationDetail)
         case sdkUnknown(Swift.String)
     }
@@ -830,7 +1321,7 @@ extension VerifiedPermissionsClientTypes.ConfigurationItem: Swift.Codable {
 extension VerifiedPermissionsClientTypes {
     /// Contains configuration information about an identity source. This data type is a response parameter to the [ListIdentitySources](https://docs.aws.amazon.com/verifiedpermissions/latest/apireference/API_ListIdentitySources.html) operation.
     public enum ConfigurationItem: Swift.Equatable {
-        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"]}}
+        /// Contains configuration details of a Amazon Cognito user pool that Verified Permissions can use as a source of authenticated identities as entities. It specifies the [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of a Amazon Cognito user pool and one or more application client IDs. Example: "configuration":{"cognitoUserPoolConfiguration":{"userPoolArn":"arn:aws:cognito-idp:us-east-1:123456789012:userpool/us-east-1_1a2b3c4d5","clientIds": ["a1b2c3d4e5f6g7h8i9j0kalbmc"],"groupConfiguration": {"groupEntityType": "MyCorp::Group"}}}
         case cognitouserpoolconfiguration(VerifiedPermissionsClientTypes.CognitoUserPoolConfigurationItem)
         case sdkUnknown(Swift.String)
     }
@@ -3848,7 +4339,7 @@ public struct IsAuthorizedWithTokenInput: Swift.Equatable {
     public var action: VerifiedPermissionsClientTypes.ActionIdentifier?
     /// Specifies additional context that can be used to make more granular authorization decisions.
     public var context: VerifiedPermissionsClientTypes.ContextDefinition?
-    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can include only resource and action entities in this parameter; you can't include principals.
+    /// Specifies the list of resources and their associated attributes that Verified Permissions can examine when evaluating the policies. You can't include principals in this parameter, only resource and action entities. This parameter can't include any entities of a type that matches the user or group entity types that you defined in your identity source.
     ///
     /// * The IsAuthorizedWithToken operation takes principal attributes from only the identityToken or accessToken passed to the operation.
     ///
@@ -3930,10 +4421,12 @@ extension IsAuthorizedWithTokenOutput: ClientRuntime.HttpResponseBinding {
             self.decision = output.decision
             self.determiningPolicies = output.determiningPolicies
             self.errors = output.errors
+            self.principal = output.principal
         } else {
             self.decision = nil
             self.determiningPolicies = nil
             self.errors = nil
+            self.principal = nil
         }
     }
 }
@@ -3948,16 +4441,20 @@ public struct IsAuthorizedWithTokenOutput: Swift.Equatable {
     /// Errors that occurred while making an authorization decision. For example, a policy references an entity or entity attribute that does not exist in the slice.
     /// This member is required.
     public var errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
+    /// The identifier of the principal in the ID or access token.
+    public var principal: VerifiedPermissionsClientTypes.EntityIdentifier?
 
     public init(
         decision: VerifiedPermissionsClientTypes.Decision? = nil,
         determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]? = nil,
-        errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil
+        errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]? = nil,
+        principal: VerifiedPermissionsClientTypes.EntityIdentifier? = nil
     )
     {
         self.decision = decision
         self.determiningPolicies = determiningPolicies
         self.errors = errors
+        self.principal = principal
     }
 }
 
@@ -3965,6 +4462,7 @@ struct IsAuthorizedWithTokenOutputBody: Swift.Equatable {
     let decision: VerifiedPermissionsClientTypes.Decision?
     let determiningPolicies: [VerifiedPermissionsClientTypes.DeterminingPolicyItem]?
     let errors: [VerifiedPermissionsClientTypes.EvaluationErrorItem]?
+    let principal: VerifiedPermissionsClientTypes.EntityIdentifier?
 }
 
 extension IsAuthorizedWithTokenOutputBody: Swift.Decodable {
@@ -3972,6 +4470,7 @@ extension IsAuthorizedWithTokenOutputBody: Swift.Decodable {
         case decision
         case determiningPolicies
         case errors
+        case principal
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -4000,6 +4499,8 @@ extension IsAuthorizedWithTokenOutputBody: Swift.Decodable {
             }
         }
         errors = errorsDecoded0
+        let principalDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.EntityIdentifier.self, forKey: .principal)
+        principal = principalDecoded
     }
 }
 
@@ -6017,9 +6518,51 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case groupEntityType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let groupEntityType = self.groupEntityType {
+            try encodeContainer.encode(groupEntityType, forKey: .groupEntityType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let groupEntityTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupEntityType)
+        groupEntityType = groupEntityTypeDecoded
+    }
+}
+
+extension VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "UpdateCognitoGroupConfiguration(groupEntityType: \"CONTENT_REDACTED\")"}
+}
+
+extension VerifiedPermissionsClientTypes {
+    /// A list of user groups and entities from an Amazon Cognito user pool identity source.
+    public struct UpdateCognitoGroupConfiguration: Swift.Equatable {
+        /// The name of the schema entity type that's mapped to the user pool group. Defaults to AWS::CognitoGroup.
+        /// This member is required.
+        public var groupEntityType: Swift.String?
+
+        public init(
+            groupEntityType: Swift.String? = nil
+        )
+        {
+            self.groupEntityType = groupEntityType
+        }
+    }
+
+}
+
 extension VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientIds
+        case groupConfiguration
         case userPoolArn
     }
 
@@ -6030,6 +6573,9 @@ extension VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration: Swi
             for clientid0 in clientIds {
                 try clientIdsContainer.encode(clientid0)
             }
+        }
+        if let groupConfiguration = self.groupConfiguration {
+            try encodeContainer.encode(groupConfiguration, forKey: .groupConfiguration)
         }
         if let userPoolArn = self.userPoolArn {
             try encodeContainer.encode(userPoolArn, forKey: .userPoolArn)
@@ -6051,6 +6597,8 @@ extension VerifiedPermissionsClientTypes.UpdateCognitoUserPoolConfiguration: Swi
             }
         }
         clientIds = clientIdsDecoded0
+        let groupConfigurationDecoded = try containerValues.decodeIfPresent(VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration.self, forKey: .groupConfiguration)
+        groupConfiguration = groupConfigurationDecoded
     }
 }
 
@@ -6059,16 +6607,20 @@ extension VerifiedPermissionsClientTypes {
     public struct UpdateCognitoUserPoolConfiguration: Swift.Equatable {
         /// The client ID of an app client that is configured for the specified Amazon Cognito user pool.
         public var clientIds: [Swift.String]?
+        /// The configuration of the user groups from an Amazon Cognito user pool identity source.
+        public var groupConfiguration: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration?
         /// The [Amazon Resource Name (ARN)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the Amazon Cognito user pool associated with this identity source.
         /// This member is required.
         public var userPoolArn: Swift.String?
 
         public init(
             clientIds: [Swift.String]? = nil,
+            groupConfiguration: VerifiedPermissionsClientTypes.UpdateCognitoGroupConfiguration? = nil,
             userPoolArn: Swift.String? = nil
         )
         {
             self.clientIds = clientIds
+            self.groupConfiguration = groupConfiguration
             self.userPoolArn = userPoolArn
         }
     }

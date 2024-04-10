@@ -5632,7 +5632,7 @@ public struct DescribeTypeOutput: Swift.Equatable {
     public var arn: Swift.String?
     /// Whether CloudFormation automatically updates the extension in this account and Region when a new minor version is published by the extension publisher. Major versions released by the publisher must be manually updated. For more information, see [Activating public extensions for use in your account](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-public.html#registry-public-enable) in the CloudFormation User Guide.
     public var autoUpdate: Swift.Bool?
-    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// A JSON string that represent the current configuration data for the extension in this account and Region. To set the configuration data for an extension, use [SetTypeConfiguration](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_SetTypeConfiguration.html). For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration) in the CloudFormation User Guide.
     public var configurationSchema: Swift.String?
     /// The ID of the default version of the extension. The default version is used when the extension version isn't specified. This applies only to private extensions you have registered in your account. For public extensions, both those provided by Amazon Web Services and published by third parties, CloudFormation returns null. For more information, see [RegisterType](https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_RegisterType.html). To set the default version of an extension, use [SetTypeDefaultVersion].
     public var defaultVersionId: Swift.String?
@@ -10754,6 +10754,50 @@ extension CloudFormationClientTypes {
 
 }
 
+extension CloudFormationClientTypes {
+    public enum PolicyAction: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case delete
+        case replaceanddelete
+        case replaceandretain
+        case replaceandsnapshot
+        case retain
+        case snapshot
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [PolicyAction] {
+            return [
+                .delete,
+                .replaceanddelete,
+                .replaceandretain,
+                .replaceandsnapshot,
+                .retain,
+                .snapshot,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .delete: return "Delete"
+            case .replaceanddelete: return "ReplaceAndDelete"
+            case .replaceandretain: return "ReplaceAndRetain"
+            case .replaceandsnapshot: return "ReplaceAndSnapshot"
+            case .retain: return "Retain"
+            case .snapshot: return "Snapshot"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = PolicyAction(rawValue: rawValue) ?? PolicyAction.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudFormationClientTypes.PropertyDifference: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actualValue = "ActualValue"
@@ -11637,6 +11681,7 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
         case logicalResourceId = "LogicalResourceId"
         case moduleInfo = "ModuleInfo"
         case physicalResourceId = "PhysicalResourceId"
+        case policyAction = "PolicyAction"
         case replacement = "Replacement"
         case resourceType = "ResourceType"
         case scope = "Scope"
@@ -11671,6 +11716,9 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
         if let physicalResourceId = physicalResourceId {
             try container.encode(physicalResourceId, forKey: ClientRuntime.Key("PhysicalResourceId"))
         }
+        if let policyAction = policyAction {
+            try container.encode(policyAction, forKey: ClientRuntime.Key("PolicyAction"))
+        }
         if let replacement = replacement {
             try container.encode(replacement, forKey: ClientRuntime.Key("Replacement"))
         }
@@ -11695,6 +11743,7 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
         return { reader in
             guard reader.content != nil else { return nil }
             var value = CloudFormationClientTypes.ResourceChange()
+            value.policyAction = try reader["PolicyAction"].readIfPresent()
             value.action = try reader["Action"].readIfPresent()
             value.logicalResourceId = try reader["LogicalResourceId"].readIfPresent()
             value.physicalResourceId = try reader["PhysicalResourceId"].readIfPresent()
@@ -11724,6 +11773,20 @@ extension CloudFormationClientTypes {
         public var moduleInfo: CloudFormationClientTypes.ModuleInfo?
         /// The resource's physical ID (resource name). Resources that you are adding don't have physical IDs because they haven't been created.
         public var physicalResourceId: Swift.String?
+        /// The action that will be taken on the physical resource when the change set is executed.
+        ///
+        /// * Delete The resource will be deleted.
+        ///
+        /// * Retain The resource will be retained.
+        ///
+        /// * Snapshot The resource will have a snapshot taken.
+        ///
+        /// * ReplaceAndDelete The resource will be replaced and then deleted.
+        ///
+        /// * ReplaceAndRetain The resource will be replaced and then retained.
+        ///
+        /// * ReplaceAndSnapshot The resource will be replaced and then have a snapshot taken.
+        public var policyAction: CloudFormationClientTypes.PolicyAction?
         /// For the Modify action, indicates whether CloudFormation will replace the resource by creating a new one and deleting the old one. This value depends on the value of the RequiresRecreation property in the ResourceTargetDefinition structure. For example, if the RequiresRecreation field is Always and the Evaluation field is Static, Replacement is True. If the RequiresRecreation field is Always and the Evaluation field is Dynamic, Replacement is Conditionally. If you have multiple changes with different RequiresRecreation values, the Replacement value depends on the change with the most impact. A RequiresRecreation value of Always has the most impact, followed by Conditionally, and then Never.
         public var replacement: CloudFormationClientTypes.Replacement?
         /// The type of CloudFormation resource, such as AWS::S3::Bucket.
@@ -11738,6 +11801,7 @@ extension CloudFormationClientTypes {
             logicalResourceId: Swift.String? = nil,
             moduleInfo: CloudFormationClientTypes.ModuleInfo? = nil,
             physicalResourceId: Swift.String? = nil,
+            policyAction: CloudFormationClientTypes.PolicyAction? = nil,
             replacement: CloudFormationClientTypes.Replacement? = nil,
             resourceType: Swift.String? = nil,
             scope: [CloudFormationClientTypes.ResourceAttribute]? = nil
@@ -11749,6 +11813,7 @@ extension CloudFormationClientTypes {
             self.logicalResourceId = logicalResourceId
             self.moduleInfo = moduleInfo
             self.physicalResourceId = physicalResourceId
+            self.policyAction = policyAction
             self.replacement = replacement
             self.resourceType = resourceType
             self.scope = scope
@@ -17846,7 +17911,7 @@ extension CloudFormationClientTypes.TypeConfigurationDetails: Swift.Encodable {
 }
 
 extension CloudFormationClientTypes {
-    /// Detailed information concerning the specification of a CloudFormation extension in a given account and Region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-register.html#registry-set-configuration) in the CloudFormation User Guide.
+    /// Detailed information concerning the specification of a CloudFormation extension in a given account and Region. For more information, see [Configuring extensions at the account level](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry-private.html#registry-set-configuration) in the CloudFormation User Guide.
     public struct TypeConfigurationDetails: Swift.Equatable {
         /// The alias specified for this configuration, if one was specified when the configuration was set.
         public var alias: Swift.String?
