@@ -522,7 +522,7 @@ extension QuickSightClientTypes.AllSheetsFilterScopeConfiguration: Swift.Codable
 }
 
 extension QuickSightClientTypes {
-    /// The configuration for applying a filter to all sheets. You can apply this filter to all visuals on every sheet. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
+    /// An empty object that represents that the AllSheets option is the chosen value for the FilterScopeConfiguration parameter. This structure applies the filter to all visuals on all sheets of an Analysis, Dashboard, or Template. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct AllSheetsFilterScopeConfiguration: Swift.Equatable {
 
         public init() { }
@@ -11995,6 +11995,7 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         case edition = "Edition"
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
+        case iamIdentityCenterInstanceArn = "IAMIdentityCenterInstanceArn"
         case lastName = "LastName"
         case notificationEmail = "NotificationEmail"
         case readerGroup = "ReaderGroup"
@@ -12038,6 +12039,9 @@ extension CreateAccountSubscriptionInput: Swift.Encodable {
         }
         if let firstName = self.firstName {
             try encodeContainer.encode(firstName, forKey: .firstName)
+        }
+        if let iamIdentityCenterInstanceArn = self.iamIdentityCenterInstanceArn {
+            try encodeContainer.encode(iamIdentityCenterInstanceArn, forKey: .iamIdentityCenterInstanceArn)
         }
         if let lastName = self.lastName {
             try encodeContainer.encode(lastName, forKey: .lastName)
@@ -12102,6 +12106,8 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
     public var emailAddress: Swift.String?
     /// The first name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
     public var firstName: Swift.String?
+    /// The Amazon Resource Name (ARN) for the IAM Identity Center instance.
+    public var iamIdentityCenterInstanceArn: Swift.String?
     /// The last name of the author of the Amazon QuickSight account to use for future communications. This field is required if ENTERPPRISE_AND_Q is the selected edition of the new Amazon QuickSight account.
     public var lastName: Swift.String?
     /// The email address that you want Amazon QuickSight to send notifications to regarding your Amazon QuickSight account or Amazon QuickSight subscription.
@@ -12124,6 +12130,7 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
         edition: QuickSightClientTypes.Edition? = nil,
         emailAddress: Swift.String? = nil,
         firstName: Swift.String? = nil,
+        iamIdentityCenterInstanceArn: Swift.String? = nil,
         lastName: Swift.String? = nil,
         notificationEmail: Swift.String? = nil,
         readerGroup: [Swift.String]? = nil,
@@ -12141,6 +12148,7 @@ public struct CreateAccountSubscriptionInput: Swift.Equatable {
         self.edition = edition
         self.emailAddress = emailAddress
         self.firstName = firstName
+        self.iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArn
         self.lastName = lastName
         self.notificationEmail = notificationEmail
         self.readerGroup = readerGroup
@@ -12163,6 +12171,7 @@ struct CreateAccountSubscriptionInputBody: Swift.Equatable {
     let lastName: Swift.String?
     let emailAddress: Swift.String?
     let contactNumber: Swift.String?
+    let iamIdentityCenterInstanceArn: Swift.String?
 }
 
 extension CreateAccountSubscriptionInputBody: Swift.Decodable {
@@ -12177,6 +12186,7 @@ extension CreateAccountSubscriptionInputBody: Swift.Decodable {
         case edition = "Edition"
         case emailAddress = "EmailAddress"
         case firstName = "FirstName"
+        case iamIdentityCenterInstanceArn = "IAMIdentityCenterInstanceArn"
         case lastName = "LastName"
         case notificationEmail = "NotificationEmail"
         case readerGroup = "ReaderGroup"
@@ -12240,6 +12250,8 @@ extension CreateAccountSubscriptionInputBody: Swift.Decodable {
         emailAddress = emailAddressDecoded
         let contactNumberDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .contactNumber)
         contactNumber = contactNumberDecoded
+        let iamIdentityCenterInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .iamIdentityCenterInstanceArn)
+        iamIdentityCenterInstanceArn = iamIdentityCenterInstanceArnDecoded
     }
 }
 
@@ -22256,7 +22268,7 @@ extension QuickSightClientTypes.DatasetParameter: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    /// A dataset parameter.
+    /// A parameter that is created in a dataset. The parameter can be a string, integer, decimal, or datetime data type.
     public struct DatasetParameter: Swift.Equatable {
         /// A date time parameter that is created in the dataset.
         public var dateTimeDatasetParameter: QuickSightClientTypes.DateTimeDatasetParameter?
@@ -22284,6 +22296,7 @@ extension QuickSightClientTypes {
 }
 
 extension QuickSightClientTypes {
+    /// The value type of the parameter. The value type is used to validate the parameter before it is evaluated.
     public enum DatasetParameterValueType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case multiValued
         case singleValued
@@ -31177,11 +31190,15 @@ extension DescribeIpRestrictionOutput: ClientRuntime.HttpResponseBinding {
             self.enabled = output.enabled
             self.ipRestrictionRuleMap = output.ipRestrictionRuleMap
             self.requestId = output.requestId
+            self.vpcEndpointIdRestrictionRuleMap = output.vpcEndpointIdRestrictionRuleMap
+            self.vpcIdRestrictionRuleMap = output.vpcIdRestrictionRuleMap
         } else {
             self.awsAccountId = nil
             self.enabled = nil
             self.ipRestrictionRuleMap = nil
             self.requestId = nil
+            self.vpcEndpointIdRestrictionRuleMap = nil
+            self.vpcIdRestrictionRuleMap = nil
         }
         self.status = httpResponse.statusCode.rawValue
     }
@@ -31198,13 +31215,19 @@ public struct DescribeIpRestrictionOutput: Swift.Equatable {
     public var requestId: Swift.String?
     /// The HTTP status of the request.
     public var status: Swift.Int
+    /// A map of allowed VPC endpoint IDs and their rule descriptions.
+    public var vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]?
+    /// A map of allowed VPC IDs and their rule descriptions.
+    public var vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
 
     public init(
         awsAccountId: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
         ipRestrictionRuleMap: [Swift.String:Swift.String]? = nil,
         requestId: Swift.String? = nil,
-        status: Swift.Int = 0
+        status: Swift.Int = 0,
+        vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]? = nil,
+        vpcIdRestrictionRuleMap: [Swift.String:Swift.String]? = nil
     )
     {
         self.awsAccountId = awsAccountId
@@ -31212,12 +31235,16 @@ public struct DescribeIpRestrictionOutput: Swift.Equatable {
         self.ipRestrictionRuleMap = ipRestrictionRuleMap
         self.requestId = requestId
         self.status = status
+        self.vpcEndpointIdRestrictionRuleMap = vpcEndpointIdRestrictionRuleMap
+        self.vpcIdRestrictionRuleMap = vpcIdRestrictionRuleMap
     }
 }
 
 struct DescribeIpRestrictionOutputBody: Swift.Equatable {
     let awsAccountId: Swift.String?
     let ipRestrictionRuleMap: [Swift.String:Swift.String]?
+    let vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
+    let vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]?
     let enabled: Swift.Bool?
     let requestId: Swift.String?
     let status: Swift.Int
@@ -31230,6 +31257,8 @@ extension DescribeIpRestrictionOutputBody: Swift.Decodable {
         case ipRestrictionRuleMap = "IpRestrictionRuleMap"
         case requestId = "RequestId"
         case status = "Status"
+        case vpcEndpointIdRestrictionRuleMap = "VpcEndpointIdRestrictionRuleMap"
+        case vpcIdRestrictionRuleMap = "VpcIdRestrictionRuleMap"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -31247,6 +31276,28 @@ extension DescribeIpRestrictionOutputBody: Swift.Decodable {
             }
         }
         ipRestrictionRuleMap = ipRestrictionRuleMapDecoded0
+        let vpcIdRestrictionRuleMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .vpcIdRestrictionRuleMap)
+        var vpcIdRestrictionRuleMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let vpcIdRestrictionRuleMapContainer = vpcIdRestrictionRuleMapContainer {
+            vpcIdRestrictionRuleMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, vpcidrestrictionruledescription0) in vpcIdRestrictionRuleMapContainer {
+                if let vpcidrestrictionruledescription0 = vpcidrestrictionruledescription0 {
+                    vpcIdRestrictionRuleMapDecoded0?[key0] = vpcidrestrictionruledescription0
+                }
+            }
+        }
+        vpcIdRestrictionRuleMap = vpcIdRestrictionRuleMapDecoded0
+        let vpcEndpointIdRestrictionRuleMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .vpcEndpointIdRestrictionRuleMap)
+        var vpcEndpointIdRestrictionRuleMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let vpcEndpointIdRestrictionRuleMapContainer = vpcEndpointIdRestrictionRuleMapContainer {
+            vpcEndpointIdRestrictionRuleMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, vpcendpointidrestrictionruledescription0) in vpcEndpointIdRestrictionRuleMapContainer {
+                if let vpcendpointidrestrictionruledescription0 = vpcendpointidrestrictionruledescription0 {
+                    vpcEndpointIdRestrictionRuleMapDecoded0?[key0] = vpcendpointidrestrictionruledescription0
+                }
+            }
+        }
+        vpcEndpointIdRestrictionRuleMap = vpcEndpointIdRestrictionRuleMapDecoded0
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
         let requestIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestId)
@@ -36613,7 +36664,7 @@ extension QuickSightClientTypes.FilterScopeConfiguration: Swift.Codable {
 extension QuickSightClientTypes {
     /// The scope configuration for a FilterGroup. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct FilterScopeConfiguration: Swift.Equatable {
-        /// The configuration for applying a filter to all sheets.
+        /// The configuration that applies a filter to all sheets. When you choose AllSheets as the value for a FilterScopeConfiguration, this filter is applied to all visuals of all sheets in an Analysis, Dashboard, or Template. The AllSheetsFilterScopeConfiguration is chosen.
         public var allSheets: QuickSightClientTypes.AllSheetsFilterScopeConfiguration?
         /// The configuration for applying a filter to specific sheets.
         public var selectedSheets: QuickSightClientTypes.SelectedSheetsFilterScopeConfiguration?
@@ -39464,7 +39515,7 @@ extension GenerateEmbedUrlForAnonymousUserInput {
 public struct GenerateEmbedUrlForAnonymousUserInput: Swift.Equatable {
     /// The domains that you want to add to the allow list for access to the generated URL that is then embedded. This optional parameter overrides the static domains that are configured in the Manage QuickSight menu in the Amazon QuickSight console. Instead, it allows only the domains that you include in this parameter. You can list up to three domains or subdomains in each API call. To include all subdomains under a specific domain to the allow list, use *. For example, https://*.sapp.amazon.com includes all subdomains under https://sapp.amazon.com.
     public var allowedDomains: [Swift.String]?
-    /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. Currently, you can pass up to 25 dashboard ARNs in each API call.
+    /// The Amazon Resource Names (ARNs) for the Amazon QuickSight resources that the user is authorized to access during the lifetime of the session. If you choose Dashboard embedding experience, pass the list of dashboard ARNs in the account that you want the user to be able to view. If you want to make changes to the theme of your embedded content, pass a list of theme ARNs that the anonymous users need access to. Currently, you can pass up to 25 theme ARNs in each API call.
     /// This member is required.
     public var authorizedResourceArns: [Swift.String]?
     /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
@@ -82778,6 +82829,8 @@ extension UpdateIpRestrictionInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
         case ipRestrictionRuleMap = "IpRestrictionRuleMap"
+        case vpcEndpointIdRestrictionRuleMap = "VpcEndpointIdRestrictionRuleMap"
+        case vpcIdRestrictionRuleMap = "VpcIdRestrictionRuleMap"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -82789,6 +82842,18 @@ extension UpdateIpRestrictionInput: Swift.Encodable {
             var ipRestrictionRuleMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .ipRestrictionRuleMap)
             for (dictKey0, ipRestrictionRuleMap0) in ipRestrictionRuleMap {
                 try ipRestrictionRuleMapContainer.encode(ipRestrictionRuleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let vpcEndpointIdRestrictionRuleMap = vpcEndpointIdRestrictionRuleMap {
+            var vpcEndpointIdRestrictionRuleMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .vpcEndpointIdRestrictionRuleMap)
+            for (dictKey0, vpcEndpointIdRestrictionRuleMap0) in vpcEndpointIdRestrictionRuleMap {
+                try vpcEndpointIdRestrictionRuleMapContainer.encode(vpcEndpointIdRestrictionRuleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let vpcIdRestrictionRuleMap = vpcIdRestrictionRuleMap {
+            var vpcIdRestrictionRuleMapContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .vpcIdRestrictionRuleMap)
+            for (dictKey0, vpcIdRestrictionRuleMap0) in vpcIdRestrictionRuleMap {
+                try vpcIdRestrictionRuleMapContainer.encode(vpcIdRestrictionRuleMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
         }
     }
@@ -82812,21 +82877,31 @@ public struct UpdateIpRestrictionInput: Swift.Equatable {
     public var enabled: Swift.Bool?
     /// A map that describes the updated IP rules with CIDR ranges and descriptions.
     public var ipRestrictionRuleMap: [Swift.String:Swift.String]?
+    /// A map of allowed VPC endpoint IDs and their corresponding rule descriptions.
+    public var vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]?
+    /// A map of VPC IDs and their corresponding rules. When you configure this parameter, traffic from all VPC endpoints that are present in the specified VPC is allowed.
+    public var vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
 
     public init(
         awsAccountId: Swift.String? = nil,
         enabled: Swift.Bool? = nil,
-        ipRestrictionRuleMap: [Swift.String:Swift.String]? = nil
+        ipRestrictionRuleMap: [Swift.String:Swift.String]? = nil,
+        vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]? = nil,
+        vpcIdRestrictionRuleMap: [Swift.String:Swift.String]? = nil
     )
     {
         self.awsAccountId = awsAccountId
         self.enabled = enabled
         self.ipRestrictionRuleMap = ipRestrictionRuleMap
+        self.vpcEndpointIdRestrictionRuleMap = vpcEndpointIdRestrictionRuleMap
+        self.vpcIdRestrictionRuleMap = vpcIdRestrictionRuleMap
     }
 }
 
 struct UpdateIpRestrictionInputBody: Swift.Equatable {
     let ipRestrictionRuleMap: [Swift.String:Swift.String]?
+    let vpcIdRestrictionRuleMap: [Swift.String:Swift.String]?
+    let vpcEndpointIdRestrictionRuleMap: [Swift.String:Swift.String]?
     let enabled: Swift.Bool?
 }
 
@@ -82834,6 +82909,8 @@ extension UpdateIpRestrictionInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
         case ipRestrictionRuleMap = "IpRestrictionRuleMap"
+        case vpcEndpointIdRestrictionRuleMap = "VpcEndpointIdRestrictionRuleMap"
+        case vpcIdRestrictionRuleMap = "VpcIdRestrictionRuleMap"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -82849,6 +82926,28 @@ extension UpdateIpRestrictionInputBody: Swift.Decodable {
             }
         }
         ipRestrictionRuleMap = ipRestrictionRuleMapDecoded0
+        let vpcIdRestrictionRuleMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .vpcIdRestrictionRuleMap)
+        var vpcIdRestrictionRuleMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let vpcIdRestrictionRuleMapContainer = vpcIdRestrictionRuleMapContainer {
+            vpcIdRestrictionRuleMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, vpcidrestrictionruledescription0) in vpcIdRestrictionRuleMapContainer {
+                if let vpcidrestrictionruledescription0 = vpcidrestrictionruledescription0 {
+                    vpcIdRestrictionRuleMapDecoded0?[key0] = vpcidrestrictionruledescription0
+                }
+            }
+        }
+        vpcIdRestrictionRuleMap = vpcIdRestrictionRuleMapDecoded0
+        let vpcEndpointIdRestrictionRuleMapContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .vpcEndpointIdRestrictionRuleMap)
+        var vpcEndpointIdRestrictionRuleMapDecoded0: [Swift.String:Swift.String]? = nil
+        if let vpcEndpointIdRestrictionRuleMapContainer = vpcEndpointIdRestrictionRuleMapContainer {
+            vpcEndpointIdRestrictionRuleMapDecoded0 = [Swift.String:Swift.String]()
+            for (key0, vpcendpointidrestrictionruledescription0) in vpcEndpointIdRestrictionRuleMapContainer {
+                if let vpcendpointidrestrictionruledescription0 = vpcendpointidrestrictionruledescription0 {
+                    vpcEndpointIdRestrictionRuleMapDecoded0?[key0] = vpcendpointidrestrictionruledescription0
+                }
+            }
+        }
+        vpcEndpointIdRestrictionRuleMap = vpcEndpointIdRestrictionRuleMapDecoded0
         let enabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enabled)
         enabled = enabledDecoded
     }

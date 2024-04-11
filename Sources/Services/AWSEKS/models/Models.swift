@@ -10929,6 +10929,7 @@ extension EKSClientTypes {
         case ec2LaunchTemplateInvalidConfiguration
         case ec2LaunchTemplateMaxLimitExceeded
         case ec2LaunchTemplateNotFound
+        case ec2LaunchTemplateVersionMaxLimitExceeded
         case ec2LaunchTemplateVersionMismatch
         case ec2SecurityGroupDeletionFailure
         case ec2SecurityGroupNotFound
@@ -10943,6 +10944,7 @@ extension EKSClientTypes {
         case instanceLimitExceeded
         case insufficientFreeAddresses
         case internalFailure
+        case kubernetesLabelInvalid
         case limitExceeded
         case nodeCreationFailure
         case nodeTerminationFailure
@@ -10966,6 +10968,7 @@ extension EKSClientTypes {
                 .ec2LaunchTemplateInvalidConfiguration,
                 .ec2LaunchTemplateMaxLimitExceeded,
                 .ec2LaunchTemplateNotFound,
+                .ec2LaunchTemplateVersionMaxLimitExceeded,
                 .ec2LaunchTemplateVersionMismatch,
                 .ec2SecurityGroupDeletionFailure,
                 .ec2SecurityGroupNotFound,
@@ -10980,6 +10983,7 @@ extension EKSClientTypes {
                 .instanceLimitExceeded,
                 .insufficientFreeAddresses,
                 .internalFailure,
+                .kubernetesLabelInvalid,
                 .limitExceeded,
                 .nodeCreationFailure,
                 .nodeTerminationFailure,
@@ -11008,6 +11012,7 @@ extension EKSClientTypes {
             case .ec2LaunchTemplateInvalidConfiguration: return "Ec2LaunchTemplateInvalidConfiguration"
             case .ec2LaunchTemplateMaxLimitExceeded: return "Ec2LaunchTemplateMaxLimitExceeded"
             case .ec2LaunchTemplateNotFound: return "Ec2LaunchTemplateNotFound"
+            case .ec2LaunchTemplateVersionMaxLimitExceeded: return "Ec2LaunchTemplateVersionMaxLimitExceeded"
             case .ec2LaunchTemplateVersionMismatch: return "Ec2LaunchTemplateVersionMismatch"
             case .ec2SecurityGroupDeletionFailure: return "Ec2SecurityGroupDeletionFailure"
             case .ec2SecurityGroupNotFound: return "Ec2SecurityGroupNotFound"
@@ -11022,6 +11027,7 @@ extension EKSClientTypes {
             case .instanceLimitExceeded: return "InstanceLimitExceeded"
             case .insufficientFreeAddresses: return "InsufficientFreeAddresses"
             case .internalFailure: return "InternalFailure"
+            case .kubernetesLabelInvalid: return "KubernetesLabelInvalid"
             case .limitExceeded: return "LimitExceeded"
             case .nodeCreationFailure: return "NodeCreationFailure"
             case .nodeTerminationFailure: return "NodeTerminationFailure"

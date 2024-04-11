@@ -725,10 +725,10 @@ extension CleanRoomsClientTypes.AnalysisRuleCustom: Swift.Codable {
 extension CleanRoomsClientTypes {
     /// A type of analysis rule that enables the table owner to approve custom SQL queries on their configured tables. It supports differential privacy.
     public struct AnalysisRuleCustom: Swift.Equatable {
-        /// The analysis templates that are allowed by the custom analysis rule.
+        /// The ARN of the analysis templates that are allowed by the custom analysis rule.
         /// This member is required.
         public var allowedAnalyses: [Swift.String]?
-        /// The Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
+        /// The IDs of the Amazon Web Services accounts that are allowed to query by the custom analysis rule. Required when allowedAnalyses is ANY_QUERY.
         public var allowedAnalysisProviders: [Swift.String]?
         /// The differential privacy configuration.
         public var differentialPrivacy: CleanRoomsClientTypes.DifferentialPrivacyConfiguration?
@@ -1593,6 +1593,229 @@ enum BatchGetCollaborationAnalysisTemplateOutputError: ClientRuntime.HttpRespons
     }
 }
 
+extension CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case message
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisRuleType.self, forKey: .type)
+        type = typeDecoded
+        let codeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// An error that describes why a schema could not be fetched.
+    public struct BatchGetSchemaAnalysisRuleError: Swift.Equatable {
+        /// An error code for the error.
+        /// This member is required.
+        public var code: Swift.String?
+        /// A description of why the call failed.
+        /// This member is required.
+        public var message: Swift.String?
+        /// An error name for the error.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The analysis rule type.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.AnalysisRuleType?
+
+        public init(
+            code: Swift.String? = nil,
+            message: Swift.String? = nil,
+            name: Swift.String? = nil,
+            type: CleanRoomsClientTypes.AnalysisRuleType? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension BatchGetSchemaAnalysisRuleInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schemaAnalysisRuleRequests
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let schemaAnalysisRuleRequests = schemaAnalysisRuleRequests {
+            var schemaAnalysisRuleRequestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaAnalysisRuleRequests)
+            for schemaanalysisrulerequest0 in schemaAnalysisRuleRequests {
+                try schemaAnalysisRuleRequestsContainer.encode(schemaanalysisrulerequest0)
+            }
+        }
+    }
+}
+
+extension BatchGetSchemaAnalysisRuleInput {
+
+    static func urlPathProvider(_ value: BatchGetSchemaAnalysisRuleInput) -> Swift.String? {
+        guard let collaborationIdentifier = value.collaborationIdentifier else {
+            return nil
+        }
+        return "/collaborations/\(collaborationIdentifier.urlPercentEncoding())/batch-schema-analysis-rule"
+    }
+}
+
+public struct BatchGetSchemaAnalysisRuleInput: Swift.Equatable {
+    /// The unique identifier of the collaboration that contains the schema analysis rule.
+    /// This member is required.
+    public var collaborationIdentifier: Swift.String?
+    /// The information that's necessary to retrieve a schema analysis rule.
+    /// This member is required.
+    public var schemaAnalysisRuleRequests: [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]?
+
+    public init(
+        collaborationIdentifier: Swift.String? = nil,
+        schemaAnalysisRuleRequests: [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]? = nil
+    )
+    {
+        self.collaborationIdentifier = collaborationIdentifier
+        self.schemaAnalysisRuleRequests = schemaAnalysisRuleRequests
+    }
+}
+
+struct BatchGetSchemaAnalysisRuleInputBody: Swift.Equatable {
+    let schemaAnalysisRuleRequests: [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]?
+}
+
+extension BatchGetSchemaAnalysisRuleInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schemaAnalysisRuleRequests
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schemaAnalysisRuleRequestsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.SchemaAnalysisRuleRequest?].self, forKey: .schemaAnalysisRuleRequests)
+        var schemaAnalysisRuleRequestsDecoded0:[CleanRoomsClientTypes.SchemaAnalysisRuleRequest]? = nil
+        if let schemaAnalysisRuleRequestsContainer = schemaAnalysisRuleRequestsContainer {
+            schemaAnalysisRuleRequestsDecoded0 = [CleanRoomsClientTypes.SchemaAnalysisRuleRequest]()
+            for structure0 in schemaAnalysisRuleRequestsContainer {
+                if let structure0 = structure0 {
+                    schemaAnalysisRuleRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        schemaAnalysisRuleRequests = schemaAnalysisRuleRequestsDecoded0
+    }
+}
+
+extension BatchGetSchemaAnalysisRuleOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BatchGetSchemaAnalysisRuleOutputBody = try responseDecoder.decode(responseBody: data)
+            self.analysisRules = output.analysisRules
+            self.errors = output.errors
+        } else {
+            self.analysisRules = nil
+            self.errors = nil
+        }
+    }
+}
+
+public struct BatchGetSchemaAnalysisRuleOutput: Swift.Equatable {
+    /// The retrieved list of analysis rules.
+    /// This member is required.
+    public var analysisRules: [CleanRoomsClientTypes.AnalysisRule]?
+    /// Error reasons for schemas that could not be retrieved. One error is returned for every schema that could not be retrieved.
+    /// This member is required.
+    public var errors: [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]?
+
+    public init(
+        analysisRules: [CleanRoomsClientTypes.AnalysisRule]? = nil,
+        errors: [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]? = nil
+    )
+    {
+        self.analysisRules = analysisRules
+        self.errors = errors
+    }
+}
+
+struct BatchGetSchemaAnalysisRuleOutputBody: Swift.Equatable {
+    let analysisRules: [CleanRoomsClientTypes.AnalysisRule]?
+    let errors: [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]?
+}
+
+extension BatchGetSchemaAnalysisRuleOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisRules
+        case errors
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let analysisRulesContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisRule?].self, forKey: .analysisRules)
+        var analysisRulesDecoded0:[CleanRoomsClientTypes.AnalysisRule]? = nil
+        if let analysisRulesContainer = analysisRulesContainer {
+            analysisRulesDecoded0 = [CleanRoomsClientTypes.AnalysisRule]()
+            for structure0 in analysisRulesContainer {
+                if let structure0 = structure0 {
+                    analysisRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        analysisRules = analysisRulesDecoded0
+        let errorsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError?].self, forKey: .errors)
+        var errorsDecoded0:[CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]? = nil
+        if let errorsContainer = errorsContainer {
+            errorsDecoded0 = [CleanRoomsClientTypes.BatchGetSchemaAnalysisRuleError]()
+            for structure0 in errorsContainer {
+                if let structure0 = structure0 {
+                    errorsDecoded0?.append(structure0)
+                }
+            }
+        }
+        errors = errorsDecoded0
+    }
+}
+
+enum BatchGetSchemaAnalysisRuleOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CleanRoomsClientTypes.BatchGetSchemaError: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case code
@@ -1681,7 +1904,7 @@ public struct BatchGetSchemaInput: Swift.Equatable {
     /// A unique identifier for the collaboration that the schemas belong to. Currently accepts collaboration ID.
     /// This member is required.
     public var collaborationIdentifier: Swift.String?
-    /// The names for the schema objects to retrieve.>
+    /// The names for the schema objects to retrieve.
     /// This member is required.
     public var names: [Swift.String]?
 
@@ -13379,13 +13602,24 @@ extension CleanRoomsClientTypes {
         case cast
         case ceiling
         case coalesce
+        case convert
+        case currentDate
+        case dateadd
+        case extract
         case floor
+        case getdate
         case ln
         case log
         case lower
         case round
         case rtrim
         case sqrt
+        case substring
+        case toChar
+        case toDate
+        case toNumber
+        case toTimestamp
+        case trim
         case trunc
         case upper
         case sdkUnknown(Swift.String)
@@ -13396,13 +13630,24 @@ extension CleanRoomsClientTypes {
                 .cast,
                 .ceiling,
                 .coalesce,
+                .convert,
+                .currentDate,
+                .dateadd,
+                .extract,
                 .floor,
+                .getdate,
                 .ln,
                 .log,
                 .lower,
                 .round,
                 .rtrim,
                 .sqrt,
+                .substring,
+                .toChar,
+                .toDate,
+                .toNumber,
+                .toTimestamp,
+                .trim,
                 .trunc,
                 .upper,
                 .sdkUnknown("")
@@ -13418,13 +13663,24 @@ extension CleanRoomsClientTypes {
             case .cast: return "CAST"
             case .ceiling: return "CEILING"
             case .coalesce: return "COALESCE"
+            case .convert: return "CONVERT"
+            case .currentDate: return "CURRENT_DATE"
+            case .dateadd: return "DATEADD"
+            case .extract: return "EXTRACT"
             case .floor: return "FLOOR"
+            case .getdate: return "GETDATE"
             case .ln: return "LN"
             case .log: return "LOG"
             case .lower: return "LOWER"
             case .round: return "ROUND"
             case .rtrim: return "RTRIM"
             case .sqrt: return "SQRT"
+            case .substring: return "SUBSTRING"
+            case .toChar: return "TO_CHAR"
+            case .toDate: return "TO_DATE"
+            case .toNumber: return "TO_NUMBER"
+            case .toTimestamp: return "TO_TIMESTAMP"
+            case .trim: return "TRIM"
             case .trunc: return "TRUNC"
             case .upper: return "UPPER"
             case let .sdkUnknown(s): return s
@@ -13450,6 +13706,7 @@ extension CleanRoomsClientTypes.Schema: Swift.Codable {
         case description
         case name
         case partitionKeys
+        case schemaStatusDetails
         case type
         case updateTime
     }
@@ -13493,6 +13750,12 @@ extension CleanRoomsClientTypes.Schema: Swift.Codable {
             var partitionKeysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .partitionKeys)
             for column0 in partitionKeys {
                 try partitionKeysContainer.encode(column0)
+            }
+        }
+        if let schemaStatusDetails = schemaStatusDetails {
+            var schemaStatusDetailsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .schemaStatusDetails)
+            for schemastatusdetail0 in schemaStatusDetails {
+                try schemaStatusDetailsContainer.encode(schemastatusdetail0)
             }
         }
         if let type = self.type {
@@ -13556,6 +13819,17 @@ extension CleanRoomsClientTypes.Schema: Swift.Codable {
         updateTime = updateTimeDecoded
         let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.SchemaType.self, forKey: .type)
         type = typeDecoded
+        let schemaStatusDetailsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.SchemaStatusDetail?].self, forKey: .schemaStatusDetails)
+        var schemaStatusDetailsDecoded0:[CleanRoomsClientTypes.SchemaStatusDetail]? = nil
+        if let schemaStatusDetailsContainer = schemaStatusDetailsContainer {
+            schemaStatusDetailsDecoded0 = [CleanRoomsClientTypes.SchemaStatusDetail]()
+            for structure0 in schemaStatusDetailsContainer {
+                if let structure0 = structure0 {
+                    schemaStatusDetailsDecoded0?.append(structure0)
+                }
+            }
+        }
+        schemaStatusDetails = schemaStatusDetailsDecoded0
     }
 }
 
@@ -13591,6 +13865,9 @@ extension CleanRoomsClientTypes {
         /// The partition keys for the dataset underlying this schema.
         /// This member is required.
         public var partitionKeys: [CleanRoomsClientTypes.Column]?
+        /// Details about the status of the schema. Currently, only one entry is present.
+        /// This member is required.
+        public var schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]?
         /// The type of schema. The only valid value is currently `TABLE`.
         /// This member is required.
         public var type: CleanRoomsClientTypes.SchemaType?
@@ -13609,6 +13886,7 @@ extension CleanRoomsClientTypes {
             description: Swift.String? = nil,
             name: Swift.String? = nil,
             partitionKeys: [CleanRoomsClientTypes.Column]? = nil,
+            schemaStatusDetails: [CleanRoomsClientTypes.SchemaStatusDetail]? = nil,
             type: CleanRoomsClientTypes.SchemaType? = nil,
             updateTime: ClientRuntime.Date? = nil
         )
@@ -13623,11 +13901,295 @@ extension CleanRoomsClientTypes {
             self.description = description
             self.name = name
             self.partitionKeys = partitionKeys
+            self.schemaStatusDetails = schemaStatusDetails
             self.type = type
             self.updateTime = updateTime
         }
     }
 
+}
+
+extension CleanRoomsClientTypes.SchemaAnalysisRuleRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisRuleType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Defines the information that's necessary to retrieve an analysis rule schema. Schema analysis rules are uniquely identiﬁed by a combination of the schema name and the analysis rule type for a given collaboration.
+    public struct SchemaAnalysisRuleRequest: Swift.Equatable {
+        /// The name of the analysis rule schema that you are requesting.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The type of analysis rule schema that you are requesting.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.AnalysisRuleType?
+
+        public init(
+            name: Swift.String? = nil,
+            type: CleanRoomsClientTypes.AnalysisRuleType? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes {
+    public enum SchemaConfiguration: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case differentialPrivacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaConfiguration] {
+            return [
+                .differentialPrivacy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .differentialPrivacy: return "DIFFERENTIAL_PRIVACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SchemaConfiguration(rawValue: rawValue) ?? SchemaConfiguration.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes {
+    public enum SchemaStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notReady
+        case ready
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaStatus] {
+            return [
+                .notReady,
+                .ready,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notReady: return "NOT_READY"
+            case .ready: return "READY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SchemaStatus(rawValue: rawValue) ?? SchemaStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.SchemaStatusDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case analysisRuleType
+        case configurations
+        case reasons
+        case status
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let analysisRuleType = self.analysisRuleType {
+            try encodeContainer.encode(analysisRuleType.rawValue, forKey: .analysisRuleType)
+        }
+        if let configurations = configurations {
+            var configurationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .configurations)
+            for schemaconfiguration0 in configurations {
+                try configurationsContainer.encode(schemaconfiguration0.rawValue)
+            }
+        }
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for schemastatusreason0 in reasons {
+                try reasonsContainer.encode(schemastatusreason0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let statusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.SchemaStatus.self, forKey: .status)
+        status = statusDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.SchemaStatusReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[CleanRoomsClientTypes.SchemaStatusReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [CleanRoomsClientTypes.SchemaStatusReason]()
+            for structure0 in reasonsContainer {
+                if let structure0 = structure0 {
+                    reasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+        let analysisRuleTypeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisRuleType.self, forKey: .analysisRuleType)
+        analysisRuleType = analysisRuleTypeDecoded
+        let configurationsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.SchemaConfiguration?].self, forKey: .configurations)
+        var configurationsDecoded0:[CleanRoomsClientTypes.SchemaConfiguration]? = nil
+        if let configurationsContainer = configurationsContainer {
+            configurationsDecoded0 = [CleanRoomsClientTypes.SchemaConfiguration]()
+            for enum0 in configurationsContainer {
+                if let enum0 = enum0 {
+                    configurationsDecoded0?.append(enum0)
+                }
+            }
+        }
+        configurations = configurationsDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// Information about the schema status. A status of READY means that based on the schema analysis rule, queries of the given analysis rule type are properly configured to run queries on this schema.
+    public struct SchemaStatusDetail: Swift.Equatable {
+        /// The analysis rule type for which the schema status has been evaluated.
+        public var analysisRuleType: CleanRoomsClientTypes.AnalysisRuleType?
+        /// The configuration details of the schema analysis rule for the given type.
+        public var configurations: [CleanRoomsClientTypes.SchemaConfiguration]?
+        /// The reasons why the schema status is set to its current state.
+        public var reasons: [CleanRoomsClientTypes.SchemaStatusReason]?
+        /// The status of the schema.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.SchemaStatus?
+
+        public init(
+            analysisRuleType: CleanRoomsClientTypes.AnalysisRuleType? = nil,
+            configurations: [CleanRoomsClientTypes.SchemaConfiguration]? = nil,
+            reasons: [CleanRoomsClientTypes.SchemaStatusReason]? = nil,
+            status: CleanRoomsClientTypes.SchemaStatus? = nil
+        )
+        {
+            self.analysisRuleType = analysisRuleType
+            self.configurations = configurations
+            self.reasons = reasons
+            self.status = status
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.SchemaStatusReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case code
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let code = self.code {
+            try encodeContainer.encode(code.rawValue, forKey: .code)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let codeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.SchemaStatusReasonCode.self, forKey: .code)
+        code = codeDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// A reason why the schema status is set to its current value.
+    public struct SchemaStatusReason: Swift.Equatable {
+        /// The schema status reason code.
+        /// This member is required.
+        public var code: CleanRoomsClientTypes.SchemaStatusReasonCode?
+        /// An explanation of the schema status reason code.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            code: CleanRoomsClientTypes.SchemaStatusReasonCode? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.code = code
+            self.message = message
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes {
+    public enum SchemaStatusReasonCode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case analysisProvidersNotConfigured
+        case analysisRuleMissing
+        case analysisTemplatesNotConfigured
+        case differentialPrivacyPolicyNotConfigured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SchemaStatusReasonCode] {
+            return [
+                .analysisProvidersNotConfigured,
+                .analysisRuleMissing,
+                .analysisTemplatesNotConfigured,
+                .differentialPrivacyPolicyNotConfigured,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .analysisProvidersNotConfigured: return "ANALYSIS_PROVIDERS_NOT_CONFIGURED"
+            case .analysisRuleMissing: return "ANALYSIS_RULE_MISSING"
+            case .analysisTemplatesNotConfigured: return "ANALYSIS_TEMPLATES_NOT_CONFIGURED"
+            case .differentialPrivacyPolicyNotConfigured: return "DIFFERENTIAL_PRIVACY_POLICY_NOT_CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SchemaStatusReasonCode(rawValue: rawValue) ?? SchemaStatusReasonCode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CleanRoomsClientTypes.SchemaSummary: Swift.Codable {

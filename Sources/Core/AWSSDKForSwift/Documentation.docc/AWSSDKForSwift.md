@@ -153,6 +153,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSCodeCommit](../../../../../swift/api/awscodecommit/latest)
 
+[AWSCodeConnections](../../../../../swift/api/awscodeconnections/latest)
+
 [AWSCodeDeploy](../../../../../swift/api/awscodedeploy/latest)
 
 [AWSCodeGuruProfiler](../../../../../swift/api/awscodeguruprofiler/latest)
@@ -195,6 +197,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSConnectParticipant](../../../../../swift/api/awsconnectparticipant/latest)
 
+[AWSControlCatalog](../../../../../swift/api/awscontrolcatalog/latest)
+
 [AWSControlTower](../../../../../swift/api/awscontroltower/latest)
 
 [AWSCostExplorer](../../../../../swift/api/awscostexplorer/latest)
@@ -220,6 +224,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 [AWSDataZone](../../../../../swift/api/awsdatazone/latest)
 
 [AWSDatabaseMigrationService](../../../../../swift/api/awsdatabasemigrationservice/latest)
+
+[AWSDeadline](../../../../../swift/api/awsdeadline/latest)
 
 [AWSDetective](../../../../../swift/api/awsdetective/latest)
 

@@ -669,6 +669,61 @@ extension CostExplorerClientTypes {
     }
 }
 
+extension BackfillLimitExceededException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: BackfillLimitExceededExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// A request to backfill is already in progress. Once the previous request is complete, you can create another request.
+public struct BackfillLimitExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "BackfillLimitExceededException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct BackfillLimitExceededExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension BackfillLimitExceededExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message = "Message"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension BillExpirationException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -835,6 +890,116 @@ extension CostExplorerClientTypes {
         }
     }
 
+}
+
+extension CostExplorerClientTypes.CostAllocationTagBackfillRequest: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillFrom = "BackfillFrom"
+        case backfillStatus = "BackfillStatus"
+        case completedAt = "CompletedAt"
+        case lastUpdatedAt = "LastUpdatedAt"
+        case requestedAt = "RequestedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backfillFrom = self.backfillFrom {
+            try encodeContainer.encode(backfillFrom, forKey: .backfillFrom)
+        }
+        if let backfillStatus = self.backfillStatus {
+            try encodeContainer.encode(backfillStatus.rawValue, forKey: .backfillStatus)
+        }
+        if let completedAt = self.completedAt {
+            try encodeContainer.encode(completedAt, forKey: .completedAt)
+        }
+        if let lastUpdatedAt = self.lastUpdatedAt {
+            try encodeContainer.encode(lastUpdatedAt, forKey: .lastUpdatedAt)
+        }
+        if let requestedAt = self.requestedAt {
+            try encodeContainer.encode(requestedAt, forKey: .requestedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backfillFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backfillFrom)
+        backfillFrom = backfillFromDecoded
+        let requestedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .requestedAt)
+        requestedAt = requestedAtDecoded
+        let completedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .completedAt)
+        completedAt = completedAtDecoded
+        let backfillStatusDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostAllocationTagBackfillStatus.self, forKey: .backfillStatus)
+        backfillStatus = backfillStatusDecoded
+        let lastUpdatedAtDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .lastUpdatedAt)
+        lastUpdatedAt = lastUpdatedAtDecoded
+    }
+}
+
+extension CostExplorerClientTypes {
+    /// The cost allocation tag backfill request structure that contains metadata and details of a certain backfill.
+    public struct CostAllocationTagBackfillRequest: Swift.Equatable {
+        /// The date the backfill starts from.
+        public var backfillFrom: Swift.String?
+        /// The status of the cost allocation tag backfill request.
+        public var backfillStatus: CostExplorerClientTypes.CostAllocationTagBackfillStatus?
+        /// The backfill completion time.
+        public var completedAt: Swift.String?
+        /// The time when the backfill status was last updated.
+        public var lastUpdatedAt: Swift.String?
+        /// The time when the backfill was requested.
+        public var requestedAt: Swift.String?
+
+        public init(
+            backfillFrom: Swift.String? = nil,
+            backfillStatus: CostExplorerClientTypes.CostAllocationTagBackfillStatus? = nil,
+            completedAt: Swift.String? = nil,
+            lastUpdatedAt: Swift.String? = nil,
+            requestedAt: Swift.String? = nil
+        )
+        {
+            self.backfillFrom = backfillFrom
+            self.backfillStatus = backfillStatus
+            self.completedAt = completedAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.requestedAt = requestedAt
+        }
+    }
+
+}
+
+extension CostExplorerClientTypes {
+    public enum CostAllocationTagBackfillStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failed
+        case processing
+        case succeeded
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CostAllocationTagBackfillStatus] {
+            return [
+                .failed,
+                .processing,
+                .succeeded,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failed: return "FAILED"
+            case .processing: return "PROCESSING"
+            case .succeeded: return "SUCCEEDED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CostAllocationTagBackfillStatus(rawValue: rawValue) ?? CostAllocationTagBackfillStatus.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CostExplorerClientTypes {
@@ -9891,6 +10056,137 @@ extension LimitExceededExceptionBody: Swift.Decodable {
     }
 }
 
+extension ListCostAllocationTagBackfillHistoryInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListCostAllocationTagBackfillHistoryInput {
+
+    static func urlPathProvider(_ value: ListCostAllocationTagBackfillHistoryInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListCostAllocationTagBackfillHistoryInput: Swift.Equatable {
+    /// The maximum number of objects that are returned for this request.
+    public var maxResults: Swift.Int?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCostAllocationTagBackfillHistoryInputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListCostAllocationTagBackfillHistoryInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListCostAllocationTagBackfillHistoryOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCostAllocationTagBackfillHistoryOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backfillRequests = output.backfillRequests
+            self.nextToken = output.nextToken
+        } else {
+            self.backfillRequests = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCostAllocationTagBackfillHistoryOutput: Swift.Equatable {
+    /// The list of historical cost allocation tag backfill requests.
+    public var backfillRequests: [CostExplorerClientTypes.CostAllocationTagBackfillRequest]?
+    /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+    public var nextToken: Swift.String?
+
+    public init(
+        backfillRequests: [CostExplorerClientTypes.CostAllocationTagBackfillRequest]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.backfillRequests = backfillRequests
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCostAllocationTagBackfillHistoryOutputBody: Swift.Equatable {
+    let backfillRequests: [CostExplorerClientTypes.CostAllocationTagBackfillRequest]?
+    let nextToken: Swift.String?
+}
+
+extension ListCostAllocationTagBackfillHistoryOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillRequests = "BackfillRequests"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backfillRequestsContainer = try containerValues.decodeIfPresent([CostExplorerClientTypes.CostAllocationTagBackfillRequest?].self, forKey: .backfillRequests)
+        var backfillRequestsDecoded0:[CostExplorerClientTypes.CostAllocationTagBackfillRequest]? = nil
+        if let backfillRequestsContainer = backfillRequestsContainer {
+            backfillRequestsDecoded0 = [CostExplorerClientTypes.CostAllocationTagBackfillRequest]()
+            for structure0 in backfillRequestsContainer {
+                if let structure0 = structure0 {
+                    backfillRequestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        backfillRequests = backfillRequestsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCostAllocationTagBackfillHistoryOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidNextTokenException": return try await InvalidNextTokenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListCostAllocationTagsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case maxResults = "MaxResults"
@@ -14527,6 +14823,107 @@ extension CostExplorerClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SortOrder(rawValue: rawValue) ?? SortOrder.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StartCostAllocationTagBackfillInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillFrom = "BackfillFrom"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let backfillFrom = self.backfillFrom {
+            try encodeContainer.encode(backfillFrom, forKey: .backfillFrom)
+        }
+    }
+}
+
+extension StartCostAllocationTagBackfillInput {
+
+    static func urlPathProvider(_ value: StartCostAllocationTagBackfillInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartCostAllocationTagBackfillInput: Swift.Equatable {
+    /// The date you want the backfill to start from. The date can only be a first day of the month (a billing start date). Dates can't precede the previous twelve months, or in the future.
+    /// This member is required.
+    public var backfillFrom: Swift.String?
+
+    public init(
+        backfillFrom: Swift.String? = nil
+    )
+    {
+        self.backfillFrom = backfillFrom
+    }
+}
+
+struct StartCostAllocationTagBackfillInputBody: Swift.Equatable {
+    let backfillFrom: Swift.String?
+}
+
+extension StartCostAllocationTagBackfillInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillFrom = "BackfillFrom"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backfillFromDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .backfillFrom)
+        backfillFrom = backfillFromDecoded
+    }
+}
+
+extension StartCostAllocationTagBackfillOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartCostAllocationTagBackfillOutputBody = try responseDecoder.decode(responseBody: data)
+            self.backfillRequest = output.backfillRequest
+        } else {
+            self.backfillRequest = nil
+        }
+    }
+}
+
+public struct StartCostAllocationTagBackfillOutput: Swift.Equatable {
+    /// An object containing detailed metadata of your new backfill request.
+    public var backfillRequest: CostExplorerClientTypes.CostAllocationTagBackfillRequest?
+
+    public init(
+        backfillRequest: CostExplorerClientTypes.CostAllocationTagBackfillRequest? = nil
+    )
+    {
+        self.backfillRequest = backfillRequest
+    }
+}
+
+struct StartCostAllocationTagBackfillOutputBody: Swift.Equatable {
+    let backfillRequest: CostExplorerClientTypes.CostAllocationTagBackfillRequest?
+}
+
+extension StartCostAllocationTagBackfillOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case backfillRequest = "BackfillRequest"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let backfillRequestDecoded = try containerValues.decodeIfPresent(CostExplorerClientTypes.CostAllocationTagBackfillRequest.self, forKey: .backfillRequest)
+        backfillRequest = backfillRequestDecoded
+    }
+}
+
+enum StartCostAllocationTagBackfillOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BackfillLimitExceededException": return try await BackfillLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceededException": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

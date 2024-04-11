@@ -76,6 +76,7 @@ extension MgnClientTypes {
         case observability
         case operatingSystem
         case other
+        case refactoring
         case security
         case validation
         case sdkUnknown(Swift.String)
@@ -90,6 +91,7 @@ extension MgnClientTypes {
                 .observability,
                 .operatingSystem,
                 .other,
+                .refactoring,
                 .security,
                 .validation,
                 .sdkUnknown("")
@@ -109,6 +111,7 @@ extension MgnClientTypes {
             case .observability: return "OBSERVABILITY"
             case .operatingSystem: return "OPERATING_SYSTEM"
             case .other: return "OTHER"
+            case .refactoring: return "REFACTORING"
             case .security: return "SECURITY"
             case .validation: return "VALIDATION"
             case let .sdkUnknown(s): return s
@@ -1050,12 +1053,14 @@ extension MgnClientTypes {
     public enum BootMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case legacyBios
         case uefi
+        case useSource
         case sdkUnknown(Swift.String)
 
         public static var allCases: [BootMode] {
             return [
                 .legacyBios,
                 .uefi,
+                .useSource,
                 .sdkUnknown("")
             ]
         }
@@ -1067,6 +1072,7 @@ extension MgnClientTypes {
             switch self {
             case .legacyBios: return "LEGACY_BIOS"
             case .uefi: return "UEFI"
+            case .useSource: return "USE_SOURCE"
             case let .sdkUnknown(s): return s
             }
         }

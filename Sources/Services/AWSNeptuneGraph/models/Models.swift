@@ -577,9 +577,9 @@ public struct CreateGraphOutput: Swift.Equatable {
     public var name: Swift.String?
     /// The provisioned memory-optimized Neptune Capacity Units (m-NCUs) to use for the graph. Min = 128
     public var provisionedMemory: Swift.Int?
-    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated.
+    /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. If enabling public connectivity for the first time, there will be a delay while it is enabled.
     public var publicConnectivity: Swift.Bool?
-    /// The number of replicas in other AZs.
+    /// The number of replicas in other AZs. Default: If not specified, the default value is 1.
     public var replicaCount: Swift.Int?
     /// The ID of the source graph.
     public var sourceSnapshotId: Swift.String?
@@ -3664,6 +3664,7 @@ extension NeptuneGraphClientTypes {
         case creating
         case deleting
         case failed
+        case importing
         case resetting
         case snapshotting
         case updating
@@ -3675,6 +3676,7 @@ extension NeptuneGraphClientTypes {
                 .creating,
                 .deleting,
                 .failed,
+                .importing,
                 .resetting,
                 .snapshotting,
                 .updating,
@@ -3691,6 +3693,7 @@ extension NeptuneGraphClientTypes {
             case .creating: return "CREATING"
             case .deleting: return "DELETING"
             case .failed: return "FAILED"
+            case .importing: return "IMPORTING"
             case .resetting: return "RESETTING"
             case .snapshotting: return "SNAPSHOTTING"
             case .updating: return "UPDATING"
@@ -6193,6 +6196,231 @@ extension NeptuneGraphClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = SnapshotStatus(rawValue: rawValue) ?? SnapshotStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension StartImportTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failOnError
+        case format
+        case importOptions
+        case roleArn
+        case source
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let failOnError = self.failOnError {
+            try encodeContainer.encode(failOnError, forKey: .failOnError)
+        }
+        if let format = self.format {
+            try encodeContainer.encode(format.rawValue, forKey: .format)
+        }
+        if let importOptions = self.importOptions {
+            try encodeContainer.encode(importOptions, forKey: .importOptions)
+        }
+        if let roleArn = self.roleArn {
+            try encodeContainer.encode(roleArn, forKey: .roleArn)
+        }
+        if let source = self.source {
+            try encodeContainer.encode(source, forKey: .source)
+        }
+    }
+}
+
+extension StartImportTaskInput {
+
+    static func urlPathProvider(_ value: StartImportTaskInput) -> Swift.String? {
+        guard let graphIdentifier = value.graphIdentifier else {
+            return nil
+        }
+        return "/graphs/\(graphIdentifier.urlPercentEncoding())/importtasks"
+    }
+}
+
+public struct StartImportTaskInput: Swift.Equatable {
+    /// If set to true, the task halts when an import error is encountered. If set to false, the task skips the data that caused the error and continues if possible.
+    public var failOnError: Swift.Bool?
+    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+    public var format: NeptuneGraphClientTypes.Format?
+    /// The unique identifier of the Neptune Analytics graph.
+    /// This member is required.
+    public var graphIdentifier: Swift.String?
+    /// Options for how to perform an import.
+    public var importOptions: NeptuneGraphClientTypes.ImportOptions?
+    /// The ARN of the IAM role that will allow access to the data that is to be imported.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
+    /// This member is required.
+    public var source: Swift.String?
+
+    public init(
+        failOnError: Swift.Bool? = nil,
+        format: NeptuneGraphClientTypes.Format? = nil,
+        graphIdentifier: Swift.String? = nil,
+        importOptions: NeptuneGraphClientTypes.ImportOptions? = nil,
+        roleArn: Swift.String? = nil,
+        source: Swift.String? = nil
+    )
+    {
+        self.failOnError = failOnError
+        self.format = format
+        self.graphIdentifier = graphIdentifier
+        self.importOptions = importOptions
+        self.roleArn = roleArn
+        self.source = source
+    }
+}
+
+struct StartImportTaskInputBody: Swift.Equatable {
+    let importOptions: NeptuneGraphClientTypes.ImportOptions?
+    let failOnError: Swift.Bool?
+    let source: Swift.String?
+    let format: NeptuneGraphClientTypes.Format?
+    let roleArn: Swift.String?
+}
+
+extension StartImportTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case failOnError
+        case format
+        case importOptions
+        case roleArn
+        case source
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let importOptionsDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.ImportOptions.self, forKey: .importOptions)
+        importOptions = importOptionsDecoded
+        let failOnErrorDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .failOnError)
+        failOnError = failOnErrorDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.Format.self, forKey: .format)
+        format = formatDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+    }
+}
+
+extension StartImportTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartImportTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.format = output.format
+            self.graphId = output.graphId
+            self.importOptions = output.importOptions
+            self.roleArn = output.roleArn
+            self.source = output.source
+            self.status = output.status
+            self.taskId = output.taskId
+        } else {
+            self.format = nil
+            self.graphId = nil
+            self.importOptions = nil
+            self.roleArn = nil
+            self.source = nil
+            self.status = nil
+            self.taskId = nil
+        }
+    }
+}
+
+public struct StartImportTaskOutput: Swift.Equatable {
+    /// Specifies the format of Amazon S3 data to be imported. Valid values are CSV, which identifies the Gremlin CSV format or OPENCYPHER, which identies the openCypher load format.
+    public var format: NeptuneGraphClientTypes.Format?
+    /// The unique identifier of the Neptune Analytics graph.
+    public var graphId: Swift.String?
+    /// Options for how to perform an import.
+    public var importOptions: NeptuneGraphClientTypes.ImportOptions?
+    /// The ARN of the IAM role that will allow access to the data that is to be imported.
+    /// This member is required.
+    public var roleArn: Swift.String?
+    /// A URL identifying the location of the data to be imported. This can be an Amazon S3 path, or can point to a Neptune database endpoint or snapshot.
+    /// This member is required.
+    public var source: Swift.String?
+    /// The status of the import task.
+    /// This member is required.
+    public var status: NeptuneGraphClientTypes.ImportTaskStatus?
+    /// The unique identifier of the import task.
+    /// This member is required.
+    public var taskId: Swift.String?
+
+    public init(
+        format: NeptuneGraphClientTypes.Format? = nil,
+        graphId: Swift.String? = nil,
+        importOptions: NeptuneGraphClientTypes.ImportOptions? = nil,
+        roleArn: Swift.String? = nil,
+        source: Swift.String? = nil,
+        status: NeptuneGraphClientTypes.ImportTaskStatus? = nil,
+        taskId: Swift.String? = nil
+    )
+    {
+        self.format = format
+        self.graphId = graphId
+        self.importOptions = importOptions
+        self.roleArn = roleArn
+        self.source = source
+        self.status = status
+        self.taskId = taskId
+    }
+}
+
+struct StartImportTaskOutputBody: Swift.Equatable {
+    let graphId: Swift.String?
+    let taskId: Swift.String?
+    let source: Swift.String?
+    let format: NeptuneGraphClientTypes.Format?
+    let roleArn: Swift.String?
+    let status: NeptuneGraphClientTypes.ImportTaskStatus?
+    let importOptions: NeptuneGraphClientTypes.ImportOptions?
+}
+
+extension StartImportTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case format
+        case graphId
+        case importOptions
+        case roleArn
+        case source
+        case status
+        case taskId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let graphIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .graphId)
+        graphId = graphIdDecoded
+        let taskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskId)
+        taskId = taskIdDecoded
+        let sourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .source)
+        source = sourceDecoded
+        let formatDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.Format.self, forKey: .format)
+        format = formatDecoded
+        let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
+        roleArn = roleArnDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.ImportTaskStatus.self, forKey: .status)
+        status = statusDecoded
+        let importOptionsDecoded = try containerValues.decodeIfPresent(NeptuneGraphClientTypes.ImportOptions.self, forKey: .importOptions)
+        importOptions = importOptionsDecoded
+    }
+}
+
+enum StartImportTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }

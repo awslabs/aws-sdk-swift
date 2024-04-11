@@ -5625,6 +5625,7 @@ extension BatchClientTypes {
 
 extension BatchClientTypes.EksContainerSecurityContext: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case allowPrivilegeEscalation
         case privileged
         case readOnlyRootFilesystem
         case runAsGroup
@@ -5634,6 +5635,9 @@ extension BatchClientTypes.EksContainerSecurityContext: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let allowPrivilegeEscalation = self.allowPrivilegeEscalation {
+            try encodeContainer.encode(allowPrivilegeEscalation, forKey: .allowPrivilegeEscalation)
+        }
         if let privileged = self.privileged {
             try encodeContainer.encode(privileged, forKey: .privileged)
         }
@@ -5659,6 +5663,8 @@ extension BatchClientTypes.EksContainerSecurityContext: Swift.Codable {
         runAsGroup = runAsGroupDecoded
         let privilegedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .privileged)
         privileged = privilegedDecoded
+        let allowPrivilegeEscalationDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .allowPrivilegeEscalation)
+        allowPrivilegeEscalation = allowPrivilegeEscalationDecoded
         let readOnlyRootFilesystemDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .readOnlyRootFilesystem)
         readOnlyRootFilesystem = readOnlyRootFilesystemDecoded
         let runAsNonRootDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .runAsNonRoot)
@@ -5669,6 +5675,8 @@ extension BatchClientTypes.EksContainerSecurityContext: Swift.Codable {
 extension BatchClientTypes {
     /// The security context for a job. For more information, see [Configure a security context for a pod or container](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) in the Kubernetes documentation.
     public struct EksContainerSecurityContext: Swift.Equatable {
+        /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process. The default value is false.
+        public var allowPrivilegeEscalation: Swift.Bool?
         /// When this parameter is true, the container is given elevated permissions on the host container instance. The level of permissions are similar to the root user permissions. The default value is false. This parameter maps to privileged policy in the [Privileged pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#privileged) in the Kubernetes documentation.
         public var privileged: Swift.Bool?
         /// When this parameter is true, the container is given read-only access to its root file system. The default value is false. This parameter maps to ReadOnlyRootFilesystem policy in the [Volumes and file systems pod security policies](https://kubernetes.io/docs/concepts/security/pod-security-policy/#volumes-and-file-systems) in the Kubernetes documentation.
@@ -5681,6 +5689,7 @@ extension BatchClientTypes {
         public var runAsUser: Swift.Int?
 
         public init(
+            allowPrivilegeEscalation: Swift.Bool? = nil,
             privileged: Swift.Bool? = nil,
             readOnlyRootFilesystem: Swift.Bool? = nil,
             runAsGroup: Swift.Int? = nil,
@@ -5688,6 +5697,7 @@ extension BatchClientTypes {
             runAsUser: Swift.Int? = nil
         )
         {
+            self.allowPrivilegeEscalation = allowPrivilegeEscalation
             self.privileged = privileged
             self.readOnlyRootFilesystem = readOnlyRootFilesystem
             self.runAsGroup = runAsGroup
@@ -5885,6 +5895,7 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         case containers
         case dnsPolicy
         case hostNetwork
+        case imagePullSecrets
         case initContainers
         case metadata
         case serviceAccountName
@@ -5905,6 +5916,12 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         }
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let imagePullSecrets = imagePullSecrets {
+            var imagePullSecretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imagePullSecrets)
+            for imagepullsecret0 in imagePullSecrets {
+                try imagePullSecretsContainer.encode(imagepullsecret0)
+            }
         }
         if let initContainers = initContainers {
             var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
@@ -5937,6 +5954,17 @@ extension BatchClientTypes.EksPodProperties: Swift.Codable {
         hostNetwork = hostNetworkDecoded
         let dnsPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsPolicy)
         dnsPolicy = dnsPolicyDecoded
+        let imagePullSecretsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ImagePullSecret?].self, forKey: .imagePullSecrets)
+        var imagePullSecretsDecoded0:[BatchClientTypes.ImagePullSecret]? = nil
+        if let imagePullSecretsContainer = imagePullSecretsContainer {
+            imagePullSecretsDecoded0 = [BatchClientTypes.ImagePullSecret]()
+            for structure0 in imagePullSecretsContainer {
+                if let structure0 = structure0 {
+                    imagePullSecretsDecoded0?.append(structure0)
+                }
+            }
+        }
+        imagePullSecrets = imagePullSecretsDecoded0
         let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainer?].self, forKey: .containers)
         var containersDecoded0:[BatchClientTypes.EksContainer]? = nil
         if let containersContainer = containersContainer {
@@ -5986,6 +6014,8 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// References a Kubernetes secret resource. This object must start and end with an alphanumeric character, is required to be lowercase, can include periods (.) and hyphens (-), and can't contain more than 253 characters. ImagePullSecret$name is required when this object is used.
+        public var imagePullSecrets: [BatchClientTypes.ImagePullSecret]?
         /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
         public var initContainers: [BatchClientTypes.EksContainer]?
         /// Metadata about the Kubernetes pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
@@ -6001,6 +6031,7 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainer]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            imagePullSecrets: [BatchClientTypes.ImagePullSecret]? = nil,
             initContainers: [BatchClientTypes.EksContainer]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil,
             serviceAccountName: Swift.String? = nil,
@@ -6011,6 +6042,7 @@ extension BatchClientTypes {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.imagePullSecrets = imagePullSecrets
             self.initContainers = initContainers
             self.metadata = metadata
             self.serviceAccountName = serviceAccountName
@@ -6026,6 +6058,7 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         case containers
         case dnsPolicy
         case hostNetwork
+        case imagePullSecrets
         case initContainers
         case metadata
         case nodeName
@@ -6048,6 +6081,12 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         }
         if let hostNetwork = self.hostNetwork {
             try encodeContainer.encode(hostNetwork, forKey: .hostNetwork)
+        }
+        if let imagePullSecrets = imagePullSecrets {
+            var imagePullSecretsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .imagePullSecrets)
+            for imagepullsecret0 in imagePullSecrets {
+                try imagePullSecretsContainer.encode(imagepullsecret0)
+            }
         }
         if let initContainers = initContainers {
             var initContainersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .initContainers)
@@ -6086,6 +6125,17 @@ extension BatchClientTypes.EksPodPropertiesDetail: Swift.Codable {
         hostNetwork = hostNetworkDecoded
         let dnsPolicyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dnsPolicy)
         dnsPolicy = dnsPolicyDecoded
+        let imagePullSecretsContainer = try containerValues.decodeIfPresent([BatchClientTypes.ImagePullSecret?].self, forKey: .imagePullSecrets)
+        var imagePullSecretsDecoded0:[BatchClientTypes.ImagePullSecret]? = nil
+        if let imagePullSecretsContainer = imagePullSecretsContainer {
+            imagePullSecretsDecoded0 = [BatchClientTypes.ImagePullSecret]()
+            for structure0 in imagePullSecretsContainer {
+                if let structure0 = structure0 {
+                    imagePullSecretsDecoded0?.append(structure0)
+                }
+            }
+        }
+        imagePullSecrets = imagePullSecretsDecoded0
         let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.EksContainerDetail?].self, forKey: .containers)
         var containersDecoded0:[BatchClientTypes.EksContainerDetail]? = nil
         if let containersContainer = containersContainer {
@@ -6139,6 +6189,8 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
+        /// Displays the reference pointer to the Kubernetes secret resource.
+        public var imagePullSecrets: [BatchClientTypes.ImagePullSecret]?
         /// The container registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.
         public var initContainers: [BatchClientTypes.EksContainerDetail]?
         /// Describes and uniquely identifies Kubernetes resources. For example, the compute environment that a pod runs in or the jobID for a job running in the pod. For more information, see [Understanding Kubernetes Objects](https://kubernetes.io/docs/concepts/overview/working-with-objects/kubernetes-objects/) in the Kubernetes documentation.
@@ -6158,6 +6210,7 @@ extension BatchClientTypes {
             containers: [BatchClientTypes.EksContainerDetail]? = nil,
             dnsPolicy: Swift.String? = nil,
             hostNetwork: Swift.Bool? = nil,
+            imagePullSecrets: [BatchClientTypes.ImagePullSecret]? = nil,
             initContainers: [BatchClientTypes.EksContainerDetail]? = nil,
             metadata: BatchClientTypes.EksMetadata? = nil,
             nodeName: Swift.String? = nil,
@@ -6170,6 +6223,7 @@ extension BatchClientTypes {
             self.containers = containers
             self.dnsPolicy = dnsPolicy
             self.hostNetwork = hostNetwork
+            self.imagePullSecrets = imagePullSecrets
             self.initContainers = initContainers
             self.metadata = metadata
             self.nodeName = nodeName
@@ -6712,6 +6766,42 @@ extension BatchClientTypes {
         )
         {
             self.sourcePath = sourcePath
+        }
+    }
+
+}
+
+extension BatchClientTypes.ImagePullSecret: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension BatchClientTypes {
+    /// References a Kubernetes configuration resource that holds a list of secrets. These secrets help to gain access to pull an image from a private registry.
+    public struct ImagePullSecret: Swift.Equatable {
+        /// Provides a unique identifier for the ImagePullSecret. This object is required when EksPodProperties$imagePullSecrets is used.
+        /// This member is required.
+        public var name: Swift.String?
+
+        public init(
+            name: Swift.String? = nil
+        )
+        {
+            self.name = name
         }
     }
 

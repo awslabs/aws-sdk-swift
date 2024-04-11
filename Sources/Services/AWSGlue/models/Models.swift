@@ -33801,6 +33801,8 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
             let output: GetUnfilteredTableMetadataOutputBody = try responseDecoder.decode(responseBody: data)
             self.authorizedColumns = output.authorizedColumns
             self.cellFilters = output.cellFilters
+            self.isMultiDialectView = output.isMultiDialectView
+            self.isProtected = output.isProtected
             self.isRegisteredWithLakeFormation = output.isRegisteredWithLakeFormation
             self.permissions = output.permissions
             self.queryAuthorizationId = output.queryAuthorizationId
@@ -33809,6 +33811,8 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
         } else {
             self.authorizedColumns = nil
             self.cellFilters = nil
+            self.isMultiDialectView = false
+            self.isProtected = false
             self.isRegisteredWithLakeFormation = false
             self.permissions = nil
             self.queryAuthorizationId = nil
@@ -33823,6 +33827,10 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     public var authorizedColumns: [Swift.String]?
     /// A list of column row filters.
     public var cellFilters: [GlueClientTypes.ColumnRowFilter]?
+    /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
+    public var isMultiDialectView: Swift.Bool
+    /// A flag that instructs the engine not to push user-provided operations into the logical plan of the view during query planning. However, if set this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
+    public var isProtected: Swift.Bool
     /// A Boolean value that indicates whether the partition location is registered with Lake Formation.
     public var isRegisteredWithLakeFormation: Swift.Bool
     /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.
@@ -33837,6 +33845,8 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     public init(
         authorizedColumns: [Swift.String]? = nil,
         cellFilters: [GlueClientTypes.ColumnRowFilter]? = nil,
+        isMultiDialectView: Swift.Bool = false,
+        isProtected: Swift.Bool = false,
         isRegisteredWithLakeFormation: Swift.Bool = false,
         permissions: [GlueClientTypes.Permission]? = nil,
         queryAuthorizationId: Swift.String? = nil,
@@ -33846,6 +33856,8 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     {
         self.authorizedColumns = authorizedColumns
         self.cellFilters = cellFilters
+        self.isMultiDialectView = isMultiDialectView
+        self.isProtected = isProtected
         self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
         self.permissions = permissions
         self.queryAuthorizationId = queryAuthorizationId
@@ -33860,7 +33872,9 @@ struct GetUnfilteredTableMetadataOutputBody: Swift.Equatable {
     let isRegisteredWithLakeFormation: Swift.Bool
     let cellFilters: [GlueClientTypes.ColumnRowFilter]?
     let queryAuthorizationId: Swift.String?
+    let isMultiDialectView: Swift.Bool
     let resourceArn: Swift.String?
+    let isProtected: Swift.Bool
     let permissions: [GlueClientTypes.Permission]?
 }
 
@@ -33868,6 +33882,8 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case authorizedColumns = "AuthorizedColumns"
         case cellFilters = "CellFilters"
+        case isMultiDialectView = "IsMultiDialectView"
+        case isProtected = "IsProtected"
         case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
         case permissions = "Permissions"
         case queryAuthorizationId = "QueryAuthorizationId"
@@ -33905,8 +33921,12 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
         cellFilters = cellFiltersDecoded0
         let queryAuthorizationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .queryAuthorizationId)
         queryAuthorizationId = queryAuthorizationIdDecoded
+        let isMultiDialectViewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMultiDialectView) ?? false
+        isMultiDialectView = isMultiDialectViewDecoded
         let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
         resourceArn = resourceArnDecoded
+        let isProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isProtected) ?? false
+        isProtected = isProtectedDecoded
         let permissionsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Permission?].self, forKey: .permissions)
         var permissionsDecoded0:[GlueClientTypes.Permission]? = nil
         if let permissionsContainer = permissionsContainer {
@@ -57223,6 +57243,7 @@ extension GlueClientTypes.Table: Swift.Codable {
         case databaseName = "DatabaseName"
         case description = "Description"
         case federatedTable = "FederatedTable"
+        case isMultiDialectView = "IsMultiDialectView"
         case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
         case lastAccessTime = "LastAccessTime"
         case lastAnalyzedTime = "LastAnalyzedTime"
@@ -57236,6 +57257,7 @@ extension GlueClientTypes.Table: Swift.Codable {
         case targetTable = "TargetTable"
         case updateTime = "UpdateTime"
         case versionId = "VersionId"
+        case viewDefinition = "ViewDefinition"
         case viewExpandedText = "ViewExpandedText"
         case viewOriginalText = "ViewOriginalText"
     }
@@ -57259,6 +57281,9 @@ extension GlueClientTypes.Table: Swift.Codable {
         }
         if let federatedTable = self.federatedTable {
             try encodeContainer.encode(federatedTable, forKey: .federatedTable)
+        }
+        if let isMultiDialectView = self.isMultiDialectView {
+            try encodeContainer.encode(isMultiDialectView, forKey: .isMultiDialectView)
         }
         if isRegisteredWithLakeFormation != false {
             try encodeContainer.encode(isRegisteredWithLakeFormation, forKey: .isRegisteredWithLakeFormation)
@@ -57304,6 +57329,9 @@ extension GlueClientTypes.Table: Swift.Codable {
         }
         if let versionId = self.versionId {
             try encodeContainer.encode(versionId, forKey: .versionId)
+        }
+        if let viewDefinition = self.viewDefinition {
+            try encodeContainer.encode(viewDefinition, forKey: .viewDefinition)
         }
         if let viewExpandedText = self.viewExpandedText {
             try encodeContainer.encode(viewExpandedText, forKey: .viewExpandedText)
@@ -57375,6 +57403,10 @@ extension GlueClientTypes.Table: Swift.Codable {
         versionId = versionIdDecoded
         let federatedTableDecoded = try containerValues.decodeIfPresent(GlueClientTypes.FederatedTable.self, forKey: .federatedTable)
         federatedTable = federatedTableDecoded
+        let viewDefinitionDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ViewDefinition.self, forKey: .viewDefinition)
+        viewDefinition = viewDefinitionDecoded
+        let isMultiDialectViewDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isMultiDialectView)
+        isMultiDialectView = isMultiDialectViewDecoded
     }
 }
 
@@ -57393,6 +57425,8 @@ extension GlueClientTypes {
         public var description: Swift.String?
         /// A FederatedTable structure that references an entity outside the Glue Data Catalog.
         public var federatedTable: GlueClientTypes.FederatedTable?
+        /// Specifies whether the view supports the SQL dialects of one or more different query engines and can therefore be read by those engines.
+        public var isMultiDialectView: Swift.Bool?
         /// Indicates whether the table has been registered with Lake Formation.
         public var isRegisteredWithLakeFormation: Swift.Bool
         /// The last time that the table was accessed. This is usually taken from HDFS, and might not be reliable.
@@ -57420,6 +57454,8 @@ extension GlueClientTypes {
         public var updateTime: ClientRuntime.Date?
         /// The ID of the table version.
         public var versionId: Swift.String?
+        /// A structure that contains all the information that defines the view, including the dialect or dialects for the view, and the query.
+        public var viewDefinition: GlueClientTypes.ViewDefinition?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations.
         public var viewExpandedText: Swift.String?
         /// Included for Apache Hive compatibility. Not used in the normal course of Glue operations. If the table is a VIRTUAL_VIEW, certain Athena configuration encoded in base64.
@@ -57432,6 +57468,7 @@ extension GlueClientTypes {
             databaseName: Swift.String? = nil,
             description: Swift.String? = nil,
             federatedTable: GlueClientTypes.FederatedTable? = nil,
+            isMultiDialectView: Swift.Bool? = nil,
             isRegisteredWithLakeFormation: Swift.Bool = false,
             lastAccessTime: ClientRuntime.Date? = nil,
             lastAnalyzedTime: ClientRuntime.Date? = nil,
@@ -57445,6 +57482,7 @@ extension GlueClientTypes {
             targetTable: GlueClientTypes.TableIdentifier? = nil,
             updateTime: ClientRuntime.Date? = nil,
             versionId: Swift.String? = nil,
+            viewDefinition: GlueClientTypes.ViewDefinition? = nil,
             viewExpandedText: Swift.String? = nil,
             viewOriginalText: Swift.String? = nil
         )
@@ -57455,6 +57493,7 @@ extension GlueClientTypes {
             self.databaseName = databaseName
             self.description = description
             self.federatedTable = federatedTable
+            self.isMultiDialectView = isMultiDialectView
             self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
             self.lastAccessTime = lastAccessTime
             self.lastAnalyzedTime = lastAnalyzedTime
@@ -57468,6 +57507,7 @@ extension GlueClientTypes {
             self.targetTable = targetTable
             self.updateTime = updateTime
             self.versionId = versionId
+            self.viewDefinition = viewDefinition
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -63852,6 +63892,95 @@ extension VersionMismatchExceptionBody: Swift.Decodable {
     }
 }
 
+extension GlueClientTypes.ViewDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case definer = "Definer"
+        case isProtected = "IsProtected"
+        case representations = "Representations"
+        case subObjects = "SubObjects"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let definer = self.definer {
+            try encodeContainer.encode(definer, forKey: .definer)
+        }
+        if let isProtected = self.isProtected {
+            try encodeContainer.encode(isProtected, forKey: .isProtected)
+        }
+        if let representations = representations {
+            var representationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .representations)
+            for viewrepresentation0 in representations {
+                try representationsContainer.encode(viewrepresentation0)
+            }
+        }
+        if let subObjects = subObjects {
+            var subObjectsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .subObjects)
+            for arnstring0 in subObjects {
+                try subObjectsContainer.encode(arnstring0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let isProtectedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isProtected)
+        isProtected = isProtectedDecoded
+        let definerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .definer)
+        definer = definerDecoded
+        let subObjectsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .subObjects)
+        var subObjectsDecoded0:[Swift.String]? = nil
+        if let subObjectsContainer = subObjectsContainer {
+            subObjectsDecoded0 = [Swift.String]()
+            for string0 in subObjectsContainer {
+                if let string0 = string0 {
+                    subObjectsDecoded0?.append(string0)
+                }
+            }
+        }
+        subObjects = subObjectsDecoded0
+        let representationsContainer = try containerValues.decodeIfPresent([GlueClientTypes.ViewRepresentation?].self, forKey: .representations)
+        var representationsDecoded0:[GlueClientTypes.ViewRepresentation]? = nil
+        if let representationsContainer = representationsContainer {
+            representationsDecoded0 = [GlueClientTypes.ViewRepresentation]()
+            for structure0 in representationsContainer {
+                if let structure0 = structure0 {
+                    representationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        representations = representationsDecoded0
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure containing details for representations.
+    public struct ViewDefinition: Swift.Equatable {
+        /// The definer of a view in SQL.
+        public var definer: Swift.String?
+        /// You can set this flag as true to instruct the engine not to push user-provided operations into the logical plan of the view during query planning. However, setting this flag does not guarantee that the engine will comply. Refer to the engine's documentation to understand the guarantees provided, if any.
+        public var isProtected: Swift.Bool?
+        /// A list of representations.
+        public var representations: [GlueClientTypes.ViewRepresentation]?
+        /// A list of table Amazon Resource Names (ARNs).
+        public var subObjects: [Swift.String]?
+
+        public init(
+            definer: Swift.String? = nil,
+            isProtected: Swift.Bool? = nil,
+            representations: [GlueClientTypes.ViewRepresentation]? = nil,
+            subObjects: [Swift.String]? = nil
+        )
+        {
+            self.definer = definer
+            self.isProtected = isProtected
+            self.representations = representations
+            self.subObjects = subObjects
+        }
+    }
+
+}
+
 extension GlueClientTypes {
     public enum ViewDialect: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case athena
@@ -63885,6 +64014,83 @@ extension GlueClientTypes {
             self = ViewDialect(rawValue: rawValue) ?? ViewDialect.sdkUnknown(rawValue)
         }
     }
+}
+
+extension GlueClientTypes.ViewRepresentation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dialect = "Dialect"
+        case dialectVersion = "DialectVersion"
+        case isStale = "IsStale"
+        case viewExpandedText = "ViewExpandedText"
+        case viewOriginalText = "ViewOriginalText"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dialect = self.dialect {
+            try encodeContainer.encode(dialect.rawValue, forKey: .dialect)
+        }
+        if let dialectVersion = self.dialectVersion {
+            try encodeContainer.encode(dialectVersion, forKey: .dialectVersion)
+        }
+        if let isStale = self.isStale {
+            try encodeContainer.encode(isStale, forKey: .isStale)
+        }
+        if let viewExpandedText = self.viewExpandedText {
+            try encodeContainer.encode(viewExpandedText, forKey: .viewExpandedText)
+        }
+        if let viewOriginalText = self.viewOriginalText {
+            try encodeContainer.encode(viewOriginalText, forKey: .viewOriginalText)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dialectDecoded = try containerValues.decodeIfPresent(GlueClientTypes.ViewDialect.self, forKey: .dialect)
+        dialect = dialectDecoded
+        let dialectVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dialectVersion)
+        dialectVersion = dialectVersionDecoded
+        let viewOriginalTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewOriginalText)
+        viewOriginalText = viewOriginalTextDecoded
+        let viewExpandedTextDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .viewExpandedText)
+        viewExpandedText = viewExpandedTextDecoded
+        let isStaleDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .isStale)
+        isStale = isStaleDecoded
+    }
+}
+
+extension GlueClientTypes {
+    /// A structure that contains the dialect of the view, and the query that defines the view.
+    public struct ViewRepresentation: Swift.Equatable {
+        /// The dialect of the query engine.
+        public var dialect: GlueClientTypes.ViewDialect?
+        /// The version of the dialect of the query engine. For example, 3.0.0.
+        public var dialectVersion: Swift.String?
+        /// Dialects marked as stale are no longer valid and must be updated before they can be queried in their respective query engines.
+        public var isStale: Swift.Bool?
+        /// The expanded SQL for the view. This SQL is used by engines while processing a query on a view. Engines may perform operations during view creation to transform ViewOriginalText to ViewExpandedText. For example:
+        ///
+        /// * Fully qualify identifiers: SELECT * from table1 → SELECT * from db1.table1
+        public var viewExpandedText: Swift.String?
+        /// The SELECT query provided by the customer during CREATE VIEW DDL. This SQL is not used during a query on a view (ViewExpandedText is used instead). ViewOriginalText is used for cases like SHOW CREATE VIEW where users want to see the original DDL command that created the view.
+        public var viewOriginalText: Swift.String?
+
+        public init(
+            dialect: GlueClientTypes.ViewDialect? = nil,
+            dialectVersion: Swift.String? = nil,
+            isStale: Swift.Bool? = nil,
+            viewExpandedText: Swift.String? = nil,
+            viewOriginalText: Swift.String? = nil
+        )
+        {
+            self.dialect = dialect
+            self.dialectVersion = dialectVersion
+            self.isStale = isStale
+            self.viewExpandedText = viewExpandedText
+            self.viewOriginalText = viewOriginalText
+        }
+    }
+
 }
 
 extension GlueClientTypes {
