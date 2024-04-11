@@ -14,7 +14,7 @@ public struct Ec2Errors {
     static var readingClosure: ReadingClosure<Ec2Errors, Reader> {
         return { reader in
             var value = Ec2Errors()
-            value.error = try reader["Error"].readIfPresent(readingClosure: Ec2Error.readingClosure)
+            value.error = try reader["Error"].readIfPresent(with: Ec2Error.readingClosure)
             return value
         }
     }

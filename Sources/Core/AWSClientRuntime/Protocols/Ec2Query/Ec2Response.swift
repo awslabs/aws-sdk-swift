@@ -17,7 +17,7 @@ public struct Ec2Response {
         return { httpResponse, wireResponseDocumentBinding in
             let reader = try await wireResponseDocumentBinding(httpResponse)
             var value = Ec2Response()
-            value.errors = try reader["Errors"].readIfPresent(readingClosure: Ec2Errors.readingClosure)
+            value.errors = try reader["Errors"].readIfPresent(with: Ec2Errors.readingClosure)
             value.requestId = try reader["RequestId"].readIfPresent() ?? reader["RequestID"].readIfPresent()
             return value
         }
