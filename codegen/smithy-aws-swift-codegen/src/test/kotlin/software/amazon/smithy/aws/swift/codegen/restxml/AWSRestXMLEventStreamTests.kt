@@ -103,7 +103,7 @@ class AWSRestXMLEventStreamTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/Audio+Codable.swift"
+            "/Example/models/Audio+ReadWrite.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """

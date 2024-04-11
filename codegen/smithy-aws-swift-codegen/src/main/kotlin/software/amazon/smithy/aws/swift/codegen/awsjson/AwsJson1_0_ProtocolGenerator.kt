@@ -10,7 +10,6 @@ import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizabl
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
-import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBindingErrorGenerator
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ShapeId

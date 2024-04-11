@@ -6,11 +6,5 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
 
-class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations() {
-
-    override fun getClientProperties(): List<ClientProperty> {
-        return listOf<ClientProperty>()
-    }
-}
+class AWSHttpProtocolRestXMLCustomizations : AWSHttpProtocolCustomizations()

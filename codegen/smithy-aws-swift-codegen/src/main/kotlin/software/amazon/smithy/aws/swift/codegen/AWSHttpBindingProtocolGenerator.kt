@@ -4,8 +4,6 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-//import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-//import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
@@ -114,22 +112,6 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         operationMiddleware.appendMiddleware(operation, OperationEndpointResolverMiddleware(ctx))
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
-    }
-
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
-//        var streamingShapes = outputStreamingShapes(ctx)
-//        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
-//        streamingShapes.forEach { streamingMember ->
-//            messageUnmarshallableGenerator.renderNotImplemented(streamingMember)
-//        }
-    }
-
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
-//        val streamingShapes = inputStreamingShapes(ctx)
-//        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
-//        for (streamingShape in streamingShapes) {
-//            messageMarshallableGenerator.renderNotImplemented(streamingShape)
-//        }
     }
 
     fun outputStreamingShapes(ctx: ProtocolGenerator.GenerationContext): MutableSet<MemberShape> {
