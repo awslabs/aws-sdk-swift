@@ -31,15 +31,15 @@ jobs:
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
-            xcode: Xcode_15.2
+            xcode: Xcode_15.3
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
             xcode: Xcode_14.1
           # Don't run old simulators with new Xcode
           - destination: 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
-            xcode: Xcode_15.2
+            xcode: Xcode_15.3
           - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
-            xcode: Xcode_15.2
+            xcode: Xcode_15.3
           # Don't run new simulators with old Xcode
           - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.1
