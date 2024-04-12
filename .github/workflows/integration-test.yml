@@ -24,11 +24,11 @@ jobs:
           - macos-14-xlarge
         xcode:
           - Xcode_14.1
-          - Xcode_15.2
+          - Xcode_15.3
         exclude:
           # Don't run old macOS with new Xcode
           - runner: macos-13-xlarge
-            xcode: Xcode_15.2
+            xcode: Xcode_15.3
           # Don't run new macOS with old Xcode
           - runner: macos-14-xlarge
             xcode: Xcode_14.1
@@ -94,7 +94,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - focal
+          - jammy
           #- amazonlinux2
         version:
           - "5.7"

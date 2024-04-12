@@ -21,12 +21,12 @@ jobs:
           - macos-14-xlarge
         xcode:
           - Xcode_14.1
-          - Xcode_15.2
+          - Xcode_15.3
         destination:
           - 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
-          - 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
+          - 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
           - 'platform=tvOS Simulator,OS=16.1,name=Apple TV 4K (3rd generation) (at 1080p)'
-          - 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
           - 'platform=OS X'
         exclude:
           # Don't run old macOS with new Xcode
@@ -41,9 +41,9 @@ jobs:
           - destination: 'platform=iOS Simulator,OS=16.1,name=iPhone 14'
             xcode: Xcode_15.2
           # Don't run new simulators with old Xcode
-          - destination: 'platform=tvOS Simulator,OS=17.2,name=Apple TV 4K (3rd generation) (at 1080p)'
+          - destination: 'platform=tvOS Simulator,OS=17.4,name=Apple TV 4K (3rd generation) (at 1080p)'
             xcode: Xcode_14.1
-          - destination: 'platform=iOS Simulator,OS=17.2,name=iPhone 15'
+          - destination: 'platform=iOS Simulator,OS=17.4,name=iPhone 15'
             xcode: Xcode_14.1
     steps:
       - name: Checkout aws-sdk-swift
@@ -107,7 +107,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          - focal
+          - jammy
           - amazonlinux2
         version:
           - "5.7"
