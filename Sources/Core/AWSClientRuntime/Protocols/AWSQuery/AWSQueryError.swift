@@ -7,28 +7,30 @@
 
 import enum ClientRuntime.BaseErrorDecodeError
 import class ClientRuntime.HttpResponse
-import class SmithyJSON.Reader
+import class SmithyXML.Reader
 
-public struct AWSJSONError {
+public struct AWSQueryError {
     public let code: String
     public let message: String?
     public let requestID: String?
-    public var errorBodyReader: Reader { responseReader }
-
     public let httpResponse: HttpResponse
-    private let responseReader: Reader
+    public let responseReader: Reader
+    public let errorBodyReader: Reader
 
     public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
-        let code: String? = try httpResponse.headers.value(for: "X-Amzn-Errortype")
-                            ?? responseReader["code"].readIfPresent()
-                            ?? responseReader["__type"].readIfPresent()
-        let message: String? = try responseReader["Message"].readIfPresent()
+        self.errorBodyReader = noErrorWrapping ? responseReader : responseReader["Error"]
+        let code: String? = try errorBodyReader["Code"].readIfPresent()
+        let message: String? = try errorBodyReader["Message"].readIfPresent()
         let requestID: String? = try responseReader["RequestId"].readIfPresent()
         guard let code else { throw BaseErrorDecodeError.missingRequiredData }
-        self.code = sanitizeErrorType(code)
+        self.code = code
         self.message = message
         self.requestID = requestID
         self.httpResponse = httpResponse
         self.responseReader = responseReader
     }
+}
+
+public enum AWSQueryDecodeError: Error {
+    case missingRequiredData
 }

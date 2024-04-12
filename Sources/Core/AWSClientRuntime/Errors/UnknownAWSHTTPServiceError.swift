@@ -64,7 +64,7 @@ extension UnknownAWSHTTPServiceError {
         requestID: String?,
         requestID2: String? = nil,
         typeName: String?
-    ) async throws -> Error {
+    ) throws -> Error {
         let candidates: [UnknownAWSHTTPErrorCandidate.Type] = [
             InvalidAccessKeyId.self
         ]

@@ -4,6 +4,7 @@
  */
 package software.amazon.smithy.aws.swift.codegen.restjson
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
@@ -26,7 +27,10 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat,
         XMLHttpResponseBindingOutputGenerator(),
         AWSRestJson1HttpResponseBindingErrorGeneratable(),
-        XMLHttpResponseBindingErrorInitGenerator(defaultTimestampFormat)
+        XMLHttpResponseBindingErrorInitGenerator(
+            defaultTimestampFormat,
+            AWSClientRuntimeTypes.RestJSON.RestJSONError,
+        )
     )
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_restJson1",

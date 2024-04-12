@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.ec2query
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
@@ -43,7 +44,8 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSEc2QueryHttpResponseBindingErrorGenerator(),
         XMLHttpResponseBindingErrorInitGenerator(
             defaultTimestampFormat,
-            AWSEc2QueryHttpResponseTraitPayloadFactory()
+            AWSClientRuntimeTypes.EC2Query.EC2QueryError,
+            AWSEc2QueryHttpResponseTraitPayloadFactory(),
         )
     )
 

@@ -34,7 +34,7 @@ class S3ErrorIntegration : SwiftIntegration {
             SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
             SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
-            SectionWriterBinding(HTTPResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
+//            SectionWriterBinding(HTTPResponseBindingErrorGenerator.RestXMLResponseBindingSectionId, httpResponseBinding)
 
         )
 
@@ -52,7 +52,7 @@ class S3ErrorIntegration : SwiftIntegration {
     }
 
     private val s3MembersAssignment = SectionWriter { writer, _ ->
-        writer.write("value.requestID2 = requestID2")
+        writer.write("value.requestID2 = baseError.requestID2")
     }
 
     private val s3Members = SectionWriter { writer, _ ->

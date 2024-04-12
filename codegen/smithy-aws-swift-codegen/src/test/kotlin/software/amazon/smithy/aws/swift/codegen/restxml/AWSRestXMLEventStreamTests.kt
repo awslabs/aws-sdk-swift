@@ -1,5 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
+import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
@@ -20,7 +21,8 @@ class AWSRestXMLEventStreamTests {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, EventStreamTestClientTypes.TestEvents>(keyPath: \.eventStream, defaultBody: nil, marshalClosure: EventStreamTestClientTypes.TestEvents.marshal))
-        """.trimIndent()
+"""
+        contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
@@ -35,31 +37,32 @@ class AWSRestXMLEventStreamTests {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamTestClientTypes.TestEvents {
-            static var marshal: ClientRuntime.MarshalClosure<EventStreamTestClientTypes.TestEvents> {
-                { (self) in
-                    var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
-                    var payload: ClientRuntime.Data? = nil
-                    switch self {
-                    case messageevent(let value):
-                        headers.append(.init(name: ":event-type", value: .string("MessageEvent")))
-                        headers.append(.init(name: ":content-type", value: .string("text/plain")))
-                        payload = value.data?.data(using: .utf8)
-                    case audioevent(let value):
-                        headers.append(.init(name: ":event-type", value: .string("AudioEvent")))
-                        if let headerValue = value.exampleHeader {
-                            headers.append(.init(name: "exampleHeader", value: .string(headerValue)))
-                        }
-                        headers.append(.init(name: ":content-type", value: .string("application/xml")))
-                        payload = try SmithyXML.XMLReadWrite.documentWritingClosure(rootNodeInfo: "Audio")(value, EventStreamTestClientTypes.Audio.writingClosure(_:to:))
-                    case .sdkUnknown(_):
-                        throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
-                    }
-                    return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
+extension EventStreamTestClientTypes.TestEvents {
+    static var marshal: ClientRuntime.MarshalClosure<EventStreamTestClientTypes.TestEvents> {
+        { (self) in
+            var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
+            var payload: ClientRuntime.Data? = nil
+            switch self {
+            case messageevent(let value):
+                headers.append(.init(name: ":event-type", value: .string("MessageEvent")))
+                headers.append(.init(name: ":content-type", value: .string("text/plain")))
+                payload = value.data?.data(using: .utf8)
+            case audioevent(let value):
+                headers.append(.init(name: ":event-type", value: .string("AudioEvent")))
+                if let headerValue = value.exampleHeader {
+                    headers.append(.init(name: "exampleHeader", value: .string(headerValue)))
                 }
+                headers.append(.init(name: ":content-type", value: .string("application/xml")))
+                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "Audio")(value, EventStreamTestClientTypes.Audio.write(value:to:))
+            case .sdkUnknown(_):
+                throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
             }
+            return ClientRuntime.EventStream.Message(headers: headers, payload: payload ?? .init())
         }
-        """.trimIndent()
+    }
+}
+"""
+        contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
@@ -70,29 +73,28 @@ class AWSRestXMLEventStreamTests {
         )
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/MessageWithAudio+Codable.swift"
+            "/Example/models/MessageWithAudio+ReadWrite.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamTestClientTypes.MessageWithAudio {
+extension EventStreamTestClientTypes.MessageWithAudio {
 
-            static func writingClosure(_ value: EventStreamTestClientTypes.MessageWithAudio?, to writer: SmithyXML.Writer) throws {
-                guard let value else { writer.detach(); return }
-                try writer["audio"].write(value.audio, writingClosure: EventStreamTestClientTypes.Audio.writingClosure(_:to:))
-                try writer["exampleHeader"].write(value.exampleHeader)
-            }
+    static func write(value: EventStreamTestClientTypes.MessageWithAudio?, to writer: SmithyXML.Writer) throws {
+        guard let value else { writer.detach(); return }
+        try writer["audio"].write(value.audio, writingClosure: EventStreamTestClientTypes.Audio.write(value:to:))
+        try writer["exampleHeader"].write(value.exampleHeader)
+    }
 
-            static var readingClosure: SmithyReadWrite.ReadingClosure<EventStreamTestClientTypes.MessageWithAudio, SmithyXML.Reader> {
-                return { reader in
-                    guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-                    var value = EventStreamTestClientTypes.MessageWithAudio()
-                    value.exampleHeader = try reader["exampleHeader"].readIfPresent()
-                    value.audio = try reader["audio"].readIfPresent(readingClosure: EventStreamTestClientTypes.Audio.readingClosure)
-                    return value
-                }
-            }
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> EventStreamTestClientTypes.MessageWithAudio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventStreamTestClientTypes.MessageWithAudio()
+        value.exampleHeader = try reader["exampleHeader"].readIfPresent()
+        value.audio = try reader["audio"].readIfPresent(with: EventStreamTestClientTypes.Audio.read(from:))
+        return value
+    }
+}
         """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
     }
 
     @Test
@@ -107,23 +109,22 @@ class AWSRestXMLEventStreamTests {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamTestClientTypes.Audio {
+extension EventStreamTestClientTypes.Audio {
 
-            static func writingClosure(_ value: EventStreamTestClientTypes.Audio?, to writer: SmithyXML.Writer) throws {
-                guard let value else { writer.detach(); return }
-                try writer["rawAudio"].write(value.rawAudio)
-            }
+    static func write(value: EventStreamTestClientTypes.Audio?, to writer: SmithyXML.Writer) throws {
+        guard let value else { writer.detach(); return }
+        try writer["rawAudio"].write(value.rawAudio)
+    }
 
-            static var readingClosure: SmithyReadWrite.ReadingClosure<EventStreamTestClientTypes.Audio, SmithyXML.Reader> {
-                return { reader in
-                    guard reader.content != nil || Mirror(reflecting: self).children.isEmpty else { return nil }
-                    var value = EventStreamTestClientTypes.Audio()
-                    value.rawAudio = try reader["rawAudio"].readIfPresent()
-                    return value
-                }
-            }
-        }
+    static func read(from reader: SmithyXML.Reader) throws -> EventStreamTestClientTypes.Audio {
+        guard reader.hasContent else { throw SmithyReadWrite.ReaderError.requiredValueNotPresent }
+        var value = EventStreamTestClientTypes.Audio()
+        value.rawAudio = try reader["rawAudio"].readIfPresent()
+        return value
+    }
+}
         """.trimIndent()
+        contents.shouldContainOnlyOnce(expectedContents)
     }
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {

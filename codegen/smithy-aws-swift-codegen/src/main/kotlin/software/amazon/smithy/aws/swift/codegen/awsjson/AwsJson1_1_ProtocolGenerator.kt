@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.awsjson
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
@@ -33,7 +34,7 @@ class AwsJson1_1_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat,
         XMLHttpResponseBindingOutputGenerator(),
         AWSJsonHttpResponseBindingErrorGenerator(),
-        XMLHttpResponseBindingErrorInitGenerator(defaultTimestampFormat),
+        XMLHttpResponseBindingErrorInitGenerator(defaultTimestampFormat, AWSClientRuntimeTypes.AWSJSON.AWSJSONError),
     )
     override val shouldRenderEncodableConformance: Boolean = true
     override val shouldRenderDecodableBodyStructForInputShapes: Boolean = true

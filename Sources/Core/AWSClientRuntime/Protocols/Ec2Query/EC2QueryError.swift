@@ -9,18 +9,19 @@ import enum ClientRuntime.BaseErrorDecodeError
 import class ClientRuntime.HttpResponse
 import class SmithyXML.Reader
 
-public struct RestXMLError {
+public struct EC2QueryError {
     public let code: String
     public let message: String?
     public let requestID: String?
-    public var requestID2: String? { httpResponse.requestId2 }
-
-    public let httpResponse: HttpResponse
-    private let responseReader: Reader
     public let errorBodyReader: Reader
 
+    public let httpResponse: HttpResponse
+    public let responseReader: Reader
+
     public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
-        self.errorBodyReader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
+        self.httpResponse = httpResponse
+        self.responseReader = responseReader
+        self.errorBodyReader = responseReader["Errors"]["Error"]
         let code: String? = try errorBodyReader["Code"].readIfPresent()
         guard let code else { throw BaseErrorDecodeError.missingRequiredData }
         let message: String? = try errorBodyReader["Message"].readIfPresent()
@@ -28,11 +29,5 @@ public struct RestXMLError {
         self.code = code
         self.message = message
         self.requestID = requestID
-        self.httpResponse = httpResponse
-        self.responseReader = responseReader
-    }
-
-    private static func errorBodyReader(responseReader: Reader, noErrorWrapping: Bool) -> Reader {
-        noErrorWrapping ? responseReader : responseReader["Error"]
     }
 }

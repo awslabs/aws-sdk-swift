@@ -10,9 +10,11 @@ import software.amazon.smithy.swift.codegen.model.buildSymbol
 
 object AWSClientRuntimeTypes {
 
+    object AWSQuery {
+        val AWSQueryError = runtimeSymbol("AWSQueryError")
+    }
     object EC2Query {
-        val Ec2NarrowedResponse = runtimeSymbol("Ec2NarrowedResponse")
-        val Ec2QueryError = runtimeSymbol("Ec2QueryError")
+        val EC2QueryError = runtimeSymbol("EC2QueryError")
     }
     object AWSJSON {
         val AWSJSONError = runtimeSymbol("AWSJSONError")
@@ -24,7 +26,6 @@ object AWSClientRuntimeTypes {
 
     object RestXML {
         val RestXMLError = runtimeSymbol("RestXMLError")
-        val ErrorResponseContainer = runtimeSymbol("ErrorResponseContainer")
         object S3 {
             val AWSS3ServiceError = runtimeSymbol("AWSS3ServiceError")
             val AWSS3ErrorWith200StatusXMLMiddleware = runtimeSymbol("AWSS3ErrorWith200StatusXMLMiddleware")

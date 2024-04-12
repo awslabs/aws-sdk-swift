@@ -11,5 +11,5 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPRespons
 
 class AWSQueryHttpResponseBindingErrorGenerator : HTTPResponseBindingErrorGenerator() {
 
-    override val serviceBaseErrorSymbol: Symbol = AWSClientRuntimeTypes.EC2Query.Ec2QueryError
+    override val serviceBaseErrorSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryError
 }

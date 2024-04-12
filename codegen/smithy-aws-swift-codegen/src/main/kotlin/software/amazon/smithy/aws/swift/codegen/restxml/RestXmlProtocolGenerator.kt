@@ -5,6 +5,7 @@
 
 package software.amazon.smithy.aws.swift.codegen.restxml
 
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
@@ -28,7 +29,8 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         AWSRestXMLHttpResponseBindingErrorGenerator(),
         XMLHttpResponseBindingErrorInitGenerator(
             defaultTimestampFormat,
-            AWSXMLHttpResponseTraitPayloadFactory()
+            AWSClientRuntimeTypes.RestXML.RestXMLError,
+            AWSXMLHttpResponseTraitPayloadFactory(),
         )
     )
     override val shouldRenderDecodableBodyStructForInputShapes = false

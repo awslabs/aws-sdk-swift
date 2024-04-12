@@ -25,8 +25,6 @@ extension ChecksumTestsClient {
     /// - Returns: `SomeOperationOutput` : [no documentation found]
     public func someOperation(input: SomeOperationInput) async throws -> SomeOperationOutput {
         let context = ClientRuntime.HttpContextBuilder()
-                      .withEncoder(value: encoder)
-                      .withDecoder(value: decoder)
                       .withMethod(value: .post)
                       .withServiceName(value: serviceName)
                       .withOperation(value: "someOperation")
@@ -55,7 +53,7 @@ extension ChecksumTestsClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SomeOperationOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SomeOperationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SomeOperationOutput>(responseClosure(decoder: decoder), responseErrorClosure(SomeOperationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SomeOperationOutput>(wireResponseOutputClosure(SomeOperationOutput.httpBinding, wireResponseDocumentBinding()), wireResponseErrorClosure(SomeOperationOutputError.httpErrorBinding, wireResponseDocumentBinding())))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SomeOperationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationOutput>(validationMode: true))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
@@ -63,7 +61,7 @@ extension ChecksumTestsClient {
     }
 
 }
-        """.trimIndent()
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
