@@ -46,6 +46,8 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         "SDKAppliedContentEncoding_restXml",
         "SDKAppendedGzipAfterProvidedEncoding_restXml",
         "S3OperationNoErrorWrappingResponse",
+        "S3PreservesEmbeddedDotSegmentInUriLabel",
+        "S3PreservesLeadingDotSegmentInUriLabel",
     )
     override val tagsToIgnore = setOf("defaults")
 
