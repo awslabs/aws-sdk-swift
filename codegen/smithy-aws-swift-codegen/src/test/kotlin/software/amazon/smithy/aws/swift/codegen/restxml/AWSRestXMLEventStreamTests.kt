@@ -80,7 +80,7 @@ extension EventStreamTestClientTypes.TestEvents {
 extension EventStreamTestClientTypes.MessageWithAudio {
 
     static func write(value: EventStreamTestClientTypes.MessageWithAudio?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+        guard let value else { return }
         try writer["audio"].write(value.audio, writingClosure: EventStreamTestClientTypes.Audio.write(value:to:))
         try writer["exampleHeader"].write(value.exampleHeader)
     }
@@ -93,7 +93,7 @@ extension EventStreamTestClientTypes.MessageWithAudio {
         return value
     }
 }
-        """.trimIndent()
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -112,7 +112,7 @@ extension EventStreamTestClientTypes.MessageWithAudio {
 extension EventStreamTestClientTypes.Audio {
 
     static func write(value: EventStreamTestClientTypes.Audio?, to writer: SmithyXML.Writer) throws {
-        guard let value else { writer.detach(); return }
+        guard let value else { return }
         try writer["rawAudio"].write(value.rawAudio)
     }
 
@@ -123,7 +123,7 @@ extension EventStreamTestClientTypes.Audio {
         return value
     }
 }
-        """.trimIndent()
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

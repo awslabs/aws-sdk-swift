@@ -54,8 +54,8 @@ extension InitialRequestTestClientTypes.TestStream {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
         let initialRequestMessage = try input.makeInitialRequestMessage(encoder: encoder)
-        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: jsonMarshalClosure(requestEncoder: encoder), initialRequestMessage: initialRequestMessage))
-        """
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: initialRequestMessage))
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 
@@ -74,7 +74,7 @@ extension InitialRequestTestClientTypes.TestStream {
 extension EventStreamOpInput {
 
     static func write(value: EventStreamOpInput?, to writer: SmithyJSON.Writer) throws {
-        guard let value else { writer.detach(); return }
+        guard let value else { return }
         try writer["inputMember1"].write(value.inputMember1)
         try writer["inputMember2"].write(value.inputMember2)
     }
@@ -95,21 +95,21 @@ extension EventStreamOpInput {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        extension EventStreamOpInput {
-            func makeInitialRequestMessage(encoder: ClientRuntime.RequestEncoder) throws -> EventStream.Message {
-                let initialRequestPayload = try ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder)(self, JSONReadWrite.writingClosure())
-                let initialRequestMessage = EventStream.Message(
-                    headers: [
-                        EventStream.Header(name: ":message-type", value: .string("event")),
-                        EventStream.Header(name: ":event-type", value: .string("initial-request")),
-                        EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
-                    ],
-                    payload: initialRequestPayload
-                )
-                return initialRequestMessage
-            }
-        }
-        """.trimIndent()
+extension EventStreamOpInput {
+    func makeInitialRequestMessage(encoder: ClientRuntime.RequestEncoder) throws -> EventStream.Message {
+        let initialRequestPayload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(self, EventStreamOpInput.write(value:to:))
+        let initialRequestMessage = EventStream.Message(
+            headers: [
+                EventStream.Header(name: ":message-type", value: .string("event")),
+                EventStream.Header(name: ":event-type", value: .string("initial-request")),
+                EventStream.Header(name: ":content-type", value: .string("application/x-amz-json-1.0"))
+            ],
+            payload: initialRequestPayload
+        )
+        return initialRequestMessage
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {

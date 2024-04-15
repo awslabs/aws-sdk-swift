@@ -18,21 +18,16 @@ class QueryIdempotencyTokenAutoFillGeneratorTests {
     @Test
     fun `001 hardcodes action and version into input type`() {
         val context = setupTests("awsquery/query-idempotency-token.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryIdempotencyTokenAutoFillInput+Encodable.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/QueryIdempotencyTokenAutoFillInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension QueryIdempotencyTokenAutoFillInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case token
-    }
+extension QueryIdempotencyTokenAutoFillInput {
 
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let token = token {
-            try container.encode(token, forKey: ClientRuntime.Key("token"))
-        }
-        try container.encode("QueryIdempotencyTokenAutoFill", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+    static func write(value: QueryIdempotencyTokenAutoFillInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["token"].write(value.token)
+        try writer["Action"].write("QueryIdempotencyTokenAutoFill")
+        try writer["Version"].write("2020-01-08")
     }
 }
 """

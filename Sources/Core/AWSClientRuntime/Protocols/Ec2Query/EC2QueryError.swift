@@ -26,6 +26,7 @@ public struct EC2QueryError {
         guard let code else { throw BaseErrorDecodeError.missingRequiredData }
         let message: String? = try errorBodyReader["Message"].readIfPresent()
         let requestID: String? = try responseReader["RequestId"].readIfPresent()
+                                 ?? responseReader["RequestID"].readIfPresent()
         self.code = code
         self.message = message
         self.requestID = requestID

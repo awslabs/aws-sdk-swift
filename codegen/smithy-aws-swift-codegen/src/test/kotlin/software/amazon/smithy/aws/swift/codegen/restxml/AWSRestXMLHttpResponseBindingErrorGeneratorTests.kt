@@ -23,18 +23,17 @@ class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+    static var httpErrorBinding: SmithyReadWrite.WireResponseErrorBinding<ClientRuntime.HttpResponse, SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let errorBodyReader = AWSClientRuntime.RestXMLError.errorBodyReader(responseReader: responseReader, noErrorWrapping: false)
-            if let serviceError = try await ClientRuntime.RestXmlerrorsClientTypes.responseServiceErrorBinding(httpResponse, errorBodyReader) {
+            let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+            if let serviceError = try RestXmlerrorsClientTypes.responseServiceErrorBinding(baseError: baseError) {
                 return serviceError
             }
-            let restXMLError = try AWSClientRuntime.RestXMLError(responseReader: responseReader, noErrorWrapping: false)
-            switch restXMLError.code {
-                case "ComplexXMLError": return try await ComplexXMLError.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                case "InvalidGreeting": return try await InvalidGreeting.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
+            switch baseError.code {
+                case "ComplexXMLError": return try ComplexXMLError.makeError(baseError: baseError)
+                case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
+                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: baseError.message, requestID: baseError.requestID, typeName: baseError.code)
             }
         }
     }
@@ -50,16 +49,18 @@ enum GreetingWithErrorsOutputError {
         val expectedContents = """
 extension ComplexXMLError {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ComplexXMLError {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ComplexXMLError()
         if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
             value.properties.header = headerHeaderValue
         }
-        value.properties.nested = try reader["Nested"].readIfPresent(readingClosure: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.readingClosure)
+        value.properties.nested = try reader["Nested"].readIfPresent(with: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.read(from:))
         value.properties.topLevel = try reader["TopLevel"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -112,16 +113,18 @@ extension ComplexXMLError {
         val expectedContents = """
 extension ComplexXMLErrorNoErrorWrapping {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.RestXMLError) throws -> ComplexXMLErrorNoErrorWrapping {
+        let reader = baseError.errorBodyReader
+        let httpResponse = baseError.httpResponse
         var value = ComplexXMLErrorNoErrorWrapping()
         if let headerHeaderValue = httpResponse.headers.value(for: "X-Header") {
             value.properties.header = headerHeaderValue
         }
-        value.properties.nested = try reader["Nested"].readIfPresent(readingClosure: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.readingClosure)
+        value.properties.nested = try reader["Nested"].readIfPresent(with: RestXmlerrorsClientTypes.ComplexXMLNestedErrorData.read(from:))
         value.properties.topLevel = try reader["TopLevel"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -136,9 +139,9 @@ extension ComplexXMLErrorNoErrorWrapping {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension RestXmlerrorsClientTypes {
-    static func responseServiceErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader) async throws -> Swift.Error? {
-        switch error.errorCode {
-            case "ExampleServiceError": return try await ExampleServiceError(httpResponse: httpResponse, reader: reader, message: error.message, requestID: error.requestId)
+    static func responseServiceErrorBinding(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {
+        switch baseError.code {
+            case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
             default: return nil
         }
     }

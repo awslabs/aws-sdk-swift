@@ -22,19 +22,17 @@ class Ec2QueryHttpResponseBindingErrorGeneratorTests {
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
 
-    static var httpBinding: ClientRuntime.HTTPResponseErrorBinding<SmithyXML.Reader> {
+    static var httpErrorBinding: SmithyReadWrite.WireResponseErrorBinding<ClientRuntime.HttpResponse, SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
-            let serviceError = try await EC2ProtocolClientTypes.makeServiceError(httpResponse, decoder, ec2QueryError)
-            if let error = serviceError { return error }
             let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader["Errors"]["Error"]
-            let requestID: String? = try responseReader["RequestId"].readIfPresent()
-            let errorCode: String? = try reader["Code"].readIfPresent()
-            let message: String? = try reader["Message"].readIfPresent()
-            switch errorCode {
-                case "ComplexError": return try await ComplexError.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
-                case "InvalidGreeting": return try await InvalidGreeting.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
-                default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: message, requestID: requestID, typeName: errorCode)
+            let baseError = try AWSClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+            if let serviceError = try EC2ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
+                return serviceError
+            }
+            switch baseError.code {
+                case "ComplexError": return try ComplexError.makeError(baseError: baseError)
+                case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
+                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: baseError.message, requestID: baseError.requestID, typeName: baseError.code)
             }
         }
     }
@@ -51,13 +49,14 @@ enum GreetingWithErrorsOutputError {
         val expectedContents = """
 extension ComplexError {
 
-    static func responseErrorBinding(httpResponse: ClientRuntime.HttpResponse, reader: SmithyXML.Reader, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws -> Swift.Error {
+    static func makeError(baseError: AWSClientRuntime.EC2QueryError) throws -> ComplexError {
+        let reader = baseError.errorBodyReader
         var value = ComplexError()
-        value.properties.nested = try reader["Nested"].readIfPresent(readingClosure: EC2ProtocolClientTypes.ComplexNestedErrorData.readingClosure)
+        value.properties.nested = try reader["Nested"].readIfPresent(with: EC2ProtocolClientTypes.ComplexNestedErrorData.read(from:))
         value.properties.topLevel = try reader["TopLevel"].readIfPresent()
-        value.httpResponse = httpResponse
-        value.requestID = requestID
-        value.message = message
+        value.httpResponse = baseError.httpResponse
+        value.requestID = baseError.requestID
+        value.message = baseError.message
         return value
     }
 }
@@ -106,17 +105,16 @@ extension ComplexError {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
         val contents = TestUtils.getFileContents(context.manifest, "/Example/models/AwsEc2+ServiceErrorHelperMethod.swift")
         contents.shouldSyntacticSanityCheck()
-        val expectedContents =
-            """
-            extension EC2ProtocolClientTypes {
-                static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.Ec2QueryError) async throws -> Swift.Error? {
-                    switch error.errorCode {
-                        case "ExampleServiceError": return try await ExampleServiceError(httpResponse: httpResponse, decoder: decoder, message: error.message, requestID: error.requestId)
-                        default: return nil
-                    }
-                }
-            }
-            """.trimIndent()
+        val expectedContents = """
+extension EC2ProtocolClientTypes {
+    static func responseServiceErrorBinding(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift.Error? {
+        switch baseError.code {
+            case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
+            default: return nil
+        }
+    }
+}
+"""
         contents.shouldContainOnlyOnce(expectedContents)
     }
 

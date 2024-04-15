@@ -17,7 +17,7 @@ class S3UnwrappedXMLOutputTraitTests {
         val expectedContents = """
 extension GetBucketLocationOutput {
 
-    static var httpBinding: ClientRuntime.HTTPResponseOutputBinding<GetBucketLocationOutput, SmithyXML.Reader> {
+    static var httpBinding: SmithyReadWrite.WireResponseOutputBinding<ClientRuntime.HttpResponse, GetBucketLocationOutput, SmithyXML.Reader> {
         { httpResponse, responseDocumentClosure in
             let responseReader = try await responseDocumentClosure(httpResponse)
             let reader = responseReader.unwrap()

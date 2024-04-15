@@ -17,108 +17,22 @@ class ListEncodeFormURLGeneratorTests {
     @Test
     fun `001 encode different types of lists`() {
         val context = setupTests("awsquery/query-lists.smithy", "aws.protocoltests.query#AwsQuery")
-        val contents = getFileContents(context.manifest, "/Example/models/QueryListsInput+Encodable.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/QueryListsInput+Write.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension QueryListsInput: Swift.Encodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case complexListArg = "ComplexListArg"
-        case flattenedListArg = "FlattenedListArg"
-        case flattenedListArgWithXmlName = "Hi"
-        case listArg = "ListArg"
-        case listArgWithXmlNameMember = "ListArgWithXmlNameMember"
-        case flatTsList
-        case tsList
-    }
+extension QueryListsInput {
 
-    public func encode(to encoder: Swift.Encoder) throws {
-        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
-        if let complexListArg = complexListArg {
-            if !complexListArg.isEmpty {
-                var complexListArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ComplexListArg"))
-                for (index0, greetingstruct0) in complexListArg.enumerated() {
-                    try complexListArgContainer.encode(greetingstruct0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var complexListArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ComplexListArg"))
-                try complexListArgContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let flattenedListArg = flattenedListArg {
-            if !flattenedListArg.isEmpty {
-                for (index0, string0) in flattenedListArg.enumerated() {
-                    var flattenedListArgContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("FlattenedListArg.\(index0.advanced(by: 1))"))
-                    try flattenedListArgContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var flattenedListArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("FlattenedListArg"))
-                try flattenedListArgContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let flattenedListArgWithXmlName = flattenedListArgWithXmlName {
-            if !flattenedListArgWithXmlName.isEmpty {
-                for (index0, string0) in flattenedListArgWithXmlName.enumerated() {
-                    var flattenedListArgWithXmlNameContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Hi.\(index0.advanced(by: 1))"))
-                    try flattenedListArgWithXmlNameContainer0.encode(string0, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var flattenedListArgWithXmlNameContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Hi"))
-                try flattenedListArgWithXmlNameContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let listArg = listArg {
-            if !listArg.isEmpty {
-                var listArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ListArg"))
-                for (index0, string0) in listArg.enumerated() {
-                    try listArgContainer.encode(string0, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var listArgContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ListArg"))
-                try listArgContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let listArgWithXmlNameMember = listArgWithXmlNameMember {
-            if !listArgWithXmlNameMember.isEmpty {
-                var listArgWithXmlNameMemberContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ListArgWithXmlNameMember"))
-                for (index0, string0) in listArgWithXmlNameMember.enumerated() {
-                    try listArgWithXmlNameMemberContainer.encode(string0, forKey: ClientRuntime.Key("item.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var listArgWithXmlNameMemberContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("ListArgWithXmlNameMember"))
-                try listArgWithXmlNameMemberContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let flatTsList = flatTsList {
-            if !flatTsList.isEmpty {
-                for (index0, timestamp0) in flatTsList.enumerated() {
-                    var flatTsListContainer0 = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flatTsList.\(index0.advanced(by: 1))"))
-                    try flatTsListContainer0.encodeTimestamp(timestamp0, format: .epochSeconds, forKey: ClientRuntime.Key(""))
-                }
-            }
-            else {
-                var flatTsListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("flatTsList"))
-                try flatTsListContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        if let tsList = tsList {
-            if !tsList.isEmpty {
-                var tsListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("tsList"))
-                for (index0, timestamp0) in tsList.enumerated() {
-                    try tsListContainer.encodeTimestamp(timestamp0, format: .epochSeconds, forKey: ClientRuntime.Key("member.\(index0.advanced(by: 1))"))
-                }
-            }
-            else {
-                var tsListContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("tsList"))
-                try tsListContainer.encode("", forKey: ClientRuntime.Key(""))
-            }
-        }
-        try container.encode("QueryLists", forKey:ClientRuntime.Key("Action"))
-        try container.encode("2020-01-08", forKey:ClientRuntime.Key("Version"))
+    static func write(value: QueryListsInput?, to writer: SmithyFormURL.Writer) throws {
+        guard let value else { return }
+        try writer["ComplexListArg"].writeList(value.complexListArg, memberWritingClosure: QueryProtocolClientTypes.GreetingStruct.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["FlattenedListArg"].writeList(value.flattenedListArg, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: true)
+        try writer["Hi"].writeList(value.flattenedListArgWithXmlName, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "item", isFlattened: true)
+        try writer["ListArg"].writeList(value.listArg, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "member", isFlattened: false)
+        try writer["ListArgWithXmlNameMember"].writeList(value.listArgWithXmlNameMember, memberWritingClosure: Swift.String.write(value:to:), memberNodeInfo: "item", isFlattened: false)
+        try writer["flatTsList"].writeList(value.flatTsList, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: true)
+        try writer["tsList"].writeList(value.tsList, memberWritingClosure: timestampWritingClosure(format: .epochSeconds), memberNodeInfo: "member", isFlattened: false)
+        try writer["Action"].write("QueryLists")
+        try writer["Version"].write("2020-01-08")
     }
 }
 """
