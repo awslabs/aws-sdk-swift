@@ -1,7 +1,6 @@
 package software.amazon.smithy.aws.swift.codegen.customization.route53
 
 import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
 import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftDependency
@@ -12,8 +11,6 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorGenerator
-import software.amazon.smithy.swift.codegen.model.expectShape
 
 class Route53InvalidBatchErrorIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
