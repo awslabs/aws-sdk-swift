@@ -46,15 +46,28 @@ class AWSHttpProtocolServiceClient(
                 "authSchemes" -> {
                     ConfigProperty("authSchemes", ClientRuntimeTypes.Auth.AuthSchemes.toOptional(), authSchemesDefaultProvider)
                 }
+                "retryStrategyOptions" -> {
+                    ConfigProperty("retryStrategyOptions", ClientRuntimeTypes.Core.RetryStrategyOptions, "AWSClientConfigDefaultsProvider.retryStrategyOptions()", true)
+                }
+                "clientLogMode" -> {
+                    ConfigProperty("clientLogMode", ClientRuntimeTypes.Core.ClientLogMode, "AWSClientConfigDefaultsProvider.clientLogMode")
+                }
+                "idempotencyTokenGenerator" -> {
+                    ConfigProperty("idempotencyTokenGenerator", ClientRuntimeTypes.Core.IdempotencyTokenGenerator, "AWSClientConfigDefaultsProvider.idempotencyTokenGenerator")
+                }
+                "httpClientEngine" -> {
+                    ConfigProperty("httpClientEngine", ClientRuntimeTypes.Http.HttpClient, "AWSClientConfigDefaultsProvider.httpClientEngine")
+                }
+                "httpClientConfiguration" -> {
+                    ConfigProperty("httpClientConfiguration", ClientRuntimeTypes.Http.HttpClientConfiguration, "AWSClientConfigDefaultsProvider.httpClientConfiguration")
+                }
                 else -> it
             }
         }
     }
 
     override fun renderCustomConfigInitializer(properties: List<ConfigProperty>) {
-        renderEmptyAsynchronousConfigInitializer(properties)
         renderRegionConfigInitializer(properties)
-        renderPartitionID()
     }
 
     /**
@@ -89,7 +102,7 @@ class AWSHttpProtocolServiceClient(
         writer.write("")
     }
 
-    private fun renderPartitionID() {
+    override fun renderPartitionID() {
         writer.openBlock("public var partitionID: String? {", "}") {
             writer.write("return \"\\(\$L.clientName) - \\(region ?? \"\")\"", serviceConfig.clientName.toUpperCamelCase())
         }
