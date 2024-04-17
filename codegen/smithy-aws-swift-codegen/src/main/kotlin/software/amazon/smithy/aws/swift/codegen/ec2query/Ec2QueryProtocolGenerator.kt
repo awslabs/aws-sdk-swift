@@ -27,8 +27,8 @@ import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResp
 import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.struct.StructEncodeGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.struct.StructDecodeGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
@@ -85,7 +85,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String?,
     ) {
-        StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
+        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
     }
 
     override fun renderStructDecode(
@@ -97,7 +97,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String,
     ) {
-        StructDecodeXMLGenerator(ctx, shapeContainingMembers, members, mapOf(), writer).render()
+        StructDecodeGenerator(ctx, shapeContainingMembers, members, mapOf(), writer).render()
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {

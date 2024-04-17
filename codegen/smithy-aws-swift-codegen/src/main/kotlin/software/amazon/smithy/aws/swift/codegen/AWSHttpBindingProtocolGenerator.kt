@@ -23,8 +23,8 @@ import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErro
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.json.StructEncodeXMLGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.xml.StructDecodeXMLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.struct.StructEncodeGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.struct.StructDecodeGenerator
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 import software.amazon.smithy.swift.codegen.model.findStreamingMember
 import software.amazon.smithy.swift.codegen.model.getTrait
@@ -94,7 +94,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String?
     ) {
-        StructEncodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
+        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
     }
 
     override fun renderStructDecode(
@@ -106,7 +106,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String
     ) {
-        StructDecodeXMLGenerator(ctx, shapeContainingMembers, members, shapeMetaData, writer).render()
+        StructDecodeGenerator(ctx, shapeContainingMembers, members, shapeMetaData, writer).render()
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {

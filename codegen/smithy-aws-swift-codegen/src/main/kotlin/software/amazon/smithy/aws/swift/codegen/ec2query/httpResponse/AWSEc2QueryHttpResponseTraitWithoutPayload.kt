@@ -12,7 +12,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingDescriptor
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseBindingRenderable
-import software.amazon.smithy.swift.codegen.integration.serde.xml.MemberShapeDecodeXMLGenerator
+import software.amazon.smithy.swift.codegen.integration.serde.member.MemberShapeDecodeGenerator
 
 class AWSEc2QueryHttpResponseTraitWithoutPayload(
     val ctx: ProtocolGenerator.GenerationContext,
@@ -24,7 +24,7 @@ class AWSEc2QueryHttpResponseTraitWithoutPayload(
         val bodyMembersWithoutQueryTrait = responseBindings.filter { it.location == HttpBinding.Location.DOCUMENT }
             .filter { !it.member.hasTrait(HttpQueryTrait::class.java) }
             .toMutableSet()
-        val generator = MemberShapeDecodeXMLGenerator(ctx, writer, outputShape)
+        val generator = MemberShapeDecodeGenerator(ctx, writer, outputShape)
         bodyMembersWithoutQueryTrait.sortedBy { it.memberName }.forEach { generator.render(it.member) }
     }
 }
