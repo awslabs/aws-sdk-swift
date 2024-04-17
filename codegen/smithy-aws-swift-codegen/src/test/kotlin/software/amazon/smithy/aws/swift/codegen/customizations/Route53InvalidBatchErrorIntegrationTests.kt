@@ -34,7 +34,7 @@ enum ChangeResourceRecordSetsOutputError {
             let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
             switch baseError.code {
                 case "InvalidChangeBatch": return try InvalidChangeBatch.makeError(baseError: baseError)
-                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: baseError.message, requestID: baseError.requestID, typeName: baseError.code)
+                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
             }
         }
     }

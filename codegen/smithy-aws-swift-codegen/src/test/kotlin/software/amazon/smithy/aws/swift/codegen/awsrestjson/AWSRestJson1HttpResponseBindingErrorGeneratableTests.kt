@@ -31,7 +31,7 @@ enum GreetingWithErrorsOutputError {
             switch baseError.code {
                 case "ComplexError": return try ComplexError.makeError(baseError: baseError)
                 case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
-                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: baseError.message, requestID: baseError.requestID, typeName: baseError.code)
+                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
             }
         }
     }
