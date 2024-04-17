@@ -5,11 +5,12 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import protocol ClientRuntime.BaseError
 import enum ClientRuntime.BaseErrorDecodeError
 import class ClientRuntime.HttpResponse
 import class SmithyXML.Reader
 
-public struct AWSQueryError {
+public struct AWSQueryError: BaseError {
     public let code: String
     public let message: String?
     public let requestID: String?
