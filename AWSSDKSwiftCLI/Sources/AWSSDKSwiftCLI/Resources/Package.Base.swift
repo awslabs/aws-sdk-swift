@@ -22,13 +22,6 @@ extension Target.Dependency {
     static var smithyTestUtils: Self { .product(name: "SmithyTestUtil", package: "smithy-swift") }
 }
 
-// Privacy manifest location
-#if os(iOS) || os(tvOS) || os(watchOS) || os(visionOS)
-    let privacyManifestPath = "./PrivacyInfo.xcprivacy"
-#else
-    let privacyManifestPath = "./Resources/PrivacyInfo.xcprivacy"
-#endif
-
 // MARK: - Base Package
 
 let package = Package(
@@ -52,7 +45,9 @@ let package = Package(
             name: "AWSClientRuntime",
             dependencies: [.crt, .clientRuntime],
             path: "./Sources/Core/AWSClientRuntime",
-            resources: [.process(privacyManifestPath)]
+            resources: [
+                .copy("PrivacyInfo.xcprivacy")
+            ]
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
