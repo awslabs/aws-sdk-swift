@@ -2,9 +2,9 @@ package software.amazon.smithy.aws.swift.codegen.customizations
 
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
-import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.customization.BoxServices
 import software.amazon.smithy.aws.swift.codegen.newTestContext
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.toSmithyModel
 import software.amazon.smithy.model.knowledge.NullableIndex
 import software.amazon.smithy.model.shapes.MemberShape
