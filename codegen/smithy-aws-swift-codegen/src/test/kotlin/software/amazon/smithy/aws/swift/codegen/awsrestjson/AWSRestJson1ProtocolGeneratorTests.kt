@@ -11,7 +11,7 @@ import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.executeDirectedCodegen
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getClientFileContents
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getModelFileContents
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 

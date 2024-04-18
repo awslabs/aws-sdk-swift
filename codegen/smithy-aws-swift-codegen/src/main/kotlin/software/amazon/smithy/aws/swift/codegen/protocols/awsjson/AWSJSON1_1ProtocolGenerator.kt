@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.awsjson
+package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
@@ -14,7 +14,6 @@ import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
@@ -22,7 +21,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 class AWSJSON1_1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
     override val defaultContentType = "application/x-amz-json-1.1"
     override val protocol: ShapeId = AwsJson1_1Trait.ID
-    override val httpResponseGenerator = HttpResponseGenerator(customizations)
     override val shouldRenderEncodableConformance: Boolean = true
     override val testsToIgnore = setOf(
         "SDKAppliedContentEncoding_awsJson1_1",

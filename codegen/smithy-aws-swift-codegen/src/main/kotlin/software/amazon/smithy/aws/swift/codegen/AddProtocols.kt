@@ -4,12 +4,12 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
-import software.amazon.smithy.aws.swift.codegen.awsjson.AWSJSON1_0ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.awsjson.AWSJSON1_1ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.awsquery.AWSQueryProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.ec2query.EC2QueryProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.restxml.RestXMLProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_0ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsjson.AWSJSON1_1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.ec2query.EC2QueryProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 

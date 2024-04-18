@@ -4,7 +4,7 @@ import io.kotest.matchers.string.shouldContainOnlyOnce
 import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.middleware.GlacierAccountIdMiddleware
 import software.amazon.smithy.aws.swift.codegen.newTestContext
-import software.amazon.smithy.aws.swift.codegen.restjson.AWSRestJson1ProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restjson.AWSRestJson1ProtocolGenerator
 import software.amazon.smithy.aws.traits.auth.UnsignedPayloadTrait
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.MemberShape

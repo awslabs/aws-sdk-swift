@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.ec2query
+package software.amazon.smithy.aws.swift.codegen.protocols.ec2query
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations

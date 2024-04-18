@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
+import software.amazon.smithy.aws.swift.codegen.protocols.awsquery.AWSQueryProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
 

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.restxml
+package software.amazon.smithy.aws.swift.codegen.protocols.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
@@ -11,12 +11,10 @@ import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGen
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
 
 class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomizations()) {
     override val defaultContentType: String = "application/xml"
     override val protocol: ShapeId = RestXmlTrait.ID
-    override val httpResponseGenerator = HttpResponseGenerator(customizations)
     override val testsToIgnore: Set<String> = setOf(
         "S3DefaultAddressing",
         "S3VirtualHostAddressing",

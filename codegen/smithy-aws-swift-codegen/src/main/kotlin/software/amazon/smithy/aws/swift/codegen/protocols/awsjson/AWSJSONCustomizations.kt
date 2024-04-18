@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.awsjson
+package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations

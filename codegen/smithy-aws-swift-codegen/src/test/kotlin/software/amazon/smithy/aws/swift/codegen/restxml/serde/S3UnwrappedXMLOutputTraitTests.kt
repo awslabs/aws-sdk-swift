@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test
 import software.amazon.smithy.aws.swift.codegen.TestContext
 import software.amazon.smithy.aws.swift.codegen.TestUtils
 import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileContents
-import software.amazon.smithy.aws.swift.codegen.restxml.RestXMLProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.protocols.restxml.RestXMLProtocolGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
 class S3UnwrappedXMLOutputTraitTests {
