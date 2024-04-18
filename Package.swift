@@ -44,8 +44,7 @@ let package = Package(
         .target(
             name: "AWSClientRuntime",
             dependencies: [.crt, .clientRuntime],
-            path: "./Sources/Core/AWSClientRuntime",
-            resources: [.copy("PrivacyInfo.xcprivacy")]
+            path: "./Sources/Core/AWSClientRuntime"
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
