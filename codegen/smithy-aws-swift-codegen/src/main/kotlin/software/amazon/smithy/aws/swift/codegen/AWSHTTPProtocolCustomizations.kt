@@ -6,18 +6,19 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
+import software.amazon.smithy.swift.codegen.integration.DefaultHTTPProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.ServiceConfig
 import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 
-abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
+abstract class AWSHTTPProtocolCustomizations : DefaultHTTPProtocolCustomizations() {
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
         val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
@@ -61,4 +62,8 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
         val clientProperties = getClientProperties()
         return AWSHttpProtocolServiceClient(ctx, writer, clientProperties, serviceConfig)
     }
+
+    override val messageDecoderSymbol: Symbol = AWSClientRuntimeTypes.AWSEventStream.AWSMessageDecoder
+
+    override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 }

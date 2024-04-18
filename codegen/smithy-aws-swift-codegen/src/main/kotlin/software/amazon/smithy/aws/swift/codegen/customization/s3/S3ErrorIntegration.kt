@@ -16,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
+import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorInitGenerator
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
@@ -30,8 +30,8 @@ class S3ErrorIntegration : SwiftIntegration {
     }
     override val sectionWriters: List<SectionWriterBinding>
         get() = listOf(
-            SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
-            SectionWriterBinding(XMLHttpResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
+            SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInit, s3MembersParams),
+            SectionWriterBinding(HTTPResponseBindingErrorInitGenerator.XMLHttpResponseBindingErrorInitMemberAssignment, s3MembersAssignment),
             SectionWriterBinding(StructureGenerator.AdditionalErrorMembers, s3Members),
         )
 

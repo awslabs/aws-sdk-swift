@@ -17,7 +17,7 @@ import software.amazon.smithy.swift.codegen.integration.serde.readwrite.WritingC
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class XMLMessageMarshallableGenerator(
+class MessageMarshallableGenerator(
     private val ctx: ProtocolGenerator.GenerationContext,
     private val payloadContentType: String
 ) {

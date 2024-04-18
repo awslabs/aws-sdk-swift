@@ -114,7 +114,7 @@ extension EventStreamOpInput {
     }
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
-        AwsJson1_0_ProtocolGenerator().run {
+        AWSJSON1_0ProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)
             generateSerializers(context.ctx)
             initializeMiddleware(context.ctx)

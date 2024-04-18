@@ -21,7 +21,7 @@ import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
-class XMLMessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContext) {
+class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContext) {
     fun render(
         streamingMember: MemberShape
     ) {
@@ -33,8 +33,6 @@ class XMLMessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationCon
             .build()
 
         val streamShape = ctx.model.expectShape<UnionShape>(streamingMember.target)
-        val service = ctx.settings.getService(ctx.model)
-        val serviceSymbol = ctx.symbolProvider.toSymbol(service)
         val streamSymbol = ctx.symbolProvider.toSymbol(streamShape)
 
         ctx.delegator.useShapeWriter(streamMember) { writer ->

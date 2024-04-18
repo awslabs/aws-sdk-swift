@@ -5,35 +5,18 @@
 
 package software.amazon.smithy.aws.swift.codegen.restxml
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingOutputGenerator
 
-class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+class RestXMLProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestXMLCustomizations()) {
     override val defaultContentType: String = "application/xml"
-    override val defaultTimestampFormat: TimestampFormatTrait.Format = TimestampFormatTrait.Format.DATE_TIME
     override val protocol: ShapeId = RestXmlTrait.ID
-    override val httpProtocolCustomizable = AWSHttpProtocolRestXMLCustomizations()
-    override val httpResponseGenerator = HttpResponseGenerator(
-        unknownServiceErrorSymbol,
-        defaultTimestampFormat,
-        XMLHttpResponseBindingOutputGenerator(),
-        AWSRestXMLHttpResponseBindingErrorGenerator(),
-        XMLHttpResponseBindingErrorInitGenerator(
-            defaultTimestampFormat,
-            AWSClientRuntimeTypes.RestXML.RestXMLError,
-            AWSXMLHttpResponseTraitPayloadFactory(),
-        )
-    )
-    override val shouldRenderDecodableBodyStructForInputShapes = false
+    override val httpResponseGenerator = HttpResponseGenerator(customizations)
     override val testsToIgnore: Set<String> = setOf(
         "S3DefaultAddressing",
         "S3VirtualHostAddressing",
@@ -53,7 +36,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
+        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
             messageUnmarshallableGenerator.render(streamingMember)
         }
@@ -61,7 +44,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = XMLMessageMarshallableGenerator(ctx, defaultContentType)
+        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
         streamingShapes.forEach { streamingMember ->
             messageMarshallableGenerator.render(streamingMember)
         }

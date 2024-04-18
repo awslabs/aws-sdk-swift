@@ -122,7 +122,7 @@ extension EC2ProtocolClientTypes {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, Ec2QueryTrait.ID)
 
-        Ec2QueryProtocolGenerator().run {
+        EC2QueryProtocolGenerator().run {
             generateDeserializers(context.ctx)
             generateCodableConformanceForNestedTypes(context.ctx)
         }

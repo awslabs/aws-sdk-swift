@@ -10,7 +10,7 @@ import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 // The model used in the tests below uses AWS Json 1.0 as the protocol.
 // However, AWSJsonHttpResponseBindingErrorGenerator.kt is used for both AWS Json 1.0 and AWS Json 1.1 protocols.
 // Therefore, this file tests both versions of AWS Json, 1.0 and 1.1, for the error generation.
-class AWSJsonHttpResponseBindingErrorGeneratorTests {
+class AWSJSONHttpResponseBindingErrorGeneratorTests {
     @Test
     fun `001 GreetingWithErrorsOutputError+HttpResponseBinding`() {
         val context = setupTests("awsjson/json-error.smithy", "aws.protocoltests.json10#AwsJson10")
@@ -65,7 +65,7 @@ extension Json10ProtocolClientTypes {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsJson1_0Trait.ID)
 
-        AwsJson1_0_ProtocolGenerator().run {
+        AWSJSON1_0ProtocolGenerator().run {
             generateDeserializers(context.ctx)
             generateCodableConformanceForNestedTypes(context.ctx)
         }

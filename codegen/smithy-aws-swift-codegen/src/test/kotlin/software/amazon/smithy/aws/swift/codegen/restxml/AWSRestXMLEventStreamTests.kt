@@ -129,7 +129,7 @@ extension EventStreamTestClientTypes.Audio {
 
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
-        RestXmlProtocolGenerator().run {
+        RestXMLProtocolGenerator().run {
             generateMessageMarshallable(context.ctx)
             generateSerializers(context.ctx)
             initializeMiddleware(context.ctx)

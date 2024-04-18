@@ -42,7 +42,7 @@ extension QueryListsInput {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context =
             TestUtils.executeDirectedCodegen(smithyFile, serviceShapeId, AwsQueryTrait.ID)
-        val generator = AwsQueryProtocolGenerator()
+        val generator = AWSQueryProtocolGenerator()
         generator.generateCodableConformanceForNestedTypes(context.ctx)
         generator.generateSerializers(context.ctx)
         context.ctx.delegator.flushWriters()

@@ -3,20 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.ec2query
+package software.amazon.smithy.aws.swift.codegen.awsquery
 
-import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolCustomizations
+import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.Shape
+import software.amazon.smithy.model.traits.TimestampFormatTrait
 import software.amazon.smithy.protocoltests.traits.HttpRequestTestCase
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.ClientProperty
 
-class AWSHttpProtocolEc2QueryCustomizations : AWSHttpProtocolCustomizations() {
-
-    override fun getClientProperties(): List<ClientProperty> {
-        return listOf()
-    }
+class AWSQueryCustomizations : AWSHTTPProtocolCustomizations() {
 
     override fun customRenderBodyComparison(test: HttpRequestTestCase): ((SwiftWriter, HttpRequestTestCase, Symbol, Shape, String, String) -> Unit)? {
         return this::renderFormURLBodyComparison
@@ -29,4 +26,8 @@ class AWSHttpProtocolEc2QueryCustomizations : AWSHttpProtocolCustomizations() {
     override fun alwaysHasHttpBody(): Boolean {
         return true
     }
+
+    override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.AWSQuery.AWSQueryError
+
+    override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
 }

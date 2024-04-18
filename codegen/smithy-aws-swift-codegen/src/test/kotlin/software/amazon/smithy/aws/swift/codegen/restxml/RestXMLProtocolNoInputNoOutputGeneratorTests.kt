@@ -31,7 +31,7 @@ class RestXMLProtocolNoInputNoOutputGeneratorTests {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
-        val generator = RestXmlProtocolGenerator()
+        val generator = RestXMLProtocolGenerator()
         generator.generateProtocolUnitTests(context.ctx)
         context.ctx.delegator.flushWriters()
         return context

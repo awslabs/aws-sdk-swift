@@ -3,17 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0.
  */
 
-package software.amazon.smithy.aws.swift.codegen.awsquery
+package software.amazon.smithy.aws.swift.codegen.ec2query
 
-import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
-import software.amazon.smithy.aws.swift.codegen.AWSHttpBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.AWSHttpProtocolClientCustomizableFactory
+import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
-import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSEc2QueryHttpResponseTraitPayloadFactory
-import software.amazon.smithy.aws.swift.codegen.ec2query.httpResponse.AWSQueryHttpResponseBindingErrorGenerator
-import software.amazon.smithy.aws.swift.codegen.message.XMLMessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.XMLMessageUnmarshallableGenerator
-import software.amazon.smithy.aws.traits.protocols.AwsQueryTrait
+import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
+import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
 import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.Shape
@@ -23,8 +19,6 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.httpResponse.HttpResponseGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingOutputGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.integration.serde.struct.StructDecodeGenerator
@@ -32,37 +26,24 @@ import software.amazon.smithy.swift.codegen.integration.serde.struct.StructEncod
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
-open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
+class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustomizations()) {
     override val defaultContentType = "application/x-www-form-urlencoded"
-    override val defaultTimestampFormat = TimestampFormatTrait.Format.DATE_TIME
-    override val protocol: ShapeId = AwsQueryTrait.ID
-    override val httpProtocolCustomizable = AWSHttpProtocolClientCustomizableFactory().constructClientCustomizable(protocol)
-    override val httpResponseGenerator = HttpResponseGenerator(
-        unknownServiceErrorSymbol,
-        defaultTimestampFormat,
-        XMLHttpResponseBindingOutputGenerator(),
-        AWSQueryHttpResponseBindingErrorGenerator(),
-        XMLHttpResponseBindingErrorInitGenerator(
-            defaultTimestampFormat,
-            AWSClientRuntimeTypes.AWSQuery.AWSQueryError,
-            AWSEc2QueryHttpResponseTraitPayloadFactory(),
-        )
-    )
+    override val protocol: ShapeId = Ec2QueryTrait.ID
+    override val httpResponseGenerator = HttpResponseGenerator(customizations)
 
-    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, defaultContentType: String):
-        HttpBindingResolver = FormURLHttpBindingResolver(ctx, defaultContentType)
+    override fun getProtocolHttpBindingResolver(ctx: ProtocolGenerator.GenerationContext, contentType: String):
+        HttpBindingResolver = FormURLHttpBindingResolver(ctx, contentType)
 
-    override val shouldRenderDecodableBodyStructForInputShapes = false
     override val shouldRenderEncodableConformance = true
     override val testsToIgnore = setOf(
-        "SDKAppliedContentEncoding_awsQuery",
-        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_awsQuery",
+        "SDKAppliedContentEncoding_ec2Query",
+        "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query",
     )
     override val tagsToIgnore = setOf("defaults")
 
     override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
+        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
             messageUnmarshallableGenerator.render(streamingMember)
         }
@@ -70,7 +51,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
 
     override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = XMLMessageMarshallableGenerator(ctx, defaultContentType)
+        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
         streamingShapes.forEach { streamingMember ->
             messageMarshallableGenerator.render(streamingMember)
         }
@@ -85,13 +66,7 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String?,
     ) {
-        StructEncodeGenerator(
-            ctx,
-            shapeContainingMembers,
-            members,
-            shapeMetadata,
-            writer,
-        ).render()
+        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
     }
 
     override fun renderStructDecode(
@@ -103,18 +78,12 @@ open class AwsQueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         defaultTimestampFormat: TimestampFormatTrait.Format,
         path: String,
     ) {
-        StructDecodeGenerator(
-            ctx,
-            shapeContainingMembers,
-            members,
-            shapeMetadata,
-            writer,
-        ).render()
+        StructDecodeGenerator(ctx, shapeContainingMembers, members, mapOf(), writer).render()
     }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)
-        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for AWSQuery
+        // Original instance of OperationInputBodyMiddleware checks if there is an HTTP Body, but for Ec2Query
         // we always need to have an InputBodyMiddleware
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "OperationInputBodyMiddleware")
         operationMiddleware.appendMiddleware(operation, OperationInputBodyMiddleware(ctx.model, ctx.symbolProvider, true))

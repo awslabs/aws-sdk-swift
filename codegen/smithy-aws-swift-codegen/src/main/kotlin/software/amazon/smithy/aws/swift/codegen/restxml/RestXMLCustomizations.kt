@@ -6,10 +6,10 @@
 package software.amazon.smithy.aws.swift.codegen.restxml
 
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
+import software.amazon.smithy.aws.swift.codegen.AWSHTTPProtocolCustomizations
 import software.amazon.smithy.codegen.core.Symbol
-import software.amazon.smithy.swift.codegen.integration.httpResponse.HTTPResponseBindingErrorGenerator
 
-class AWSRestXMLHttpResponseBindingErrorGenerator : HTTPResponseBindingErrorGenerator() {
+class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
 
-    override val serviceBaseErrorSymbol: Symbol = AWSClientRuntimeTypes.RestXML.RestXMLError
+    override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.RestXML.RestXMLError
 }

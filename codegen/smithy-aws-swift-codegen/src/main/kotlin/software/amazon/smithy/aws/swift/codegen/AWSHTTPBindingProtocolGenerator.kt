@@ -17,7 +17,8 @@ import software.amazon.smithy.rulesengine.language.EndpointRuleSet
 import software.amazon.smithy.rulesengine.traits.EndpointRuleSetTrait
 import software.amazon.smithy.rulesengine.traits.EndpointTestsTrait
 import software.amazon.smithy.swift.codegen.SwiftWriter
-import software.amazon.smithy.swift.codegen.integration.HttpBindingProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.HTTPBindingProtocolGenerator
+import software.amazon.smithy.swift.codegen.integration.HTTPProtocolCustomizable
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolTestGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestErrorGenerator
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolUnitTestRequestGenerator
@@ -32,11 +33,11 @@ import software.amazon.smithy.swift.codegen.model.isInputEventStream
 import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 import software.amazon.smithy.swift.codegen.testModuleName
 
-abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() {
+abstract class AWSHTTPBindingProtocolGenerator(
+    customizations: HTTPProtocolCustomizable,
+) : HTTPBindingProtocolGenerator(customizations) {
 
     override var serviceErrorProtocolSymbol: Symbol = AWSClientRuntimeTypes.Core.AWSServiceError
-
-    override val unknownServiceErrorSymbol: Symbol = AWSClientRuntimeTypes.Core.UnknownAWSHTTPServiceError
 
     override val retryErrorInfoProviderSymbol: Symbol
         get() = AWSClientRuntimeTypes.Core.AWSRetryErrorInfoProvider
@@ -49,7 +50,6 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
     open val testsToIgnore: Set<String> = setOf()
     open val tagsToIgnore: Set<String> = setOf()
 
-    override val shouldRenderDecodableBodyStructForInputShapes = true
     override val shouldRenderEncodableConformance = false
     override fun generateProtocolUnitTests(ctx: ProtocolGenerator.GenerationContext): Int {
         val imports = listOf(AWSSwiftDependency.AWS_CLIENT_RUNTIME.target)
@@ -58,7 +58,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
             requestTestBuilder,
             responseTestBuilder,
             errorTestBuilder,
-            httpProtocolCustomizable,
+            customizations,
             operationMiddleware,
             getProtocolHttpBindingResolver(ctx, defaultContentType),
             imports,

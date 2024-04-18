@@ -13,7 +13,7 @@ import software.amazon.smithy.aws.swift.codegen.TestUtils.Companion.getFileConte
 import software.amazon.smithy.aws.swift.codegen.shouldSyntacticSanityCheck
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 
-class AWSRestXMLHttpResponseBindingErrorGeneratorTests {
+class AWSRestXMLHTTPResponseBindingErrorGeneratorTests {
 
     @Test
     fun `002 GreetingWithErrorsOutputError+HttpResponseBinding`() {
@@ -153,7 +153,7 @@ extension RestXmlerrorsClientTypes {
     private fun setupTests(smithyFile: String, serviceShapeId: String): TestContext {
         val context = executeDirectedCodegen(smithyFile, serviceShapeId, RestXmlTrait.ID)
 
-        RestXmlProtocolGenerator().run {
+        RestXMLProtocolGenerator().run {
             generateDeserializers(context.ctx)
             generateCodableConformanceForNestedTypes(context.ctx)
         }

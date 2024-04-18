@@ -10,9 +10,9 @@ import software.amazon.smithy.model.traits.HttpTrait
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.protocols.core.StaticHttpBindingResolver
 
-class AwsJsonHttpBindingResolver(
-    private val context: ProtocolGenerator.GenerationContext,
-    private val defaultContentType: String
+class AWSJSONHttpBindingResolver(
+    context: ProtocolGenerator.GenerationContext,
+    defaultContentType: String
 ) : StaticHttpBindingResolver(context, awsJsonHttpTrait, defaultContentType) {
 
     companion object {
