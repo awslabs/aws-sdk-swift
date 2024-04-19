@@ -12,8 +12,10 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.readwrite.DocumentWritingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.NodeInfoUtils
 import software.amazon.smithy.swift.codegen.integration.serde.readwrite.WritingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.responseWireProtocol
+import software.amazon.smithy.swift.codegen.integration.serde.struct.writerSymbol
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
@@ -175,8 +177,11 @@ class MessageMarshallableGenerator(
 
     private fun renderPayloadSerialization(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, shape: Shape) {
         // get a payload serializer for the given members of the variant
-        val documentWritingClosure = DocumentWritingClosureUtils(ctx, writer).closure(shape)
+        val nodeInfoUtils = NodeInfoUtils(ctx, writer, ctx.service.responseWireProtocol)
+        val rootNodeInfo = nodeInfoUtils.nodeInfo(shape)
         val valueWritingClosure = WritingClosureUtils(ctx, writer).writingClosure(shape)
-        writer.write("payload = try \$L(value, \$L)", documentWritingClosure, valueWritingClosure)
+        writer.write("let writer = \$N(nodeInfo: \$L)", ctx.service.writerSymbol, rootNodeInfo)
+        writer.write("try \$L(value, writer)", valueWritingClosure)
+        writer.write("payload = try writer.data()")
     }
 }
