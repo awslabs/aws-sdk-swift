@@ -48,7 +48,7 @@ class MessageMarshallableGenerator(
                             write("switch self {")
                             streamShape.eventStreamEvents(ctx.model).forEach { member ->
                                 val memberName = ctx.symbolProvider.toMemberName(member)
-                                write("case \$L(let value):", memberName)
+                                write("case .\$L(let value):", memberName)
                                 indent()
                                 addStringHeader(":event-type", member.memberName)
                                 val variant = ctx.model.expectShape(member.target)
@@ -180,8 +180,11 @@ class MessageMarshallableGenerator(
         val nodeInfoUtils = NodeInfoUtils(ctx, writer, ctx.service.responseWireProtocol)
         val rootNodeInfo = nodeInfoUtils.nodeInfo(shape)
         val valueWritingClosure = WritingClosureUtils(ctx, writer).writingClosure(shape)
-        writer.write("let writer = \$N(nodeInfo: \$L)", ctx.service.writerSymbol, rootNodeInfo)
-        writer.write("try \$L(value, writer)", valueWritingClosure)
-        writer.write("payload = try writer.data()")
+        writer.write(
+            "payload = try \$N.write(value, rootNodeInfo: \$L, with: \$L)",
+            ctx.service.writerSymbol,
+            rootNodeInfo,
+            valueWritingClosure,
+        )
     }
 }

@@ -75,11 +75,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                                 streamShape.eventStreamErrors(ctx.model).forEach { member ->
                                     writer.write("case \"${member.memberName}\":")
                                     writer.indent {
-                                        val targetShape = ctx.model.expectShape(member.target)
-                                        val symbol = ctx.symbolProvider.toSymbol(targetShape)
-                                        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
-                                        writer.write("let reader = try \$N.from(data: message.payload)", ctx.service.readerSymbol)
-                                        writer.write("return try \$L(reader)", readingClosure)
+                                        renderReadToValue(writer, member)
+                                        writer.write("return value")
                                     }
                                 }
                                 writer.write("default:")
@@ -129,9 +126,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
         val memberName = ctx.symbolProvider.toMemberName(member)
 
         if (eventHeaderBindings.isEmpty() && eventPayloadBinding == null) {
-            writer.write("let reader = try \$N.from(data: message.payload)", ctx.service.readerSymbol)
-            val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
-            writer.write("return .\$L(try \$L(reader))", memberName, readingClosure)
+            renderReadToValue(writer, member)
+            writer.write("return .\$L(value)", memberName)
         } else {
             val variantSymbol = ctx.symbolProvider.toSymbol(variant)
             writer.write("var event = \$N()", variantSymbol)
@@ -173,10 +169,8 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
                     // for the overall event shape but only payload members will be considered for deserialization),
                     // and then assign each deserialized payload member to the current builder instance
                     unbound.forEach {
-                        val memberName = ctx.symbolProvider.toMemberName(it)
-                        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(it)
-                        writer.write("let reader = try \$N.from(data: message.payload)", ctx.service.readerSymbol)
-                        writer.write("event.\$L = try \$L(reader)", memberName, readingClosure)
+                        renderReadToValue(writer, it)
+                        writer.write("event.\$L = value", memberName)
                     }
                 }
             }
@@ -195,12 +189,19 @@ class MessageUnmarshallableGenerator(val ctx: ProtocolGenerator.GenerationContex
             ShapeType.BLOB -> writer.write("event.\$L = message.payload", memberName)
             ShapeType.STRING -> writer.write("event.\$L = String(data: message.payload, encoding: .utf8)", memberName)
             ShapeType.STRUCTURE, ShapeType.UNION -> {
-                val memberName = ctx.symbolProvider.toMemberName(member)
-                val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(member)
-                writer.write("let reader = try \$N.from(data: message.payload)", ctx.service.readerSymbol)
-                writer.write("event.\$L = try \$L(reader)", memberName, readingClosure)
+                renderReadToValue(writer, member)
+                writer.write("event.\$L = value", memberName)
             }
             else -> throw CodegenException("unsupported shape type `${target.type}` for target: $target; expected blob, string, structure, or union for eventPayload member: $member")
         }
+    }
+
+    private fun renderReadToValue(writer: SwiftWriter, memberShape: MemberShape) {
+        val readingClosure = ReadingClosureUtils(ctx, writer).readingClosure(memberShape)
+        writer.write(
+            "let value = try \$N.readFrom(message.payload, with: \$L)",
+            ctx.service.readerSymbol,
+            readingClosure,
+        )
     }
 }
