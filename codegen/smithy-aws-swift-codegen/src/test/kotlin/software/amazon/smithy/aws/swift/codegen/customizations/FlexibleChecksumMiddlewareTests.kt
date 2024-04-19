@@ -54,7 +54,7 @@ extension ChecksumTestsClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SomeOperationOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SomeOperationOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SomeOperationOutput>(wireResponseOutputClosure(SomeOperationOutput.httpBinding, wireResponseDocumentBinding()), wireResponseErrorClosure(SomeOperationOutputError.httpErrorBinding, wireResponseDocumentBinding())))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SomeOperationOutput>(SomeOperationOutput.httpOutput(from:), SomeOperationOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SomeOperationOutput>(clientLogMode: config.clientLogMode))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.FlexibleChecksumsResponseMiddleware<SomeOperationOutput>(validationMode: true))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())

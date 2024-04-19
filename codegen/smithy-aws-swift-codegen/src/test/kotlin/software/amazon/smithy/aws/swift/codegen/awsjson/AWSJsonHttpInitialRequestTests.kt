@@ -27,7 +27,7 @@ extension InitialRequestTestClientTypes.TestStream {
             var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
             var payload: ClientRuntime.Data? = nil
             switch self {
-            case messagewithstring(let value):
+            case .messagewithstring(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
                 headers.append(.init(name: ":content-type", value: .string("text/plain")))
                 payload = value.data?.data(using: .utf8)
@@ -98,7 +98,9 @@ extension EventStreamOpInput {
         val expectedContents = """
 extension EventStreamOpInput {
     func makeInitialRequestMessage(encoder: ClientRuntime.RequestEncoder) throws -> EventStream.Message {
-        let initialRequestPayload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(self, EventStreamOpInput.write(value:to:))
+        let writer = SmithyJSON.Writer(nodeInfo: "")
+        try writer.write(self, writingClosure: EventStreamOpInput.write(value:to:))
+        let initialRequestPayload = try writer.data()
         let initialRequestMessage = EventStream.Message(
             headers: [
                 EventStream.Header(name: ":message-type", value: .string("event")),

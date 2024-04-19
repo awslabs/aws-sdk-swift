@@ -18,23 +18,23 @@ extension EventStreamTestClientTypes.TestStream {
             var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
             var payload: ClientRuntime.Data? = nil
             switch self {
-            case messagewithblob(let value):
+            case .messagewithblob(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithBlob")))
                 headers.append(.init(name: ":content-type", value: .string("application/octet-stream")))
                 payload = value.data
-            case messagewithstring(let value):
+            case .messagewithstring(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithString")))
                 headers.append(.init(name: ":content-type", value: .string("text/plain")))
                 payload = value.data?.data(using: .utf8)
-            case messagewithstruct(let value):
+            case .messagewithstruct(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithStruct")))
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
-                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(value, EventStreamTestClientTypes.TestStruct.write(value:to:))
-            case messagewithunion(let value):
+                payload = try SmithyJSON.Writer.write(value, rootNodeInfo: "TestStruct", with: EventStreamTestClientTypes.TestStruct.write(value:to:))
+            case .messagewithunion(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithUnion")))
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
-                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(value, EventStreamTestClientTypes.TestUnion.write(value:to:))
-            case messagewithheaders(let value):
+                payload = try SmithyJSON.Writer.write(value, rootNodeInfo: "TestUnion", with: EventStreamTestClientTypes.TestUnion.write(value:to:))
+            case .messagewithheaders(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithHeaders")))
                 if let headerValue = value.blob {
                     headers.append(.init(name: "blob", value: .byteArray(headerValue)))
@@ -60,24 +60,24 @@ extension EventStreamTestClientTypes.TestStream {
                 if let headerValue = value.timestamp {
                     headers.append(.init(name: "timestamp", value: .timestamp(headerValue)))
                 }
-            case messagewithheaderandpayload(let value):
+            case .messagewithheaderandpayload(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithHeaderAndPayload")))
                 if let headerValue = value.header {
                     headers.append(.init(name: "header", value: .string(headerValue)))
                 }
                 headers.append(.init(name: ":content-type", value: .string("application/octet-stream")))
                 payload = value.payload
-            case messagewithnoheaderpayloadtraits(let value):
+            case .messagewithnoheaderpayloadtraits(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithNoHeaderPayloadTraits")))
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
-                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(value, EventStreamTestClientTypes.MessageWithNoHeaderPayloadTraits.write(value:to:))
-            case messagewithunboundpayloadtraits(let value):
+                payload = try SmithyJSON.Writer.write(value, rootNodeInfo: "MessageWithNoHeaderPayloadTraits", with: EventStreamTestClientTypes.MessageWithNoHeaderPayloadTraits.write(value:to:))
+            case .messagewithunboundpayloadtraits(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageWithUnboundPayloadTraits")))
                 if let headerValue = value.header {
                     headers.append(.init(name: "header", value: .string(headerValue)))
                 }
                 headers.append(.init(name: ":content-type", value: .string("application/json")))
-                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "")(value, EventStreamTestClientTypes.MessageWithUnboundPayloadTraits.write(value:to:))
+                payload = try SmithyJSON.Writer.write(value, rootNodeInfo: "MessageWithUnboundPayloadTraits", with: EventStreamTestClientTypes.MessageWithUnboundPayloadTraits.write(value:to:))
             case .sdkUnknown(_):
                 throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
             }
@@ -110,11 +110,13 @@ extension EventStreamTestClientTypes.TestStream {
                     return .messagewithstring(event)
                 case "MessageWithStruct":
                     var event = EventStreamTestClientTypes.MessageWithStruct()
-                    event.someStruct = try SmithyReadWrite.documentReadingClosure(rootNodeInfo: "")(message.payload, EventStreamTestClientTypes.TestStruct.read(from:))
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: EventStreamTestClientTypes.TestStruct.read(from:))
+                    event.someStruct = value
                     return .messagewithstruct(event)
                 case "MessageWithUnion":
                     var event = EventStreamTestClientTypes.MessageWithUnion()
-                    event.someUnion = try SmithyReadWrite.documentReadingClosure(rootNodeInfo: "")(message.payload, EventStreamTestClientTypes.TestUnion.read(from:))
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: EventStreamTestClientTypes.TestUnion.read(from:))
+                    event.someUnion = value
                     return .messagewithunion(event)
                 case "MessageWithHeaders":
                     var event = EventStreamTestClientTypes.MessageWithHeaders()
@@ -151,13 +153,15 @@ extension EventStreamTestClientTypes.TestStream {
                     event.payload = message.payload
                     return .messagewithheaderandpayload(event)
                 case "MessageWithNoHeaderPayloadTraits":
-                    return .messagewithnoheaderpayloadtraits(try SmithyReadWrite.documentReadingClosure(rootNodeInfo: "")(message.payload, EventStreamTestClientTypes.MessageWithNoHeaderPayloadTraits.read(from:)))
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: EventStreamTestClientTypes.MessageWithNoHeaderPayloadTraits.read(from:))
+                    return .messagewithnoheaderpayloadtraits(value)
                 case "MessageWithUnboundPayloadTraits":
                     var event = EventStreamTestClientTypes.MessageWithUnboundPayloadTraits()
                     if case .string(let value) = message.headers.value(name: "header") {
                         event.header = value
                     }
-                    event.unboundString = try SmithyReadWrite.documentReadingClosure(rootNodeInfo: "")(message.payload, Swift.String.read(from:))
+                    let value = try SmithyJSON.Reader.readFrom(message.payload, with: Swift.String.read(from:))
+                    event.messagewithunboundpayloadtraits = value
                     return .messagewithunboundpayloadtraits(event)
                 default:
                     return .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
@@ -166,7 +170,8 @@ extension EventStreamTestClientTypes.TestStream {
                 let makeError: (ClientRuntime.EventStream.Message, ClientRuntime.EventStream.MessageType.ExceptionParams) throws -> Swift.Error = { message, params in
                     switch params.exceptionType {
                     case "SomeError":
-                        return try SmithyReadWrite.documentReadingClosure(rootNodeInfo: "")(message.payload, SomeError.read(from:))
+                        let value = try SmithyJSON.Reader.readFrom(message.payload, with: SomeError.read(from:))
+                        return value
                     default:
                         let httpResponse = HttpResponse(body: .data(message.payload), statusCode: .ok)
                         return AWSClientRuntime.UnknownAWSHTTPServiceError(httpResponse: httpResponse, message: "error processing event stream, unrecognized ':exceptionType': \(params.exceptionType); contentType: \(params.contentType ?? "nil")", requestID: nil, typeName: nil)
@@ -223,7 +228,7 @@ extension EventStreamTestClientTypes.TestStream {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
         operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, TestStreamOpOutput>(options: config.retryStrategyOptions))
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<TestStreamOpOutput>())
-        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestStreamOpOutput>(wireResponseOutputClosure(TestStreamOpOutput.httpBinding, wireResponseDocumentBinding()), wireResponseErrorClosure(TestStreamOpOutputError.httpErrorBinding, wireResponseDocumentBinding())))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<TestStreamOpOutput>(TestStreamOpOutput.httpOutput(from:), TestStreamOpOutputError.httpError(from:)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<TestStreamOpOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result

@@ -22,14 +22,13 @@ class StructDecodeWrappedXMLGeneratorTests {
         val expectedContents = """
 extension FlattenedXmlMapOutput {
 
-    static var httpBinding: SmithyReadWrite.WireResponseOutputBinding<ClientRuntime.HttpResponse, FlattenedXmlMapOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader["FlattenedXmlMapResult"]
-            var value = FlattenedXmlMapOutput()
-            value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> FlattenedXmlMapOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader["FlattenedXmlMapResult"]
+        var value = FlattenedXmlMapOutput()
+        value.myMap = try reader["myMap"].readMapIfPresent(valueReadingClosure: Swift.String.read(from:), keyNodeInfo: "key", valueNodeInfo: "value", isFlattened: true)
+        return value
     }
 }
 """

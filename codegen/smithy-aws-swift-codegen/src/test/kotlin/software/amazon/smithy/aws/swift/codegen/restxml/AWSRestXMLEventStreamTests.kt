@@ -44,17 +44,17 @@ extension EventStreamTestClientTypes.TestEvents {
             var headers: [ClientRuntime.EventStream.Header] = [.init(name: ":message-type", value: .string("event"))]
             var payload: ClientRuntime.Data? = nil
             switch self {
-            case messageevent(let value):
+            case .messageevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("MessageEvent")))
                 headers.append(.init(name: ":content-type", value: .string("text/plain")))
                 payload = value.data?.data(using: .utf8)
-            case audioevent(let value):
+            case .audioevent(let value):
                 headers.append(.init(name: ":event-type", value: .string("AudioEvent")))
                 if let headerValue = value.exampleHeader {
                     headers.append(.init(name: "exampleHeader", value: .string(headerValue)))
                 }
                 headers.append(.init(name: ":content-type", value: .string("application/xml")))
-                payload = try SmithyReadWrite.documentWritingClosure(rootNodeInfo: "Audio")(value, EventStreamTestClientTypes.Audio.write(value:to:))
+                payload = try SmithyXML.Writer.write(value, rootNodeInfo: "Audio", with: EventStreamTestClientTypes.Audio.write(value:to:))
             case .sdkUnknown(_):
                 throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
             }
@@ -82,7 +82,7 @@ extension EventStreamTestClientTypes.MessageWithAudio {
 
     static func write(value: EventStreamTestClientTypes.MessageWithAudio?, to writer: SmithyXML.Writer) throws {
         guard let value else { return }
-        try writer["audio"].write(value.audio, writingClosure: EventStreamTestClientTypes.Audio.write(value:to:))
+        try writer["audio"].write(value.audio, with: EventStreamTestClientTypes.Audio.write(value:to:))
         try writer["exampleHeader"].write(value.exampleHeader)
     }
 

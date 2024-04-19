@@ -29,7 +29,7 @@ extension SmokeTestInput {
         guard let value else { return }
         try writer["payload1"].write(value.payload1)
         try writer["payload2"].write(value.payload2)
-        try writer["payload3"].write(value.payload3, writingClosure: ExampleClientTypes.Nested.write(value:to:))
+        try writer["payload3"].write(value.payload3, with: ExampleClientTypes.Nested.write(value:to:))
     }
 }
 """

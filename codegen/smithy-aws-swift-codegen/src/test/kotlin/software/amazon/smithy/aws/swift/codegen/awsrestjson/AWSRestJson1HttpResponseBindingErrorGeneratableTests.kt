@@ -12,7 +12,6 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
     @Test
     fun `001 GreetingWithErrorsOutputError+HttpResponseErrorBinding`() {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
-        print(context.manifest.files.joinToString("\n"))
         val contents = TestUtils.getFileContents(
             context.manifest,
             "/Example/models/GreetingWithErrorsOutputError+HttpResponseErrorBinding.swift"
@@ -21,18 +20,18 @@ class AWSRestJson1HttpResponseBindingErrorGeneratableTests {
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
 
-    static var httpErrorBinding: SmithyReadWrite.WireResponseErrorBinding<ClientRuntime.HttpResponse, SmithyJSON.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-            if let serviceError = try RestJson1ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
-                return serviceError
-            }
-            switch baseError.code {
-                case "ComplexError": return try ComplexError.makeError(baseError: baseError)
-                case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
-                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let serviceError = try RestJson1ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
+            return serviceError
+        }
+        switch baseError.code {
+            case "ComplexError": return try ComplexError.makeError(baseError: baseError)
+            case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }

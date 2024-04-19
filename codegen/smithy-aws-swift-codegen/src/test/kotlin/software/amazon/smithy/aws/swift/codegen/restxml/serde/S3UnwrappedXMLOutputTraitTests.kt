@@ -17,14 +17,13 @@ class S3UnwrappedXMLOutputTraitTests {
         val expectedContents = """
 extension GetBucketLocationOutput {
 
-    static var httpBinding: SmithyReadWrite.WireResponseOutputBinding<ClientRuntime.HttpResponse, GetBucketLocationOutput, SmithyXML.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let reader = responseReader.unwrap()
-            var value = GetBucketLocationOutput()
-            value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
-            return value
-        }
+    static func httpOutput(from httpResponse: ClientRuntime.HttpResponse) async throws -> GetBucketLocationOutput {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyXML.Reader.from(data: data)
+        let reader = responseReader.unwrap()
+        var value = GetBucketLocationOutput()
+        value.locationConstraint = try reader["LocationConstraint"].readIfPresent()
+        return value
     }
 }
 """

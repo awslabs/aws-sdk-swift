@@ -23,18 +23,18 @@ class AWSJSONHttpResponseBindingErrorGeneratorTests {
         val expectedContents = """
 enum GreetingWithErrorsOutputError {
 
-    static var httpErrorBinding: SmithyReadWrite.WireResponseErrorBinding<ClientRuntime.HttpResponse, SmithyJSON.Reader> {
-        { httpResponse, responseDocumentClosure in
-            let responseReader = try await responseDocumentClosure(httpResponse)
-            let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
-            if let serviceError = try Json10ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
-                return serviceError
-            }
-            switch baseError.code {
-                case "ComplexError": return try ComplexError.makeError(baseError: baseError)
-                case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
-                default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
-            }
+    static func httpError(from httpResponse: ClientRuntime.HttpResponse) async throws -> Swift.Error {
+        let data = try await httpResponse.data()
+        let responseReader = try SmithyJSON.Reader.from(data: data)
+        let baseError = try AWSClientRuntime.AWSJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
+        if let error = baseError.customError() { return error }
+        if let serviceError = try Json10ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
+            return serviceError
+        }
+        switch baseError.code {
+            case "ComplexError": return try ComplexError.makeError(baseError: baseError)
+            case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
+            default: return try AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(baseError: baseError)
         }
     }
 }
