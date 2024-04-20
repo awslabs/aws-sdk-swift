@@ -39,11 +39,11 @@ class Route53TrimHostedZone : SwiftIntegration {
         val inputShape = MiddlewareShapeUtils.inputShape(ctx.model, operationShape)
         val hostedZoneMember = inputShape.members().find { it.hasTrait<TrimHostedZone>() }
         if (hostedZoneMember != null) {
-            operationMiddleware.prependMiddleware(operationShape, StripHostedZoneURLPathMiddlewareRenderable(ctx.model, ctx.symbolProvider))
+            operationMiddleware.prependMiddleware(operationShape, TrimHostedZoneURLPathMiddlewareRenderable(ctx.model, ctx.symbolProvider))
         }
     }
 
     private fun isHostId(shape: Shape): Boolean {
-        return (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) && shape.hasTrait<HttpLabelTrait>() && shape.memberName == "HostedZoneId"
+        return (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) && shape.hasTrait<HttpLabelTrait>()
     }
 }
