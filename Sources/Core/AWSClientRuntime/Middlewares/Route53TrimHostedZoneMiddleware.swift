@@ -18,13 +18,12 @@ public struct Route53TrimHostedZoneMiddleware<Input, Output>: ClientRuntime.Midd
     }
 
     public func handle<H>(context: Context,
-                  input: Input,
-                  next: H) async throws -> ClientRuntime.OperationOutput<Output>
+                          input: Input,
+                          next: H) async throws -> ClientRuntime.OperationOutput<Output>
     where H: Handler,
     Self.MInput == H.Input,
     Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
+    Self.Context == H.Context {
         guard let hostedZoneId = input[keyPath: hostedZoneIDKeyPath] else {
             return try await next.handle(context: context, input: input)
         }
