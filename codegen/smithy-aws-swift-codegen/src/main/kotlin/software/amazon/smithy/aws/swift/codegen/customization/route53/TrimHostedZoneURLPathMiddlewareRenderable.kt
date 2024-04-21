@@ -26,7 +26,8 @@ class TrimHostedZoneURLPathMiddlewareRenderable(
         val inputShape = model.expectShape<StructureShape>(op.inputShape)
         val hostedZoneIDMember = inputShape.members().first { it.hasTrait<TrimHostedZone>() }
         val hostedZoneIDKeyPath = ctx.symbolProvider.toMemberName(hostedZoneIDMember)
-        writer.write("\$L.\$L.intercept(position: \$L, middleware: Route53TrimHostedZoneMiddleware(\\.\$L))",
+        writer.write(
+            "\$L.\$L.intercept(position: \$L, middleware: Route53TrimHostedZoneMiddleware(\\.\$L))",
             operationStackName,
             middlewareStep.stringValue(),
             position.stringValue(),
