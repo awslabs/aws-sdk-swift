@@ -96,31 +96,6 @@ extension Route53ClientTypes {
     }
 }
 
-public struct ActivateKeySigningKeyInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ActivateKeySigningKeyInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: ActivateKeySigningKeyInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ActivateKeySigningKeyOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = ActivateKeySigningKeyInput
-    public typealias MOutput = ClientRuntime.OperationOutput<ActivateKeySigningKeyOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension ActivateKeySigningKeyInput {
 
     static func urlPathProvider(_ value: ActivateKeySigningKeyInput) -> Swift.String? {
@@ -391,31 +366,6 @@ extension AssociateVPCWithHostedZoneInput {
         try writer["Comment"].write(value.comment)
         try writer["VPC"].write(value.vpc, writingClosure: Route53ClientTypes.VPC.writingClosure(_:to:))
     }
-}
-
-public struct AssociateVPCWithHostedZoneInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "AssociateVPCWithHostedZoneInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: AssociateVPCWithHostedZoneInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<AssociateVPCWithHostedZoneOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = AssociateVPCWithHostedZoneInput
-    public typealias MOutput = ClientRuntime.OperationOutput<AssociateVPCWithHostedZoneOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension AssociateVPCWithHostedZoneInput {
@@ -771,31 +721,6 @@ extension ChangeResourceRecordSetsInput {
         guard let value else { writer.detach(); return }
         try writer["ChangeBatch"].write(value.changeBatch, writingClosure: Route53ClientTypes.ChangeBatch.writingClosure(_:to:))
     }
-}
-
-public struct ChangeResourceRecordSetsInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ChangeResourceRecordSetsInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: ChangeResourceRecordSetsInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ChangeResourceRecordSetsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = ChangeResourceRecordSetsInput
-    public typealias MOutput = ClientRuntime.OperationOutput<ChangeResourceRecordSetsOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension ChangeResourceRecordSetsInput {
@@ -2858,31 +2783,6 @@ extension CreateVPCAssociationAuthorizationInput {
     }
 }
 
-public struct CreateVPCAssociationAuthorizationInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "CreateVPCAssociationAuthorizationInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: CreateVPCAssociationAuthorizationInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<CreateVPCAssociationAuthorizationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = CreateVPCAssociationAuthorizationInput
-    public typealias MOutput = ClientRuntime.OperationOutput<CreateVPCAssociationAuthorizationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension CreateVPCAssociationAuthorizationInput {
 
     static func urlPathProvider(_ value: CreateVPCAssociationAuthorizationInput) -> Swift.String? {
@@ -3049,31 +2949,6 @@ extension Route53ClientTypes {
         }
     }
 
-}
-
-public struct DeactivateKeySigningKeyInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DeactivateKeySigningKeyInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: DeactivateKeySigningKeyInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DeactivateKeySigningKeyOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = DeactivateKeySigningKeyInput
-    public typealias MOutput = ClientRuntime.OperationOutput<DeactivateKeySigningKeyOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension DeactivateKeySigningKeyInput {
@@ -3626,31 +3501,6 @@ enum DeleteHostedZoneOutputError {
     }
 }
 
-public struct DeleteKeySigningKeyInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DeleteKeySigningKeyInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: DeleteKeySigningKeyInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DeleteKeySigningKeyOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = DeleteKeySigningKeyInput
-    public typealias MOutput = ClientRuntime.OperationOutput<DeleteKeySigningKeyOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension DeleteKeySigningKeyInput {
 
     static func urlPathProvider(_ value: DeleteKeySigningKeyInput) -> Swift.String? {
@@ -3967,31 +3817,6 @@ extension DeleteVPCAssociationAuthorizationInput {
     }
 }
 
-public struct DeleteVPCAssociationAuthorizationInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DeleteVPCAssociationAuthorizationInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: DeleteVPCAssociationAuthorizationInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DeleteVPCAssociationAuthorizationOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = DeleteVPCAssociationAuthorizationInput
-    public typealias MOutput = ClientRuntime.OperationOutput<DeleteVPCAssociationAuthorizationOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension DeleteVPCAssociationAuthorizationInput {
 
     static func urlPathProvider(_ value: DeleteVPCAssociationAuthorizationInput) -> Swift.String? {
@@ -4096,31 +3921,6 @@ extension Route53ClientTypes {
 
 }
 
-public struct DisableHostedZoneDNSSECInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DisableHostedZoneDNSSECInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: DisableHostedZoneDNSSECInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DisableHostedZoneDNSSECOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = DisableHostedZoneDNSSECInput
-    public typealias MOutput = ClientRuntime.OperationOutput<DisableHostedZoneDNSSECOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension DisableHostedZoneDNSSECInput {
 
     static func urlPathProvider(_ value: DisableHostedZoneDNSSECInput) -> Swift.String? {
@@ -4200,31 +4000,6 @@ extension DisassociateVPCFromHostedZoneInput {
     }
 }
 
-public struct DisassociateVPCFromHostedZoneInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "DisassociateVPCFromHostedZoneInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: DisassociateVPCFromHostedZoneInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<DisassociateVPCFromHostedZoneOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = DisassociateVPCFromHostedZoneInput
-    public typealias MOutput = ClientRuntime.OperationOutput<DisassociateVPCFromHostedZoneOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension DisassociateVPCFromHostedZoneInput {
 
     static func urlPathProvider(_ value: DisassociateVPCFromHostedZoneInput) -> Swift.String? {
@@ -4302,31 +4077,6 @@ enum DisassociateVPCFromHostedZoneOutputError {
             }
         }
     }
-}
-
-public struct EnableHostedZoneDNSSECInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "EnableHostedZoneDNSSECInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: EnableHostedZoneDNSSECInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<EnableHostedZoneDNSSECOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = EnableHostedZoneDNSSECInput
-    public typealias MOutput = ClientRuntime.OperationOutput<EnableHostedZoneDNSSECOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension EnableHostedZoneDNSSECInput {
@@ -4781,31 +4531,6 @@ enum GetCheckerIpRangesOutputError {
             }
         }
     }
-}
-
-public struct GetDNSSECInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "GetDNSSECInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: GetDNSSECInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<GetDNSSECOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = GetDNSSECInput
-    public typealias MOutput = ClientRuntime.OperationOutput<GetDNSSECOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension GetDNSSECInput {
@@ -5317,31 +5042,6 @@ public struct GetHostedZoneInput: Swift.Equatable {
     {
         self.id = id
     }
-}
-
-public struct GetHostedZoneLimitInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "GetHostedZoneLimitInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: GetHostedZoneLimitInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<GetHostedZoneLimitOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = GetHostedZoneLimitInput
-    public typealias MOutput = ClientRuntime.OperationOutput<GetHostedZoneLimitOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension GetHostedZoneLimitInput {
@@ -9131,31 +8831,6 @@ extension ListResourceRecordSetsInput {
     }
 }
 
-public struct ListResourceRecordSetsInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ListResourceRecordSetsInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: ListResourceRecordSetsInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ListResourceRecordSetsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = ListResourceRecordSetsInput
-    public typealias MOutput = ClientRuntime.OperationOutput<ListResourceRecordSetsOutput>
-    public typealias Context = ClientRuntime.HttpContext
-}
-
 extension ListResourceRecordSetsInput {
 
     static func urlPathProvider(_ value: ListResourceRecordSetsInput) -> Swift.String? {
@@ -10179,31 +9854,6 @@ extension ListVPCAssociationAuthorizationsInput {
         }
         return items
     }
-}
-
-public struct ListVPCAssociationAuthorizationsInputStripHostedZoneMiddleware: ClientRuntime.Middleware {
-    public let id: Swift.String = "ListVPCAssociationAuthorizationsInputStripHostedZoneMiddleware"
-
-    public func handle<H>(context: Context,
-                  input: ListVPCAssociationAuthorizationsInput,
-                  next: H) async throws -> ClientRuntime.OperationOutput<ListVPCAssociationAuthorizationsOutput>
-    where H: Handler,
-    Self.MInput == H.Input,
-    Self.MOutput == H.Output,
-    Self.Context == H.Context
-    {
-        guard let hostedZoneId = input.hostedZoneId else {
-            return try await next.handle(context: context, input: input)
-        }
-        var copiedInput = input
-        let stripped = hostedZoneId.stripFirstMatching(prefixes: ["/hostedzone/", "hostedzone/", "/hostedzone", "hostedzone"])
-        copiedInput.hostedZoneId = stripped
-        return try await next.handle(context: context, input: copiedInput)
-    }
-
-    public typealias MInput = ListVPCAssociationAuthorizationsInput
-    public typealias MOutput = ClientRuntime.OperationOutput<ListVPCAssociationAuthorizationsOutput>
-    public typealias Context = ClientRuntime.HttpContext
 }
 
 extension ListVPCAssociationAuthorizationsInput {
