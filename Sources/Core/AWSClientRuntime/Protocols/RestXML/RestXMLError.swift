@@ -23,10 +23,10 @@ public struct RestXMLError: BaseError {
     public init(httpResponse: HttpResponse, responseReader: Reader, noErrorWrapping: Bool) throws {
         self.errorBodyReader = Self.errorBodyReader(responseReader: responseReader, noErrorWrapping: noErrorWrapping)
         let code: String? = try errorBodyReader["Code"].readIfPresent()
-        guard let code else { throw BaseErrorDecodeError.missingRequiredData }
+        if code == nil && httpResponse.statusCode != .notFound { throw BaseErrorDecodeError.missingRequiredData }
         let message: String? = try errorBodyReader["Message"].readIfPresent()
-        let requestID: String? = try responseReader["RequestId"].readIfPresent()
-        self.code = code
+        let requestID: String? = try responseReader["RequestId"].readIfPresent() ?? httpResponse.requestId
+        self.code = code ?? "NotFound"
         self.message = message
         self.requestID = requestID
         self.httpResponse = httpResponse

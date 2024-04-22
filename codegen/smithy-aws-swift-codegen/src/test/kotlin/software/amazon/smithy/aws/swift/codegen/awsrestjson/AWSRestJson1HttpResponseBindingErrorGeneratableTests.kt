@@ -25,9 +25,7 @@ enum GreetingWithErrorsOutputError {
         let responseReader = try SmithyJSON.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestJSONError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
-        if let serviceError = try RestJson1ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
-            return serviceError
-        }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ComplexError": return try ComplexError.makeError(baseError: baseError)
             case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
@@ -44,16 +42,14 @@ enum GreetingWithErrorsOutputError {
         val context = setupTests("awsrestjson1/restjson-error.smithy", "aws.protocoltests.restjson1#RestJson1")
         val contents = TestUtils.getFileContents(
             context.manifest,
-            "/Example/models/RestJson1+ServiceErrorHelperMethod.swift"
+            "/Example/models/RestJson1+HTTPServiceError.swift"
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension RestJson1ProtocolClientTypes {
-    static func responseServiceErrorBinding(baseError: AWSClientRuntime.RestJSONError) throws -> Swift.Error? {
-        switch baseError.code {
-            case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
-            default: return nil
-        }
+func httpServiceError(baseError: AWSClientRuntime.RestJSONError) throws -> Swift.Error? {
+    switch baseError.code {
+        case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
+        default: return nil
     }
 }
 """

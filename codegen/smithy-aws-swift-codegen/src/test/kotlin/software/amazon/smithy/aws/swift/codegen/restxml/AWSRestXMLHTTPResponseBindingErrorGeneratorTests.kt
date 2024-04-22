@@ -29,9 +29,7 @@ enum GreetingWithErrorsOutputError {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.RestXMLError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
-        if let serviceError = try RestXmlerrorsClientTypes.responseServiceErrorBinding(baseError: baseError) {
-            return serviceError
-        }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ComplexXMLError": return try ComplexXMLError.makeError(baseError: baseError)
             case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
@@ -136,15 +134,13 @@ extension ComplexXMLErrorNoErrorWrapping {
     @Test
     fun `006 RestXml+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("restxml/xml-errors.smithy", "aws.protocoltests.restxml#RestXml")
-        val contents = getFileContents(context.manifest, "/Example/models/RestXml+ServiceErrorHelperMethod.swift")
+        val contents = getFileContents(context.manifest, "/Example/models/RestXml+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension RestXmlerrorsClientTypes {
-    static func responseServiceErrorBinding(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {
-        switch baseError.code {
-            case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
-            default: return nil
-        }
+func httpServiceError(baseError: AWSClientRuntime.RestXMLError) throws -> Swift.Error? {
+    switch baseError.code {
+        case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
+        default: return nil
     }
 }
 """

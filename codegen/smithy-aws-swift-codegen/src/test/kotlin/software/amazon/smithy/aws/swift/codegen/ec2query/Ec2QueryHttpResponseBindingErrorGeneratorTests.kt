@@ -28,9 +28,7 @@ enum GreetingWithErrorsOutputError {
         let responseReader = try SmithyXML.Reader.from(data: data)
         let baseError = try AWSClientRuntime.EC2QueryError(httpResponse: httpResponse, responseReader: responseReader, noErrorWrapping: false)
         if let error = baseError.customError() { return error }
-        if let serviceError = try EC2ProtocolClientTypes.responseServiceErrorBinding(baseError: baseError) {
-            return serviceError
-        }
+        if let error = try httpServiceError(baseError: baseError) { return error }
         switch baseError.code {
             case "ComplexError": return try ComplexError.makeError(baseError: baseError)
             case "InvalidGreeting": return try InvalidGreeting.makeError(baseError: baseError)
@@ -104,15 +102,13 @@ extension ComplexError {
     @Test
     fun `005 AwsEc2+ServiceErrorHelperMethod AWSHttpServiceError`() {
         val context = setupTests("ec2query/query-error.smithy", "aws.protocoltests.ec2#AwsEc2")
-        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/AwsEc2+ServiceErrorHelperMethod.swift")
+        val contents = TestUtils.getFileContents(context.manifest, "/Example/models/AwsEc2+HTTPServiceError.swift")
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-extension EC2ProtocolClientTypes {
-    static func responseServiceErrorBinding(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift.Error? {
-        switch baseError.code {
-            case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
-            default: return nil
-        }
+func httpServiceError(baseError: AWSClientRuntime.EC2QueryError) throws -> Swift.Error? {
+    switch baseError.code {
+        case "ExampleServiceError": return try ExampleServiceError.makeError(baseError: baseError)
+        default: return nil
     }
 }
 """
