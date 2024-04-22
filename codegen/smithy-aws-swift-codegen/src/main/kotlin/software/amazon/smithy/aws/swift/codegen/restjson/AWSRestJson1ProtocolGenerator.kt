@@ -36,7 +36,7 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     )
     override val tagsToIgnore = setOf("defaults")
 
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
         val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
@@ -44,7 +44,7 @@ class AWSRestJson1ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         val streamingShapes = inputStreamingShapes(ctx)
         val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
         for (streamingShape in streamingShapes) {

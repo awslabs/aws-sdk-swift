@@ -119,7 +119,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         operationMiddleware.appendMiddleware(operation, UserAgentMiddleware(ctx.settings))
     }
 
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
         val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
@@ -127,7 +127,7 @@ abstract class AWSHttpBindingProtocolGenerator : HttpBindingProtocolGenerator() 
         }
     }
 
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         val streamingShapes = inputStreamingShapes(ctx)
         val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
         for (streamingShape in streamingShapes) {

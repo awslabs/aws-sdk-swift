@@ -60,7 +60,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
     }
 
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
         val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
@@ -68,7 +68,7 @@ open class AwsJson1_0_ProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         val streamingShapes = inputStreamingShapes(ctx)
         val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
         for (streamingShape in streamingShapes) {

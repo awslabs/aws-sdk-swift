@@ -57,7 +57,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val encodableProtocol = null
     override val decodableProtocol = null
 
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
         val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
@@ -65,7 +65,7 @@ class RestXmlProtocolGenerator : AWSHttpBindingProtocolGenerator() {
         }
     }
 
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = inputStreamingShapes(ctx)
         val messageMarshallableGenerator = XMLMessageMarshallableGenerator(ctx, defaultContentType)
         streamingShapes.forEach { streamingMember ->

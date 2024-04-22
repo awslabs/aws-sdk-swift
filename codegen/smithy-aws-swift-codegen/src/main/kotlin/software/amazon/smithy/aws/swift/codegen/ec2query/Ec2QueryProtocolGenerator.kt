@@ -58,7 +58,7 @@ class Ec2QueryProtocolGenerator : AWSHttpBindingProtocolGenerator() {
     override val codableProtocol = SwiftTypes.Protocols.Encodable
     override val decodableProtocol = null
 
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
         var streamingShapes = outputStreamingShapes(ctx)
         val messageUnmarshallableGenerator = XMLMessageUnmarshallableGenerator(ctx)
         streamingShapes.forEach { streamingMember ->
