@@ -5,11 +5,8 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.restjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.RestJson1Trait
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 
 class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCustomizations()) {
     override val defaultContentType = "application/json"
@@ -19,20 +16,4 @@ class AWSRestJson1ProtocolGenerator : AWSHTTPBindingProtocolGenerator(RestJSONCu
         "SDKAppendedGzipAfterProvidedEncoding_restJson1",
     )
     override val tagsToIgnore = setOf("defaults")
-
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
-        streamingShapes.forEach { streamingMember ->
-            messageUnmarshallableGenerator.render(streamingMember)
-        }
-    }
-
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        val streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
-        for (streamingShape in streamingShapes) {
-            messageMarshallableGenerator.render(streamingShape)
-        }
-    }
 }

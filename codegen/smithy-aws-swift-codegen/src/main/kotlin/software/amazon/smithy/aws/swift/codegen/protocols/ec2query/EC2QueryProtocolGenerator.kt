@@ -7,23 +7,14 @@ package software.amazon.smithy.aws.swift.codegen.protocols.ec2query
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
 import software.amazon.smithy.aws.swift.codegen.FormURLHttpBindingResolver
-import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.traits.protocols.Ec2QueryTrait
-import software.amazon.smithy.model.shapes.MemberShape
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeId
-import software.amazon.smithy.model.traits.TimestampFormatTrait
-import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.HttpBindingResolver
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeMiddleware
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
-import software.amazon.smithy.swift.codegen.integration.serde.struct.StructDecodeGenerator
-import software.amazon.smithy.swift.codegen.integration.serde.struct.StructEncodeGenerator
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
-import software.amazon.smithy.swift.codegen.model.ShapeMetadata
 
 class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustomizations()) {
     override val defaultContentType = "application/x-www-form-urlencoded"
@@ -38,46 +29,6 @@ class EC2QueryProtocolGenerator : AWSHTTPBindingProtocolGenerator(EC2QueryCustom
         "SDKAppendsGzipAndIgnoresHttpProvidedEncoding_ec2Query",
     )
     override val tagsToIgnore = setOf("defaults")
-
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
-        streamingShapes.forEach { streamingMember ->
-            messageUnmarshallableGenerator.render(streamingMember)
-        }
-    }
-
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
-        streamingShapes.forEach { streamingMember ->
-            messageMarshallableGenerator.render(streamingMember)
-        }
-    }
-
-    override fun renderStructEncode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetadata: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String?,
-    ) {
-        StructEncodeGenerator(ctx, shapeContainingMembers, members, shapeMetadata, writer).render()
-    }
-
-    override fun renderStructDecode(
-        ctx: ProtocolGenerator.GenerationContext,
-        shapeContainingMembers: Shape,
-        shapeMetadata: Map<ShapeMetadata, Any>,
-        members: List<MemberShape>,
-        writer: SwiftWriter,
-        defaultTimestampFormat: TimestampFormatTrait.Format,
-        path: String,
-    ) {
-        StructDecodeGenerator(ctx, shapeContainingMembers, members, mapOf(), writer).render()
-    }
 
     override fun addProtocolSpecificMiddleware(ctx: ProtocolGenerator.GenerationContext, operation: OperationShape) {
         super.addProtocolSpecificMiddleware(ctx, operation)

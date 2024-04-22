@@ -6,8 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen.protocols.awsjson
 
 import software.amazon.smithy.aws.swift.codegen.AWSHTTPBindingProtocolGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.AWSXAmzTargetMiddleware
 import software.amazon.smithy.aws.traits.protocols.AwsJson1_0Trait
 import software.amazon.smithy.model.shapes.OperationShape
@@ -18,7 +16,7 @@ import software.amazon.smithy.swift.codegen.integration.middlewares.ContentTypeM
 import software.amazon.smithy.swift.codegen.integration.middlewares.OperationInputBodyMiddleware
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 
-open class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
+class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSONCustomizations()) {
     override val defaultContentType = "application/x-amz-json-1.0"
     override val protocol: ShapeId = AwsJson1_0Trait.ID
     override val shouldRenderEncodableConformance: Boolean = true
@@ -42,21 +40,5 @@ open class AWSJSON1_0ProtocolGenerator : AWSHTTPBindingProtocolGenerator(AWSJSON
         val resolver = getProtocolHttpBindingResolver(ctx, defaultContentType)
         operationMiddleware.removeMiddleware(operation, MiddlewareStep.SERIALIZESTEP, "ContentTypeMiddleware")
         operationMiddleware.appendMiddleware(operation, ContentTypeMiddleware(ctx.model, ctx.symbolProvider, resolver.determineRequestContentType(operation), true))
-    }
-
-    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        var streamingShapes = outputStreamingShapes(ctx)
-        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
-        streamingShapes.forEach { streamingMember ->
-            messageUnmarshallableGenerator.render(streamingMember)
-        }
-    }
-
-    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
-        val streamingShapes = inputStreamingShapes(ctx)
-        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
-        for (streamingShape in streamingShapes) {
-            messageMarshallableGenerator.render(streamingShape)
-        }
     }
 }

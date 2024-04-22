@@ -4,6 +4,8 @@
  */
 package software.amazon.smithy.aws.swift.codegen
 
+import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
+import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
@@ -141,5 +143,21 @@ abstract class AWSHTTPBindingProtocolGenerator(
             }
         }
         return streamingShapes
+    }
+
+    override fun generateMessageMarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        var streamingShapes = inputStreamingShapes(ctx)
+        val messageMarshallableGenerator = MessageMarshallableGenerator(ctx, defaultContentType)
+        streamingShapes.forEach { streamingMember ->
+            messageMarshallableGenerator.render(streamingMember)
+        }
+    }
+
+    override fun generateMessageUnmarshallable(ctx: ProtocolGenerator.GenerationContext) {
+        var streamingShapes = outputStreamingShapes(ctx)
+        val messageUnmarshallableGenerator = MessageUnmarshallableGenerator(ctx)
+        streamingShapes.forEach { streamingMember ->
+            messageUnmarshallableGenerator.render(streamingMember)
+        }
     }
 }
