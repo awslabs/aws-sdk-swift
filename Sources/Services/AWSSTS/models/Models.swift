@@ -979,6 +979,7 @@ extension GetCallerIdentityInput {
                       .withAuthSchemes(value: config.authSchemes ?? [])
                       .withAuthSchemeResolver(value: config.authSchemeResolver)
                       .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
                       .withFlowType(value: .PRESIGN_REQUEST)
                       .withExpiration(value: expiration)
                       .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
