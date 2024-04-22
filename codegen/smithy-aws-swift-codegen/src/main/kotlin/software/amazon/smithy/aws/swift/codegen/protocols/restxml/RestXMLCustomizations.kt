@@ -18,20 +18,31 @@ class RestXMLCustomizations : AWSHTTPProtocolCustomizations() {
     override val baseErrorSymbol: Symbol = AWSClientRuntimeTypes.RestXML.RestXMLError
 
     override fun hasServiceErrorCustomizations(ctx: ProtocolGenerator.GenerationContext): Boolean {
-        return serviceIsS3(ctx.service)
+        return shouldApplyS3ErrorCustomization(ctx)
     }
 
     override fun renderServiceErrorCustomizations(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter) {
-        if (!serviceIsS3(ctx.service)) { return }
-        writer.openBlock(
-            "if baseError.httpResponse.statusCode == .notFound && baseError.httpResponse.body.isEmpty {",
-            "}"
-        ) {
-            writer.write("return try NotFound.makeError(baseError: baseError)")
+        if (shouldApplyS3ErrorCustomization(ctx)) {
+            writer.openBlock(
+                "if baseError.httpResponse.statusCode == .notFound && baseError.httpResponse.body.isEmpty {",
+                "}"
+            ) {
+                writer.write("return try NotFound.makeError(baseError: baseError)")
+            }
         }
     }
 
-    private fun serviceIsS3(serviceShape: ServiceShape): Boolean {
-        return serviceShape.id == ShapeId.from("com.amazonaws.s3#AmazonS3")
+    private fun shouldApplyS3ErrorCustomization(ctx: ProtocolGenerator.GenerationContext): Boolean {
+        return serviceIsS3(ctx) && serviceHasNotFoundError(ctx)
+    }
+
+    private fun serviceIsS3(ctx: ProtocolGenerator.GenerationContext): Boolean {
+        return ctx.service.id == ShapeId.from("com.amazonaws.s3#AmazonS3")
+    }
+
+    // This check is performed because S3 protocol tests do not define this error,
+    // and the protocol test will fail since the NotFound type is undefined.
+    private fun serviceHasNotFoundError(ctx: ProtocolGenerator.GenerationContext): Boolean {
+        return ctx.model.getShape(ShapeId.from("com.amazonaws.s3#NotFound")).isPresent
     }
 }
