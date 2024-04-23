@@ -20,6 +20,7 @@ class Route53TrimHostedZone : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
         return model.expectShape<ServiceShape>(settings.service).isRoute53
     }
+
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model {
         return ModelTransformer.create().mapShapes(model) {
             if (isHostId(it)) {
@@ -38,12 +39,11 @@ class Route53TrimHostedZone : SwiftIntegration {
         val inputShape = MiddlewareShapeUtils.inputShape(ctx.model, operationShape)
         val hostedZoneMember = inputShape.members().find { it.hasTrait<TrimHostedZone>() }
         if (hostedZoneMember != null) {
-            StripHostedZoneURLPathMiddleware.renderMiddleware(ctx, operationShape)
-            operationMiddleware.prependMiddleware(operationShape, StripHostedZoneUrlPathMiddlewareRenderable(ctx.model, ctx.symbolProvider))
+            operationMiddleware.prependMiddleware(operationShape, TrimHostedZoneURLPathMiddlewareRenderable(ctx.model, ctx.symbolProvider))
         }
     }
 
     private fun isHostId(shape: Shape): Boolean {
-        return (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) && shape.hasTrait<HttpLabelTrait>() && shape.memberName == "HostedZoneId"
+        return (shape is MemberShape && shape.target == ShapeId.from("com.amazonaws.route53#ResourceId")) && shape.hasTrait<HttpLabelTrait>()
     }
 }
