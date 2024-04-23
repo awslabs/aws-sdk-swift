@@ -5,6 +5,8 @@
 // SPDX-License-Identifier: Apache-2.0
 //
 
+import ClientRuntime
+
 /// Supported authentication schemes
 public enum AuthScheme: Equatable {
     case sigV4(SigV4Parameters)

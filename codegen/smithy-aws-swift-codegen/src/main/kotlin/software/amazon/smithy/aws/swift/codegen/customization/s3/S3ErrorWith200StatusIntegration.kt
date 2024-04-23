@@ -7,7 +7,6 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 import software.amazon.smithy.aws.swift.codegen.AWSClientRuntimeTypes
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.traits.StreamingTrait
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.SwiftWriter
@@ -18,7 +17,6 @@ import software.amazon.smithy.swift.codegen.middleware.MiddlewarePosition
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareRenderable
 import software.amazon.smithy.swift.codegen.middleware.MiddlewareStep
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
-import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.hasTrait
 
 /**
@@ -28,7 +26,7 @@ import software.amazon.smithy.swift.codegen.model.hasTrait
  */
 class S3ErrorWith200StatusIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean =
-        model.expectShape<ServiceShape>(settings.service).isS3
+        settings.isS3
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,

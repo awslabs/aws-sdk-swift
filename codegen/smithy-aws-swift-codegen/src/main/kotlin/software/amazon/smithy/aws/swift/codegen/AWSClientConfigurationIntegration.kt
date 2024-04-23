@@ -6,7 +6,6 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.config.AWSDefaultClientConfiguration
-import software.amazon.smithy.aws.swift.codegen.config.AWSEndpointClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.config.AWSRegionClientConfiguration
 import software.amazon.smithy.aws.swift.codegen.plugins.AuthSchemePlugin
 import software.amazon.smithy.aws.swift.codegen.plugins.DefaultAWSAuthSchemePlugin
@@ -20,7 +19,7 @@ import software.amazon.smithy.swift.codegen.integration.plugins.DefaultAWSClient
 
 class AWSClientConfigurationIntegration : SwiftIntegration {
     override fun clientConfigurations(ctx: ProtocolGenerator.GenerationContext): List<ClientConfiguration> {
-        return listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration(), AWSEndpointClientConfiguration(ctx))
+        return listOf(AWSDefaultClientConfiguration(), AWSRegionClientConfiguration())
     }
 
     override fun plugins(serviceConfig: ServiceConfig): List<Plugin> {

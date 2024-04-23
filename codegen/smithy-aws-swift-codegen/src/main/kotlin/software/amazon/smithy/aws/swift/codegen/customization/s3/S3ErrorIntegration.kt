@@ -5,7 +5,6 @@ import software.amazon.smithy.aws.swift.codegen.restxml.AWSRestXMLHttpResponseBi
 import software.amazon.smithy.aws.traits.protocols.RestXmlTrait
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.shapes.StructureShape
 import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SmithyXMLTypes
@@ -18,7 +17,6 @@ import software.amazon.smithy.swift.codegen.integration.SectionWriter
 import software.amazon.smithy.swift.codegen.integration.SectionWriterBinding
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.integration.httpResponse.XMLHttpResponseBindingErrorInitGenerator
-import software.amazon.smithy.swift.codegen.model.expectShape
 import software.amazon.smithy.swift.codegen.model.getTrait
 import software.amazon.smithy.swift.codegen.utils.errorShapeName
 
@@ -27,7 +25,7 @@ class S3ErrorIntegration : SwiftIntegration {
         get() = 127
 
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean {
-        return model.expectShape<ServiceShape>(settings.service).isS3
+        return settings.isS3
     }
     override val sectionWriters: List<SectionWriterBinding>
         get() = listOf(

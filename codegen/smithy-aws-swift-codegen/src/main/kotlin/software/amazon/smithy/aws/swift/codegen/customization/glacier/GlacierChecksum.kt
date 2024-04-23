@@ -1,15 +1,12 @@
 package software.amazon.smithy.aws.swift.codegen.customization.glacier
 
 import software.amazon.smithy.aws.swift.codegen.middleware.Sha256TreeHashMiddleware
-import software.amazon.smithy.aws.swift.codegen.sdkId
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.OperationShape
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
 import software.amazon.smithy.swift.codegen.middleware.OperationMiddleware
-import software.amazon.smithy.swift.codegen.model.expectShape
 import java.util.Locale
 
 /**
@@ -19,7 +16,7 @@ import java.util.Locale
  */
 class GlacierChecksum : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings) =
-        model.expectShape<ServiceShape>(settings.service).sdkId.lowercase(Locale.getDefault()) == "glacier"
+        settings.sdkId.lowercase(Locale.getDefault()) == "glacier"
 
     override fun customizeMiddleware(
         ctx: ProtocolGenerator.GenerationContext,

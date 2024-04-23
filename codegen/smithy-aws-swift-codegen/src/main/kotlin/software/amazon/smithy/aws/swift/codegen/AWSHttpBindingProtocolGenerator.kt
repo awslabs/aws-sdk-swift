@@ -6,7 +6,7 @@ package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.message.MessageMarshallableGenerator
 import software.amazon.smithy.aws.swift.codegen.message.MessageUnmarshallableGenerator
-import software.amazon.smithy.aws.swift.codegen.middleware.OperationEndpointResolverMiddleware
+import software.amazon.smithy.swift.codegen.endpoint.OperationEndpointResolverMiddleware
 import software.amazon.smithy.aws.swift.codegen.middleware.UserAgentMiddleware
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape

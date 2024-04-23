@@ -6,6 +6,7 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import org.junit.jupiter.api.Assertions
+import software.amazon.smithy.aws.traits.ServiceTrait
 import software.amazon.smithy.build.MockManifest
 import software.amazon.smithy.build.PluginContext
 import software.amazon.smithy.codegen.core.SymbolProvider
@@ -19,6 +20,7 @@ import software.amazon.smithy.swift.codegen.SwiftDelegator
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
+import software.amazon.smithy.swift.codegen.model.expectTrait
 import java.net.URL
 
 data class TestContext(
@@ -38,7 +40,7 @@ class TestUtils {
             var model = createModelFromSmithy(modelFile)
 
             val service = model.getShape(ShapeId.from(serviceShapeIdWithNamespace)).get().asServiceShape().get()
-            val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace, service.sdkId)
+            val settings = buildDefaultSwiftSettingsObjectNode(serviceShapeIdWithNamespace, service.expectTrait<ServiceTrait>().sdkId)
             val swiftSettings = SwiftSettings.from(model, settings)
             val integrations = mutableListOf<SwiftIntegration>()
 

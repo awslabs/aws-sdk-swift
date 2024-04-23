@@ -6,10 +6,12 @@
 package software.amazon.smithy.aws.swift.codegen
 
 import software.amazon.smithy.aws.swift.codegen.customization.RulesBasedAuthSchemeResolverGenerator
+import software.amazon.smithy.aws.swift.codegen.middleware.AWSEndpointResolverMiddleware
 import software.amazon.smithy.model.shapes.OperationShape
 import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.swift.codegen.AuthSchemeResolverGenerator
 import software.amazon.smithy.swift.codegen.SwiftWriter
+import software.amazon.smithy.swift.codegen.endpoint.EndpointResolverMiddleware
 import software.amazon.smithy.swift.codegen.integration.ClientProperty
 import software.amazon.smithy.swift.codegen.integration.DefaultHttpProtocolCustomizations
 import software.amazon.smithy.swift.codegen.integration.HttpProtocolServiceClient
@@ -21,7 +23,6 @@ import software.amazon.smithy.swift.codegen.model.isOutputEventStream
 abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations() {
 
     override fun renderContextAttributes(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, serviceShape: ServiceShape, op: OperationShape) {
-        val endpointPrefix = ctx.service.endpointPrefix // get endpoint prefix from smithy trait
 
         // FIXME handle indentation properly or do swift formatting after the fact
         writer.write("  .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: \$S)", "aws.auth#sigv4")
@@ -45,12 +46,14 @@ abstract class AWSHttpProtocolCustomizations : DefaultHttpProtocolCustomizations
     }
 
     override fun renderInternals(ctx: ProtocolGenerator.GenerationContext) {
-        super.renderInternals(ctx)
+        AuthSchemeResolverGenerator().render(ctx)
         // Generate rules-based auth scheme resolver for services that depend on endpoint resolver for auth scheme resolution
         if (AuthSchemeResolverGenerator.usesRulesBasedAuthResolver(ctx)) {
             RulesBasedAuthSchemeResolverGenerator().render(ctx)
         }
-        EndpointResolverGenerator().render(ctx)
+        EndpointResolverGenerator({ writer, input, output, outputError ->
+            AWSEndpointResolverMiddleware(writer, input, output, outputError)
+        }, AWSClientRuntimeTypes.Core.AWSPartitionDefinition).render(ctx)
     }
 
     override fun getClientProperties(): List<ClientProperty> {

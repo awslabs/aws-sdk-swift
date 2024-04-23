@@ -6,12 +6,10 @@ package software.amazon.smithy.aws.swift.codegen.customization.s3
 
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.shapes.MemberShape
-import software.amazon.smithy.model.shapes.ServiceShape
 import software.amazon.smithy.model.transform.ModelTransformer
 import software.amazon.smithy.swift.codegen.SwiftSettings
 import software.amazon.smithy.swift.codegen.customtraits.PaginationTruncationMember
 import software.amazon.smithy.swift.codegen.integration.SwiftIntegration
-import software.amazon.smithy.swift.codegen.model.expectShape
 
 private val TRUNCATION_MEMBER_IDS = setOf(
     "com.amazonaws.s3#ListPartsOutput\$IsTruncated",
@@ -23,7 +21,7 @@ private val TRUNCATION_MEMBER_IDS = setOf(
  */
 class TruncatablePaginationIntegration : SwiftIntegration {
     override fun enabledForService(model: Model, settings: SwiftSettings): Boolean =
-        model.expectShape<ServiceShape>(settings.service).isS3
+        settings.isS3
 
     override fun preprocessModel(model: Model, settings: SwiftSettings): Model = ModelTransformer
         .create()

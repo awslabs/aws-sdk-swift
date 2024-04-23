@@ -37,7 +37,7 @@ object AWSClientRuntimeTypes {
         val FrameworkMetadata = runtimeSymbol("FrameworkMetadata")
         val AWSCredentialIdentityResolver = runtimeSymbol("AWSCredentialIdentityResolver")
         val AWSClientConfiguration = runtimeSymbol("AWSClientConfiguration")
-        val AWSEndpoint = runtimeSymbol("AWSEndpoint")
+
         val Partition = runtimeSymbol("Partition")
         val ServiceEndpointMetadata = runtimeSymbol("ServiceEndpointMetadata")
         val CredentialScope = runtimeSymbol("CredentialScope")
@@ -45,12 +45,11 @@ object AWSClientRuntimeTypes {
         val AWSServiceError = runtimeSymbol("AWSServiceError")
         val RegionResolver = runtimeSymbol("RegionResolver")
         val Sha256TreeHashMiddleware = runtimeSymbol("Sha256TreeHashMiddleware")
-        val AWSEndpointsRuleEngine = runtimeSymbol("AWSEndpointsRuleEngine")
-        val AWSEndpointsRequestContext = runtimeSymbol("AWSEndpointsRequestContext")
-        val AuthSchemeResolver = runtimeSymbol("AuthSchemeResolver")
-        val DefaultAuthSchemeResolver = runtimeSymbol("DefaultAuthSchemeResolver")
+        val AWSEndpoints = runtimeSymbol("AWSEndpoints")
         val AWSRetryErrorInfoProvider = runtimeSymbol("AWSRetryErrorInfoProvider")
         val AWSRetryMode = runtimeSymbol("AWSRetryMode")
+        val AWSPartitionDefinition = runtimeSymbol("awsPartitionDefinition")
+
     }
 
     object CRT {

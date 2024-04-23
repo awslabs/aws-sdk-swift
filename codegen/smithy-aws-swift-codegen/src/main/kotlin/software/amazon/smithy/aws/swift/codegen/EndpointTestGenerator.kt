@@ -20,6 +20,7 @@ import software.amazon.smithy.swift.codegen.ClientRuntimeTypes
 import software.amazon.smithy.swift.codegen.SwiftDependency
 import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.XCTestTypes
+import software.amazon.smithy.swift.codegen.endpoint.EndpointSymbols
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.utils.toLowerCamelCase
 
@@ -57,7 +58,7 @@ class EndpointTestGenerator(
             endpointTest.testCases.forEach { testCase ->
                 writer.write("/// \$L", testCase.documentation)
                 writer.openBlock("func testResolve${++count}() throws {", "}") {
-                    writer.openBlock("let endpointParams = \$L(", ")", AWSServiceTypes.EndpointParams) {
+                    writer.openBlock("let endpointParams = \$L(", ")", EndpointSymbols.EndpointParams) {
                         val applicableParams =
                             testCase.params.members.filter { endpointParamsMembers.contains(it.key.value) }
                                 .toSortedMap(compareBy { it.value }).map { (key, value) ->
@@ -74,7 +75,7 @@ class EndpointTestGenerator(
                             }
                         }
                     }
-                    writer.write("let resolver = try \$L()", AWSServiceTypes.DefaultEndpointResolver).write("")
+                    writer.write("let resolver = try \$L()", EndpointSymbols.DefaultEndpointResolver).write("")
 
                     testCase.expect.error.ifPresent { error ->
                         writer.openBlock(

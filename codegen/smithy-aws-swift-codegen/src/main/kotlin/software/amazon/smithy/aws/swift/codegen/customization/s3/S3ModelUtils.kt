@@ -4,11 +4,7 @@
 */
 package software.amazon.smithy.aws.swift.codegen.customization.s3
 
-import software.amazon.smithy.aws.swift.codegen.sdkId
-import software.amazon.smithy.model.shapes.ServiceShape
+import software.amazon.smithy.swift.codegen.SwiftSettings
 
-val ServiceShape.isS3: Boolean
-    get() = sdkId.toLowerCase() == "s3"
-
-val ServiceShape.isS3Control: Boolean
-    get() = sdkId.toLowerCase() == "s3 control"
+val SwiftSettings.isS3: Boolean
+    get() = sdkId.lowercase() == "s3"
