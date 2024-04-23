@@ -64,6 +64,134 @@ extension PaginatorSequence where OperationStackInput == ListChannelsInput, Oper
     }
 }
 extension MediaLiveClient {
+    /// Paginate over `[ListCloudWatchAlarmTemplateGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCloudWatchAlarmTemplateGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCloudWatchAlarmTemplateGroupsOutput`
+    public func listCloudWatchAlarmTemplateGroupsPaginated(input: ListCloudWatchAlarmTemplateGroupsInput) -> ClientRuntime.PaginatorSequence<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCloudWatchAlarmTemplateGroups(input:))
+    }
+}
+
+extension ListCloudWatchAlarmTemplateGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCloudWatchAlarmTemplateGroupsInput {
+        return ListCloudWatchAlarmTemplateGroupsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            scope: self.scope,
+            signalMapIdentifier: self.signalMapIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCloudWatchAlarmTemplateGroupsInput, OperationStackOutput == ListCloudWatchAlarmTemplateGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCloudWatchAlarmTemplateGroupsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]`
+    /// - Returns: `[MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]`
+    public func cloudWatchAlarmTemplateGroups() async throws -> [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary] {
+        return try await self.asyncCompactMap { item in item.cloudWatchAlarmTemplateGroups }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListCloudWatchAlarmTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCloudWatchAlarmTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCloudWatchAlarmTemplatesOutput`
+    public func listCloudWatchAlarmTemplatesPaginated(input: ListCloudWatchAlarmTemplatesInput) -> ClientRuntime.PaginatorSequence<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCloudWatchAlarmTemplates(input:))
+    }
+}
+
+extension ListCloudWatchAlarmTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCloudWatchAlarmTemplatesInput {
+        return ListCloudWatchAlarmTemplatesInput(
+            groupIdentifier: self.groupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            scope: self.scope,
+            signalMapIdentifier: self.signalMapIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCloudWatchAlarmTemplatesInput, OperationStackOutput == ListCloudWatchAlarmTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCloudWatchAlarmTemplatesPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]`
+    /// - Returns: `[MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]`
+    public func cloudWatchAlarmTemplates() async throws -> [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary] {
+        return try await self.asyncCompactMap { item in item.cloudWatchAlarmTemplates }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListEventBridgeRuleTemplateGroupsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventBridgeRuleTemplateGroupsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventBridgeRuleTemplateGroupsOutput`
+    public func listEventBridgeRuleTemplateGroupsPaginated(input: ListEventBridgeRuleTemplateGroupsInput) -> ClientRuntime.PaginatorSequence<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventBridgeRuleTemplateGroups(input:))
+    }
+}
+
+extension ListEventBridgeRuleTemplateGroupsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEventBridgeRuleTemplateGroupsInput {
+        return ListEventBridgeRuleTemplateGroupsInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            signalMapIdentifier: self.signalMapIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEventBridgeRuleTemplateGroupsInput, OperationStackOutput == ListEventBridgeRuleTemplateGroupsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventBridgeRuleTemplateGroupsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]`
+    /// - Returns: `[MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]`
+    public func eventBridgeRuleTemplateGroups() async throws -> [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary] {
+        return try await self.asyncCompactMap { item in item.eventBridgeRuleTemplateGroups }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListEventBridgeRuleTemplatesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListEventBridgeRuleTemplatesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListEventBridgeRuleTemplatesOutput`
+    public func listEventBridgeRuleTemplatesPaginated(input: ListEventBridgeRuleTemplatesInput) -> ClientRuntime.PaginatorSequence<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput> {
+        return ClientRuntime.PaginatorSequence<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listEventBridgeRuleTemplates(input:))
+    }
+}
+
+extension ListEventBridgeRuleTemplatesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListEventBridgeRuleTemplatesInput {
+        return ListEventBridgeRuleTemplatesInput(
+            groupIdentifier: self.groupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token,
+            signalMapIdentifier: self.signalMapIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListEventBridgeRuleTemplatesInput, OperationStackOutput == ListEventBridgeRuleTemplatesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listEventBridgeRuleTemplatesPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.EventBridgeRuleTemplateSummary]`
+    /// - Returns: `[MediaLiveClientTypes.EventBridgeRuleTemplateSummary]`
+    public func eventBridgeRuleTemplates() async throws -> [MediaLiveClientTypes.EventBridgeRuleTemplateSummary] {
+        return try await self.asyncCompactMap { item in item.eventBridgeRuleTemplates }
+    }
+}
+extension MediaLiveClient {
     /// Paginate over `[ListInputDevicesOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -321,5 +449,37 @@ extension PaginatorSequence where OperationStackInput == ListReservationsInput, 
     /// - Returns: `[MediaLiveClientTypes.Reservation]`
     public func reservations() async throws -> [MediaLiveClientTypes.Reservation] {
         return try await self.asyncCompactMap { item in item.reservations }
+    }
+}
+extension MediaLiveClient {
+    /// Paginate over `[ListSignalMapsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListSignalMapsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListSignalMapsOutput`
+    public func listSignalMapsPaginated(input: ListSignalMapsInput) -> ClientRuntime.PaginatorSequence<ListSignalMapsInput, ListSignalMapsOutput> {
+        return ClientRuntime.PaginatorSequence<ListSignalMapsInput, ListSignalMapsOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listSignalMaps(input:))
+    }
+}
+
+extension ListSignalMapsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListSignalMapsInput {
+        return ListSignalMapsInput(
+            cloudWatchAlarmTemplateGroupIdentifier: self.cloudWatchAlarmTemplateGroupIdentifier,
+            eventBridgeRuleTemplateGroupIdentifier: self.eventBridgeRuleTemplateGroupIdentifier,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListSignalMapsInput, OperationStackOutput == ListSignalMapsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listSignalMapsPaginated`
+    /// to access the nested member `[MediaLiveClientTypes.SignalMapSummary]`
+    /// - Returns: `[MediaLiveClientTypes.SignalMapSummary]`
+    public func signalMaps() async throws -> [MediaLiveClientTypes.SignalMapSummary] {
+        return try await self.asyncCompactMap { item in item.signalMaps }
     }
 }

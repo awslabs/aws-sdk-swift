@@ -434,6 +434,41 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
+extension CloudFormationClientTypes {
+    public enum AttributeChangeType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case add
+        case modify
+        case remove
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AttributeChangeType] {
+            return [
+                .add,
+                .modify,
+                .remove,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .add: return "Add"
+            case .modify: return "Modify"
+            case .remove: return "Remove"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AttributeChangeType(rawValue: rawValue) ?? AttributeChangeType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CloudFormationClientTypes.AutoDeployment: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enabled = "Enabled"
@@ -890,7 +925,9 @@ extension CloudFormationClientTypes {
         public var hookInvocationCount: Swift.Int?
         /// A ResourceChange structure that describes the resource and action that CloudFormation will perform.
         public var resourceChange: CloudFormationClientTypes.ResourceChange?
-        /// The type of entity that CloudFormation changes. Currently, the only entity type is Resource.
+        /// The type of entity that CloudFormation changes.
+        ///
+        /// * Resource This change is for a resource.
         public var type: CloudFormationClientTypes.ChangeType?
 
         public init(
@@ -3953,6 +3990,7 @@ enum DescribeChangeSetHooksOutputError {
 extension DescribeChangeSetInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case changeSetName = "ChangeSetName"
+        case includePropertyValues = "IncludePropertyValues"
         case nextToken = "NextToken"
         case stackName = "StackName"
     }
@@ -3961,6 +3999,9 @@ extension DescribeChangeSetInput: Swift.Encodable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let changeSetName = changeSetName {
             try container.encode(changeSetName, forKey: ClientRuntime.Key("ChangeSetName"))
+        }
+        if let includePropertyValues = includePropertyValues {
+            try container.encode(includePropertyValues, forKey: ClientRuntime.Key("IncludePropertyValues"))
         }
         if let nextToken = nextToken {
             try container.encode(nextToken, forKey: ClientRuntime.Key("NextToken"))
@@ -3985,6 +4026,8 @@ public struct DescribeChangeSetInput: Swift.Equatable {
     /// The name or Amazon Resource Name (ARN) of the change set that you want to describe.
     /// This member is required.
     public var changeSetName: Swift.String?
+    /// If true, the returned changes include detailed changes in the property values.
+    public var includePropertyValues: Swift.Bool?
     /// A string (provided by the [DescribeChangeSet] response output) that identifies the next page of information that you want to retrieve.
     public var nextToken: Swift.String?
     /// If you specified the name of a change set, specify the stack name or ID (ARN) of the change set you want to describe.
@@ -3992,11 +4035,13 @@ public struct DescribeChangeSetInput: Swift.Equatable {
 
     public init(
         changeSetName: Swift.String? = nil,
+        includePropertyValues: Swift.Bool? = nil,
         nextToken: Swift.String? = nil,
         stackName: Swift.String? = nil
     )
     {
         self.changeSetName = changeSetName
+        self.includePropertyValues = includePropertyValues
         self.nextToken = nextToken
         self.stackName = stackName
     }
@@ -11676,6 +11721,8 @@ extension CloudFormationClientTypes {
 extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case action = "Action"
+        case afterContext = "AfterContext"
+        case beforeContext = "BeforeContext"
         case changeSetId = "ChangeSetId"
         case details = "Details"
         case logicalResourceId = "LogicalResourceId"
@@ -11691,6 +11738,12 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
         if let action = action {
             try container.encode(action, forKey: ClientRuntime.Key("Action"))
+        }
+        if let afterContext = afterContext {
+            try container.encode(afterContext, forKey: ClientRuntime.Key("AfterContext"))
+        }
+        if let beforeContext = beforeContext {
+            try container.encode(beforeContext, forKey: ClientRuntime.Key("BeforeContext"))
         }
         if let changeSetId = changeSetId {
             try container.encode(changeSetId, forKey: ClientRuntime.Key("ChangeSetId"))
@@ -11753,6 +11806,8 @@ extension CloudFormationClientTypes.ResourceChange: Swift.Encodable {
             value.details = try reader["Details"].readListIfPresent(memberReadingClosure: CloudFormationClientTypes.ResourceChangeDetail.readingClosure, memberNodeInfo: "member", isFlattened: false)
             value.changeSetId = try reader["ChangeSetId"].readIfPresent()
             value.moduleInfo = try reader["ModuleInfo"].readIfPresent(readingClosure: CloudFormationClientTypes.ModuleInfo.readingClosure)
+            value.beforeContext = try reader["BeforeContext"].readIfPresent()
+            value.afterContext = try reader["AfterContext"].readIfPresent()
             return value
         }
     }
@@ -11763,6 +11818,10 @@ extension CloudFormationClientTypes {
     public struct ResourceChange: Swift.Equatable {
         /// The action that CloudFormation takes on the resource, such as Add (adds a new resource), Modify (changes a resource), Remove (deletes a resource), Import (imports a resource), or Dynamic (exact action for the resource can't be determined).
         public var action: CloudFormationClientTypes.ChangeAction?
+        /// An encoded JSON string containing the context of the resource after the change is executed.
+        public var afterContext: Swift.String?
+        /// An encoded JSON string containing the context of the resource before the change is executed.
+        public var beforeContext: Swift.String?
         /// The change set ID of the nested change set.
         public var changeSetId: Swift.String?
         /// For the Modify action, a list of ResourceChangeDetail structures that describes the changes that CloudFormation will make to the resource.
@@ -11796,6 +11855,8 @@ extension CloudFormationClientTypes {
 
         public init(
             action: CloudFormationClientTypes.ChangeAction? = nil,
+            afterContext: Swift.String? = nil,
+            beforeContext: Swift.String? = nil,
             changeSetId: Swift.String? = nil,
             details: [CloudFormationClientTypes.ResourceChangeDetail]? = nil,
             logicalResourceId: Swift.String? = nil,
@@ -11808,6 +11869,8 @@ extension CloudFormationClientTypes {
         )
         {
             self.action = action
+            self.afterContext = afterContext
+            self.beforeContext = beforeContext
             self.changeSetId = changeSetId
             self.details = details
             self.logicalResourceId = logicalResourceId
@@ -12500,18 +12563,34 @@ extension CloudFormationClientTypes {
 
 extension CloudFormationClientTypes.ResourceTargetDefinition: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case afterValue = "AfterValue"
         case attribute = "Attribute"
+        case attributeChangeType = "AttributeChangeType"
+        case beforeValue = "BeforeValue"
         case name = "Name"
+        case path = "Path"
         case requiresRecreation = "RequiresRecreation"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let afterValue = afterValue {
+            try container.encode(afterValue, forKey: ClientRuntime.Key("AfterValue"))
+        }
         if let attribute = attribute {
             try container.encode(attribute, forKey: ClientRuntime.Key("Attribute"))
         }
+        if let attributeChangeType = attributeChangeType {
+            try container.encode(attributeChangeType, forKey: ClientRuntime.Key("AttributeChangeType"))
+        }
+        if let beforeValue = beforeValue {
+            try container.encode(beforeValue, forKey: ClientRuntime.Key("BeforeValue"))
+        }
         if let name = name {
             try container.encode(name, forKey: ClientRuntime.Key("Name"))
+        }
+        if let path = path {
+            try container.encode(path, forKey: ClientRuntime.Key("Path"))
         }
         if let requiresRecreation = requiresRecreation {
             try container.encode(requiresRecreation, forKey: ClientRuntime.Key("RequiresRecreation"))
@@ -12525,6 +12604,10 @@ extension CloudFormationClientTypes.ResourceTargetDefinition: Swift.Encodable {
             value.attribute = try reader["Attribute"].readIfPresent()
             value.name = try reader["Name"].readIfPresent()
             value.requiresRecreation = try reader["RequiresRecreation"].readIfPresent()
+            value.path = try reader["Path"].readIfPresent()
+            value.beforeValue = try reader["BeforeValue"].readIfPresent()
+            value.afterValue = try reader["AfterValue"].readIfPresent()
+            value.attributeChangeType = try reader["AttributeChangeType"].readIfPresent()
             return value
         }
     }
@@ -12533,21 +12616,43 @@ extension CloudFormationClientTypes.ResourceTargetDefinition: Swift.Encodable {
 extension CloudFormationClientTypes {
     /// The field that CloudFormation will change, such as the name of a resource's property, and whether the resource will be recreated.
     public struct ResourceTargetDefinition: Swift.Equatable {
+        /// The value of the property after the change is executed. Large values can be truncated.
+        public var afterValue: Swift.String?
         /// Indicates which resource attribute is triggering this update, such as a change in the resource attribute's Metadata, Properties, or Tags.
         public var attribute: CloudFormationClientTypes.ResourceAttribute?
+        /// The type of change to be made to the property if the change is executed.
+        ///
+        /// * Add The item will be added.
+        ///
+        /// * Remove The item will be removed.
+        ///
+        /// * Modify The item will be modified.
+        public var attributeChangeType: CloudFormationClientTypes.AttributeChangeType?
+        /// The value of the property before the change is executed. Large values can be truncated.
+        public var beforeValue: Swift.String?
         /// If the Attribute value is Properties, the name of the property. For all other attributes, the value is null.
         public var name: Swift.String?
+        /// The property path of the property.
+        public var path: Swift.String?
         /// If the Attribute value is Properties, indicates whether a change to this property causes the resource to be recreated. The value can be Never, Always, or Conditionally. To determine the conditions for a Conditionally recreation, see the update behavior for that [property](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the CloudFormation User Guide.
         public var requiresRecreation: CloudFormationClientTypes.RequiresRecreation?
 
         public init(
+            afterValue: Swift.String? = nil,
             attribute: CloudFormationClientTypes.ResourceAttribute? = nil,
+            attributeChangeType: CloudFormationClientTypes.AttributeChangeType? = nil,
+            beforeValue: Swift.String? = nil,
             name: Swift.String? = nil,
+            path: Swift.String? = nil,
             requiresRecreation: CloudFormationClientTypes.RequiresRecreation? = nil
         )
         {
+            self.afterValue = afterValue
             self.attribute = attribute
+            self.attributeChangeType = attributeChangeType
+            self.beforeValue = beforeValue
             self.name = name
+            self.path = path
             self.requiresRecreation = requiresRecreation
         }
     }

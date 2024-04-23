@@ -2314,7 +2314,9 @@ extension EC2Client {
 
     /// Performs the `CancelSpotFleetRequests` operation on the `AmazonEC2` service.
     ///
-    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually.
+    /// Cancels the specified Spot Fleet requests. After you cancel a Spot Fleet request, the Spot Fleet launches no new instances. You must also specify whether a canceled Spot Fleet request should terminate its instances. If you choose to terminate the instances, the Spot Fleet request enters the cancelled_terminating state. Otherwise, the Spot Fleet request enters the cancelled_running state and the instances continue to run until they are interrupted or you terminate them manually. Restrictions
+    ///
+    /// * You can delete up to 100 fleets in a single request. If you exceed the specified number, no fleets are deleted.
     ///
     /// - Parameter CancelSpotFleetRequestsInput : Contains the parameters for CancelSpotFleetRequests.
     ///
@@ -6601,11 +6603,15 @@ extension EC2Client {
 
     /// Performs the `DeleteFleets` operation on the `AmazonEC2` service.
     ///
-    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported. Restrictions
+    /// Deletes the specified EC2 Fleets. After you delete an EC2 Fleet, it launches no new instances. You must also specify whether a deleted EC2 Fleet should terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. Up to 1000 instances can be terminated in a single request to delete instant fleets. A deleted instant fleet with running instances is not supported. Restrictions
     ///
-    /// * You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.
+    /// * You can delete up to 25 fleets of type instant in a single request.
     ///
-    /// * Up to 1000 instances can be terminated in a single request to delete instant fleets.
+    /// * You can delete up to 100 fleets of type maintain or request in a single request.
+    ///
+    /// * You can delete up to 125 fleets in a single request, provided you do not exceed the quota for each fleet type, as specified above.
+    ///
+    /// * If you exceed the specified number of fleets to delete, no fleets are deleted.
     ///
     ///
     /// For more information, see [Delete an EC2 Fleet](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#delete-fleet) in the Amazon EC2 User Guide.
@@ -12203,7 +12209,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstanceTypeOfferings` operation on the `AmazonEC2` service.
     ///
-    /// Returns a list of all instance types offered. The results can be filtered by location (Region or Availability Zone). If no location is specified, the instance types offered in the current Region are returned.
+    /// Lists the instance types that are offered for the specified location. If no location is specified, the default is to list the instance types that are offered in the current Region.
     ///
     /// - Parameter DescribeInstanceTypeOfferingsInput : [no documentation found]
     ///
@@ -12247,7 +12253,7 @@ extension EC2Client {
 
     /// Performs the `DescribeInstanceTypes` operation on the `AmazonEC2` service.
     ///
-    /// Describes the details of the instance types that are offered in a location. The results can be filtered by the attributes of the instance types.
+    /// Describes the specified instance types. By default, all instance types for the current Region are described. Alternatively, you can filter the results.
     ///
     /// - Parameter DescribeInstanceTypesInput : [no documentation found]
     ///
@@ -19307,7 +19313,7 @@ extension EC2Client {
 
     /// Performs the `GetConsoleScreenshot` operation on the `AmazonEC2` service.
     ///
-    /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded.
+    /// Retrieve a JPG-format screenshot of a running instance to help with troubleshooting. The returned content is Base64-encoded. For more information, see [Instance console output](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/troubleshoot-unreachable-instance.html#instance-console-console-output) in the Amazon EC2 User Guide.
     ///
     /// - Parameter GetConsoleScreenshotInput : [no documentation found]
     ///
@@ -22404,7 +22410,7 @@ extension EC2Client {
 
     /// Performs the `ModifyInstanceMetadataDefaults` operation on the `AmazonEC2` service.
     ///
-    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region. To remove a parameter's account-level default setting, specify no-preference. At instance launch, the value will come from the AMI, or from the launch parameter if specified. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
+    /// Modifies the default instance metadata service (IMDS) settings at the account level in the specified Amazon Web Services  Region. To remove a parameter's account-level default setting, specify no-preference. If an account-level setting is cleared with no-preference, then the instance launch considers the other instance metadata settings. For more information, see [Order of precedence for instance metadata options](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/configuring-instance-metadata-options.html#instance-metadata-options-order-of-precedence) in the Amazon EC2 User Guide.
     ///
     /// - Parameter ModifyInstanceMetadataDefaultsInput : [no documentation found]
     ///

@@ -493,7 +493,7 @@ extension S3ControlClient {
 
     /// Performs the `CreateJob` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions For information about permissions required to use the Batch Operations, see [Granting permissions for S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/dev/mpuAndPermissions.html) in the Amazon S3 User Guide. Related actions include:
+    /// This operation creates an S3 Batch Operations job. You can use S3 Batch Operations to perform large-scale batch actions on Amazon S3 objects. Batch Operations can run a single action on lists of Amazon S3 objects that you specify. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions For information about permissions required to use the Batch Operations, see [Granting permissions for S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops-iam-role-policies.html) in the Amazon S3 User Guide. Related actions include:
     ///
     /// * [DescribeJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DescribeJob.html)
     ///
@@ -556,7 +556,7 @@ extension S3ControlClient {
 
     /// Performs the `CreateMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see [Creating Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:
+    /// This operation is not supported by directory buckets. Creates a Multi-Region Access Point and associates it with the specified buckets. For more information about creating Multi-Region Access Points, see [Creating Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to CreateMultiRegionAccessPoint:
     ///
     /// * [DeleteMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_DeleteMultiRegionAccessPoint.html)
     ///
@@ -1287,7 +1287,7 @@ extension S3ControlClient {
 
     /// Performs the `DeleteMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:
+    /// This operation is not supported by directory buckets. Deletes a Multi-Region Access Point. This action does not delete the buckets associated with the Multi-Region Access Point, only the Multi-Region Access Point itself. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. This request is asynchronous, meaning that you might receive a response before the command has completed. When this request provides a response, it provides a token that you can use to monitor the status of the request with DescribeMultiRegionAccessPointOperation. The following actions are related to DeleteMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
     ///
@@ -1566,7 +1566,7 @@ extension S3ControlClient {
 
     /// Performs the `DescribeMultiRegionAccessPointOperation` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
+    /// This operation is not supported by directory buckets. Retrieves the status of an asynchronous request to manage a Multi-Region Access Point. For more information about managing Multi-Region Access Points and how asynchronous requests work, see [Using Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MrapOperations.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
     ///
@@ -2478,7 +2478,7 @@ extension S3ControlClient {
 
     /// Performs the `GetDataAccess` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SourceIdentity.
+    /// Returns a temporary access credential from S3 Access Grants to the grantee or client application. The [temporary credential](https://docs.aws.amazon.com/STS/latest/APIReference/API_Credentials.html) is an Amazon Web Services STS token that grants them access to the S3 data. Permissions You must have the s3:GetDataAccess permission to use this operation. Additional Permissions The IAM role that S3 Access Grants assumes must have the following permissions specified in the trust policy when registering the location: sts:AssumeRole, for directory users or groups sts:SetContext, and for IAM users or roles sts:SetSourceIdentity.
     ///
     /// - Parameter GetDataAccessInput : [no documentation found]
     ///
@@ -2575,7 +2575,7 @@ extension S3ControlClient {
 
     /// Performs the `GetMultiRegionAccessPoint` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
+    /// This operation is not supported by directory buckets. Returns configuration information about the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
     ///
@@ -2625,7 +2625,7 @@ extension S3ControlClient {
 
     /// Performs the `GetMultiRegionAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:
+    /// This operation is not supported by directory buckets. Returns the access control policy of the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicy:
     ///
     /// * [GetMultiRegionAccessPointPolicyStatus](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicyStatus.html)
     ///
@@ -2671,7 +2671,7 @@ extension S3ControlClient {
 
     /// Performs the `GetMultiRegionAccessPointPolicyStatus` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:
+    /// This operation is not supported by directory buckets. Indicates whether the specified Multi-Region Access Point has an access control policy that allows public access. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to GetMultiRegionAccessPointPolicyStatus:
     ///
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
     ///
@@ -2728,9 +2728,6 @@ extension S3ControlClient {
     /// * ap-northeast-1
     ///
     /// * eu-west-1
-    ///
-    ///
-    /// Your Amazon S3 bucket does not need to be in these five Regions.
     ///
     /// - Parameter GetMultiRegionAccessPointRoutesInput : [no documentation found]
     ///
@@ -3170,7 +3167,7 @@ extension S3ControlClient {
 
     /// Performs the `ListJobs` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 30 days for the Amazon Web Services account making the request. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include:
+    /// Lists current S3 Batch Operations jobs as well as the jobs that have ended within the last 90 days for the Amazon Web Services account making the request. For more information, see [S3 Batch Operations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/batch-ops.html) in the Amazon S3 User Guide. Permissions To use the ListJobs operation, you must have permission to perform the s3:ListJobs action. Related actions include:
     ///
     /// * [CreateJob](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateJob.html)
     ///
@@ -3227,7 +3224,7 @@ extension S3ControlClient {
 
     /// Performs the `ListMultiRegionAccessPoints` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:
+    /// This operation is not supported by directory buckets. Returns a list of the Multi-Region Access Points currently associated with the specified Amazon Web Services account. Each call can return up to 100 Multi-Region Access Points, the maximum number of Multi-Region Access Points that can be associated with a single account. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to ListMultiRegionAccessPoint:
     ///
     /// * [CreateMultiRegionAccessPoint](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_CreateMultiRegionAccessPoint.html)
     ///
@@ -4006,7 +4003,7 @@ extension S3ControlClient {
 
     /// Performs the `PutMultiRegionAccessPointPolicy` operation on the `AWSS3ControlServiceV20180820` service.
     ///
-    /// This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around managing Multi-Region Access Points, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ManagingMultiRegionAccessPoints.html) in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:
+    /// This operation is not supported by directory buckets. Associates an access control policy with the specified Multi-Region Access Point. Each Multi-Region Access Point can have only one policy, so a request made to this action replaces any existing policy that is associated with the specified Multi-Region Access Point. This action will always be routed to the US West (Oregon) Region. For more information about the restrictions around working with Multi-Region Access Points, see [Multi-Region Access Point restrictions and limitations](https://docs.aws.amazon.com/AmazonS3/latest/userguide/MultiRegionAccessPointRestrictions.html) in the Amazon S3 User Guide. The following actions are related to PutMultiRegionAccessPointPolicy:
     ///
     /// * [GetMultiRegionAccessPointPolicy](https://docs.aws.amazon.com/AmazonS3/latest/API/API_control_GetMultiRegionAccessPointPolicy.html)
     ///
@@ -4203,9 +4200,6 @@ extension S3ControlClient {
     /// * ap-northeast-1
     ///
     /// * eu-west-1
-    ///
-    ///
-    /// Your Amazon S3 bucket does not need to be in these five Regions.
     ///
     /// - Parameter SubmitMultiRegionAccessPointRoutesInput : [no documentation found]
     ///

@@ -803,8 +803,11 @@ extension WorkSpacesThinClientClientTypes.Device: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
-        if let tags = self.tags {
-            try encodeContainer.encode(tags, forKey: .tags)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
@@ -853,8 +856,17 @@ extension WorkSpacesThinClientClientTypes.Device: Swift.Codable {
         arn = arnDecoded
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
-        let tagsDecoded = try containerValues.decodeIfPresent(WorkSpacesThinClientClientTypes.EmbeddedTag.self, forKey: .tags)
-        tags = tagsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -905,7 +917,7 @@ extension WorkSpacesThinClientClientTypes {
         /// The status of the device.
         public var status: WorkSpacesThinClientClientTypes.DeviceStatus?
         /// The tag keys and optional values for the resource.
-        public var tags: WorkSpacesThinClientClientTypes.EmbeddedTag?
+        public var tags: [Swift.String:Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: ClientRuntime.Date?
 
@@ -929,7 +941,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             softwareSetUpdateStatus: WorkSpacesThinClientClientTypes.SoftwareSetUpdateStatus? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
-            tags: WorkSpacesThinClientClientTypes.EmbeddedTag? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -1048,7 +1060,6 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.Codable {
         case serialNumber
         case softwareSetUpdateSchedule
         case status
-        case tags
         case updatedAt
     }
 
@@ -1096,9 +1107,6 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status.rawValue, forKey: .status)
         }
-        if let tags = self.tags {
-            try encodeContainer.encode(tags, forKey: .tags)
-        }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
         }
@@ -1136,14 +1144,12 @@ extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.Codable {
         updatedAt = updatedAtDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let tagsDecoded = try containerValues.decodeIfPresent(WorkSpacesThinClientClientTypes.EmbeddedTag.self, forKey: .tags)
-        tags = tagsDecoded
     }
 }
 
 extension WorkSpacesThinClientClientTypes.DeviceSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "DeviceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "DeviceSummary(arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), currentSoftwareSetId: \(Swift.String(describing: currentSoftwareSetId)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), environmentId: \(Swift.String(describing: environmentId)), id: \(Swift.String(describing: id)), lastConnectedAt: \(Swift.String(describing: lastConnectedAt)), lastPostureAt: \(Swift.String(describing: lastPostureAt)), model: \(Swift.String(describing: model)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), serialNumber: \(Swift.String(describing: serialNumber)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), status: \(Swift.String(describing: status)), updatedAt: \(Swift.String(describing: updatedAt)), name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -1177,8 +1183,6 @@ extension WorkSpacesThinClientClientTypes {
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
         /// The status of the device.
         public var status: WorkSpacesThinClientClientTypes.DeviceStatus?
-        /// The tag keys and optional values for the resource.
-        public var tags: WorkSpacesThinClientClientTypes.EmbeddedTag?
         /// The timestamp of when the device was updated.
         public var updatedAt: ClientRuntime.Date?
 
@@ -1197,7 +1201,6 @@ extension WorkSpacesThinClientClientTypes {
             serialNumber: Swift.String? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
             status: WorkSpacesThinClientClientTypes.DeviceStatus? = nil,
-            tags: WorkSpacesThinClientClientTypes.EmbeddedTag? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -1215,59 +1218,7 @@ extension WorkSpacesThinClientClientTypes {
             self.serialNumber = serialNumber
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
             self.status = status
-            self.tags = tags
             self.updatedAt = updatedAt
-        }
-    }
-
-}
-
-extension WorkSpacesThinClientClientTypes.EmbeddedTag: Swift.Codable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case internalId
-        case resourceArn
-    }
-
-    public func encode(to encoder: Swift.Encoder) throws {
-        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
-        if let internalId = self.internalId {
-            try encodeContainer.encode(internalId, forKey: .internalId)
-        }
-        if let resourceArn = self.resourceArn {
-            try encodeContainer.encode(resourceArn, forKey: .resourceArn)
-        }
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let resourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceArn)
-        resourceArn = resourceArnDecoded
-        let internalIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .internalId)
-        internalId = internalIdDecoded
-    }
-}
-
-extension WorkSpacesThinClientClientTypes.EmbeddedTag: Swift.CustomDebugStringConvertible {
-    public var debugDescription: Swift.String {
-        "CONTENT_REDACTED"
-    }
-}
-
-extension WorkSpacesThinClientClientTypes {
-    /// The resource and internal ID of a resource to tag.
-    public struct EmbeddedTag: Swift.Equatable {
-        /// The internal ID of a resource to tag.
-        public var internalId: Swift.String?
-        /// The Amazon Resource Name (ARN) of a resource to tag.
-        public var resourceArn: Swift.String?
-
-        public init(
-            internalId: Swift.String? = nil,
-            resourceArn: Swift.String? = nil
-        )
-        {
-            self.internalId = internalId
-            self.resourceArn = resourceArn
         }
     }
 
@@ -1349,8 +1300,11 @@ extension WorkSpacesThinClientClientTypes.Environment: Swift.Codable {
         if let softwareSetUpdateSchedule = self.softwareSetUpdateSchedule {
             try encodeContainer.encode(softwareSetUpdateSchedule.rawValue, forKey: .softwareSetUpdateSchedule)
         }
-        if let tags = self.tags {
-            try encodeContainer.encode(tags, forKey: .tags)
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
@@ -1395,8 +1349,17 @@ extension WorkSpacesThinClientClientTypes.Environment: Swift.Codable {
         arn = arnDecoded
         let kmsKeyArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .kmsKeyArn)
         kmsKeyArn = kmsKeyArnDecoded
-        let tagsDecoded = try containerValues.decodeIfPresent(WorkSpacesThinClientClientTypes.EmbeddedTag.self, forKey: .tags)
-        tags = tagsDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
 }
 
@@ -1443,7 +1406,7 @@ extension WorkSpacesThinClientClientTypes {
         /// An option to define if software updates should be applied within a maintenance window.
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
         /// The tag keys and optional values for the resource.
-        public var tags: WorkSpacesThinClientClientTypes.EmbeddedTag?
+        public var tags: [Swift.String:Swift.String]?
         /// The timestamp of when the device was updated.
         public var updatedAt: ClientRuntime.Date?
 
@@ -1465,7 +1428,7 @@ extension WorkSpacesThinClientClientTypes {
             softwareSetComplianceStatus: WorkSpacesThinClientClientTypes.EnvironmentSoftwareSetComplianceStatus? = nil,
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
-            tags: WorkSpacesThinClientClientTypes.EmbeddedTag? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -1543,7 +1506,6 @@ extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.Codable {
         case pendingSoftwareSetId
         case softwareSetUpdateMode
         case softwareSetUpdateSchedule
-        case tags
         case updatedAt
     }
 
@@ -1588,9 +1550,6 @@ extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.Codable {
         if let softwareSetUpdateSchedule = self.softwareSetUpdateSchedule {
             try encodeContainer.encode(softwareSetUpdateSchedule.rawValue, forKey: .softwareSetUpdateSchedule)
         }
-        if let tags = self.tags {
-            try encodeContainer.encode(tags, forKey: .tags)
-        }
         if let updatedAt = self.updatedAt {
             try encodeContainer.encodeTimestamp(updatedAt, format: .epochSeconds, forKey: .updatedAt)
         }
@@ -1626,14 +1585,12 @@ extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.Codable {
         updatedAt = updatedAtDecoded
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
-        let tagsDecoded = try containerValues.decodeIfPresent(WorkSpacesThinClientClientTypes.EmbeddedTag.self, forKey: .tags)
-        tags = tagsDecoded
     }
 }
 
 extension WorkSpacesThinClientClientTypes.EnvironmentSummary: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "EnvironmentSummary(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\", tags: \"CONTENT_REDACTED\")"}
+        "EnvironmentSummary(activationCode: \(Swift.String(describing: activationCode)), arn: \(Swift.String(describing: arn)), createdAt: \(Swift.String(describing: createdAt)), desiredSoftwareSetId: \(Swift.String(describing: desiredSoftwareSetId)), desktopArn: \(Swift.String(describing: desktopArn)), desktopType: \(Swift.String(describing: desktopType)), id: \(Swift.String(describing: id)), maintenanceWindow: \(Swift.String(describing: maintenanceWindow)), pendingSoftwareSetId: \(Swift.String(describing: pendingSoftwareSetId)), softwareSetUpdateMode: \(Swift.String(describing: softwareSetUpdateMode)), softwareSetUpdateSchedule: \(Swift.String(describing: softwareSetUpdateSchedule)), updatedAt: \(Swift.String(describing: updatedAt)), desktopEndpoint: \"CONTENT_REDACTED\", name: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -1665,8 +1622,6 @@ extension WorkSpacesThinClientClientTypes {
         public var softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode?
         /// An option to define if software updates should be applied within a maintenance window.
         public var softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule?
-        /// The tag keys and optional values for the resource.
-        public var tags: WorkSpacesThinClientClientTypes.EmbeddedTag?
         /// The timestamp of when the device was updated.
         public var updatedAt: ClientRuntime.Date?
 
@@ -1684,7 +1639,6 @@ extension WorkSpacesThinClientClientTypes {
             pendingSoftwareSetId: Swift.String? = nil,
             softwareSetUpdateMode: WorkSpacesThinClientClientTypes.SoftwareSetUpdateMode? = nil,
             softwareSetUpdateSchedule: WorkSpacesThinClientClientTypes.SoftwareSetUpdateSchedule? = nil,
-            tags: WorkSpacesThinClientClientTypes.EmbeddedTag? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
         {
@@ -1701,7 +1655,6 @@ extension WorkSpacesThinClientClientTypes {
             self.pendingSoftwareSetId = pendingSoftwareSetId
             self.softwareSetUpdateMode = softwareSetUpdateMode
             self.softwareSetUpdateSchedule = softwareSetUpdateSchedule
-            self.tags = tags
             self.updatedAt = updatedAt
         }
     }
@@ -2022,70 +1975,6 @@ struct InternalServerExceptionBody: Swift.Equatable {
 }
 
 extension InternalServerExceptionBody: Swift.Decodable {
-    enum CodingKeys: Swift.String, Swift.CodingKey {
-        case message
-    }
-
-    public init(from decoder: Swift.Decoder) throws {
-        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
-        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
-        message = messageDecoded
-    }
-}
-
-extension InternalServiceException {
-    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
-        if let retryAfterSecondsHeaderValue = httpResponse.headers.value(for: "Retry-After") {
-            self.properties.retryAfterSeconds = Swift.Int(retryAfterSecondsHeaderValue) ?? 0
-        } else {
-            self.properties.retryAfterSeconds = nil
-        }
-        if let data = try await httpResponse.body.readData(),
-            let responseDecoder = decoder {
-            let output: InternalServiceExceptionBody = try responseDecoder.decode(responseBody: data)
-            self.properties.message = output.message
-        } else {
-            self.properties.message = nil
-        }
-        self.httpResponse = httpResponse
-        self.requestID = requestID
-        self.message = message
-    }
-}
-
-/// Request processing failed due to some unknown error, exception, or failure.
-public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
-
-    public struct Properties {
-        public internal(set) var message: Swift.String? = nil
-        /// The number of seconds to wait before retrying the next request.
-        public internal(set) var retryAfterSeconds: Swift.Int? = nil
-    }
-
-    public internal(set) var properties = Properties()
-    public static var typeName: Swift.String { "InternalServiceException" }
-    public static var fault: ErrorFault { .server }
-    public static var isRetryable: Swift.Bool { false }
-    public static var isThrottling: Swift.Bool { false }
-    public internal(set) var httpResponse = HttpResponse()
-    public internal(set) var message: Swift.String?
-    public internal(set) var requestID: Swift.String?
-
-    public init(
-        message: Swift.String? = nil,
-        retryAfterSeconds: Swift.Int? = nil
-    )
-    {
-        self.properties.message = message
-        self.properties.retryAfterSeconds = retryAfterSeconds
-    }
-}
-
-struct InternalServiceExceptionBody: Swift.Equatable {
-    let message: Swift.String?
-}
-
-extension InternalServiceExceptionBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case message
     }
@@ -2551,8 +2440,10 @@ enum ListTagsForResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -2920,6 +2811,7 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.Codable {
         case releasedAt
         case software
         case supportedUntil
+        case tags
         case validationStatus
         case version
     }
@@ -2943,6 +2835,12 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.Codable {
         }
         if let supportedUntil = self.supportedUntil {
             try encodeContainer.encodeTimestamp(supportedUntil, format: .epochSeconds, forKey: .supportedUntil)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagsMap0) in tags {
+                try tagsContainer.encode(tagsMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
         }
         if let validationStatus = self.validationStatus {
             try encodeContainer.encode(validationStatus.rawValue, forKey: .validationStatus)
@@ -2977,7 +2875,23 @@ extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.Codable {
         software = softwareDecoded0
         let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
         arn = arnDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, string0) in tagsContainer {
+                if let string0 = string0 {
+                    tagsDecoded0?[key0] = string0
+                }
+            }
+        }
+        tags = tagsDecoded0
     }
+}
+
+extension WorkSpacesThinClientClientTypes.SoftwareSet: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SoftwareSet(arn: \(Swift.String(describing: arn)), id: \(Swift.String(describing: id)), releasedAt: \(Swift.String(describing: releasedAt)), software: \(Swift.String(describing: software)), supportedUntil: \(Swift.String(describing: supportedUntil)), validationStatus: \(Swift.String(describing: validationStatus)), version: \(Swift.String(describing: version)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension WorkSpacesThinClientClientTypes {
@@ -2993,6 +2907,8 @@ extension WorkSpacesThinClientClientTypes {
         public var software: [WorkSpacesThinClientClientTypes.Software]?
         /// The timestamp of the end of support for the software set.
         public var supportedUntil: ClientRuntime.Date?
+        /// The tag keys and optional values for the resource.
+        public var tags: [Swift.String:Swift.String]?
         /// An option to define if the software set has been validated.
         public var validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus?
         /// The version of the software set.
@@ -3004,6 +2920,7 @@ extension WorkSpacesThinClientClientTypes {
             releasedAt: ClientRuntime.Date? = nil,
             software: [WorkSpacesThinClientClientTypes.Software]? = nil,
             supportedUntil: ClientRuntime.Date? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
             validationStatus: WorkSpacesThinClientClientTypes.SoftwareSetValidationStatus? = nil,
             version: Swift.String? = nil
         )
@@ -3013,6 +2930,7 @@ extension WorkSpacesThinClientClientTypes {
             self.releasedAt = releasedAt
             self.software = software
             self.supportedUntil = supportedUntil
+            self.tags = tags
             self.validationStatus = validationStatus
             self.version = version
         }
@@ -3325,8 +3243,11 @@ enum TagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -3522,8 +3443,11 @@ enum UntagResourceOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
-            case "InternalServiceException": return try await InternalServiceException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }

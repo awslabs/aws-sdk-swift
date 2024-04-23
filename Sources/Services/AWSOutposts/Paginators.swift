@@ -34,6 +34,38 @@ extension PaginatorSequence where OperationStackInput == GetOutpostInstanceTypes
     }
 }
 extension OutpostsClient {
+    /// Paginate over `[GetOutpostSupportedInstanceTypesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[GetOutpostSupportedInstanceTypesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `GetOutpostSupportedInstanceTypesOutput`
+    public func getOutpostSupportedInstanceTypesPaginated(input: GetOutpostSupportedInstanceTypesInput) -> ClientRuntime.PaginatorSequence<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput> {
+        return ClientRuntime.PaginatorSequence<GetOutpostSupportedInstanceTypesInput, GetOutpostSupportedInstanceTypesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.getOutpostSupportedInstanceTypes(input:))
+    }
+}
+
+extension GetOutpostSupportedInstanceTypesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> GetOutpostSupportedInstanceTypesInput {
+        return GetOutpostSupportedInstanceTypesInput(
+            maxResults: self.maxResults,
+            nextToken: token,
+            orderId: self.orderId,
+            outpostIdentifier: self.outpostIdentifier
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == GetOutpostSupportedInstanceTypesInput, OperationStackOutput == GetOutpostSupportedInstanceTypesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `getOutpostSupportedInstanceTypesPaginated`
+    /// to access the nested member `[OutpostsClientTypes.InstanceTypeItem]`
+    /// - Returns: `[OutpostsClientTypes.InstanceTypeItem]`
+    public func instanceTypes() async throws -> [OutpostsClientTypes.InstanceTypeItem] {
+        return try await self.asyncCompactMap { item in item.instanceTypes }
+    }
+}
+extension OutpostsClient {
     /// Paginate over `[ListAssetsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
@@ -64,6 +96,38 @@ extension PaginatorSequence where OperationStackInput == ListAssetsInput, Operat
     /// - Returns: `[OutpostsClientTypes.AssetInfo]`
     public func assets() async throws -> [OutpostsClientTypes.AssetInfo] {
         return try await self.asyncCompactMap { item in item.assets }
+    }
+}
+extension OutpostsClient {
+    /// Paginate over `[ListCapacityTasksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListCapacityTasksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListCapacityTasksOutput`
+    public func listCapacityTasksPaginated(input: ListCapacityTasksInput) -> ClientRuntime.PaginatorSequence<ListCapacityTasksInput, ListCapacityTasksOutput> {
+        return ClientRuntime.PaginatorSequence<ListCapacityTasksInput, ListCapacityTasksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listCapacityTasks(input:))
+    }
+}
+
+extension ListCapacityTasksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListCapacityTasksInput {
+        return ListCapacityTasksInput(
+            capacityTaskStatusFilter: self.capacityTaskStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifierFilter: self.outpostIdentifierFilter
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListCapacityTasksInput, OperationStackOutput == ListCapacityTasksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listCapacityTasksPaginated`
+    /// to access the nested member `[OutpostsClientTypes.CapacityTaskSummary]`
+    /// - Returns: `[OutpostsClientTypes.CapacityTaskSummary]`
+    public func capacityTasks() async throws -> [OutpostsClientTypes.CapacityTaskSummary] {
+        return try await self.asyncCompactMap { item in item.capacityTasks }
     }
 }
 extension OutpostsClient {

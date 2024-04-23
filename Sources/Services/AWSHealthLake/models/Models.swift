@@ -471,6 +471,7 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         case datastoreName = "DatastoreName"
         case datastoreStatus = "DatastoreStatus"
         case datastoreTypeVersion = "DatastoreTypeVersion"
+        case errorCause = "ErrorCause"
         case identityProviderConfiguration = "IdentityProviderConfiguration"
         case preloadDataConfig = "PreloadDataConfig"
         case sseConfiguration = "SseConfiguration"
@@ -498,6 +499,9 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         }
         if let datastoreTypeVersion = self.datastoreTypeVersion {
             try encodeContainer.encode(datastoreTypeVersion.rawValue, forKey: .datastoreTypeVersion)
+        }
+        if let errorCause = self.errorCause {
+            try encodeContainer.encode(errorCause, forKey: .errorCause)
         }
         if let identityProviderConfiguration = self.identityProviderConfiguration {
             try encodeContainer.encode(identityProviderConfiguration, forKey: .identityProviderConfiguration)
@@ -532,6 +536,8 @@ extension HealthLakeClientTypes.DatastoreProperties: Swift.Codable {
         preloadDataConfig = preloadDataConfigDecoded
         let identityProviderConfigurationDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.IdentityProviderConfiguration.self, forKey: .identityProviderConfiguration)
         identityProviderConfiguration = identityProviderConfigurationDecoded
+        let errorCauseDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ErrorCause.self, forKey: .errorCause)
+        errorCause = errorCauseDecoded
     }
 }
 
@@ -557,6 +563,8 @@ extension HealthLakeClientTypes {
         /// The FHIR version. Only R4 version data is supported.
         /// This member is required.
         public var datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion?
+        /// The error cause for the current data store operation.
+        public var errorCause: HealthLakeClientTypes.ErrorCause?
         /// The identity provider that you selected when you created the data store.
         public var identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration?
         /// The preloaded data configuration for the data store. Only data preloaded from Synthea is supported.
@@ -572,6 +580,7 @@ extension HealthLakeClientTypes {
             datastoreName: Swift.String? = nil,
             datastoreStatus: HealthLakeClientTypes.DatastoreStatus? = nil,
             datastoreTypeVersion: HealthLakeClientTypes.FHIRVersion? = nil,
+            errorCause: HealthLakeClientTypes.ErrorCause? = nil,
             identityProviderConfiguration: HealthLakeClientTypes.IdentityProviderConfiguration? = nil,
             preloadDataConfig: HealthLakeClientTypes.PreloadDataConfig? = nil,
             sseConfiguration: HealthLakeClientTypes.SseConfiguration? = nil
@@ -584,6 +593,7 @@ extension HealthLakeClientTypes {
             self.datastoreName = datastoreName
             self.datastoreStatus = datastoreStatus
             self.datastoreTypeVersion = datastoreTypeVersion
+            self.errorCause = errorCause
             self.identityProviderConfiguration = identityProviderConfiguration
             self.preloadDataConfig = preloadDataConfig
             self.sseConfiguration = sseConfiguration
@@ -595,6 +605,7 @@ extension HealthLakeClientTypes {
 extension HealthLakeClientTypes {
     public enum DatastoreStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case active
+        case createFailed
         case creating
         case deleted
         case deleting
@@ -603,6 +614,7 @@ extension HealthLakeClientTypes {
         public static var allCases: [DatastoreStatus] {
             return [
                 .active,
+                .createFailed,
                 .creating,
                 .deleted,
                 .deleting,
@@ -616,6 +628,7 @@ extension HealthLakeClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .active: return "ACTIVE"
+            case .createFailed: return "CREATE_FAILED"
             case .creating: return "CREATING"
             case .deleted: return "DELETED"
             case .deleting: return "DELETING"
@@ -1105,6 +1118,83 @@ enum DescribeFHIRImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension HealthLakeClientTypes {
+    public enum ErrorCategory: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case nonRetryableError
+        case retryableError
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ErrorCategory] {
+            return [
+                .nonRetryableError,
+                .retryableError,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .nonRetryableError: return "NON_RETRYABLE_ERROR"
+            case .retryableError: return "RETRYABLE_ERROR"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ErrorCategory(rawValue: rawValue) ?? ErrorCategory.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension HealthLakeClientTypes.ErrorCause: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case errorCategory = "ErrorCategory"
+        case errorMessage = "ErrorMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let errorCategory = self.errorCategory {
+            try encodeContainer.encode(errorCategory.rawValue, forKey: .errorCategory)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let errorCategoryDecoded = try containerValues.decodeIfPresent(HealthLakeClientTypes.ErrorCategory.self, forKey: .errorCategory)
+        errorCategory = errorCategoryDecoded
+    }
+}
+
+extension HealthLakeClientTypes {
+    /// The error info of the create/delete data store operation.
+    public struct ErrorCause: Swift.Equatable {
+        /// The error category of the create/delete data store operation. Possible statuses are RETRYABLE_ERROR or NON_RETRYABLE_ERROR.
+        public var errorCategory: HealthLakeClientTypes.ErrorCategory?
+        /// The text of the error message.
+        public var errorMessage: Swift.String?
+
+        public init(
+            errorCategory: HealthLakeClientTypes.ErrorCategory? = nil,
+            errorMessage: Swift.String? = nil
+        )
+        {
+            self.errorCategory = errorCategory
+            self.errorMessage = errorMessage
+        }
+    }
+
 }
 
 extension HealthLakeClientTypes.ExportJobProperties: Swift.Codable {

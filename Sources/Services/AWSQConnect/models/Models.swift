@@ -110,7 +110,7 @@ extension QConnectClientTypes {
         /// * For [Amazon S3](https://aws.amazon.com/s3/), the ObjectConfiguration and FileConfiguration of your AppIntegrations DataIntegration must be null. The SourceURI of your DataIntegration must use the following format: s3://your_s3_bucket_name. The bucket policy of the corresponding S3 bucket must allow the Amazon Web Services principal app-integrations.amazonaws.com to perform s3:ListBucket, s3:GetObject, and s3:GetBucketLocation against the bucket.
         /// This member is required.
         public var appIntegrationArn: Swift.String?
-        /// The fields from the source that are made available to your agents in Amazon Q. Optional if ObjectConfiguration is included in the provided DataIntegration.
+        /// The fields from the source that are made available to your agents in Amazon Q in Connect. Optional if ObjectConfiguration is included in the provided DataIntegration.
         ///
         /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.
         ///
@@ -204,7 +204,7 @@ extension QConnectClientTypes.AssistantAssociationData: Swift.Codable {
 extension QConnectClientTypes {
     /// Information about the assistant association.
     public struct AssistantAssociationData: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the assistant association.
@@ -213,7 +213,7 @@ extension QConnectClientTypes {
         /// The identifier of the assistant association.
         /// This member is required.
         public var assistantAssociationId: Swift.String?
-        /// The identifier of the Amazon Q assistant.
+        /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
         /// A union type that currently has a single argument, the knowledge base ID.
@@ -275,9 +275,9 @@ extension QConnectClientTypes.AssistantAssociationInputData: Swift.Codable {
 }
 
 extension QConnectClientTypes {
-    /// The data that is input into Amazon Q as a result of the assistant association.
+    /// The data that is input into Amazon Q in Connect as a result of the assistant association.
     public enum AssistantAssociationInputData: Swift.Equatable {
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         case knowledgebaseid(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -391,7 +391,7 @@ extension QConnectClientTypes.AssistantAssociationSummary: Swift.Codable {
 extension QConnectClientTypes {
     /// Summary information about the assistant association.
     public struct AssistantAssociationSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the assistant association.
@@ -400,7 +400,7 @@ extension QConnectClientTypes {
         /// The identifier of the assistant association.
         /// This member is required.
         public var assistantAssociationId: Swift.String?
-        /// The identifier of the Amazon Q assistant.
+        /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
         /// The association data.
@@ -454,9 +454,9 @@ extension QConnectClientTypes.AssistantCapabilityConfiguration: Swift.Codable {
 }
 
 extension QConnectClientTypes {
-    /// The capability configuration for an Amazon Q assistant.
+    /// The capability configuration for an Amazon Q in Connect assistant.
     public struct AssistantCapabilityConfiguration: Swift.Equatable {
-        /// The type of Amazon Q assistant capability.
+        /// The type of Amazon Q in Connect assistant capability.
         public var type: QConnectClientTypes.AssistantCapabilityType?
 
         public init(
@@ -589,22 +589,22 @@ extension QConnectClientTypes.AssistantData: Swift.Codable {
 extension QConnectClientTypes {
     /// The assistant data.
     public struct AssistantData: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
-        /// The identifier of the Amazon Q assistant.
+        /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
-        /// The configuration information for the Amazon Q assistant capability.
+        /// The configuration information for the Amazon Q in Connect assistant capability.
         public var capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration?
         /// The description.
         public var description: Swift.String?
-        /// The configuration information for the Amazon Q assistant integration.
+        /// The configuration information for the Amazon Q in Connect assistant integration.
         public var integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration?
         /// The name.
         /// This member is required.
         public var name: Swift.String?
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. To use Amazon Q with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
         public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -663,7 +663,7 @@ extension QConnectClientTypes.AssistantIntegrationConfiguration: Swift.Codable {
 }
 
 extension QConnectClientTypes {
-    /// The configuration information for the Amazon Q assistant integration.
+    /// The configuration information for the Amazon Q in Connect assistant integration.
     public struct AssistantIntegrationConfiguration: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public var topicIntegrationArn: Swift.String?
@@ -810,22 +810,22 @@ extension QConnectClientTypes.AssistantSummary: Swift.Codable {
 extension QConnectClientTypes {
     /// Summary information about the assistant.
     public struct AssistantSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
-        /// The identifier of the Amazon Q assistant.
+        /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
-        /// The configuration information for the Amazon Q assistant capability.
+        /// The configuration information for the Amazon Q in Connect assistant capability.
         public var capabilityConfiguration: QConnectClientTypes.AssistantCapabilityConfiguration?
         /// The description of the assistant.
         public var description: Swift.String?
-        /// The configuration information for the Amazon Q assistant integration.
+        /// The configuration information for the Amazon Q in Connect assistant integration.
         public var integrationConfiguration: QConnectClientTypes.AssistantIntegrationConfiguration?
         /// The name of the assistant.
         /// This member is required.
         public var name: Swift.String?
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. To use Amazon Q with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
         public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
         /// The status of the assistant.
         /// This member is required.
@@ -1190,12 +1190,12 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The URI of the content.
         public var linkOutUri: Swift.String?
-        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q, you can store an external version identifier as metadata to utilize for determining drift.
+        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         /// This member is required.
         public var metadata: [Swift.String:Swift.String]?
         /// The name of the content.
@@ -1385,7 +1385,7 @@ extension QConnectClientTypes {
         public var contentId: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         public var knowledgeBaseId: Swift.String?
 
         public init(
@@ -1569,10 +1569,10 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
-        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q, you can store an external version identifier as metadata to utilize for determining drift.
+        /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
         /// This member is required.
         public var metadata: [Swift.String:Swift.String]?
         /// The name of the content.
@@ -1659,7 +1659,7 @@ extension CreateAssistantAssociationInput {
 }
 
 public struct CreateAssistantAssociationInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The identifier of the associated resource.
@@ -1832,7 +1832,7 @@ public struct CreateAssistantInput: Swift.Equatable {
     /// The name of the assistant.
     /// This member is required.
     public var name: Swift.String?
-    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. To use Amazon Q with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+    /// The configuration information for the customer managed key used for encryption. The customer managed key must have a policy that allows kms:CreateGrant,  kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. To use Amazon Q in Connect with chat, the key policy must also allow kms:Decrypt, kms:GenerateDataKey*, and kms:DescribeKey permissions to the connect.amazonaws.com service principal. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
     public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
@@ -2013,10 +2013,10 @@ extension CreateContentInput {
 public struct CreateContentInput: Swift.Equatable {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q, you can store an external version identifier as metadata to utilize for determining drift.
+    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
     public var metadata: [Swift.String:Swift.String]?
     /// The name of the content. Each piece of content in a knowledge base must have a unique name. You can retrieve a piece of content using only its knowledge base and its name with the [SearchContent](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_SearchContent.html) API.
     /// This member is required.
@@ -2230,7 +2230,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     public var name: Swift.String?
     /// Information about how to render the content.
     public var renderingConfiguration: QConnectClientTypes.RenderingConfiguration?
-    /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+    /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
     public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
     /// The source of the knowledge base content. Only set this argument for EXTERNAL knowledge bases.
     public var sourceConfiguration: QConnectClientTypes.SourceConfiguration?
@@ -2455,7 +2455,7 @@ public struct CreateQuickResponseInput: Swift.Equatable {
     public var groupingConfiguration: QConnectClientTypes.GroupingConfiguration?
     /// Whether the quick response is active.
     public var isActive: Swift.Bool?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
@@ -2632,6 +2632,7 @@ extension CreateSessionInput: Swift.Encodable {
         case clientToken
         case description
         case name
+        case tagFilter
         case tags
     }
 
@@ -2645,6 +2646,9 @@ extension CreateSessionInput: Swift.Encodable {
         }
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -2666,7 +2670,7 @@ extension CreateSessionInput {
 }
 
 public struct CreateSessionInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -2676,6 +2680,8 @@ public struct CreateSessionInput: Swift.Equatable {
     /// The name of the session.
     /// This member is required.
     public var name: Swift.String?
+    /// An object that can be used to specify Tag conditions.
+    public var tagFilter: QConnectClientTypes.TagFilter?
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2684,6 +2690,7 @@ public struct CreateSessionInput: Swift.Equatable {
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
         name: Swift.String? = nil,
+        tagFilter: QConnectClientTypes.TagFilter? = nil,
         tags: [Swift.String:Swift.String]? = nil
     )
     {
@@ -2691,6 +2698,7 @@ public struct CreateSessionInput: Swift.Equatable {
         self.clientToken = clientToken
         self.description = description
         self.name = name
+        self.tagFilter = tagFilter
         self.tags = tags
     }
 }
@@ -2700,6 +2708,7 @@ struct CreateSessionInputBody: Swift.Equatable {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let tagFilter: QConnectClientTypes.TagFilter?
 }
 
 extension CreateSessionInputBody: Swift.Decodable {
@@ -2707,6 +2716,7 @@ extension CreateSessionInputBody: Swift.Decodable {
         case clientToken
         case description
         case name
+        case tagFilter
         case tags
     }
 
@@ -2729,6 +2739,8 @@ extension CreateSessionInputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let tagFilterDecoded = try containerValues.decodeIfPresent(QConnectClientTypes.TagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
     }
 }
 
@@ -2777,6 +2789,7 @@ enum CreateSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -2953,7 +2966,7 @@ public struct DeleteAssistantAssociationInput: Swift.Equatable {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
 
@@ -3010,7 +3023,7 @@ extension DeleteAssistantInput {
 }
 
 public struct DeleteAssistantInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
 
@@ -3071,7 +3084,7 @@ public struct DeleteContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -3134,7 +3147,7 @@ public struct DeleteImportJobInput: Swift.Equatable {
     /// The identifier of the import job to be deleted.
     /// This member is required.
     public var importJobId: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+    /// The identifier of the knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -3251,7 +3264,7 @@ extension DeleteQuickResponseInput {
 }
 
 public struct DeleteQuickResponseInput: Swift.Equatable {
-    /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+    /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The identifier of the quick response to delete.
@@ -3783,7 +3796,7 @@ public struct GetAssistantAssociationInput: Swift.Equatable {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
 
@@ -3870,7 +3883,7 @@ extension GetAssistantInput {
 }
 
 public struct GetAssistantInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
 
@@ -3961,7 +3974,7 @@ public struct GetContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -4054,7 +4067,7 @@ public struct GetContentSummaryInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -4234,7 +4247,7 @@ extension GetKnowledgeBaseInput {
 }
 
 public struct GetKnowledgeBaseInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -4431,7 +4444,7 @@ extension GetRecommendationsInput {
 }
 
 public struct GetRecommendationsInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The maximum number of results to return per page.
@@ -4561,7 +4574,7 @@ extension GetSessionInput {
 }
 
 public struct GetSessionInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -4683,13 +4696,13 @@ extension QConnectClientTypes.GroupingConfiguration: Swift.CustomDebugStringConv
 }
 
 extension QConnectClientTypes {
-    /// The configuration information of the grouping of Amazon Q users.
+    /// The configuration information of the grouping of Amazon Q in Connect users.
     public struct GroupingConfiguration: Swift.Equatable {
-        /// The criteria used for grouping Amazon Q users. The following is the list of supported criteria values.
+        /// The criteria used for grouping Amazon Q in Connect users. The following is the list of supported criteria values.
         ///
         /// * RoutingProfileArn: Grouping the users by their [Amazon Connect routing profile ARN](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html). User should have [SearchRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) and [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) permissions when setting criteria to this value.
         public var criteria: Swift.String?
-        /// The list of values that define different groups of Amazon Q users.
+        /// The list of values that define different groups of Amazon Q in Connect users.
         ///
         /// * When setting criteria to RoutingProfileArn, you need to provide a list of ARNs of [Amazon Connect routing profiles](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html) as values of this parameter.
         public var values: [Swift.String]?
@@ -4878,13 +4891,13 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The timestamp when the import job data was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The metadata fields of the imported Amazon Q resources.
+        /// The metadata fields of the imported Amazon Q in Connect resources.
         public var metadata: [Swift.String:Swift.String]?
         /// The status of the import job.
         /// This member is required.
@@ -5079,13 +5092,13 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The timestamp when the import job was last modified.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The metadata fields of the imported Amazon Q resources.
+        /// The metadata fields of the imported Amazon Q in Connect resources.
         public var metadata: [Swift.String:Swift.String]?
         /// The status of the import job.
         /// This member is required.
@@ -5181,7 +5194,7 @@ extension QConnectClientTypes {
     public struct KnowledgeBaseAssociationData: Swift.Equatable {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         public var knowledgeBaseId: Swift.String?
 
         public init(
@@ -5295,7 +5308,7 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The type of knowledge base.
@@ -5308,7 +5321,7 @@ extension QConnectClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: QConnectClientTypes.RenderingConfiguration?
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
         public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
         /// Source configuration information about the knowledge base.
         public var sourceConfiguration: QConnectClientTypes.SourceConfiguration?
@@ -5485,7 +5498,7 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The type of knowledge base.
@@ -5496,7 +5509,7 @@ extension QConnectClientTypes {
         public var name: Swift.String?
         /// Information about how to render the content.
         public var renderingConfiguration: QConnectClientTypes.RenderingConfiguration?
-        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
+        /// The configuration information for the customer managed key used for encryption. This KMS key must have a policy that allows kms:CreateGrant, kms:DescribeKey, kms:Decrypt, and kms:GenerateDataKey* permissions to the IAM identity using the key to invoke Amazon Q in Connect. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html).
         public var serverSideEncryptionConfiguration: QConnectClientTypes.ServerSideEncryptionConfiguration?
         /// Configuration information about the external data source.
         public var sourceConfiguration: QConnectClientTypes.SourceConfiguration?
@@ -5596,7 +5609,7 @@ extension ListAssistantAssociationsInput {
 }
 
 public struct ListAssistantAssociationsInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The maximum number of results to return per page.
@@ -5845,7 +5858,7 @@ extension ListContentsInput {
 }
 
 public struct ListContentsInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -5974,7 +5987,7 @@ extension ListImportJobsInput {
 }
 
 public struct ListImportJobsInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -6222,7 +6235,7 @@ extension ListQuickResponsesInput {
 }
 
 public struct ListQuickResponsesInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -6491,7 +6504,7 @@ extension NotifyRecommendationsReceivedInput {
 }
 
 public struct NotifyRecommendationsReceivedInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The identifiers of the recommendations.
@@ -6617,6 +6630,65 @@ enum NotifyRecommendationsReceivedOutputError: ClientRuntime.HttpResponseErrorBi
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension QConnectClientTypes.OrCondition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andconditions = "andConditions"
+        case sdkUnknown
+        case tagcondition = "tagCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .andconditions(andconditions):
+                var andconditionsContainer = container.nestedUnkeyedContainer(forKey: .andconditions)
+                for tagcondition0 in andconditions {
+                    try andconditionsContainer.encode(tagcondition0)
+                }
+            case let .tagcondition(tagcondition):
+                try container.encode(tagcondition, forKey: .tagcondition)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let andconditionsContainer = try values.decodeIfPresent([QConnectClientTypes.TagCondition?].self, forKey: .andconditions)
+        var andconditionsDecoded0:[QConnectClientTypes.TagCondition]? = nil
+        if let andconditionsContainer = andconditionsContainer {
+            andconditionsDecoded0 = [QConnectClientTypes.TagCondition]()
+            for structure0 in andconditionsContainer {
+                if let structure0 = structure0 {
+                    andconditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let andconditions = andconditionsDecoded0 {
+            self = .andconditions(andconditions)
+            return
+        }
+        let tagconditionDecoded = try values.decodeIfPresent(QConnectClientTypes.TagCondition.self, forKey: .tagcondition)
+        if let tagcondition = tagconditionDecoded {
+            self = .tagcondition(tagcondition)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension QConnectClientTypes {
+    /// A list of conditions which would be applied together with an OR condition.
+    public enum OrCondition: Swift.Equatable {
+        /// A list of conditions which would be applied together with an AND condition.
+        case andconditions([QConnectClientTypes.TagCondition])
+        /// A leaf node condition which can be used to specify a tag condition.
+        case tagcondition(QConnectClientTypes.TagCondition)
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension QConnectClientTypes {
@@ -6773,7 +6845,7 @@ extension PutFeedbackInput {
 }
 
 public struct PutFeedbackInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant.
+    /// The identifier of the Amazon Q in Connect assistant.
     /// This member is required.
     public var assistantId: Swift.String?
     /// Information about the feedback provided.
@@ -6845,10 +6917,10 @@ extension PutFeedbackOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct PutFeedbackOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+    /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
     /// This member is required.
     public var assistantArn: Swift.String?
-    /// The identifier of the Amazon Q assistant.
+    /// The identifier of the Amazon Q in Connect assistant.
     /// This member is required.
     public var assistantId: Swift.String?
     /// Information about the feedback provided.
@@ -6972,7 +7044,7 @@ extension QueryAssistantInput {
 }
 
 public struct QueryAssistantInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The maximum number of results to return per page.
@@ -6984,7 +7056,7 @@ public struct QueryAssistantInput: Swift.Equatable {
     /// The text to search for.
     /// This member is required.
     public var queryText: Swift.String?
-    /// The identifier of the Amazon Q session. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect session. Can be either the ID or the ARN. URLs cannot contain the ARN.
     public var sessionId: Swift.String?
 
     public init(
@@ -7598,7 +7670,7 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The language code value for the language in which the quick response is written.
@@ -8338,7 +8410,7 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The language code value for the language in which the quick response is written.
@@ -8606,7 +8678,7 @@ extension QConnectClientTypes {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
-        /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it.
+        /// The identifier of the knowledge base.
         /// This member is required.
         public var knowledgeBaseId: Swift.String?
         /// The Amazon Resource Name (ARN) of the user who last updated the quick response data.
@@ -9109,7 +9181,7 @@ extension RemoveKnowledgeBaseTemplateUriInput {
 }
 
 public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
 
@@ -9433,7 +9505,7 @@ extension SearchContentInput {
 }
 
 public struct SearchContentInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The maximum number of results to return per page.
@@ -9819,7 +9891,7 @@ extension SearchSessionsInput {
 }
 
 public struct SearchSessionsInput: Swift.Equatable {
-    /// The identifier of the Amazon Q assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
     /// The maximum number of results to return per page.
@@ -9955,7 +10027,7 @@ extension QConnectClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
 extension QConnectClientTypes {
     /// The configuration information for the customer managed key used for encryption.
     public struct ServerSideEncryptionConfiguration: Swift.Equatable {
-        /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
+        /// The customer managed key used for encryption. For more information about setting up a customer managed key for Amazon Q in Connect, see [Enable Amazon Q in Connect for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-q.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
         public var kmsKeyId: Swift.String?
 
         public init(
@@ -10030,6 +10102,7 @@ extension QConnectClientTypes.SessionData: Swift.Codable {
         case name
         case sessionArn
         case sessionId
+        case tagFilter
         case tags
     }
 
@@ -10049,6 +10122,9 @@ extension QConnectClientTypes.SessionData: Swift.Codable {
         }
         if let sessionId = self.sessionId {
             try encodeContainer.encode(sessionId, forKey: .sessionId)
+        }
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
         }
         if let tags = tags {
             var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
@@ -10081,6 +10157,8 @@ extension QConnectClientTypes.SessionData: Swift.Codable {
         tags = tagsDecoded0
         let integrationConfigurationDecoded = try containerValues.decodeIfPresent(QConnectClientTypes.SessionIntegrationConfiguration.self, forKey: .integrationConfiguration)
         integrationConfiguration = integrationConfigurationDecoded
+        let tagFilterDecoded = try containerValues.decodeIfPresent(QConnectClientTypes.TagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
     }
 }
 
@@ -10100,6 +10178,8 @@ extension QConnectClientTypes {
         /// The identifier of the session.
         /// This member is required.
         public var sessionId: Swift.String?
+        /// An object that can be used to specify Tag conditions.
+        public var tagFilter: QConnectClientTypes.TagFilter?
         /// The tags used to organize, track, or control access for this resource.
         public var tags: [Swift.String:Swift.String]?
 
@@ -10109,6 +10189,7 @@ extension QConnectClientTypes {
             name: Swift.String? = nil,
             sessionArn: Swift.String? = nil,
             sessionId: Swift.String? = nil,
+            tagFilter: QConnectClientTypes.TagFilter? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
         {
@@ -10117,6 +10198,7 @@ extension QConnectClientTypes {
             self.name = name
             self.sessionArn = sessionArn
             self.sessionId = sessionId
+            self.tagFilter = tagFilter
             self.tags = tags
         }
     }
@@ -10198,10 +10280,10 @@ extension QConnectClientTypes.SessionSummary: Swift.Codable {
 extension QConnectClientTypes {
     /// Summary information about the session.
     public struct SessionSummary: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Amazon Q assistant.
+        /// The Amazon Resource Name (ARN) of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
-        /// The identifier of the Amazon Q assistant.
+        /// The identifier of the Amazon Q in Connect assistant.
         /// This member is required.
         public var assistantId: Swift.String?
         /// The Amazon Resource Name (ARN) of the session.
@@ -10393,7 +10475,7 @@ public struct StartContentUploadInput: Swift.Equatable {
     /// The type of content to upload.
     /// This member is required.
     public var contentType: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The expected expiration time of the generated presigned URL, specified in minutes.
@@ -10584,12 +10666,12 @@ public struct StartImportJobInput: Swift.Equatable {
     /// * For importing quick response resource, set the value to QUICK_RESPONSES.
     /// This member is required.
     public var importJobType: QConnectClientTypes.ImportJobType?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     ///
-    /// * For importing Amazon Q quick responses, this should be a QUICK_RESPONSES type knowledge base.
+    /// * For importing Amazon Q in Connect quick responses, this should be a QUICK_RESPONSES type knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// The metadata fields of the imported Amazon Q resources.
+    /// The metadata fields of the imported Amazon Q in Connect resources.
     public var metadata: [Swift.String:Swift.String]?
     /// A pointer to the uploaded asset. This value is returned by [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html).
     /// This member is required.
@@ -10707,6 +10789,133 @@ enum StartImportJobOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension QConnectClientTypes.TagCondition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case key
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let key = self.key {
+            try encodeContainer.encode(key, forKey: .key)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .key)
+        key = keyDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension QConnectClientTypes {
+    /// A leaf node condition which can be used to specify a tag condition.
+    public struct TagCondition: Swift.Equatable {
+        /// The tag key in the tag condition.
+        /// This member is required.
+        public var key: Swift.String?
+        /// The tag value in the tag condition.
+        public var value: Swift.String?
+
+        public init(
+            key: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.key = key
+            self.value = value
+        }
+    }
+
+}
+
+extension QConnectClientTypes.TagFilter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case andconditions = "andConditions"
+        case orconditions = "orConditions"
+        case sdkUnknown
+        case tagcondition = "tagCondition"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .andconditions(andconditions):
+                var andconditionsContainer = container.nestedUnkeyedContainer(forKey: .andconditions)
+                for tagcondition0 in andconditions {
+                    try andconditionsContainer.encode(tagcondition0)
+                }
+            case let .orconditions(orconditions):
+                var orconditionsContainer = container.nestedUnkeyedContainer(forKey: .orconditions)
+                for orcondition0 in orconditions {
+                    try orconditionsContainer.encode(orcondition0)
+                }
+            case let .tagcondition(tagcondition):
+                try container.encode(tagcondition, forKey: .tagcondition)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let tagconditionDecoded = try values.decodeIfPresent(QConnectClientTypes.TagCondition.self, forKey: .tagcondition)
+        if let tagcondition = tagconditionDecoded {
+            self = .tagcondition(tagcondition)
+            return
+        }
+        let andconditionsContainer = try values.decodeIfPresent([QConnectClientTypes.TagCondition?].self, forKey: .andconditions)
+        var andconditionsDecoded0:[QConnectClientTypes.TagCondition]? = nil
+        if let andconditionsContainer = andconditionsContainer {
+            andconditionsDecoded0 = [QConnectClientTypes.TagCondition]()
+            for structure0 in andconditionsContainer {
+                if let structure0 = structure0 {
+                    andconditionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let andconditions = andconditionsDecoded0 {
+            self = .andconditions(andconditions)
+            return
+        }
+        let orconditionsContainer = try values.decodeIfPresent([QConnectClientTypes.OrCondition?].self, forKey: .orconditions)
+        var orconditionsDecoded0:[QConnectClientTypes.OrCondition]? = nil
+        if let orconditionsContainer = orconditionsContainer {
+            orconditionsDecoded0 = [QConnectClientTypes.OrCondition]()
+            for union0 in orconditionsContainer {
+                if let union0 = union0 {
+                    orconditionsDecoded0?.append(union0)
+                }
+            }
+        }
+        if let orconditions = orconditionsDecoded0 {
+            self = .orconditions(orconditions)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension QConnectClientTypes {
+    /// An object that can be used to specify Tag conditions.
+    public enum TagFilter: Swift.Equatable {
+        /// A leaf node condition which can be used to specify a tag condition.
+        case tagcondition(QConnectClientTypes.TagCondition)
+        /// A list of conditions which would be applied together with an AND condition.
+        case andconditions([QConnectClientTypes.TagCondition])
+        /// A list of conditions which would be applied together with an OR condition.
+        case orconditions([QConnectClientTypes.OrCondition])
+        case sdkUnknown(Swift.String)
+    }
+
 }
 
 extension TagResourceInput: Swift.Encodable {
@@ -11069,10 +11278,10 @@ public struct UpdateContentInput: Swift.Equatable {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
-    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q, you can store an external version identifier as metadata to utilize for determining drift.
+    /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Amazon Q in Connect, you can store an external version identifier as metadata to utilize for determining drift.
     public var metadata: [Swift.String:Swift.String]?
     /// The URI for the article. If the knowledge base has a templateUri, setting this argument overrides it for this piece of content. To remove an existing overrideLinkOurUri, exclude this argument and set removeOverrideLinkOutUri to true.
     public var overrideLinkOutUri: Swift.String?
@@ -11230,7 +11439,7 @@ extension UpdateKnowledgeBaseTemplateUriInput {
 }
 
 public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The template URI to update.
@@ -11406,7 +11615,7 @@ public struct UpdateQuickResponseInput: Swift.Equatable {
     public var groupingConfiguration: QConnectClientTypes.GroupingConfiguration?
     /// Whether the quick response is active.
     public var isActive: Swift.Bool?
-    /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Amazon Q Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
     /// The language code value for the language in which the quick response is written. The supported language codes include de_DE, en_US, es_ES, fr_FR, id_ID, it_IT, ja_JP, ko_KR, pt_BR, zh_CN, zh_TW
@@ -11576,6 +11785,135 @@ enum UpdateQuickResponseOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "PreconditionFailedException": return try await PreconditionFailedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateSessionInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tagFilter
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let tagFilter = self.tagFilter {
+            try encodeContainer.encode(tagFilter, forKey: .tagFilter)
+        }
+    }
+}
+
+extension UpdateSessionInput {
+
+    static func urlPathProvider(_ value: UpdateSessionInput) -> Swift.String? {
+        guard let assistantId = value.assistantId else {
+            return nil
+        }
+        guard let sessionId = value.sessionId else {
+            return nil
+        }
+        return "/assistants/\(assistantId.urlPercentEncoding())/sessions/\(sessionId.urlPercentEncoding())"
+    }
+}
+
+public struct UpdateSessionInput: Swift.Equatable {
+    /// The identifier of the Amazon Q in Connect assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var assistantId: Swift.String?
+    /// The description.
+    public var description: Swift.String?
+    /// The identifier of the session. Can be either the ID or the ARN. URLs cannot contain the ARN.
+    /// This member is required.
+    public var sessionId: Swift.String?
+    /// An object that can be used to specify Tag conditions.
+    public var tagFilter: QConnectClientTypes.TagFilter?
+
+    public init(
+        assistantId: Swift.String? = nil,
+        description: Swift.String? = nil,
+        sessionId: Swift.String? = nil,
+        tagFilter: QConnectClientTypes.TagFilter? = nil
+    )
+    {
+        self.assistantId = assistantId
+        self.description = description
+        self.sessionId = sessionId
+        self.tagFilter = tagFilter
+    }
+}
+
+struct UpdateSessionInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let tagFilter: QConnectClientTypes.TagFilter?
+}
+
+extension UpdateSessionInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case tagFilter
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let tagFilterDecoded = try containerValues.decodeIfPresent(QConnectClientTypes.TagFilter.self, forKey: .tagFilter)
+        tagFilter = tagFilterDecoded
+    }
+}
+
+extension UpdateSessionOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateSessionOutputBody = try responseDecoder.decode(responseBody: data)
+            self.session = output.session
+        } else {
+            self.session = nil
+        }
+    }
+}
+
+public struct UpdateSessionOutput: Swift.Equatable {
+    /// Information about the session.
+    public var session: QConnectClientTypes.SessionData?
+
+    public init(
+        session: QConnectClientTypes.SessionData? = nil
+    )
+    {
+        self.session = session
+    }
+}
+
+struct UpdateSessionOutputBody: Swift.Equatable {
+    let session: QConnectClientTypes.SessionData?
+}
+
+extension UpdateSessionOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case session
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let sessionDecoded = try containerValues.decodeIfPresent(QConnectClientTypes.SessionData.self, forKey: .session)
+        session = sessionDecoded
+    }
+}
+
+enum UpdateSessionOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)

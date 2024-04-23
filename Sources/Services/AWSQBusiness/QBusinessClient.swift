@@ -142,7 +142,7 @@ public struct QBusinessClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFacto
 extension QBusinessClient {
     /// Performs the `BatchDeleteDocument` operation on the `ExpertQ` service.
     ///
-    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
+    /// Asynchronously deletes one or more documents added using the BatchPutDocument API from an Amazon Q Business index. You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
     ///
     /// - Parameter BatchDeleteDocumentInput : [no documentation found]
     ///
@@ -153,10 +153,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func batchDeleteDocument(input: BatchDeleteDocumentInput) async throws -> BatchDeleteDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -197,13 +197,13 @@ extension QBusinessClient {
 
     /// Performs the `BatchPutDocument` operation on the `ExpertQ` service.
     ///
-    /// Adds one or more documents to an Amazon Q index. You use this API to:
+    /// Adds one or more documents to an Amazon Q Business index. You use this API to:
     ///
-    /// * ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q index.
+    /// * ingest your structured and unstructured documents and documents stored in an Amazon S3 bucket into an Amazon Q Business index.
     ///
-    /// * add custom attributes to documents in an Amazon Q index.
+    /// * add custom attributes to documents in an Amazon Q Business index.
     ///
-    /// * attach an access control list to the documents added to an Amazon Q index.
+    /// * attach an access control list to the documents added to an Amazon Q Business index.
     ///
     ///
     /// You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
@@ -217,11 +217,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func batchPutDocument(input: BatchPutDocumentInput) async throws -> BatchPutDocumentOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -262,7 +262,7 @@ extension QBusinessClient {
 
     /// Performs the `ChatSync` operation on the `ExpertQ` service.
     ///
-    /// Starts or continues a non-streaming Amazon Q conversation.
+    /// Starts or continues a non-streaming Amazon Q Business conversation.
     ///
     /// - Parameter ChatSyncInput : [no documentation found]
     ///
@@ -273,11 +273,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func chatSync(input: ChatSyncInput) async throws -> ChatSyncOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -320,7 +320,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateApplication` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q application.
+    /// Creates an Amazon Q Business application.
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -331,11 +331,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createApplication(input: CreateApplicationInput) async throws -> CreateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -377,7 +377,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateDataSource` operation on the `ExpertQ` service.
     ///
-    /// Creates a data source connector for an Amazon Q application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
+    /// Creates a data source connector for an Amazon Q Business application. CreateDataSource is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
     ///
     /// - Parameter CreateDataSourceInput : [no documentation found]
     ///
@@ -388,11 +388,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createDataSource(input: CreateDataSourceInput) async throws -> CreateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -434,7 +434,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateIndex` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html) API.
+    /// Creates an Amazon Q Business index. To determine if index creation has completed, check the Status field returned from a call to DescribeIndex. The Status field is set to ACTIVE when the index is ready to use. Once the index is active, you can index your documents using the [BatchPutDocument](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_BatchPutDocument.html) API or the [CreateDataSource](https://docs.aws.amazon.com/amazonq/latest/api-reference/API_CreateDataSource.html) API.
     ///
     /// - Parameter CreateIndexInput : [no documentation found]
     ///
@@ -445,11 +445,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createIndex(input: CreateIndexInput) async throws -> CreateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -491,7 +491,7 @@ extension QBusinessClient {
 
     /// Performs the `CreatePlugin` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q plugin.
+    /// Creates an Amazon Q Business plugin.
     ///
     /// - Parameter CreatePluginInput : [no documentation found]
     ///
@@ -502,11 +502,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createPlugin(input: CreatePluginInput) async throws -> CreatePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -548,7 +548,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateRetriever` operation on the `ExpertQ` service.
     ///
-    /// Adds a retriever to your Amazon Q application.
+    /// Adds a retriever to your Amazon Q Business application.
     ///
     /// - Parameter CreateRetrieverInput : [no documentation found]
     ///
@@ -559,11 +559,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createRetriever(input: CreateRetrieverInput) async throws -> CreateRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -616,11 +616,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createUser(input: CreateUserInput) async throws -> CreateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -662,7 +662,7 @@ extension QBusinessClient {
 
     /// Performs the `CreateWebExperience` operation on the `ExpertQ` service.
     ///
-    /// Creates an Amazon Q web experience.
+    /// Creates an Amazon Q Business web experience.
     ///
     /// - Parameter CreateWebExperienceInput : [no documentation found]
     ///
@@ -673,11 +673,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func createWebExperience(input: CreateWebExperienceInput) async throws -> CreateWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -719,7 +719,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteApplication` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q application.
+    /// Deletes an Amazon Q Business application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
@@ -730,10 +730,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteApplication(input: DeleteApplicationInput) async throws -> DeleteApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -771,7 +771,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteChatControlsConfiguration` operation on the `ExpertQ` service.
     ///
-    /// Deletes chat controls configured for an existing Amazon Q application.
+    /// Deletes chat controls configured for an existing Amazon Q Business application.
     ///
     /// - Parameter DeleteChatControlsConfigurationInput : [no documentation found]
     ///
@@ -781,10 +781,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteChatControlsConfiguration(input: DeleteChatControlsConfigurationInput) async throws -> DeleteChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -822,7 +822,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteConversation` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q web experience conversation.
+    /// Deletes an Amazon Q Business web experience conversation.
     ///
     /// - Parameter DeleteConversationInput : [no documentation found]
     ///
@@ -832,11 +832,11 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteConversation(input: DeleteConversationInput) async throws -> DeleteConversationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -875,7 +875,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteDataSource` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
+    /// Deletes an Amazon Q Business data source connector. While the data source is being deleted, the Status field returned by a call to the DescribeDataSource API is set to DELETING.
     ///
     /// - Parameter DeleteDataSourceInput : [no documentation found]
     ///
@@ -886,10 +886,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -938,10 +938,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteGroup(input: DeleteGroupInput) async throws -> DeleteGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -980,7 +980,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteIndex` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q index.
+    /// Deletes an Amazon Q Business index.
     ///
     /// - Parameter DeleteIndexInput : [no documentation found]
     ///
@@ -991,10 +991,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteIndex(input: DeleteIndexInput) async throws -> DeleteIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1032,7 +1032,7 @@ extension QBusinessClient {
 
     /// Performs the `DeletePlugin` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q plugin.
+    /// Deletes an Amazon Q Business plugin.
     ///
     /// - Parameter DeletePluginInput : [no documentation found]
     ///
@@ -1043,10 +1043,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deletePlugin(input: DeletePluginInput) async throws -> DeletePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1084,7 +1084,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteRetriever` operation on the `ExpertQ` service.
     ///
-    /// Deletes the retriever used by an Amazon Q application.
+    /// Deletes the retriever used by an Amazon Q Business application.
     ///
     /// - Parameter DeleteRetrieverInput : [no documentation found]
     ///
@@ -1095,10 +1095,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteRetriever(input: DeleteRetrieverInput) async throws -> DeleteRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1147,10 +1147,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteUser(input: DeleteUserInput) async throws -> DeleteUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1188,7 +1188,7 @@ extension QBusinessClient {
 
     /// Performs the `DeleteWebExperience` operation on the `ExpertQ` service.
     ///
-    /// Deletes an Amazon Q web experience.
+    /// Deletes an Amazon Q Business web experience.
     ///
     /// - Parameter DeleteWebExperienceInput : [no documentation found]
     ///
@@ -1199,10 +1199,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func deleteWebExperience(input: DeleteWebExperienceInput) async throws -> DeleteWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1240,7 +1240,7 @@ extension QBusinessClient {
 
     /// Performs the `GetApplication` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing Amazon Q application.
+    /// Gets information about an existing Amazon Q Business application.
     ///
     /// - Parameter GetApplicationInput : [no documentation found]
     ///
@@ -1250,10 +1250,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getApplication(input: GetApplicationInput) async throws -> GetApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1291,7 +1291,7 @@ extension QBusinessClient {
 
     /// Performs the `GetChatControlsConfiguration` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an chat controls configured for an existing Amazon Q application.
+    /// Gets information about an chat controls configured for an existing Amazon Q Business application.
     ///
     /// - Parameter GetChatControlsConfigurationInput : [no documentation found]
     ///
@@ -1301,10 +1301,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getChatControlsConfiguration(input: GetChatControlsConfigurationInput) async throws -> GetChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1343,7 +1343,7 @@ extension QBusinessClient {
 
     /// Performs the `GetDataSource` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing Amazon Q data source connector.
+    /// Gets information about an existing Amazon Q Business data source connector.
     ///
     /// - Parameter GetDataSourceInput : [no documentation found]
     ///
@@ -1353,10 +1353,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1405,10 +1405,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getGroup(input: GetGroupInput) async throws -> GetGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1447,7 +1447,7 @@ extension QBusinessClient {
 
     /// Performs the `GetIndex` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing Amazon Q index.
+    /// Gets information about an existing Amazon Q Business index.
     ///
     /// - Parameter GetIndexInput : [no documentation found]
     ///
@@ -1457,10 +1457,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getIndex(input: GetIndexInput) async throws -> GetIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1498,7 +1498,7 @@ extension QBusinessClient {
 
     /// Performs the `GetPlugin` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing Amazon Q plugin.
+    /// Gets information about an existing Amazon Q Business plugin.
     ///
     /// - Parameter GetPluginInput : [no documentation found]
     ///
@@ -1508,10 +1508,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getPlugin(input: GetPluginInput) async throws -> GetPluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1549,7 +1549,7 @@ extension QBusinessClient {
 
     /// Performs the `GetRetriever` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing retriever used by an Amazon Q application.
+    /// Gets information about an existing retriever used by an Amazon Q Business application.
     ///
     /// - Parameter GetRetrieverInput : [no documentation found]
     ///
@@ -1559,10 +1559,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getRetriever(input: GetRetrieverInput) async throws -> GetRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1611,10 +1611,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getUser(input: GetUserInput) async throws -> GetUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1652,7 +1652,7 @@ extension QBusinessClient {
 
     /// Performs the `GetWebExperience` operation on the `ExpertQ` service.
     ///
-    /// Gets information about an existing Amazon Q web experience.
+    /// Gets information about an existing Amazon Q Business web experience.
     ///
     /// - Parameter GetWebExperienceInput : [no documentation found]
     ///
@@ -1662,10 +1662,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func getWebExperience(input: GetWebExperienceInput) async throws -> GetWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1703,7 +1703,7 @@ extension QBusinessClient {
 
     /// Performs the `ListApplications` operation on the `ExpertQ` service.
     ///
-    /// Lists Amazon Q applications.
+    /// Lists Amazon Q Business applications.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -1713,9 +1713,9 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listApplications(input: ListApplicationsInput) async throws -> ListApplicationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1754,7 +1754,7 @@ extension QBusinessClient {
 
     /// Performs the `ListConversations` operation on the `ExpertQ` service.
     ///
-    /// Lists one or more Amazon Q conversations.
+    /// Lists one or more Amazon Q Business conversations.
     ///
     /// - Parameter ListConversationsInput : [no documentation found]
     ///
@@ -1764,11 +1764,11 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listConversations(input: ListConversationsInput) async throws -> ListConversationsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1807,7 +1807,7 @@ extension QBusinessClient {
 
     /// Performs the `ListDataSourceSyncJobs` operation on the `ExpertQ` service.
     ///
-    /// Get information about an Amazon Q data source connector synchronization.
+    /// Get information about an Amazon Q Business data source connector synchronization.
     ///
     /// - Parameter ListDataSourceSyncJobsInput : [no documentation found]
     ///
@@ -1817,10 +1817,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listDataSourceSyncJobs(input: ListDataSourceSyncJobsInput) async throws -> ListDataSourceSyncJobsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1859,7 +1859,7 @@ extension QBusinessClient {
 
     /// Performs the `ListDataSources` operation on the `ExpertQ` service.
     ///
-    /// Lists the Amazon Q data source connectors that you have created.
+    /// Lists the Amazon Q Business data source connectors that you have created.
     ///
     /// - Parameter ListDataSourcesInput : [no documentation found]
     ///
@@ -1869,10 +1869,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1921,10 +1921,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listDocuments(input: ListDocumentsInput) async throws -> ListDocumentsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -1974,10 +1974,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listGroups(input: ListGroupsInput) async throws -> ListGroupsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2016,7 +2016,7 @@ extension QBusinessClient {
 
     /// Performs the `ListIndices` operation on the `ExpertQ` service.
     ///
-    /// Lists the Amazon Q indices you have created.
+    /// Lists the Amazon Q Business indices you have created.
     ///
     /// - Parameter ListIndicesInput : [no documentation found]
     ///
@@ -2026,10 +2026,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listIndices(input: ListIndicesInput) async throws -> ListIndicesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2068,7 +2068,7 @@ extension QBusinessClient {
 
     /// Performs the `ListMessages` operation on the `ExpertQ` service.
     ///
-    /// Gets a list of messages associated with an Amazon Q web experience.
+    /// Gets a list of messages associated with an Amazon Q Business web experience.
     ///
     /// - Parameter ListMessagesInput : [no documentation found]
     ///
@@ -2078,11 +2078,11 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `LicenseNotFoundException` : You don't have permissions to perform the action because your license is inactive. Ask your admin to activate your license and try again after your licence is active.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listMessages(input: ListMessagesInput) async throws -> ListMessagesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2121,7 +2121,7 @@ extension QBusinessClient {
 
     /// Performs the `ListPlugins` operation on the `ExpertQ` service.
     ///
-    /// Lists configured Amazon Q plugins.
+    /// Lists configured Amazon Q Business plugins.
     ///
     /// - Parameter ListPluginsInput : [no documentation found]
     ///
@@ -2131,10 +2131,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listPlugins(input: ListPluginsInput) async throws -> ListPluginsOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2173,7 +2173,7 @@ extension QBusinessClient {
 
     /// Performs the `ListRetrievers` operation on the `ExpertQ` service.
     ///
-    /// Lists the retriever used by an Amazon Q application.
+    /// Lists the retriever used by an Amazon Q Business application.
     ///
     /// - Parameter ListRetrieversInput : [no documentation found]
     ///
@@ -2183,10 +2183,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listRetrievers(input: ListRetrieversInput) async throws -> ListRetrieversOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2225,7 +2225,7 @@ extension QBusinessClient {
 
     /// Performs the `ListTagsForResource` operation on the `ExpertQ` service.
     ///
-    /// Gets a list of tags associated with a specified resource. Amazon Q applications and data sources can have tags associated with them.
+    /// Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -2235,10 +2235,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2276,7 +2276,7 @@ extension QBusinessClient {
 
     /// Performs the `ListWebExperiences` operation on the `ExpertQ` service.
     ///
-    /// Lists one or more Amazon Q Web Experiences.
+    /// Lists one or more Amazon Q Business Web Experiences.
     ///
     /// - Parameter ListWebExperiencesInput : [no documentation found]
     ///
@@ -2286,10 +2286,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func listWebExperiences(input: ListWebExperiencesInput) async throws -> ListWebExperiencesOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2328,7 +2328,7 @@ extension QBusinessClient {
 
     /// Performs the `PutFeedback` operation on the `ExpertQ` service.
     ///
-    /// Enables your end user to to provide feedback on their Amazon Q generated chat responses.
+    /// Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
     ///
     /// - Parameter PutFeedbackInput : [no documentation found]
     ///
@@ -2338,10 +2338,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func putFeedback(input: PutFeedbackInput) async throws -> PutFeedbackOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2383,7 +2383,7 @@ extension QBusinessClient {
 
     /// Performs the `PutGroup` operation on the `ExpertQ` service.
     ///
-    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q chat results.
+    /// Create, or updates, a mapping of users—who have access to a document—to groups. You can also map sub groups to groups. For example, the group "Company Intellectual Property Teams" includes sub groups "Research" and "Engineering". These sub groups include their own list of users or people who work in these teams. Only users who work in research and engineering, and therefore belong in the intellectual property group, can see top-secret company documents in their Amazon Q Business chat results.
     ///
     /// - Parameter PutGroupInput : [no documentation found]
     ///
@@ -2394,11 +2394,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func putGroup(input: PutGroupInput) async throws -> PutGroupOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2439,7 +2439,7 @@ extension QBusinessClient {
 
     /// Performs the `StartDataSourceSyncJob` operation on the `ExpertQ` service.
     ///
-    /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q returns a ConflictException.
+    /// Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a ConflictException.
     ///
     /// - Parameter StartDataSourceSyncJobInput : [no documentation found]
     ///
@@ -2450,11 +2450,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func startDataSourceSyncJob(input: StartDataSourceSyncJobInput) async throws -> StartDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2492,7 +2492,7 @@ extension QBusinessClient {
 
     /// Performs the `StopDataSourceSyncJob` operation on the `ExpertQ` service.
     ///
-    /// Stops an Amazon Q data source connector synchronization job already in progress.
+    /// Stops an Amazon Q Business data source connector synchronization job already in progress.
     ///
     /// - Parameter StopDataSourceSyncJobInput : [no documentation found]
     ///
@@ -2502,10 +2502,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func stopDataSourceSyncJob(input: StopDataSourceSyncJobInput) async throws -> StopDataSourceSyncJobOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2543,7 +2543,7 @@ extension QBusinessClient {
 
     /// Performs the `TagResource` operation on the `ExpertQ` service.
     ///
-    /// Adds the specified tag to the specified Amazon Q application or data source resource. If the tag already exists, the existing value is replaced with the new value.
+    /// Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -2554,10 +2554,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func tagResource(input: TagResourceInput) async throws -> TagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2598,7 +2598,7 @@ extension QBusinessClient {
 
     /// Performs the `UntagResource` operation on the `ExpertQ` service.
     ///
-    /// Removes a tag from an Amazon Q application or a data source.
+    /// Removes a tag from an Amazon Q Business application or a data source.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -2608,10 +2608,10 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2650,7 +2650,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateApplication` operation on the `ExpertQ` service.
     ///
-    /// Updates an existing Amazon Q application.
+    /// Updates an existing Amazon Q Business application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///
@@ -2661,10 +2661,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateApplication(input: UpdateApplicationInput) async throws -> UpdateApplicationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2705,7 +2705,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateChatControlsConfiguration` operation on the `ExpertQ` service.
     ///
-    /// Updates an set of chat controls configured for an existing Amazon Q application.
+    /// Updates an set of chat controls configured for an existing Amazon Q Business application.
     ///
     /// - Parameter UpdateChatControlsConfigurationInput : [no documentation found]
     ///
@@ -2716,11 +2716,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateChatControlsConfiguration(input: UpdateChatControlsConfigurationInput) async throws -> UpdateChatControlsConfigurationOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2762,7 +2762,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateDataSource` operation on the `ExpertQ` service.
     ///
-    /// Updates an existing Amazon Q data source connector.
+    /// Updates an existing Amazon Q Business data source connector.
     ///
     /// - Parameter UpdateDataSourceInput : [no documentation found]
     ///
@@ -2773,10 +2773,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2817,7 +2817,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateIndex` operation on the `ExpertQ` service.
     ///
-    /// Updates an Amazon Q index.
+    /// Updates an Amazon Q Business index.
     ///
     /// - Parameter UpdateIndexInput : [no documentation found]
     ///
@@ -2828,11 +2828,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateIndex(input: UpdateIndexInput) async throws -> UpdateIndexOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2873,7 +2873,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdatePlugin` operation on the `ExpertQ` service.
     ///
-    /// Updates an Amazon Q plugin.
+    /// Updates an Amazon Q Business plugin.
     ///
     /// - Parameter UpdatePluginInput : [no documentation found]
     ///
@@ -2884,11 +2884,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updatePlugin(input: UpdatePluginInput) async throws -> UpdatePluginOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2929,7 +2929,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateRetriever` operation on the `ExpertQ` service.
     ///
-    /// Updates the retriever used for your Amazon Q application.
+    /// Updates the retriever used for your Amazon Q Business application.
     ///
     /// - Parameter UpdateRetrieverInput : [no documentation found]
     ///
@@ -2940,11 +2940,11 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateRetriever(input: UpdateRetrieverInput) async throws -> UpdateRetrieverOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -2995,11 +2995,11 @@ extension QBusinessClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
-    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q service.
+    /// - `ServiceQuotaExceededException` : You have exceeded the set limits for your Amazon Q Business service.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateUser(input: UpdateUserInput) async throws -> UpdateUserOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)
@@ -3040,7 +3040,7 @@ extension QBusinessClient {
 
     /// Performs the `UpdateWebExperience` operation on the `ExpertQ` service.
     ///
-    /// Updates an Amazon Q web experience.
+    /// Updates an Amazon Q Business web experience.
     ///
     /// - Parameter UpdateWebExperienceInput : [no documentation found]
     ///
@@ -3051,10 +3051,10 @@ extension QBusinessClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : You don't have access to perform this action. Make sure you have the required permission policies and user accounts and try again.
     /// - `ConflictException` : You are trying to perform an action that conflicts with the current status of your resource. Fix any inconsistences with your resources and try again.
-    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
+    /// - `InternalServerException` : An issue occurred with the internal server used for your Amazon Q Business service. Wait some minutes and try again, or contact [Support](http://aws.amazon.com/contact-us/) for help.
     /// - `ResourceNotFoundException` : The resource you want to use doesn’t exist. Make sure you have provided the correct resource and try again.
     /// - `ThrottlingException` : The request was denied due to throttling. Reduce the number of requests and try again.
-    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q service. Provide the correct input and try again.
+    /// - `ValidationException` : The input doesn't meet the constraints set by the Amazon Q Business service. Provide the correct input and try again.
     public func updateWebExperience(input: UpdateWebExperienceInput) async throws -> UpdateWebExperienceOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withEncoder(value: encoder)

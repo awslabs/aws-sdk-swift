@@ -4899,6 +4899,7 @@ extension GetPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.configurationAliases = output.configurationAliases
             self.dashConfiguration = output.dashConfiguration
             self.hlsConfiguration = output.hlsConfiguration
+            self.insertionMode = output.insertionMode
             self.livePreRollConfiguration = output.livePreRollConfiguration
             self.logConfiguration = output.logConfiguration
             self.manifestProcessingRules = output.manifestProcessingRules
@@ -4919,6 +4920,7 @@ extension GetPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.configurationAliases = nil
             self.dashConfiguration = nil
             self.hlsConfiguration = nil
+            self.insertionMode = nil
             self.livePreRollConfiguration = nil
             self.logConfiguration = nil
             self.manifestProcessingRules = nil
@@ -4950,6 +4952,8 @@ public struct GetPlaybackConfigurationOutput: Swift.Equatable {
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
+    /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+    public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     /// The Amazon CloudWatch log settings for a playback configuration.
@@ -4983,6 +4987,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Equatable {
         configurationAliases: [Swift.String:[Swift.String:Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
         hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
+        insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
         logConfiguration: MediaTailorClientTypes.LogConfiguration? = nil,
         manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules? = nil,
@@ -5004,6 +5009,7 @@ public struct GetPlaybackConfigurationOutput: Swift.Equatable {
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
         self.hlsConfiguration = hlsConfiguration
+        self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
         self.logConfiguration = logConfiguration
         self.manifestProcessingRules = manifestProcessingRules
@@ -5027,6 +5033,7 @@ struct GetPlaybackConfigurationOutputBody: Swift.Equatable {
     let configurationAliases: [Swift.String:[Swift.String:Swift.String]]?
     let dashConfiguration: MediaTailorClientTypes.DashConfiguration?
     let hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
+    let insertionMode: MediaTailorClientTypes.InsertionMode?
     let livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     let logConfiguration: MediaTailorClientTypes.LogConfiguration?
     let manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -5050,6 +5057,7 @@ extension GetPlaybackConfigurationOutputBody: Swift.Decodable {
         case configurationAliases = "ConfigurationAliases"
         case dashConfiguration = "DashConfiguration"
         case hlsConfiguration = "HlsConfiguration"
+        case insertionMode = "InsertionMode"
         case livePreRollConfiguration = "LivePreRollConfiguration"
         case logConfiguration = "LogConfiguration"
         case manifestProcessingRules = "ManifestProcessingRules"
@@ -5096,6 +5104,8 @@ extension GetPlaybackConfigurationOutputBody: Swift.Decodable {
         dashConfiguration = dashConfigurationDecoded
         let hlsConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.HlsConfiguration.self, forKey: .hlsConfiguration)
         hlsConfiguration = hlsConfigurationDecoded
+        let insertionModeDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.InsertionMode.self, forKey: .insertionMode)
+        insertionMode = insertionModeDecoded
         let livePreRollConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LivePreRollConfiguration.self, forKey: .livePreRollConfiguration)
         livePreRollConfiguration = livePreRollConfigurationDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LogConfiguration.self, forKey: .logConfiguration)
@@ -5466,6 +5476,39 @@ extension MediaTailorClientTypes {
         }
     }
 
+}
+
+extension MediaTailorClientTypes {
+    /// Insertion Mode controls whether players can use stitched or guided ad insertion.
+    public enum InsertionMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case playerSelect
+        case stitchedOnly
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InsertionMode] {
+            return [
+                .playerSelect,
+                .stitchedOnly,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .playerSelect: return "PLAYER_SELECT"
+            case .stitchedOnly: return "STITCHED_ONLY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InsertionMode(rawValue: rawValue) ?? InsertionMode.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension MediaTailorClientTypes.KeyValuePair: Swift.Codable {
@@ -6939,6 +6982,7 @@ extension MediaTailorClientTypes.PlaybackConfiguration: Swift.Codable {
         case configurationAliases = "ConfigurationAliases"
         case dashConfiguration = "DashConfiguration"
         case hlsConfiguration = "HlsConfiguration"
+        case insertionMode = "InsertionMode"
         case livePreRollConfiguration = "LivePreRollConfiguration"
         case logConfiguration = "LogConfiguration"
         case manifestProcessingRules = "ManifestProcessingRules"
@@ -6981,6 +7025,9 @@ extension MediaTailorClientTypes.PlaybackConfiguration: Swift.Codable {
         }
         if let hlsConfiguration = self.hlsConfiguration {
             try encodeContainer.encode(hlsConfiguration, forKey: .hlsConfiguration)
+        }
+        if let insertionMode = self.insertionMode {
+            try encodeContainer.encode(insertionMode.rawValue, forKey: .insertionMode)
         }
         if let livePreRollConfiguration = self.livePreRollConfiguration {
             try encodeContainer.encode(livePreRollConfiguration, forKey: .livePreRollConfiguration)
@@ -7055,6 +7102,8 @@ extension MediaTailorClientTypes.PlaybackConfiguration: Swift.Codable {
         dashConfiguration = dashConfigurationDecoded
         let hlsConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.HlsConfiguration.self, forKey: .hlsConfiguration)
         hlsConfiguration = hlsConfigurationDecoded
+        let insertionModeDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.InsertionMode.self, forKey: .insertionMode)
+        insertionMode = insertionModeDecoded
         let livePreRollConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LivePreRollConfiguration.self, forKey: .livePreRollConfiguration)
         livePreRollConfiguration = livePreRollConfigurationDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LogConfiguration.self, forKey: .logConfiguration)
@@ -7108,6 +7157,8 @@ extension MediaTailorClientTypes {
         public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
         /// The configuration for HLS content.
         public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
+        /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+        public var insertionMode: MediaTailorClientTypes.InsertionMode?
         /// The configuration for pre-roll ad insertion.
         public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
         /// The Amazon CloudWatch log settings for a playback configuration.
@@ -7141,6 +7192,7 @@ extension MediaTailorClientTypes {
             configurationAliases: [Swift.String:[Swift.String:Swift.String]]? = nil,
             dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
             hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
+            insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
             livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
             logConfiguration: MediaTailorClientTypes.LogConfiguration? = nil,
             manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules? = nil,
@@ -7162,6 +7214,7 @@ extension MediaTailorClientTypes {
             self.configurationAliases = configurationAliases
             self.dashConfiguration = dashConfiguration
             self.hlsConfiguration = hlsConfiguration
+            self.insertionMode = insertionMode
             self.livePreRollConfiguration = livePreRollConfiguration
             self.logConfiguration = logConfiguration
             self.manifestProcessingRules = manifestProcessingRules
@@ -7522,6 +7575,7 @@ extension PutPlaybackConfigurationInput: Swift.Encodable {
         case cdnConfiguration = "CdnConfiguration"
         case configurationAliases = "ConfigurationAliases"
         case dashConfiguration = "DashConfiguration"
+        case insertionMode = "InsertionMode"
         case livePreRollConfiguration = "LivePreRollConfiguration"
         case manifestProcessingRules = "ManifestProcessingRules"
         case name = "Name"
@@ -7557,6 +7611,9 @@ extension PutPlaybackConfigurationInput: Swift.Encodable {
         }
         if let dashConfiguration = self.dashConfiguration {
             try encodeContainer.encode(dashConfiguration, forKey: .dashConfiguration)
+        }
+        if let insertionMode = self.insertionMode {
+            try encodeContainer.encode(insertionMode.rawValue, forKey: .insertionMode)
         }
         if let livePreRollConfiguration = self.livePreRollConfiguration {
             try encodeContainer.encode(livePreRollConfiguration, forKey: .livePreRollConfiguration)
@@ -7608,6 +7665,8 @@ public struct PutPlaybackConfigurationInput: Swift.Equatable {
     public var configurationAliases: [Swift.String:[Swift.String:Swift.String]]?
     /// The configuration for DASH content.
     public var dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
+    /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+    public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     /// The configuration for manifest processing rules. Manifest processing rules enable customization of the personalized manifests created by MediaTailor.
@@ -7633,6 +7692,7 @@ public struct PutPlaybackConfigurationInput: Swift.Equatable {
         cdnConfiguration: MediaTailorClientTypes.CdnConfiguration? = nil,
         configurationAliases: [Swift.String:[Swift.String:Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut? = nil,
+        insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
         manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules? = nil,
         name: Swift.String? = nil,
@@ -7649,6 +7709,7 @@ public struct PutPlaybackConfigurationInput: Swift.Equatable {
         self.cdnConfiguration = cdnConfiguration
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
+        self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
         self.manifestProcessingRules = manifestProcessingRules
         self.name = name
@@ -7667,6 +7728,7 @@ struct PutPlaybackConfigurationInputBody: Swift.Equatable {
     let cdnConfiguration: MediaTailorClientTypes.CdnConfiguration?
     let configurationAliases: [Swift.String:[Swift.String:Swift.String]]?
     let dashConfiguration: MediaTailorClientTypes.DashConfigurationForPut?
+    let insertionMode: MediaTailorClientTypes.InsertionMode?
     let livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     let manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
     let name: Swift.String?
@@ -7685,6 +7747,7 @@ extension PutPlaybackConfigurationInputBody: Swift.Decodable {
         case cdnConfiguration = "CdnConfiguration"
         case configurationAliases = "ConfigurationAliases"
         case dashConfiguration = "DashConfiguration"
+        case insertionMode = "InsertionMode"
         case livePreRollConfiguration = "LivePreRollConfiguration"
         case manifestProcessingRules = "ManifestProcessingRules"
         case name = "Name"
@@ -7725,6 +7788,8 @@ extension PutPlaybackConfigurationInputBody: Swift.Decodable {
         configurationAliases = configurationAliasesDecoded0
         let dashConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.DashConfigurationForPut.self, forKey: .dashConfiguration)
         dashConfiguration = dashConfigurationDecoded
+        let insertionModeDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.InsertionMode.self, forKey: .insertionMode)
+        insertionMode = insertionModeDecoded
         let livePreRollConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LivePreRollConfiguration.self, forKey: .livePreRollConfiguration)
         livePreRollConfiguration = livePreRollConfigurationDecoded
         let manifestProcessingRulesDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.ManifestProcessingRules.self, forKey: .manifestProcessingRules)
@@ -7765,6 +7830,7 @@ extension PutPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.configurationAliases = output.configurationAliases
             self.dashConfiguration = output.dashConfiguration
             self.hlsConfiguration = output.hlsConfiguration
+            self.insertionMode = output.insertionMode
             self.livePreRollConfiguration = output.livePreRollConfiguration
             self.logConfiguration = output.logConfiguration
             self.manifestProcessingRules = output.manifestProcessingRules
@@ -7785,6 +7851,7 @@ extension PutPlaybackConfigurationOutput: ClientRuntime.HttpResponseBinding {
             self.configurationAliases = nil
             self.dashConfiguration = nil
             self.hlsConfiguration = nil
+            self.insertionMode = nil
             self.livePreRollConfiguration = nil
             self.logConfiguration = nil
             self.manifestProcessingRules = nil
@@ -7816,6 +7883,8 @@ public struct PutPlaybackConfigurationOutput: Swift.Equatable {
     public var dashConfiguration: MediaTailorClientTypes.DashConfiguration?
     /// The configuration for HLS content.
     public var hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
+    /// The setting that controls whether players can use stitched or guided ad insertion. The default, STITCHED_ONLY, forces all player sessions to use stitched (server-side) ad insertion. Choosing PLAYER_SELECT allows players to select either stitched or guided ad insertion at session-initialization time. The default for players that do not specify an insertion mode is stitched.
+    public var insertionMode: MediaTailorClientTypes.InsertionMode?
     /// The configuration for pre-roll ad insertion.
     public var livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     /// The Amazon CloudWatch log settings for a playback configuration.
@@ -7849,6 +7918,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Equatable {
         configurationAliases: [Swift.String:[Swift.String:Swift.String]]? = nil,
         dashConfiguration: MediaTailorClientTypes.DashConfiguration? = nil,
         hlsConfiguration: MediaTailorClientTypes.HlsConfiguration? = nil,
+        insertionMode: MediaTailorClientTypes.InsertionMode? = nil,
         livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration? = nil,
         logConfiguration: MediaTailorClientTypes.LogConfiguration? = nil,
         manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules? = nil,
@@ -7870,6 +7940,7 @@ public struct PutPlaybackConfigurationOutput: Swift.Equatable {
         self.configurationAliases = configurationAliases
         self.dashConfiguration = dashConfiguration
         self.hlsConfiguration = hlsConfiguration
+        self.insertionMode = insertionMode
         self.livePreRollConfiguration = livePreRollConfiguration
         self.logConfiguration = logConfiguration
         self.manifestProcessingRules = manifestProcessingRules
@@ -7893,6 +7964,7 @@ struct PutPlaybackConfigurationOutputBody: Swift.Equatable {
     let configurationAliases: [Swift.String:[Swift.String:Swift.String]]?
     let dashConfiguration: MediaTailorClientTypes.DashConfiguration?
     let hlsConfiguration: MediaTailorClientTypes.HlsConfiguration?
+    let insertionMode: MediaTailorClientTypes.InsertionMode?
     let livePreRollConfiguration: MediaTailorClientTypes.LivePreRollConfiguration?
     let logConfiguration: MediaTailorClientTypes.LogConfiguration?
     let manifestProcessingRules: MediaTailorClientTypes.ManifestProcessingRules?
@@ -7916,6 +7988,7 @@ extension PutPlaybackConfigurationOutputBody: Swift.Decodable {
         case configurationAliases = "ConfigurationAliases"
         case dashConfiguration = "DashConfiguration"
         case hlsConfiguration = "HlsConfiguration"
+        case insertionMode = "InsertionMode"
         case livePreRollConfiguration = "LivePreRollConfiguration"
         case logConfiguration = "LogConfiguration"
         case manifestProcessingRules = "ManifestProcessingRules"
@@ -7962,6 +8035,8 @@ extension PutPlaybackConfigurationOutputBody: Swift.Decodable {
         dashConfiguration = dashConfigurationDecoded
         let hlsConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.HlsConfiguration.self, forKey: .hlsConfiguration)
         hlsConfiguration = hlsConfigurationDecoded
+        let insertionModeDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.InsertionMode.self, forKey: .insertionMode)
+        insertionMode = insertionModeDecoded
         let livePreRollConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LivePreRollConfiguration.self, forKey: .livePreRollConfiguration)
         livePreRollConfiguration = livePreRollConfigurationDecoded
         let logConfigurationDecoded = try containerValues.decodeIfPresent(MediaTailorClientTypes.LogConfiguration.self, forKey: .logConfiguration)

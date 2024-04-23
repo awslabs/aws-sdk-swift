@@ -1507,7 +1507,7 @@ public struct CreateAccessPointInput: Swift.Equatable {
     /// The name of the bucket that you want to associate this access point with. For using this parameter with Amazon S3 on Outposts with the REST API, you must specify the name and the x-amz-outpost-id as well. For using this parameter with S3 on Outposts with the Amazon Web Services SDK and CLI, you must specify the ARN of the bucket accessed in the format arn:aws:s3-outposts:::outpost//bucket/. For example, to access the bucket reports through Outpost my-outpost owned by account 123456789012 in Region us-west-2, use the URL encoding of arn:aws:s3-outposts:us-west-2:123456789012:outpost/my-outpost/bucket/reports. The value must be URL encoded.
     /// This member is required.
     public var bucket: Swift.String?
-    /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point.
+    /// The Amazon Web Services account ID associated with the S3 bucket associated with this access point. For same account access point when your bucket and access point belong to the same account owner, the BucketAccountId is not required. For cross-account access point when your bucket and access point are not in the same account, the BucketAccountId is required.
     public var bucketAccountId: Swift.String?
     /// The name you want to assign to this access point.
     /// This member is required.
@@ -5938,7 +5938,7 @@ public struct GetMultiRegionAccessPointInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// The name of the Multi-Region Access Point whose configuration information you want to receive. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
+    /// The name of the Multi-Region Access Point whose configuration information you want to receive. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
     /// This member is required.
     public var name: Swift.String?
 
@@ -6015,7 +6015,7 @@ public struct GetMultiRegionAccessPointPolicyInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
+    /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
     /// This member is required.
     public var name: Swift.String?
 
@@ -6092,7 +6092,7 @@ public struct GetMultiRegionAccessPointPolicyStatusInput: Swift.Equatable {
     /// The Amazon Web Services account ID for the owner of the Multi-Region Access Point.
     /// This member is required.
     public var accountId: Swift.String?
-    /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
+    /// Specifies the Multi-Region Access Point. The name of the Multi-Region Access Point is different from the alias. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming) in the Amazon S3 User Guide.
     /// This member is required.
     public var name: Swift.String?
 
@@ -7871,9 +7871,9 @@ extension S3ControlClientTypes {
     public struct LambdaInvokeOperation: Swift.Equatable {
         /// The Amazon Resource Name (ARN) for the Lambda function that the specified job will invoke on every object in the manifest.
         public var functionArn: Swift.String?
-        /// Specifies the schema version for the payload that Batch Operations sends when invoking an Lambda function. Version 1.0 is the default. Version 2.0 is required when you use Batch Operations to invoke Lambda functions that act on directory buckets, or if you need to specify UserArguments. For more information, see [Using Lambda with Amazon S3 Batch Operations and Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/using-lambda-with-s3-batch-operations-and-s3-express-one-zone/) in the Amazon Web Services Storage Blog. Ensure that your Lambda function code expects InvocationSchemaVersion 2.0 and uses bucket name rather than bucket ARN. If the InvocationSchemaVersion does not match what your Lambda function expects, your function might not work as expected. Directory buckets - To initiate Amazon Web Services Lambda function to perform custom actions on objects in directory buckets, you must specify 2.0.
+        /// Specifies the schema version for the payload that Batch Operations sends when invoking an Lambda function. Version 1.0 is the default. Version 2.0 is required when you use Batch Operations to invoke Lambda functions that act on directory buckets, or if you need to specify UserArguments. For more information, see [Automate object processing in Amazon S3 directory buckets with S3 Batch Operations and Lambda](https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/) in the Amazon Web Services Storage Blog. Ensure that your Lambda function code expects InvocationSchemaVersion 2.0 and uses bucket name rather than bucket ARN. If the InvocationSchemaVersion does not match what your Lambda function expects, your function might not work as expected. Directory buckets - To initiate Amazon Web Services Lambda function to perform custom actions on objects in directory buckets, you must specify 2.0.
         public var invocationSchemaVersion: Swift.String?
-        /// Key-value pairs that are passed in the payload that Batch Operations sends when invoking an Lambda function. You must specify InvocationSchemaVersion 2.0 for LambdaInvoke operations that include UserArguments. For more information, see [Using Lambda with Amazon S3 Batch Operations and Amazon S3 Express One Zone](https://aws.amazon.com/blogs/storage/using-lambda-with-s3-batch-operations-and-s3-express-one-zone/) in the Amazon Web Services Storage Blog.
+        /// Key-value pairs that are passed in the payload that Batch Operations sends when invoking an Lambda function. You must specify InvocationSchemaVersion 2.0 for LambdaInvoke operations that include UserArguments. For more information, see [Automate object processing in Amazon S3 directory buckets with S3 Batch Operations and Lambda](https://aws.amazon.com/blogs/storage/automate-object-processing-in-amazon-s3-directory-buckets-with-s3-batch-operations-and-aws-lambda/) in the Amazon Web Services Storage Blog.
         public var userArguments: [Swift.String:Swift.String]?
 
         public init(
@@ -8070,9 +8070,9 @@ extension S3ControlClientTypes.LifecycleRuleAndOperator {
 extension S3ControlClientTypes {
     /// The container for the Outposts bucket lifecycle rule and operator.
     public struct LifecycleRuleAndOperator: Swift.Equatable {
-        /// Minimum object size to which the rule applies.
+        /// The non-inclusive minimum object size for the lifecycle rule. Setting this property to 7 means the rule applies to objects with a size that is greater than 7.
         public var objectSizeGreaterThan: Swift.Int?
-        /// Maximum object size to which the rule applies.
+        /// The non-inclusive maximum object size for the lifecycle rule. Setting this property to 77 means the rule applies to objects with a size that is less than 77.
         public var objectSizeLessThan: Swift.Int?
         /// Prefix identifying one or more objects to which the rule applies.
         public var `prefix`: Swift.String?
@@ -9901,7 +9901,7 @@ extension S3ControlClientTypes.MultiRegionAccessPointReport {
 extension S3ControlClientTypes {
     /// A collection of statuses for a Multi-Region Access Point in the various Regions it supports.
     public struct MultiRegionAccessPointReport: Swift.Equatable {
-        /// The alias for the Multi-Region Access Point. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Managing Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming).
+        /// The alias for the Multi-Region Access Point. For more information about the distinction between the name and the alias of an Multi-Region Access Point, see [Rules for naming Amazon S3 Multi-Region Access Points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/CreatingMultiRegionAccessPoints.html#multi-region-access-point-naming).
         public var alias: Swift.String?
         /// When the Multi-Region Access Point create request was received.
         public var createdAt: ClientRuntime.Date?
@@ -13157,7 +13157,7 @@ extension S3ControlClientTypes {
         ///
         /// * General purpose buckets - For example, to copy objects to a general purpose bucket named destinationBucket, set the TargetResource property to arn:aws:s3:::destinationBucket.
         ///
-        /// * Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az2, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az2--x-s3.
+        /// * Directory buckets - For example, to copy objects to a directory bucket named destinationBucket in the Availability Zone; identified by the AZ ID usw2-az1, set the TargetResource property to arn:aws:s3express:region:account_id:/bucket/destination_bucket_base_name--usw2-az1--x-s3.
         public var targetResource: Swift.String?
         ///
         public var unModifiedSinceConstraint: ClientRuntime.Date?

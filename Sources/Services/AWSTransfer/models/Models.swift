@@ -319,12 +319,14 @@ extension TransferClientTypes {
     public enum CertificateUsageType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case encryption
         case signing
+        case tls
         case sdkUnknown(Swift.String)
 
         public static var allCases: [CertificateUsageType] {
             return [
                 .encryption,
                 .signing,
+                .tls,
                 .sdkUnknown("")
             ]
         }
@@ -336,6 +338,7 @@ extension TransferClientTypes {
             switch self {
             case .encryption: return "ENCRYPTION"
             case .signing: return "SIGNING"
+            case .tls: return "TLS"
             case let .sdkUnknown(s): return s
             }
         }
@@ -11551,6 +11554,160 @@ extension TransferClientTypes {
         }
     }
 
+}
+
+extension StartDirectoryListingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorId = "ConnectorId"
+        case maxItems = "MaxItems"
+        case outputDirectoryPath = "OutputDirectoryPath"
+        case remoteDirectoryPath = "RemoteDirectoryPath"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let connectorId = self.connectorId {
+            try encodeContainer.encode(connectorId, forKey: .connectorId)
+        }
+        if let maxItems = self.maxItems {
+            try encodeContainer.encode(maxItems, forKey: .maxItems)
+        }
+        if let outputDirectoryPath = self.outputDirectoryPath {
+            try encodeContainer.encode(outputDirectoryPath, forKey: .outputDirectoryPath)
+        }
+        if let remoteDirectoryPath = self.remoteDirectoryPath {
+            try encodeContainer.encode(remoteDirectoryPath, forKey: .remoteDirectoryPath)
+        }
+    }
+}
+
+extension StartDirectoryListingInput {
+
+    static func urlPathProvider(_ value: StartDirectoryListingInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct StartDirectoryListingInput: Swift.Equatable {
+    /// The unique identifier for the connector.
+    /// This member is required.
+    public var connectorId: Swift.String?
+    /// An optional parameter where you can specify the maximum number of file/directory names to retrieve. The default value is 1,000.
+    public var maxItems: Swift.Int?
+    /// Specifies the path (bucket and prefix) in Amazon S3 storage to store the results of the directory listing.
+    /// This member is required.
+    public var outputDirectoryPath: Swift.String?
+    /// Specifies the directory on the remote SFTP server for which you want to list its contents.
+    /// This member is required.
+    public var remoteDirectoryPath: Swift.String?
+
+    public init(
+        connectorId: Swift.String? = nil,
+        maxItems: Swift.Int? = nil,
+        outputDirectoryPath: Swift.String? = nil,
+        remoteDirectoryPath: Swift.String? = nil
+    )
+    {
+        self.connectorId = connectorId
+        self.maxItems = maxItems
+        self.outputDirectoryPath = outputDirectoryPath
+        self.remoteDirectoryPath = remoteDirectoryPath
+    }
+}
+
+struct StartDirectoryListingInputBody: Swift.Equatable {
+    let connectorId: Swift.String?
+    let remoteDirectoryPath: Swift.String?
+    let maxItems: Swift.Int?
+    let outputDirectoryPath: Swift.String?
+}
+
+extension StartDirectoryListingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case connectorId = "ConnectorId"
+        case maxItems = "MaxItems"
+        case outputDirectoryPath = "OutputDirectoryPath"
+        case remoteDirectoryPath = "RemoteDirectoryPath"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let connectorIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .connectorId)
+        connectorId = connectorIdDecoded
+        let remoteDirectoryPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remoteDirectoryPath)
+        remoteDirectoryPath = remoteDirectoryPathDecoded
+        let maxItemsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxItems)
+        maxItems = maxItemsDecoded
+        let outputDirectoryPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputDirectoryPath)
+        outputDirectoryPath = outputDirectoryPathDecoded
+    }
+}
+
+extension StartDirectoryListingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDirectoryListingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.listingId = output.listingId
+            self.outputFileName = output.outputFileName
+        } else {
+            self.listingId = nil
+            self.outputFileName = nil
+        }
+    }
+}
+
+public struct StartDirectoryListingOutput: Swift.Equatable {
+    /// Returns a unique identifier for the directory listing call.
+    /// This member is required.
+    public var listingId: Swift.String?
+    /// Returns the file name where the results are stored. This is a combination of the connector ID and the listing ID: <connector-id>-<listing-id>.json.
+    /// This member is required.
+    public var outputFileName: Swift.String?
+
+    public init(
+        listingId: Swift.String? = nil,
+        outputFileName: Swift.String? = nil
+    )
+    {
+        self.listingId = listingId
+        self.outputFileName = outputFileName
+    }
+}
+
+struct StartDirectoryListingOutputBody: Swift.Equatable {
+    let listingId: Swift.String?
+    let outputFileName: Swift.String?
+}
+
+extension StartDirectoryListingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case listingId = "ListingId"
+        case outputFileName = "OutputFileName"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let listingIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .listingId)
+        listingId = listingIdDecoded
+        let outputFileNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outputFileName)
+        outputFileName = outputFileNameDecoded
+    }
+}
+
+enum StartDirectoryListingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InternalServiceError": return try await InternalServiceError(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidRequestException": return try await InvalidRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceUnavailable": return try await ServiceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension StartFileTransferInput: Swift.Encodable {

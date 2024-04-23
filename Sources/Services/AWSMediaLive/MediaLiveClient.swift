@@ -593,6 +593,226 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `CreateCloudWatchAlarmTemplate` operation on the `MediaLive` service.
+    ///
+    /// Creates a cloudwatch alarm template to dynamically generate cloudwatch metric alarms on targeted resource types.
+    ///
+    /// - Parameter CreateCloudWatchAlarmTemplateInput : Placeholder documentation for CreateCloudWatchAlarmTemplateRequest
+    ///
+    /// - Returns: `CreateCloudWatchAlarmTemplateOutput` : Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func createCloudWatchAlarmTemplate(input: CreateCloudWatchAlarmTemplateInput) async throws -> CreateCloudWatchAlarmTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCloudWatchAlarmTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(id: "createCloudWatchAlarmTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(CreateCloudWatchAlarmTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCloudWatchAlarmTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateCloudWatchAlarmTemplateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCloudWatchAlarmTemplateInput, CreateCloudWatchAlarmTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCloudWatchAlarmTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateCloudWatchAlarmTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCloudWatchAlarmTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCloudWatchAlarmTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateCloudWatchAlarmTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Creates a cloudwatch alarm template group to group your cloudwatch alarm templates and to attach to signal maps for dynamically creating alarms.
+    ///
+    /// - Parameter CreateCloudWatchAlarmTemplateGroupInput : Placeholder documentation for CreateCloudWatchAlarmTemplateGroupRequest
+    ///
+    /// - Returns: `CreateCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func createCloudWatchAlarmTemplateGroup(input: CreateCloudWatchAlarmTemplateGroupInput) async throws -> CreateCloudWatchAlarmTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createCloudWatchAlarmTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(id: "createCloudWatchAlarmTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(CreateCloudWatchAlarmTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateCloudWatchAlarmTemplateGroupInput, CreateCloudWatchAlarmTemplateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateCloudWatchAlarmTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateCloudWatchAlarmTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateEventBridgeRuleTemplate` operation on the `MediaLive` service.
+    ///
+    /// Creates an eventbridge rule template to monitor events and send notifications to your targeted resources.
+    ///
+    /// - Parameter CreateEventBridgeRuleTemplateInput : Placeholder documentation for CreateEventBridgeRuleTemplateRequest
+    ///
+    /// - Returns: `CreateEventBridgeRuleTemplateOutput` : Placeholder documentation for CreateEventBridgeRuleTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func createEventBridgeRuleTemplate(input: CreateEventBridgeRuleTemplateInput) async throws -> CreateEventBridgeRuleTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEventBridgeRuleTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(id: "createEventBridgeRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(CreateEventBridgeRuleTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventBridgeRuleTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateEventBridgeRuleTemplateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateEventBridgeRuleTemplateInput, CreateEventBridgeRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventBridgeRuleTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateEventBridgeRuleTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventBridgeRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateEventBridgeRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `CreateEventBridgeRuleTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Creates an eventbridge rule template group to group your eventbridge rule templates and to attach to signal maps for dynamically creating notification rules.
+    ///
+    /// - Parameter CreateEventBridgeRuleTemplateGroupInput : Placeholder documentation for CreateEventBridgeRuleTemplateGroupRequest
+    ///
+    /// - Returns: `CreateEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func createEventBridgeRuleTemplateGroup(input: CreateEventBridgeRuleTemplateGroupInput) async throws -> CreateEventBridgeRuleTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createEventBridgeRuleTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(id: "createEventBridgeRuleTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(CreateEventBridgeRuleTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateEventBridgeRuleTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateEventBridgeRuleTemplateGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateEventBridgeRuleTemplateGroupInput, CreateEventBridgeRuleTemplateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateEventBridgeRuleTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateEventBridgeRuleTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateEventBridgeRuleTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateEventBridgeRuleTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateInput` operation on the `MediaLive` service.
     ///
     /// Create an input
@@ -876,6 +1096,61 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `CreateSignalMap` operation on the `MediaLive` service.
+    ///
+    /// Initiates the creation of a new signal map. Will discover a new mediaResourceMap based on the provided discoveryEntryPointArn.
+    ///
+    /// - Parameter CreateSignalMapInput : Placeholder documentation for CreateSignalMapRequest
+    ///
+    /// - Returns: `CreateSignalMapOutput` : Placeholder documentation for CreateSignalMapResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func createSignalMap(input: CreateSignalMapInput) async throws -> CreateSignalMapOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "createSignalMap")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<CreateSignalMapInput, CreateSignalMapOutput>(id: "createSignalMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(CreateSignalMapInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<CreateSignalMapInput, CreateSignalMapOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<CreateSignalMapOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<CreateSignalMapOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<CreateSignalMapInput, CreateSignalMapOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<CreateSignalMapInput, CreateSignalMapOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, CreateSignalMapOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<CreateSignalMapOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<CreateSignalMapOutput>(responseClosure(decoder: decoder), responseErrorClosure(CreateSignalMapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<CreateSignalMapOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `CreateTags` operation on the `MediaLive` service.
     ///
     /// Create tags for a resource
@@ -979,6 +1254,214 @@ extension MediaLiveClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteChannelOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteChannelOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteChannelOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteChannelOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteCloudWatchAlarmTemplate` operation on the `MediaLive` service.
+    ///
+    /// Deletes a cloudwatch alarm template.
+    ///
+    /// - Parameter DeleteCloudWatchAlarmTemplateInput : Placeholder documentation for DeleteCloudWatchAlarmTemplateRequest
+    ///
+    /// - Returns: `DeleteCloudWatchAlarmTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func deleteCloudWatchAlarmTemplate(input: DeleteCloudWatchAlarmTemplateInput) async throws -> DeleteCloudWatchAlarmTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCloudWatchAlarmTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteCloudWatchAlarmTemplateInput, DeleteCloudWatchAlarmTemplateOutput>(id: "deleteCloudWatchAlarmTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCloudWatchAlarmTemplateInput, DeleteCloudWatchAlarmTemplateOutput>(DeleteCloudWatchAlarmTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCloudWatchAlarmTemplateInput, DeleteCloudWatchAlarmTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCloudWatchAlarmTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteCloudWatchAlarmTemplateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCloudWatchAlarmTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteCloudWatchAlarmTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCloudWatchAlarmTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCloudWatchAlarmTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteCloudWatchAlarmTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Deletes a cloudwatch alarm template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+    ///
+    /// - Parameter DeleteCloudWatchAlarmTemplateGroupInput : Placeholder documentation for DeleteCloudWatchAlarmTemplateGroupRequest
+    ///
+    /// - Returns: `DeleteCloudWatchAlarmTemplateGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func deleteCloudWatchAlarmTemplateGroup(input: DeleteCloudWatchAlarmTemplateGroupInput) async throws -> DeleteCloudWatchAlarmTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteCloudWatchAlarmTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteCloudWatchAlarmTemplateGroupInput, DeleteCloudWatchAlarmTemplateGroupOutput>(id: "deleteCloudWatchAlarmTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteCloudWatchAlarmTemplateGroupInput, DeleteCloudWatchAlarmTemplateGroupOutput>(DeleteCloudWatchAlarmTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteCloudWatchAlarmTemplateGroupInput, DeleteCloudWatchAlarmTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteCloudWatchAlarmTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteCloudWatchAlarmTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteEventBridgeRuleTemplate` operation on the `MediaLive` service.
+    ///
+    /// Deletes an eventbridge rule template.
+    ///
+    /// - Parameter DeleteEventBridgeRuleTemplateInput : Placeholder documentation for DeleteEventBridgeRuleTemplateRequest
+    ///
+    /// - Returns: `DeleteEventBridgeRuleTemplateOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func deleteEventBridgeRuleTemplate(input: DeleteEventBridgeRuleTemplateInput) async throws -> DeleteEventBridgeRuleTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEventBridgeRuleTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteEventBridgeRuleTemplateInput, DeleteEventBridgeRuleTemplateOutput>(id: "deleteEventBridgeRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventBridgeRuleTemplateInput, DeleteEventBridgeRuleTemplateOutput>(DeleteEventBridgeRuleTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventBridgeRuleTemplateInput, DeleteEventBridgeRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventBridgeRuleTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteEventBridgeRuleTemplateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventBridgeRuleTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteEventBridgeRuleTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventBridgeRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteEventBridgeRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteEventBridgeRuleTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Deletes an eventbridge rule template group. You must detach this group from all signal maps and ensure its existing templates are moved to another group or deleted.
+    ///
+    /// - Parameter DeleteEventBridgeRuleTemplateGroupInput : Placeholder documentation for DeleteEventBridgeRuleTemplateGroupRequest
+    ///
+    /// - Returns: `DeleteEventBridgeRuleTemplateGroupOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func deleteEventBridgeRuleTemplateGroup(input: DeleteEventBridgeRuleTemplateGroupInput) async throws -> DeleteEventBridgeRuleTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteEventBridgeRuleTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteEventBridgeRuleTemplateGroupInput, DeleteEventBridgeRuleTemplateGroupOutput>(id: "deleteEventBridgeRuleTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteEventBridgeRuleTemplateGroupInput, DeleteEventBridgeRuleTemplateGroupOutput>(DeleteEventBridgeRuleTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteEventBridgeRuleTemplateGroupInput, DeleteEventBridgeRuleTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteEventBridgeRuleTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteEventBridgeRuleTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1301,6 +1784,58 @@ extension MediaLiveClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteScheduleOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteScheduleOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteScheduleOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteScheduleOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `DeleteSignalMap` operation on the `MediaLive` service.
+    ///
+    /// Deletes the specified signal map.
+    ///
+    /// - Parameter DeleteSignalMapInput : Placeholder documentation for DeleteSignalMapRequest
+    ///
+    /// - Returns: `DeleteSignalMapOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func deleteSignalMap(input: DeleteSignalMapInput) async throws -> DeleteSignalMapOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "deleteSignalMap")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<DeleteSignalMapInput, DeleteSignalMapOutput>(id: "deleteSignalMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<DeleteSignalMapInput, DeleteSignalMapOutput>(DeleteSignalMapInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<DeleteSignalMapInput, DeleteSignalMapOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<DeleteSignalMapOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<DeleteSignalMapOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, DeleteSignalMapOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<DeleteSignalMapOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<DeleteSignalMapOutput>(responseClosure(decoder: decoder), responseErrorClosure(DeleteSignalMapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<DeleteSignalMapOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -1995,6 +2530,261 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `GetCloudWatchAlarmTemplate` operation on the `MediaLive` service.
+    ///
+    /// Retrieves the specified cloudwatch alarm template.
+    ///
+    /// - Parameter GetCloudWatchAlarmTemplateInput : Placeholder documentation for GetCloudWatchAlarmTemplateRequest
+    ///
+    /// - Returns: `GetCloudWatchAlarmTemplateOutput` : Placeholder documentation for GetCloudWatchAlarmTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func getCloudWatchAlarmTemplate(input: GetCloudWatchAlarmTemplateInput) async throws -> GetCloudWatchAlarmTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCloudWatchAlarmTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetCloudWatchAlarmTemplateInput, GetCloudWatchAlarmTemplateOutput>(id: "getCloudWatchAlarmTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudWatchAlarmTemplateInput, GetCloudWatchAlarmTemplateOutput>(GetCloudWatchAlarmTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudWatchAlarmTemplateInput, GetCloudWatchAlarmTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudWatchAlarmTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCloudWatchAlarmTemplateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudWatchAlarmTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCloudWatchAlarmTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudWatchAlarmTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCloudWatchAlarmTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetCloudWatchAlarmTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Retrieves the specified cloudwatch alarm template group.
+    ///
+    /// - Parameter GetCloudWatchAlarmTemplateGroupInput : Placeholder documentation for GetCloudWatchAlarmTemplateGroupRequest
+    ///
+    /// - Returns: `GetCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func getCloudWatchAlarmTemplateGroup(input: GetCloudWatchAlarmTemplateGroupInput) async throws -> GetCloudWatchAlarmTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getCloudWatchAlarmTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetCloudWatchAlarmTemplateGroupInput, GetCloudWatchAlarmTemplateGroupOutput>(id: "getCloudWatchAlarmTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetCloudWatchAlarmTemplateGroupInput, GetCloudWatchAlarmTemplateGroupOutput>(GetCloudWatchAlarmTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetCloudWatchAlarmTemplateGroupInput, GetCloudWatchAlarmTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetCloudWatchAlarmTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetCloudWatchAlarmTemplateGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetCloudWatchAlarmTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetCloudWatchAlarmTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetCloudWatchAlarmTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetCloudWatchAlarmTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetEventBridgeRuleTemplate` operation on the `MediaLive` service.
+    ///
+    /// Retrieves the specified eventbridge rule template.
+    ///
+    /// - Parameter GetEventBridgeRuleTemplateInput : Placeholder documentation for GetEventBridgeRuleTemplateRequest
+    ///
+    /// - Returns: `GetEventBridgeRuleTemplateOutput` : Placeholder documentation for GetEventBridgeRuleTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func getEventBridgeRuleTemplate(input: GetEventBridgeRuleTemplateInput) async throws -> GetEventBridgeRuleTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEventBridgeRuleTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetEventBridgeRuleTemplateInput, GetEventBridgeRuleTemplateOutput>(id: "getEventBridgeRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventBridgeRuleTemplateInput, GetEventBridgeRuleTemplateOutput>(GetEventBridgeRuleTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventBridgeRuleTemplateInput, GetEventBridgeRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventBridgeRuleTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetEventBridgeRuleTemplateOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventBridgeRuleTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetEventBridgeRuleTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventBridgeRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEventBridgeRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetEventBridgeRuleTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Retrieves the specified eventbridge rule template group.
+    ///
+    /// - Parameter GetEventBridgeRuleTemplateGroupInput : Placeholder documentation for GetEventBridgeRuleTemplateGroupRequest
+    ///
+    /// - Returns: `GetEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func getEventBridgeRuleTemplateGroup(input: GetEventBridgeRuleTemplateGroupInput) async throws -> GetEventBridgeRuleTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getEventBridgeRuleTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetEventBridgeRuleTemplateGroupInput, GetEventBridgeRuleTemplateGroupOutput>(id: "getEventBridgeRuleTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetEventBridgeRuleTemplateGroupInput, GetEventBridgeRuleTemplateGroupOutput>(GetEventBridgeRuleTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetEventBridgeRuleTemplateGroupInput, GetEventBridgeRuleTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetEventBridgeRuleTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetEventBridgeRuleTemplateGroupOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetEventBridgeRuleTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetEventBridgeRuleTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetEventBridgeRuleTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetEventBridgeRuleTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `GetSignalMap` operation on the `MediaLive` service.
+    ///
+    /// Retrieves the specified signal map.
+    ///
+    /// - Parameter GetSignalMapInput : Placeholder documentation for GetSignalMapRequest
+    ///
+    /// - Returns: `GetSignalMapOutput` : Placeholder documentation for GetSignalMapResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func getSignalMap(input: GetSignalMapInput) async throws -> GetSignalMapOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getSignalMap")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetSignalMapInput, GetSignalMapOutput>(id: "getSignalMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetSignalMapInput, GetSignalMapOutput>(GetSignalMapInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetSignalMapInput, GetSignalMapOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetSignalMapOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetSignalMapOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetSignalMapOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetSignalMapOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetSignalMapOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetSignalMapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetSignalMapOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListChannels` operation on the `MediaLive` service.
     ///
     /// Produces list of channels that have been created
@@ -2044,6 +2834,214 @@ extension MediaLiveClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListChannelsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListChannelsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListChannelsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListChannelsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListCloudWatchAlarmTemplateGroups` operation on the `MediaLive` service.
+    ///
+    /// Lists cloudwatch alarm template groups.
+    ///
+    /// - Parameter ListCloudWatchAlarmTemplateGroupsInput : Placeholder documentation for ListCloudWatchAlarmTemplateGroupsRequest
+    ///
+    /// - Returns: `ListCloudWatchAlarmTemplateGroupsOutput` : Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listCloudWatchAlarmTemplateGroups(input: ListCloudWatchAlarmTemplateGroupsInput) async throws -> ListCloudWatchAlarmTemplateGroupsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCloudWatchAlarmTemplateGroups")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(id: "listCloudWatchAlarmTemplateGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(ListCloudWatchAlarmTemplateGroupsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCloudWatchAlarmTemplateGroupsInput, ListCloudWatchAlarmTemplateGroupsOutput>(ListCloudWatchAlarmTemplateGroupsInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCloudWatchAlarmTemplateGroupsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCloudWatchAlarmTemplateGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCloudWatchAlarmTemplateGroupsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListCloudWatchAlarmTemplates` operation on the `MediaLive` service.
+    ///
+    /// Lists cloudwatch alarm templates.
+    ///
+    /// - Parameter ListCloudWatchAlarmTemplatesInput : Placeholder documentation for ListCloudWatchAlarmTemplatesRequest
+    ///
+    /// - Returns: `ListCloudWatchAlarmTemplatesOutput` : Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listCloudWatchAlarmTemplates(input: ListCloudWatchAlarmTemplatesInput) async throws -> ListCloudWatchAlarmTemplatesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listCloudWatchAlarmTemplates")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(id: "listCloudWatchAlarmTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(ListCloudWatchAlarmTemplatesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListCloudWatchAlarmTemplatesOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListCloudWatchAlarmTemplatesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListCloudWatchAlarmTemplatesInput, ListCloudWatchAlarmTemplatesOutput>(ListCloudWatchAlarmTemplatesInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListCloudWatchAlarmTemplatesOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListCloudWatchAlarmTemplatesOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListCloudWatchAlarmTemplatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListCloudWatchAlarmTemplatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListCloudWatchAlarmTemplatesOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListEventBridgeRuleTemplateGroups` operation on the `MediaLive` service.
+    ///
+    /// Lists eventbridge rule template groups.
+    ///
+    /// - Parameter ListEventBridgeRuleTemplateGroupsInput : Placeholder documentation for ListEventBridgeRuleTemplateGroupsRequest
+    ///
+    /// - Returns: `ListEventBridgeRuleTemplateGroupsOutput` : Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listEventBridgeRuleTemplateGroups(input: ListEventBridgeRuleTemplateGroupsInput) async throws -> ListEventBridgeRuleTemplateGroupsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEventBridgeRuleTemplateGroups")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(id: "listEventBridgeRuleTemplateGroups")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(ListEventBridgeRuleTemplateGroupsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventBridgeRuleTemplateGroupsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListEventBridgeRuleTemplateGroupsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEventBridgeRuleTemplateGroupsInput, ListEventBridgeRuleTemplateGroupsOutput>(ListEventBridgeRuleTemplateGroupsInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventBridgeRuleTemplateGroupsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEventBridgeRuleTemplateGroupsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventBridgeRuleTemplateGroupsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEventBridgeRuleTemplateGroupsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventBridgeRuleTemplateGroupsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `ListEventBridgeRuleTemplates` operation on the `MediaLive` service.
+    ///
+    /// Lists eventbridge rule templates.
+    ///
+    /// - Parameter ListEventBridgeRuleTemplatesInput : Placeholder documentation for ListEventBridgeRuleTemplatesRequest
+    ///
+    /// - Returns: `ListEventBridgeRuleTemplatesOutput` : Placeholder documentation for ListEventBridgeRuleTemplatesResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listEventBridgeRuleTemplates(input: ListEventBridgeRuleTemplatesInput) async throws -> ListEventBridgeRuleTemplatesOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listEventBridgeRuleTemplates")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(id: "listEventBridgeRuleTemplates")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(ListEventBridgeRuleTemplatesInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListEventBridgeRuleTemplatesOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListEventBridgeRuleTemplatesOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListEventBridgeRuleTemplatesInput, ListEventBridgeRuleTemplatesOutput>(ListEventBridgeRuleTemplatesInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListEventBridgeRuleTemplatesOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListEventBridgeRuleTemplatesOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListEventBridgeRuleTemplatesOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListEventBridgeRuleTemplatesOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListEventBridgeRuleTemplatesOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -2474,6 +3472,58 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `ListSignalMaps` operation on the `MediaLive` service.
+    ///
+    /// Lists signal maps.
+    ///
+    /// - Parameter ListSignalMapsInput : Placeholder documentation for ListSignalMapsRequest
+    ///
+    /// - Returns: `ListSignalMapsOutput` : Placeholder documentation for ListSignalMapsResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func listSignalMaps(input: ListSignalMapsInput) async throws -> ListSignalMapsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "listSignalMaps")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<ListSignalMapsInput, ListSignalMapsOutput>(id: "listSignalMaps")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<ListSignalMapsInput, ListSignalMapsOutput>(ListSignalMapsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<ListSignalMapsInput, ListSignalMapsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<ListSignalMapsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<ListSignalMapsOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.QueryItemMiddleware<ListSignalMapsInput, ListSignalMapsOutput>(ListSignalMapsInput.queryItemProvider(_:)))
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, ListSignalMapsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<ListSignalMapsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<ListSignalMapsOutput>(responseClosure(decoder: decoder), responseErrorClosure(ListSignalMapsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<ListSignalMapsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `ListTagsForResource` operation on the `MediaLive` service.
     ///
     /// Produces list of tags that have been created for a resource
@@ -2805,6 +3855,58 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `StartDeleteMonitorDeployment` operation on the `MediaLive` service.
+    ///
+    /// Initiates a deployment to delete the monitor of the specified signal map.
+    ///
+    /// - Parameter StartDeleteMonitorDeploymentInput : Placeholder documentation for StartDeleteMonitorDeploymentRequest
+    ///
+    /// - Returns: `StartDeleteMonitorDeploymentOutput` : Placeholder documentation for StartDeleteMonitorDeploymentResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func startDeleteMonitorDeployment(input: StartDeleteMonitorDeploymentInput) async throws -> StartDeleteMonitorDeploymentOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .delete)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startDeleteMonitorDeployment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartDeleteMonitorDeploymentInput, StartDeleteMonitorDeploymentOutput>(id: "startDeleteMonitorDeployment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartDeleteMonitorDeploymentInput, StartDeleteMonitorDeploymentOutput>(StartDeleteMonitorDeploymentInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartDeleteMonitorDeploymentInput, StartDeleteMonitorDeploymentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartDeleteMonitorDeploymentOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartDeleteMonitorDeploymentOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartDeleteMonitorDeploymentOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartDeleteMonitorDeploymentOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartDeleteMonitorDeploymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartDeleteMonitorDeploymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartDeleteMonitorDeploymentOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `StartInputDevice` operation on the `MediaLive` service.
     ///
     /// Start an input device that is attached to a MediaConnect flow. (There is no need to start a device that is attached to a MediaLive input; MediaLive starts the device when the channel starts.)
@@ -2913,6 +4015,61 @@ extension MediaLiveClient {
         return result
     }
 
+    /// Performs the `StartMonitorDeployment` operation on the `MediaLive` service.
+    ///
+    /// Initiates a deployment to deploy the latest monitor of the specified signal map.
+    ///
+    /// - Parameter StartMonitorDeploymentInput : Placeholder documentation for StartMonitorDeploymentRequest
+    ///
+    /// - Returns: `StartMonitorDeploymentOutput` : Placeholder documentation for StartMonitorDeploymentResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func startMonitorDeployment(input: StartMonitorDeploymentInput) async throws -> StartMonitorDeploymentOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startMonitorDeployment")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(id: "startMonitorDeployment")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(StartMonitorDeploymentInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartMonitorDeploymentOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartMonitorDeploymentOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartMonitorDeploymentInput, StartMonitorDeploymentOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartMonitorDeploymentOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartMonitorDeploymentOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMonitorDeploymentOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMonitorDeploymentOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMonitorDeploymentOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `StartMultiplex` operation on the `MediaLive` service.
     ///
     /// Start (run) the multiplex. Starting the multiplex does not start the channels. You must explicitly start each channel.
@@ -2963,6 +4120,61 @@ extension MediaLiveClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartMultiplexOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartMultiplexOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartMultiplexOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartMultiplexOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `StartUpdateSignalMap` operation on the `MediaLive` service.
+    ///
+    /// Initiates an update for the specified signal map. Will discover a new signal map if a changed discoveryEntryPointArn is provided.
+    ///
+    /// - Parameter StartUpdateSignalMapInput : Placeholder documentation for StartUpdateSignalMapRequest
+    ///
+    /// - Returns: `StartUpdateSignalMapOutput` : Placeholder documentation for StartUpdateSignalMapResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func startUpdateSignalMap(input: StartUpdateSignalMapInput) async throws -> StartUpdateSignalMapOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "startUpdateSignalMap")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>(id: "startUpdateSignalMap")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>(StartUpdateSignalMapInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<StartUpdateSignalMapOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<StartUpdateSignalMapOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<StartUpdateSignalMapInput, StartUpdateSignalMapOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, StartUpdateSignalMapOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<StartUpdateSignalMapOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<StartUpdateSignalMapOutput>(responseClosure(decoder: decoder), responseErrorClosure(StartUpdateSignalMapOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<StartUpdateSignalMapOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3353,6 +4565,226 @@ extension MediaLiveClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateChannelClassOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateChannelClassOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateChannelClassOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateChannelClassOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateCloudWatchAlarmTemplate` operation on the `MediaLive` service.
+    ///
+    /// Updates the specified cloudwatch alarm template.
+    ///
+    /// - Parameter UpdateCloudWatchAlarmTemplateInput : Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest
+    ///
+    /// - Returns: `UpdateCloudWatchAlarmTemplateOutput` : Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func updateCloudWatchAlarmTemplate(input: UpdateCloudWatchAlarmTemplateInput) async throws -> UpdateCloudWatchAlarmTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudWatchAlarmTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>(id: "updateCloudWatchAlarmTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>(UpdateCloudWatchAlarmTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCloudWatchAlarmTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateCloudWatchAlarmTemplateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCloudWatchAlarmTemplateInput, UpdateCloudWatchAlarmTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCloudWatchAlarmTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateCloudWatchAlarmTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCloudWatchAlarmTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCloudWatchAlarmTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCloudWatchAlarmTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateCloudWatchAlarmTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Updates the specified cloudwatch alarm template group.
+    ///
+    /// - Parameter UpdateCloudWatchAlarmTemplateGroupInput : Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupRequest
+    ///
+    /// - Returns: `UpdateCloudWatchAlarmTemplateGroupOutput` : Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func updateCloudWatchAlarmTemplateGroup(input: UpdateCloudWatchAlarmTemplateGroupInput) async throws -> UpdateCloudWatchAlarmTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateCloudWatchAlarmTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>(id: "updateCloudWatchAlarmTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>(UpdateCloudWatchAlarmTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateCloudWatchAlarmTemplateGroupInput, UpdateCloudWatchAlarmTemplateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateCloudWatchAlarmTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateCloudWatchAlarmTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateCloudWatchAlarmTemplateGroupOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateEventBridgeRuleTemplate` operation on the `MediaLive` service.
+    ///
+    /// Updates the specified eventbridge rule template.
+    ///
+    /// - Parameter UpdateEventBridgeRuleTemplateInput : Placeholder documentation for UpdateEventBridgeRuleTemplateRequest
+    ///
+    /// - Returns: `UpdateEventBridgeRuleTemplateOutput` : Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func updateEventBridgeRuleTemplate(input: UpdateEventBridgeRuleTemplateInput) async throws -> UpdateEventBridgeRuleTemplateOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEventBridgeRuleTemplate")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>(id: "updateEventBridgeRuleTemplate")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>(UpdateEventBridgeRuleTemplateInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventBridgeRuleTemplateOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateEventBridgeRuleTemplateOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEventBridgeRuleTemplateInput, UpdateEventBridgeRuleTemplateOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventBridgeRuleTemplateOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateEventBridgeRuleTemplateOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventBridgeRuleTemplateOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEventBridgeRuleTemplateOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventBridgeRuleTemplateOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateEventBridgeRuleTemplateGroup` operation on the `MediaLive` service.
+    ///
+    /// Updates the specified eventbridge rule template group.
+    ///
+    /// - Parameter UpdateEventBridgeRuleTemplateGroupInput : Placeholder documentation for UpdateEventBridgeRuleTemplateGroupRequest
+    ///
+    /// - Returns: `UpdateEventBridgeRuleTemplateGroupOutput` : Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `BadRequestException` : Placeholder documentation for BadRequestException
+    /// - `ConflictException` : Placeholder documentation for ConflictException
+    /// - `ForbiddenException` : Placeholder documentation for ForbiddenException
+    /// - `InternalServerErrorException` : Placeholder documentation for InternalServerErrorException
+    /// - `NotFoundException` : Placeholder documentation for NotFoundException
+    /// - `TooManyRequestsException` : Placeholder documentation for TooManyRequestsException
+    public func updateEventBridgeRuleTemplateGroup(input: UpdateEventBridgeRuleTemplateGroupInput) async throws -> UpdateEventBridgeRuleTemplateGroupOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .patch)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateEventBridgeRuleTemplateGroup")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "medialive")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>(id: "updateEventBridgeRuleTemplateGroup")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>(UpdateEventBridgeRuleTemplateGroupInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateEventBridgeRuleTemplateGroupInput, UpdateEventBridgeRuleTemplateGroupOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateEventBridgeRuleTemplateGroupOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateEventBridgeRuleTemplateGroupOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateEventBridgeRuleTemplateGroupOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

@@ -142,7 +142,19 @@ public struct NetworkMonitorClientLogHandlerFactory: ClientRuntime.SDKLogHandler
 extension NetworkMonitorClient {
     /// Performs the `CreateMonitor` operation on the `NetworkMonitor` service.
     ///
-    /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch.
+    /// Creates a monitor between a source subnet and destination IP address. Within a monitor you'll create one or more probes that monitor network traffic between your source Amazon Web Services VPC subnets and your destination IP addresses. Each probe then aggregates and sends metrics to Amazon CloudWatch. You can also create a monitor with probes using this command. For each probe, you define the following:
+    ///
+    /// * source—The subnet IDs where the probes will be created.
+    ///
+    /// * destination— The target destination IP address for the probe.
+    ///
+    /// * destinationPort—Required only if the protocol is TCP.
+    ///
+    /// * protocol—The communication protocol between the source and destination. This will be either TCP or ICMP.
+    ///
+    /// * packetSize—The size of the packets. This must be a number between 56 and 8500.
+    ///
+    /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
     /// - Parameter CreateMonitorInput : [no documentation found]
     ///
@@ -198,7 +210,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `CreateProbe` operation on the `NetworkMonitor` service.
     ///
-    /// Create a probe within a monitor. Once you create a probe, and it begins monitoring your network traffic, you'll incur billing charges for that probe.
+    /// Create a probe within a monitor. Once you create a probe, and it begins monitoring your network traffic, you'll incur billing charges for that probe. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names. Note the name of the monitorName you want to create the probe for.
     ///
     /// - Parameter CreateProbeInput : [no documentation found]
     ///
@@ -254,7 +266,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `DeleteMonitor` operation on the `NetworkMonitor` service.
     ///
-    /// Deletes a specified monitor.
+    /// Deletes a specified monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
     /// - Parameter DeleteMonitorInput : [no documentation found]
     ///
@@ -305,7 +317,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `DeleteProbe` operation on the `NetworkMonitor` service.
     ///
-    /// Deletes the specified monitor. Once a probe is deleted you'll no longer incur any billing fees for that probe.
+    /// Deletes the specified probe. Once a probe is deleted you'll no longer incur any billing fees for that probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can only delete a single probe at a time using this action.
     ///
     /// - Parameter DeleteProbeInput : [no documentation found]
     ///
@@ -357,7 +369,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `GetMonitor` operation on the `NetworkMonitor` service.
     ///
-    /// Returns details about a specific monitor.
+    /// Returns details about a specific monitor. This action requires the monitorName parameter. Run ListMonitors to get a list of monitor names.
     ///
     /// - Parameter GetMonitorInput : [no documentation found]
     ///
@@ -408,7 +420,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `GetProbe` operation on the `NetworkMonitor` service.
     ///
-    /// Returns the details about a probe. You'll need both the monitorName and probeId.
+    /// Returns the details about a probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs.
     ///
     /// - Parameter GetProbeInput : [no documentation found]
     ///
@@ -670,7 +682,7 @@ extension NetworkMonitorClient {
 
     /// Performs the `UpdateMonitor` operation on the `NetworkMonitor` service.
     ///
-    /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds.
+    /// Updates the aggregationPeriod for a monitor. Monitors support an aggregationPeriod of either 30 or 60 seconds. This action requires the monitorName and probeId parameter. Run ListMonitors to get a list of monitor names.
     ///
     /// - Parameter UpdateMonitorInput : [no documentation found]
     ///
@@ -725,7 +737,19 @@ extension NetworkMonitorClient {
 
     /// Performs the `UpdateProbe` operation on the `NetworkMonitor` service.
     ///
-    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs.
+    /// Updates a monitor probe. This action requires both the monitorName and probeId parameters. Run ListMonitors to get a list of monitor names. Run GetMonitor to get a list of probes and probe IDs. You can update the following para create a monitor with probes using this command. For each probe, you define the following:
+    ///
+    /// * state—The state of the probe.
+    ///
+    /// * destination— The target destination IP address for the probe.
+    ///
+    /// * destinationPort—Required only if the protocol is TCP.
+    ///
+    /// * protocol—The communication protocol between the source and destination. This will be either TCP or ICMP.
+    ///
+    /// * packetSize—The size of the packets. This must be a number between 56 and 8500.
+    ///
+    /// * (Optional) tags —Key-value pairs created and assigned to the probe.
     ///
     /// - Parameter UpdateProbeInput : [no documentation found]
     ///

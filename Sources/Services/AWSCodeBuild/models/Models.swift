@@ -6609,7 +6609,7 @@ public struct ImportSourceCredentialsInput: Swift.Equatable {
     public var serverType: CodeBuildClientTypes.ServerType?
     /// Set to false to prevent overwriting the repository source credentials. Set to true to overwrite the repository source credentials. The default value is true.
     public var shouldOverwrite: Swift.Bool?
-    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is the app password.
+    /// For GitHub or GitHub Enterprise, this is the personal access token. For Bitbucket, this is either the access token or the app password.
     /// This member is required.
     public var token: Swift.String?
     /// The Bitbucket username when the authType is BASIC_AUTH. This parameter is not valid for other types of source providers or connections.
@@ -10436,7 +10436,7 @@ extension CodeBuildClientTypes {
         ///
         /// * For source code in a GitHub repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitHub account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitHub, on the GitHub Authorize application page, for Organization access, choose Request access next to each repository you want to allow CodeBuild to have access to, and then choose Authorize application. (After you have connected to your GitHub account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.
         ///
-        /// * For source code in an GitLab or self-managed GitLab repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitLab account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitLab, on the Connections Authorize application page, choose Authorize. Then on the CodeStar Connections Create GitLab connection page, choose Connect to GitLab. (After you have connected to your GitLab account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to override the default connection and use this connection instead, set the auth object's type value to CODECONNECTIONS in the source object.
+        /// * For source code in an GitLab or self-managed GitLab repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your GitLab account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with GitLab, on the Connections Authorize application page, choose Authorize. Then on the CodeConnections Create GitLab connection page, choose Connect to GitLab. (After you have connected to your GitLab account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to override the default connection and use this connection instead, set the auth object's type value to CODECONNECTIONS in the source object.
         ///
         /// * For source code in a Bitbucket repository, the HTTPS clone URL to the repository that contains the source and the buildspec file. You must connect your Amazon Web Services account to your Bitbucket account. Use the CodeBuild console to start creating a build project. When you use the console to connect (or reconnect) with Bitbucket, on the Bitbucket Confirm access to your account page, choose Grant access. (After you have connected to your Bitbucket account, you do not need to finish creating the build project. You can leave the CodeBuild console.) To instruct CodeBuild to use this connection, in the source object, set the auth object's type value to OAUTH.
         ///
@@ -15509,11 +15509,11 @@ extension CodeBuildClientTypes {
         /// For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build. For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.
         /// This member is required.
         public var pattern: Swift.String?
-        /// The type of webhook filter. There are eight webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, and RELEASE_NAME.
+        /// The type of webhook filter. There are nine webhook filter types: EVENT, ACTOR_ACCOUNT_ID, HEAD_REF, BASE_REF, FILE_PATH, COMMIT_MESSAGE, TAG_NAME, RELEASE_NAME, and WORKFLOW_NAME.
         ///
         /// * EVENT
         ///
-        /// * A webhook event triggers a build when the provided pattern matches one of eight event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, PULL_REQUEST_MERGED, RELEASED, and PRERELEASED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only. The RELEASED and PRERELEASED work with GitHub only.
+        /// * A webhook event triggers a build when the provided pattern matches one of nine event types: PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED, PULL_REQUEST_CLOSED, PULL_REQUEST_REOPENED, PULL_REQUEST_MERGED, RELEASED, PRERELEASED, and WORKFLOW_JOB_QUEUED. The EVENT patterns are specified as a comma-separated string. For example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED filters all push, pull request created, and pull request updated events. The PULL_REQUEST_REOPENED works with GitHub and GitHub Enterprise only. The RELEASED, PRERELEASED, and WORKFLOW_JOB_QUEUED work with GitHub only.
         ///
         ///
         ///
@@ -15563,6 +15563,13 @@ extension CodeBuildClientTypes {
         /// * RELEASE_NAME
         ///
         /// * A webhook triggers a build when the release name matches the regular expression pattern. Works with RELEASED and PRERELEASED events only.
+        ///
+        ///
+        ///
+        ///
+        /// * WORKFLOW_NAME
+        ///
+        /// * A webhook triggers a build when the workflow name matches the regular expression pattern. Works with WORKFLOW_JOB_QUEUED events only.
         /// This member is required.
         public var type: CodeBuildClientTypes.WebhookFilterType?
 
@@ -15588,6 +15595,9 @@ extension CodeBuildClientTypes {
         case event
         case filePath
         case headRef
+        case releaseName
+        case tagName
+        case workflowName
         case sdkUnknown(Swift.String)
 
         public static var allCases: [WebhookFilterType] {
@@ -15598,6 +15608,9 @@ extension CodeBuildClientTypes {
                 .event,
                 .filePath,
                 .headRef,
+                .releaseName,
+                .tagName,
+                .workflowName,
                 .sdkUnknown("")
             ]
         }
@@ -15613,6 +15626,9 @@ extension CodeBuildClientTypes {
             case .event: return "EVENT"
             case .filePath: return "FILE_PATH"
             case .headRef: return "HEAD_REF"
+            case .releaseName: return "RELEASE_NAME"
+            case .tagName: return "TAG_NAME"
+            case .workflowName: return "WORKFLOW_NAME"
             case let .sdkUnknown(s): return s
             }
         }
