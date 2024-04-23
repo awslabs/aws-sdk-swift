@@ -142,7 +142,7 @@ public struct IoTFleetHubClientLogHandlerFactory: ClientRuntime.SDKLogHandlerFac
 extension IoTFleetHubClient {
     /// Performs the `CreateApplication` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Creates a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Creates a Fleet Hub for IoT Device Management web application. When creating a Fleet Hub application, you must create an organization instance of IAM Identity Center if you don't already have one. The Fleet Hub application you create must also be in the same Amazon Web Services Region of the organization instance of IAM Identity Center. For more information see [Enabling IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/get-set-up-for-idc.html) and [Organization instances of IAM Identity Center](https://docs.aws.amazon.com/singlesignon/latest/userguide/organization-instances-identity-center.html).
     ///
     /// - Parameter CreateApplicationInput : [no documentation found]
     ///
@@ -196,7 +196,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `DeleteApplication` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Deletes a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Deletes a Fleet Hub for IoT Device Management web application.
     ///
     /// - Parameter DeleteApplicationInput : [no documentation found]
     ///
@@ -248,7 +248,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `DescribeApplication` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Gets information about a Fleet Hub for AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Gets information about a Fleet Hub for IoT Device Management web application.
     ///
     /// - Parameter DescribeApplicationInput : [no documentation found]
     ///
@@ -298,7 +298,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `ListApplications` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Gets a list of Fleet Hub for AWS IoT Device Management web applications for the current account. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Gets a list of Fleet Hub for IoT Device Management web applications for the current account.
     ///
     /// - Parameter ListApplicationsInput : [no documentation found]
     ///
@@ -348,7 +348,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `ListTagsForResource` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Lists the tags for the specified resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Lists the tags for the specified resource.
     ///
     /// - Parameter ListTagsForResourceInput : [no documentation found]
     ///
@@ -397,7 +397,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `TagResource` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Adds to or modifies the tags of the specified resource. Tags are metadata which can be used to manage a resource.
     ///
     /// - Parameter TagResourceInput : [no documentation found]
     ///
@@ -449,7 +449,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `UntagResource` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Removes the specified tags (metadata) from the resource. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Removes the specified tags (metadata) from the resource.
     ///
     /// - Parameter UntagResourceInput : [no documentation found]
     ///
@@ -499,7 +499,7 @@ extension IoTFleetHubClient {
 
     /// Performs the `UpdateApplication` operation on the `AWSIoTFleetHub` service.
     ///
-    /// Updates information about a Fleet Hub for a AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// Updates information about a Fleet Hub for IoT Device Management web application.
     ///
     /// - Parameter UpdateApplicationInput : [no documentation found]
     ///

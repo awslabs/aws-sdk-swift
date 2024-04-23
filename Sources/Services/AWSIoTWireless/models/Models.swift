@@ -363,7 +363,7 @@ extension AssociateAwsAccountWithPartnerAccountInput {
 }
 
 public struct AssociateAwsAccountWithPartnerAccountInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The Sidewalk account credentials.
     /// This member is required.
@@ -1822,7 +1822,7 @@ extension CreateDestinationInput {
 }
 
 public struct CreateDestinationInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
@@ -2016,7 +2016,7 @@ extension CreateDeviceProfileInput {
 }
 
 public struct CreateDeviceProfileInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The device profile information to use to create the device profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANDeviceProfile?
@@ -2209,7 +2209,7 @@ extension CreateFuotaTaskInput {
 }
 
 public struct CreateFuotaTaskInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
@@ -2425,7 +2425,7 @@ extension CreateMulticastGroupInput {
 }
 
 public struct CreateMulticastGroupInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the multicast group.
     public var description: Swift.String?
@@ -2621,7 +2621,7 @@ extension CreateNetworkAnalyzerConfigurationInput {
 }
 
 public struct CreateNetworkAnalyzerConfigurationInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
@@ -2843,7 +2843,7 @@ extension CreateServiceProfileInput {
 }
 
 public struct CreateServiceProfileInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The service profile information to use to create the service profile.
     public var loRaWAN: IoTWirelessClientTypes.LoRaWANServiceProfile?
@@ -3024,7 +3024,7 @@ extension CreateWirelessDeviceInput {
 }
 
 public struct CreateWirelessDeviceInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
@@ -3232,7 +3232,7 @@ extension CreateWirelessGatewayInput {
 }
 
 public struct CreateWirelessGatewayInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The description of the new resource.
     public var description: Swift.String?
@@ -3409,7 +3409,7 @@ public struct CreateWirelessGatewayTaskDefinitionInput: Swift.Equatable {
     /// Whether to automatically create tasks using this task definition for all gateways with the specified current version. If false, the task must me created by calling CreateWirelessGatewayTask.
     /// This member is required.
     public var autoCreateTasks: Swift.Bool?
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The name of the new resource.
     public var name: Swift.String?
@@ -6798,7 +6798,7 @@ extension GetMetricConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetMetricConfigurationOutput: Swift.Equatable {
-    /// The account's configuration status for summary metric aggregation.
+    /// The configuration status of the AWS account for summary metric aggregation.
     public var summaryMetric: IoTWirelessClientTypes.SummaryMetricConfiguration?
 
     public init(
@@ -6865,7 +6865,7 @@ extension GetMetricsInput {
 }
 
 public struct GetMetricsInput: Swift.Equatable {
-    /// The list of queries to retrieve summary metrics.
+    /// The list of queries to retrieve the summary metrics.
     public var summaryMetricQueries: [IoTWirelessClientTypes.SummaryMetricQuery]?
 
     public init(
@@ -6914,7 +6914,7 @@ extension GetMetricsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct GetMetricsOutput: Swift.Equatable {
-    /// The list of retrieved metrics.
+    /// The list of summary metrics that were retrieved.
     public var summaryMetricQueryResults: [IoTWirelessClientTypes.SummaryMetricQueryResult]?
 
     public init(
@@ -12855,6 +12855,7 @@ extension IoTWirelessClientTypes.LoRaWANDeviceMetadata: Swift.Codable {
         case fPort = "FPort"
         case frequency = "Frequency"
         case gateways = "Gateways"
+        case publicGateways = "PublicGateways"
         case timestamp = "Timestamp"
     }
 
@@ -12876,6 +12877,12 @@ extension IoTWirelessClientTypes.LoRaWANDeviceMetadata: Swift.Codable {
             var gatewaysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .gateways)
             for lorawangatewaymetadata0 in gateways {
                 try gatewaysContainer.encode(lorawangatewaymetadata0)
+            }
+        }
+        if let publicGateways = publicGateways {
+            var publicGatewaysContainer = encodeContainer.nestedUnkeyedContainer(forKey: .publicGateways)
+            for lorawanpublicgatewaymetadata0 in publicGateways {
+                try publicGatewaysContainer.encode(lorawanpublicgatewaymetadata0)
             }
         }
         if let timestamp = self.timestamp {
@@ -12906,6 +12913,17 @@ extension IoTWirelessClientTypes.LoRaWANDeviceMetadata: Swift.Codable {
             }
         }
         gateways = gatewaysDecoded0
+        let publicGatewaysContainer = try containerValues.decodeIfPresent([IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata?].self, forKey: .publicGateways)
+        var publicGatewaysDecoded0:[IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata]? = nil
+        if let publicGatewaysContainer = publicGatewaysContainer {
+            publicGatewaysDecoded0 = [IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata]()
+            for structure0 in publicGatewaysContainer {
+                if let structure0 = structure0 {
+                    publicGatewaysDecoded0?.append(structure0)
+                }
+            }
+        }
+        publicGateways = publicGatewaysDecoded0
     }
 }
 
@@ -12922,6 +12940,8 @@ extension IoTWirelessClientTypes {
         public var frequency: Swift.Int?
         /// Information about the gateways accessed by the device.
         public var gateways: [IoTWirelessClientTypes.LoRaWANGatewayMetadata]?
+        /// Information about the LoRaWAN public network accessed by the device.
+        public var publicGateways: [IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata]?
         /// The date and time of the metadata.
         public var timestamp: Swift.String?
 
@@ -12931,6 +12951,7 @@ extension IoTWirelessClientTypes {
             fPort: Swift.Int? = nil,
             frequency: Swift.Int? = nil,
             gateways: [IoTWirelessClientTypes.LoRaWANGatewayMetadata]? = nil,
+            publicGateways: [IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata]? = nil,
             timestamp: Swift.String? = nil
         )
         {
@@ -12939,6 +12960,7 @@ extension IoTWirelessClientTypes {
             self.fPort = fPort
             self.frequency = frequency
             self.gateways = gateways
+            self.publicGateways = publicGateways
             self.timestamp = timestamp
         }
     }
@@ -14080,6 +14102,91 @@ extension IoTWirelessClientTypes {
 
 }
 
+extension IoTWirelessClientTypes.LoRaWANPublicGatewayMetadata: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dlAllowed = "DlAllowed"
+        case id = "Id"
+        case providerNetId = "ProviderNetId"
+        case rfRegion = "RfRegion"
+        case rssi = "Rssi"
+        case snr = "Snr"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dlAllowed = self.dlAllowed {
+            try encodeContainer.encode(dlAllowed, forKey: .dlAllowed)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let providerNetId = self.providerNetId {
+            try encodeContainer.encode(providerNetId, forKey: .providerNetId)
+        }
+        if let rfRegion = self.rfRegion {
+            try encodeContainer.encode(rfRegion, forKey: .rfRegion)
+        }
+        if let rssi = self.rssi {
+            try encodeContainer.encode(rssi, forKey: .rssi)
+        }
+        if let snr = self.snr {
+            try encodeContainer.encode(snr, forKey: .snr)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let providerNetIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .providerNetId)
+        providerNetId = providerNetIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let rssiDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .rssi)
+        rssi = rssiDecoded
+        let snrDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .snr)
+        snr = snrDecoded
+        let rfRegionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rfRegion)
+        rfRegion = rfRegionDecoded
+        let dlAllowedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dlAllowed)
+        dlAllowed = dlAllowedDecoded
+    }
+}
+
+extension IoTWirelessClientTypes {
+    /// LoRaWAN public gateway metadata.
+    public struct LoRaWANPublicGatewayMetadata: Swift.Equatable {
+        /// Boolean that indicates whether downlink is allowed using the network.
+        public var dlAllowed: Swift.Bool?
+        /// The ID of the gateways that are operated by the network provider.
+        public var id: Swift.String?
+        /// The ID of the LoRaWAN public network provider.
+        public var providerNetId: Swift.String?
+        /// The frequency band (RFRegion) value.
+        public var rfRegion: Swift.String?
+        /// The RSSI (received signal strength indicator) value.
+        public var rssi: Swift.Double?
+        /// The SNR (signal to noise ratio) value.
+        public var snr: Swift.Double?
+
+        public init(
+            dlAllowed: Swift.Bool? = nil,
+            id: Swift.String? = nil,
+            providerNetId: Swift.String? = nil,
+            rfRegion: Swift.String? = nil,
+            rssi: Swift.Double? = nil,
+            snr: Swift.Double? = nil
+        )
+        {
+            self.dlAllowed = dlAllowed
+            self.id = id
+            self.providerNetId = providerNetId
+            self.rfRegion = rfRegion
+            self.rssi = rssi
+            self.snr = snr
+        }
+    }
+
+}
+
 extension IoTWirelessClientTypes.LoRaWANSendDataToDevice: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case fPort = "FPort"
@@ -15040,17 +15147,17 @@ extension IoTWirelessClientTypes.MetricQueryValue: Swift.Codable {
 extension IoTWirelessClientTypes {
     /// The aggregated values of the metric.
     public struct MetricQueryValue: Swift.Equatable {
-        /// The average of the values of the all data points collected during the period.
+        /// The average of the values of all data points collected during the aggregation period.
         public var avg: Swift.Double?
-        /// The maximum of the values of the all data points collected during the period.
+        /// The maximum of the values of all the data points collected during the aggregation period.
         public var max: Swift.Double?
-        /// The minimum of the values of the all data points collected during the period.
+        /// The minimum of the values of all data points collected during the aggregation period.
         public var min: Swift.Double?
-        /// The 90th percentile of the values of the all data points collected during the period.
+        /// The 90th percentile of the values of all data points collected during the aggregation period.
         public var p90: Swift.Double?
-        /// The standard deviation of the values of the all data points collected during the period.
+        /// The standard deviation of the values of all data points collected during the aggregation period.
         public var std: Swift.Double?
-        /// The sum of the values of the all data points collected during the period.
+        /// The sum of the values of all data points collected during the aggregation period.
         public var sum: Swift.Double?
 
         public init(
@@ -18253,7 +18360,7 @@ extension StartSingleWirelessDeviceImportTaskInput {
 }
 
 public struct StartSingleWirelessDeviceImportTaskInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The name of the Sidewalk destination that describes the IoT rule to route messages from the device in the import task that will be onboarded to AWS IoT Wireless.
     /// This member is required.
@@ -18425,7 +18532,7 @@ extension StartWirelessDeviceImportTaskInput {
 }
 
 public struct StartWirelessDeviceImportTaskInput: Swift.Equatable {
-    /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
+    /// Each resource must have a unique client request token. The client token is used to implement idempotency. It ensures that the request completes no more than one time. If you retry a request with the same token and the same parameters, the request will complete successfully. However, if you try to create a new resource using the same token but different parameters, an HTTP 409 conflict occurs. If you omit this value, AWS SDKs will automatically generate a unique client request. For more information about idempotency, see [Ensuring idempotency in Amazon EC2 API requests](https://docs.aws.amazon.com/ec2/latest/devguide/ec2-api-idempotency.html).
     public var clientRequestToken: Swift.String?
     /// The name of the Sidewalk destination that describes the IoT rule to route messages from the devices in the import task that are onboarded to AWS IoT Wireless.
     /// This member is required.
@@ -18573,9 +18680,9 @@ extension IoTWirelessClientTypes.SummaryMetricConfiguration: Swift.Codable {
 }
 
 extension IoTWirelessClientTypes {
-    /// The configuration of summary metric.
+    /// The configuration of summary metrics.
     public struct SummaryMetricConfiguration: Swift.Equatable {
-        /// The configuration of summary metric.
+        /// The status of the configuration of summary metrics.
         public var status: IoTWirelessClientTypes.SummaryMetricConfigurationStatus?
 
         public init(
@@ -18682,19 +18789,19 @@ extension IoTWirelessClientTypes.SummaryMetricQuery: Swift.Codable {
 }
 
 extension IoTWirelessClientTypes {
-    /// The metric query object.
+    /// The summary metric query object.
     public struct SummaryMetricQuery: Swift.Equatable {
-        /// The aggregation period of the metric.
+        /// The aggregation period of the summary metric.
         public var aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod?
-        /// The dimensions of the metric.
+        /// The dimensions of the summary metric.
         public var dimensions: [IoTWirelessClientTypes.Dimension]?
-        /// The end timestamp for summary metric query.
+        /// The end timestamp for the summary metric query.
         public var endTimestamp: ClientRuntime.Date?
         /// The name of the metric.
         public var metricName: IoTWirelessClientTypes.MetricName?
-        /// The id of the query.
+        /// The id of the summary metric query.
         public var queryId: Swift.String?
-        /// The start timestamp for summary metric query.
+        /// The start timestamp for the summary metric query.
         public var startTimestamp: ClientRuntime.Date?
 
         public init(
@@ -18833,29 +18940,29 @@ extension IoTWirelessClientTypes.SummaryMetricQueryResult: Swift.Codable {
 }
 
 extension IoTWirelessClientTypes {
-    /// The result of metrics aggregation operation.
+    /// The result of the summary metrics aggregation operation.
     public struct SummaryMetricQueryResult: Swift.Equatable {
         /// The aggregation period of the metric.
         public var aggregationPeriod: IoTWirelessClientTypes.AggregationPeriod?
         /// The dimensions of the metric.
         public var dimensions: [IoTWirelessClientTypes.Dimension]?
-        /// The end timestamp for summary metric query.
+        /// The end timestamp for the summary metric query.
         public var endTimestamp: ClientRuntime.Date?
-        /// The error message for the summary metric query.
+        /// The error message for the summary metric query result.
         public var error: Swift.String?
-        /// The name of the metric.
+        /// The name of the summary metric query result.
         public var metricName: IoTWirelessClientTypes.MetricName?
-        /// The id of the query.
+        /// The ID of the summary metric results query operation.
         public var queryId: Swift.String?
-        /// The status of the metric query.
+        /// The status of the summary metric query result.
         public var queryStatus: IoTWirelessClientTypes.MetricQueryStatus?
-        /// The start timestamp for summary metric query.
+        /// The start timestamp for the summary metric query.
         public var startTimestamp: ClientRuntime.Date?
         /// The timestamp of each aggregation result.
         public var timestamps: [ClientRuntime.Date]?
         /// The units of measurement to be used for interpreting the aggregation result.
         public var unit: Swift.String?
-        /// The list of aggregated metrics.
+        /// The list of aggregated summary metric query results.
         public var values: [IoTWirelessClientTypes.MetricQueryValue]?
 
         public init(

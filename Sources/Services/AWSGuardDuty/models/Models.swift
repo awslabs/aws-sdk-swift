@@ -3236,6 +3236,8 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
     ///
+    /// * service.action.awsApiCallAction.remoteIpDetails.ipAddressV6
+    ///
     /// * service.action.awsApiCallAction.remoteIpDetails.organization.asn
     ///
     /// * service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
@@ -3260,6 +3262,8 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
     ///
+    /// * service.action.networkConnectionAction.remoteIpDetails.ipAddressV6
+    ///
     /// * service.action.networkConnectionAction.remoteIpDetails.organization.asn
     ///
     /// * service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
@@ -3270,6 +3274,8 @@ public struct CreateFilterInput: Swift.Equatable {
     ///
     /// * service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV4
     ///
+    /// * service.action.kubernetesApiCallAction.remoteIpDetails.ipAddressV6
+    ///
     /// * service.action.kubernetesApiCallAction.namespace
     ///
     /// * service.action.kubernetesApiCallAction.remoteIpDetails.organization.asn
@@ -3279,6 +3285,8 @@ public struct CreateFilterInput: Swift.Equatable {
     /// * service.action.kubernetesApiCallAction.statusCode
     ///
     /// * service.action.networkConnectionAction.localIpDetails.ipAddressV4
+    ///
+    /// * service.action.networkConnectionAction.localIpDetails.ipAddressV6
     ///
     /// * service.action.networkConnectionAction.protocol
     ///
@@ -13806,6 +13814,7 @@ enum ListThreatIntelSetsOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension GuardDutyClientTypes.LocalIpDetails: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case ipAddressV4 = "ipAddressV4"
+        case ipAddressV6 = "ipAddressV6"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13813,18 +13822,23 @@ extension GuardDutyClientTypes.LocalIpDetails: Swift.Codable {
         if let ipAddressV4 = self.ipAddressV4 {
             try encodeContainer.encode(ipAddressV4, forKey: .ipAddressV4)
         }
+        if let ipAddressV6 = self.ipAddressV6 {
+            try encodeContainer.encode(ipAddressV6, forKey: .ipAddressV6)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let ipAddressV4Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressV4)
         ipAddressV4 = ipAddressV4Decoded
+        let ipAddressV6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressV6)
+        ipAddressV6 = ipAddressV6Decoded
     }
 }
 
 extension GuardDutyClientTypes.LocalIpDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "LocalIpDetails(ipAddressV4: \"CONTENT_REDACTED\")"}
+        "LocalIpDetails(ipAddressV4: \"CONTENT_REDACTED\", ipAddressV6: \"CONTENT_REDACTED\")"}
 }
 
 extension GuardDutyClientTypes {
@@ -13832,12 +13846,16 @@ extension GuardDutyClientTypes {
     public struct LocalIpDetails: Swift.Equatable {
         /// The IPv4 local address of the connection.
         public var ipAddressV4: Swift.String?
+        /// The IPv6 local address of the connection.
+        public var ipAddressV6: Swift.String?
 
         public init(
-            ipAddressV4: Swift.String? = nil
+            ipAddressV4: Swift.String? = nil,
+            ipAddressV6: Swift.String? = nil
         )
         {
             self.ipAddressV4 = ipAddressV4
+            self.ipAddressV6 = ipAddressV6
         }
     }
 
@@ -17031,6 +17049,7 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.Codable {
         case country = "country"
         case geoLocation = "geoLocation"
         case ipAddressV4 = "ipAddressV4"
+        case ipAddressV6 = "ipAddressV6"
         case organization = "organization"
     }
 
@@ -17048,6 +17067,9 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.Codable {
         if let ipAddressV4 = self.ipAddressV4 {
             try encodeContainer.encode(ipAddressV4, forKey: .ipAddressV4)
         }
+        if let ipAddressV6 = self.ipAddressV6 {
+            try encodeContainer.encode(ipAddressV6, forKey: .ipAddressV6)
+        }
         if let organization = self.organization {
             try encodeContainer.encode(organization, forKey: .organization)
         }
@@ -17063,6 +17085,8 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.Codable {
         geoLocation = geoLocationDecoded
         let ipAddressV4Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressV4)
         ipAddressV4 = ipAddressV4Decoded
+        let ipAddressV6Decoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .ipAddressV6)
+        ipAddressV6 = ipAddressV6Decoded
         let organizationDecoded = try containerValues.decodeIfPresent(GuardDutyClientTypes.Organization.self, forKey: .organization)
         organization = organizationDecoded
     }
@@ -17070,7 +17094,7 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.Codable {
 
 extension GuardDutyClientTypes.RemoteIpDetails: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RemoteIpDetails(city: \(Swift.String(describing: city)), country: \(Swift.String(describing: country)), geoLocation: \(Swift.String(describing: geoLocation)), organization: \(Swift.String(describing: organization)), ipAddressV4: \"CONTENT_REDACTED\")"}
+        "RemoteIpDetails(city: \(Swift.String(describing: city)), country: \(Swift.String(describing: country)), geoLocation: \(Swift.String(describing: geoLocation)), organization: \(Swift.String(describing: organization)), ipAddressV4: \"CONTENT_REDACTED\", ipAddressV6: \"CONTENT_REDACTED\")"}
 }
 
 extension GuardDutyClientTypes {
@@ -17084,6 +17108,8 @@ extension GuardDutyClientTypes {
         public var geoLocation: GuardDutyClientTypes.GeoLocation?
         /// The IPv4 remote address of the connection.
         public var ipAddressV4: Swift.String?
+        /// The IPv6 remote address of the connection.
+        public var ipAddressV6: Swift.String?
         /// The ISP organization information of the remote IP address.
         public var organization: GuardDutyClientTypes.Organization?
 
@@ -17092,6 +17118,7 @@ extension GuardDutyClientTypes {
             country: GuardDutyClientTypes.Country? = nil,
             geoLocation: GuardDutyClientTypes.GeoLocation? = nil,
             ipAddressV4: Swift.String? = nil,
+            ipAddressV6: Swift.String? = nil,
             organization: GuardDutyClientTypes.Organization? = nil
         )
         {
@@ -17099,6 +17126,7 @@ extension GuardDutyClientTypes {
             self.country = country
             self.geoLocation = geoLocation
             self.ipAddressV4 = ipAddressV4
+            self.ipAddressV6 = ipAddressV6
             self.organization = organization
         }
     }

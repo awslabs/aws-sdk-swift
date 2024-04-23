@@ -80,6 +80,7 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.Codab
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case actionGroupName
         case apiPath
+        case function
         case parameters
         case requestBody
         case verb
@@ -92,6 +93,9 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.Codab
         }
         if let apiPath = self.apiPath {
             try encodeContainer.encode(apiPath, forKey: .apiPath)
+        }
+        if let function = self.function {
+            try encodeContainer.encode(function, forKey: .function)
         }
         if let parameters = parameters {
             var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
@@ -128,21 +132,25 @@ extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.Codab
         parameters = parametersDecoded0
         let requestBodyDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.RequestBody.self, forKey: .requestBody)
         requestBody = requestBodyDecoded
+        let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
+        function = functionDecoded
     }
 }
 
 extension BedrockAgentRuntimeClientTypes.ActionGroupInvocationInput: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ActionGroupInvocationInput(parameters: \(Swift.String(describing: parameters)), requestBody: \(Swift.String(describing: requestBody)), actionGroupName: \"CONTENT_REDACTED\", apiPath: \"CONTENT_REDACTED\", verb: \"CONTENT_REDACTED\")"}
+        "ActionGroupInvocationInput(parameters: \(Swift.String(describing: parameters)), requestBody: \(Swift.String(describing: requestBody)), actionGroupName: \"CONTENT_REDACTED\", apiPath: \"CONTENT_REDACTED\", function: \"CONTENT_REDACTED\", verb: \"CONTENT_REDACTED\")"}
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// Contains information about the action group being invoked.
+    /// Contains information about the action group being invoked. For more information about the possible structures, see the InvocationInput tab in [OrchestrationTrace](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-orchestration.html) in the Amazon Bedrock User Guide.
     public struct ActionGroupInvocationInput: Swift.Equatable {
         /// The name of the action group.
         public var actionGroupName: Swift.String?
         /// The path to the API to call, based off the action group.
         public var apiPath: Swift.String?
+        /// The function in the action group to call.
+        public var function: Swift.String?
         /// The parameters in the Lambda input event.
         public var parameters: [BedrockAgentRuntimeClientTypes.Parameter]?
         /// The parameters in the request body for the Lambda input event.
@@ -153,6 +161,7 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             actionGroupName: Swift.String? = nil,
             apiPath: Swift.String? = nil,
+            function: Swift.String? = nil,
             parameters: [BedrockAgentRuntimeClientTypes.Parameter]? = nil,
             requestBody: BedrockAgentRuntimeClientTypes.RequestBody? = nil,
             verb: Swift.String? = nil
@@ -160,6 +169,7 @@ extension BedrockAgentRuntimeClientTypes {
         {
             self.actionGroupName = actionGroupName
             self.apiPath = apiPath
+            self.function = function
             self.parameters = parameters
             self.requestBody = requestBody
             self.verb = verb
@@ -203,6 +213,312 @@ extension BedrockAgentRuntimeClientTypes {
         )
         {
             self.text = text
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiInvocationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionGroup
+        case apiPath
+        case httpMethod
+        case parameters
+        case requestBody
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionGroup = self.actionGroup {
+            try encodeContainer.encode(actionGroup, forKey: .actionGroup)
+        }
+        if let apiPath = self.apiPath {
+            try encodeContainer.encode(apiPath, forKey: .apiPath)
+        }
+        if let httpMethod = self.httpMethod {
+            try encodeContainer.encode(httpMethod, forKey: .httpMethod)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for apiparameter0 in parameters {
+                try parametersContainer.encode(apiparameter0)
+            }
+        }
+        if let requestBody = self.requestBody {
+            try encodeContainer.encode(requestBody, forKey: .requestBody)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionGroup)
+        actionGroup = actionGroupDecoded
+        let httpMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpMethod)
+        httpMethod = httpMethodDecoded
+        let apiPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiPath)
+        apiPath = apiPathDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.ApiParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[BedrockAgentRuntimeClientTypes.ApiParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [BedrockAgentRuntimeClientTypes.ApiParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let requestBodyDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ApiRequestBody.self, forKey: .requestBody)
+        requestBody = requestBodyDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiInvocationInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ApiInvocationInput(actionGroup: \(Swift.String(describing: actionGroup)), httpMethod: \(Swift.String(describing: httpMethod)), parameters: \(Swift.String(describing: parameters)), requestBody: \(Swift.String(describing: requestBody)), apiPath: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information about the API operation that the agent predicts should be called. This data type is used in the following API operations:
+    ///
+    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct ApiInvocationInput: Swift.Equatable {
+        /// The action group that the API operation belongs to.
+        /// This member is required.
+        public var actionGroup: Swift.String?
+        /// The path to the API operation.
+        public var apiPath: Swift.String?
+        /// The HTTP method of the API operation.
+        public var httpMethod: Swift.String?
+        /// The parameters to provide for the API request, as the agent elicited from the user.
+        public var parameters: [BedrockAgentRuntimeClientTypes.ApiParameter]?
+        /// The request body to provide for the API request, as the agent elicited from the user.
+        public var requestBody: BedrockAgentRuntimeClientTypes.ApiRequestBody?
+
+        public init(
+            actionGroup: Swift.String? = nil,
+            apiPath: Swift.String? = nil,
+            httpMethod: Swift.String? = nil,
+            parameters: [BedrockAgentRuntimeClientTypes.ApiParameter]? = nil,
+            requestBody: BedrockAgentRuntimeClientTypes.ApiRequestBody? = nil
+        )
+        {
+            self.actionGroup = actionGroup
+            self.apiPath = apiPath
+            self.httpMethod = httpMethod
+            self.parameters = parameters
+            self.requestBody = requestBody
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case type
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Information about a parameter to provide to the API request. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct ApiParameter: Swift.Equatable {
+        /// The name of the parameter.
+        public var name: Swift.String?
+        /// The data type for the parameter.
+        public var type: Swift.String?
+        /// The value of the parameter.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiRequestBody: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case content
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let content = content {
+            var contentContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .content)
+            for (dictKey0, apiContentMap0) in content {
+                try contentContainer.encode(apiContentMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let contentContainer = try containerValues.decodeIfPresent([Swift.String: BedrockAgentRuntimeClientTypes.PropertyParameters?].self, forKey: .content)
+        var contentDecoded0: [Swift.String:BedrockAgentRuntimeClientTypes.PropertyParameters]? = nil
+        if let contentContainer = contentContainer {
+            contentDecoded0 = [Swift.String:BedrockAgentRuntimeClientTypes.PropertyParameters]()
+            for (key0, propertyparameters0) in contentContainer {
+                if let propertyparameters0 = propertyparameters0 {
+                    contentDecoded0?[key0] = propertyparameters0
+                }
+            }
+        }
+        content = contentDecoded0
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// The request body to provide for the API request, as the agent elicited from the user. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct ApiRequestBody: Swift.Equatable {
+        /// The content of the request body. The key of the object in this field is a media type defining the format of the request body.
+        public var content: [Swift.String:BedrockAgentRuntimeClientTypes.PropertyParameters]?
+
+        public init(
+            content: [Swift.String:BedrockAgentRuntimeClientTypes.PropertyParameters]? = nil
+        )
+        {
+            self.content = content
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionGroup
+        case apiPath
+        case httpMethod
+        case httpStatusCode
+        case responseBody
+        case responseState
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionGroup = self.actionGroup {
+            try encodeContainer.encode(actionGroup, forKey: .actionGroup)
+        }
+        if let apiPath = self.apiPath {
+            try encodeContainer.encode(apiPath, forKey: .apiPath)
+        }
+        if let httpMethod = self.httpMethod {
+            try encodeContainer.encode(httpMethod, forKey: .httpMethod)
+        }
+        if let httpStatusCode = self.httpStatusCode {
+            try encodeContainer.encode(httpStatusCode, forKey: .httpStatusCode)
+        }
+        if let responseBody = responseBody {
+            var responseBodyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseBody)
+            for (dictKey0, responseBody0) in responseBody {
+                try responseBodyContainer.encode(responseBody0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let responseState = self.responseState {
+            try encodeContainer.encode(responseState.rawValue, forKey: .responseState)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionGroup)
+        actionGroup = actionGroupDecoded
+        let httpMethodDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .httpMethod)
+        httpMethod = httpMethodDecoded
+        let apiPathDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .apiPath)
+        apiPath = apiPathDecoded
+        let responseBodyContainer = try containerValues.decodeIfPresent([Swift.String: BedrockAgentRuntimeClientTypes.ContentBody?].self, forKey: .responseBody)
+        var responseBodyDecoded0: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]? = nil
+        if let responseBodyContainer = responseBodyContainer {
+            responseBodyDecoded0 = [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]()
+            for (key0, contentbody0) in responseBodyContainer {
+                if let contentbody0 = contentbody0 {
+                    responseBodyDecoded0?[key0] = contentbody0
+                }
+            }
+        }
+        responseBody = responseBodyDecoded0
+        let httpStatusCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .httpStatusCode)
+        httpStatusCode = httpStatusCodeDecoded
+        let responseStateDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ResponseState.self, forKey: .responseState)
+        responseState = responseStateDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ApiResult: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "ApiResult(actionGroup: \(Swift.String(describing: actionGroup)), httpMethod: \(Swift.String(describing: httpMethod)), httpStatusCode: \(Swift.String(describing: httpStatusCode)), responseBody: \(Swift.String(describing: responseBody)), responseState: \(Swift.String(describing: responseState)), apiPath: \"CONTENT_REDACTED\")"}
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information about the API operation that was called from the action group and the response body that was returned. This data type is used in the following API operations:
+    ///
+    /// * In the returnControlInvocationResults of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    public struct ApiResult: Swift.Equatable {
+        /// The action group that the API operation belongs to.
+        /// This member is required.
+        public var actionGroup: Swift.String?
+        /// The path to the API operation.
+        public var apiPath: Swift.String?
+        /// The HTTP method for the API operation.
+        public var httpMethod: Swift.String?
+        /// http status code from API execution response (for example: 200, 400, 500).
+        public var httpStatusCode: Swift.Int?
+        /// The response body from the API operation. The key of the object is the content type. The response may be returned directly or from the Lambda function.
+        public var responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]?
+        /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
+        public var responseState: BedrockAgentRuntimeClientTypes.ResponseState?
+
+        public init(
+            actionGroup: Swift.String? = nil,
+            apiPath: Swift.String? = nil,
+            httpMethod: Swift.String? = nil,
+            httpStatusCode: Swift.Int? = nil,
+            responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
+            responseState: BedrockAgentRuntimeClientTypes.ResponseState? = nil
+        )
+        {
+            self.actionGroup = actionGroup
+            self.apiPath = apiPath
+            self.httpMethod = httpMethod
+            self.httpStatusCode = httpStatusCode
+            self.responseBody = responseBody
+            self.responseState = responseState
         }
     }
 
@@ -482,6 +798,43 @@ extension ConflictExceptionBody: Swift.Decodable {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.ContentBody: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case body
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let body = self.body {
+            try encodeContainer.encode(body, forKey: .body)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let bodyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .body)
+        body = bodyDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the body of the API response. This data type is used in the following API operations:
+    ///
+    /// * In the returnControlInvocationResults field of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    public struct ContentBody: Swift.Equatable {
+        /// The body of the API response.
+        public var body: Swift.String?
+
+        public init(
+            body: Swift.String? = nil
+        )
+        {
+            self.body = body
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes {
     public enum CreationMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case `default`
@@ -739,6 +1092,213 @@ extension BedrockAgentRuntimeClientTypes {
         )
         {
             self.text = text
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.FunctionInvocationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionGroup
+        case function
+        case parameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionGroup = self.actionGroup {
+            try encodeContainer.encode(actionGroup, forKey: .actionGroup)
+        }
+        if let function = self.function {
+            try encodeContainer.encode(function, forKey: .function)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .parameters)
+            for functionparameter0 in parameters {
+                try parametersContainer.encode(functionparameter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionGroup)
+        actionGroup = actionGroupDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.FunctionParameter?].self, forKey: .parameters)
+        var parametersDecoded0:[BedrockAgentRuntimeClientTypes.FunctionParameter]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [BedrockAgentRuntimeClientTypes.FunctionParameter]()
+            for structure0 in parametersContainer {
+                if let structure0 = structure0 {
+                    parametersDecoded0?.append(structure0)
+                }
+            }
+        }
+        parameters = parametersDecoded0
+        let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
+        function = functionDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information about the function that the agent predicts should be called. This data type is used in the following API operations:
+    ///
+    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct FunctionInvocationInput: Swift.Equatable {
+        /// The action group that the function belongs to.
+        /// This member is required.
+        public var actionGroup: Swift.String?
+        /// The name of the function.
+        public var function: Swift.String?
+        /// A list of parameters of the function.
+        public var parameters: [BedrockAgentRuntimeClientTypes.FunctionParameter]?
+
+        public init(
+            actionGroup: Swift.String? = nil,
+            function: Swift.String? = nil,
+            parameters: [BedrockAgentRuntimeClientTypes.FunctionParameter]? = nil
+        )
+        {
+            self.actionGroup = actionGroup
+            self.function = function
+            self.parameters = parameters
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.FunctionParameter: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case name
+        case type
+        case value
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type, forKey: .type)
+        }
+        if let value = self.value {
+            try encodeContainer.encode(value, forKey: .value)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .type)
+        type = typeDecoded
+        let valueDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .value)
+        value = valueDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information about a parameter of the function. This data type is used in the following API operations:
+    ///
+    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct FunctionParameter: Swift.Equatable {
+        /// The name of the parameter.
+        public var name: Swift.String?
+        /// The data type of the parameter.
+        public var type: Swift.String?
+        /// The value of the parameter.
+        public var value: Swift.String?
+
+        public init(
+            name: Swift.String? = nil,
+            type: Swift.String? = nil,
+            value: Swift.String? = nil
+        )
+        {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.FunctionResult: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case actionGroup
+        case function
+        case responseBody
+        case responseState
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let actionGroup = self.actionGroup {
+            try encodeContainer.encode(actionGroup, forKey: .actionGroup)
+        }
+        if let function = self.function {
+            try encodeContainer.encode(function, forKey: .function)
+        }
+        if let responseBody = responseBody {
+            var responseBodyContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .responseBody)
+            for (dictKey0, responseBody0) in responseBody {
+                try responseBodyContainer.encode(responseBody0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let responseState = self.responseState {
+            try encodeContainer.encode(responseState.rawValue, forKey: .responseState)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let actionGroupDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .actionGroup)
+        actionGroup = actionGroupDecoded
+        let functionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .function)
+        function = functionDecoded
+        let responseBodyContainer = try containerValues.decodeIfPresent([Swift.String: BedrockAgentRuntimeClientTypes.ContentBody?].self, forKey: .responseBody)
+        var responseBodyDecoded0: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]? = nil
+        if let responseBodyContainer = responseBodyContainer {
+            responseBodyDecoded0 = [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]()
+            for (key0, contentbody0) in responseBodyContainer {
+                if let contentbody0 = contentbody0 {
+                    responseBodyDecoded0?[key0] = contentbody0
+                }
+            }
+        }
+        responseBody = responseBodyDecoded0
+        let responseStateDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.ResponseState.self, forKey: .responseState)
+        responseState = responseStateDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information about the function that was called from the action group and the response that was returned. This data type is used in the following API operations:
+    ///
+    /// * In the returnControlInvocationResults of the [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    public struct FunctionResult: Swift.Equatable {
+        /// The action group that the function belongs to.
+        /// This member is required.
+        public var actionGroup: Swift.String?
+        /// The name of the function that was called.
+        public var function: Swift.String?
+        /// The response from the function call using the parameters. The response may be returned directly or from the Lambda function.
+        public var responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]?
+        /// Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt
+        public var responseState: BedrockAgentRuntimeClientTypes.ResponseState?
+
+        public init(
+            actionGroup: Swift.String? = nil,
+            function: Swift.String? = nil,
+            responseBody: [Swift.String:BedrockAgentRuntimeClientTypes.ContentBody]? = nil,
+            responseState: BedrockAgentRuntimeClientTypes.ResponseState? = nil
+        )
+        {
+            self.actionGroup = actionGroup
+            self.function = function
+            self.responseBody = responseBody
+            self.responseState = responseState
         }
     }
 
@@ -1057,6 +1617,104 @@ extension BedrockAgentRuntimeClientTypes {
 
 }
 
+extension BedrockAgentRuntimeClientTypes.InvocationInputMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiinvocationinput = "apiInvocationInput"
+        case functioninvocationinput = "functionInvocationInput"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .apiinvocationinput(apiinvocationinput):
+                try container.encode(apiinvocationinput, forKey: .apiinvocationinput)
+            case let .functioninvocationinput(functioninvocationinput):
+                try container.encode(functioninvocationinput, forKey: .functioninvocationinput)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let apiinvocationinputDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.ApiInvocationInput.self, forKey: .apiinvocationinput)
+        if let apiinvocationinput = apiinvocationinputDecoded {
+            self = .apiinvocationinput(apiinvocationinput)
+            return
+        }
+        let functioninvocationinputDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FunctionInvocationInput.self, forKey: .functioninvocationinput)
+        if let functioninvocationinput = functioninvocationinputDecoded {
+            self = .functioninvocationinput(functioninvocationinput)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains details about the API operation or function that the agent predicts should be called. This data type is used in the following API operations:
+    ///
+    /// * In the returnControl field of the [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public enum InvocationInputMember: Swift.Equatable {
+        /// Contains information about the API operation that the agent predicts should be called.
+        case apiinvocationinput(BedrockAgentRuntimeClientTypes.ApiInvocationInput)
+        /// Contains information about the function that the agent predicts should be called.
+        case functioninvocationinput(BedrockAgentRuntimeClientTypes.FunctionInvocationInput)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
+extension BedrockAgentRuntimeClientTypes.InvocationResultMember: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case apiresult = "apiResult"
+        case functionresult = "functionResult"
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .apiresult(apiresult):
+                try container.encode(apiresult, forKey: .apiresult)
+            case let .functionresult(functionresult):
+                try container.encode(functionresult, forKey: .functionresult)
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let apiresultDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.ApiResult.self, forKey: .apiresult)
+        if let apiresult = apiresultDecoded {
+            self = .apiresult(apiresult)
+            return
+        }
+        let functionresultDecoded = try values.decodeIfPresent(BedrockAgentRuntimeClientTypes.FunctionResult.self, forKey: .functionresult)
+        if let functionresult = functionresultDecoded {
+            self = .functionresult(functionresult)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// A result from the action group invocation. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_RequestSyntax)
+    public enum InvocationResultMember: Swift.Equatable {
+        /// The result from the API response from the action group invocation.
+        case apiresult(BedrockAgentRuntimeClientTypes.ApiResult)
+        /// The result from the function from the action group invocation.
+        case functionresult(BedrockAgentRuntimeClientTypes.FunctionResult)
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes {
     public enum InvocationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case actionGroup
@@ -1150,7 +1808,6 @@ public struct InvokeAgentInput: Swift.Equatable {
     /// Specifies whether to end the session with the agent or not.
     public var endSession: Swift.Bool?
     /// The prompt text to send the agent.
-    /// This member is required.
     public var inputText: Swift.String?
     /// The unique identifier of the session. Use the same value across requests to continue the same conversation.
     /// This member is required.
@@ -1984,7 +2641,7 @@ extension BedrockAgentRuntimeClientTypes.Parameter: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// A parameter in the Lambda input event.
+    /// A parameter for the API request or function.
     public struct Parameter: Swift.Equatable {
         /// The name of the parameter.
         public var name: Swift.String?
@@ -2442,6 +3099,53 @@ extension BedrockAgentRuntimeClientTypes {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes.PropertyParameters: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case properties
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let properties = properties {
+            var propertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .properties)
+            for parameter0 in properties {
+                try propertiesContainer.encode(parameter0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let propertiesContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.Parameter?].self, forKey: .properties)
+        var propertiesDecoded0:[BedrockAgentRuntimeClientTypes.Parameter]? = nil
+        if let propertiesContainer = propertiesContainer {
+            propertiesDecoded0 = [BedrockAgentRuntimeClientTypes.Parameter]()
+            for structure0 in propertiesContainer {
+                if let structure0 = structure0 {
+                    propertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        properties = propertiesDecoded0
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains the parameters in the request body.
+    public struct PropertyParameters: Swift.Equatable {
+        /// A list of parameters in the request body.
+        public var properties: [BedrockAgentRuntimeClientTypes.Parameter]?
+
+        public init(
+            properties: [BedrockAgentRuntimeClientTypes.Parameter]? = nil
+        )
+        {
+            self.properties = properties
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes.Rationale: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case text
@@ -2586,7 +3290,7 @@ extension BedrockAgentRuntimeClientTypes.RequestBody: Swift.Codable {
 }
 
 extension BedrockAgentRuntimeClientTypes {
-    /// The parameters in the request body for the Lambda input event.
+    /// The parameters in the API request body.
     public struct RequestBody: Swift.Equatable {
         /// The content in the request body.
         public var content: [Swift.String:[BedrockAgentRuntimeClientTypes.Parameter]]?
@@ -2635,7 +3339,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// The specified resource ARN was not found. Check the ARN and try your request again.
+/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2675,6 +3379,38 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension BedrockAgentRuntimeClientTypes {
+    public enum ResponseState: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case failure
+        case reprompt
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ResponseState] {
+            return [
+                .failure,
+                .reprompt,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .failure: return "FAILURE"
+            case .reprompt: return "REPROMPT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ResponseState(rawValue: rawValue) ?? ResponseState.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension BedrockAgentRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUnmarshallable {
     public init(message: ClientRuntime.EventStream.Message, decoder: ClientRuntime.ResponseDecoder) throws {
         switch try message.type() {
@@ -2684,6 +3420,8 @@ extension BedrockAgentRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUn
                 self = .chunk(try decoder.decode(responseBody: message.payload))
             case "trace":
                 self = .trace(try decoder.decode(responseBody: message.payload))
+            case "returnControl":
+                self = .returncontrol(try decoder.decode(responseBody: message.payload))
             default:
                 self = .sdkUnknown("error processing event stream, unrecognized event: \(params.eventType)")
             }
@@ -2729,8 +3467,10 @@ extension BedrockAgentRuntimeClientTypes {
     public enum ResponseStream: Swift.Equatable {
         /// Contains a part of an agent response and citations for it.
         case chunk(BedrockAgentRuntimeClientTypes.PayloadPart)
-        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling API actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace events](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
+        /// Contains information about the agent and session, alongside the agent's reasoning process and results from calling actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace events](https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html).
         case trace(BedrockAgentRuntimeClientTypes.TracePart)
+        /// Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system and can be used in your own setup for fulfilling the action.
+        case returncontrol(BedrockAgentRuntimeClientTypes.ReturnControlPayload)
         case sdkUnknown(Swift.String)
     }
 
@@ -3711,6 +4451,71 @@ extension BedrockAgentRuntimeClientTypes {
 
 }
 
+extension BedrockAgentRuntimeClientTypes.ReturnControlPayload: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invocationId
+        case invocationInputs
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let invocationId = self.invocationId {
+            try encodeContainer.encode(invocationId, forKey: .invocationId)
+        }
+        if let invocationInputs = invocationInputs {
+            var invocationInputsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .invocationInputs)
+            for invocationinputmember0 in invocationInputs {
+                try invocationInputsContainer.encode(invocationinputmember0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let invocationInputsContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.InvocationInputMember?].self, forKey: .invocationInputs)
+        var invocationInputsDecoded0:[BedrockAgentRuntimeClientTypes.InvocationInputMember]? = nil
+        if let invocationInputsContainer = invocationInputsContainer {
+            invocationInputsDecoded0 = [BedrockAgentRuntimeClientTypes.InvocationInputMember]()
+            for union0 in invocationInputsContainer {
+                if let union0 = union0 {
+                    invocationInputsDecoded0?.append(union0)
+                }
+            }
+        }
+        invocationInputs = invocationInputsDecoded0
+        let invocationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .invocationId)
+        invocationId = invocationIdDecoded
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes.ReturnControlPayload: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "CONTENT_REDACTED"
+    }
+}
+
+extension BedrockAgentRuntimeClientTypes {
+    /// Contains information to return from the action group that the agent has predicted to invoke. This data type is used in the following API operations:
+    ///
+    /// * [Retrieve response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax)
+    public struct ReturnControlPayload: Swift.Equatable {
+        /// The identifier of the action group invocation.
+        public var invocationId: Swift.String?
+        /// A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent determines from its session with the user.
+        public var invocationInputs: [BedrockAgentRuntimeClientTypes.InvocationInputMember]?
+
+        public init(
+            invocationId: Swift.String? = nil,
+            invocationInputs: [BedrockAgentRuntimeClientTypes.InvocationInputMember]? = nil
+        )
+        {
+            self.invocationId = invocationId
+            self.invocationInputs = invocationInputs
+        }
+    }
+
+}
+
 extension BedrockAgentRuntimeClientTypes {
     public enum SearchType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case hybrid
@@ -3819,16 +4624,27 @@ extension ServiceQuotaExceededExceptionBody: Swift.Decodable {
 
 extension BedrockAgentRuntimeClientTypes.SessionState: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case invocationId
         case promptSessionAttributes
+        case returnControlInvocationResults
         case sessionAttributes
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let invocationId = self.invocationId {
+            try encodeContainer.encode(invocationId, forKey: .invocationId)
+        }
         if let promptSessionAttributes = promptSessionAttributes {
             var promptSessionAttributesContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .promptSessionAttributes)
             for (dictKey0, promptSessionAttributesMap0) in promptSessionAttributes {
                 try promptSessionAttributesContainer.encode(promptSessionAttributesMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let returnControlInvocationResults = returnControlInvocationResults {
+            var returnControlInvocationResultsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .returnControlInvocationResults)
+            for invocationresultmember0 in returnControlInvocationResults {
+                try returnControlInvocationResultsContainer.encode(invocationresultmember0)
             }
         }
         if let sessionAttributes = sessionAttributes {
@@ -3863,23 +4679,44 @@ extension BedrockAgentRuntimeClientTypes.SessionState: Swift.Codable {
             }
         }
         promptSessionAttributes = promptSessionAttributesDecoded0
+        let returnControlInvocationResultsContainer = try containerValues.decodeIfPresent([BedrockAgentRuntimeClientTypes.InvocationResultMember?].self, forKey: .returnControlInvocationResults)
+        var returnControlInvocationResultsDecoded0:[BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil
+        if let returnControlInvocationResultsContainer = returnControlInvocationResultsContainer {
+            returnControlInvocationResultsDecoded0 = [BedrockAgentRuntimeClientTypes.InvocationResultMember]()
+            for union0 in returnControlInvocationResultsContainer {
+                if let union0 = union0 {
+                    returnControlInvocationResultsDecoded0?.append(union0)
+                }
+            }
+        }
+        returnControlInvocationResults = returnControlInvocationResultsDecoded0
+        let invocationIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .invocationId)
+        invocationId = invocationIdDecoded
     }
 }
 
 extension BedrockAgentRuntimeClientTypes {
     /// Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a [Lambda function](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html) for an action group or pass them when making an [InvokeAgent](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html) request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see [Control session context](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html).
     public struct SessionState: Swift.Equatable {
+        /// The identifier of the invocation.
+        public var invocationId: Swift.String?
         /// Contains attributes that persist across a prompt and the values of those attributes. These attributes replace the $prompt_session_attributes$ placeholder variable in the orchestration prompt template. For more information, see [Prompt template placeholder variables](https://docs.aws.amazon.com/bedrock/latest/userguide/prompt-placeholders.html).
         public var promptSessionAttributes: [Swift.String:Swift.String]?
+        /// Contains information about the results from the action group invocation.
+        public var returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]?
         /// Contains attributes that persist across a session and the values of those attributes.
         public var sessionAttributes: [Swift.String:Swift.String]?
 
         public init(
+            invocationId: Swift.String? = nil,
             promptSessionAttributes: [Swift.String:Swift.String]? = nil,
+            returnControlInvocationResults: [BedrockAgentRuntimeClientTypes.InvocationResultMember]? = nil,
             sessionAttributes: [Swift.String:Swift.String]? = nil
         )
         {
+            self.invocationId = invocationId
             self.promptSessionAttributes = promptSessionAttributes
+            self.returnControlInvocationResults = returnControlInvocationResults
             self.sessionAttributes = sessionAttributes
         }
     }
@@ -4170,6 +5007,7 @@ extension BedrockAgentRuntimeClientTypes.TracePart: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case agentAliasId
         case agentId
+        case agentVersion
         case sessionId
         case trace
     }
@@ -4181,6 +5019,9 @@ extension BedrockAgentRuntimeClientTypes.TracePart: Swift.Codable {
         }
         if let agentId = self.agentId {
             try encodeContainer.encode(agentId, forKey: .agentId)
+        }
+        if let agentVersion = self.agentVersion {
+            try encodeContainer.encode(agentVersion, forKey: .agentVersion)
         }
         if let sessionId = self.sessionId {
             try encodeContainer.encode(sessionId, forKey: .sessionId)
@@ -4198,6 +5039,8 @@ extension BedrockAgentRuntimeClientTypes.TracePart: Swift.Codable {
         agentAliasId = agentAliasIdDecoded
         let sessionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sessionId)
         sessionId = sessionIdDecoded
+        let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
+        agentVersion = agentVersionDecoded
         let traceDecoded = try containerValues.decodeIfPresent(BedrockAgentRuntimeClientTypes.Trace.self, forKey: .trace)
         trace = traceDecoded
     }
@@ -4216,6 +5059,8 @@ extension BedrockAgentRuntimeClientTypes {
         public var agentAliasId: Swift.String?
         /// The unique identifier of the agent.
         public var agentId: Swift.String?
+        /// The version of the agent.
+        public var agentVersion: Swift.String?
         /// The unique identifier of the session with the agent.
         public var sessionId: Swift.String?
         /// Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see [Trace enablement](https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement).
@@ -4224,12 +5069,14 @@ extension BedrockAgentRuntimeClientTypes {
         public init(
             agentAliasId: Swift.String? = nil,
             agentId: Swift.String? = nil,
+            agentVersion: Swift.String? = nil,
             sessionId: Swift.String? = nil,
             trace: BedrockAgentRuntimeClientTypes.Trace? = nil
         )
         {
             self.agentAliasId = agentAliasId
             self.agentId = agentId
+            self.agentVersion = agentVersion
             self.sessionId = sessionId
             self.trace = trace
         }

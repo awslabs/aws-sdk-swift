@@ -860,7 +860,7 @@ extension CloudFrontClient {
 
     /// Performs the `CreateInvalidation` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Create a new invalidation.
+    /// Create a new invalidation. For more information, see [Invalidating files](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/Invalidation.html) in the Amazon CloudFront Developer Guide.
     ///
     /// - Parameter CreateInvalidationInput : The request to create an invalidation.
     ///
@@ -965,7 +965,7 @@ extension CloudFrontClient {
 
     /// Performs the `CreateKeyValueStore` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Specifies the Key Value Store resource to add to your account. In your account, the Key Value Store names must be unique. You can also import Key Value Store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
+    /// Specifies the key value store resource to add to your account. In your account, the key value store names must be unique. You can also import key value store data in JSON format from an S3 bucket by providing a valid ImportSource that you own.
     ///
     /// - Parameter CreateKeyValueStoreInput : [no documentation found]
     ///
@@ -975,10 +975,11 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
-    /// - `EntityAlreadyExists` : The Key Value Store entity already exists. You must provide a unique Key Value Store entity.
-    /// - `EntityLimitExceeded` : The Key Value Store entity limit has been exceeded.
-    /// - `EntitySizeLimitExceeded` : The Key Value Store entity size limit was exceeded.
+    /// - `EntityAlreadyExists` : The key value store entity already exists. You must provide a unique key value store entity.
+    /// - `EntityLimitExceeded` : The key value store entity limit has been exceeded.
+    /// - `EntitySizeLimitExceeded` : The key value store entity size limit was exceeded.
     /// - `InvalidArgument` : An argument is invalid.
+    /// - `UnsupportedOperation` : This operation is not supported in this region.
     public func createKeyValueStore(input: CreateKeyValueStoreInput) async throws -> CreateKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .post)
@@ -1880,7 +1881,7 @@ extension CloudFrontClient {
 
     /// Performs the `DeleteKeyValueStore` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Specifies the Key Value Store to delete.
+    /// Specifies the key value store to delete.
     ///
     /// - Parameter DeleteKeyValueStoreInput : [no documentation found]
     ///
@@ -1890,10 +1891,11 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
-    /// - `CannotDeleteEntityWhileInUse` : The Key Value Store entity cannot be deleted while it is in use.
-    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `CannotDeleteEntityWhileInUse` : The key value store entity cannot be deleted while it is in use.
+    /// - `EntityNotFound` : The key value store entity was not found.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
+    /// - `UnsupportedOperation` : This operation is not supported in this region.
     public func deleteKeyValueStore(input: DeleteKeyValueStoreInput) async throws -> DeleteKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .delete)
@@ -2347,7 +2349,7 @@ extension CloudFrontClient {
 
     /// Performs the `DescribeKeyValueStore` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Specifies the Key Value Store and its configuration.
+    /// Specifies the key value store and its configuration.
     ///
     /// - Parameter DescribeKeyValueStoreInput : [no documentation found]
     ///
@@ -2357,8 +2359,9 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
-    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `EntityNotFound` : The key value store entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
+    /// - `UnsupportedOperation` : This operation is not supported in this region.
     public func describeKeyValueStore(input: DescribeKeyValueStoreInput) async throws -> DescribeKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .get)
@@ -4456,7 +4459,7 @@ extension CloudFrontClient {
 
     /// Performs the `ListKeyValueStores` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Specifies the Key Value Stores to list.
+    /// Specifies the key value stores to list.
     ///
     /// - Parameter ListKeyValueStoresInput : [no documentation found]
     ///
@@ -4467,6 +4470,7 @@ extension CloudFrontClient {
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
     /// - `InvalidArgument` : An argument is invalid.
+    /// - `UnsupportedOperation` : This operation is not supported in this region.
     public func listKeyValueStores(input: ListKeyValueStoresInput) async throws -> ListKeyValueStoresOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .get)
@@ -5694,7 +5698,7 @@ extension CloudFrontClient {
 
     /// Performs the `UpdateKeyValueStore` operation on the `Cloudfront2020_05_31` service.
     ///
-    /// Specifies the Key Value Store to update.
+    /// Specifies the key value store to update.
     ///
     /// - Parameter UpdateKeyValueStoreInput : [no documentation found]
     ///
@@ -5704,10 +5708,11 @@ extension CloudFrontClient {
     ///
     /// __Possible Exceptions:__
     /// - `AccessDenied` : Access denied.
-    /// - `EntityNotFound` : The Key Value Store entity was not found.
+    /// - `EntityNotFound` : The key value store entity was not found.
     /// - `InvalidArgument` : An argument is invalid.
     /// - `InvalidIfMatchVersion` : The If-Match version is missing or not valid.
     /// - `PreconditionFailed` : The precondition in one or more of the request fields evaluated to false.
+    /// - `UnsupportedOperation` : This operation is not supported in this region.
     public func updateKeyValueStore(input: UpdateKeyValueStoreInput) async throws -> UpdateKeyValueStoreOutput {
         let context = ClientRuntime.HttpContextBuilder()
                       .withMethod(value: .put)

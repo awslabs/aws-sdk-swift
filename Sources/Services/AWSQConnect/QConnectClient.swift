@@ -251,7 +251,7 @@ extension QConnectClient {
 
     /// Performs the `CreateContent` operation on the `WisdomService` service.
     ///
-    /// Creates Amazon Q content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html) to upload an asset.
+    /// Creates Amazon Q in Connect content. Before to calling this API, use [StartContentUpload](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_StartContentUpload.html) to upload an asset.
     ///
     /// - Parameter CreateContentInput : [no documentation found]
     ///
@@ -368,7 +368,7 @@ extension QConnectClient {
 
     /// Performs the `CreateQuickResponse` operation on the `WisdomService` service.
     ///
-    /// Creates an Amazon Q quick response.
+    /// Creates an Amazon Q in Connect quick response.
     ///
     /// - Parameter CreateQuickResponseInput : [no documentation found]
     ///
@@ -423,7 +423,7 @@ extension QConnectClient {
 
     /// Performs the `CreateSession` operation on the `WisdomService` service.
     ///
-    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q session for each contact on which Amazon Q is enabled.
+    /// Creates a session. A session is a contextual container used for generating recommendations. Amazon Connect creates a new Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
     ///
     /// - Parameter CreateSessionInput : [no documentation found]
     ///
@@ -432,6 +432,7 @@ extension QConnectClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
     /// - `ConflictException` : The request could not be processed because of conflict in the current state of the resource. For example, if you're using a Create API (such as CreateAssistant) that accepts name, a conflicting resource (usually with the same name) is being created or mutated.
     /// - `ResourceNotFoundException` : The specified resource does not exist.
     /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
@@ -1115,7 +1116,7 @@ extension QConnectClient {
 
     /// Performs the `GetRecommendations` operation on the `WisdomService` service.
     ///
-    /// Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
+    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Retrieves recommendations for the specified session. To avoid retrieving the same recommendations in subsequent calls, use [NotifyRecommendationsReceived](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_NotifyRecommendationsReceived.html). This API supports long-polling behavior with the waitTimeSeconds parameter. Short poll is the default behavior and only returns recommendations already available. To perform a manual query against an assistant, use [QueryAssistant](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_QueryAssistant.html).
     @available(*, deprecated, message: "GetRecommendations API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
     /// - Parameter GetRecommendationsInput : [no documentation found]
@@ -1663,7 +1664,7 @@ extension QConnectClient {
 
     /// Performs the `QueryAssistant` operation on the `WisdomService` service.
     ///
-    /// Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
+    /// This API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024, you will need to create a new Assistant in the Amazon Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications. Performs a manual search against the specified assistant. To retrieve recommendations for an assistant, use [GetRecommendations](https://docs.aws.amazon.com/amazon-q-connect/latest/APIReference/API_GetRecommendations.html).
     @available(*, deprecated, message: "QueryAssistant API will be discontinued starting June 1, 2024. To receive generative responses after March 1, 2024 you will need to create a new Assistant in the Connect console and integrate the Amazon Q in Connect JavaScript library (amazon-q-connectjs) into your applications.")
     ///
     /// - Parameter QueryAssistantInput : [no documentation found]
@@ -1819,7 +1820,7 @@ extension QConnectClient {
 
     /// Performs the `SearchQuickResponses` operation on the `WisdomService` service.
     ///
-    /// Searches existing Amazon Q quick responses in an Amazon Q knowledge base.
+    /// Searches existing Amazon Q in Connect quick responses in an Amazon Q in Connect knowledge base.
     ///
     /// - Parameter SearchQuickResponsesInput : [no documentation found]
     ///
@@ -1978,9 +1979,9 @@ extension QConnectClient {
 
     /// Performs the `StartImportJob` operation on the `WisdomService` service.
     ///
-    /// Start an asynchronous job to import Amazon Q resources from an uploaded source file. Before calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset that contains the resource data.
+    /// Start an asynchronous job to import Amazon Q in Connect resources from an uploaded source file. Before calling this API, use [StartContentUpload](https://docs.aws.amazon.com/wisdom/latest/APIReference/API_StartContentUpload.html) to upload an asset that contains the resource data.
     ///
-    /// * For importing Amazon Q quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
+    /// * For importing Amazon Q in Connect quick responses, you need to upload a csv file including the quick responses. For information about how to format the csv file for importing quick responses, see [Import quick responses](https://docs.aws.amazon.com/console/connect/quick-responses/add-data).
     ///
     /// - Parameter StartImportJobInput : [no documentation found]
     ///
@@ -2187,7 +2188,7 @@ extension QConnectClient {
 
     /// Performs the `UpdateKnowledgeBaseTemplateUri` operation on the `WisdomService` service.
     ///
-    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
+    /// Updates the template URI of a knowledge base. This is only supported for knowledge bases of type EXTERNAL. Include a single variable in ${variable} format; this interpolated by Amazon Q in Connect using ingested content. For example, if you ingest a Salesforce article, it has an Id value, and you can set the template URI to https://myInstanceName.lightning.force.com/lightning/r/Knowledge__kav/*${Id}*/view.
     ///
     /// - Parameter UpdateKnowledgeBaseTemplateUriInput : [no documentation found]
     ///
@@ -2239,7 +2240,7 @@ extension QConnectClient {
 
     /// Performs the `UpdateQuickResponse` operation on the `WisdomService` service.
     ///
-    /// Updates an existing Amazon Q quick response.
+    /// Updates an existing Amazon Q in Connect quick response.
     ///
     /// - Parameter UpdateQuickResponseInput : [no documentation found]
     ///
@@ -2287,6 +2288,58 @@ extension QConnectClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateQuickResponseOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateQuickResponseOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateQuickResponseOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateQuickResponseOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateSession` operation on the `WisdomService` service.
+    ///
+    /// Updates a session. A session is a contextual container used for generating recommendations. Amazon Connect updates the existing Amazon Q in Connect session for each contact on which Amazon Q in Connect is enabled.
+    ///
+    /// - Parameter UpdateSessionInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateSessionOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have sufficient access to perform this action.
+    /// - `ResourceNotFoundException` : The specified resource does not exist.
+    /// - `ValidationException` : The input fails to satisfy the constraints specified by a service.
+    public func updateSession(input: UpdateSessionInput) async throws -> UpdateSessionOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateSession")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wisdom")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateSessionInput, UpdateSessionOutput>(id: "updateSession")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateSessionInput, UpdateSessionOutput>(UpdateSessionInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateSessionInput, UpdateSessionOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateSessionOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateSessionOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateSessionInput, UpdateSessionOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateSessionInput, UpdateSessionOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateSessionOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateSessionOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateSessionOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateSessionOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateSessionOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }

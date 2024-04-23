@@ -790,6 +790,7 @@ extension IAMClient {
     /// - `EntityAlreadyExistsException` : The request was rejected because it attempted to create a resource that already exists.
     /// - `InvalidInputException` : The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     /// - `LimitExceededException` : The request was rejected because it attempted to create resources beyond the current Amazon Web Services account limits. The error message describes the limit exceeded.
+    /// - `OpenIdIdpCommunicationErrorException` : The request failed because IAM cannot connect to the OpenID Connect identity provider URL.
     /// - `ServiceFailureException` : The request processing has failed because of an unknown error, exception or failure.
     public func createOpenIDConnectProvider(input: CreateOpenIDConnectProviderInput) async throws -> CreateOpenIDConnectProviderOutput {
         let context = ClientRuntime.HttpContextBuilder()
@@ -6268,7 +6269,7 @@ extension IAMClient {
 
     /// Performs the `RemoveRoleFromInstanceProfile` operation on the `AWSIdentityManagementV20100508` service.
     ///
-    /// Removes the specified IAM role from the specified EC2 instance profile. Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
+    /// Removes the specified IAM role from the specified Amazon EC2 instance profile. Make sure that you do not have any Amazon EC2 instances running with the role you are about to remove from the instance profile. Removing a role from an instance profile that is associated with a running instance might break any applications running on the instance. For more information about roles, see [IAM roles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html) in the IAM User Guide. For more information about instance profiles, see [Using instance profiles](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html) in the IAM User Guide.
     ///
     /// - Parameter RemoveRoleFromInstanceProfileInput : [no documentation found]
     ///

@@ -33628,9 +33628,11 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case name = "Name"
+        case parentResourceArn = "ParentResourceArn"
         case permissions = "Permissions"
         case querySessionContext = "QuerySessionContext"
         case region = "Region"
+        case rootResourceArn = "RootResourceArn"
         case supportedDialect = "SupportedDialect"
         case supportedPermissionTypes = "SupportedPermissionTypes"
     }
@@ -33649,6 +33651,9 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         if let name = self.name {
             try encodeContainer.encode(name, forKey: .name)
         }
+        if let parentResourceArn = self.parentResourceArn {
+            try encodeContainer.encode(parentResourceArn, forKey: .parentResourceArn)
+        }
         if let permissions = permissions {
             var permissionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .permissions)
             for permission0 in permissions {
@@ -33660,6 +33665,9 @@ extension GetUnfilteredTableMetadataInput: Swift.Encodable {
         }
         if let region = self.region {
             try encodeContainer.encode(region, forKey: .region)
+        }
+        if let rootResourceArn = self.rootResourceArn {
+            try encodeContainer.encode(rootResourceArn, forKey: .rootResourceArn)
         }
         if let supportedDialect = self.supportedDialect {
             try encodeContainer.encode(supportedDialect, forKey: .supportedDialect)
@@ -33692,15 +33700,30 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
     /// (Required) Specifies the name of a table for which you are requesting metadata.
     /// This member is required.
     public var name: Swift.String?
+    /// The resource ARN of the view.
+    public var parentResourceArn: Swift.String?
     /// The Lake Formation data permissions of the caller on the table. Used to authorize the call when no view context is found.
     public var permissions: [GlueClientTypes.Permission]?
     /// A structure used as a protocol between query engines and Lake Formation or Glue. Contains both a Lake Formation generated authorization identifier and information from the request's authorization context.
     public var querySessionContext: GlueClientTypes.QuerySessionContext?
     /// Specified only if the base tables belong to a different Amazon Web Services Region.
     public var region: Swift.String?
+    /// The resource ARN of the root view in a chain of nested views.
+    public var rootResourceArn: Swift.String?
     /// A structure specifying the dialect and dialect version used by the query engine.
     public var supportedDialect: GlueClientTypes.SupportedDialect?
-    /// (Required) A list of supported permission types.
+    /// Indicates the level of filtering a third-party analytical engine is capable of enforcing when calling the GetUnfilteredTableMetadata API operation. Accepted values are:
+    ///
+    /// * COLUMN_PERMISSION - Column permissions ensure that users can access only specific columns in the table. If there are particular columns contain sensitive data, data lake administrators can define column filters that exclude access to specific columns.
+    ///
+    /// * CELL_FILTER_PERMISSION - Cell-level filtering combines column filtering (include or exclude columns) and row filter expressions to restrict access to individual elements in the table.
+    ///
+    /// * NESTED_PERMISSION - Nested permissions combines cell-level filtering and nested column filtering to restrict access to columns and/or nested columns in specific rows based on row filter expressions.
+    ///
+    /// * NESTED_CELL_PERMISSION - Nested cell permissions combines nested permission with nested cell-level filtering. This allows different subsets of nested columns to be restricted based on an array of row filter expressions.
+    ///
+    ///
+    /// Note: Each of these permission types follows a hierarchical order where each subsequent permission type includes all permission of the previous type. Important: If you provide a supported permission type that doesn't match the user's level of permissions on the table, then Lake Formation raises an exception. For example, if the third-party engine calling the GetUnfilteredTableMetadata operation can enforce only column-level filtering, and the user has nested cell filtering applied on the table, Lake Formation throws an exception, and will not return unfiltered table metadata and data access credentials.
     /// This member is required.
     public var supportedPermissionTypes: [GlueClientTypes.PermissionType]?
 
@@ -33709,9 +33732,11 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
         catalogId: Swift.String? = nil,
         databaseName: Swift.String? = nil,
         name: Swift.String? = nil,
+        parentResourceArn: Swift.String? = nil,
         permissions: [GlueClientTypes.Permission]? = nil,
         querySessionContext: GlueClientTypes.QuerySessionContext? = nil,
         region: Swift.String? = nil,
+        rootResourceArn: Swift.String? = nil,
         supportedDialect: GlueClientTypes.SupportedDialect? = nil,
         supportedPermissionTypes: [GlueClientTypes.PermissionType]? = nil
     )
@@ -33720,9 +33745,11 @@ public struct GetUnfilteredTableMetadataInput: Swift.Equatable {
         self.catalogId = catalogId
         self.databaseName = databaseName
         self.name = name
+        self.parentResourceArn = parentResourceArn
         self.permissions = permissions
         self.querySessionContext = querySessionContext
         self.region = region
+        self.rootResourceArn = rootResourceArn
         self.supportedDialect = supportedDialect
         self.supportedPermissionTypes = supportedPermissionTypes
     }
@@ -33735,6 +33762,8 @@ struct GetUnfilteredTableMetadataInputBody: Swift.Equatable {
     let name: Swift.String?
     let auditContext: GlueClientTypes.AuditContext?
     let supportedPermissionTypes: [GlueClientTypes.PermissionType]?
+    let parentResourceArn: Swift.String?
+    let rootResourceArn: Swift.String?
     let supportedDialect: GlueClientTypes.SupportedDialect?
     let permissions: [GlueClientTypes.Permission]?
     let querySessionContext: GlueClientTypes.QuerySessionContext?
@@ -33746,9 +33775,11 @@ extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
         case catalogId = "CatalogId"
         case databaseName = "DatabaseName"
         case name = "Name"
+        case parentResourceArn = "ParentResourceArn"
         case permissions = "Permissions"
         case querySessionContext = "QuerySessionContext"
         case region = "Region"
+        case rootResourceArn = "RootResourceArn"
         case supportedDialect = "SupportedDialect"
         case supportedPermissionTypes = "SupportedPermissionTypes"
     }
@@ -33776,6 +33807,10 @@ extension GetUnfilteredTableMetadataInputBody: Swift.Decodable {
             }
         }
         supportedPermissionTypes = supportedPermissionTypesDecoded0
+        let parentResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parentResourceArn)
+        parentResourceArn = parentResourceArnDecoded
+        let rootResourceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rootResourceArn)
+        rootResourceArn = rootResourceArnDecoded
         let supportedDialectDecoded = try containerValues.decodeIfPresent(GlueClientTypes.SupportedDialect.self, forKey: .supportedDialect)
         supportedDialect = supportedDialectDecoded
         let permissionsContainer = try containerValues.decodeIfPresent([GlueClientTypes.Permission?].self, forKey: .permissions)
@@ -33807,6 +33842,7 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.permissions = output.permissions
             self.queryAuthorizationId = output.queryAuthorizationId
             self.resourceArn = output.resourceArn
+            self.rowFilter = output.rowFilter
             self.table = output.table
         } else {
             self.authorizedColumns = nil
@@ -33817,6 +33853,7 @@ extension GetUnfilteredTableMetadataOutput: ClientRuntime.HttpResponseBinding {
             self.permissions = nil
             self.queryAuthorizationId = nil
             self.resourceArn = nil
+            self.rowFilter = nil
             self.table = nil
         }
     }
@@ -33839,6 +33876,8 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
     public var queryAuthorizationId: Swift.String?
     /// The resource ARN of the parent resource extracted from the request.
     public var resourceArn: Swift.String?
+    /// The filter that applies to the table. For example when applying the filter in SQL, it would go in the WHERE clause and can be evaluated by using an AND operator with any other predicates applied by the user querying the table.
+    public var rowFilter: Swift.String?
     /// A Table object containing the table metadata.
     public var table: GlueClientTypes.Table?
 
@@ -33851,6 +33890,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
         permissions: [GlueClientTypes.Permission]? = nil,
         queryAuthorizationId: Swift.String? = nil,
         resourceArn: Swift.String? = nil,
+        rowFilter: Swift.String? = nil,
         table: GlueClientTypes.Table? = nil
     )
     {
@@ -33862,6 +33902,7 @@ public struct GetUnfilteredTableMetadataOutput: Swift.Equatable {
         self.permissions = permissions
         self.queryAuthorizationId = queryAuthorizationId
         self.resourceArn = resourceArn
+        self.rowFilter = rowFilter
         self.table = table
     }
 }
@@ -33876,6 +33917,7 @@ struct GetUnfilteredTableMetadataOutputBody: Swift.Equatable {
     let resourceArn: Swift.String?
     let isProtected: Swift.Bool
     let permissions: [GlueClientTypes.Permission]?
+    let rowFilter: Swift.String?
 }
 
 extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
@@ -33888,6 +33930,7 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
         case permissions = "Permissions"
         case queryAuthorizationId = "QueryAuthorizationId"
         case resourceArn = "ResourceArn"
+        case rowFilter = "RowFilter"
         case table = "Table"
     }
 
@@ -33938,6 +33981,8 @@ extension GetUnfilteredTableMetadataOutputBody: Swift.Decodable {
             }
         }
         permissions = permissionsDecoded0
+        let rowFilterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .rowFilter)
+        rowFilter = rowFilterDecoded
     }
 }
 
@@ -38878,9 +38923,9 @@ extension GlueClientTypes {
         public var endpointUrl: Swift.String?
         /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
         public var idleTimeBetweenReadsInMs: Swift.Int?
-        /// The maximum number of records to fetch per shard in the Kinesis data stream. The default value is 100000.
+        /// The maximum number of records to fetch per shard in the Kinesis data stream per microbatch. Note: The client can exceed this limit if the streaming job has already read extra records from Kinesis (in the same get-records call). If MaxFetchRecordsPerShard needs to be strict then it needs to be a multiple of MaxRecordPerRead. The default value is 100000.
         public var maxFetchRecordsPerShard: Swift.Int?
-        /// The maximum time spent in the job executor to fetch a record from the Kinesis data stream per shard, specified in milliseconds (ms). The default value is 1000.
+        /// The maximum time spent for the job executor to read records for the current batch from the Kinesis data stream, specified in milliseconds (ms). Multiple GetRecords API calls may be made within this time. The default value is 1000.
         public var maxFetchTimeInMs: Swift.Int?
         /// The maximum number of records to fetch from the Kinesis data stream in each getRecords operation. The default value is 10000.
         public var maxRecordPerRead: Swift.Int?

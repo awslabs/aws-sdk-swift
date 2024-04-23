@@ -568,6 +568,61 @@ extension CloudHsmClusterNotRelatedExceptionBody: Swift.Decodable {
     }
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The request was rejected because an automatic rotation of this key is currently in progress or scheduled to begin within the next 20 minutes.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension ConnectCustomKeyStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case customKeyStoreId = "CustomKeyStoreId"
@@ -2873,7 +2928,7 @@ public struct DescribeCustomKeyStoresOutput: Swift.Equatable {
     public var customKeyStores: [KMSClientTypes.CustomKeyStoresListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -3503,12 +3558,16 @@ enum EnableKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension EnableKeyRotationInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
+        case rotationPeriodInDays = "RotationPeriodInDays"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let keyId = self.keyId {
             try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+        if let rotationPeriodInDays = self.rotationPeriodInDays {
+            try encodeContainer.encode(rotationPeriodInDays, forKey: .rotationPeriodInDays)
         }
     }
 }
@@ -3531,28 +3590,36 @@ public struct EnableKeyRotationInput: Swift.Equatable {
     /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
     /// This member is required.
     public var keyId: Swift.String?
+    /// Use this parameter to specify a custom period of time between each rotation date. If no value is specified, the default value is 365 days. The rotation period defines the number of days after you enable automatic key rotation that KMS will rotate your key material, and the number of days between each automatic rotation thereafter. You can use the [kms:RotationPeriodInDays](https://docs.aws.amazon.com/kms/latest/developerguide/conditions-kms.html#conditions-kms-rotation-period-in-days) condition key to further constrain the values that principals can specify in the RotationPeriodInDays parameter.
+    public var rotationPeriodInDays: Swift.Int?
 
     public init(
-        keyId: Swift.String? = nil
+        keyId: Swift.String? = nil,
+        rotationPeriodInDays: Swift.Int? = nil
     )
     {
         self.keyId = keyId
+        self.rotationPeriodInDays = rotationPeriodInDays
     }
 }
 
 struct EnableKeyRotationInputBody: Swift.Equatable {
     let keyId: Swift.String?
+    let rotationPeriodInDays: Swift.Int?
 }
 
 extension EnableKeyRotationInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case keyId = "KeyId"
+        case rotationPeriodInDays = "RotationPeriodInDays"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
         keyId = keyIdDecoded
+        let rotationPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rotationPeriodInDays)
+        rotationPeriodInDays = rotationPeriodInDaysDecoded
     }
 }
 
@@ -5413,38 +5480,78 @@ extension GetKeyRotationStatusOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: GetKeyRotationStatusOutputBody = try responseDecoder.decode(responseBody: data)
+            self.keyId = output.keyId
             self.keyRotationEnabled = output.keyRotationEnabled
+            self.nextRotationDate = output.nextRotationDate
+            self.onDemandRotationStartDate = output.onDemandRotationStartDate
+            self.rotationPeriodInDays = output.rotationPeriodInDays
         } else {
+            self.keyId = nil
             self.keyRotationEnabled = false
+            self.nextRotationDate = nil
+            self.onDemandRotationStartDate = nil
+            self.rotationPeriodInDays = nil
         }
     }
 }
 
 public struct GetKeyRotationStatusOutput: Swift.Equatable {
+    /// Identifies the specified symmetric encryption KMS key.
+    public var keyId: Swift.String?
     /// A Boolean value that specifies whether key rotation is enabled.
     public var keyRotationEnabled: Swift.Bool
+    /// The next date that KMS will automatically rotate the key material.
+    public var nextRotationDate: ClientRuntime.Date?
+    /// Identifies the date and time that an in progress on-demand rotation was initiated. The KMS API follows an [eventual consistency](https://docs.aws.amazon.com/kms/latest/developerguide/programming-eventual-consistency.html) model due to the distributed nature of the system. As a result, there might be a slight delay between initiating on-demand key rotation and the rotation's completion. Once the on-demand rotation is complete, use [ListKeyRotations] to view the details of the on-demand rotation.
+    public var onDemandRotationStartDate: ClientRuntime.Date?
+    /// The number of days between each automatic rotation. The default value is 365 days.
+    public var rotationPeriodInDays: Swift.Int?
 
     public init(
-        keyRotationEnabled: Swift.Bool = false
+        keyId: Swift.String? = nil,
+        keyRotationEnabled: Swift.Bool = false,
+        nextRotationDate: ClientRuntime.Date? = nil,
+        onDemandRotationStartDate: ClientRuntime.Date? = nil,
+        rotationPeriodInDays: Swift.Int? = nil
     )
     {
+        self.keyId = keyId
         self.keyRotationEnabled = keyRotationEnabled
+        self.nextRotationDate = nextRotationDate
+        self.onDemandRotationStartDate = onDemandRotationStartDate
+        self.rotationPeriodInDays = rotationPeriodInDays
     }
 }
 
 struct GetKeyRotationStatusOutputBody: Swift.Equatable {
     let keyRotationEnabled: Swift.Bool
+    let keyId: Swift.String?
+    let rotationPeriodInDays: Swift.Int?
+    let nextRotationDate: ClientRuntime.Date?
+    let onDemandRotationStartDate: ClientRuntime.Date?
 }
 
 extension GetKeyRotationStatusOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
         case keyRotationEnabled = "KeyRotationEnabled"
+        case nextRotationDate = "NextRotationDate"
+        case onDemandRotationStartDate = "OnDemandRotationStartDate"
+        case rotationPeriodInDays = "RotationPeriodInDays"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let keyRotationEnabledDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .keyRotationEnabled) ?? false
         keyRotationEnabled = keyRotationEnabledDecoded
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+        let rotationPeriodInDaysDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .rotationPeriodInDays)
+        rotationPeriodInDays = rotationPeriodInDaysDecoded
+        let nextRotationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .nextRotationDate)
+        nextRotationDate = nextRotationDateDecoded
+        let onDemandRotationStartDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .onDemandRotationStartDate)
+        onDemandRotationStartDate = onDemandRotationStartDateDecoded
     }
 }
 
@@ -7889,7 +7996,7 @@ public struct ListAliasesOutput: Swift.Equatable {
     public var aliases: [KMSClientTypes.AliasListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -8077,7 +8184,7 @@ public struct ListGrantsOutput: Swift.Equatable {
     public var grants: [KMSClientTypes.GrantListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -8243,7 +8350,7 @@ public struct ListKeyPoliciesOutput: Swift.Equatable {
     public var nextMarker: Swift.String?
     /// A list of key policy names. The only valid value is default.
     public var policyNames: [Swift.String]?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -8301,6 +8408,171 @@ enum ListKeyPoliciesOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListKeyRotationsInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+        case limit = "Limit"
+        case marker = "Marker"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyId = self.keyId {
+            try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+        if let limit = self.limit {
+            try encodeContainer.encode(limit, forKey: .limit)
+        }
+        if let marker = self.marker {
+            try encodeContainer.encode(marker, forKey: .marker)
+        }
+    }
+}
+
+extension ListKeyRotationsInput {
+
+    static func urlPathProvider(_ value: ListKeyRotationsInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListKeyRotationsInput: Swift.Equatable {
+    /// Gets the key rotations for the specified KMS key. Specify the key ID or key ARN of the KMS key. For example:
+    ///
+    /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
+    /// This member is required.
+    public var keyId: Swift.String?
+    /// Use this parameter to specify the maximum number of items to return. When this value is present, KMS does not return more than the specified number of items, but it might return fewer. This value is optional. If you include a value, it must be between 1 and 1000, inclusive. If you do not include a value, it defaults to 100.
+    public var limit: Swift.Int?
+    /// Use this parameter in a subsequent request after you receive a response with truncated results. Set it to the value of NextMarker from the truncated response you just received.
+    public var marker: Swift.String?
+
+    public init(
+        keyId: Swift.String? = nil,
+        limit: Swift.Int? = nil,
+        marker: Swift.String? = nil
+    )
+    {
+        self.keyId = keyId
+        self.limit = limit
+        self.marker = marker
+    }
+}
+
+struct ListKeyRotationsInputBody: Swift.Equatable {
+    let keyId: Swift.String?
+    let limit: Swift.Int?
+    let marker: Swift.String?
+}
+
+extension ListKeyRotationsInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+        case limit = "Limit"
+        case marker = "Marker"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+        let limitDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .limit)
+        limit = limitDecoded
+        let markerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .marker)
+        marker = markerDecoded
+    }
+}
+
+extension ListKeyRotationsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListKeyRotationsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextMarker = output.nextMarker
+            self.rotations = output.rotations
+            self.truncated = output.truncated
+        } else {
+            self.nextMarker = nil
+            self.rotations = nil
+            self.truncated = false
+        }
+    }
+}
+
+public struct ListKeyRotationsOutput: Swift.Equatable {
+    /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
+    public var nextMarker: Swift.String?
+    /// A list of completed key material rotations.
+    public var rotations: [KMSClientTypes.RotationsListEntry]?
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
+    public var truncated: Swift.Bool
+
+    public init(
+        nextMarker: Swift.String? = nil,
+        rotations: [KMSClientTypes.RotationsListEntry]? = nil,
+        truncated: Swift.Bool = false
+    )
+    {
+        self.nextMarker = nextMarker
+        self.rotations = rotations
+        self.truncated = truncated
+    }
+}
+
+struct ListKeyRotationsOutputBody: Swift.Equatable {
+    let rotations: [KMSClientTypes.RotationsListEntry]?
+    let nextMarker: Swift.String?
+    let truncated: Swift.Bool
+}
+
+extension ListKeyRotationsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextMarker = "NextMarker"
+        case rotations = "Rotations"
+        case truncated = "Truncated"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let rotationsContainer = try containerValues.decodeIfPresent([KMSClientTypes.RotationsListEntry?].self, forKey: .rotations)
+        var rotationsDecoded0:[KMSClientTypes.RotationsListEntry]? = nil
+        if let rotationsContainer = rotationsContainer {
+            rotationsDecoded0 = [KMSClientTypes.RotationsListEntry]()
+            for structure0 in rotationsContainer {
+                if let structure0 = structure0 {
+                    rotationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        rotations = rotationsDecoded0
+        let nextMarkerDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextMarker)
+        nextMarker = nextMarkerDecoded
+        let truncatedDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .truncated) ?? false
+        truncated = truncatedDecoded
+    }
+}
+
+enum ListKeyRotationsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidMarker": return try await InvalidMarkerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -8387,7 +8659,7 @@ public struct ListKeysOutput: Swift.Equatable {
     public var keys: [KMSClientTypes.KeyListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -8549,7 +8821,7 @@ public struct ListResourceTagsOutput: Swift.Equatable {
     public var nextMarker: Swift.String?
     /// A list of tags. Each tag consists of a tag key and a tag value. Tagging or untagging a KMS key can allow or deny permission to the KMS key. For details, see [ABAC for KMS](https://docs.aws.amazon.com/kms/latest/developerguide/abac.html) in the Key Management Service Developer Guide.
     public var tags: [KMSClientTypes.Tag]?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -8705,7 +8977,7 @@ public struct ListRetirableGrantsOutput: Swift.Equatable {
     public var grants: [KMSClientTypes.GrantListEntry]?
     /// When Truncated is true, this element is present and contains the value to use for the Marker parameter in a subsequent request.
     public var nextMarker: Swift.String?
-    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in thisresponse to the Marker parameter in a subsequent request.
+    /// A flag that indicates whether there are more items in the list. When this value is true, the list in this response is truncated. To get more items, pass the value of the NextMarker element in this response to the Marker parameter in a subsequent request.
     public var truncated: Swift.Bool
 
     public init(
@@ -10071,6 +10343,208 @@ enum RevokeGrantOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension RotateKeyOnDemandInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyId = self.keyId {
+            try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+    }
+}
+
+extension RotateKeyOnDemandInput {
+
+    static func urlPathProvider(_ value: RotateKeyOnDemandInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct RotateKeyOnDemandInput: Swift.Equatable {
+    /// Identifies a symmetric encryption KMS key. You cannot perform on-demand rotation of [asymmetric KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/symmetric-asymmetric.html), [HMAC KMS keys](https://docs.aws.amazon.com/kms/latest/developerguide/hmac.html), KMS keys with [imported key material](https://docs.aws.amazon.com/kms/latest/developerguide/importing-keys.html), or KMS keys in a [custom key store](https://docs.aws.amazon.com/kms/latest/developerguide/custom-key-store-overview.html). To perform on-demand rotation of a set of related [multi-Region keys](https://docs.aws.amazon.com/kms/latest/developerguide/multi-region-keys-manage.html#multi-region-rotate), invoke the on-demand rotation on the primary key. Specify the key ID or key ARN of the KMS key. For example:
+    ///
+    /// * Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    /// * Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab
+    ///
+    ///
+    /// To get the key ID and key ARN for a KMS key, use [ListKeys] or [DescribeKey].
+    /// This member is required.
+    public var keyId: Swift.String?
+
+    public init(
+        keyId: Swift.String? = nil
+    )
+    {
+        self.keyId = keyId
+    }
+}
+
+struct RotateKeyOnDemandInputBody: Swift.Equatable {
+    let keyId: Swift.String?
+}
+
+extension RotateKeyOnDemandInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+    }
+}
+
+extension RotateKeyOnDemandOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RotateKeyOnDemandOutputBody = try responseDecoder.decode(responseBody: data)
+            self.keyId = output.keyId
+        } else {
+            self.keyId = nil
+        }
+    }
+}
+
+public struct RotateKeyOnDemandOutput: Swift.Equatable {
+    /// Identifies the symmetric encryption KMS key that you initiated on-demand rotation on.
+    public var keyId: Swift.String?
+
+    public init(
+        keyId: Swift.String? = nil
+    )
+    {
+        self.keyId = keyId
+    }
+}
+
+struct RotateKeyOnDemandOutputBody: Swift.Equatable {
+    let keyId: Swift.String?
+}
+
+extension RotateKeyOnDemandOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+    }
+}
+
+enum RotateKeyOnDemandOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "DependencyTimeout": return try await DependencyTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "Disabled": return try await DisabledException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InvalidArn": return try await InvalidArnException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInternal": return try await KMSInternalException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "KMSInvalidStateException": return try await KMSInvalidStateException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "LimitExceeded": return try await LimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFound": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "UnsupportedOperation": return try await UnsupportedOperationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension KMSClientTypes {
+    public enum RotationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatic
+        case onDemand
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [RotationType] {
+            return [
+                .automatic,
+                .onDemand,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .onDemand: return "ON_DEMAND"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = RotationType(rawValue: rawValue) ?? RotationType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension KMSClientTypes.RotationsListEntry: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyId = "KeyId"
+        case rotationDate = "RotationDate"
+        case rotationType = "RotationType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyId = self.keyId {
+            try encodeContainer.encode(keyId, forKey: .keyId)
+        }
+        if let rotationDate = self.rotationDate {
+            try encodeContainer.encodeTimestamp(rotationDate, format: .epochSeconds, forKey: .rotationDate)
+        }
+        if let rotationType = self.rotationType {
+            try encodeContainer.encode(rotationType.rawValue, forKey: .rotationType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyId)
+        keyId = keyIdDecoded
+        let rotationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .rotationDate)
+        rotationDate = rotationDateDecoded
+        let rotationTypeDecoded = try containerValues.decodeIfPresent(KMSClientTypes.RotationType.self, forKey: .rotationType)
+        rotationType = rotationTypeDecoded
+    }
+}
+
+extension KMSClientTypes {
+    /// Contains information about completed key material rotations.
+    public struct RotationsListEntry: Swift.Equatable {
+        /// Unique identifier of the key.
+        public var keyId: Swift.String?
+        /// Date and time that the key material rotation completed. Formatted as Unix time.
+        public var rotationDate: ClientRuntime.Date?
+        /// Identifies whether the key material rotation was a scheduled [automatic rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-enable-disable) or an [on-demand rotation](https://docs.aws.amazon.com/kms/latest/developerguide/rotate-keys.html#rotating-keys-on-demand).
+        public var rotationType: KMSClientTypes.RotationType?
+
+        public init(
+            keyId: Swift.String? = nil,
+            rotationDate: ClientRuntime.Date? = nil,
+            rotationType: KMSClientTypes.RotationType? = nil
+        )
+        {
+            self.keyId = keyId
+            self.rotationDate = rotationDate
+            self.rotationType = rotationType
+        }
+    }
+
 }
 
 extension ScheduleKeyDeletionInput: Swift.Encodable {

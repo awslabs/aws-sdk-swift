@@ -59,6 +59,188 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension WellArchitectedClientTypes.AccountJiraConfigurationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrationStatus = "IntegrationStatus"
+        case issueManagementStatus = "IssueManagementStatus"
+        case issueManagementType = "IssueManagementType"
+        case jiraProjectKey = "JiraProjectKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let integrationStatus = self.integrationStatus {
+            try encodeContainer.encode(integrationStatus.rawValue, forKey: .integrationStatus)
+        }
+        if let issueManagementStatus = self.issueManagementStatus {
+            try encodeContainer.encode(issueManagementStatus.rawValue, forKey: .issueManagementStatus)
+        }
+        if let issueManagementType = self.issueManagementType {
+            try encodeContainer.encode(issueManagementType.rawValue, forKey: .issueManagementType)
+        }
+        if let jiraProjectKey = self.jiraProjectKey {
+            try encodeContainer.encode(jiraProjectKey, forKey: .jiraProjectKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueManagementStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AccountJiraIssueManagementStatus.self, forKey: .issueManagementStatus)
+        issueManagementStatus = issueManagementStatusDecoded
+        let issueManagementTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IssueManagementType.self, forKey: .issueManagementType)
+        issueManagementType = issueManagementTypeDecoded
+        let jiraProjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraProjectKey)
+        jiraProjectKey = jiraProjectKeyDecoded
+        let integrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IntegrationStatusInput.self, forKey: .integrationStatus)
+        integrationStatus = integrationStatusDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Account-level: Input for the Jira configuration.
+    public struct AccountJiraConfigurationInput: Swift.Equatable {
+        /// Account-level: Configuration status of the Jira integration.
+        public var integrationStatus: WellArchitectedClientTypes.IntegrationStatusInput?
+        /// Account-level: Jira issue management status.
+        public var issueManagementStatus: WellArchitectedClientTypes.AccountJiraIssueManagementStatus?
+        /// Account-level: Jira issue management type.
+        public var issueManagementType: WellArchitectedClientTypes.IssueManagementType?
+        /// Account-level: Jira project key to sync workloads to.
+        public var jiraProjectKey: Swift.String?
+
+        public init(
+            integrationStatus: WellArchitectedClientTypes.IntegrationStatusInput? = nil,
+            issueManagementStatus: WellArchitectedClientTypes.AccountJiraIssueManagementStatus? = nil,
+            issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
+            jiraProjectKey: Swift.String? = nil
+        )
+        {
+            self.integrationStatus = integrationStatus
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.AccountJiraConfigurationOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case integrationStatus = "IntegrationStatus"
+        case issueManagementStatus = "IssueManagementStatus"
+        case issueManagementType = "IssueManagementType"
+        case jiraProjectKey = "JiraProjectKey"
+        case statusMessage = "StatusMessage"
+        case subdomain = "Subdomain"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let integrationStatus = self.integrationStatus {
+            try encodeContainer.encode(integrationStatus.rawValue, forKey: .integrationStatus)
+        }
+        if let issueManagementStatus = self.issueManagementStatus {
+            try encodeContainer.encode(issueManagementStatus.rawValue, forKey: .issueManagementStatus)
+        }
+        if let issueManagementType = self.issueManagementType {
+            try encodeContainer.encode(issueManagementType.rawValue, forKey: .issueManagementType)
+        }
+        if let jiraProjectKey = self.jiraProjectKey {
+            try encodeContainer.encode(jiraProjectKey, forKey: .jiraProjectKey)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+        if let subdomain = self.subdomain {
+            try encodeContainer.encode(subdomain, forKey: .subdomain)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let integrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IntegrationStatus.self, forKey: .integrationStatus)
+        integrationStatus = integrationStatusDecoded
+        let issueManagementStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AccountJiraIssueManagementStatus.self, forKey: .issueManagementStatus)
+        issueManagementStatus = issueManagementStatusDecoded
+        let issueManagementTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IssueManagementType.self, forKey: .issueManagementType)
+        issueManagementType = issueManagementTypeDecoded
+        let subdomainDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdomain)
+        subdomain = subdomainDecoded
+        let jiraProjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraProjectKey)
+        jiraProjectKey = jiraProjectKeyDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Account-level: Output configuration of the Jira integration.
+    public struct AccountJiraConfigurationOutput: Swift.Equatable {
+        /// Account-level: Configuration status of the Jira integration.
+        public var integrationStatus: WellArchitectedClientTypes.IntegrationStatus?
+        /// Account-level: Jira issue management status.
+        public var issueManagementStatus: WellArchitectedClientTypes.AccountJiraIssueManagementStatus?
+        /// Account-level: Jira issue management type.
+        public var issueManagementType: WellArchitectedClientTypes.IssueManagementType?
+        /// Account-level: Jira project key to sync workloads to.
+        public var jiraProjectKey: Swift.String?
+        /// Account-level: Status message on configuration of the Jira integration.
+        public var statusMessage: Swift.String?
+        /// Account-level: Jira subdomain URL.
+        public var subdomain: Swift.String?
+
+        public init(
+            integrationStatus: WellArchitectedClientTypes.IntegrationStatus? = nil,
+            issueManagementStatus: WellArchitectedClientTypes.AccountJiraIssueManagementStatus? = nil,
+            issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
+            jiraProjectKey: Swift.String? = nil,
+            statusMessage: Swift.String? = nil,
+            subdomain: Swift.String? = nil
+        )
+        {
+            self.integrationStatus = integrationStatus
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+            self.statusMessage = statusMessage
+            self.subdomain = subdomain
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes {
+    public enum AccountJiraIssueManagementStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountJiraIssueManagementStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AccountJiraIssueManagementStatus(rawValue: rawValue) ?? AccountJiraIssueManagementStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension WellArchitectedClientTypes {
     public enum AdditionalResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case helpfulResource
@@ -156,6 +338,7 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         case helpfulResourceUrl = "HelpfulResourceUrl"
         case improvementPlanUrl = "ImprovementPlanUrl"
         case isApplicable = "IsApplicable"
+        case jiraConfiguration = "JiraConfiguration"
         case notes = "Notes"
         case pillarId = "PillarId"
         case questionDescription = "QuestionDescription"
@@ -191,6 +374,9 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         }
         if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let notes = self.notes {
             try encodeContainer.encode(notes, forKey: .notes)
@@ -278,6 +464,8 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
         notes = notesDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AnswerReason.self, forKey: .reason)
         reason = reasonDecoded
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.JiraConfiguration.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -296,6 +484,8 @@ extension WellArchitectedClientTypes {
         public var improvementPlanUrl: Swift.String?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool?
+        /// Configuration of the Jira integration.
+        public var jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration?
         /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -320,6 +510,7 @@ extension WellArchitectedClientTypes {
             helpfulResourceUrl: Swift.String? = nil,
             improvementPlanUrl: Swift.String? = nil,
             isApplicable: Swift.Bool? = nil,
+            jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration? = nil,
             notes: Swift.String? = nil,
             pillarId: Swift.String? = nil,
             questionDescription: Swift.String? = nil,
@@ -336,6 +527,7 @@ extension WellArchitectedClientTypes {
             self.helpfulResourceUrl = helpfulResourceUrl
             self.improvementPlanUrl = improvementPlanUrl
             self.isApplicable = isApplicable
+            self.jiraConfiguration = jiraConfiguration
             self.notes = notes
             self.pillarId = pillarId
             self.questionDescription = questionDescription
@@ -395,6 +587,7 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         case choiceAnswerSummaries = "ChoiceAnswerSummaries"
         case choices = "Choices"
         case isApplicable = "IsApplicable"
+        case jiraConfiguration = "JiraConfiguration"
         case pillarId = "PillarId"
         case questionId = "QuestionId"
         case questionTitle = "QuestionTitle"
@@ -420,6 +613,9 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         }
         if let isApplicable = self.isApplicable {
             try encodeContainer.encode(isApplicable, forKey: .isApplicable)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let pillarId = self.pillarId {
             try encodeContainer.encode(pillarId, forKey: .pillarId)
@@ -496,6 +692,8 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
         reason = reasonDecoded
         let questionTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.QuestionType.self, forKey: .questionType)
         questionType = questionTypeDecoded
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.JiraConfiguration.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -508,6 +706,8 @@ extension WellArchitectedClientTypes {
         public var choices: [WellArchitectedClientTypes.Choice]?
         /// Defines whether this question is applicable to a lens review.
         public var isApplicable: Swift.Bool?
+        /// Configuration of the Jira integration.
+        public var jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// The ID of the question.
@@ -527,6 +727,7 @@ extension WellArchitectedClientTypes {
             choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]? = nil,
             choices: [WellArchitectedClientTypes.Choice]? = nil,
             isApplicable: Swift.Bool? = nil,
+            jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration? = nil,
             pillarId: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
@@ -539,6 +740,7 @@ extension WellArchitectedClientTypes {
             self.choiceAnswerSummaries = choiceAnswerSummaries
             self.choices = choices
             self.isApplicable = isApplicable
+            self.jiraConfiguration = jiraConfiguration
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
@@ -2938,6 +3140,7 @@ extension CreateWorkloadInput: Swift.Encodable {
         case environment = "Environment"
         case industry = "Industry"
         case industryType = "IndustryType"
+        case jiraConfiguration = "JiraConfiguration"
         case lenses = "Lenses"
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
@@ -2989,6 +3192,9 @@ extension CreateWorkloadInput: Swift.Encodable {
         }
         if let industryType = self.industryType {
             try encodeContainer.encode(industryType, forKey: .industryType)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let lenses = lenses {
             var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
@@ -3124,6 +3330,8 @@ public struct CreateWorkloadInput: Swift.Equatable {
     ///
     /// * Other
     public var industryType: Swift.String?
+    /// Jira configuration settings when creating a workload.
+    public var jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?
     /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
     /// This member is required.
     public var lenses: [Swift.String]?
@@ -3156,6 +3364,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         environment: WellArchitectedClientTypes.WorkloadEnvironment? = nil,
         industry: Swift.String? = nil,
         industryType: Swift.String? = nil,
+        jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput? = nil,
         lenses: [Swift.String]? = nil,
         nonAwsRegions: [Swift.String]? = nil,
         notes: Swift.String? = nil,
@@ -3177,6 +3386,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
         self.environment = environment
         self.industry = industry
         self.industryType = industryType
+        self.jiraConfiguration = jiraConfiguration
         self.lenses = lenses
         self.nonAwsRegions = nonAwsRegions
         self.notes = notes
@@ -3209,6 +3419,7 @@ struct CreateWorkloadInputBody: Swift.Equatable {
     let applications: [Swift.String]?
     let profileArns: [Swift.String]?
     let reviewTemplateArns: [Swift.String]?
+    let jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?
 }
 
 extension CreateWorkloadInputBody: Swift.Decodable {
@@ -3223,6 +3434,7 @@ extension CreateWorkloadInputBody: Swift.Decodable {
         case environment = "Environment"
         case industry = "Industry"
         case industryType = "IndustryType"
+        case jiraConfiguration = "JiraConfiguration"
         case lenses = "Lenses"
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
@@ -3355,6 +3567,8 @@ extension CreateWorkloadInputBody: Swift.Decodable {
             }
         }
         reviewTemplateArns = reviewTemplateArnsDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadJiraConfigurationInput.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -4944,6 +5158,101 @@ enum GetConsolidatedReportOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetGlobalSettingsInput {
+
+    static func urlPathProvider(_ value: GetGlobalSettingsInput) -> Swift.String? {
+        return "/global-settings"
+    }
+}
+
+public struct GetGlobalSettingsInput: Swift.Equatable {
+
+    public init() { }
+}
+
+struct GetGlobalSettingsInputBody: Swift.Equatable {
+}
+
+extension GetGlobalSettingsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetGlobalSettingsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.discoveryIntegrationStatus = output.discoveryIntegrationStatus
+            self.jiraConfiguration = output.jiraConfiguration
+            self.organizationSharingStatus = output.organizationSharingStatus
+        } else {
+            self.discoveryIntegrationStatus = nil
+            self.jiraConfiguration = nil
+            self.organizationSharingStatus = nil
+        }
+    }
+}
+
+public struct GetGlobalSettingsOutput: Swift.Equatable {
+    /// Discovery integration status.
+    public var discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
+    /// Jira configuration status.
+    public var jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationOutput?
+    /// Amazon Web Services Organizations sharing status.
+    public var organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
+
+    public init(
+        discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus? = nil,
+        jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationOutput? = nil,
+        organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus? = nil
+    )
+    {
+        self.discoveryIntegrationStatus = discoveryIntegrationStatus
+        self.jiraConfiguration = jiraConfiguration
+        self.organizationSharingStatus = organizationSharingStatus
+    }
+}
+
+struct GetGlobalSettingsOutputBody: Swift.Equatable {
+    let organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
+    let discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
+    let jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationOutput?
+}
+
+extension GetGlobalSettingsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
+        case jiraConfiguration = "JiraConfiguration"
+        case organizationSharingStatus = "OrganizationSharingStatus"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let organizationSharingStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.OrganizationSharingStatus.self, forKey: .organizationSharingStatus)
+        organizationSharingStatus = organizationSharingStatusDecoded
+        let discoveryIntegrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.DiscoveryIntegrationStatus.self, forKey: .discoveryIntegrationStatus)
+        discoveryIntegrationStatus = discoveryIntegrationStatusDecoded
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AccountJiraConfigurationOutput.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
+    }
+}
+
+enum GetGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetLensInput {
 
     static func queryItemProvider(_ value: GetLensInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -6368,6 +6677,7 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case improvementPlanUrl = "ImprovementPlanUrl"
         case improvementPlans = "ImprovementPlans"
+        case jiraConfiguration = "JiraConfiguration"
         case pillarId = "PillarId"
         case questionId = "QuestionId"
         case questionTitle = "QuestionTitle"
@@ -6384,6 +6694,9 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
             for choiceimprovementplan0 in improvementPlans {
                 try improvementPlansContainer.encode(choiceimprovementplan0)
             }
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let pillarId = self.pillarId {
             try encodeContainer.encode(pillarId, forKey: .pillarId)
@@ -6422,6 +6735,8 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
             }
         }
         improvementPlans = improvementPlansDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.JiraConfiguration.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -6432,6 +6747,8 @@ extension WellArchitectedClientTypes {
         public var improvementPlanUrl: Swift.String?
         /// The improvement plan details.
         public var improvementPlans: [WellArchitectedClientTypes.ChoiceImprovementPlan]?
+        /// Configuration of the Jira integration.
+        public var jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// The ID of the question.
@@ -6444,6 +6761,7 @@ extension WellArchitectedClientTypes {
         public init(
             improvementPlanUrl: Swift.String? = nil,
             improvementPlans: [WellArchitectedClientTypes.ChoiceImprovementPlan]? = nil,
+            jiraConfiguration: WellArchitectedClientTypes.JiraConfiguration? = nil,
             pillarId: Swift.String? = nil,
             questionId: Swift.String? = nil,
             questionTitle: Swift.String? = nil,
@@ -6452,6 +6770,7 @@ extension WellArchitectedClientTypes {
         {
             self.improvementPlanUrl = improvementPlanUrl
             self.improvementPlans = improvementPlans
+            self.jiraConfiguration = jiraConfiguration
             self.pillarId = pillarId
             self.questionId = questionId
             self.questionTitle = questionTitle
@@ -6459,6 +6778,96 @@ extension WellArchitectedClientTypes {
         }
     }
 
+}
+
+extension WellArchitectedClientTypes {
+    public enum IntegratingService: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case jira
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegratingService] {
+            return [
+                .jira,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .jira: return "JIRA"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntegratingService(rawValue: rawValue) ?? IntegratingService.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+    public enum IntegrationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case configured
+        case notConfigured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatus] {
+            return [
+                .configured,
+                .notConfigured,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .configured: return "CONFIGURED"
+            case .notConfigured: return "NOT_CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntegrationStatus(rawValue: rawValue) ?? IntegrationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes {
+    public enum IntegrationStatusInput: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case notConfigured
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IntegrationStatusInput] {
+            return [
+                .notConfigured,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .notConfigured: return "NOT_CONFIGURED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IntegrationStatusInput(rawValue: rawValue) ?? IntegrationStatusInput.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension InternalServerException {
@@ -6516,6 +6925,130 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
     }
+}
+
+extension WellArchitectedClientTypes {
+    public enum IssueManagementType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case auto
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [IssueManagementType] {
+            return [
+                .auto,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .auto: return "AUTO"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = IssueManagementType(rawValue: rawValue) ?? IssueManagementType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.JiraConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jiraIssueUrl = "JiraIssueUrl"
+        case lastSyncedTime = "LastSyncedTime"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jiraIssueUrl = self.jiraIssueUrl {
+            try encodeContainer.encode(jiraIssueUrl, forKey: .jiraIssueUrl)
+        }
+        if let lastSyncedTime = self.lastSyncedTime {
+            try encodeContainer.encodeTimestamp(lastSyncedTime, format: .epochSeconds, forKey: .lastSyncedTime)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let jiraIssueUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraIssueUrl)
+        jiraIssueUrl = jiraIssueUrlDecoded
+        let lastSyncedTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastSyncedTime)
+        lastSyncedTime = lastSyncedTimeDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Configuration of the Jira integration.
+    public struct JiraConfiguration: Swift.Equatable {
+        /// The URL of the associated Jira issue.
+        public var jiraIssueUrl: Swift.String?
+        /// The date and time recorded.
+        public var lastSyncedTime: ClientRuntime.Date?
+
+        public init(
+            jiraIssueUrl: Swift.String? = nil,
+            lastSyncedTime: ClientRuntime.Date? = nil
+        )
+        {
+            self.jiraIssueUrl = jiraIssueUrl
+            self.lastSyncedTime = lastSyncedTime
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.JiraSelectedQuestionConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case selectedPillars = "SelectedPillars"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let selectedPillars = selectedPillars {
+            var selectedPillarsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedPillars)
+            for selectedpillar0 in selectedPillars {
+                try selectedPillarsContainer.encode(selectedpillar0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let selectedPillarsContainer = try containerValues.decodeIfPresent([WellArchitectedClientTypes.SelectedPillar?].self, forKey: .selectedPillars)
+        var selectedPillarsDecoded0:[WellArchitectedClientTypes.SelectedPillar]? = nil
+        if let selectedPillarsContainer = selectedPillarsContainer {
+            selectedPillarsDecoded0 = [WellArchitectedClientTypes.SelectedPillar]()
+            for structure0 in selectedPillarsContainer {
+                if let structure0 = structure0 {
+                    selectedPillarsDecoded0?.append(structure0)
+                }
+            }
+        }
+        selectedPillars = selectedPillarsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Selected questions in the workload.
+    public struct JiraSelectedQuestionConfiguration: Swift.Equatable {
+        /// Selected pillars in the workload.
+        public var selectedPillars: [WellArchitectedClientTypes.SelectedPillar]?
+
+        public init(
+            selectedPillars: [WellArchitectedClientTypes.SelectedPillar]? = nil
+        )
+        {
+            self.selectedPillars = selectedPillars
+        }
+    }
+
 }
 
 extension WellArchitectedClientTypes.Lens: Swift.Codable {
@@ -6706,6 +7239,7 @@ extension WellArchitectedClientTypes {
 
 extension WellArchitectedClientTypes.LensReview: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jiraConfiguration = "JiraConfiguration"
         case lensAlias = "LensAlias"
         case lensArn = "LensArn"
         case lensName = "LensName"
@@ -6722,6 +7256,9 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
+        }
         if let lensAlias = self.lensAlias {
             try encodeContainer.encode(lensAlias, forKey: .lensAlias)
         }
@@ -6795,6 +7332,8 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
             }
         }
         pillarReviewSummaries = pillarReviewSummariesDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.JiraSelectedQuestionConfiguration.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
         let updatedAtDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .updatedAt)
         updatedAt = updatedAtDecoded
         let notesDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .notes)
@@ -6840,6 +7379,8 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
 extension WellArchitectedClientTypes {
     /// A lens review of a question.
     public struct LensReview: Swift.Equatable {
+        /// Jira configuration status of the Lens review.
+        public var jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
@@ -6866,6 +7407,7 @@ extension WellArchitectedClientTypes {
         public var updatedAt: ClientRuntime.Date?
 
         public init(
+            jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration? = nil,
             lensAlias: Swift.String? = nil,
             lensArn: Swift.String? = nil,
             lensName: Swift.String? = nil,
@@ -6880,6 +7422,7 @@ extension WellArchitectedClientTypes {
             updatedAt: ClientRuntime.Date? = nil
         )
         {
+            self.jiraConfiguration = jiraConfiguration
             self.lensAlias = lensAlias
             self.lensArn = lensArn
             self.lensName = lensName
@@ -13270,6 +13813,63 @@ extension WellArchitectedClientTypes {
     }
 }
 
+extension WellArchitectedClientTypes.SelectedPillar: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case pillarId = "PillarId"
+        case selectedQuestionIds = "SelectedQuestionIds"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let pillarId = self.pillarId {
+            try encodeContainer.encode(pillarId, forKey: .pillarId)
+        }
+        if let selectedQuestionIds = selectedQuestionIds {
+            var selectedQuestionIdsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .selectedQuestionIds)
+            for selectedquestionid0 in selectedQuestionIds {
+                try selectedQuestionIdsContainer.encode(selectedquestionid0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let pillarIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .pillarId)
+        pillarId = pillarIdDecoded
+        let selectedQuestionIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .selectedQuestionIds)
+        var selectedQuestionIdsDecoded0:[Swift.String]? = nil
+        if let selectedQuestionIdsContainer = selectedQuestionIdsContainer {
+            selectedQuestionIdsDecoded0 = [Swift.String]()
+            for string0 in selectedQuestionIdsContainer {
+                if let string0 = string0 {
+                    selectedQuestionIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        selectedQuestionIds = selectedQuestionIdsDecoded0
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// The selected pillar.
+    public struct SelectedPillar: Swift.Equatable {
+        /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
+        public var pillarId: Swift.String?
+        /// Selected question IDs in the selected pillar.
+        public var selectedQuestionIds: [Swift.String]?
+
+        public init(
+            pillarId: Swift.String? = nil,
+            selectedQuestionIds: [Swift.String]? = nil
+        )
+        {
+            self.pillarId = pillarId
+            self.selectedQuestionIds = selectedQuestionIds
+        }
+    }
+
+}
+
 extension ServiceQuotaExceededException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -14316,6 +14916,7 @@ enum UpdateAnswerOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateGlobalSettingsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
+        case jiraConfiguration = "JiraConfiguration"
         case organizationSharingStatus = "OrganizationSharingStatus"
     }
 
@@ -14323,6 +14924,9 @@ extension UpdateGlobalSettingsInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let discoveryIntegrationStatus = self.discoveryIntegrationStatus {
             try encodeContainer.encode(discoveryIntegrationStatus.rawValue, forKey: .discoveryIntegrationStatus)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let organizationSharingStatus = self.organizationSharingStatus {
             try encodeContainer.encode(organizationSharingStatus.rawValue, forKey: .organizationSharingStatus)
@@ -14340,15 +14944,19 @@ extension UpdateGlobalSettingsInput {
 public struct UpdateGlobalSettingsInput: Swift.Equatable {
     /// The status of discovery support settings.
     public var discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
+    /// The status of Jira integration settings.
+    public var jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationInput?
     /// The status of organization sharing settings.
     public var organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
 
     public init(
         discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus? = nil,
+        jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationInput? = nil,
         organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus? = nil
     )
     {
         self.discoveryIntegrationStatus = discoveryIntegrationStatus
+        self.jiraConfiguration = jiraConfiguration
         self.organizationSharingStatus = organizationSharingStatus
     }
 }
@@ -14356,11 +14964,13 @@ public struct UpdateGlobalSettingsInput: Swift.Equatable {
 struct UpdateGlobalSettingsInputBody: Swift.Equatable {
     let organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
     let discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
+    let jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationInput?
 }
 
 extension UpdateGlobalSettingsInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case discoveryIntegrationStatus = "DiscoveryIntegrationStatus"
+        case jiraConfiguration = "JiraConfiguration"
         case organizationSharingStatus = "OrganizationSharingStatus"
     }
 
@@ -14370,6 +14980,8 @@ extension UpdateGlobalSettingsInputBody: Swift.Decodable {
         organizationSharingStatus = organizationSharingStatusDecoded
         let discoveryIntegrationStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.DiscoveryIntegrationStatus.self, forKey: .discoveryIntegrationStatus)
         discoveryIntegrationStatus = discoveryIntegrationStatusDecoded
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.AccountJiraConfigurationInput.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -14398,14 +15010,114 @@ enum UpdateGlobalSettingsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension UpdateIntegrationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case integratingService = "IntegratingService"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientRequestToken = self.clientRequestToken {
+            try encodeContainer.encode(clientRequestToken, forKey: .clientRequestToken)
+        }
+        if let integratingService = self.integratingService {
+            try encodeContainer.encode(integratingService.rawValue, forKey: .integratingService)
+        }
+    }
+}
+
+extension UpdateIntegrationInput {
+
+    static func urlPathProvider(_ value: UpdateIntegrationInput) -> Swift.String? {
+        guard let workloadId = value.workloadId else {
+            return nil
+        }
+        return "/workloads/\(workloadId.urlPercentEncoding())/updateIntegration"
+    }
+}
+
+public struct UpdateIntegrationInput: Swift.Equatable {
+    /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
+    /// This member is required.
+    public var clientRequestToken: Swift.String?
+    /// Which integrated service to update.
+    /// This member is required.
+    public var integratingService: WellArchitectedClientTypes.IntegratingService?
+    /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
+    /// This member is required.
+    public var workloadId: Swift.String?
+
+    public init(
+        clientRequestToken: Swift.String? = nil,
+        integratingService: WellArchitectedClientTypes.IntegratingService? = nil,
+        workloadId: Swift.String? = nil
+    )
+    {
+        self.clientRequestToken = clientRequestToken
+        self.integratingService = integratingService
+        self.workloadId = workloadId
+    }
+}
+
+struct UpdateIntegrationInputBody: Swift.Equatable {
+    let clientRequestToken: Swift.String?
+    let integratingService: WellArchitectedClientTypes.IntegratingService?
+}
+
+extension UpdateIntegrationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientRequestToken = "ClientRequestToken"
+        case integratingService = "IntegratingService"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let clientRequestTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientRequestToken)
+        clientRequestToken = clientRequestTokenDecoded
+        let integratingServiceDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IntegratingService.self, forKey: .integratingService)
+        integratingService = integratingServiceDecoded
+    }
+}
+
+extension UpdateIntegrationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct UpdateIntegrationOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum UpdateIntegrationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension UpdateLensReviewInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jiraConfiguration = "JiraConfiguration"
         case lensNotes = "LensNotes"
         case pillarNotes = "PillarNotes"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
+        }
         if let lensNotes = self.lensNotes {
             try encodeContainer.encode(lensNotes, forKey: .lensNotes)
         }
@@ -14433,6 +15145,8 @@ extension UpdateLensReviewInput {
 
 /// Input for update lens review.
 public struct UpdateLensReviewInput: Swift.Equatable {
+    /// Configuration of the Jira integration.
+    public var jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -14445,12 +15159,14 @@ public struct UpdateLensReviewInput: Swift.Equatable {
     public var workloadId: Swift.String?
 
     public init(
+        jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration? = nil,
         lensAlias: Swift.String? = nil,
         lensNotes: Swift.String? = nil,
         pillarNotes: [Swift.String:Swift.String]? = nil,
         workloadId: Swift.String? = nil
     )
     {
+        self.jiraConfiguration = jiraConfiguration
         self.lensAlias = lensAlias
         self.lensNotes = lensNotes
         self.pillarNotes = pillarNotes
@@ -14461,10 +15177,12 @@ public struct UpdateLensReviewInput: Swift.Equatable {
 struct UpdateLensReviewInputBody: Swift.Equatable {
     let lensNotes: Swift.String?
     let pillarNotes: [Swift.String:Swift.String]?
+    let jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
 }
 
 extension UpdateLensReviewInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case jiraConfiguration = "JiraConfiguration"
         case lensNotes = "LensNotes"
         case pillarNotes = "PillarNotes"
     }
@@ -14484,6 +15202,8 @@ extension UpdateLensReviewInputBody: Swift.Decodable {
             }
         }
         pillarNotes = pillarNotesDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.JiraSelectedQuestionConfiguration.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -15375,6 +16095,7 @@ extension UpdateWorkloadInput: Swift.Encodable {
         case industry = "Industry"
         case industryType = "IndustryType"
         case isReviewOwnerUpdateAcknowledged = "IsReviewOwnerUpdateAcknowledged"
+        case jiraConfiguration = "JiraConfiguration"
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
         case pillarPriorities = "PillarPriorities"
@@ -15425,6 +16146,9 @@ extension UpdateWorkloadInput: Swift.Encodable {
         }
         if let isReviewOwnerUpdateAcknowledged = self.isReviewOwnerUpdateAcknowledged {
             try encodeContainer.encode(isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let nonAwsRegions = nonAwsRegions {
             var nonAwsRegionsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .nonAwsRegions)
@@ -15538,6 +16262,8 @@ public struct UpdateWorkloadInput: Swift.Equatable {
     public var industryType: Swift.String?
     /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
     public var isReviewOwnerUpdateAcknowledged: Swift.Bool?
+    /// Configuration of the Jira integration.
+    public var jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?
     /// The list of non-Amazon Web Services Regions associated with the workload.
     public var nonAwsRegions: [Swift.String]?
     /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
@@ -15564,6 +16290,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
         industry: Swift.String? = nil,
         industryType: Swift.String? = nil,
         isReviewOwnerUpdateAcknowledged: Swift.Bool? = nil,
+        jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput? = nil,
         nonAwsRegions: [Swift.String]? = nil,
         notes: Swift.String? = nil,
         pillarPriorities: [Swift.String]? = nil,
@@ -15583,6 +16310,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
         self.industry = industry
         self.industryType = industryType
         self.isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledged
+        self.jiraConfiguration = jiraConfiguration
         self.nonAwsRegions = nonAwsRegions
         self.notes = notes
         self.pillarPriorities = pillarPriorities
@@ -15609,6 +16337,7 @@ struct UpdateWorkloadInputBody: Swift.Equatable {
     let improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus?
     let discoveryConfig: WellArchitectedClientTypes.WorkloadDiscoveryConfig?
     let applications: [Swift.String]?
+    let jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationInput?
 }
 
 extension UpdateWorkloadInputBody: Swift.Decodable {
@@ -15624,6 +16353,7 @@ extension UpdateWorkloadInputBody: Swift.Decodable {
         case industry = "Industry"
         case industryType = "IndustryType"
         case isReviewOwnerUpdateAcknowledged = "IsReviewOwnerUpdateAcknowledged"
+        case jiraConfiguration = "JiraConfiguration"
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
         case pillarPriorities = "PillarPriorities"
@@ -15710,6 +16440,8 @@ extension UpdateWorkloadInputBody: Swift.Decodable {
             }
         }
         applications = applicationsDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadJiraConfigurationInput.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -15999,6 +16731,7 @@ enum UpgradeLensReviewOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -16101,6 +16834,7 @@ enum UpgradeProfileVersionOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
@@ -16432,6 +17166,7 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         case industry = "Industry"
         case industryType = "IndustryType"
         case isReviewOwnerUpdateAcknowledged = "IsReviewOwnerUpdateAcknowledged"
+        case jiraConfiguration = "JiraConfiguration"
         case lenses = "Lenses"
         case nonAwsRegions = "NonAwsRegions"
         case notes = "Notes"
@@ -16493,6 +17228,9 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
         }
         if let isReviewOwnerUpdateAcknowledged = self.isReviewOwnerUpdateAcknowledged {
             try encodeContainer.encode(isReviewOwnerUpdateAcknowledged, forKey: .isReviewOwnerUpdateAcknowledged)
+        }
+        if let jiraConfiguration = self.jiraConfiguration {
+            try encodeContainer.encode(jiraConfiguration, forKey: .jiraConfiguration)
         }
         if let lenses = lenses {
             var lensesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .lenses)
@@ -16711,6 +17449,8 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
             }
         }
         prioritizedRiskCounts = prioritizedRiskCountsDecoded0
+        let jiraConfigurationDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadJiraConfigurationOutput.self, forKey: .jiraConfiguration)
+        jiraConfiguration = jiraConfigurationDecoded
     }
 }
 
@@ -16793,6 +17533,8 @@ extension WellArchitectedClientTypes {
         public var industryType: Swift.String?
         /// Flag indicating whether the workload owner has acknowledged that the Review owner field is required. If a Review owner is not added to the workload within 60 days of acknowledgement, access to the workload is restricted until an owner is added.
         public var isReviewOwnerUpdateAcknowledged: Swift.Bool?
+        /// Jira configuration for a specific workload.
+        public var jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput?
         /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.
         public var lenses: [Swift.String]?
         /// The list of non-Amazon Web Services Regions associated with the workload.
@@ -16838,6 +17580,7 @@ extension WellArchitectedClientTypes {
             industry: Swift.String? = nil,
             industryType: Swift.String? = nil,
             isReviewOwnerUpdateAcknowledged: Swift.Bool? = nil,
+            jiraConfiguration: WellArchitectedClientTypes.WorkloadJiraConfigurationOutput? = nil,
             lenses: [Swift.String]? = nil,
             nonAwsRegions: [Swift.String]? = nil,
             notes: Swift.String? = nil,
@@ -16867,6 +17610,7 @@ extension WellArchitectedClientTypes {
             self.industry = industry
             self.industryType = industryType
             self.isReviewOwnerUpdateAcknowledged = isReviewOwnerUpdateAcknowledged
+            self.jiraConfiguration = jiraConfiguration
             self.lenses = lenses
             self.nonAwsRegions = nonAwsRegions
             self.notes = notes
@@ -17018,6 +17762,161 @@ extension WellArchitectedClientTypes {
             self = WorkloadImprovementStatus(rawValue: rawValue) ?? WorkloadImprovementStatus.sdkUnknown(rawValue)
         }
     }
+}
+
+extension WellArchitectedClientTypes {
+    public enum WorkloadIssueManagementStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case inherit
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [WorkloadIssueManagementStatus] {
+            return [
+                .disabled,
+                .enabled,
+                .inherit,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case .inherit: return "INHERIT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = WorkloadIssueManagementStatus(rawValue: rawValue) ?? WorkloadIssueManagementStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WellArchitectedClientTypes.WorkloadJiraConfigurationInput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issueManagementStatus = "IssueManagementStatus"
+        case issueManagementType = "IssueManagementType"
+        case jiraProjectKey = "JiraProjectKey"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issueManagementStatus = self.issueManagementStatus {
+            try encodeContainer.encode(issueManagementStatus.rawValue, forKey: .issueManagementStatus)
+        }
+        if let issueManagementType = self.issueManagementType {
+            try encodeContainer.encode(issueManagementType.rawValue, forKey: .issueManagementType)
+        }
+        if let jiraProjectKey = self.jiraProjectKey {
+            try encodeContainer.encode(jiraProjectKey, forKey: .jiraProjectKey)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueManagementStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadIssueManagementStatus.self, forKey: .issueManagementStatus)
+        issueManagementStatus = issueManagementStatusDecoded
+        let issueManagementTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IssueManagementType.self, forKey: .issueManagementType)
+        issueManagementType = issueManagementTypeDecoded
+        let jiraProjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraProjectKey)
+        jiraProjectKey = jiraProjectKeyDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Workload-level: Input for the Jira configuration.
+    public struct WorkloadJiraConfigurationInput: Swift.Equatable {
+        /// Workload-level: Jira issue management status.
+        public var issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus?
+        /// Workload-level: Jira issue management type.
+        public var issueManagementType: WellArchitectedClientTypes.IssueManagementType?
+        /// Workload-level: Jira project key to sync workloads to.
+        public var jiraProjectKey: Swift.String?
+
+        public init(
+            issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus? = nil,
+            issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
+            jiraProjectKey: Swift.String? = nil
+        )
+        {
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+        }
+    }
+
+}
+
+extension WellArchitectedClientTypes.WorkloadJiraConfigurationOutput: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case issueManagementStatus = "IssueManagementStatus"
+        case issueManagementType = "IssueManagementType"
+        case jiraProjectKey = "JiraProjectKey"
+        case statusMessage = "StatusMessage"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let issueManagementStatus = self.issueManagementStatus {
+            try encodeContainer.encode(issueManagementStatus.rawValue, forKey: .issueManagementStatus)
+        }
+        if let issueManagementType = self.issueManagementType {
+            try encodeContainer.encode(issueManagementType.rawValue, forKey: .issueManagementType)
+        }
+        if let jiraProjectKey = self.jiraProjectKey {
+            try encodeContainer.encode(jiraProjectKey, forKey: .jiraProjectKey)
+        }
+        if let statusMessage = self.statusMessage {
+            try encodeContainer.encode(statusMessage, forKey: .statusMessage)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let issueManagementStatusDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.WorkloadIssueManagementStatus.self, forKey: .issueManagementStatus)
+        issueManagementStatus = issueManagementStatusDecoded
+        let issueManagementTypeDecoded = try containerValues.decodeIfPresent(WellArchitectedClientTypes.IssueManagementType.self, forKey: .issueManagementType)
+        issueManagementType = issueManagementTypeDecoded
+        let jiraProjectKeyDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .jiraProjectKey)
+        jiraProjectKey = jiraProjectKeyDecoded
+        let statusMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusMessage)
+        statusMessage = statusMessageDecoded
+    }
+}
+
+extension WellArchitectedClientTypes {
+    /// Workload-level: Output configuration of the Jira integration.
+    public struct WorkloadJiraConfigurationOutput: Swift.Equatable {
+        /// Workload-level: Jira issue management status.
+        public var issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus?
+        /// Workload-level: Jira issue management type.
+        public var issueManagementType: WellArchitectedClientTypes.IssueManagementType?
+        /// Workload-level: Jira project key to sync workloads to.
+        public var jiraProjectKey: Swift.String?
+        /// Workload-level: Status message on configuration of the Jira integration.
+        public var statusMessage: Swift.String?
+
+        public init(
+            issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus? = nil,
+            issueManagementType: WellArchitectedClientTypes.IssueManagementType? = nil,
+            jiraProjectKey: Swift.String? = nil,
+            statusMessage: Swift.String? = nil
+        )
+        {
+            self.issueManagementStatus = issueManagementStatus
+            self.issueManagementType = issueManagementType
+            self.jiraProjectKey = jiraProjectKey
+            self.statusMessage = statusMessage
+        }
+    }
+
 }
 
 extension WellArchitectedClientTypes.WorkloadProfile: Swift.Codable {

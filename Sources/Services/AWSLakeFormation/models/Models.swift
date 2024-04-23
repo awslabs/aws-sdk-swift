@@ -1630,6 +1630,7 @@ extension CreateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
         case catalogId = "CatalogId"
         case externalFiltering = "ExternalFiltering"
         case instanceArn = "InstanceArn"
+        case shareRecipients = "ShareRecipients"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1642,6 +1643,12 @@ extension CreateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
         }
         if let instanceArn = self.instanceArn {
             try encodeContainer.encode(instanceArn, forKey: .instanceArn)
+        }
+        if let shareRecipients = shareRecipients {
+            var shareRecipientsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shareRecipients)
+            for datalakeprincipal0 in shareRecipients {
+                try shareRecipientsContainer.encode(datalakeprincipal0)
+            }
         }
     }
 }
@@ -1660,16 +1667,20 @@ public struct CreateLakeFormationIdentityCenterConfigurationInput: Swift.Equatab
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The ARN of the IAM Identity Center instance for which the operation will be executed. For more information about ARNs, see Amazon Resource Names (ARNs) and Amazon Web Services Service Namespaces in the Amazon Web Services General Reference.
     public var instanceArn: Swift.String?
+    /// A list of Amazon Web Services account IDs and/or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources. If the ShareRecipients value is null or the list is empty, no resource share is created.
+    public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
     public init(
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
-        instanceArn: Swift.String? = nil
+        instanceArn: Swift.String? = nil,
+        shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     )
     {
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
+        self.shareRecipients = shareRecipients
     }
 }
 
@@ -1677,6 +1688,7 @@ struct CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable 
     let catalogId: Swift.String?
     let instanceArn: Swift.String?
     let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    let shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 }
 
 extension CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodable {
@@ -1684,6 +1696,7 @@ extension CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodab
         case catalogId = "CatalogId"
         case externalFiltering = "ExternalFiltering"
         case instanceArn = "InstanceArn"
+        case shareRecipients = "ShareRecipients"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1694,6 +1707,17 @@ extension CreateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodab
         instanceArn = instanceArnDecoded
         let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)
         externalFiltering = externalFilteringDecoded
+        let shareRecipientsContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.DataLakePrincipal?].self, forKey: .shareRecipients)
+        var shareRecipientsDecoded0:[LakeFormationClientTypes.DataLakePrincipal]? = nil
+        if let shareRecipientsContainer = shareRecipientsContainer {
+            shareRecipientsDecoded0 = [LakeFormationClientTypes.DataLakePrincipal]()
+            for structure0 in shareRecipientsContainer {
+                if let structure0 = structure0 {
+                    shareRecipientsDecoded0?.append(structure0)
+                }
+            }
+        }
+        shareRecipients = shareRecipientsDecoded0
     }
 }
 
@@ -1710,7 +1734,7 @@ extension CreateLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.Ht
 }
 
 public struct CreateLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the integrated application.
+    /// The Amazon Resource Name (ARN) of the Lake Formation application integrated with IAM Identity Center.
     public var applicationArn: Swift.String?
 
     public init(
@@ -3120,17 +3144,21 @@ extension DescribeLakeFormationIdentityCenterConfigurationOutput: ClientRuntime.
             self.catalogId = output.catalogId
             self.externalFiltering = output.externalFiltering
             self.instanceArn = output.instanceArn
+            self.resourceShare = output.resourceShare
+            self.shareRecipients = output.shareRecipients
         } else {
             self.applicationArn = nil
             self.catalogId = nil
             self.externalFiltering = nil
             self.instanceArn = nil
+            self.resourceShare = nil
+            self.shareRecipients = nil
         }
     }
 }
 
 public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Equatable {
-    /// The Amazon Resource Name (ARN) of the integrated application.
+    /// The Amazon Resource Name (ARN) of the Lake Formation application integrated with IAM Identity Center.
     public var applicationArn: Swift.String?
     /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
     public var catalogId: Swift.String?
@@ -3138,18 +3166,26 @@ public struct DescribeLakeFormationIdentityCenterConfigurationOutput: Swift.Equa
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
     /// The Amazon Resource Name (ARN) of the connection.
     public var instanceArn: Swift.String?
+    /// The Amazon Resource Name (ARN) of the RAM share.
+    public var resourceShare: Swift.String?
+    /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access data managed by Lake Formation. If the ShareRecipients list includes valid values, a resource share is created with the principals you want to have access to the resources as the ShareRecipients. If the ShareRecipients value is null or the list is empty, no resource share is created.
+    public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
     public init(
         applicationArn: Swift.String? = nil,
         catalogId: Swift.String? = nil,
         externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
-        instanceArn: Swift.String? = nil
+        instanceArn: Swift.String? = nil,
+        resourceShare: Swift.String? = nil,
+        shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     )
     {
         self.applicationArn = applicationArn
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
         self.instanceArn = instanceArn
+        self.resourceShare = resourceShare
+        self.shareRecipients = shareRecipients
     }
 }
 
@@ -3158,6 +3194,8 @@ struct DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Equatab
     let instanceArn: Swift.String?
     let applicationArn: Swift.String?
     let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    let shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
+    let resourceShare: Swift.String?
 }
 
 extension DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Decodable {
@@ -3166,6 +3204,8 @@ extension DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Deco
         case catalogId = "CatalogId"
         case externalFiltering = "ExternalFiltering"
         case instanceArn = "InstanceArn"
+        case resourceShare = "ResourceShare"
+        case shareRecipients = "ShareRecipients"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -3178,6 +3218,19 @@ extension DescribeLakeFormationIdentityCenterConfigurationOutputBody: Swift.Deco
         applicationArn = applicationArnDecoded
         let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)
         externalFiltering = externalFilteringDecoded
+        let shareRecipientsContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.DataLakePrincipal?].self, forKey: .shareRecipients)
+        var shareRecipientsDecoded0:[LakeFormationClientTypes.DataLakePrincipal]? = nil
+        if let shareRecipientsContainer = shareRecipientsContainer {
+            shareRecipientsDecoded0 = [LakeFormationClientTypes.DataLakePrincipal]()
+            for structure0 in shareRecipientsContainer {
+                if let structure0 = structure0 {
+                    shareRecipientsDecoded0?.append(structure0)
+                }
+            }
+        }
+        shareRecipients = shareRecipientsDecoded0
+        let resourceShareDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .resourceShare)
+        resourceShare = resourceShareDecoded
     }
 }
 
@@ -11164,6 +11217,7 @@ extension UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
         case applicationStatus = "ApplicationStatus"
         case catalogId = "CatalogId"
         case externalFiltering = "ExternalFiltering"
+        case shareRecipients = "ShareRecipients"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11176,6 +11230,12 @@ extension UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Encodable {
         }
         if let externalFiltering = self.externalFiltering {
             try encodeContainer.encode(externalFiltering, forKey: .externalFiltering)
+        }
+        if let shareRecipients = shareRecipients {
+            var shareRecipientsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .shareRecipients)
+            for datalakeprincipal0 in shareRecipients {
+                try shareRecipientsContainer.encode(datalakeprincipal0)
+            }
         }
     }
 }
@@ -11194,21 +11254,26 @@ public struct UpdateLakeFormationIdentityCenterConfigurationInput: Swift.Equatab
     public var catalogId: Swift.String?
     /// A list of the account IDs of Amazon Web Services accounts of third-party applications that are allowed to access data managed by Lake Formation.
     public var externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
+    /// A list of Amazon Web Services account IDs or Amazon Web Services organization/organizational unit ARNs that are allowed to access to access data managed by Lake Formation. If the ShareRecipients list includes valid values, then the resource share is updated with the principals you want to have access to the resources. If the ShareRecipients value is null, both the list of share recipients and the resource share remain unchanged. If the ShareRecipients value is an empty list, then the existing share recipients list will be cleared, and the resource share will be deleted.
+    public var shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
 
     public init(
         applicationStatus: LakeFormationClientTypes.ApplicationStatus? = nil,
         catalogId: Swift.String? = nil,
-        externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil
+        externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration? = nil,
+        shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]? = nil
     )
     {
         self.applicationStatus = applicationStatus
         self.catalogId = catalogId
         self.externalFiltering = externalFiltering
+        self.shareRecipients = shareRecipients
     }
 }
 
 struct UpdateLakeFormationIdentityCenterConfigurationInputBody: Swift.Equatable {
     let catalogId: Swift.String?
+    let shareRecipients: [LakeFormationClientTypes.DataLakePrincipal]?
     let applicationStatus: LakeFormationClientTypes.ApplicationStatus?
     let externalFiltering: LakeFormationClientTypes.ExternalFilteringConfiguration?
 }
@@ -11218,12 +11283,24 @@ extension UpdateLakeFormationIdentityCenterConfigurationInputBody: Swift.Decodab
         case applicationStatus = "ApplicationStatus"
         case catalogId = "CatalogId"
         case externalFiltering = "ExternalFiltering"
+        case shareRecipients = "ShareRecipients"
     }
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let catalogIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .catalogId)
         catalogId = catalogIdDecoded
+        let shareRecipientsContainer = try containerValues.decodeIfPresent([LakeFormationClientTypes.DataLakePrincipal?].self, forKey: .shareRecipients)
+        var shareRecipientsDecoded0:[LakeFormationClientTypes.DataLakePrincipal]? = nil
+        if let shareRecipientsContainer = shareRecipientsContainer {
+            shareRecipientsDecoded0 = [LakeFormationClientTypes.DataLakePrincipal]()
+            for structure0 in shareRecipientsContainer {
+                if let structure0 = structure0 {
+                    shareRecipientsDecoded0?.append(structure0)
+                }
+            }
+        }
+        shareRecipients = shareRecipientsDecoded0
         let applicationStatusDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ApplicationStatus.self, forKey: .applicationStatus)
         applicationStatus = applicationStatusDecoded
         let externalFilteringDecoded = try containerValues.decodeIfPresent(LakeFormationClientTypes.ExternalFilteringConfiguration.self, forKey: .externalFiltering)

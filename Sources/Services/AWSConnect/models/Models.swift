@@ -101,6 +101,7 @@ extension ConnectClientTypes {
         case endAssociatedTasks
         case generateEventbridgeEvent
         case sendNotification
+        case submitAutoEvaluation
         case updateCase
         case sdkUnknown(Swift.String)
 
@@ -112,6 +113,7 @@ extension ConnectClientTypes {
                 .endAssociatedTasks,
                 .generateEventbridgeEvent,
                 .sendNotification,
+                .submitAutoEvaluation,
                 .updateCase,
                 .sdkUnknown("")
             ]
@@ -128,6 +130,7 @@ extension ConnectClientTypes {
             case .endAssociatedTasks: return "END_ASSOCIATED_TASKS"
             case .generateEventbridgeEvent: return "GENERATE_EVENTBRIDGE_EVENT"
             case .sendNotification: return "SEND_NOTIFICATION"
+            case .submitAutoEvaluation: return "SUBMIT_AUTO_EVALUATION"
             case .updateCase: return "UPDATE_CASE"
             case let .sdkUnknown(s): return s
             }
@@ -8974,7 +8977,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of third-party applications that the security profile will give access to.
+    /// A list of third-party applications that the security profile will give access to.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?
@@ -29319,7 +29322,7 @@ extension ListSecurityProfileApplicationsOutput: ClientRuntime.HttpResponseBindi
 }
 
 public struct ListSecurityProfileApplicationsOutput: Swift.Equatable {
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third-party application's metadata.
+    /// A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The Amazon Web Services Region where this resource was last modified.
     public var lastModifiedRegion: Swift.String?
@@ -38727,6 +38730,7 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         case endAssociatedTasksAction = "EndAssociatedTasksAction"
         case eventBridgeAction = "EventBridgeAction"
         case sendNotificationAction = "SendNotificationAction"
+        case submitAutoEvaluationAction = "SubmitAutoEvaluationAction"
         case taskAction = "TaskAction"
         case updateCaseAction = "UpdateCaseAction"
     }
@@ -38750,6 +38754,9 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         }
         if let sendNotificationAction = self.sendNotificationAction {
             try encodeContainer.encode(sendNotificationAction, forKey: .sendNotificationAction)
+        }
+        if let submitAutoEvaluationAction = self.submitAutoEvaluationAction {
+            try encodeContainer.encode(submitAutoEvaluationAction, forKey: .submitAutoEvaluationAction)
         }
         if let taskAction = self.taskAction {
             try encodeContainer.encode(taskAction, forKey: .taskAction)
@@ -38777,6 +38784,8 @@ extension ConnectClientTypes.RuleAction: Swift.Codable {
         updateCaseAction = updateCaseActionDecoded
         let endAssociatedTasksActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.EndAssociatedTasksActionDefinition.self, forKey: .endAssociatedTasksAction)
         endAssociatedTasksAction = endAssociatedTasksActionDecoded
+        let submitAutoEvaluationActionDecoded = try containerValues.decodeIfPresent(ConnectClientTypes.SubmitAutoEvaluationActionDefinition.self, forKey: .submitAutoEvaluationAction)
+        submitAutoEvaluationAction = submitAutoEvaluationActionDecoded
     }
 }
 
@@ -38796,6 +38805,8 @@ extension ConnectClientTypes {
         public var eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition?
         /// Information about the send notification action. Supported only for TriggerEventSource values: OnPostCallAnalysisAvailable | OnRealTimeCallAnalysisAvailable | OnRealTimeChatAnalysisAvailable | OnPostChatAnalysisAvailable | OnContactEvaluationSubmit | OnMetricDataUpdate
         public var sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition?
+        /// Information about the submit automated evaluation action.
+        public var submitAutoEvaluationAction: ConnectClientTypes.SubmitAutoEvaluationActionDefinition?
         /// Information about the task action. This field is required if TriggerEventSource is one of the following values: OnZendeskTicketCreate | OnZendeskTicketStatusUpdate | OnSalesforceCaseCreate
         public var taskAction: ConnectClientTypes.TaskActionDefinition?
         /// Information about the update case action. Supported only for TriggerEventSource values: OnCaseCreate | OnCaseUpdate.
@@ -38808,6 +38819,7 @@ extension ConnectClientTypes {
             endAssociatedTasksAction: ConnectClientTypes.EndAssociatedTasksActionDefinition? = nil,
             eventBridgeAction: ConnectClientTypes.EventBridgeActionDefinition? = nil,
             sendNotificationAction: ConnectClientTypes.SendNotificationActionDefinition? = nil,
+            submitAutoEvaluationAction: ConnectClientTypes.SubmitAutoEvaluationActionDefinition? = nil,
             taskAction: ConnectClientTypes.TaskActionDefinition? = nil,
             updateCaseAction: ConnectClientTypes.UpdateCaseActionDefinition? = nil
         )
@@ -38818,6 +38830,7 @@ extension ConnectClientTypes {
             self.endAssociatedTasksAction = endAssociatedTasksAction
             self.eventBridgeAction = eventBridgeAction
             self.sendNotificationAction = sendNotificationAction
+            self.submitAutoEvaluationAction = submitAutoEvaluationAction
             self.taskAction = taskAction
             self.updateCaseAction = updateCaseAction
         }
@@ -44926,6 +44939,42 @@ extension ConnectClientTypes {
         {
             self.name = name
             self.value = value
+        }
+    }
+
+}
+
+extension ConnectClientTypes.SubmitAutoEvaluationActionDefinition: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case evaluationFormId = "EvaluationFormId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let evaluationFormId = self.evaluationFormId {
+            try encodeContainer.encode(evaluationFormId, forKey: .evaluationFormId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let evaluationFormIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .evaluationFormId)
+        evaluationFormId = evaluationFormIdDecoded
+    }
+}
+
+extension ConnectClientTypes {
+    /// Information about the submit automated evaluation action.
+    public struct SubmitAutoEvaluationActionDefinition: Swift.Equatable {
+        /// The identifier of the auto-evaluation enabled form.
+        /// This member is required.
+        public var evaluationFormId: Swift.String?
+
+        public init(
+            evaluationFormId: Swift.String? = nil
+        )
+        {
+            self.evaluationFormId = evaluationFormId
         }
     }
 
@@ -51129,7 +51178,7 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     public var allowedAccessControlHierarchyGroupId: Swift.String?
     /// The list of tags that a security profile uses to restrict access to resources in Amazon Connect.
     public var allowedAccessControlTags: [Swift.String:Swift.String]?
-    /// This API is in preview release for Amazon Connect and is subject to change. A list of the third-party application's metadata.
+    /// A list of the third-party application's metadata.
     public var applications: [ConnectClientTypes.Application]?
     /// The description of the security profile.
     public var description: Swift.String?

@@ -106,6 +106,7 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 
 extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case customcontrol = "customControl"
         case lambda
         case sdkUnknown
     }
@@ -113,6 +114,8 @@ extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
     public func encode(to encoder: Swift.Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         switch self {
+            case let .customcontrol(customcontrol):
+                try container.encode(customcontrol.rawValue, forKey: .customcontrol)
             case let .lambda(lambda):
                 try container.encode(lambda, forKey: .lambda)
             case let .sdkUnknown(sdkUnknown):
@@ -127,6 +130,11 @@ extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
             self = .lambda(lambda)
             return
         }
+        let customcontrolDecoded = try values.decodeIfPresent(BedrockAgentClientTypes.CustomControlMethod.self, forKey: .customcontrol)
+        if let customcontrol = customcontrolDecoded {
+            self = .customcontrol(customcontrol)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -134,8 +142,10 @@ extension BedrockAgentClientTypes.ActionGroupExecutor: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains details about the Lambda function containing the business logic that is carried out upon invoking the action.
     public enum ActionGroupExecutor: Swift.Equatable {
-        /// The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
         case lambda(Swift.String)
+        /// To return the action group invocation results directly in the InvokeAgent response, specify RETURN_CONTROL.
+        case customcontrol(BedrockAgentClientTypes.CustomControlMethod)
         case sdkUnknown(Swift.String)
     }
 
@@ -434,7 +444,7 @@ extension BedrockAgentClientTypes.Agent: Swift.CustomDebugStringConvertible {
 extension BedrockAgentClientTypes {
     /// Contains details about an agent.
     public struct Agent: Swift.Equatable {
-        /// The ARN of the agent.
+        /// The Amazon Resource Name (ARN) of the agent.
         /// This member is required.
         public var agentArn: Swift.String?
         /// The unique identifier of the agent.
@@ -443,7 +453,7 @@ extension BedrockAgentClientTypes {
         /// The name of the agent.
         /// This member is required.
         public var agentName: Swift.String?
-        /// The ARN of the IAM role with permissions to call API operations on the agent. The ARN must begin with AmazonBedrockExecutionRoleForAgents_.
+        /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
         /// This member is required.
         public var agentResourceRoleArn: Swift.String?
         /// The status of the agent and whether it is ready for use. The following statuses are possible:
@@ -471,7 +481,7 @@ extension BedrockAgentClientTypes {
         /// The time at which the agent was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
-        /// The ARN of the KMS key that encrypts the agent.
+        /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public var customerEncryptionKeyArn: Swift.String?
         /// The description of the agent.
         public var description: Swift.String?
@@ -550,6 +560,7 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
         case clientToken
         case createdAt
         case description
+        case functionSchema
         case parentActionSignature
         case updatedAt
     }
@@ -586,6 +597,9 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let functionSchema = self.functionSchema {
+            try encodeContainer.encode(functionSchema, forKey: .functionSchema)
+        }
         if let parentActionSignature = self.parentActionSignature {
             try encodeContainer.encode(parentActionSignature.rawValue, forKey: .parentActionSignature)
         }
@@ -618,6 +632,8 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
         actionGroupExecutor = actionGroupExecutorDecoded
         let apiSchemaDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.APISchema.self, forKey: .apiSchema)
         apiSchema = apiSchemaDecoded
+        let functionSchemaDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.FunctionSchema.self, forKey: .functionSchema)
+        functionSchema = functionSchemaDecoded
         let actionGroupStateDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.ActionGroupState.self, forKey: .actionGroupState)
         actionGroupState = actionGroupStateDecoded
     }
@@ -626,7 +642,7 @@ extension BedrockAgentClientTypes.AgentActionGroup: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains details about an action group.
     public struct AgentActionGroup: Swift.Equatable {
-        /// The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.
+        /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
         public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
         /// The unique identifier of the action group.
         /// This member is required.
@@ -652,6 +668,8 @@ extension BedrockAgentClientTypes {
         public var createdAt: ClientRuntime.Date?
         /// The description of the action group.
         public var description: Swift.String?
+        /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.
+        public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
         /// If this field is set as AMAZON.UserInput, the agent can request the user for additional information when trying to complete a task. The description, apiSchema, and actionGroupExecutor fields must be blank for this action group. During orchestration, if the agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
         public var parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature?
         /// The time at which the action group was last updated.
@@ -669,6 +687,7 @@ extension BedrockAgentClientTypes {
             clientToken: Swift.String? = nil,
             createdAt: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
             parentActionSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil,
             updatedAt: ClientRuntime.Date? = nil
         )
@@ -683,6 +702,7 @@ extension BedrockAgentClientTypes {
             self.clientToken = clientToken
             self.createdAt = createdAt
             self.description = description
+            self.functionSchema = functionSchema
             self.parentActionSignature = parentActionSignature
             self.updatedAt = updatedAt
         }
@@ -796,7 +816,7 @@ extension BedrockAgentClientTypes.AgentAlias: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains details about an alias of an agent.
     public struct AgentAlias: Swift.Equatable {
-        /// The ARN of the alias of the agent.
+        /// The Amazon Resource Name (ARN) of the alias of the agent.
         /// This member is required.
         public var agentAliasArn: Swift.String?
         /// Contains details about the history of the alias.
@@ -1573,7 +1593,7 @@ extension BedrockAgentClientTypes.AgentVersion: Swift.CustomDebugStringConvertib
 extension BedrockAgentClientTypes {
     /// Contains details about a version of an agent.
     public struct AgentVersion: Swift.Equatable {
-        /// The ARN of the agent that the version belongs to.
+        /// The Amazon Resource Name (ARN) of the agent that the version belongs to.
         /// This member is required.
         public var agentArn: Swift.String?
         /// The unique identifier of the agent that the version belongs to.
@@ -1582,7 +1602,7 @@ extension BedrockAgentClientTypes {
         /// The name of the agent that the version belongs to.
         /// This member is required.
         public var agentName: Swift.String?
-        /// The ARN of the IAM role with permissions to invoke API operations on the agent. The ARN must begin with AmazonBedrockExecutionRoleForAgents_.
+        /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
         /// This member is required.
         public var agentResourceRoleArn: Swift.String?
         /// The status of the agent that the version belongs to.
@@ -1591,7 +1611,7 @@ extension BedrockAgentClientTypes {
         /// The time at which the version was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
-        /// The ARN of the KMS key that encrypts the agent.
+        /// The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.
         public var customerEncryptionKeyArn: Swift.String?
         /// The description of the version.
         public var description: Swift.String?
@@ -2040,6 +2060,7 @@ extension CreateAgentActionGroupInput: Swift.Encodable {
         case apiSchema
         case clientToken
         case description
+        case functionSchema
         case parentActionGroupSignature
     }
 
@@ -2063,6 +2084,9 @@ extension CreateAgentActionGroupInput: Swift.Encodable {
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
         }
+        if let functionSchema = self.functionSchema {
+            try encodeContainer.encode(functionSchema, forKey: .functionSchema)
+        }
         if let parentActionGroupSignature = self.parentActionGroupSignature {
             try encodeContainer.encode(parentActionGroupSignature.rawValue, forKey: .parentActionGroupSignature)
         }
@@ -2083,7 +2107,7 @@ extension CreateAgentActionGroupInput {
 }
 
 public struct CreateAgentActionGroupInput: Swift.Equatable {
-    /// The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.
+    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
     public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     /// The name to give the action group.
     /// This member is required.
@@ -2102,6 +2126,8 @@ public struct CreateAgentActionGroupInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description of the action group.
     public var description: Swift.String?
+    /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
+    public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
     /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
 
@@ -2114,6 +2140,7 @@ public struct CreateAgentActionGroupInput: Swift.Equatable {
         apiSchema: BedrockAgentClientTypes.APISchema? = nil,
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
         parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
     )
     {
@@ -2125,6 +2152,7 @@ public struct CreateAgentActionGroupInput: Swift.Equatable {
         self.apiSchema = apiSchema
         self.clientToken = clientToken
         self.description = description
+        self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
     }
 }
@@ -2137,6 +2165,7 @@ struct CreateAgentActionGroupInputBody: Swift.Equatable {
     let actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     let apiSchema: BedrockAgentClientTypes.APISchema?
     let actionGroupState: BedrockAgentClientTypes.ActionGroupState?
+    let functionSchema: BedrockAgentClientTypes.FunctionSchema?
 }
 
 extension CreateAgentActionGroupInputBody: Swift.Decodable {
@@ -2147,6 +2176,7 @@ extension CreateAgentActionGroupInputBody: Swift.Decodable {
         case apiSchema
         case clientToken
         case description
+        case functionSchema
         case parentActionGroupSignature
     }
 
@@ -2166,6 +2196,8 @@ extension CreateAgentActionGroupInputBody: Swift.Decodable {
         apiSchema = apiSchemaDecoded
         let actionGroupStateDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.ActionGroupState.self, forKey: .actionGroupState)
         actionGroupState = actionGroupStateDecoded
+        let functionSchemaDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.FunctionSchema.self, forKey: .functionSchema)
+        functionSchema = functionSchemaDecoded
     }
 }
 
@@ -2482,12 +2514,11 @@ public struct CreateAgentInput: Swift.Equatable {
     /// A name for the agent that you create.
     /// This member is required.
     public var agentName: Swift.String?
-    /// The ARN of the IAM role with permissions to create the agent. The ARN must begin with AmazonBedrockExecutionRoleForAgents_.
-    /// This member is required.
+    /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     public var agentResourceRoleArn: Swift.String?
     /// A unique, case-sensitive identifier to ensure that the API request completes no more than one time. If this token matches a previous request, Amazon Bedrock ignores the request, but does not return an error. For more information, see [Ensuring idempotency](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html).
     public var clientToken: Swift.String?
-    /// The ARN of the KMS key with which to encrypt the agent.
+    /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     public var customerEncryptionKeyArn: Swift.String?
     /// A description of the agent.
     public var description: Swift.String?
@@ -2880,7 +2911,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     /// A name for the knowledge base.
     /// This member is required.
     public var name: Swift.String?
-    /// The ARN of the IAM role with permissions to create the knowledge base.
+    /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Contains details about the configuration of the vector database used for the knowledge base.
@@ -3043,6 +3074,35 @@ extension BedrockAgentClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = CreationMode(rawValue: rawValue) ?? CreationMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension BedrockAgentClientTypes {
+    public enum CustomControlMethod: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case returnControl
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CustomControlMethod] {
+            return [
+                .returnControl,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .returnControl: return "RETURN_CONTROL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CustomControlMethod(rawValue: rawValue) ?? CustomControlMethod.sdkUnknown(rawValue)
         }
     }
 }
@@ -4179,6 +4239,143 @@ extension BedrockAgentClientTypes {
 
 }
 
+extension BedrockAgentClientTypes.Function: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case name
+        case parameters
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let parameters = parameters {
+            var parametersContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .parameters)
+            for (dictKey0, parameterMap0) in parameters {
+                try parametersContainer.encode(parameterMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let parametersContainer = try containerValues.decodeIfPresent([Swift.String: BedrockAgentClientTypes.ParameterDetail?].self, forKey: .parameters)
+        var parametersDecoded0: [Swift.String:BedrockAgentClientTypes.ParameterDetail]? = nil
+        if let parametersContainer = parametersContainer {
+            parametersDecoded0 = [Swift.String:BedrockAgentClientTypes.ParameterDetail]()
+            for (key0, parameterdetail0) in parametersContainer {
+                if let parameterdetail0 = parameterdetail0 {
+                    parametersDecoded0?[key0] = parameterdetail0
+                }
+            }
+        }
+        parameters = parametersDecoded0
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Defines parameters that the agent needs to invoke from the user to complete the function. Corresponds to an action in an action group. This data type is used in the following API operations:
+    ///
+    /// * [CreateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [CreateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [UpdateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
+    public struct Function: Swift.Equatable {
+        /// A description of the function and its purpose.
+        public var description: Swift.String?
+        /// A name for the function.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The parameters that the agent elicits from the user to fulfill the function.
+        public var parameters: [Swift.String:BedrockAgentClientTypes.ParameterDetail]?
+
+        public init(
+            description: Swift.String? = nil,
+            name: Swift.String? = nil,
+            parameters: [Swift.String:BedrockAgentClientTypes.ParameterDetail]? = nil
+        )
+        {
+            self.description = description
+            self.name = name
+            self.parameters = parameters
+        }
+    }
+
+}
+
+extension BedrockAgentClientTypes.FunctionSchema: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case functions
+        case sdkUnknown
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        switch self {
+            case let .functions(functions):
+                var functionsContainer = container.nestedUnkeyedContainer(forKey: .functions)
+                for function0 in functions {
+                    try functionsContainer.encode(function0)
+                }
+            case let .sdkUnknown(sdkUnknown):
+                try container.encode(sdkUnknown, forKey: .sdkUnknown)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        let functionsContainer = try values.decodeIfPresent([BedrockAgentClientTypes.Function?].self, forKey: .functions)
+        var functionsDecoded0:[BedrockAgentClientTypes.Function]? = nil
+        if let functionsContainer = functionsContainer {
+            functionsDecoded0 = [BedrockAgentClientTypes.Function]()
+            for structure0 in functionsContainer {
+                if let structure0 = structure0 {
+                    functionsDecoded0?.append(structure0)
+                }
+            }
+        }
+        if let functions = functionsDecoded0 {
+            self = .functions(functions)
+            return
+        }
+        self = .sdkUnknown("")
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group. This data type is used in the following API operations:
+    ///
+    /// * [CreateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [CreateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [UpdateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
+    public enum FunctionSchema: Swift.Equatable {
+        /// A list of functions that each define an action in the action group.
+        case functions([BedrockAgentClientTypes.Function])
+        case sdkUnknown(Swift.String)
+    }
+
+}
+
 extension GetAgentActionGroupInput {
 
     static func urlPathProvider(_ value: GetAgentActionGroupInput) -> Swift.String? {
@@ -5128,7 +5325,7 @@ extension BedrockAgentClientTypes {
     ///
     /// * [GetIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetIngestionJob.html#API_agent_GetIngestionJob_ResponseSyntax)
     ///
-    /// * [ListIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJob.html#API_agent_ListIngestionJob_ResponseSyntax)
+    /// * [ListIngestionJob response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJobs.html#API_agent_ListIngestionJobs_ResponseSyntax)
     public struct IngestionJob: Swift.Equatable {
         /// The unique identifier of the ingested data source.
         /// This member is required.
@@ -5788,7 +5985,7 @@ extension BedrockAgentClientTypes {
         public var description: Swift.String?
         /// A list of reasons that the API operation on the knowledge base failed.
         public var failureReasons: [Swift.String]?
-        /// The ARN of the knowledge base.
+        /// The Amazon Resource Name (ARN) of the knowledge base.
         /// This member is required.
         public var knowledgeBaseArn: Swift.String?
         /// Contains details about the embeddings configuration of the knowledge base.
@@ -5800,7 +5997,7 @@ extension BedrockAgentClientTypes {
         /// The name of the knowledge base.
         /// This member is required.
         public var name: Swift.String?
-        /// The ARN of the IAM role with permissions to invoke API operations on the knowledge base. The ARN must begin with AmazonBedrockExecutionRoleForKnowledgeBase_.
+        /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.
         /// This member is required.
         public var roleArn: Swift.String?
         /// The status of the knowledge base. The following statuses are possible:
@@ -7315,7 +7512,7 @@ extension ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The ARN of the resource for which to list tags.
+    /// The Amazon Resource Name (ARN) of the resource for which to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -7434,7 +7631,7 @@ extension BedrockAgentClientTypes.OpenSearchServerlessConfiguration: Swift.Codab
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Amazon OpenSearch Service. For more information, see [Create a vector index in Amazon OpenSearch Service](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
     public struct OpenSearchServerlessConfiguration: Swift.Equatable {
-        /// The ARN of the OpenSearch Service vector store.
+        /// The Amazon Resource Name (ARN) of the OpenSearch Service vector store.
         /// This member is required.
         public var collectionArn: Swift.String?
         /// Contains the names of the fields to which to map information about the vector store.
@@ -7516,6 +7713,72 @@ extension BedrockAgentClientTypes {
 
 }
 
+extension BedrockAgentClientTypes.ParameterDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description
+        case `required` = "required"
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let `required` = self.`required` {
+            try encodeContainer.encode(`required`, forKey: .`required`)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.ModelType.self, forKey: .type)
+        type = typeDecoded
+        let requiredDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .required)
+        `required` = requiredDecoded
+    }
+}
+
+extension BedrockAgentClientTypes {
+    /// Contains details about a parameter in a function for an action group. This data type is used in the following API operations:
+    ///
+    /// * [CreateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [CreateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [UpdateAgentActionGroup request](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax)
+    ///
+    /// * [UpdateAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax)
+    ///
+    /// * [GetAgentActionGroup response](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax)
+    public struct ParameterDetail: Swift.Equatable {
+        /// A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user.
+        public var description: Swift.String?
+        /// Whether the parameter is required for the agent to complete the function for action group invocation.
+        public var `required`: Swift.Bool?
+        /// The data type of the parameter.
+        /// This member is required.
+        public var type: BedrockAgentClientTypes.ModelType?
+
+        public init(
+            description: Swift.String? = nil,
+            `required`: Swift.Bool? = nil,
+            type: BedrockAgentClientTypes.ModelType? = nil
+        )
+        {
+            self.description = description
+            self.`required` = `required`
+            self.type = type
+        }
+    }
+
+}
+
 extension BedrockAgentClientTypes.PineconeConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case connectionString
@@ -7559,7 +7822,7 @@ extension BedrockAgentClientTypes {
         /// The endpoint URL for your index management page.
         /// This member is required.
         public var connectionString: Swift.String?
-        /// The ARN of the secret that you created in Secrets Manager that is linked to your Pinecone API key.
+        /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Pinecone API key.
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
         /// Contains the names of the fields to which to map information about the vector store.
@@ -8027,7 +8290,7 @@ extension BedrockAgentClientTypes.RdsConfiguration: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Amazon RDS. For more information, see [Create a vector index in Amazon RDS](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-rds.html).
     public struct RdsConfiguration: Swift.Equatable {
-        /// The ARN of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.
+        /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
         /// The name of your Amazon RDS database.
@@ -8036,7 +8299,7 @@ extension BedrockAgentClientTypes {
         /// Contains the names of the fields to which to map information about the vector store.
         /// This member is required.
         public var fieldMapping: BedrockAgentClientTypes.RdsFieldMapping?
-        /// The ARN of the vector store.
+        /// The Amazon Resource Name (ARN) of the vector store.
         /// This member is required.
         public var resourceArn: Swift.String?
         /// The name of the table in the database.
@@ -8170,7 +8433,7 @@ extension BedrockAgentClientTypes.RedisEnterpriseCloudConfiguration: Swift.Codab
 extension BedrockAgentClientTypes {
     /// Contains details about the storage configuration of the knowledge base in Redis Enterprise Cloud. For more information, see [Create a vector index in Redis Enterprise Cloud](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base-setup-oss.html).
     public struct RedisEnterpriseCloudConfiguration: Swift.Equatable {
-        /// The ARN of the secret that you created in Secrets Manager that is linked to your Redis Enterprise Cloud database.
+        /// The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Redis Enterprise Cloud database.
         /// This member is required.
         public var credentialsSecretArn: Swift.String?
         /// The endpoint URL of the Redis Enterprise Cloud database.
@@ -8272,7 +8535,7 @@ extension ResourceNotFoundException {
     }
 }
 
-/// The specified resource ARN was not found. Check the ARN and try your request again.
+/// The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
 public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8352,7 +8615,7 @@ extension BedrockAgentClientTypes.S3DataSourceConfiguration: Swift.Codable {
 extension BedrockAgentClientTypes {
     /// Contains information about the S3 configuration of the data source.
     public struct S3DataSourceConfiguration: Swift.Equatable {
-        /// The ARN of the bucket that contains the data source.
+        /// The Amazon Resource Name (ARN) of the bucket that contains the data source.
         /// This member is required.
         public var bucketArn: Swift.String?
         /// A list of S3 prefixes that define the object containing the data sources. For more information, see [Organizing objects using prefixes](https://docs.aws.amazon.com/AmazonS3/latest/userguide/using-prefixes.html).
@@ -8437,7 +8700,7 @@ extension BedrockAgentClientTypes.ServerSideEncryptionConfiguration: Swift.Codab
 extension BedrockAgentClientTypes {
     /// Contains the configuration for server-side encryption.
     public struct ServerSideEncryptionConfiguration: Swift.Equatable {
-        /// The ARN of the KMS key used to encrypt the resource.
+        /// The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.
         public var kmsKeyArn: Swift.String?
 
         public init(
@@ -8774,7 +9037,7 @@ extension TagResourceInput {
 }
 
 public struct TagResourceInput: Swift.Equatable {
-    /// The ARN of the resource to tag.
+    /// The Amazon Resource Name (ARN) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// An object containing key-value pairs that define the tags to attach to the resource.
@@ -8897,6 +9160,47 @@ extension ThrottlingExceptionBody: Swift.Decodable {
     }
 }
 
+extension BedrockAgentClientTypes {
+    public enum ModelType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case array
+        case boolean
+        case integer
+        case number
+        case string
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ModelType] {
+            return [
+                .array,
+                .boolean,
+                .integer,
+                .number,
+                .string,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .array: return "array"
+            case .boolean: return "boolean"
+            case .integer: return "integer"
+            case .number: return "number"
+            case .string: return "string"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ModelType(rawValue: rawValue) ?? ModelType.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension UntagResourceInput {
 
     static func queryItemProvider(_ value: UntagResourceInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -8924,7 +9228,7 @@ extension UntagResourceInput {
 }
 
 public struct UntagResourceInput: Swift.Equatable {
-    /// The ARN of the resource from which to remove tags.
+    /// The Amazon Resource Name (ARN) of the resource from which to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
     /// A list of keys of the tags to remove from the resource.
@@ -8982,6 +9286,7 @@ extension UpdateAgentActionGroupInput: Swift.Encodable {
         case actionGroupState
         case apiSchema
         case description
+        case functionSchema
         case parentActionGroupSignature
     }
 
@@ -9001,6 +9306,9 @@ extension UpdateAgentActionGroupInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let functionSchema = self.functionSchema {
+            try encodeContainer.encode(functionSchema, forKey: .functionSchema)
         }
         if let parentActionGroupSignature = self.parentActionGroupSignature {
             try encodeContainer.encode(parentActionGroupSignature.rawValue, forKey: .parentActionGroupSignature)
@@ -9025,7 +9333,7 @@ extension UpdateAgentActionGroupInput {
 }
 
 public struct UpdateAgentActionGroupInput: Swift.Equatable {
-    /// The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.
+    /// The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.
     public var actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     /// The unique identifier of the action group.
     /// This member is required.
@@ -9045,6 +9353,8 @@ public struct UpdateAgentActionGroupInput: Swift.Equatable {
     public var apiSchema: BedrockAgentClientTypes.APISchema?
     /// Specifies a new name for the action group.
     public var description: Swift.String?
+    /// Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.
+    public var functionSchema: BedrockAgentClientTypes.FunctionSchema?
     /// To allow your agent to request the user for additional information when trying to complete a task, set this field to AMAZON.UserInput. You must leave the description, apiSchema, and actionGroupExecutor fields blank for this action group. During orchestration, if your agent determines that it needs to invoke an API in an action group, but doesn't have enough information to complete the API request, it will invoke this action group instead and return an [Observation](https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Observation.html) reprompting the user for more information.
     public var parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature?
 
@@ -9057,6 +9367,7 @@ public struct UpdateAgentActionGroupInput: Swift.Equatable {
         agentVersion: Swift.String? = nil,
         apiSchema: BedrockAgentClientTypes.APISchema? = nil,
         description: Swift.String? = nil,
+        functionSchema: BedrockAgentClientTypes.FunctionSchema? = nil,
         parentActionGroupSignature: BedrockAgentClientTypes.ActionGroupSignature? = nil
     )
     {
@@ -9068,6 +9379,7 @@ public struct UpdateAgentActionGroupInput: Swift.Equatable {
         self.agentVersion = agentVersion
         self.apiSchema = apiSchema
         self.description = description
+        self.functionSchema = functionSchema
         self.parentActionGroupSignature = parentActionGroupSignature
     }
 }
@@ -9079,6 +9391,7 @@ struct UpdateAgentActionGroupInputBody: Swift.Equatable {
     let actionGroupExecutor: BedrockAgentClientTypes.ActionGroupExecutor?
     let actionGroupState: BedrockAgentClientTypes.ActionGroupState?
     let apiSchema: BedrockAgentClientTypes.APISchema?
+    let functionSchema: BedrockAgentClientTypes.FunctionSchema?
 }
 
 extension UpdateAgentActionGroupInputBody: Swift.Decodable {
@@ -9088,6 +9401,7 @@ extension UpdateAgentActionGroupInputBody: Swift.Decodable {
         case actionGroupState
         case apiSchema
         case description
+        case functionSchema
         case parentActionGroupSignature
     }
 
@@ -9105,6 +9419,8 @@ extension UpdateAgentActionGroupInputBody: Swift.Decodable {
         actionGroupState = actionGroupStateDecoded
         let apiSchemaDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.APISchema.self, forKey: .apiSchema)
         apiSchema = apiSchemaDecoded
+        let functionSchemaDecoded = try containerValues.decodeIfPresent(BedrockAgentClientTypes.FunctionSchema.self, forKey: .functionSchema)
+        functionSchema = functionSchemaDecoded
     }
 }
 
@@ -9388,10 +9704,10 @@ public struct UpdateAgentInput: Swift.Equatable {
     /// Specifies a new name for the agent.
     /// This member is required.
     public var agentName: Swift.String?
-    /// The ARN of the IAM role with permissions to update the agent. The ARN must begin with AmazonBedrockExecutionRoleForAgents_.
+    /// The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.
     /// This member is required.
     public var agentResourceRoleArn: Swift.String?
-    /// The ARN of the KMS key with which to encrypt the agent.
+    /// The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.
     public var customerEncryptionKeyArn: Swift.String?
     /// Specifies a new description of the agent.
     public var description: Swift.String?
@@ -9894,7 +10210,7 @@ public struct UpdateKnowledgeBaseInput: Swift.Equatable {
     /// Specifies a new name for the knowledge base.
     /// This member is required.
     public var name: Swift.String?
-    /// Specifies a different Amazon Resource Name (ARN) of the IAM role with permissions to modify the knowledge base.
+    /// Specifies a different Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.
     /// This member is required.
     public var roleArn: Swift.String?
     /// Specifies the configuration for the vector store used for the knowledge base. You must use the same configuration as when the knowledge base was created.
@@ -10186,7 +10502,7 @@ extension BedrockAgentClientTypes.VectorKnowledgeBaseConfiguration: Swift.Codabl
 extension BedrockAgentClientTypes {
     /// Contains details about the model used to create vector embeddings for the knowledge base.
     public struct VectorKnowledgeBaseConfiguration: Swift.Equatable {
-        /// The ARN of the model used to create vector embeddings for the knowledge base.
+        /// The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.
         /// This member is required.
         public var embeddingModelArn: Swift.String?
 

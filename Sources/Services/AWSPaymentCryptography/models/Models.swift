@@ -328,7 +328,7 @@ public struct CreateKeyInput: Swift.Equatable {
     public var keyAttributes: PaymentCryptographyClientTypes.KeyAttributes?
     /// The algorithm that Amazon Web Services Payment Cryptography uses to calculate the key check value (KCV). It is used to validate the key integrity. For TDES keys, the KCV is computed by encrypting 8 bytes, each with value of zero, with the key to be checked and retaining the 3 highest order bytes of the encrypted result. For AES keys, the KCV is computed using a CMAC algorithm where the input data is 16 bytes of zero and retaining the 3 highest order bytes of the encrypted result.
     public var keyCheckValueAlgorithm: PaymentCryptographyClientTypes.KeyCheckValueAlgorithm?
-    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
+    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is created. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
     public init(
@@ -975,11 +975,15 @@ enum ExportKeyOutputError: ClientRuntime.HttpResponseErrorBinding {
 
 extension PaymentCryptographyClientTypes.ExportTr31KeyBlock: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyBlockHeaders = "KeyBlockHeaders"
         case wrappingKeyIdentifier = "WrappingKeyIdentifier"
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyBlockHeaders = self.keyBlockHeaders {
+            try encodeContainer.encode(keyBlockHeaders, forKey: .keyBlockHeaders)
+        }
         if let wrappingKeyIdentifier = self.wrappingKeyIdentifier {
             try encodeContainer.encode(wrappingKeyIdentifier, forKey: .wrappingKeyIdentifier)
         }
@@ -989,20 +993,26 @@ extension PaymentCryptographyClientTypes.ExportTr31KeyBlock: Swift.Codable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let wrappingKeyIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .wrappingKeyIdentifier)
         wrappingKeyIdentifier = wrappingKeyIdentifierDecoded
+        let keyBlockHeadersDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyBlockHeaders.self, forKey: .keyBlockHeaders)
+        keyBlockHeaders = keyBlockHeadersDecoded
     }
 }
 
 extension PaymentCryptographyClientTypes {
     /// Parameter information for key material export using symmetric TR-31 key exchange method.
     public struct ExportTr31KeyBlock: Swift.Equatable {
+        /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+        public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
         /// The KeyARN of the the wrapping key. This key encrypts or wraps the key under export for TR-31 key block generation.
         /// This member is required.
         public var wrappingKeyIdentifier: Swift.String?
 
         public init(
+            keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
             wrappingKeyIdentifier: Swift.String? = nil
         )
         {
+            self.keyBlockHeaders = keyBlockHeaders
             self.wrappingKeyIdentifier = wrappingKeyIdentifier
         }
     }
@@ -1014,6 +1024,7 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.Codable {
         case certificateAuthorityPublicKeyIdentifier = "CertificateAuthorityPublicKeyIdentifier"
         case exportToken = "ExportToken"
         case keyBlockFormat = "KeyBlockFormat"
+        case keyBlockHeaders = "KeyBlockHeaders"
         case randomNonce = "RandomNonce"
         case wrappingKeyCertificate = "WrappingKeyCertificate"
     }
@@ -1028,6 +1039,9 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.Codable {
         }
         if let keyBlockFormat = self.keyBlockFormat {
             try encodeContainer.encode(keyBlockFormat.rawValue, forKey: .keyBlockFormat)
+        }
+        if let keyBlockHeaders = self.keyBlockHeaders {
+            try encodeContainer.encode(keyBlockHeaders, forKey: .keyBlockHeaders)
         }
         if let randomNonce = self.randomNonce {
             try encodeContainer.encode(randomNonce, forKey: .randomNonce)
@@ -1049,12 +1063,14 @@ extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.Codable {
         keyBlockFormat = keyBlockFormatDecoded
         let randomNonceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .randomNonce)
         randomNonce = randomNonceDecoded
+        let keyBlockHeadersDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyBlockHeaders.self, forKey: .keyBlockHeaders)
+        keyBlockHeaders = keyBlockHeadersDecoded
     }
 }
 
 extension PaymentCryptographyClientTypes.ExportTr34KeyBlock: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "ExportTr34KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), exportToken: \(Swift.String(describing: exportToken)), keyBlockFormat: \(Swift.String(describing: keyBlockFormat)), randomNonce: \(Swift.String(describing: randomNonce)), wrappingKeyCertificate: \"CONTENT_REDACTED\")"}
+        "ExportTr34KeyBlock(certificateAuthorityPublicKeyIdentifier: \(Swift.String(describing: certificateAuthorityPublicKeyIdentifier)), exportToken: \(Swift.String(describing: exportToken)), keyBlockFormat: \(Swift.String(describing: keyBlockFormat)), keyBlockHeaders: \(Swift.String(describing: keyBlockHeaders)), randomNonce: \(Swift.String(describing: randomNonce)), wrappingKeyCertificate: \"CONTENT_REDACTED\")"}
 }
 
 extension PaymentCryptographyClientTypes {
@@ -1063,12 +1079,14 @@ extension PaymentCryptographyClientTypes {
         /// The KeyARN of the certificate chain that signs the wrapping key certificate during TR-34 key export.
         /// This member is required.
         public var certificateAuthorityPublicKeyIdentifier: Swift.String?
-        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport] to receive an export token. It expires after 7 days. You can use the same export token to export multiple keys from the same service account.
+        /// The export token to initiate key export from Amazon Web Services Payment Cryptography. It also contains the signing key certificate that will sign the wrapped key during TR-34 key block generation. Call [GetParametersForExport](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_GetParametersForExport.html) to receive an export token. It expires after 7 days. You can use the same export token to export multiple keys from the same service account.
         /// This member is required.
         public var exportToken: Swift.String?
         /// The format of key block that Amazon Web Services Payment Cryptography will use during key export.
         /// This member is required.
         public var keyBlockFormat: PaymentCryptographyClientTypes.Tr34KeyBlockFormat?
+        /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+        public var keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders?
         /// A random number value that is unique to the TR-34 key block generated using 2 pass. The operation will fail, if a random nonce value is not provided for a TR-34 key block generated using 2 pass.
         public var randomNonce: Swift.String?
         /// The KeyARN of the wrapping key certificate. Amazon Web Services Payment Cryptography uses this certificate to wrap the key under export.
@@ -1079,6 +1097,7 @@ extension PaymentCryptographyClientTypes {
             certificateAuthorityPublicKeyIdentifier: Swift.String? = nil,
             exportToken: Swift.String? = nil,
             keyBlockFormat: PaymentCryptographyClientTypes.Tr34KeyBlockFormat? = nil,
+            keyBlockHeaders: PaymentCryptographyClientTypes.KeyBlockHeaders? = nil,
             randomNonce: Swift.String? = nil,
             wrappingKeyCertificate: Swift.String? = nil
         )
@@ -1086,6 +1105,7 @@ extension PaymentCryptographyClientTypes {
             self.certificateAuthorityPublicKeyIdentifier = certificateAuthorityPublicKeyIdentifier
             self.exportToken = exportToken
             self.keyBlockFormat = keyBlockFormat
+            self.keyBlockHeaders = keyBlockHeaders
             self.randomNonce = randomNonce
             self.wrappingKeyCertificate = wrappingKeyCertificate
         }
@@ -1889,7 +1909,7 @@ public struct ImportKeyInput: Swift.Equatable {
     /// The key or public key certificate type to use during key material import, for example TR-34 or RootCertificatePublicKey.
     /// This member is required.
     public var keyMaterial: PaymentCryptographyClientTypes.ImportKeyMaterial?
-    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource] operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
+    /// Assigns one or more tags to the Amazon Web Services Payment Cryptography key. Use this parameter to tag a key when it is imported. To tag an existing Amazon Web Services Payment Cryptography key, use the [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) operation. Each tag consists of a tag key and a tag value. Both the tag key and the tag value are required, but the tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the specified one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. Tagging or untagging an Amazon Web Services Payment Cryptography key can allow or deny permission to the key.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
     public init(
@@ -2559,6 +2579,83 @@ extension PaymentCryptographyClientTypes {
 
 }
 
+extension PaymentCryptographyClientTypes.KeyBlockHeaders: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case keyExportability = "KeyExportability"
+        case keyModesOfUse = "KeyModesOfUse"
+        case keyVersion = "KeyVersion"
+        case optionalBlocks = "OptionalBlocks"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let keyExportability = self.keyExportability {
+            try encodeContainer.encode(keyExportability.rawValue, forKey: .keyExportability)
+        }
+        if let keyModesOfUse = self.keyModesOfUse {
+            try encodeContainer.encode(keyModesOfUse, forKey: .keyModesOfUse)
+        }
+        if let keyVersion = self.keyVersion {
+            try encodeContainer.encode(keyVersion, forKey: .keyVersion)
+        }
+        if let optionalBlocks = optionalBlocks {
+            var optionalBlocksContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .optionalBlocks)
+            for (dictKey0, optionalBlocks0) in optionalBlocks {
+                try optionalBlocksContainer.encode(optionalBlocks0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let keyModesOfUseDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyModesOfUse.self, forKey: .keyModesOfUse)
+        keyModesOfUse = keyModesOfUseDecoded
+        let keyExportabilityDecoded = try containerValues.decodeIfPresent(PaymentCryptographyClientTypes.KeyExportability.self, forKey: .keyExportability)
+        keyExportability = keyExportabilityDecoded
+        let keyVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .keyVersion)
+        keyVersion = keyVersionDecoded
+        let optionalBlocksContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .optionalBlocks)
+        var optionalBlocksDecoded0: [Swift.String:Swift.String]? = nil
+        if let optionalBlocksContainer = optionalBlocksContainer {
+            optionalBlocksDecoded0 = [Swift.String:Swift.String]()
+            for (key0, optionalblockvalue0) in optionalBlocksContainer {
+                if let optionalblockvalue0 = optionalblockvalue0 {
+                    optionalBlocksDecoded0?[key0] = optionalblockvalue0
+                }
+            }
+        }
+        optionalBlocks = optionalBlocksDecoded0
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+    /// Optional metadata for export associated with the key material. This data is signed but transmitted in clear text.
+    public struct KeyBlockHeaders: Swift.Equatable {
+        /// Specifies subsequent exportability of the key within the key block after it is received by the receiving party. It can be used to further restrict exportability of the key after export from Amazon Web Services Payment Cryptography. When set to EXPORTABLE, the key can be subsequently exported by the receiver under a KEK using TR-31 or TR-34 key block export only. When set to NON_EXPORTABLE, the key cannot be subsequently exported by the receiver. When set to SENSITIVE, the key can be exported by the receiver under a KEK using TR-31, TR-34, RSA wrap and unwrap cryptogram or using a symmetric cryptogram key export method. For further information refer to [ANSI X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022).
+        public var keyExportability: PaymentCryptographyClientTypes.KeyExportability?
+        /// The list of cryptographic operations that you can perform using the key. The modes of use are deﬁned in section A.5.3 of the TR-31 spec.
+        public var keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse?
+        /// Parameter used to indicate the version of the key carried in the key block or indicate the value carried in the key block is a component of a key.
+        public var keyVersion: Swift.String?
+        /// Parameter used to indicate the type of optional data in key block headers. Refer to [ANSI X9.143-2022](https://webstore.ansi.org/standards/ascx9/ansix91432022) for information on allowed data type for optional blocks. Optional block character limit is 112 characters. For each optional block, 2 characters are reserved for optional block ID and 2 characters reserved for optional block length. More than one optional blocks can be included as long as the combined length does not increase 112 characters.
+        public var optionalBlocks: [Swift.String:Swift.String]?
+
+        public init(
+            keyExportability: PaymentCryptographyClientTypes.KeyExportability? = nil,
+            keyModesOfUse: PaymentCryptographyClientTypes.KeyModesOfUse? = nil,
+            keyVersion: Swift.String? = nil,
+            optionalBlocks: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.keyExportability = keyExportability
+            self.keyModesOfUse = keyModesOfUse
+            self.keyVersion = keyVersion
+            self.optionalBlocks = optionalBlocks
+        }
+    }
+
+}
+
 extension PaymentCryptographyClientTypes {
     public enum KeyCheckValueAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case ansiX924
@@ -2625,6 +2722,41 @@ extension PaymentCryptographyClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = KeyClass(rawValue: rawValue) ?? KeyClass.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PaymentCryptographyClientTypes {
+    public enum KeyExportability: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case exportable
+        case nonExportable
+        case sensitive
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [KeyExportability] {
+            return [
+                .exportable,
+                .nonExportable,
+                .sensitive,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .exportable: return "EXPORTABLE"
+            case .nonExportable: return "NON_EXPORTABLE"
+            case .sensitive: return "SENSITIVE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = KeyExportability(rawValue: rawValue) ?? KeyExportability.sdkUnknown(rawValue)
         }
     }
 }
@@ -4097,7 +4229,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The KeyARN of the key whose tags are being updated.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the new one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To use this parameter, you must have [TagResource] permission in an IAM policy. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
+    /// One or more tags. Each tag consists of a tag key and a tag value. The tag value can be an empty (null) string. You can't have more than one tag on an Amazon Web Services Payment Cryptography key with the same tag key. If you specify an existing tag key with a different tag value, Amazon Web Services Payment Cryptography replaces the current tag value with the new one. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output. To use this parameter, you must have [TagResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_TagResource.html) permission in an IAM policy. Don't include personal, confidential or sensitive information in this field. This field may be displayed in plaintext in CloudTrail logs and other output.
     /// This member is required.
     public var tags: [PaymentCryptographyClientTypes.Tag]?
 
@@ -4346,7 +4478,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// The KeyARN of the key whose tags are being removed.
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the operation succeeded, use the [ListTagsForResource] operation.
+    /// One or more tag keys. Don't include the tag values. If the Amazon Web Services Payment Cryptography key doesn't have the specified tag key, Amazon Web Services Payment Cryptography doesn't throw an exception or return a response. To confirm that the operation succeeded, use the [ListTagsForResource](https://docs.aws.amazon.com/payment-cryptography/latest/APIReference/API_ListTagsForResource.html) operation.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 

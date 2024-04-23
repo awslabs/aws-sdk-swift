@@ -621,6 +621,8 @@ This SDK is open-source.  Code is available on Github [here](https://github.com/
 
 [AWSRoute53Domains](../../../../../swift/api/awsroute53domains/latest)
 
+[AWSRoute53Profiles](../../../../../swift/api/awsroute53profiles/latest)
+
 [AWSRoute53RecoveryCluster](../../../../../swift/api/awsroute53recoverycluster/latest)
 
 [AWSRoute53RecoveryControlConfig](../../../../../swift/api/awsroute53recoverycontrolconfig/latest)

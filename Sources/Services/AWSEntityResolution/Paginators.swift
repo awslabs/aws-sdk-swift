@@ -64,6 +64,36 @@ extension PaginatorSequence where OperationStackInput == ListIdMappingWorkflowsI
     }
 }
 extension EntityResolutionClient {
+    /// Paginate over `[ListIdNamespacesOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListIdNamespacesInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListIdNamespacesOutput`
+    public func listIdNamespacesPaginated(input: ListIdNamespacesInput) -> ClientRuntime.PaginatorSequence<ListIdNamespacesInput, ListIdNamespacesOutput> {
+        return ClientRuntime.PaginatorSequence<ListIdNamespacesInput, ListIdNamespacesOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listIdNamespaces(input:))
+    }
+}
+
+extension ListIdNamespacesInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListIdNamespacesInput {
+        return ListIdNamespacesInput(
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListIdNamespacesInput, OperationStackOutput == ListIdNamespacesOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listIdNamespacesPaginated`
+    /// to access the nested member `[EntityResolutionClientTypes.IdNamespaceSummary]`
+    /// - Returns: `[EntityResolutionClientTypes.IdNamespaceSummary]`
+    public func idNamespaceSummaries() async throws -> [EntityResolutionClientTypes.IdNamespaceSummary] {
+        return try await self.asyncCompactMap { item in item.idNamespaceSummaries }
+    }
+}
+extension EntityResolutionClient {
     /// Paginate over `[ListMatchingJobsOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -148,3 +148,34 @@ extension PaginatorSequence where OperationStackInput == DescribeWorkspacesInput
         return try await self.asyncCompactMap { item in item.workspaces }
     }
 }
+extension WorkSpacesClient {
+    /// Paginate over `[ListAccountLinksOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListAccountLinksInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListAccountLinksOutput`
+    public func listAccountLinksPaginated(input: ListAccountLinksInput) -> ClientRuntime.PaginatorSequence<ListAccountLinksInput, ListAccountLinksOutput> {
+        return ClientRuntime.PaginatorSequence<ListAccountLinksInput, ListAccountLinksOutput>(input: input, inputKey: \.nextToken, outputKey: \.nextToken, paginationFunction: self.listAccountLinks(input:))
+    }
+}
+
+extension ListAccountLinksInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListAccountLinksInput {
+        return ListAccountLinksInput(
+            linkStatusFilter: self.linkStatusFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListAccountLinksInput, OperationStackOutput == ListAccountLinksOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listAccountLinksPaginated`
+    /// to access the nested member `[WorkSpacesClientTypes.AccountLink]`
+    /// - Returns: `[WorkSpacesClientTypes.AccountLink]`
+    public func accountLinks() async throws -> [WorkSpacesClientTypes.AccountLink] {
+        return try await self.asyncCompactMap { item in item.accountLinks }
+    }
+}

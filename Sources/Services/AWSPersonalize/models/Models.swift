@@ -289,6 +289,41 @@ extension PersonalizeClientTypes {
 
 }
 
+extension PersonalizeClientTypes.AutoTrainingConfig: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case schedulingExpression
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let schedulingExpression = self.schedulingExpression {
+            try encodeContainer.encode(schedulingExpression, forKey: .schedulingExpression)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let schedulingExpressionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .schedulingExpression)
+        schedulingExpression = schedulingExpressionDecoded
+    }
+}
+
+extension PersonalizeClientTypes {
+    /// The automatic training configuration to use when performAutoTraining is true.
+    public struct AutoTrainingConfig: Swift.Equatable {
+        /// Specifies how often to automatically train new solution versions. Specify a rate expression in rate(value unit) format. For value, specify a number between 1 and 30. For unit, specify day or days. For example, to automatically create a new solution version every 5 days, specify rate(5 days). The default is every 7 days. For more information about auto training, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
+        public var schedulingExpression: Swift.String?
+
+        public init(
+            schedulingExpression: Swift.String? = nil
+        )
+        {
+            self.schedulingExpression = schedulingExpression
+        }
+    }
+
+}
+
 extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case batchInferenceJobArn
@@ -1156,7 +1191,7 @@ extension PersonalizeClientTypes {
         public var minProvisionedTPS: Swift.Int?
         /// The name of the campaign.
         public var name: Swift.String?
-        /// The Amazon Resource Name (ARN) of a specific version of the solution.
+        /// The Amazon Resource Name (ARN) of the solution version the campaign uses.
         public var solutionVersionArn: Swift.String?
         /// The status of the campaign. A campaign can be in one of the following states:
         ///
@@ -1197,6 +1232,7 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case enableMetadataWithRecommendations
         case itemExplorationConfig
+        case syncWithLatestSolutionVersion
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1209,6 +1245,9 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
             for (dictKey0, hyperParameters0) in itemExplorationConfig {
                 try itemExplorationConfigContainer.encode(hyperParameters0, forKey: ClientRuntime.Key(stringValue: dictKey0))
             }
+        }
+        if let syncWithLatestSolutionVersion = self.syncWithLatestSolutionVersion {
+            try encodeContainer.encode(syncWithLatestSolutionVersion, forKey: .syncWithLatestSolutionVersion)
         }
     }
 
@@ -1227,6 +1266,8 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
         itemExplorationConfig = itemExplorationConfigDecoded0
         let enableMetadataWithRecommendationsDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .enableMetadataWithRecommendations)
         enableMetadataWithRecommendations = enableMetadataWithRecommendationsDecoded
+        let syncWithLatestSolutionVersionDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .syncWithLatestSolutionVersion)
+        syncWithLatestSolutionVersion = syncWithLatestSolutionVersionDecoded
     }
 }
 
@@ -1237,14 +1278,18 @@ extension PersonalizeClientTypes {
         public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe.
         public var itemExplorationConfig: [Swift.String:Swift.String]?
+        /// Whether the campaign automatically updates to use the latest solution version (trained model) of a solution. If you specify True, you must specify the ARN of your solution for the SolutionVersionArn parameter. It must be in SolutionArn/$LATEST format. The default is False and you must manually update the campaign to deploy the latest solution version. For more information about automatic campaign updates, see [Enabling automatic campaign updates](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
+        public var syncWithLatestSolutionVersion: Swift.Bool?
 
         public init(
             enableMetadataWithRecommendations: Swift.Bool? = nil,
-            itemExplorationConfig: [Swift.String:Swift.String]? = nil
+            itemExplorationConfig: [Swift.String:Swift.String]? = nil,
+            syncWithLatestSolutionVersion: Swift.Bool? = nil
         )
         {
             self.enableMetadataWithRecommendations = enableMetadataWithRecommendations
             self.itemExplorationConfig = itemExplorationConfig
+            self.syncWithLatestSolutionVersion = syncWithLatestSolutionVersion
         }
     }
 
@@ -2043,7 +2088,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     /// A name for the new campaign. The campaign name must be unique within your account.
     /// This member is required.
     public var name: Swift.String?
-    /// The Amazon Resource Name (ARN) of the solution version to deploy.
+    /// The Amazon Resource Name (ARN) of the trained model to deploy with the campaign. To specify the latest solution version of your solution, specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the [CampaignConfig](https://docs.aws.amazon.com/personalize/latest/dg/API_CampaignConfig.html). To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version. For more information about automatic campaign updates, see [Enabling automatic campaign updates](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
     /// This member is required.
     public var solutionVersionArn: Swift.String?
     /// A list of [tags](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html) to apply to the campaign.
@@ -3655,6 +3700,7 @@ extension CreateSolutionInput: Swift.Encodable {
         case eventType
         case name
         case performAutoML
+        case performAutoTraining
         case performHPO
         case recipeArn
         case solutionConfig
@@ -3674,6 +3720,9 @@ extension CreateSolutionInput: Swift.Encodable {
         }
         if let performAutoML = self.performAutoML {
             try encodeContainer.encode(performAutoML, forKey: .performAutoML)
+        }
+        if let performAutoTraining = self.performAutoTraining {
+            try encodeContainer.encode(performAutoTraining, forKey: .performAutoTraining)
         }
         if let performHPO = self.performHPO {
             try encodeContainer.encode(performHPO, forKey: .performHPO)
@@ -3711,6 +3760,8 @@ public struct CreateSolutionInput: Swift.Equatable {
     public var name: Swift.String?
     /// We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize recipes. For more information, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html). Whether to perform automated machine learning (AutoML). The default is false. For this case, you must specify recipeArn. When set to true, Amazon Personalize analyzes your training data and selects the optimal USER_PERSONALIZATION recipe and hyperparameters. In this case, you must omit recipeArn. Amazon Personalize determines the optimal recipe by running tests with different values for the hyperparameters. AutoML lengthens the training process as compared to selecting a specific recipe.
     public var performAutoML: Swift.Bool?
+    /// Whether the solution uses automatic training to create new solution versions (trained models). The default is True and the solution automatically creates new solution versions every 7 days. You can change the training frequency by specifying a schedulingExpression in the AutoTrainingConfig as part of solution configuration. For more information about automatic training, see [Configuring automatic training](https://docs.aws.amazon.com/personalize/latest/dg/solution-config-auto-training.html). Automatic solution version creation starts one hour after the solution is ACTIVE. If you manually create a solution version within the hour, the solution skips the first automatic training. After training starts, you can get the solution version's Amazon Resource Name (ARN) with the [ListSolutionVersions](https://docs.aws.amazon.com/personalize/latest/dg/API_ListSolutionVersions.html) API operation. To get its status, use the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html).
+    public var performAutoTraining: Swift.Bool?
     /// Whether to perform hyperparameter optimization (HPO) on the specified or selected recipe. The default is false. When performing AutoML, this parameter is always true and you should not set it to false.
     public var performHPO: Swift.Bool?
     /// The Amazon Resource Name (ARN) of the recipe to use for model training. This is required when performAutoML is false. For information about different Amazon Personalize recipes and their ARNs, see [Choosing a recipe](https://docs.aws.amazon.com/personalize/latest/dg/working-with-predefined-recipes.html).
@@ -3725,6 +3776,7 @@ public struct CreateSolutionInput: Swift.Equatable {
         eventType: Swift.String? = nil,
         name: Swift.String? = nil,
         performAutoML: Swift.Bool? = nil,
+        performAutoTraining: Swift.Bool? = nil,
         performHPO: Swift.Bool? = nil,
         recipeArn: Swift.String? = nil,
         solutionConfig: PersonalizeClientTypes.SolutionConfig? = nil,
@@ -3735,6 +3787,7 @@ public struct CreateSolutionInput: Swift.Equatable {
         self.eventType = eventType
         self.name = name
         self.performAutoML = performAutoML
+        self.performAutoTraining = performAutoTraining
         self.performHPO = performHPO
         self.recipeArn = recipeArn
         self.solutionConfig = solutionConfig
@@ -3746,6 +3799,7 @@ struct CreateSolutionInputBody: Swift.Equatable {
     let name: Swift.String?
     let performHPO: Swift.Bool?
     let performAutoML: Swift.Bool?
+    let performAutoTraining: Swift.Bool?
     let recipeArn: Swift.String?
     let datasetGroupArn: Swift.String?
     let eventType: Swift.String?
@@ -3759,6 +3813,7 @@ extension CreateSolutionInputBody: Swift.Decodable {
         case eventType
         case name
         case performAutoML
+        case performAutoTraining
         case performHPO
         case recipeArn
         case solutionConfig
@@ -3773,6 +3828,8 @@ extension CreateSolutionInputBody: Swift.Decodable {
         performHPO = performHPODecoded
         let performAutoMLDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performAutoML)
         performAutoML = performAutoMLDecoded
+        let performAutoTrainingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performAutoTraining)
+        performAutoTraining = performAutoTrainingDecoded
         let recipeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipeArn)
         recipeArn = recipeArnDecoded
         let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
@@ -11395,7 +11452,7 @@ extension ListTagsForResourceInput {
 }
 
 public struct ListTagsForResourceInput: Swift.Equatable {
-    /// The resource's Amazon Resource Name.
+    /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
 
@@ -12742,6 +12799,7 @@ extension PersonalizeClientTypes.Solution: Swift.Codable {
         case latestSolutionVersion
         case name
         case performAutoML
+        case performAutoTraining
         case performHPO
         case recipeArn
         case solutionArn
@@ -12775,6 +12833,9 @@ extension PersonalizeClientTypes.Solution: Swift.Codable {
         if performAutoML != false {
             try encodeContainer.encode(performAutoML, forKey: .performAutoML)
         }
+        if let performAutoTraining = self.performAutoTraining {
+            try encodeContainer.encode(performAutoTraining, forKey: .performAutoTraining)
+        }
         if performHPO != false {
             try encodeContainer.encode(performHPO, forKey: .performHPO)
         }
@@ -12802,6 +12863,8 @@ extension PersonalizeClientTypes.Solution: Swift.Codable {
         performHPO = performHPODecoded
         let performAutoMLDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performAutoML) ?? false
         performAutoML = performAutoMLDecoded
+        let performAutoTrainingDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .performAutoTraining)
+        performAutoTraining = performAutoTrainingDecoded
         let recipeArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .recipeArn)
         recipeArn = recipeArnDecoded
         let datasetGroupArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .datasetGroupArn)
@@ -12824,7 +12887,7 @@ extension PersonalizeClientTypes.Solution: Swift.Codable {
 }
 
 extension PersonalizeClientTypes {
-    /// An object that provides information about a solution. A solution is a trained model that can be deployed as a campaign.
+    /// After you create a solution, you can’t change its configuration. By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. You can't stop automatic training for a solution. To avoid unnecessary costs, make sure to delete the solution when you are finished. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). An object that provides information about a solution. A solution includes the custom recipe, customized parameters, and trained models (Solution Versions) that Amazon Personalize uses to generate recommendations. After you create a solution, you can’t change its configuration. If you need to make changes, you can [clone the solution](https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html) with the Amazon Personalize console or create a new one.
     public struct Solution: Swift.Equatable {
         /// When performAutoML is true, specifies the best recipe found.
         public var autoMLResult: PersonalizeClientTypes.AutoMLResult?
@@ -12842,6 +12905,8 @@ extension PersonalizeClientTypes {
         public var name: Swift.String?
         /// We don't recommend enabling automated machine learning. Instead, match your use case to the available Amazon Personalize recipes. For more information, see [Determining your use case.](https://docs.aws.amazon.com/personalize/latest/dg/determining-use-case.html) When true, Amazon Personalize performs a search for the best USER_PERSONALIZATION recipe from the list specified in the solution configuration (recipeArn must not be specified). When false (the default), Amazon Personalize uses recipeArn for training.
         public var performAutoML: Swift.Bool
+        /// Specifies whether the solution automatically creates solution versions. The default is True and the solution automatically creates new solution versions every 7 days. For more information about auto training, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
+        public var performAutoTraining: Swift.Bool?
         /// Whether to perform hyperparameter optimization (HPO) on the chosen recipe. The default is false.
         public var performHPO: Swift.Bool
         /// The ARN of the recipe used to create the solution. This is required when performAutoML is false.
@@ -12866,6 +12931,7 @@ extension PersonalizeClientTypes {
             latestSolutionVersion: PersonalizeClientTypes.SolutionVersionSummary? = nil,
             name: Swift.String? = nil,
             performAutoML: Swift.Bool = false,
+            performAutoTraining: Swift.Bool? = nil,
             performHPO: Swift.Bool = false,
             recipeArn: Swift.String? = nil,
             solutionArn: Swift.String? = nil,
@@ -12881,6 +12947,7 @@ extension PersonalizeClientTypes {
             self.latestSolutionVersion = latestSolutionVersion
             self.name = name
             self.performAutoML = performAutoML
+            self.performAutoTraining = performAutoTraining
             self.performHPO = performHPO
             self.recipeArn = recipeArn
             self.solutionArn = solutionArn
@@ -12895,6 +12962,7 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case algorithmHyperParameters
         case autoMLConfig
+        case autoTrainingConfig
         case eventValueThreshold
         case featureTransformationParameters
         case hpoConfig
@@ -12912,6 +12980,9 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
         }
         if let autoMLConfig = self.autoMLConfig {
             try encodeContainer.encode(autoMLConfig, forKey: .autoMLConfig)
+        }
+        if let autoTrainingConfig = self.autoTrainingConfig {
+            try encodeContainer.encode(autoTrainingConfig, forKey: .autoTrainingConfig)
         }
         if let eventValueThreshold = self.eventValueThreshold {
             try encodeContainer.encode(eventValueThreshold, forKey: .eventValueThreshold)
@@ -12967,6 +13038,8 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
         optimizationObjective = optimizationObjectiveDecoded
         let trainingDataConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingDataConfig.self, forKey: .trainingDataConfig)
         trainingDataConfig = trainingDataConfigDecoded
+        let autoTrainingConfigDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.AutoTrainingConfig.self, forKey: .autoTrainingConfig)
+        autoTrainingConfig = autoTrainingConfigDecoded
     }
 }
 
@@ -12977,6 +13050,8 @@ extension PersonalizeClientTypes {
         public var algorithmHyperParameters: [Swift.String:Swift.String]?
         /// The [AutoMLConfig](https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html) object containing a list of recipes to search when AutoML is performed.
         public var autoMLConfig: PersonalizeClientTypes.AutoMLConfig?
+        /// Specifies the automatic training configuration to use.
+        public var autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig?
         /// Only events with a value greater than or equal to this threshold are used for training a model.
         public var eventValueThreshold: Swift.String?
         /// Lists the feature transformation parameters.
@@ -12991,6 +13066,7 @@ extension PersonalizeClientTypes {
         public init(
             algorithmHyperParameters: [Swift.String:Swift.String]? = nil,
             autoMLConfig: PersonalizeClientTypes.AutoMLConfig? = nil,
+            autoTrainingConfig: PersonalizeClientTypes.AutoTrainingConfig? = nil,
             eventValueThreshold: Swift.String? = nil,
             featureTransformationParameters: [Swift.String:Swift.String]? = nil,
             hpoConfig: PersonalizeClientTypes.HPOConfig? = nil,
@@ -13000,6 +13076,7 @@ extension PersonalizeClientTypes {
         {
             self.algorithmHyperParameters = algorithmHyperParameters
             self.autoMLConfig = autoMLConfig
+            self.autoTrainingConfig = autoTrainingConfig
             self.eventValueThreshold = eventValueThreshold
             self.featureTransformationParameters = featureTransformationParameters
             self.hpoConfig = hpoConfig
@@ -13116,6 +13193,7 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
         case status
         case trainingHours
         case trainingMode
+        case trainingType
         case tunedHPOParams
     }
 
@@ -13166,6 +13244,9 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
         if let trainingMode = self.trainingMode {
             try encodeContainer.encode(trainingMode.rawValue, forKey: .trainingMode)
         }
+        if let trainingType = self.trainingType {
+            try encodeContainer.encode(trainingType.rawValue, forKey: .trainingType)
+        }
         if let tunedHPOParams = self.tunedHPOParams {
             try encodeContainer.encode(tunedHPOParams, forKey: .tunedHPOParams)
         }
@@ -13205,6 +13286,8 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
         lastUpdatedDateTime = lastUpdatedDateTimeDecoded
+        let trainingTypeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingType.self, forKey: .trainingType)
+        trainingType = trainingTypeDecoded
     }
 }
 
@@ -13251,8 +13334,10 @@ extension PersonalizeClientTypes {
         public var status: Swift.String?
         /// The time used to train the model. You are billed for the time it takes to train a model. This field is visible only after Amazon Personalize successfully trains a model.
         public var trainingHours: Swift.Double?
-        /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one. The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe or the [HRNN-Coldstart](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-hrnn-coldstart.html) recipe.
+        /// The scope of training to be performed when creating the solution version. A FULL training considers all of the data in your dataset group. An UPDATE processes only the data that has changed since the latest training. Only solution versions created with the User-Personalization recipe can use UPDATE.
         public var trainingMode: PersonalizeClientTypes.TrainingMode?
+        /// Whether the solution version was created automatically or manually.
+        public var trainingType: PersonalizeClientTypes.TrainingType?
         /// If hyperparameter optimization was performed, contains the hyperparameter values of the best performing model.
         public var tunedHPOParams: PersonalizeClientTypes.TunedHPOParams?
 
@@ -13272,6 +13357,7 @@ extension PersonalizeClientTypes {
             status: Swift.String? = nil,
             trainingHours: Swift.Double? = nil,
             trainingMode: PersonalizeClientTypes.TrainingMode? = nil,
+            trainingType: PersonalizeClientTypes.TrainingType? = nil,
             tunedHPOParams: PersonalizeClientTypes.TunedHPOParams? = nil
         )
         {
@@ -13290,6 +13376,7 @@ extension PersonalizeClientTypes {
             self.status = status
             self.trainingHours = trainingHours
             self.trainingMode = trainingMode
+            self.trainingType = trainingType
             self.tunedHPOParams = tunedHPOParams
         }
     }
@@ -13303,6 +13390,8 @@ extension PersonalizeClientTypes.SolutionVersionSummary: Swift.Codable {
         case lastUpdatedDateTime
         case solutionVersionArn
         case status
+        case trainingMode
+        case trainingType
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -13322,6 +13411,12 @@ extension PersonalizeClientTypes.SolutionVersionSummary: Swift.Codable {
         if let status = self.status {
             try encodeContainer.encode(status, forKey: .status)
         }
+        if let trainingMode = self.trainingMode {
+            try encodeContainer.encode(trainingMode.rawValue, forKey: .trainingMode)
+        }
+        if let trainingType = self.trainingType {
+            try encodeContainer.encode(trainingType.rawValue, forKey: .trainingType)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -13330,6 +13425,10 @@ extension PersonalizeClientTypes.SolutionVersionSummary: Swift.Codable {
         solutionVersionArn = solutionVersionArnDecoded
         let statusDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .status)
         status = statusDecoded
+        let trainingModeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingMode.self, forKey: .trainingMode)
+        trainingMode = trainingModeDecoded
+        let trainingTypeDecoded = try containerValues.decodeIfPresent(PersonalizeClientTypes.TrainingType.self, forKey: .trainingType)
+        trainingType = trainingTypeDecoded
         let creationDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDateTime)
         creationDateTime = creationDateTimeDecoded
         let lastUpdatedDateTimeDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastUpdatedDateTime)
@@ -13354,13 +13453,19 @@ extension PersonalizeClientTypes {
         ///
         /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
         public var status: Swift.String?
+        /// The scope of training to be performed when creating the solution version. A FULL training considers all of the data in your dataset group. An UPDATE processes only the data that has changed since the latest training. Only solution versions created with the User-Personalization recipe can use UPDATE.
+        public var trainingMode: PersonalizeClientTypes.TrainingMode?
+        /// Whether the solution version was created automatically or manually.
+        public var trainingType: PersonalizeClientTypes.TrainingType?
 
         public init(
             creationDateTime: ClientRuntime.Date? = nil,
             failureReason: Swift.String? = nil,
             lastUpdatedDateTime: ClientRuntime.Date? = nil,
             solutionVersionArn: Swift.String? = nil,
-            status: Swift.String? = nil
+            status: Swift.String? = nil,
+            trainingMode: PersonalizeClientTypes.TrainingMode? = nil,
+            trainingType: PersonalizeClientTypes.TrainingType? = nil
         )
         {
             self.creationDateTime = creationDateTime
@@ -13368,6 +13473,8 @@ extension PersonalizeClientTypes {
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.solutionVersionArn = solutionVersionArn
             self.status = status
+            self.trainingMode = trainingMode
+            self.trainingType = trainingType
         }
     }
 
@@ -13675,7 +13782,7 @@ extension PersonalizeClientTypes.Tag: Swift.Codable {
 }
 
 extension PersonalizeClientTypes {
-    /// The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see [Tagging Amazon Personalize recources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
+    /// The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see [Tagging Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
     public struct Tag: Swift.Equatable {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
@@ -13727,7 +13834,7 @@ public struct TagResourceInput: Swift.Equatable {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Tags to apply to the resource. For more information see [Tagging Amazon Personalize recources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
+    /// Tags to apply to the resource. For more information see [Tagging Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
     /// This member is required.
     public var tags: [PersonalizeClientTypes.Tag]?
 
@@ -14000,12 +14107,14 @@ extension PersonalizeClientTypes {
 
 extension PersonalizeClientTypes {
     public enum TrainingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case autotrain
         case full
         case update
         case sdkUnknown(Swift.String)
 
         public static var allCases: [TrainingMode] {
             return [
+                .autotrain,
                 .full,
                 .update,
                 .sdkUnknown("")
@@ -14017,6 +14126,7 @@ extension PersonalizeClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .autotrain: return "AUTOTRAIN"
             case .full: return "FULL"
             case .update: return "UPDATE"
             case let .sdkUnknown(s): return s
@@ -14026,6 +14136,38 @@ extension PersonalizeClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = TrainingMode(rawValue: rawValue) ?? TrainingMode.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension PersonalizeClientTypes {
+    public enum TrainingType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case automatic
+        case manual
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [TrainingType] {
+            return [
+                .automatic,
+                .manual,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .automatic: return "AUTOMATIC"
+            case .manual: return "MANUAL"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = TrainingType(rawValue: rawValue) ?? TrainingType.sdkUnknown(rawValue)
         }
     }
 }
@@ -14108,7 +14250,7 @@ public struct UntagResourceInput: Swift.Equatable {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
-    /// Keys to remove from the resource's tags.
+    /// The keys of the tags to be removed.
     /// This member is required.
     public var tagKeys: [Swift.String]?
 
@@ -14215,7 +14357,7 @@ public struct UpdateCampaignInput: Swift.Equatable {
     public var campaignConfig: PersonalizeClientTypes.CampaignConfig?
     /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.
     public var minProvisionedTPS: Swift.Int?
-    /// The ARN of a new solution version to deploy.
+    /// The Amazon Resource Name (ARN) of a new model to deploy. To specify the latest solution version of your solution, specify the ARN of your solution in SolutionArn/$LATEST format. You must use this format if you set syncWithLatestSolutionVersion to True in the [CampaignConfig](https://docs.aws.amazon.com/personalize/latest/dg/API_CampaignConfig.html). To deploy a model that isn't the latest solution version of your solution, specify the ARN of the solution version. For more information about automatic campaign updates, see [Enabling automatic campaign updates](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-automatic-latest-sv-update).
     public var solutionVersionArn: Swift.String?
 
     public init(

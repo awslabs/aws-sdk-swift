@@ -489,4 +489,229 @@ extension MediaLiveClient {
         let waiter = Waiter(config: try Self.multiplexStoppedWaiterConfig(), operation: self.describeMultiplex(input:))
         return try await waiter.waitUntil(options: options, input: input)
     }
+
+    static func signalMapCreatedWaiterConfig() throws -> WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput> {
+        let acceptors: [WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "CREATE_COMPLETE")
+            }),
+            .init(state: .retry, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "CREATE_IN_PROGRESS")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "CREATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "CREATE_FAILED")
+            }),
+        ]
+        return try WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SignalMapCreated event on the getSignalMap operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetSignalMapInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSignalMapCreated(options: WaiterOptions, input: GetSignalMapInput) async throws -> WaiterOutcome<GetSignalMapOutput> {
+        let waiter = Waiter(config: try Self.signalMapCreatedWaiterConfig(), operation: self.getSignalMap(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func signalMapMonitorDeletedWaiterConfig() throws -> WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput> {
+        let acceptors: [WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DELETE_COMPLETE")
+            }),
+            .init(state: .retry, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETE_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DELETE_IN_PROGRESS")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DELETE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DELETE_FAILED")
+            }),
+        ]
+        return try WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SignalMapMonitorDeleted event on the getSignalMap operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetSignalMapInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSignalMapMonitorDeleted(options: WaiterOptions, input: GetSignalMapInput) async throws -> WaiterOutcome<GetSignalMapOutput> {
+        let waiter = Waiter(config: try Self.signalMapMonitorDeletedWaiterConfig(), operation: self.getSignalMap(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func signalMapMonitorDeployedWaiterConfig() throws -> WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput> {
+        let acceptors: [WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DRY_RUN_DEPLOYMENT_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DRY_RUN_DEPLOYMENT_COMPLETE")
+            }),
+            .init(state: .success, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DEPLOYMENT_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DEPLOYMENT_COMPLETE")
+            }),
+            .init(state: .retry, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DRY_RUN_DEPLOYMENT_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DRY_RUN_DEPLOYMENT_IN_PROGRESS")
+            }),
+            .init(state: .retry, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DEPLOYMENT_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DEPLOYMENT_IN_PROGRESS")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DRY_RUN_DEPLOYMENT_FAILED"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DRY_RUN_DEPLOYMENT_FAILED")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "MonitorDeployment.Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "DEPLOYMENT_FAILED"
+                guard case .success(let output) = result else { return false }
+                let monitorDeployment = output.monitorDeployment
+                let status = monitorDeployment?.status
+                return JMESUtils.compare(status, ==, "DEPLOYMENT_FAILED")
+            }),
+        ]
+        return try WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SignalMapMonitorDeployed event on the getSignalMap operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetSignalMapInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSignalMapMonitorDeployed(options: WaiterOptions, input: GetSignalMapInput) async throws -> WaiterOutcome<GetSignalMapOutput> {
+        let waiter = Waiter(config: try Self.signalMapMonitorDeployedWaiterConfig(), operation: self.getSignalMap(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
+
+    static func signalMapUpdatedWaiterConfig() throws -> WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput> {
+        let acceptors: [WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>.Acceptor] = [
+            .init(state: .success, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UPDATE_COMPLETE"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "UPDATE_COMPLETE")
+            }),
+            .init(state: .retry, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UPDATE_IN_PROGRESS"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "UPDATE_IN_PROGRESS")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UPDATE_FAILED"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "UPDATE_FAILED")
+            }),
+            .init(state: .failure, matcher: { (input: GetSignalMapInput, result: Result<GetSignalMapOutput, Error>) -> Bool in
+                // JMESPath expression: "Status"
+                // JMESPath comparator: "stringEquals"
+                // JMESPath expected value: "UPDATE_REVERTED"
+                guard case .success(let output) = result else { return false }
+                let status = output.status
+                return JMESUtils.compare(status, ==, "UPDATE_REVERTED")
+            }),
+        ]
+        return try WaiterConfiguration<GetSignalMapInput, GetSignalMapOutput>(acceptors: acceptors, minDelay: 5.0, maxDelay: 120.0)
+    }
+
+    /// Initiates waiting for the SignalMapUpdated event on the getSignalMap operation.
+    /// The operation will be tried and (if necessary) retried until the wait succeeds, fails, or times out.
+    /// Returns a `WaiterOutcome` asynchronously on waiter success, throws an error asynchronously on
+    /// waiter failure or timeout.
+    /// - Parameters:
+    ///   - options: `WaiterOptions` to be used to configure this wait.
+    ///   - input: The `GetSignalMapInput` object to be used as a parameter when performing the operation.
+    /// - Returns: A `WaiterOutcome` with the result of the final, successful performance of the operation.
+    /// - Throws: `WaiterFailureError` if the waiter fails due to matching an `Acceptor` with state `failure`
+    /// or there is an error not handled by any `Acceptor.`
+    /// `WaiterTimeoutError` if the waiter times out.
+    public func waitUntilSignalMapUpdated(options: WaiterOptions, input: GetSignalMapInput) async throws -> WaiterOutcome<GetSignalMapOutput> {
+        let waiter = Waiter(config: try Self.signalMapUpdatedWaiterConfig(), operation: self.getSignalMap(input:))
+        return try await waiter.waitUntil(options: options, input: input)
+    }
 }
