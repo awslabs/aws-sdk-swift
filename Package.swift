@@ -44,7 +44,10 @@ let package = Package(
         .target(
             name: "AWSClientRuntime",
             dependencies: [.crt, .clientRuntime],
-            path: "./Sources/Core/AWSClientRuntime"
+            path: "./Sources/Core/AWSClientRuntime",
+            resources: [
+                .copy("PrivacyInfo.xcprivacy")
+            ]
         ),
         .testTarget(
             name: "AWSClientRuntimeTests",
@@ -242,7 +245,7 @@ func addResolvedTargets() {
 
 addDependencies(
     clientRuntimeVersion: "0.46.0",
-    crtVersion: "0.29.0"
+    crtVersion: "0.30.0"
 )
 
 // Uncomment this line to exclude runtime unit tests
