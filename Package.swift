@@ -646,6 +646,7 @@ let servicesWithIntegrationTests: [String] = [
     "AWSEventBridge",
     "AWSKinesis",
     "AWSMediaConvert",
+    "AWSRoute53",
     "AWSS3",
     "AWSSQS",
     "AWSSTS",
