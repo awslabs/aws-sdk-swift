@@ -187,7 +187,7 @@ extension CreateMonitorInput {
 }
 
 public struct CreateMonitorInput: Swift.Equatable {
-    /// The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either 30 or 60.
+    /// The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either 30 or 60. 60 is the default if no period is chosen.
     public var aggregationPeriod: Swift.Int?
     /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
     public var clientToken: Swift.String?
@@ -286,7 +286,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateMonitorOutput: Swift.Equatable {
-    /// The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This must be either 30 or 60.
+    /// The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This will be either 30 or 60.
     public var aggregationPeriod: Swift.Int?
     /// The ARN of the monitor.
     /// This member is required.
@@ -510,7 +510,7 @@ extension CreateProbeInput {
 public struct CreateProbeInput: Swift.Equatable {
     /// Unique, case-sensitive identifier to ensure the idempotency of the request. Only returned if a client token was provided in the request.
     public var clientToken: Swift.String?
-    /// The name of the monitor to associated with the probe. To get a list of available monitors, use ListMonitors.
+    /// The name of the monitor to associated with the probe.
     /// This member is required.
     public var monitorName: Swift.String?
     /// Describes the details of an individual probe for a monitor.
@@ -765,7 +765,7 @@ extension DeleteMonitorInput {
 }
 
 public struct DeleteMonitorInput: Swift.Equatable {
-    /// The name of the monitor to delete. Use the ListMonitors action to get a list of your current monitors.
+    /// The name of the monitor to delete.
     /// This member is required.
     public var monitorName: Swift.String?
 
@@ -825,10 +825,10 @@ extension DeleteProbeInput {
 }
 
 public struct DeleteProbeInput: Swift.Equatable {
-    /// The name of the monitor to delete. For a list of the available monitors, use the ListMonitors action.
+    /// The name of the monitor to delete.
     /// This member is required.
     public var monitorName: Swift.String?
-    /// The ID of the probe to delete. Run GetMonitor to get a lst of all probes and probe IDs associated with the monitor.
+    /// The ID of the probe to delete.
     /// This member is required.
     public var probeId: Swift.String?
 
@@ -948,12 +948,12 @@ public struct GetMonitorOutput: Swift.Equatable {
     /// The ARN of the selected monitor.
     /// This member is required.
     public var monitorArn: Swift.String?
-    /// The name of the monitor. To get a list of the current monitors and their names, use the ListMonitors action.
+    /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
     /// The details about each probe associated with that monitor.
     public var probes: [NetworkMonitorClientTypes.Probe]?
-    /// Returns a list of the state of each monitor.
+    /// Lists the status of the state of each monitor.
     /// This member is required.
     public var state: NetworkMonitorClientTypes.MonitorState?
     /// The list of key-value pairs assigned to the monitor.
@@ -1804,7 +1804,7 @@ extension NetworkMonitorClientTypes.Probe: Swift.Codable {
 }
 
 extension NetworkMonitorClientTypes {
-    /// Describes information about a monitor probe.
+    /// Describes information about a network monitor probe.
     public struct Probe: Swift.Equatable {
         /// The IPv4 or IPv6 address for the probe.
         public var addressFamily: NetworkMonitorClientTypes.AddressFamily?
@@ -2412,7 +2412,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     /// The aggregation time, in seconds, to change to. This must be either 30 or 60.
     /// This member is required.
     public var aggregationPeriod: Swift.Int?
-    /// The name of the monitor to update. Run ListMonitors to get a list of monitor names.
+    /// The name of the monitor to update.
     /// This member is required.
     public var monitorName: Swift.String?
 
@@ -2602,7 +2602,7 @@ public struct UpdateProbeInput: Swift.Equatable {
     public var monitorName: Swift.String?
     /// he updated packets size for network traffic between the source and destination. This must be a number between 56 and 8500.
     public var packetSize: Swift.Int?
-    /// Run GetMonitor to get a list of probes and probe IDs.
+    /// The ID of the probe to update.
     /// This member is required.
     public var probeId: Swift.String?
     /// The updated network protocol for the destination. This can be either TCP or ICMP. If the protocol is TCP, then port is also required.

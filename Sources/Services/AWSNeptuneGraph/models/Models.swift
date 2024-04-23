@@ -433,7 +433,7 @@ public struct CreateGraphInput: Swift.Equatable {
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable.
     public var publicConnectivity: Swift.Bool?
-    /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1.
+    /// The number of replicas in other AZs. Min =0, Max = 2, Default = 1. Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     public var replicaCount: Swift.Int?
     /// Adds metadata tags to the new graph. These tags can also be used with cost allocation reporting, or used in a Condition statement in an IAM policy.
     public var tags: [Swift.String:Swift.String]?
@@ -1013,7 +1013,7 @@ public struct CreateGraphUsingImportTaskInput: Swift.Equatable {
     public var minProvisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
-    /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2.
+    /// The number of replicas in other AZs to provision on the new graph after import. Default = 0, Min = 0, Max = 2. Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     public var replicaCount: Swift.Int?
     /// The ARN of the IAM role that will allow access to the data that is to be imported.
     /// This member is required.
@@ -5794,7 +5794,7 @@ public struct RestoreGraphFromSnapshotInput: Swift.Equatable {
     public var provisionedMemory: Swift.Int?
     /// Specifies whether or not the graph can be reachable over the internet. All access to graphs is IAM authenticated. (true to enable, or false to disable).
     public var publicConnectivity: Swift.Bool?
-    /// The number of replicas in other AZs. Min =0, Max = 2, Default =1
+    /// The number of replicas in other AZs. Min =0, Max = 2, Default =1 Additional charges equivalent to the m-NCUs selected for the graph apply for each replica.
     public var replicaCount: Swift.Int?
     /// The ID of the snapshot in question.
     /// This member is required.

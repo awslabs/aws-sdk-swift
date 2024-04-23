@@ -3935,7 +3935,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+    /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. Note that MediaConvert uses default settings for any missing style or position information in your input captions To ignore the style and position information from your input captions and use default settings: Leave blank or keep the default value, Disabled. Default settings include white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings. You can also override any fonts by manually specifying custom font files.
     public enum BurnInSubtitleStylePassthrough: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -3975,6 +3975,10 @@ extension MediaConvertClientTypes.BurninDestinationSettings: Swift.Codable {
         case backgroundOpacity = "backgroundOpacity"
         case fallbackFont = "fallbackFont"
         case fontColor = "fontColor"
+        case fontFileBold = "fontFileBold"
+        case fontFileBoldItalic = "fontFileBoldItalic"
+        case fontFileItalic = "fontFileItalic"
+        case fontFileRegular = "fontFileRegular"
         case fontOpacity = "fontOpacity"
         case fontResolution = "fontResolution"
         case fontScript = "fontScript"
@@ -4011,6 +4015,18 @@ extension MediaConvertClientTypes.BurninDestinationSettings: Swift.Codable {
         }
         if let fontColor = self.fontColor {
             try encodeContainer.encode(fontColor.rawValue, forKey: .fontColor)
+        }
+        if let fontFileBold = self.fontFileBold {
+            try encodeContainer.encode(fontFileBold, forKey: .fontFileBold)
+        }
+        if let fontFileBoldItalic = self.fontFileBoldItalic {
+            try encodeContainer.encode(fontFileBoldItalic, forKey: .fontFileBoldItalic)
+        }
+        if let fontFileItalic = self.fontFileItalic {
+            try encodeContainer.encode(fontFileItalic, forKey: .fontFileItalic)
+        }
+        if let fontFileRegular = self.fontFileRegular {
+            try encodeContainer.encode(fontFileRegular, forKey: .fontFileRegular)
         }
         if let fontOpacity = self.fontOpacity {
             try encodeContainer.encode(fontOpacity, forKey: .fontOpacity)
@@ -4073,6 +4089,14 @@ extension MediaConvertClientTypes.BurninDestinationSettings: Swift.Codable {
         fallbackFont = fallbackFontDecoded
         let fontColorDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.BurninSubtitleFontColor.self, forKey: .fontColor)
         fontColor = fontColorDecoded
+        let fontFileBoldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileBold)
+        fontFileBold = fontFileBoldDecoded
+        let fontFileBoldItalicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileBoldItalic)
+        fontFileBoldItalic = fontFileBoldItalicDecoded
+        let fontFileItalicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileItalic)
+        fontFileItalic = fontFileItalicDecoded
+        let fontFileRegularDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileRegular)
+        fontFileRegular = fontFileRegularDecoded
         let fontOpacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fontOpacity)
         fontOpacity = fontOpacityDecoded
         let fontResolutionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fontResolution)
@@ -4121,6 +4145,14 @@ extension MediaConvertClientTypes {
         public var fallbackFont: MediaConvertClientTypes.BurninSubtitleFallbackFont?
         /// Specify the color of the burned-in captions text. Leave Font color blank and set Style passthrough to enabled to use the font color data from your input captions, if present.
         public var fontColor: MediaConvertClientTypes.BurninSubtitleFontColor?
+        /// Specify a bold TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, an italic, and a bold italic font file.
+        public var fontFileBold: Swift.String?
+        /// Specify a bold italic TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, a bold, and an italic font file.
+        public var fontFileBoldItalic: Swift.String?
+        /// Specify an italic TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, a bold, and a bold italic font file.
+        public var fontFileItalic: Swift.String?
+        /// Specify a regular TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a bold, an italic, and a bold italic font file.
+        public var fontFileRegular: Swift.String?
         /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent.
         public var fontOpacity: Swift.Int?
         /// Specify the Font resolution in DPI (dots per inch).
@@ -4143,7 +4175,7 @@ extension MediaConvertClientTypes {
         public var shadowXOffset: Swift.Int?
         /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset blank and set Style passthrough to enabled to use the shadow y-offset data from your input captions, if present.
         public var shadowYOffset: Swift.Int?
-        /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+        /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. Note that MediaConvert uses default settings for any missing style or position information in your input captions To ignore the style and position information from your input captions and use default settings: Leave blank or keep the default value, Disabled. Default settings include white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings. You can also override any fonts by manually specifying custom font files.
         public var stylePassthrough: MediaConvertClientTypes.BurnInSubtitleStylePassthrough?
         /// Specify whether the text spacing in your captions is set by the captions grid, or varies depending on letter width. Choose fixed grid to conform to the spacing specified in the captions file more accurately. Choose proportional to make the text easier to read for closed captions.
         public var teletextSpacing: MediaConvertClientTypes.BurninSubtitleTeletextSpacing?
@@ -4159,6 +4191,10 @@ extension MediaConvertClientTypes {
             backgroundOpacity: Swift.Int? = nil,
             fallbackFont: MediaConvertClientTypes.BurninSubtitleFallbackFont? = nil,
             fontColor: MediaConvertClientTypes.BurninSubtitleFontColor? = nil,
+            fontFileBold: Swift.String? = nil,
+            fontFileBoldItalic: Swift.String? = nil,
+            fontFileItalic: Swift.String? = nil,
+            fontFileRegular: Swift.String? = nil,
             fontOpacity: Swift.Int? = nil,
             fontResolution: Swift.Int? = nil,
             fontScript: MediaConvertClientTypes.FontScript? = nil,
@@ -4182,6 +4218,10 @@ extension MediaConvertClientTypes {
             self.backgroundOpacity = backgroundOpacity
             self.fallbackFont = fallbackFont
             self.fontColor = fontColor
+            self.fontFileBold = fontFileBold
+            self.fontFileBoldItalic = fontFileBoldItalic
+            self.fontFileItalic = fontFileItalic
+            self.fontFileRegular = fontFileRegular
             self.fontOpacity = fontOpacity
             self.fontResolution = fontResolution
             self.fontScript = fontScript
@@ -9938,7 +9978,6 @@ extension DescribeEndpointsInput {
     }
 }
 
-/// DescribeEndpointsRequest
 @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
 public struct DescribeEndpointsInput: Swift.Equatable {
     /// Optional. Max number of endpoints, up to twenty, that will be returned at one time.
@@ -10564,6 +10603,10 @@ extension MediaConvertClientTypes.DvbSubDestinationSettings: Swift.Codable {
         case ddsYCoordinate = "ddsYCoordinate"
         case fallbackFont = "fallbackFont"
         case fontColor = "fontColor"
+        case fontFileBold = "fontFileBold"
+        case fontFileBoldItalic = "fontFileBoldItalic"
+        case fontFileItalic = "fontFileItalic"
+        case fontFileRegular = "fontFileRegular"
         case fontOpacity = "fontOpacity"
         case fontResolution = "fontResolution"
         case fontScript = "fontScript"
@@ -10612,6 +10655,18 @@ extension MediaConvertClientTypes.DvbSubDestinationSettings: Swift.Codable {
         }
         if let fontColor = self.fontColor {
             try encodeContainer.encode(fontColor.rawValue, forKey: .fontColor)
+        }
+        if let fontFileBold = self.fontFileBold {
+            try encodeContainer.encode(fontFileBold, forKey: .fontFileBold)
+        }
+        if let fontFileBoldItalic = self.fontFileBoldItalic {
+            try encodeContainer.encode(fontFileBoldItalic, forKey: .fontFileBoldItalic)
+        }
+        if let fontFileItalic = self.fontFileItalic {
+            try encodeContainer.encode(fontFileItalic, forKey: .fontFileItalic)
+        }
+        if let fontFileRegular = self.fontFileRegular {
+            try encodeContainer.encode(fontFileRegular, forKey: .fontFileRegular)
         }
         if let fontOpacity = self.fontOpacity {
             try encodeContainer.encode(fontOpacity, forKey: .fontOpacity)
@@ -10689,6 +10744,14 @@ extension MediaConvertClientTypes.DvbSubDestinationSettings: Swift.Codable {
         fallbackFont = fallbackFontDecoded
         let fontColorDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.DvbSubtitleFontColor.self, forKey: .fontColor)
         fontColor = fontColorDecoded
+        let fontFileBoldDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileBold)
+        fontFileBold = fontFileBoldDecoded
+        let fontFileBoldItalicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileBoldItalic)
+        fontFileBoldItalic = fontFileBoldItalicDecoded
+        let fontFileItalicDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileItalic)
+        fontFileItalic = fontFileItalicDecoded
+        let fontFileRegularDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fontFileRegular)
+        fontFileRegular = fontFileRegularDecoded
         let fontOpacityDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fontOpacity)
         fontOpacity = fontOpacityDecoded
         let fontResolutionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .fontResolution)
@@ -10749,6 +10812,14 @@ extension MediaConvertClientTypes {
         public var fallbackFont: MediaConvertClientTypes.DvbSubSubtitleFallbackFont?
         /// Specify the color of the captions text. Leave Font color blank and set Style passthrough to enabled to use the font color data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public var fontColor: MediaConvertClientTypes.DvbSubtitleFontColor?
+        /// Specify a bold TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, an italic, and a bold italic font file.
+        public var fontFileBold: Swift.String?
+        /// Specify a bold italic TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, a bold, and an italic font file.
+        public var fontFileBoldItalic: Swift.String?
+        /// Specify an italic TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a regular, a bold, and a bold italic font file.
+        public var fontFileItalic: Swift.String?
+        /// Specify a regular TrueType font file to use when rendering your output captions. Enter an S3, HTTP, or HTTPS URL. When you do, you must also separately specify a bold, an italic, and a bold italic font file.
+        public var fontFileRegular: Swift.String?
         /// Specify the opacity of the burned-in captions. 255 is opaque; 0 is transparent. Within your job settings, all of your DVB-Sub settings must be identical.
         public var fontOpacity: Swift.Int?
         /// Specify the Font resolution in DPI (dots per inch). Within your job settings, all of your DVB-Sub settings must be identical.
@@ -10773,7 +10844,7 @@ extension MediaConvertClientTypes {
         public var shadowXOffset: Swift.Int?
         /// Specify the vertical offset of the shadow relative to the captions in pixels. A value of -2 would result in a shadow offset 2 pixels above the text. Leave Shadow y-offset blank and set Style passthrough to enabled to use the shadow y-offset data from your input captions, if present. Within your job settings, all of your DVB-Sub settings must be identical.
         public var shadowYOffset: Swift.Int?
-        /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+        /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. Note that MediaConvert uses default settings for any missing style or position information in your input captions To ignore the style and position information from your input captions and use default settings: Leave blank or keep the default value, Disabled. Default settings include white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings. You can also override any fonts by manually specifying custom font files.
         public var stylePassthrough: MediaConvertClientTypes.DvbSubtitleStylePassthrough?
         /// Specify whether your DVB subtitles are standard or for hearing impaired. Choose hearing impaired if your subtitles include audio descriptions and dialogue. Choose standard if your subtitles include only dialogue.
         public var subtitlingType: MediaConvertClientTypes.DvbSubtitlingType?
@@ -10796,6 +10867,10 @@ extension MediaConvertClientTypes {
             ddsYCoordinate: Swift.Int? = nil,
             fallbackFont: MediaConvertClientTypes.DvbSubSubtitleFallbackFont? = nil,
             fontColor: MediaConvertClientTypes.DvbSubtitleFontColor? = nil,
+            fontFileBold: Swift.String? = nil,
+            fontFileBoldItalic: Swift.String? = nil,
+            fontFileItalic: Swift.String? = nil,
+            fontFileRegular: Swift.String? = nil,
             fontOpacity: Swift.Int? = nil,
             fontResolution: Swift.Int? = nil,
             fontScript: MediaConvertClientTypes.FontScript? = nil,
@@ -10825,6 +10900,10 @@ extension MediaConvertClientTypes {
             self.ddsYCoordinate = ddsYCoordinate
             self.fallbackFont = fallbackFont
             self.fontColor = fontColor
+            self.fontFileBold = fontFileBold
+            self.fontFileBoldItalic = fontFileBoldItalic
+            self.fontFileItalic = fontFileItalic
+            self.fontFileRegular = fontFileRegular
             self.fontOpacity = fontOpacity
             self.fontResolution = fontResolution
             self.fontScript = fontScript
@@ -11172,7 +11251,7 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
-    /// Set Style passthrough to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use default settings: white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings.
+    /// To use the available style, color, and position information from your input captions: Set Style passthrough to Enabled. Note that MediaConvert uses default settings for any missing style or position information in your input captions To ignore the style and position information from your input captions and use default settings: Leave blank or keep the default value, Disabled. Default settings include white text with black outlining, bottom-center positioning, and automatic sizing. Whether you set Style passthrough to enabled or not, you can also choose to manually override any of the individual style and position settings. You can also override any fonts by manually specifying custom font files.
     public enum DvbSubtitleStylePassthrough: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case disabled
         case enabled
@@ -21065,7 +21144,7 @@ extension MediaConvertClientTypes {
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
         public var availBlanking: MediaConvertClientTypes.AvailBlanking?
-        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs.
+        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/3d-luts.html
         public var colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public var esam: MediaConvertClientTypes.EsamSettings?
@@ -21513,7 +21592,7 @@ extension MediaConvertClientTypes {
         public var adAvailOffset: Swift.Int?
         /// Settings for ad avail blanking. Video can be blanked or overlaid with an image, and audio muted during SCTE-35 triggered ad avails.
         public var availBlanking: MediaConvertClientTypes.AvailBlanking?
-        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs.
+        /// Use 3D LUTs to specify custom color mapping behavior when you convert from one color space into another. You can include up to 8 different 3D LUTs. For more information, see: https://docs.aws.amazon.com/mediaconvert/latest/ug/3d-luts.html
         public var colorConversion3DLUTSettings: [MediaConvertClientTypes.ColorConversion3DLUTSetting]?
         /// Settings for Event Signaling And Messaging (ESAM). If you don't do ad insertion, you can ignore these settings.
         public var esam: MediaConvertClientTypes.EsamSettings?
@@ -23364,6 +23443,39 @@ extension MediaConvertClientTypes {
 }
 
 extension MediaConvertClientTypes {
+    /// Specify whether MediaConvert automatically attempts to prevent decoder buffer underflows in your transport stream output. Use if you are seeing decoder buffer underflows in your output and are unable to increase your transport stream's bitrate. For most workflows: We recommend that you keep the default value, Disabled. To prevent decoder buffer underflows in your output, when possible: Choose Enabled. Note that if MediaConvert prevents a decoder buffer underflow in your output, output video quality is reduced and your job will take longer to complete.
+    public enum M2tsPreventBufferUnderflow: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case disabled
+        case enabled
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [M2tsPreventBufferUnderflow] {
+            return [
+                .disabled,
+                .enabled,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .disabled: return "DISABLED"
+            case .enabled: return "ENABLED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = M2tsPreventBufferUnderflow(rawValue: rawValue) ?? M2tsPreventBufferUnderflow.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaConvertClientTypes {
     /// When set to CBR, inserts null packets into transport stream to fill specified bitrate. When set to VBR, the bitrate setting acts as the maximum bitrate, but the output will not be padded up to that bitrate.
     public enum M2tsRateMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cbr
@@ -23571,6 +23683,7 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         case pcrPid = "pcrPid"
         case pmtInterval = "pmtInterval"
         case pmtPid = "pmtPid"
+        case preventBufferUnderflow = "preventBufferUnderflow"
         case privateMetadataPid = "privateMetadataPid"
         case programNumber = "programNumber"
         case ptsOffset = "ptsOffset"
@@ -23675,6 +23788,9 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         }
         if let pmtPid = self.pmtPid {
             try encodeContainer.encode(pmtPid, forKey: .pmtPid)
+        }
+        if let preventBufferUnderflow = self.preventBufferUnderflow {
+            try encodeContainer.encode(preventBufferUnderflow.rawValue, forKey: .preventBufferUnderflow)
         }
         if let privateMetadataPid = self.privateMetadataPid {
             try encodeContainer.encode(privateMetadataPid, forKey: .privateMetadataPid)
@@ -23794,6 +23910,8 @@ extension MediaConvertClientTypes.M2tsSettings: Swift.Codable {
         pmtInterval = pmtIntervalDecoded
         let pmtPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .pmtPid)
         pmtPid = pmtPidDecoded
+        let preventBufferUnderflowDecoded = try containerValues.decodeIfPresent(MediaConvertClientTypes.M2tsPreventBufferUnderflow.self, forKey: .preventBufferUnderflow)
+        preventBufferUnderflow = preventBufferUnderflowDecoded
         let privateMetadataPidDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .privateMetadataPid)
         privateMetadataPid = privateMetadataPidDecoded
         let programNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .programNumber)
@@ -23882,6 +24000,8 @@ extension MediaConvertClientTypes {
         public var pmtInterval: Swift.Int?
         /// Specify the packet identifier (PID) for the program map table (PMT) itself. Default is 480.
         public var pmtPid: Swift.Int?
+        /// Specify whether MediaConvert automatically attempts to prevent decoder buffer underflows in your transport stream output. Use if you are seeing decoder buffer underflows in your output and are unable to increase your transport stream's bitrate. For most workflows: We recommend that you keep the default value, Disabled. To prevent decoder buffer underflows in your output, when possible: Choose Enabled. Note that if MediaConvert prevents a decoder buffer underflow in your output, output video quality is reduced and your job will take longer to complete.
+        public var preventBufferUnderflow: MediaConvertClientTypes.M2tsPreventBufferUnderflow?
         /// Specify the packet identifier (PID) of the private metadata stream. Default is 503.
         public var privateMetadataPid: Swift.Int?
         /// Use Program number to specify the program number used in the program map table (PMT) for this output. Default is 1. Program numbers and program map tables are parts of MPEG-2 transport stream containers, used for organizing data.
@@ -23939,6 +24059,7 @@ extension MediaConvertClientTypes {
             pcrPid: Swift.Int? = nil,
             pmtInterval: Swift.Int? = nil,
             pmtPid: Swift.Int? = nil,
+            preventBufferUnderflow: MediaConvertClientTypes.M2tsPreventBufferUnderflow? = nil,
             privateMetadataPid: Swift.Int? = nil,
             programNumber: Swift.Int? = nil,
             ptsOffset: Swift.Int? = nil,
@@ -23982,6 +24103,7 @@ extension MediaConvertClientTypes {
             self.pcrPid = pcrPid
             self.pmtInterval = pmtInterval
             self.pmtPid = pmtPid
+            self.preventBufferUnderflow = preventBufferUnderflow
             self.privateMetadataPid = privateMetadataPid
             self.programNumber = programNumber
             self.ptsOffset = ptsOffset

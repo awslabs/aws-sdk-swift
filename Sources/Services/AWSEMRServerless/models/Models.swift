@@ -814,9 +814,9 @@ extension EMRServerlessClientTypes.Configuration: Swift.Codable {
         var propertiesDecoded0: [Swift.String:Swift.String]? = nil
         if let propertiesContainer = propertiesContainer {
             propertiesDecoded0 = [Swift.String:Swift.String]()
-            for (key0, string10240) in propertiesContainer {
-                if let string10240 = string10240 {
-                    propertiesDecoded0?[key0] = string10240
+            for (key0, configurationpropertyvalue0) in propertiesContainer {
+                if let configurationpropertyvalue0 = configurationpropertyvalue0 {
+                    propertiesDecoded0?[key0] = configurationpropertyvalue0
                 }
             }
         }
@@ -2869,6 +2869,7 @@ extension EMRServerlessClientTypes.MonitoringConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cloudWatchLoggingConfiguration
         case managedPersistenceMonitoringConfiguration
+        case prometheusMonitoringConfiguration
         case s3MonitoringConfiguration
     }
 
@@ -2879,6 +2880,9 @@ extension EMRServerlessClientTypes.MonitoringConfiguration: Swift.Codable {
         }
         if let managedPersistenceMonitoringConfiguration = self.managedPersistenceMonitoringConfiguration {
             try encodeContainer.encode(managedPersistenceMonitoringConfiguration, forKey: .managedPersistenceMonitoringConfiguration)
+        }
+        if let prometheusMonitoringConfiguration = self.prometheusMonitoringConfiguration {
+            try encodeContainer.encode(prometheusMonitoringConfiguration, forKey: .prometheusMonitoringConfiguration)
         }
         if let s3MonitoringConfiguration = self.s3MonitoringConfiguration {
             try encodeContainer.encode(s3MonitoringConfiguration, forKey: .s3MonitoringConfiguration)
@@ -2893,6 +2897,8 @@ extension EMRServerlessClientTypes.MonitoringConfiguration: Swift.Codable {
         managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfigurationDecoded
         let cloudWatchLoggingConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.CloudWatchLoggingConfiguration.self, forKey: .cloudWatchLoggingConfiguration)
         cloudWatchLoggingConfiguration = cloudWatchLoggingConfigurationDecoded
+        let prometheusMonitoringConfigurationDecoded = try containerValues.decodeIfPresent(EMRServerlessClientTypes.PrometheusMonitoringConfiguration.self, forKey: .prometheusMonitoringConfiguration)
+        prometheusMonitoringConfiguration = prometheusMonitoringConfigurationDecoded
     }
 }
 
@@ -2903,17 +2909,21 @@ extension EMRServerlessClientTypes {
         public var cloudWatchLoggingConfiguration: EMRServerlessClientTypes.CloudWatchLoggingConfiguration?
         /// The managed log persistence configuration for a job run.
         public var managedPersistenceMonitoringConfiguration: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration?
+        /// The monitoring configuration object you can configure to send metrics to Amazon Managed Service for Prometheus for a job run.
+        public var prometheusMonitoringConfiguration: EMRServerlessClientTypes.PrometheusMonitoringConfiguration?
         /// The Amazon S3 configuration for monitoring log publishing.
         public var s3MonitoringConfiguration: EMRServerlessClientTypes.S3MonitoringConfiguration?
 
         public init(
             cloudWatchLoggingConfiguration: EMRServerlessClientTypes.CloudWatchLoggingConfiguration? = nil,
             managedPersistenceMonitoringConfiguration: EMRServerlessClientTypes.ManagedPersistenceMonitoringConfiguration? = nil,
+            prometheusMonitoringConfiguration: EMRServerlessClientTypes.PrometheusMonitoringConfiguration? = nil,
             s3MonitoringConfiguration: EMRServerlessClientTypes.S3MonitoringConfiguration? = nil
         )
         {
             self.cloudWatchLoggingConfiguration = cloudWatchLoggingConfiguration
             self.managedPersistenceMonitoringConfiguration = managedPersistenceMonitoringConfiguration
+            self.prometheusMonitoringConfiguration = prometheusMonitoringConfiguration
             self.s3MonitoringConfiguration = s3MonitoringConfiguration
         }
     }
@@ -2984,6 +2994,41 @@ extension EMRServerlessClientTypes {
         {
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
+        }
+    }
+
+}
+
+extension EMRServerlessClientTypes.PrometheusMonitoringConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case remoteWriteUrl
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let remoteWriteUrl = self.remoteWriteUrl {
+            try encodeContainer.encode(remoteWriteUrl, forKey: .remoteWriteUrl)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let remoteWriteUrlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .remoteWriteUrl)
+        remoteWriteUrl = remoteWriteUrlDecoded
+    }
+}
+
+extension EMRServerlessClientTypes {
+    /// The monitoring configuration object you can configure to send metrics to Amazon Managed Service for Prometheus for a job run.
+    public struct PrometheusMonitoringConfiguration: Swift.Equatable {
+        /// The remote write URL in the Amazon Managed Service for Prometheus workspace to send metrics to.
+        public var remoteWriteUrl: Swift.String?
+
+        public init(
+            remoteWriteUrl: Swift.String? = nil
+        )
+        {
+            self.remoteWriteUrl = remoteWriteUrl
         }
     }
 
@@ -4166,6 +4211,7 @@ extension EMRServerlessClientTypes.WorkerResourceConfig: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case cpu
         case disk
+        case diskType
         case memory
     }
 
@@ -4176,6 +4222,9 @@ extension EMRServerlessClientTypes.WorkerResourceConfig: Swift.Codable {
         }
         if let disk = self.disk {
             try encodeContainer.encode(disk, forKey: .disk)
+        }
+        if let diskType = self.diskType {
+            try encodeContainer.encode(diskType, forKey: .diskType)
         }
         if let memory = self.memory {
             try encodeContainer.encode(memory, forKey: .memory)
@@ -4190,6 +4239,8 @@ extension EMRServerlessClientTypes.WorkerResourceConfig: Swift.Codable {
         memory = memoryDecoded
         let diskDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .disk)
         disk = diskDecoded
+        let diskTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .diskType)
+        diskType = diskTypeDecoded
     }
 }
 
@@ -4201,6 +4252,8 @@ extension EMRServerlessClientTypes {
         public var cpu: Swift.String?
         /// The disk requirements for every worker instance of the worker type.
         public var disk: Swift.String?
+        /// The disk type for every worker instance of the work type. Shuffle optimized disks have higher performance characteristics and are better for shuffle heavy workloads. Default is STANDARD.
+        public var diskType: Swift.String?
         /// The memory requirements for every worker instance of the worker type.
         /// This member is required.
         public var memory: Swift.String?
@@ -4208,11 +4261,13 @@ extension EMRServerlessClientTypes {
         public init(
             cpu: Swift.String? = nil,
             disk: Swift.String? = nil,
+            diskType: Swift.String? = nil,
             memory: Swift.String? = nil
         )
         {
             self.cpu = cpu
             self.disk = disk
+            self.diskType = diskType
             self.memory = memory
         }
     }

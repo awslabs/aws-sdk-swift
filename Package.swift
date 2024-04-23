@@ -244,7 +244,7 @@ func addResolvedTargets() {
 // MARK: - Generated
 
 addDependencies(
-    clientRuntimeVersion: "0.46.0",
+    clientRuntimeVersion: "0.47.0",
     crtVersion: "0.30.0"
 )
 
@@ -557,6 +557,7 @@ let serviceTargets: [String] = [
     "AWSRolesAnywhere",
     "AWSRoute53",
     "AWSRoute53Domains",
+    "AWSRoute53Profiles",
     "AWSRoute53RecoveryCluster",
     "AWSRoute53RecoveryControlConfig",
     "AWSRoute53RecoveryReadiness",

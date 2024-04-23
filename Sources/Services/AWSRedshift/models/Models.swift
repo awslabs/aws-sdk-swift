@@ -26752,6 +26752,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Encodable {
         case ownerAccount = "OwnerAccount"
         case port = "Port"
         case restorableNodeTypes = "RestorableNodeTypes"
+        case snapshotArn = "SnapshotArn"
         case snapshotCreateTime = "SnapshotCreateTime"
         case snapshotIdentifier = "SnapshotIdentifier"
         case snapshotRetentionStartTime = "SnapshotRetentionStartTime"
@@ -26864,6 +26865,9 @@ extension RedshiftClientTypes.Snapshot: Swift.Encodable {
                 try restorableNodeTypesContainer.encode("", forKey: ClientRuntime.Key(""))
             }
         }
+        if let snapshotArn = snapshotArn {
+            try container.encode(snapshotArn, forKey: ClientRuntime.Key("SnapshotArn"))
+        }
         if let snapshotCreateTime = snapshotCreateTime {
             try container.encodeTimestamp(snapshotCreateTime, format: .dateTime, forKey: ClientRuntime.Key("SnapshotCreateTime"))
         }
@@ -26942,6 +26946,7 @@ extension RedshiftClientTypes.Snapshot: Swift.Encodable {
             value.snapshotRetentionStartTime = try reader["SnapshotRetentionStartTime"].readTimestampIfPresent(format: .dateTime)
             value.masterPasswordSecretArn = try reader["MasterPasswordSecretArn"].readIfPresent()
             value.masterPasswordSecretKmsKeyId = try reader["MasterPasswordSecretKmsKeyId"].readIfPresent()
+            value.snapshotArn = try reader["SnapshotArn"].readIfPresent()
             return value
         }
     }
@@ -27004,6 +27009,8 @@ extension RedshiftClientTypes {
         public var port: Swift.Int?
         /// The list of node types that this cluster snapshot is able to restore into.
         public var restorableNodeTypes: [Swift.String]?
+        /// The Amazon Resource Name (ARN) of the snapshot.
+        public var snapshotArn: Swift.String?
         /// The time (in UTC format) when Amazon Redshift began the snapshot. A snapshot contains a copy of the cluster data as of this exact time.
         public var snapshotCreateTime: ClientRuntime.Date?
         /// The snapshot identifier that is provided in the request.
@@ -27057,6 +27064,7 @@ extension RedshiftClientTypes {
             ownerAccount: Swift.String? = nil,
             port: Swift.Int? = nil,
             restorableNodeTypes: [Swift.String]? = nil,
+            snapshotArn: Swift.String? = nil,
             snapshotCreateTime: ClientRuntime.Date? = nil,
             snapshotIdentifier: Swift.String? = nil,
             snapshotRetentionStartTime: ClientRuntime.Date? = nil,
@@ -27095,6 +27103,7 @@ extension RedshiftClientTypes {
             self.ownerAccount = ownerAccount
             self.port = port
             self.restorableNodeTypes = restorableNodeTypes
+            self.snapshotArn = snapshotArn
             self.snapshotCreateTime = snapshotCreateTime
             self.snapshotIdentifier = snapshotIdentifier
             self.snapshotRetentionStartTime = snapshotRetentionStartTime

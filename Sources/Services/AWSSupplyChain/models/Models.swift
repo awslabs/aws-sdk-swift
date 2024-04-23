@@ -364,6 +364,77 @@ enum CreateBillOfMaterialsImportJobOutputError: ClientRuntime.HttpResponseErrorB
 }
 
 extension SupplyChainClientTypes {
+    public enum DataIntegrationEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case forecast
+        case inboundOrder
+        case inboundOrderLine
+        case inboundOrderLineSchedule
+        case inventoryLevel
+        case outboundOrderLine
+        case outboundShipment
+        case processHeader
+        case processOperation
+        case processProduct
+        case reservation
+        case shipment
+        case shipmentStop
+        case shipmentStopOrder
+        case supplyPlan
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DataIntegrationEventType] {
+            return [
+                .forecast,
+                .inboundOrder,
+                .inboundOrderLine,
+                .inboundOrderLineSchedule,
+                .inventoryLevel,
+                .outboundOrderLine,
+                .outboundShipment,
+                .processHeader,
+                .processOperation,
+                .processProduct,
+                .reservation,
+                .shipment,
+                .shipmentStop,
+                .shipmentStopOrder,
+                .supplyPlan,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .forecast: return "scn.data.forecast"
+            case .inboundOrder: return "scn.data.inboundorder"
+            case .inboundOrderLine: return "scn.data.inboundorderline"
+            case .inboundOrderLineSchedule: return "scn.data.inboundorderlineschedule"
+            case .inventoryLevel: return "scn.data.inventorylevel"
+            case .outboundOrderLine: return "scn.data.outboundorderline"
+            case .outboundShipment: return "scn.data.outboundshipment"
+            case .processHeader: return "scn.data.processheader"
+            case .processOperation: return "scn.data.processoperation"
+            case .processProduct: return "scn.data.processproduct"
+            case .reservation: return "scn.data.reservation"
+            case .shipment: return "scn.data.shipment"
+            case .shipmentStop: return "scn.data.shipmentstop"
+            case .shipmentStopOrder: return "scn.data.shipmentstoporder"
+            case .supplyPlan: return "scn.data.supplyplan"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DataIntegrationEventType(rawValue: rawValue) ?? DataIntegrationEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension SupplyChainClientTypes {
     static func makeServiceError(_ httpResponse: ClientRuntime.HttpResponse, _ decoder: ClientRuntime.ResponseDecoder? = nil, _ error: AWSClientRuntime.RestJSONError, _ id: String?) async throws -> Swift.Error? {
         switch error.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: error.errorMessage, requestID: id)
@@ -585,6 +656,180 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension SendDataIntegrationEventInput: Swift.CustomDebugStringConvertible {
+    public var debugDescription: Swift.String {
+        "SendDataIntegrationEventInput(clientToken: \(Swift.String(describing: clientToken)), eventGroupId: \(Swift.String(describing: eventGroupId)), eventTimestamp: \(Swift.String(describing: eventTimestamp)), eventType: \(Swift.String(describing: eventType)), instanceId: \(Swift.String(describing: instanceId)), data: \"CONTENT_REDACTED\")"}
+}
+
+extension SendDataIntegrationEventInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case data
+        case eventGroupId
+        case eventTimestamp
+        case eventType
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let data = self.data {
+            try encodeContainer.encode(data, forKey: .data)
+        }
+        if let eventGroupId = self.eventGroupId {
+            try encodeContainer.encode(eventGroupId, forKey: .eventGroupId)
+        }
+        if let eventTimestamp = self.eventTimestamp {
+            try encodeContainer.encodeTimestamp(eventTimestamp, format: .epochSeconds, forKey: .eventTimestamp)
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+    }
+}
+
+extension SendDataIntegrationEventInput {
+
+    static func urlPathProvider(_ value: SendDataIntegrationEventInput) -> Swift.String? {
+        guard let instanceId = value.instanceId else {
+            return nil
+        }
+        return "/api-data/data-integration/instance/\(instanceId.urlPercentEncoding())/data-integration-events"
+    }
+}
+
+/// The request parameters for SendDataIntegrationEvent.
+public struct SendDataIntegrationEventInput: Swift.Equatable {
+    /// The idempotent client token.
+    public var clientToken: Swift.String?
+    /// The data payload of the event.
+    /// This member is required.
+    public var data: Swift.String?
+    /// Event identifier (for example, orderId for InboundOrder) used for data sharing or partitioning.
+    /// This member is required.
+    public var eventGroupId: Swift.String?
+    /// The event timestamp (in epoch seconds).
+    public var eventTimestamp: ClientRuntime.Date?
+    /// The data event type.
+    /// This member is required.
+    public var eventType: SupplyChainClientTypes.DataIntegrationEventType?
+    /// The AWS Supply Chain instance identifier.
+    /// This member is required.
+    public var instanceId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        data: Swift.String? = nil,
+        eventGroupId: Swift.String? = nil,
+        eventTimestamp: ClientRuntime.Date? = nil,
+        eventType: SupplyChainClientTypes.DataIntegrationEventType? = nil,
+        instanceId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.data = data
+        self.eventGroupId = eventGroupId
+        self.eventTimestamp = eventTimestamp
+        self.eventType = eventType
+        self.instanceId = instanceId
+    }
+}
+
+struct SendDataIntegrationEventInputBody: Swift.Equatable {
+    let eventType: SupplyChainClientTypes.DataIntegrationEventType?
+    let data: Swift.String?
+    let eventGroupId: Swift.String?
+    let eventTimestamp: ClientRuntime.Date?
+    let clientToken: Swift.String?
+}
+
+extension SendDataIntegrationEventInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken
+        case data
+        case eventGroupId
+        case eventTimestamp
+        case eventType
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventTypeDecoded = try containerValues.decodeIfPresent(SupplyChainClientTypes.DataIntegrationEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let dataDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .data)
+        data = dataDecoded
+        let eventGroupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventGroupId)
+        eventGroupId = eventGroupIdDecoded
+        let eventTimestampDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .eventTimestamp)
+        eventTimestamp = eventTimestampDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension SendDataIntegrationEventOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: SendDataIntegrationEventOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventId = output.eventId
+        } else {
+            self.eventId = nil
+        }
+    }
+}
+
+/// The response parameters for SendDataIntegrationEvent.
+public struct SendDataIntegrationEventOutput: Swift.Equatable {
+    /// The unique event identifier.
+    /// This member is required.
+    public var eventId: Swift.String?
+
+    public init(
+        eventId: Swift.String? = nil
+    )
+    {
+        self.eventId = eventId
+    }
+}
+
+struct SendDataIntegrationEventOutputBody: Swift.Equatable {
+    let eventId: Swift.String?
+}
+
+extension SendDataIntegrationEventOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventId
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
+        eventId = eventIdDecoded
+    }
+}
+
+enum SendDataIntegrationEventOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        let serviceError = try await SupplyChainClientTypes.makeServiceError(httpResponse, decoder, restJSONError, requestID)
+        if let error = serviceError { return error }
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ServiceQuotaExceededException": return try await ServiceQuotaExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 

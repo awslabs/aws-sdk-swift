@@ -1065,7 +1065,11 @@ public struct CreateScheduledActionInput: Swift.Equatable {
     /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
     /// This member is required.
     public var roleArn: Swift.String?
-    /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
+    /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
+    ///
+    /// * Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
+    ///
+    /// * Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
     /// This member is required.
     public var schedule: RedshiftServerlessClientTypes.Schedule?
     /// The description of the scheduled action.
@@ -7545,9 +7549,9 @@ extension RedshiftServerlessClientTypes.Schedule: Swift.Codable {
 extension RedshiftServerlessClientTypes {
     /// The schedule of when Amazon Redshift Serverless should run the scheduled action.
     public enum Schedule: Swift.Equatable {
-        /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)".
+        /// The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
         case at(ClientRuntime.Date)
-        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
+        /// The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC. Format of cron expressions is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
         case cron(Swift.String)
         case sdkUnknown(Swift.String)
     }
@@ -7656,7 +7660,11 @@ extension RedshiftServerlessClientTypes {
         public var nextInvocations: [ClientRuntime.Date]?
         /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots. (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
         public var roleArn: Swift.String?
-        /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
+        /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
+        ///
+        /// * Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
+        ///
+        /// * Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
         public var schedule: RedshiftServerlessClientTypes.Schedule?
         /// The description of the scheduled action.
         public var scheduledActionDescription: Swift.String?
@@ -9355,7 +9363,11 @@ public struct UpdateScheduledActionInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The ARN of the IAM role to assume to run the scheduled action. This IAM role must have permission to run the Amazon Redshift Serverless API operation in the scheduled action. This IAM role must allow the Amazon Redshift scheduler to schedule creating snapshots (Principal scheduler.redshift.amazonaws.com) to assume permissions on your behalf. For more information about the IAM role to use with the Amazon Redshift scheduler, see [Using Identity-Based Policies for Amazon Redshift](https://docs.aws.amazon.com/redshift/latest/mgmt/redshift-iam-access-control-identity-based.html) in the Amazon Redshift Cluster Management Guide
     public var roleArn: Swift.String?
-    /// The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Format of at expressions is "at(yyyy-mm-ddThh:mm:ss)". For example, "at(2016-03-04T17:27:00)". Format of cron expressions is "cron(Minutes Hours Day-of-month Month Day-of-week Year)". For example, "cron(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
+    /// The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.
+    ///
+    /// * Format of at timestamp is yyyy-mm-ddThh:mm:ss. For example, 2016-03-04T17:27:00.
+    ///
+    /// * Format of cron expression is (Minutes Hours Day-of-month Month Day-of-week Year). For example, "(0 10 ? * MON *)". For more information, see [Cron Expressions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions) in the Amazon CloudWatch Events User Guide.
     public var schedule: RedshiftServerlessClientTypes.Schedule?
     /// The descripion of the scheduled action to update to.
     public var scheduledActionDescription: Swift.String?

@@ -99,7 +99,7 @@ extension IoTFleetHubClientTypes.ApplicationSummary: Swift.Codable {
 }
 
 extension IoTFleetHubClientTypes {
-    /// A summary of information about a AWS IoT Device Management web application. Fleet Hub for AWS IoT Device Management is in public preview and is subject to change.
+    /// A summary of information about a Fleet Hub for IoT Device Management web application.
     public struct ApplicationSummary: Swift.Equatable {
         /// The date (in Unix epoch time) when the web application was created.
         public var applicationCreationDate: Swift.Int
@@ -243,7 +243,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     public var applicationName: Swift.String?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
-    /// The ARN of the role that the web application assumes when it interacts with AWS IoT Core. The name of the role must be in the form AWSIotFleetHub_random_string .
+    /// The ARN of the role that the web application assumes when it interacts with Amazon Web Services IoT Core. The name of the role must be in the form AWSIotFleetHub_random_string .
     /// This member is required.
     public var roleArn: Swift.String?
     /// A set of key/value pairs that you can use to manage the web application resource.
@@ -534,9 +534,9 @@ public struct DescribeApplicationOutput: Swift.Equatable {
     /// The URL of the web application.
     /// This member is required.
     public var applicationUrl: Swift.String?
-    /// A message indicating why the DescribeApplication API failed.
+    /// A message that explains any failures included in the applicationState response field. This message explains failures in the CreateApplication and DeleteApplication actions.
     public var errorMessage: Swift.String?
-    /// The ARN of the role that the web application assumes when it interacts with AWS IoT Core.
+    /// The ARN of the role that the web application assumes when it interacts with Amazon Web Services IoT Core.
     /// This member is required.
     public var roleArn: Swift.String?
     /// The Id of the single sign-on client that you use to authenticate and authorize users on the web application.

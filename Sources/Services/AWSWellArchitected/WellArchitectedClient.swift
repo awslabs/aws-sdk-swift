@@ -1468,6 +1468,56 @@ extension WellArchitectedClient {
         return result
     }
 
+    /// Performs the `GetGlobalSettings` operation on the `WellArchitectedApiServiceLambda` service.
+    ///
+    /// Global settings for all workloads.
+    ///
+    /// - Parameter GetGlobalSettingsInput : [no documentation found]
+    ///
+    /// - Returns: `GetGlobalSettingsOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func getGlobalSettings(input: GetGlobalSettingsInput) async throws -> GetGlobalSettingsOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .get)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "getGlobalSettings")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<GetGlobalSettingsInput, GetGlobalSettingsOutput>(id: "getGlobalSettings")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>(GetGlobalSettingsInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<GetGlobalSettingsInput, GetGlobalSettingsOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<GetGlobalSettingsOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<GetGlobalSettingsOutput>())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, GetGlobalSettingsOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<GetGlobalSettingsOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<GetGlobalSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(GetGlobalSettingsOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<GetGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
     /// Performs the `GetLens` operation on the `WellArchitectedApiServiceLambda` service.
     ///
     /// Get an existing lens.
@@ -2253,7 +2303,7 @@ extension WellArchitectedClient {
 
     /// Performs the `ListLensReviewImprovements` operation on the `WellArchitectedApiServiceLambda` service.
     ///
-    /// List lens review improvements.
+    /// List the improvements of a particular lens review.
     ///
     /// - Parameter ListLensReviewImprovementsInput : Input to list lens review improvements.
     ///
@@ -3235,7 +3285,7 @@ extension WellArchitectedClient {
 
     /// Performs the `UpdateGlobalSettings` operation on the `WellArchitectedApiServiceLambda` service.
     ///
-    /// Updates whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
+    /// Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
     ///
     /// - Parameter UpdateGlobalSettingsInput : [no documentation found]
     ///
@@ -3283,6 +3333,62 @@ extension WellArchitectedClient {
         operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateGlobalSettingsOutput>())
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateGlobalSettingsOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateGlobalSettingsOutputError.self, decoder: decoder)))
         operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateGlobalSettingsOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
+    /// Performs the `UpdateIntegration` operation on the `WellArchitectedApiServiceLambda` service.
+    ///
+    /// Update integration features.
+    ///
+    /// - Parameter UpdateIntegrationInput : [no documentation found]
+    ///
+    /// - Returns: `UpdateIntegrationOutput` : [no documentation found]
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : User does not have sufficient access to perform this action.
+    /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
+    /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
+    /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The user input is not valid.
+    public func updateIntegration(input: UpdateIntegrationInput) async throws -> UpdateIntegrationOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "updateIntegration")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "wellarchitected")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<UpdateIntegrationInput, UpdateIntegrationOutput>(id: "updateIntegration")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>(keyPath: \.clientRequestToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>(UpdateIntegrationInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<UpdateIntegrationOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<UpdateIntegrationOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<UpdateIntegrationInput, UpdateIntegrationOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, UpdateIntegrationOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<UpdateIntegrationOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<UpdateIntegrationOutput>(responseClosure(decoder: decoder), responseErrorClosure(UpdateIntegrationOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<UpdateIntegrationOutput>(clientLogMode: config.clientLogMode))
         let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
         return result
     }
@@ -3742,6 +3848,7 @@ extension WellArchitectedClient {
     /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     public func upgradeLensReview(input: UpgradeLensReviewInput) async throws -> UpgradeLensReviewOutput {
@@ -3797,6 +3904,7 @@ extension WellArchitectedClient {
     /// - `ConflictException` : The resource has already been processed, was deleted, or is too large.
     /// - `InternalServerException` : There is a problem with the Well-Architected Tool API service.
     /// - `ResourceNotFoundException` : The requested resource was not found.
+    /// - `ServiceQuotaExceededException` : The user has reached their resource quota.
     /// - `ThrottlingException` : Request was denied due to request throttling.
     /// - `ValidationException` : The user input is not valid.
     public func upgradeProfileVersion(input: UpgradeProfileVersionInput) async throws -> UpgradeProfileVersionOutput {

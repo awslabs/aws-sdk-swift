@@ -1072,7 +1072,7 @@ extension ServiceDiscoveryClient {
 
     /// Performs the `ListServices` operation on the `Route53AutoNaming_v20170314` service.
     ///
-    /// Lists summary information for all the services that are associated with one or more specified namespaces.
+    /// Lists summary information for all the services that are associated with one or more namespaces.
     ///
     /// - Parameter ListServicesInput : [no documentation found]
     ///

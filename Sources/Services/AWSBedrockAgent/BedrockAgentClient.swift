@@ -154,7 +154,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -202,9 +202,9 @@ extension BedrockAgentClient {
     ///
     /// * Specify the following fields for security purposes.
     ///
-    /// * agentResourceRoleArn – The ARN of the role with permissions to create an agent.
+    /// * agentResourceRoleArn – The Amazon Resource Name (ARN) of the role with permissions to invoke API operations on an agent.
     ///
-    /// * (Optional) customerEncryptionKeyArn – The ARN of a KMS key to encrypt the creation of the agent.
+    /// * (Optional) customerEncryptionKeyArn – The Amazon Resource Name (ARN) of a KMS key to encrypt the creation of the agent.
     ///
     /// * (Optional) idleSessionTTLinSeconds – Specify the number of seconds for which the agent should maintain session information. After this time expires, the subsequent InvokeAgent request begins a new session.
     ///
@@ -281,7 +281,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -338,7 +338,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -395,7 +395,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -444,7 +444,7 @@ extension BedrockAgentClient {
     ///
     /// * Provide the name and an optional description.
     ///
-    /// * Provide the ARN with permissions to create a knowledge base in the roleArn field.
+    /// * Provide the Amazon Resource Name (ARN) with permissions to create a knowledge base in the roleArn field.
     ///
     /// * Provide the embedding model to use in the embeddingModelArn field in the knowledgeBaseConfiguration object.
     ///
@@ -524,7 +524,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgent(input: DeleteAgentInput) async throws -> DeleteAgentOutput {
@@ -577,7 +577,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentActionGroup(input: DeleteAgentActionGroupInput) async throws -> DeleteAgentActionGroupOutput {
@@ -629,7 +629,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentAlias(input: DeleteAgentAliasInput) async throws -> DeleteAgentAliasOutput {
@@ -681,7 +681,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteAgentVersion(input: DeleteAgentVersionInput) async throws -> DeleteAgentVersionOutput {
@@ -734,7 +734,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteDataSource(input: DeleteDataSourceInput) async throws -> DeleteDataSourceOutput {
@@ -786,7 +786,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func deleteKnowledgeBase(input: DeleteKnowledgeBaseInput) async throws -> DeleteKnowledgeBaseOutput {
@@ -838,7 +838,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func disassociateAgentKnowledgeBase(input: DisassociateAgentKnowledgeBaseInput) async throws -> DisassociateAgentKnowledgeBaseOutput {
@@ -889,7 +889,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgent(input: GetAgentInput) async throws -> GetAgentOutput {
@@ -940,7 +940,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentActionGroup(input: GetAgentActionGroupInput) async throws -> GetAgentActionGroupOutput {
@@ -991,7 +991,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentAlias(input: GetAgentAliasInput) async throws -> GetAgentAliasOutput {
@@ -1042,7 +1042,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentKnowledgeBase(input: GetAgentKnowledgeBaseInput) async throws -> GetAgentKnowledgeBaseOutput {
@@ -1093,7 +1093,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getAgentVersion(input: GetAgentVersionInput) async throws -> GetAgentVersionOutput {
@@ -1144,7 +1144,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getDataSource(input: GetDataSourceInput) async throws -> GetDataSourceOutput {
@@ -1195,7 +1195,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getIngestionJob(input: GetIngestionJobInput) async throws -> GetIngestionJobOutput {
@@ -1246,7 +1246,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func getKnowledgeBase(input: GetKnowledgeBaseInput) async throws -> GetKnowledgeBaseOutput {
@@ -1297,7 +1297,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentActionGroups(input: ListAgentActionGroupsInput) async throws -> ListAgentActionGroupsOutput {
@@ -1351,7 +1351,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentAliases(input: ListAgentAliasesInput) async throws -> ListAgentAliasesOutput {
@@ -1405,7 +1405,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentKnowledgeBases(input: ListAgentKnowledgeBasesInput) async throws -> ListAgentKnowledgeBasesOutput {
@@ -1459,7 +1459,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listAgentVersions(input: ListAgentVersionsInput) async throws -> ListAgentVersionsOutput {
@@ -1566,7 +1566,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listDataSources(input: ListDataSourcesInput) async throws -> ListDataSourcesOutput {
@@ -1620,7 +1620,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listIngestionJobs(input: ListIngestionJobsInput) async throws -> ListIngestionJobsOutput {
@@ -1727,7 +1727,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func listTagsForResource(input: ListTagsForResourceInput) async throws -> ListTagsForResourceOutput {
@@ -1779,7 +1779,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -1832,7 +1832,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -1888,7 +1888,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -1943,7 +1943,7 @@ extension BedrockAgentClient {
     /// __Possible Exceptions:__
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func untagResource(input: UntagResourceInput) async throws -> UntagResourceOutput {
@@ -1996,7 +1996,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -2052,7 +2052,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -2108,7 +2108,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -2164,7 +2164,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateAgentKnowledgeBase(input: UpdateAgentKnowledgeBaseInput) async throws -> UpdateAgentKnowledgeBaseOutput {
@@ -2219,7 +2219,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateDataSource(input: UpdateDataSourceInput) async throws -> UpdateDataSourceOutput {
@@ -2283,7 +2283,7 @@ extension BedrockAgentClient {
     /// - `AccessDeniedException` : The request is denied because of missing access permissions.
     /// - `ConflictException` : There was a conflict performing an operation.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
     public func updateKnowledgeBase(input: UpdateKnowledgeBaseInput) async throws -> UpdateKnowledgeBaseOutput {

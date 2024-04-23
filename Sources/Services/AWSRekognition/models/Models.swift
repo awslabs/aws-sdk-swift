@@ -1732,6 +1732,7 @@ extension RekognitionClientTypes {
 
 extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case contentTypes = "ContentTypes"
         case durationMillis = "DurationMillis"
         case endTimestampMillis = "EndTimestampMillis"
         case moderationLabel = "ModerationLabel"
@@ -1741,6 +1742,12 @@ extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let contentTypes = contentTypes {
+            var contentTypesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .contentTypes)
+            for contenttype0 in contentTypes {
+                try contentTypesContainer.encode(contenttype0)
+            }
+        }
         if let durationMillis = self.durationMillis {
             try encodeContainer.encode(durationMillis, forKey: .durationMillis)
         }
@@ -1770,12 +1777,25 @@ extension RekognitionClientTypes.ContentModerationDetection: Swift.Codable {
         endTimestampMillis = endTimestampMillisDecoded
         let durationMillisDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationMillis)
         durationMillis = durationMillisDecoded
+        let contentTypesContainer = try containerValues.decodeIfPresent([RekognitionClientTypes.ContentType?].self, forKey: .contentTypes)
+        var contentTypesDecoded0:[RekognitionClientTypes.ContentType]? = nil
+        if let contentTypesContainer = contentTypesContainer {
+            contentTypesDecoded0 = [RekognitionClientTypes.ContentType]()
+            for structure0 in contentTypesContainer {
+                if let structure0 = structure0 {
+                    contentTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        contentTypes = contentTypesDecoded0
     }
 }
 
 extension RekognitionClientTypes {
     /// Information about an inappropriate, unwanted, or offensive content label detection in a stored video.
     public struct ContentModerationDetection: Swift.Equatable {
+        /// A list of predicted results for the type of content an image contains. For example, the image content might be from animation, sports, or a video game.
+        public var contentTypes: [RekognitionClientTypes.ContentType]?
         /// The time duration of a segment in milliseconds, I.e. time elapsed from StartTimestampMillis to EndTimestampMillis.
         public var durationMillis: Swift.Int?
         /// The time in milliseconds defining the end of the timeline segment containing a continuously detected moderation label.
@@ -1788,6 +1808,7 @@ extension RekognitionClientTypes {
         public var timestamp: Swift.Int
 
         public init(
+            contentTypes: [RekognitionClientTypes.ContentType]? = nil,
             durationMillis: Swift.Int? = nil,
             endTimestampMillis: Swift.Int? = nil,
             moderationLabel: RekognitionClientTypes.ModerationLabel? = nil,
@@ -1795,6 +1816,7 @@ extension RekognitionClientTypes {
             timestamp: Swift.Int = 0
         )
         {
+            self.contentTypes = contentTypes
             self.durationMillis = durationMillis
             self.endTimestampMillis = endTimestampMillis
             self.moderationLabel = moderationLabel
@@ -2502,7 +2524,7 @@ extension CreateFaceLivenessSessionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct CreateFaceLivenessSessionOutput: Swift.Equatable {
-    /// A unique 128-bit UUID identifying a Face Liveness session.
+    /// A unique 128-bit UUID identifying a Face Liveness session. A new sessionID must be used for every Face Liveness check. If a given sessionID is used for subsequent Face Liveness checks, the checks will fail. Additionally, a SessionId expires 3 minutes after it's sent, making all Liveness data associated with the session (e.g., sessionID, reference image, audit images, etc.) unavailable.
     /// This member is required.
     public var sessionId: Swift.String?
 

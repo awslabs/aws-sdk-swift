@@ -535,6 +535,7 @@ extension M2ClientTypes {
         case dispatch
         case failed
         case holding
+        case purged
         case running
         case submitting
         case succeeded
@@ -548,6 +549,7 @@ extension M2ClientTypes {
                 .dispatch,
                 .failed,
                 .holding,
+                .purged,
                 .running,
                 .submitting,
                 .succeeded,
@@ -566,6 +568,7 @@ extension M2ClientTypes {
             case .dispatch: return "Dispatching"
             case .failed: return "Failed"
             case .holding: return "Holding"
+            case .purged: return "Purged"
             case .running: return "Running"
             case .submitting: return "Submitting"
             case .succeeded: return "Succeeded"
@@ -713,6 +716,7 @@ extension M2ClientTypes {
 extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case filebatchjobidentifier = "fileBatchJobIdentifier"
+        case restartbatchjobidentifier = "restartBatchJobIdentifier"
         case s3batchjobidentifier = "s3BatchJobIdentifier"
         case scriptbatchjobidentifier = "scriptBatchJobIdentifier"
         case sdkUnknown
@@ -723,6 +727,8 @@ extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
         switch self {
             case let .filebatchjobidentifier(filebatchjobidentifier):
                 try container.encode(filebatchjobidentifier, forKey: .filebatchjobidentifier)
+            case let .restartbatchjobidentifier(restartbatchjobidentifier):
+                try container.encode(restartbatchjobidentifier, forKey: .restartbatchjobidentifier)
             case let .s3batchjobidentifier(s3batchjobidentifier):
                 try container.encode(s3batchjobidentifier, forKey: .s3batchjobidentifier)
             case let .scriptbatchjobidentifier(scriptbatchjobidentifier):
@@ -749,6 +755,11 @@ extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
             self = .s3batchjobidentifier(s3batchjobidentifier)
             return
         }
+        let restartbatchjobidentifierDecoded = try values.decodeIfPresent(M2ClientTypes.RestartBatchJobIdentifier.self, forKey: .restartbatchjobidentifier)
+        if let restartbatchjobidentifier = restartbatchjobidentifierDecoded {
+            self = .restartbatchjobidentifier(restartbatchjobidentifier)
+            return
+        }
         self = .sdkUnknown("")
     }
 }
@@ -762,6 +773,8 @@ extension M2ClientTypes {
         case scriptbatchjobidentifier(M2ClientTypes.ScriptBatchJobIdentifier)
         /// Specifies an Amazon S3 location that identifies the batch jobs that you want to run. Use this identifier to run ad hoc batch jobs.
         case s3batchjobidentifier(M2ClientTypes.S3BatchJobIdentifier)
+        /// Specifies the required information for restart, including execution ID and jobsteprestartmarker.
+        case restartbatchjobidentifier(M2ClientTypes.RestartBatchJobIdentifier)
         case sdkUnknown(Swift.String)
     }
 
@@ -3904,6 +3917,7 @@ extension GetBatchJobExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.executionId = output.executionId
             self.jobId = output.jobId
             self.jobName = output.jobName
+            self.jobStepRestartMarker = output.jobStepRestartMarker
             self.jobType = output.jobType
             self.jobUser = output.jobUser
             self.returnCode = output.returnCode
@@ -3917,6 +3931,7 @@ extension GetBatchJobExecutionOutput: ClientRuntime.HttpResponseBinding {
             self.executionId = nil
             self.jobId = nil
             self.jobName = nil
+            self.jobStepRestartMarker = nil
             self.jobType = nil
             self.jobUser = nil
             self.returnCode = nil
@@ -3942,6 +3957,8 @@ public struct GetBatchJobExecutionOutput: Swift.Equatable {
     public var jobId: Swift.String?
     /// The name of this batch job.
     public var jobName: Swift.String?
+    /// The restart steps information for the most recent restart operation.
+    public var jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker?
     /// The type of job.
     public var jobType: M2ClientTypes.BatchJobType?
     /// The user for the job.
@@ -3964,6 +3981,7 @@ public struct GetBatchJobExecutionOutput: Swift.Equatable {
         executionId: Swift.String? = nil,
         jobId: Swift.String? = nil,
         jobName: Swift.String? = nil,
+        jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker? = nil,
         jobType: M2ClientTypes.BatchJobType? = nil,
         jobUser: Swift.String? = nil,
         returnCode: Swift.String? = nil,
@@ -3978,6 +3996,7 @@ public struct GetBatchJobExecutionOutput: Swift.Equatable {
         self.executionId = executionId
         self.jobId = jobId
         self.jobName = jobName
+        self.jobStepRestartMarker = jobStepRestartMarker
         self.jobType = jobType
         self.jobUser = jobUser
         self.returnCode = returnCode
@@ -4000,6 +4019,7 @@ struct GetBatchJobExecutionOutputBody: Swift.Equatable {
     let statusReason: Swift.String?
     let returnCode: Swift.String?
     let batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
+    let jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker?
 }
 
 extension GetBatchJobExecutionOutputBody: Swift.Decodable {
@@ -4010,6 +4030,7 @@ extension GetBatchJobExecutionOutputBody: Swift.Decodable {
         case executionId
         case jobId
         case jobName
+        case jobStepRestartMarker
         case jobType
         case jobUser
         case returnCode
@@ -4044,6 +4065,8 @@ extension GetBatchJobExecutionOutputBody: Swift.Decodable {
         returnCode = returnCodeDecoded
         let batchJobIdentifierDecoded = try containerValues.decodeIfPresent(M2ClientTypes.BatchJobIdentifier.self, forKey: .batchJobIdentifier)
         batchJobIdentifier = batchJobIdentifierDecoded
+        let jobStepRestartMarkerDecoded = try containerValues.decodeIfPresent(M2ClientTypes.JobStepRestartMarker.self, forKey: .jobStepRestartMarker)
+        jobStepRestartMarker = jobStepRestartMarkerDecoded
     }
 }
 
@@ -5086,6 +5109,157 @@ extension M2ClientTypes {
 
 }
 
+extension M2ClientTypes.JobStep: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case procStepName
+        case procStepNumber
+        case stepCondCode
+        case stepName
+        case stepNumber
+        case stepRestartable
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let procStepName = self.procStepName {
+            try encodeContainer.encode(procStepName, forKey: .procStepName)
+        }
+        if procStepNumber != 0 {
+            try encodeContainer.encode(procStepNumber, forKey: .procStepNumber)
+        }
+        if let stepCondCode = self.stepCondCode {
+            try encodeContainer.encode(stepCondCode, forKey: .stepCondCode)
+        }
+        if let stepName = self.stepName {
+            try encodeContainer.encode(stepName, forKey: .stepName)
+        }
+        if stepNumber != 0 {
+            try encodeContainer.encode(stepNumber, forKey: .stepNumber)
+        }
+        if stepRestartable != false {
+            try encodeContainer.encode(stepRestartable, forKey: .stepRestartable)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let stepNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .stepNumber) ?? 0
+        stepNumber = stepNumberDecoded
+        let stepNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepName)
+        stepName = stepNameDecoded
+        let procStepNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .procStepNumber) ?? 0
+        procStepNumber = procStepNumberDecoded
+        let procStepNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .procStepName)
+        procStepName = procStepNameDecoded
+        let stepCondCodeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stepCondCode)
+        stepCondCode = stepCondCodeDecoded
+        let stepRestartableDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .stepRestartable) ?? false
+        stepRestartable = stepRestartableDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// Provides information related to a job step.
+    public struct JobStep: Swift.Equatable {
+        /// The name of a procedure step.
+        public var procStepName: Swift.String?
+        /// The number of a procedure step.
+        public var procStepNumber: Swift.Int
+        /// The condition code of a step.
+        public var stepCondCode: Swift.String?
+        /// The name of a step.
+        public var stepName: Swift.String?
+        /// The number of a step.
+        public var stepNumber: Swift.Int
+        /// Specifies if a step can be restarted or not.
+        public var stepRestartable: Swift.Bool
+
+        public init(
+            procStepName: Swift.String? = nil,
+            procStepNumber: Swift.Int = 0,
+            stepCondCode: Swift.String? = nil,
+            stepName: Swift.String? = nil,
+            stepNumber: Swift.Int = 0,
+            stepRestartable: Swift.Bool = false
+        )
+        {
+            self.procStepName = procStepName
+            self.procStepNumber = procStepNumber
+            self.stepCondCode = stepCondCode
+            self.stepName = stepName
+            self.stepNumber = stepNumber
+            self.stepRestartable = stepRestartable
+        }
+    }
+
+}
+
+extension M2ClientTypes.JobStepRestartMarker: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case fromProcStep
+        case fromStep
+        case toProcStep
+        case toStep
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let fromProcStep = self.fromProcStep {
+            try encodeContainer.encode(fromProcStep, forKey: .fromProcStep)
+        }
+        if let fromStep = self.fromStep {
+            try encodeContainer.encode(fromStep, forKey: .fromStep)
+        }
+        if let toProcStep = self.toProcStep {
+            try encodeContainer.encode(toProcStep, forKey: .toProcStep)
+        }
+        if let toStep = self.toStep {
+            try encodeContainer.encode(toStep, forKey: .toStep)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let fromStepDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromStep)
+        fromStep = fromStepDecoded
+        let fromProcStepDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fromProcStep)
+        fromProcStep = fromProcStepDecoded
+        let toStepDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toStep)
+        toStep = toStepDecoded
+        let toProcStepDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .toProcStep)
+        toProcStep = toProcStepDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// Provides restart step information for the most recent restart operation.
+    public struct JobStepRestartMarker: Swift.Equatable {
+        /// The procedure step name that a job was restarted from.
+        public var fromProcStep: Swift.String?
+        /// The step name that a batch job restart was from.
+        /// This member is required.
+        public var fromStep: Swift.String?
+        /// The procedure step name that a batch job was restarted to.
+        public var toProcStep: Swift.String?
+        /// The step name that a job was restarted to.
+        public var toStep: Swift.String?
+
+        public init(
+            fromProcStep: Swift.String? = nil,
+            fromStep: Swift.String? = nil,
+            toProcStep: Swift.String? = nil,
+            toStep: Swift.String? = nil
+        )
+        {
+            self.fromProcStep = fromProcStep
+            self.fromStep = fromStep
+            self.toProcStep = toProcStep
+            self.toStep = toStep
+        }
+    }
+
+}
+
 extension ListApplicationVersionsInput {
 
     static func queryItemProvider(_ value: ListApplicationVersionsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -5660,6 +5834,111 @@ enum ListBatchJobExecutionsOutputError: ClientRuntime.HttpResponseErrorBinding {
         let requestID = httpResponse.requestId
         switch restJSONError.errorType {
             case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListBatchJobRestartPointsInput {
+
+    static func urlPathProvider(_ value: ListBatchJobRestartPointsInput) -> Swift.String? {
+        guard let applicationId = value.applicationId else {
+            return nil
+        }
+        guard let executionId = value.executionId else {
+            return nil
+        }
+        return "/applications/\(applicationId.urlPercentEncoding())/batch-job-executions/\(executionId.urlPercentEncoding())/steps"
+    }
+}
+
+public struct ListBatchJobRestartPointsInput: Swift.Equatable {
+    /// The unique identifier of the application.
+    /// This member is required.
+    public var applicationId: Swift.String?
+    /// The unique identifier of each batch job execution.
+    /// This member is required.
+    public var executionId: Swift.String?
+
+    public init(
+        applicationId: Swift.String? = nil,
+        executionId: Swift.String? = nil
+    )
+    {
+        self.applicationId = applicationId
+        self.executionId = executionId
+    }
+}
+
+struct ListBatchJobRestartPointsInputBody: Swift.Equatable {
+}
+
+extension ListBatchJobRestartPointsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListBatchJobRestartPointsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListBatchJobRestartPointsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.batchJobSteps = output.batchJobSteps
+        } else {
+            self.batchJobSteps = nil
+        }
+    }
+}
+
+public struct ListBatchJobRestartPointsOutput: Swift.Equatable {
+    /// Returns all the batch job steps and related information for a batch job that previously ran.
+    public var batchJobSteps: [M2ClientTypes.JobStep]?
+
+    public init(
+        batchJobSteps: [M2ClientTypes.JobStep]? = nil
+    )
+    {
+        self.batchJobSteps = batchJobSteps
+    }
+}
+
+struct ListBatchJobRestartPointsOutputBody: Swift.Equatable {
+    let batchJobSteps: [M2ClientTypes.JobStep]?
+}
+
+extension ListBatchJobRestartPointsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case batchJobSteps
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let batchJobStepsContainer = try containerValues.decodeIfPresent([M2ClientTypes.JobStep?].self, forKey: .batchJobSteps)
+        var batchJobStepsDecoded0:[M2ClientTypes.JobStep]? = nil
+        if let batchJobStepsContainer = batchJobStepsContainer {
+            batchJobStepsDecoded0 = [M2ClientTypes.JobStep]()
+            for structure0 in batchJobStepsContainer {
+                if let structure0 = structure0 {
+                    batchJobStepsDecoded0?.append(structure0)
+                }
+            }
+        }
+        batchJobSteps = batchJobStepsDecoded0
+    }
+}
+
+enum ListBatchJobRestartPointsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -6976,6 +7255,53 @@ extension ResourceNotFoundExceptionBody: Swift.Decodable {
     }
 }
 
+extension M2ClientTypes.RestartBatchJobIdentifier: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case executionId
+        case jobStepRestartMarker
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let executionId = self.executionId {
+            try encodeContainer.encode(executionId, forKey: .executionId)
+        }
+        if let jobStepRestartMarker = self.jobStepRestartMarker {
+            try encodeContainer.encode(jobStepRestartMarker, forKey: .jobStepRestartMarker)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let executionIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .executionId)
+        executionId = executionIdDecoded
+        let jobStepRestartMarkerDecoded = try containerValues.decodeIfPresent(M2ClientTypes.JobStepRestartMarker.self, forKey: .jobStepRestartMarker)
+        jobStepRestartMarker = jobStepRestartMarkerDecoded
+    }
+}
+
+extension M2ClientTypes {
+    /// An identifier for the StartBatchJob API to show that it is a restart operation.
+    public struct RestartBatchJobIdentifier: Swift.Equatable {
+        /// The executionId from the StartBatchJob response when the job ran for the first time.
+        /// This member is required.
+        public var executionId: Swift.String?
+        /// The restart step information for the most recent restart operation.
+        /// This member is required.
+        public var jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker?
+
+        public init(
+            executionId: Swift.String? = nil,
+            jobStepRestartMarker: M2ClientTypes.JobStepRestartMarker? = nil
+        )
+        {
+            self.executionId = executionId
+            self.jobStepRestartMarker = jobStepRestartMarker
+        }
+    }
+
+}
+
 extension M2ClientTypes.S3BatchJobIdentifier: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case bucket
@@ -8287,17 +8613,21 @@ extension M2ClientTypes {
 extension M2ClientTypes {
     public enum ValidationExceptionReason: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cannotParse
+        case featureNotAvailable
         case fieldValidationFailed
         case other
         case unknownOperation
+        case unsupportedEngineVersion
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ValidationExceptionReason] {
             return [
                 .cannotParse,
+                .featureNotAvailable,
                 .fieldValidationFailed,
                 .other,
                 .unknownOperation,
+                .unsupportedEngineVersion,
                 .sdkUnknown("")
             ]
         }
@@ -8308,9 +8638,11 @@ extension M2ClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .cannotParse: return "cannotParse"
+            case .featureNotAvailable: return "featureNotAvailable"
             case .fieldValidationFailed: return "fieldValidationFailed"
             case .other: return "other"
             case .unknownOperation: return "unknownOperation"
+            case .unsupportedEngineVersion: return "unsupportedEngineVersion"
             case let .sdkUnknown(s): return s
             }
         }

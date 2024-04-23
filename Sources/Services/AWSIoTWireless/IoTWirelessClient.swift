@@ -970,7 +970,14 @@ extension IoTWirelessClient {
 
     /// Performs the `CreateWirelessGateway` operation on the `iotwireless` service.
     ///
-    /// Provisions a wireless gateway.
+    /// Provisions a wireless gateway. When provisioning a wireless gateway, you might run into duplication errors for the following reasons.
+    ///
+    /// * If you specify a GatewayEui value that already exists.
+    ///
+    /// * If you used a ClientRequestToken with the same parameters within the last 10 minutes.
+    ///
+    ///
+    /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
     /// - Parameter CreateWirelessGatewayInput : [no documentation found]
     ///
@@ -1602,7 +1609,14 @@ extension IoTWirelessClient {
 
     /// Performs the `DeleteWirelessGateway` operation on the `iotwireless` service.
     ///
-    /// Deletes a wireless gateway.
+    /// Deletes a wireless gateway. When deleting a wireless gateway, you might run into duplication errors for the following reasons.
+    ///
+    /// * If you specify a GatewayEui value that already exists.
+    ///
+    /// * If you used a ClientRequestToken with the same parameters within the last 10 minutes.
+    ///
+    ///
+    /// To avoid this error, make sure that you use unique identifiers and parameters for each request within the specified time period.
     ///
     /// - Parameter DeleteWirelessGatewayInput : [no documentation found]
     ///
@@ -2419,7 +2433,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetMetricConfiguration` operation on the `iotwireless` service.
     ///
-    /// Get the metric configuration status for this account.
+    /// Get the metric configuration status for this AWS account.
     ///
     /// - Parameter GetMetricConfigurationInput : [no documentation found]
     ///
@@ -2471,7 +2485,7 @@ extension IoTWirelessClient {
 
     /// Performs the `GetMetrics` operation on the `iotwireless` service.
     ///
-    /// Get metrics.
+    /// Get the summary metrics for this AWS account.
     ///
     /// - Parameter GetMetricsInput : [no documentation found]
     ///
@@ -5512,7 +5526,7 @@ extension IoTWirelessClient {
 
     /// Performs the `UpdateMetricConfiguration` operation on the `iotwireless` service.
     ///
-    /// Update the metric configuration.
+    /// Update the summary metric configuration.
     ///
     /// - Parameter UpdateMetricConfigurationInput : [no documentation found]
     ///

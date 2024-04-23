@@ -158,6 +158,7 @@ extension CloudWatchClientTypes.AnomalyDetector: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
         case dimensions = "Dimensions"
+        case metricCharacteristics = "MetricCharacteristics"
         case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
         case metricName = "MetricName"
         case namespace = "Namespace"
@@ -182,6 +183,9 @@ extension CloudWatchClientTypes.AnomalyDetector: Swift.Encodable {
                 var dimensionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Dimensions"))
                 try dimensionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let metricCharacteristics = metricCharacteristics {
+            try container.encode(metricCharacteristics, forKey: ClientRuntime.Key("MetricCharacteristics"))
         }
         if let metricMathAnomalyDetector = metricMathAnomalyDetector {
             try container.encode(metricMathAnomalyDetector, forKey: ClientRuntime.Key("MetricMathAnomalyDetector"))
@@ -213,6 +217,7 @@ extension CloudWatchClientTypes.AnomalyDetector: Swift.Encodable {
             value.stat = try reader["Stat"].readIfPresent()
             value.configuration = try reader["Configuration"].readIfPresent(readingClosure: CloudWatchClientTypes.AnomalyDetectorConfiguration.readingClosure)
             value.stateValue = try reader["StateValue"].readIfPresent()
+            value.metricCharacteristics = try reader["MetricCharacteristics"].readIfPresent(readingClosure: CloudWatchClientTypes.MetricCharacteristics.readingClosure)
             value.singleMetricAnomalyDetector = try reader["SingleMetricAnomalyDetector"].readIfPresent(readingClosure: CloudWatchClientTypes.SingleMetricAnomalyDetector.readingClosure)
             value.metricMathAnomalyDetector = try reader["MetricMathAnomalyDetector"].readIfPresent(readingClosure: CloudWatchClientTypes.MetricMathAnomalyDetector.readingClosure)
             return value
@@ -228,6 +233,8 @@ extension CloudWatchClientTypes {
         /// The metric dimensions associated with the anomaly detection model.
         @available(*, deprecated, message: "Use SingleMetricAnomalyDetector.Dimensions property.")
         public var dimensions: [CloudWatchClientTypes.Dimension]?
+        /// This object includes parameters that you can use to provide information about your metric to CloudWatch to help it build more accurate anomaly detection models. Currently, it includes the PeriodicSpikes parameter.
+        public var metricCharacteristics: CloudWatchClientTypes.MetricCharacteristics?
         /// The CloudWatch metric math expression for this anomaly detector.
         public var metricMathAnomalyDetector: CloudWatchClientTypes.MetricMathAnomalyDetector?
         /// The name of the metric associated with the anomaly detection model.
@@ -241,12 +248,13 @@ extension CloudWatchClientTypes {
         /// The statistic associated with the anomaly detection model.
         @available(*, deprecated, message: "Use SingleMetricAnomalyDetector.Stat property.")
         public var stat: Swift.String?
-        /// The current status of the anomaly detector's training. The possible values are TRAINED | PENDING_TRAINING | TRAINED_INSUFFICIENT_DATA
+        /// The current status of the anomaly detector's training.
         public var stateValue: CloudWatchClientTypes.AnomalyDetectorStateValue?
 
         public init(
             configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration? = nil,
             dimensions: [CloudWatchClientTypes.Dimension]? = nil,
+            metricCharacteristics: CloudWatchClientTypes.MetricCharacteristics? = nil,
             metricMathAnomalyDetector: CloudWatchClientTypes.MetricMathAnomalyDetector? = nil,
             metricName: Swift.String? = nil,
             namespace: Swift.String? = nil,
@@ -257,6 +265,7 @@ extension CloudWatchClientTypes {
         {
             self.configuration = configuration
             self.dimensions = dimensions
+            self.metricCharacteristics = metricCharacteristics
             self.metricMathAnomalyDetector = metricMathAnomalyDetector
             self.metricName = metricName
             self.namespace = namespace
@@ -5206,6 +5215,44 @@ extension CloudWatchClientTypes {
 
 }
 
+extension CloudWatchClientTypes.MetricCharacteristics: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case periodicSpikes = "PeriodicSpikes"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var container = encoder.container(keyedBy: ClientRuntime.Key.self)
+        if let periodicSpikes = periodicSpikes {
+            try container.encode(periodicSpikes, forKey: ClientRuntime.Key("PeriodicSpikes"))
+        }
+    }
+
+    static var readingClosure: SmithyReadWrite.ReadingClosure<CloudWatchClientTypes.MetricCharacteristics, SmithyXML.Reader> {
+        return { reader in
+            guard reader.content != nil else { return nil }
+            var value = CloudWatchClientTypes.MetricCharacteristics()
+            value.periodicSpikes = try reader["PeriodicSpikes"].readIfPresent()
+            return value
+        }
+    }
+}
+
+extension CloudWatchClientTypes {
+    /// This object includes parameters that you can use to provide information to CloudWatch to help it build more accurate anomaly detection models.
+    public struct MetricCharacteristics: Swift.Equatable {
+        /// Set this parameter to true if values for this metric consistently include spikes that should not be considered to be anomalies. With this set to true, CloudWatch will expect to see spikes that occurred consistently during the model training period, and won't flag future similar spikes as anomalies.
+        public var periodicSpikes: Swift.Bool?
+
+        public init(
+            periodicSpikes: Swift.Bool? = nil
+        )
+        {
+            self.periodicSpikes = periodicSpikes
+        }
+    }
+
+}
+
 extension CloudWatchClientTypes.MetricDataQuery: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case accountId = "AccountId"
@@ -6073,6 +6120,7 @@ extension PutAnomalyDetectorInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case configuration = "Configuration"
         case dimensions = "Dimensions"
+        case metricCharacteristics = "MetricCharacteristics"
         case metricMathAnomalyDetector = "MetricMathAnomalyDetector"
         case metricName = "MetricName"
         case namespace = "Namespace"
@@ -6096,6 +6144,9 @@ extension PutAnomalyDetectorInput: Swift.Encodable {
                 var dimensionsContainer = container.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: ClientRuntime.Key("Dimensions"))
                 try dimensionsContainer.encode("", forKey: ClientRuntime.Key(""))
             }
+        }
+        if let metricCharacteristics = metricCharacteristics {
+            try container.encode(metricCharacteristics, forKey: ClientRuntime.Key("MetricCharacteristics"))
         }
         if let metricMathAnomalyDetector = metricMathAnomalyDetector {
             try container.encode(metricMathAnomalyDetector, forKey: ClientRuntime.Key("MetricMathAnomalyDetector"))
@@ -6130,6 +6181,8 @@ public struct PutAnomalyDetectorInput: Swift.Equatable {
     /// The metric dimensions to create the anomaly detection model for.
     @available(*, deprecated, message: "Use SingleMetricAnomalyDetector.")
     public var dimensions: [CloudWatchClientTypes.Dimension]?
+    /// Use this object to include parameters to provide information about your metric to CloudWatch to help it build more accurate anomaly detection models. Currently, it includes the PeriodicSpikes parameter.
+    public var metricCharacteristics: CloudWatchClientTypes.MetricCharacteristics?
     /// The metric math anomaly detector to be created. When using MetricMathAnomalyDetector, you cannot include the following parameters in the same operation:
     ///
     /// * Dimensions
@@ -6173,6 +6226,7 @@ public struct PutAnomalyDetectorInput: Swift.Equatable {
     public init(
         configuration: CloudWatchClientTypes.AnomalyDetectorConfiguration? = nil,
         dimensions: [CloudWatchClientTypes.Dimension]? = nil,
+        metricCharacteristics: CloudWatchClientTypes.MetricCharacteristics? = nil,
         metricMathAnomalyDetector: CloudWatchClientTypes.MetricMathAnomalyDetector? = nil,
         metricName: Swift.String? = nil,
         namespace: Swift.String? = nil,
@@ -6182,6 +6236,7 @@ public struct PutAnomalyDetectorInput: Swift.Equatable {
     {
         self.configuration = configuration
         self.dimensions = dimensions
+        self.metricCharacteristics = metricCharacteristics
         self.metricMathAnomalyDetector = metricMathAnomalyDetector
         self.metricName = metricName
         self.namespace = namespace

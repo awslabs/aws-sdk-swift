@@ -58,6 +58,38 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
 }
 
 extension MediaPackageV2ClientTypes {
+    public enum AdMarkerDash: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case binary
+        case xml
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AdMarkerDash] {
+            return [
+                .binary,
+                .xml,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .binary: return "BINARY"
+            case .xml: return "XML"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AdMarkerDash(rawValue: rawValue) ?? AdMarkerDash.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
     public enum AdMarkerHls: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case daterange
         case sdkUnknown(Swift.String)
@@ -933,6 +965,156 @@ enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MediaPackageV2ClientTypes.CreateDashManifestConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case drmSignaling = "DrmSignaling"
+        case filterConfiguration = "FilterConfiguration"
+        case manifestName = "ManifestName"
+        case manifestWindowSeconds = "ManifestWindowSeconds"
+        case minBufferTimeSeconds = "MinBufferTimeSeconds"
+        case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
+        case periodTriggers = "PeriodTriggers"
+        case scteDash = "ScteDash"
+        case segmentTemplateFormat = "SegmentTemplateFormat"
+        case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+        case utcTiming = "UtcTiming"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let drmSignaling = self.drmSignaling {
+            try encodeContainer.encode(drmSignaling.rawValue, forKey: .drmSignaling)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
+        }
+        if let manifestName = self.manifestName {
+            try encodeContainer.encode(manifestName, forKey: .manifestName)
+        }
+        if let manifestWindowSeconds = self.manifestWindowSeconds {
+            try encodeContainer.encode(manifestWindowSeconds, forKey: .manifestWindowSeconds)
+        }
+        if let minBufferTimeSeconds = self.minBufferTimeSeconds {
+            try encodeContainer.encode(minBufferTimeSeconds, forKey: .minBufferTimeSeconds)
+        }
+        if let minUpdatePeriodSeconds = self.minUpdatePeriodSeconds {
+            try encodeContainer.encode(minUpdatePeriodSeconds, forKey: .minUpdatePeriodSeconds)
+        }
+        if let periodTriggers = periodTriggers {
+            var periodTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .periodTriggers)
+            for dashperiodtrigger0 in periodTriggers {
+                try periodTriggersContainer.encode(dashperiodtrigger0.rawValue)
+            }
+        }
+        if let scteDash = self.scteDash {
+            try encodeContainer.encode(scteDash, forKey: .scteDash)
+        }
+        if let segmentTemplateFormat = self.segmentTemplateFormat {
+            try encodeContainer.encode(segmentTemplateFormat.rawValue, forKey: .segmentTemplateFormat)
+        }
+        if let suggestedPresentationDelaySeconds = self.suggestedPresentationDelaySeconds {
+            try encodeContainer.encode(suggestedPresentationDelaySeconds, forKey: .suggestedPresentationDelaySeconds)
+        }
+        if let utcTiming = self.utcTiming {
+            try encodeContainer.encode(utcTiming, forKey: .utcTiming)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let manifestNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .manifestName)
+        manifestName = manifestNameDecoded
+        let manifestWindowSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manifestWindowSeconds)
+        manifestWindowSeconds = manifestWindowSecondsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
+        let minUpdatePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minUpdatePeriodSeconds)
+        minUpdatePeriodSeconds = minUpdatePeriodSecondsDecoded
+        let minBufferTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minBufferTimeSeconds)
+        minBufferTimeSeconds = minBufferTimeSecondsDecoded
+        let suggestedPresentationDelaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestedPresentationDelaySeconds)
+        suggestedPresentationDelaySeconds = suggestedPresentationDelaySecondsDecoded
+        let segmentTemplateFormatDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashSegmentTemplateFormat.self, forKey: .segmentTemplateFormat)
+        segmentTemplateFormat = segmentTemplateFormatDecoded
+        let periodTriggersContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.DashPeriodTrigger?].self, forKey: .periodTriggers)
+        var periodTriggersDecoded0:[MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil
+        if let periodTriggersContainer = periodTriggersContainer {
+            periodTriggersDecoded0 = [MediaPackageV2ClientTypes.DashPeriodTrigger]()
+            for enum0 in periodTriggersContainer {
+                if let enum0 = enum0 {
+                    periodTriggersDecoded0?.append(enum0)
+                }
+            }
+        }
+        periodTriggers = periodTriggersDecoded0
+        let scteDashDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.ScteDash.self, forKey: .scteDash)
+        scteDash = scteDashDecoded
+        let drmSignalingDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashDrmSignaling.self, forKey: .drmSignaling)
+        drmSignaling = drmSignalingDecoded
+        let utcTimingDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashUtcTiming.self, forKey: .utcTiming)
+        utcTiming = utcTimingDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// Create a DASH manifest configuration.
+    public struct CreateDashManifestConfiguration: Swift.Equatable {
+        /// Determines how the DASH manifest signals the DRM content.
+        public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
+        /// A short string that's appended to the endpoint URL. The child manifest name creates a unique path to this endpoint.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The total duration (in seconds) of the manifest's content.
+        public var manifestWindowSeconds: Swift.Int?
+        /// Minimum amount of content (in seconds) that a player must keep available in the buffer.
+        public var minBufferTimeSeconds: Swift.Int?
+        /// Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest.
+        public var minUpdatePeriodSeconds: Swift.Int?
+        /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Type ADS to indicate that AWS Elemental MediaPackage must create periods in the output manifest that correspond to SCTE-35 ad markers in the input source. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see [Multi-period DASH in AWS Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/multi-period.html).
+        public var periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]?
+        /// The SCTE configuration.
+        public var scteDash: MediaPackageV2ClientTypes.ScteDash?
+        /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:
+        ///
+        /// * NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
+        public var segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat?
+        /// The amount of time (in seconds) that the player should be from the end of the manifest.
+        public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
+        public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
+
+        public init(
+            drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
+            manifestName: Swift.String? = nil,
+            manifestWindowSeconds: Swift.Int? = nil,
+            minBufferTimeSeconds: Swift.Int? = nil,
+            minUpdatePeriodSeconds: Swift.Int? = nil,
+            periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil,
+            scteDash: MediaPackageV2ClientTypes.ScteDash? = nil,
+            segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
+            suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
+        )
+        {
+            self.drmSignaling = drmSignaling
+            self.filterConfiguration = filterConfiguration
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.periodTriggers = periodTriggers
+            self.scteDash = scteDash
+            self.segmentTemplateFormat = segmentTemplateFormat
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.utcTiming = utcTiming
+        }
+    }
+
+}
+
 extension MediaPackageV2ClientTypes.CreateHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
@@ -1108,6 +1290,7 @@ extension MediaPackageV2ClientTypes {
 extension CreateOriginEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerType = "ContainerType"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -1121,6 +1304,12 @@ extension CreateOriginEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerType = self.containerType {
             try encodeContainer.encode(containerType.rawValue, forKey: .containerType)
+        }
+        if let dashManifests = dashManifests {
+            var dashManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashManifests)
+            for createdashmanifestconfiguration0 in dashManifests {
+                try dashManifestsContainer.encode(createdashmanifestconfiguration0)
+            }
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -1191,6 +1380,8 @@ public struct CreateOriginEndpointInput: Swift.Equatable {
     /// The type of container to attach to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file. You can't change the container type after you create the endpoint.
     /// This member is required.
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
+    /// A DASH manifest configuration.
+    public var dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]?
     /// Enter any descriptive text that helps you to identify the origin endpoint.
     public var description: Swift.String?
     /// An HTTP live streaming (HLS) manifest configuration.
@@ -1213,6 +1404,7 @@ public struct CreateOriginEndpointInput: Swift.Equatable {
         channelName: Swift.String? = nil,
         clientToken: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
+        dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
         lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]? = nil,
@@ -1226,6 +1418,7 @@ public struct CreateOriginEndpointInput: Swift.Equatable {
         self.channelName = channelName
         self.clientToken = clientToken
         self.containerType = containerType
+        self.dashManifests = dashManifests
         self.description = description
         self.hlsManifests = hlsManifests
         self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -1244,12 +1437,14 @@ struct CreateOriginEndpointInputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]?
+    let dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]?
     let tags: [Swift.String:Swift.String]?
 }
 
 extension CreateOriginEndpointInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerType = "ContainerType"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -1293,6 +1488,17 @@ extension CreateOriginEndpointInputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.CreateDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
         var tagsDecoded0: [Swift.String:Swift.String]? = nil
         if let tagsContainer = tagsContainer {
@@ -1317,6 +1523,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.containerType = output.containerType
             self.createdAt = output.createdAt
+            self.dashManifests = output.dashManifests
             self.description = output.description
             self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
@@ -1332,6 +1539,7 @@ extension CreateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.containerType = nil
             self.createdAt = nil
+            self.dashManifests = nil
             self.description = nil
             self.eTag = nil
             self.hlsManifests = nil
@@ -1361,6 +1569,8 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
     /// The date and time the origin endpoint was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
+    /// A DASH manifest configuration.
+    public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description for your origin endpoint.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -1389,6 +1599,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
+        dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
@@ -1405,6 +1616,7 @@ public struct CreateOriginEndpointOutput: Swift.Equatable {
         self.channelName = channelName
         self.containerType = containerType
         self.createdAt = createdAt
+        self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
         self.hlsManifests = hlsManifests
@@ -1430,6 +1642,7 @@ struct CreateOriginEndpointOutputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
+    let dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1441,6 +1654,7 @@ extension CreateOriginEndpointOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case eTag = "ETag"
         case hlsManifests = "HlsManifests"
@@ -1496,6 +1710,17 @@ extension CreateOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.GetDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.GetDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
         let eTagDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eTag)
         eTag = eTagDecoded
         let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
@@ -1525,6 +1750,191 @@ enum CreateOriginEndpointOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    public enum DashDrmSignaling: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case individual
+        case referenced
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashDrmSignaling] {
+            return [
+                .individual,
+                .referenced,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .individual: return "INDIVIDUAL"
+            case .referenced: return "REFERENCED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashDrmSignaling(rawValue: rawValue) ?? DashDrmSignaling.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    public enum DashPeriodTrigger: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case avails
+        case drmKeyRotation
+        case `none`
+        case sourceChanges
+        case sourceDisruptions
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashPeriodTrigger] {
+            return [
+                .avails,
+                .drmKeyRotation,
+                .none,
+                .sourceChanges,
+                .sourceDisruptions,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .avails: return "AVAILS"
+            case .drmKeyRotation: return "DRM_KEY_ROTATION"
+            case .none: return "NONE"
+            case .sourceChanges: return "SOURCE_CHANGES"
+            case .sourceDisruptions: return "SOURCE_DISRUPTIONS"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashPeriodTrigger(rawValue: rawValue) ?? DashPeriodTrigger.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    public enum DashSegmentTemplateFormat: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case numberWithTimeline
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashSegmentTemplateFormat] {
+            return [
+                .numberWithTimeline,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .numberWithTimeline: return "NUMBER_WITH_TIMELINE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashSegmentTemplateFormat(rawValue: rawValue) ?? DashSegmentTemplateFormat.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaPackageV2ClientTypes.DashUtcTiming: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case timingMode = "TimingMode"
+        case timingSource = "TimingSource"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let timingMode = self.timingMode {
+            try encodeContainer.encode(timingMode.rawValue, forKey: .timingMode)
+        }
+        if let timingSource = self.timingSource {
+            try encodeContainer.encode(timingSource, forKey: .timingSource)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let timingModeDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashUtcTimingMode.self, forKey: .timingMode)
+        timingMode = timingModeDecoded
+        let timingSourceDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .timingSource)
+        timingSource = timingSourceDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
+    public struct DashUtcTiming: Swift.Equatable {
+        /// The UTC timing mode.
+        public var timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode?
+        /// The the method that the player uses to synchronize to coordinated universal time (UTC) wall clock time.
+        public var timingSource: Swift.String?
+
+        public init(
+            timingMode: MediaPackageV2ClientTypes.DashUtcTimingMode? = nil,
+            timingSource: Swift.String? = nil
+        )
+        {
+            self.timingMode = timingMode
+            self.timingSource = timingSource
+        }
+    }
+
+}
+
+extension MediaPackageV2ClientTypes {
+    public enum DashUtcTimingMode: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case httpHead
+        case httpIso
+        case httpXsdate
+        case utcDirect
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DashUtcTimingMode] {
+            return [
+                .httpHead,
+                .httpIso,
+                .httpXsdate,
+                .utcDirect,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .httpHead: return "HTTP_HEAD"
+            case .httpIso: return "HTTP_ISO"
+            case .httpXsdate: return "HTTP_XSDATE"
+            case .utcDirect: return "UTC_DIRECT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DashUtcTimingMode(rawValue: rawValue) ?? DashUtcTimingMode.sdkUnknown(rawValue)
         }
     }
 }
@@ -2640,6 +3050,167 @@ enum GetChannelPolicyOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MediaPackageV2ClientTypes.GetDashManifestConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case drmSignaling = "DrmSignaling"
+        case filterConfiguration = "FilterConfiguration"
+        case manifestName = "ManifestName"
+        case manifestWindowSeconds = "ManifestWindowSeconds"
+        case minBufferTimeSeconds = "MinBufferTimeSeconds"
+        case minUpdatePeriodSeconds = "MinUpdatePeriodSeconds"
+        case periodTriggers = "PeriodTriggers"
+        case scteDash = "ScteDash"
+        case segmentTemplateFormat = "SegmentTemplateFormat"
+        case suggestedPresentationDelaySeconds = "SuggestedPresentationDelaySeconds"
+        case url = "Url"
+        case utcTiming = "UtcTiming"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let drmSignaling = self.drmSignaling {
+            try encodeContainer.encode(drmSignaling.rawValue, forKey: .drmSignaling)
+        }
+        if let filterConfiguration = self.filterConfiguration {
+            try encodeContainer.encode(filterConfiguration, forKey: .filterConfiguration)
+        }
+        if let manifestName = self.manifestName {
+            try encodeContainer.encode(manifestName, forKey: .manifestName)
+        }
+        if let manifestWindowSeconds = self.manifestWindowSeconds {
+            try encodeContainer.encode(manifestWindowSeconds, forKey: .manifestWindowSeconds)
+        }
+        if let minBufferTimeSeconds = self.minBufferTimeSeconds {
+            try encodeContainer.encode(minBufferTimeSeconds, forKey: .minBufferTimeSeconds)
+        }
+        if let minUpdatePeriodSeconds = self.minUpdatePeriodSeconds {
+            try encodeContainer.encode(minUpdatePeriodSeconds, forKey: .minUpdatePeriodSeconds)
+        }
+        if let periodTriggers = periodTriggers {
+            var periodTriggersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .periodTriggers)
+            for dashperiodtrigger0 in periodTriggers {
+                try periodTriggersContainer.encode(dashperiodtrigger0.rawValue)
+            }
+        }
+        if let scteDash = self.scteDash {
+            try encodeContainer.encode(scteDash, forKey: .scteDash)
+        }
+        if let segmentTemplateFormat = self.segmentTemplateFormat {
+            try encodeContainer.encode(segmentTemplateFormat.rawValue, forKey: .segmentTemplateFormat)
+        }
+        if let suggestedPresentationDelaySeconds = self.suggestedPresentationDelaySeconds {
+            try encodeContainer.encode(suggestedPresentationDelaySeconds, forKey: .suggestedPresentationDelaySeconds)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+        if let utcTiming = self.utcTiming {
+            try encodeContainer.encode(utcTiming, forKey: .utcTiming)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let manifestNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .manifestName)
+        manifestName = manifestNameDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+        let manifestWindowSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .manifestWindowSeconds)
+        manifestWindowSeconds = manifestWindowSecondsDecoded
+        let filterConfigurationDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.FilterConfiguration.self, forKey: .filterConfiguration)
+        filterConfiguration = filterConfigurationDecoded
+        let minUpdatePeriodSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minUpdatePeriodSeconds)
+        minUpdatePeriodSeconds = minUpdatePeriodSecondsDecoded
+        let minBufferTimeSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .minBufferTimeSeconds)
+        minBufferTimeSeconds = minBufferTimeSecondsDecoded
+        let suggestedPresentationDelaySecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .suggestedPresentationDelaySeconds)
+        suggestedPresentationDelaySeconds = suggestedPresentationDelaySecondsDecoded
+        let segmentTemplateFormatDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashSegmentTemplateFormat.self, forKey: .segmentTemplateFormat)
+        segmentTemplateFormat = segmentTemplateFormatDecoded
+        let periodTriggersContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.DashPeriodTrigger?].self, forKey: .periodTriggers)
+        var periodTriggersDecoded0:[MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil
+        if let periodTriggersContainer = periodTriggersContainer {
+            periodTriggersDecoded0 = [MediaPackageV2ClientTypes.DashPeriodTrigger]()
+            for enum0 in periodTriggersContainer {
+                if let enum0 = enum0 {
+                    periodTriggersDecoded0?.append(enum0)
+                }
+            }
+        }
+        periodTriggers = periodTriggersDecoded0
+        let scteDashDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.ScteDash.self, forKey: .scteDash)
+        scteDash = scteDashDecoded
+        let drmSignalingDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashDrmSignaling.self, forKey: .drmSignaling)
+        drmSignaling = drmSignalingDecoded
+        let utcTimingDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.DashUtcTiming.self, forKey: .utcTiming)
+        utcTiming = utcTimingDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// Retrieve the DASH manifest configuration.
+    public struct GetDashManifestConfiguration: Swift.Equatable {
+        /// Determines how the DASH manifest signals the DRM content.
+        public var drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling?
+        /// Filter configuration includes settings for manifest filtering, start and end times, and time delay that apply to all of your egress requests for this manifest.
+        public var filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration?
+        /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The total duration (in seconds) of the manifest's content.
+        public var manifestWindowSeconds: Swift.Int?
+        /// Minimum amount of content (in seconds) that a player must keep available in the buffer.
+        public var minBufferTimeSeconds: Swift.Int?
+        /// Minimum amount of time (in seconds) that the player should wait before requesting updates to the manifest.
+        public var minUpdatePeriodSeconds: Swift.Int?
+        /// A list of triggers that controls when AWS Elemental MediaPackage separates the MPEG-DASH manifest into multiple periods. Leave this value empty to indicate that the manifest is contained all in one period. For more information about periods in the DASH manifest, see [Multi-period DASH in AWS Elemental MediaPackage](https://docs.aws.amazon.com/mediapackage/latest/userguide/multi-period.html).
+        public var periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]?
+        /// The SCTE configuration.
+        public var scteDash: MediaPackageV2ClientTypes.ScteDash?
+        /// Determines the type of variable used in the media URL of the SegmentTemplate tag in the manifest. Also specifies if segment timeline information is included in SegmentTimeline or SegmentTemplate. Value description:
+        ///
+        /// * NUMBER_WITH_TIMELINE - The $Number$ variable is used in the media URL. The value of this variable is the sequential number of the segment. A full SegmentTimeline object is presented in each SegmentTemplate.
+        public var segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat?
+        /// The amount of time (in seconds) that the player should be from the end of the manifest.
+        public var suggestedPresentationDelaySeconds: Swift.Int?
+        /// The egress domain URL for stream delivery from MediaPackage.
+        /// This member is required.
+        public var url: Swift.String?
+        /// Determines the type of UTC timing included in the DASH Media Presentation Description (MPD).
+        public var utcTiming: MediaPackageV2ClientTypes.DashUtcTiming?
+
+        public init(
+            drmSignaling: MediaPackageV2ClientTypes.DashDrmSignaling? = nil,
+            filterConfiguration: MediaPackageV2ClientTypes.FilterConfiguration? = nil,
+            manifestName: Swift.String? = nil,
+            manifestWindowSeconds: Swift.Int? = nil,
+            minBufferTimeSeconds: Swift.Int? = nil,
+            minUpdatePeriodSeconds: Swift.Int? = nil,
+            periodTriggers: [MediaPackageV2ClientTypes.DashPeriodTrigger]? = nil,
+            scteDash: MediaPackageV2ClientTypes.ScteDash? = nil,
+            segmentTemplateFormat: MediaPackageV2ClientTypes.DashSegmentTemplateFormat? = nil,
+            suggestedPresentationDelaySeconds: Swift.Int? = nil,
+            url: Swift.String? = nil,
+            utcTiming: MediaPackageV2ClientTypes.DashUtcTiming? = nil
+        )
+        {
+            self.drmSignaling = drmSignaling
+            self.filterConfiguration = filterConfiguration
+            self.manifestName = manifestName
+            self.manifestWindowSeconds = manifestWindowSeconds
+            self.minBufferTimeSeconds = minBufferTimeSeconds
+            self.minUpdatePeriodSeconds = minUpdatePeriodSeconds
+            self.periodTriggers = periodTriggers
+            self.scteDash = scteDash
+            self.segmentTemplateFormat = segmentTemplateFormat
+            self.suggestedPresentationDelaySeconds = suggestedPresentationDelaySeconds
+            self.url = url
+            self.utcTiming = utcTiming
+        }
+    }
+
+}
+
 extension MediaPackageV2ClientTypes.GetHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
@@ -2892,6 +3463,7 @@ extension GetOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.containerType = output.containerType
             self.createdAt = output.createdAt
+            self.dashManifests = output.dashManifests
             self.description = output.description
             self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
@@ -2907,6 +3479,7 @@ extension GetOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.containerType = nil
             self.createdAt = nil
+            self.dashManifests = nil
             self.description = nil
             self.eTag = nil
             self.hlsManifests = nil
@@ -2936,6 +3509,8 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
     /// The date and time the origin endpoint was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
+    /// A DASH manifest configuration.
+    public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description for your origin endpoint.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -2964,6 +3539,7 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
+        dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
@@ -2980,6 +3556,7 @@ public struct GetOriginEndpointOutput: Swift.Equatable {
         self.channelName = channelName
         self.containerType = containerType
         self.createdAt = createdAt
+        self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
         self.hlsManifests = hlsManifests
@@ -3007,6 +3584,7 @@ struct GetOriginEndpointOutputBody: Swift.Equatable {
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
     let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
 }
 
 extension GetOriginEndpointOutputBody: Swift.Decodable {
@@ -3016,6 +3594,7 @@ extension GetOriginEndpointOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case eTag = "ETag"
         case hlsManifests = "HlsManifests"
@@ -3084,6 +3663,17 @@ extension GetOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.GetDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.GetDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
     }
 }
 
@@ -3590,6 +4180,52 @@ enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MediaPackageV2ClientTypes.ListDashManifestConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case manifestName = "ManifestName"
+        case url = "Url"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let manifestName = self.manifestName {
+            try encodeContainer.encode(manifestName, forKey: .manifestName)
+        }
+        if let url = self.url {
+            try encodeContainer.encode(url, forKey: .url)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let manifestNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .manifestName)
+        manifestName = manifestNameDecoded
+        let urlDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .url)
+        url = urlDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// List the DASH manifest configuration.
+    public struct ListDashManifestConfiguration: Swift.Equatable {
+        /// A short string that's appended to the endpoint URL. The manifest name creates a unique path to this endpoint. If you don't enter a value, MediaPackage uses the default manifest name, index.
+        /// This member is required.
+        public var manifestName: Swift.String?
+        /// The egress domain URL for stream delivery from MediaPackage.
+        public var url: Swift.String?
+
+        public init(
+            manifestName: Swift.String? = nil,
+            url: Swift.String? = nil
+        )
+        {
+            self.manifestName = manifestName
+            self.url = url
+        }
+    }
+
+}
+
 extension MediaPackageV2ClientTypes.ListHlsManifestConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case childManifestName = "ChildManifestName"
@@ -3941,6 +4577,7 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration: Swift.Codab
         case channelName = "ChannelName"
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -3964,6 +4601,12 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration: Swift.Codab
         }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .epochSeconds, forKey: .createdAt)
+        }
+        if let dashManifests = dashManifests {
+            var dashManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashManifests)
+            for listdashmanifestconfiguration0 in dashManifests {
+                try dashManifestsContainer.encode(listdashmanifestconfiguration0)
+            }
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -4028,6 +4671,17 @@ extension MediaPackageV2ClientTypes.OriginEndpointListConfiguration: Swift.Codab
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.ListDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.ListDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.ListDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
     }
 }
 
@@ -4048,6 +4702,8 @@ extension MediaPackageV2ClientTypes {
         public var containerType: MediaPackageV2ClientTypes.ContainerType?
         /// The date and time the origin endpoint was created.
         public var createdAt: ClientRuntime.Date?
+        /// A DASH manifest configuration.
+        public var dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]?
         /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
         public var description: Swift.String?
         /// An HTTP live streaming (HLS) manifest configuration.
@@ -4066,6 +4722,7 @@ extension MediaPackageV2ClientTypes {
             channelName: Swift.String? = nil,
             containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
             createdAt: ClientRuntime.Date? = nil,
+            dashManifests: [MediaPackageV2ClientTypes.ListDashManifestConfiguration]? = nil,
             description: Swift.String? = nil,
             hlsManifests: [MediaPackageV2ClientTypes.ListHlsManifestConfiguration]? = nil,
             lowLatencyHlsManifests: [MediaPackageV2ClientTypes.ListLowLatencyHlsManifestConfiguration]? = nil,
@@ -4078,6 +4735,7 @@ extension MediaPackageV2ClientTypes {
             self.channelName = channelName
             self.containerType = containerType
             self.createdAt = createdAt
+            self.dashManifests = dashManifests
             self.description = description
             self.hlsManifests = hlsManifests
             self.lowLatencyHlsManifests = lowLatencyHlsManifests
@@ -4517,6 +5175,45 @@ extension MediaPackageV2ClientTypes {
         )
         {
             self.scteFilter = scteFilter
+        }
+    }
+
+}
+
+extension MediaPackageV2ClientTypes.ScteDash: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case adMarkerDash = "AdMarkerDash"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let adMarkerDash = self.adMarkerDash {
+            try encodeContainer.encode(adMarkerDash.rawValue, forKey: .adMarkerDash)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let adMarkerDashDecoded = try containerValues.decodeIfPresent(MediaPackageV2ClientTypes.AdMarkerDash.self, forKey: .adMarkerDash)
+        adMarkerDash = adMarkerDashDecoded
+    }
+}
+
+extension MediaPackageV2ClientTypes {
+    /// The SCTE configuration.
+    public struct ScteDash: Swift.Equatable {
+        /// Choose how ad markers are included in the packaged content. If you include ad markers in the content stream in your upstream encoders, then you need to inform MediaPackage what to do with the ad markers in the output. Value description:
+        ///
+        /// * Binary - The SCTE-35 marker is expressed as a hex-string (Base64 string) rather than full XML.
+        ///
+        /// * XML - The SCTE marker is expressed fully in XML.
+        public var adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash?
+
+        public init(
+            adMarkerDash: MediaPackageV2ClientTypes.AdMarkerDash? = nil
+        )
+        {
+            self.adMarkerDash = adMarkerDash
         }
     }
 
@@ -5557,6 +6254,7 @@ enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
 extension UpdateOriginEndpointInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerType = "ContainerType"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -5568,6 +6266,12 @@ extension UpdateOriginEndpointInput: Swift.Encodable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let containerType = self.containerType {
             try encodeContainer.encode(containerType.rawValue, forKey: .containerType)
+        }
+        if let dashManifests = dashManifests {
+            var dashManifestsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .dashManifests)
+            for createdashmanifestconfiguration0 in dashManifests {
+                try dashManifestsContainer.encode(createdashmanifestconfiguration0)
+            }
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
@@ -5630,6 +6334,8 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
     /// The type of container attached to this origin endpoint. A container type is a file format that encapsulates one or more media streams, such as audio and video, into a single file.
     /// This member is required.
     public var containerType: MediaPackageV2ClientTypes.ContainerType?
+    /// A DASH manifest configuration.
+    public var dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]?
     /// Any descriptive information that you want to add to the origin endpoint for future identification purposes.
     public var description: Swift.String?
     /// The expected current Entity Tag (ETag) for the resource. If the specified ETag does not match the resource's current entity tag, the update request will be rejected.
@@ -5650,6 +6356,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
         channelGroupName: Swift.String? = nil,
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
+        dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]? = nil,
@@ -5662,6 +6369,7 @@ public struct UpdateOriginEndpointInput: Swift.Equatable {
         self.channelGroupName = channelGroupName
         self.channelName = channelName
         self.containerType = containerType
+        self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
         self.hlsManifests = hlsManifests
@@ -5679,11 +6387,13 @@ struct UpdateOriginEndpointInputBody: Swift.Equatable {
     let startoverWindowSeconds: Swift.Int?
     let hlsManifests: [MediaPackageV2ClientTypes.CreateHlsManifestConfiguration]?
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.CreateLowLatencyHlsManifestConfiguration]?
+    let dashManifests: [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]?
 }
 
 extension UpdateOriginEndpointInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case containerType = "ContainerType"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case hlsManifests = "HlsManifests"
         case lowLatencyHlsManifests = "LowLatencyHlsManifests"
@@ -5723,6 +6433,17 @@ extension UpdateOriginEndpointInputBody: Swift.Decodable {
             }
         }
         lowLatencyHlsManifests = lowLatencyHlsManifestsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.CreateDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.CreateDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.CreateDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
     }
 }
 
@@ -5736,6 +6457,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = output.channelName
             self.containerType = output.containerType
             self.createdAt = output.createdAt
+            self.dashManifests = output.dashManifests
             self.description = output.description
             self.eTag = output.eTag
             self.hlsManifests = output.hlsManifests
@@ -5751,6 +6473,7 @@ extension UpdateOriginEndpointOutput: ClientRuntime.HttpResponseBinding {
             self.channelName = nil
             self.containerType = nil
             self.createdAt = nil
+            self.dashManifests = nil
             self.description = nil
             self.eTag = nil
             self.hlsManifests = nil
@@ -5780,6 +6503,8 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
     /// The date and time the origin endpoint was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
+    /// A DASH manifest configuration.
+    public var dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
     /// The description of the origin endpoint.
     public var description: Swift.String?
     /// The current Entity Tag (ETag) associated with this resource. The entity tag can be used to safely make concurrent updates to the resource.
@@ -5808,6 +6533,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
         channelName: Swift.String? = nil,
         containerType: MediaPackageV2ClientTypes.ContainerType? = nil,
         createdAt: ClientRuntime.Date? = nil,
+        dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil,
         description: Swift.String? = nil,
         eTag: Swift.String? = nil,
         hlsManifests: [MediaPackageV2ClientTypes.GetHlsManifestConfiguration]? = nil,
@@ -5824,6 +6550,7 @@ public struct UpdateOriginEndpointOutput: Swift.Equatable {
         self.channelName = channelName
         self.containerType = containerType
         self.createdAt = createdAt
+        self.dashManifests = dashManifests
         self.description = description
         self.eTag = eTag
         self.hlsManifests = hlsManifests
@@ -5851,6 +6578,7 @@ struct UpdateOriginEndpointOutputBody: Swift.Equatable {
     let lowLatencyHlsManifests: [MediaPackageV2ClientTypes.GetLowLatencyHlsManifestConfiguration]?
     let eTag: Swift.String?
     let tags: [Swift.String:Swift.String]?
+    let dashManifests: [MediaPackageV2ClientTypes.GetDashManifestConfiguration]?
 }
 
 extension UpdateOriginEndpointOutputBody: Swift.Decodable {
@@ -5860,6 +6588,7 @@ extension UpdateOriginEndpointOutputBody: Swift.Decodable {
         case channelName = "ChannelName"
         case containerType = "ContainerType"
         case createdAt = "CreatedAt"
+        case dashManifests = "DashManifests"
         case description = "Description"
         case eTag = "ETag"
         case hlsManifests = "HlsManifests"
@@ -5928,6 +6657,17 @@ extension UpdateOriginEndpointOutputBody: Swift.Decodable {
             }
         }
         tags = tagsDecoded0
+        let dashManifestsContainer = try containerValues.decodeIfPresent([MediaPackageV2ClientTypes.GetDashManifestConfiguration?].self, forKey: .dashManifests)
+        var dashManifestsDecoded0:[MediaPackageV2ClientTypes.GetDashManifestConfiguration]? = nil
+        if let dashManifestsContainer = dashManifestsContainer {
+            dashManifestsDecoded0 = [MediaPackageV2ClientTypes.GetDashManifestConfiguration]()
+            for structure0 in dashManifestsContainer {
+                if let structure0 = structure0 {
+                    dashManifestsDecoded0?.append(structure0)
+                }
+            }
+        }
+        dashManifests = dashManifestsDecoded0
     }
 }
 
@@ -6017,6 +6757,8 @@ extension MediaPackageV2ClientTypes {
     public enum ValidationExceptionType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case cencIvIncompatible
         case containerTypeImmutable
+        case directModeWithTimingSource
+        case drmSignalingMismatchSegmentEncryptionStatus
         case drmSystemsEncryptionMethodIncompatible
         case encryptionContractShared
         case encryptionContractUnencrypted
@@ -6029,6 +6771,7 @@ extension MediaPackageV2ClientTypes {
         case invalidPolicy
         case invalidRoleArn
         case invalidTimeDelaySeconds
+        case manifestDrmSystemsIncompatible
         case manifestNameCollision
         case memberDoesNotMatchPattern
         case memberInvalid
@@ -6038,11 +6781,16 @@ extension MediaPackageV2ClientTypes {
         case memberMinLength
         case memberMinValue
         case memberMissing
+        case noneModeWithTimingSource
         case numManifestsHigh
         case numManifestsLow
+        case periodTriggersNoneSpecifiedWithAdditionalValues
         case roleArnInvalidFormat
         case roleArnLengthOutOfRange
         case roleArnNotAssumable
+        case timingSourceMissing
+        case tsContainerTypeWithDashManifest
+        case updatePeriodSmallerThanSegmentDuration
         case urlInvalid
         case urlLinkLocalAddress
         case urlLocalAddress
@@ -6058,6 +6806,8 @@ extension MediaPackageV2ClientTypes {
             return [
                 .cencIvIncompatible,
                 .containerTypeImmutable,
+                .directModeWithTimingSource,
+                .drmSignalingMismatchSegmentEncryptionStatus,
                 .drmSystemsEncryptionMethodIncompatible,
                 .encryptionContractShared,
                 .encryptionContractUnencrypted,
@@ -6070,6 +6820,7 @@ extension MediaPackageV2ClientTypes {
                 .invalidPolicy,
                 .invalidRoleArn,
                 .invalidTimeDelaySeconds,
+                .manifestDrmSystemsIncompatible,
                 .manifestNameCollision,
                 .memberDoesNotMatchPattern,
                 .memberInvalid,
@@ -6079,11 +6830,16 @@ extension MediaPackageV2ClientTypes {
                 .memberMinLength,
                 .memberMinValue,
                 .memberMissing,
+                .noneModeWithTimingSource,
                 .numManifestsHigh,
                 .numManifestsLow,
+                .periodTriggersNoneSpecifiedWithAdditionalValues,
                 .roleArnInvalidFormat,
                 .roleArnLengthOutOfRange,
                 .roleArnNotAssumable,
+                .timingSourceMissing,
+                .tsContainerTypeWithDashManifest,
+                .updatePeriodSmallerThanSegmentDuration,
                 .urlInvalid,
                 .urlLinkLocalAddress,
                 .urlLocalAddress,
@@ -6104,6 +6860,8 @@ extension MediaPackageV2ClientTypes {
             switch self {
             case .cencIvIncompatible: return "CENC_IV_INCOMPATIBLE"
             case .containerTypeImmutable: return "CONTAINER_TYPE_IMMUTABLE"
+            case .directModeWithTimingSource: return "DIRECT_MODE_WITH_TIMING_SOURCE"
+            case .drmSignalingMismatchSegmentEncryptionStatus: return "DRM_SIGNALING_MISMATCH_SEGMENT_ENCRYPTION_STATUS"
             case .drmSystemsEncryptionMethodIncompatible: return "DRM_SYSTEMS_ENCRYPTION_METHOD_INCOMPATIBLE"
             case .encryptionContractShared: return "ENCRYPTION_CONTRACT_SHARED"
             case .encryptionContractUnencrypted: return "ENCRYPTION_CONTRACT_UNENCRYPTED"
@@ -6116,6 +6874,7 @@ extension MediaPackageV2ClientTypes {
             case .invalidPolicy: return "INVALID_POLICY"
             case .invalidRoleArn: return "INVALID_ROLE_ARN"
             case .invalidTimeDelaySeconds: return "INVALID_TIME_DELAY_SECONDS"
+            case .manifestDrmSystemsIncompatible: return "MANIFEST_DRM_SYSTEMS_INCOMPATIBLE"
             case .manifestNameCollision: return "MANIFEST_NAME_COLLISION"
             case .memberDoesNotMatchPattern: return "MEMBER_DOES_NOT_MATCH_PATTERN"
             case .memberInvalid: return "MEMBER_INVALID"
@@ -6125,11 +6884,16 @@ extension MediaPackageV2ClientTypes {
             case .memberMinLength: return "MEMBER_MIN_LENGTH"
             case .memberMinValue: return "MEMBER_MIN_VALUE"
             case .memberMissing: return "MEMBER_MISSING"
+            case .noneModeWithTimingSource: return "NONE_MODE_WITH_TIMING_SOURCE"
             case .numManifestsHigh: return "NUM_MANIFESTS_HIGH"
             case .numManifestsLow: return "NUM_MANIFESTS_LOW"
+            case .periodTriggersNoneSpecifiedWithAdditionalValues: return "PERIOD_TRIGGERS_NONE_SPECIFIED_WITH_ADDITIONAL_VALUES"
             case .roleArnInvalidFormat: return "ROLE_ARN_INVALID_FORMAT"
             case .roleArnLengthOutOfRange: return "ROLE_ARN_LENGTH_OUT_OF_RANGE"
             case .roleArnNotAssumable: return "ROLE_ARN_NOT_ASSUMABLE"
+            case .timingSourceMissing: return "TIMING_SOURCE_MISSING"
+            case .tsContainerTypeWithDashManifest: return "TS_CONTAINER_TYPE_WITH_DASH_MANIFEST"
+            case .updatePeriodSmallerThanSegmentDuration: return "UPDATE_PERIOD_SMALLER_THAN_SEGMENT_DURATION"
             case .urlInvalid: return "URL_INVALID"
             case .urlLinkLocalAddress: return "URL_LINK_LOCAL_ADDRESS"
             case .urlLocalAddress: return "URL_LOCAL_ADDRESS"

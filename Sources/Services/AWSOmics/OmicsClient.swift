@@ -2777,7 +2777,7 @@ extension OmicsClient {
 
     /// Performs the `ListMultipartReadSetUploads` operation on the `Omics` service.
     ///
-    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the respone.
+    /// Lists multipart read set uploads and for in progress uploads. Once the upload is completed, a read set is created and the upload will no longer be returned in the response.
     ///
     /// - Parameter ListMultipartReadSetUploadsInput : [no documentation found]
     ///

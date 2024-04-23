@@ -250,4 +250,61 @@ extension SupplyChainClient {
         return result
     }
 
+    /// Performs the `SendDataIntegrationEvent` operation on the `GalaxyPublicAPIGateway` service.
+    ///
+    /// Send transactional data events with real-time data for analysis or monitoring.
+    ///
+    /// - Parameter SendDataIntegrationEventInput : The request parameters for SendDataIntegrationEvent.
+    ///
+    /// - Returns: `SendDataIntegrationEventOutput` : The response parameters for SendDataIntegrationEvent.
+    ///
+    /// - Throws: One of the exceptions listed below __Possible Exceptions__.
+    ///
+    /// __Possible Exceptions:__
+    /// - `AccessDeniedException` : You do not have the required privileges to perform this action.
+    /// - `ConflictException` : Updating or deleting a resource can cause an inconsistent state.
+    /// - `InternalServerException` : Unexpected error during processing of request.
+    /// - `ResourceNotFoundException` : Request references a resource which does not exist.
+    /// - `ServiceQuotaExceededException` : Request would cause a service quota to be exceeded.
+    /// - `ThrottlingException` : Request was denied due to request throttling.
+    /// - `ValidationException` : The input does not satisfy the constraints specified by an AWS service.
+    public func sendDataIntegrationEvent(input: SendDataIntegrationEventInput) async throws -> SendDataIntegrationEventOutput {
+        let context = ClientRuntime.HttpContextBuilder()
+                      .withEncoder(value: encoder)
+                      .withDecoder(value: decoder)
+                      .withMethod(value: .post)
+                      .withServiceName(value: serviceName)
+                      .withOperation(value: "sendDataIntegrationEvent")
+                      .withIdempotencyTokenGenerator(value: config.idempotencyTokenGenerator)
+                      .withLogger(value: config.logger)
+                      .withPartitionID(value: config.partitionID)
+                      .withAuthSchemes(value: config.authSchemes ?? [])
+                      .withAuthSchemeResolver(value: config.authSchemeResolver)
+                      .withUnsignedPayloadTrait(value: false)
+                      .withSocketTimeout(value: config.httpClientConfiguration.socketTimeout)
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4")
+                      .withIdentityResolver(value: config.awsCredentialIdentityResolver, schemeID: "aws.auth#sigv4a")
+                      .withRegion(value: config.region)
+                      .withSigningName(value: "scn")
+                      .withSigningRegion(value: config.signingRegion)
+                      .build()
+        var operation = ClientRuntime.OperationStack<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(id: "sendDataIntegrationEvent")
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.IdempotencyTokenMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(keyPath: \.clientToken))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLPathMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(SendDataIntegrationEventInput.urlPathProvider(_:)))
+        operation.initializeStep.intercept(position: .after, middleware: ClientRuntime.URLHostMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>())
+        let endpointParams = EndpointParams(endpoint: config.endpoint, region: config.region, useDualStack: config.useDualStack ?? false, useFIPS: config.useFIPS ?? false)
+        operation.buildStep.intercept(position: .before, middleware: EndpointResolverMiddleware<SendDataIntegrationEventOutput>(endpointResolver: config.endpointResolver, endpointParams: endpointParams))
+        operation.buildStep.intercept(position: .before, middleware: AWSClientRuntime.UserAgentMiddleware(metadata: AWSClientRuntime.AWSUserAgentMetadata.fromConfig(serviceID: serviceName, version: "1.0", config: config)))
+        operation.buildStep.intercept(position: .before, middleware: ClientRuntime.AuthSchemeMiddleware<SendDataIntegrationEventOutput>())
+        operation.serializeStep.intercept(position: .after, middleware: ContentTypeMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput>(contentType: "application/json"))
+        operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.BodyMiddleware<SendDataIntegrationEventInput, SendDataIntegrationEventOutput, ClientRuntime.JSONWriter>(documentWritingClosure: ClientRuntime.JSONReadWrite.documentWritingClosure(encoder: encoder), inputWritingClosure: JSONReadWrite.writingClosure()))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.ContentLengthMiddleware())
+        operation.finalizeStep.intercept(position: .after, middleware: ClientRuntime.RetryMiddleware<ClientRuntime.DefaultRetryStrategy, AWSClientRuntime.AWSRetryErrorInfoProvider, SendDataIntegrationEventOutput>(options: config.retryStrategyOptions))
+        operation.finalizeStep.intercept(position: .before, middleware: ClientRuntime.SignerMiddleware<SendDataIntegrationEventOutput>())
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.DeserializeMiddleware<SendDataIntegrationEventOutput>(responseClosure(decoder: decoder), responseErrorClosure(SendDataIntegrationEventOutputError.self, decoder: decoder)))
+        operation.deserializeStep.intercept(position: .after, middleware: ClientRuntime.LoggerMiddleware<SendDataIntegrationEventOutput>(clientLogMode: config.clientLogMode))
+        let result = try await operation.handleMiddleware(context: context, input: input, next: client.getHandler())
+        return result
+    }
+
 }

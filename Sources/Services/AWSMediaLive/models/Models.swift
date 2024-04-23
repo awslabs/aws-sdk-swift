@@ -5757,6 +5757,519 @@ enum ClaimDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension MediaLiveClientTypes {
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    public enum CloudWatchAlarmTemplateComparisonOperator: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case greaterthanorequaltothreshold
+        case greaterthanthreshold
+        case lessthanorequaltothreshold
+        case lessthanthreshold
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudWatchAlarmTemplateComparisonOperator] {
+            return [
+                .greaterthanorequaltothreshold,
+                .greaterthanthreshold,
+                .lessthanorequaltothreshold,
+                .lessthanthreshold,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .greaterthanorequaltothreshold: return "GreaterThanOrEqualToThreshold"
+            case .greaterthanthreshold: return "GreaterThanThreshold"
+            case .lessthanorequaltothreshold: return "LessThanOrEqualToThreshold"
+            case .lessthanthreshold: return "LessThanThreshold"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CloudWatchAlarmTemplateComparisonOperator(rawValue: rawValue) ?? CloudWatchAlarmTemplateComparisonOperator.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+        case templateCount = "templateCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let templateCount = self.templateCount {
+            try encodeContainer.encode(templateCount, forKey: .templateCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let templateCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .templateCount)
+        templateCount = templateCountDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for CloudWatchAlarmTemplateGroupSummary
+    public struct CloudWatchAlarmTemplateGroupSummary: Swift.Equatable {
+        /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// A resource's optional description.
+        public var description: Swift.String?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+        /// This member is required.
+        public var id: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        public var modifiedAt: ClientRuntime.Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents the tags associated with a resource.
+        public var tags: [Swift.String:Swift.String]?
+        /// The number of templates in a group.
+        /// This member is required.
+        public var templateCount: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            templateCount: Swift.Int? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+            self.templateCount = templateCount
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// The statistic to apply to the alarm's metric data.
+    public enum CloudWatchAlarmTemplateStatistic: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case average
+        case maximum
+        case minimum
+        case samplecount
+        case sum
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudWatchAlarmTemplateStatistic] {
+            return [
+                .average,
+                .maximum,
+                .minimum,
+                .samplecount,
+                .sum,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .average: return "Average"
+            case .maximum: return "Maximum"
+            case .minimum: return "Minimum"
+            case .samplecount: return "SampleCount"
+            case .sum: return "Sum"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CloudWatchAlarmTemplateStatistic(rawValue: rawValue) ?? CloudWatchAlarmTemplateStatistic.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.CloudWatchAlarmTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case comparisonOperator = "comparisonOperator"
+        case createdAt = "createdAt"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupId = "groupId"
+        case id = "id"
+        case metricName = "metricName"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let comparisonOperator = self.comparisonOperator {
+            try encodeContainer.encode(comparisonOperator.rawValue, forKey: .comparisonOperator)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let datapointsToAlarm = self.datapointsToAlarm {
+            try encodeContainer.encode(datapointsToAlarm, forKey: .datapointsToAlarm)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationPeriods = self.evaluationPeriods {
+            try encodeContainer.encode(evaluationPeriods, forKey: .evaluationPeriods)
+        }
+        if let groupId = self.groupId {
+            try encodeContainer.encode(groupId, forKey: .groupId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let period = self.period {
+            try encodeContainer.encode(period, forKey: .period)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetResourceType = self.targetResourceType {
+            try encodeContainer.encode(targetResourceType.rawValue, forKey: .targetResourceType)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+        if let treatMissingData = self.treatMissingData {
+            try encodeContainer.encode(treatMissingData.rawValue, forKey: .treatMissingData)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for CloudWatchAlarmTemplateSummary
+    public struct CloudWatchAlarmTemplateSummary: Swift.Equatable {
+        /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The comparison operator used to compare the specified statistic and the threshold.
+        /// This member is required.
+        public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+        /// Placeholder documentation for __timestampIso8601
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+        public var datapointsToAlarm: Swift.Int?
+        /// A resource's optional description.
+        public var description: Swift.String?
+        /// The number of periods over which data is compared to the specified threshold.
+        /// This member is required.
+        public var evaluationPeriods: Swift.Int?
+        /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+        /// This member is required.
+        public var groupId: Swift.String?
+        /// A cloudwatch alarm template's id. AWS provided templates have ids that start with aws-
+        /// This member is required.
+        public var id: Swift.String?
+        /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+        /// This member is required.
+        public var metricName: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        public var modifiedAt: ClientRuntime.Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// The period, in seconds, over which the specified statistic is applied.
+        /// This member is required.
+        public var period: Swift.Int?
+        /// The statistic to apply to the alarm's metric data.
+        /// This member is required.
+        public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+        /// Represents the tags associated with a resource.
+        public var tags: [Swift.String:Swift.String]?
+        /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+        /// This member is required.
+        public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+        /// The threshold value to compare with the specified statistic.
+        /// This member is required.
+        public var threshold: Swift.Double?
+        /// Specifies how missing data points are treated when evaluating the alarm's condition.
+        /// This member is required.
+        public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+        public init(
+            arn: Swift.String? = nil,
+            comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            datapointsToAlarm: Swift.Int? = nil,
+            description: Swift.String? = nil,
+            evaluationPeriods: Swift.Int? = nil,
+            groupId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            metricName: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            period: Swift.Int? = nil,
+            statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+            threshold: Swift.Double? = nil,
+            treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+        )
+        {
+            self.arn = arn
+            self.comparisonOperator = comparisonOperator
+            self.createdAt = createdAt
+            self.datapointsToAlarm = datapointsToAlarm
+            self.description = description
+            self.evaluationPeriods = evaluationPeriods
+            self.groupId = groupId
+            self.id = id
+            self.metricName = metricName
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.period = period
+            self.statistic = statistic
+            self.tags = tags
+            self.targetResourceType = targetResourceType
+            self.threshold = threshold
+            self.treatMissingData = treatMissingData
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    public enum CloudWatchAlarmTemplateTargetResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cloudfrontDistribution
+        case mediaconnectFlow
+        case medialiveChannel
+        case medialiveInputDevice
+        case medialiveMultiplex
+        case mediapackageChannel
+        case mediapackageOriginEndpoint
+        case s3Bucket
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudWatchAlarmTemplateTargetResourceType] {
+            return [
+                .cloudfrontDistribution,
+                .mediaconnectFlow,
+                .medialiveChannel,
+                .medialiveInputDevice,
+                .medialiveMultiplex,
+                .mediapackageChannel,
+                .mediapackageOriginEndpoint,
+                .s3Bucket,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cloudfrontDistribution: return "CLOUDFRONT_DISTRIBUTION"
+            case .mediaconnectFlow: return "MEDIACONNECT_FLOW"
+            case .medialiveChannel: return "MEDIALIVE_CHANNEL"
+            case .medialiveInputDevice: return "MEDIALIVE_INPUT_DEVICE"
+            case .medialiveMultiplex: return "MEDIALIVE_MULTIPLEX"
+            case .mediapackageChannel: return "MEDIAPACKAGE_CHANNEL"
+            case .mediapackageOriginEndpoint: return "MEDIAPACKAGE_ORIGIN_ENDPOINT"
+            case .s3Bucket: return "S3_BUCKET"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CloudWatchAlarmTemplateTargetResourceType(rawValue: rawValue) ?? CloudWatchAlarmTemplateTargetResourceType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    public enum CloudWatchAlarmTemplateTreatMissingData: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case breaching
+        case ignore
+        case missing
+        case notbreaching
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CloudWatchAlarmTemplateTreatMissingData] {
+            return [
+                .breaching,
+                .ignore,
+                .missing,
+                .notbreaching,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .breaching: return "breaching"
+            case .ignore: return "ignore"
+            case .missing: return "missing"
+            case .notbreaching: return "notBreaching"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CloudWatchAlarmTemplateTreatMissingData(rawValue: rawValue) ?? CloudWatchAlarmTemplateTreatMissingData.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension MediaLiveClientTypes.CmafIngestGroupSettings: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case destination = "destination"
@@ -6491,6 +7004,1172 @@ enum CreateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateGroupInput {
+
+    static func urlPathProvider(_ value: CreateCloudWatchAlarmTemplateGroupInput) -> Swift.String? {
+        return "/prod/cloudwatch-alarm-template-groups"
+    }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupRequest
+public struct CreateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCloudWatchAlarmTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateGroupResponse
+public struct CreateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+    /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateCloudWatchAlarmTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateCloudWatchAlarmTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparisonOperator = "comparisonOperator"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupIdentifier = "groupIdentifier"
+        case metricName = "metricName"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparisonOperator = self.comparisonOperator {
+            try encodeContainer.encode(comparisonOperator.rawValue, forKey: .comparisonOperator)
+        }
+        if let datapointsToAlarm = self.datapointsToAlarm {
+            try encodeContainer.encode(datapointsToAlarm, forKey: .datapointsToAlarm)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationPeriods = self.evaluationPeriods {
+            try encodeContainer.encode(evaluationPeriods, forKey: .evaluationPeriods)
+        }
+        if let groupIdentifier = self.groupIdentifier {
+            try encodeContainer.encode(groupIdentifier, forKey: .groupIdentifier)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let period = self.period {
+            try encodeContainer.encode(period, forKey: .period)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let targetResourceType = self.targetResourceType {
+            try encodeContainer.encode(targetResourceType.rawValue, forKey: .targetResourceType)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+        if let treatMissingData = self.treatMissingData {
+            try encodeContainer.encode(treatMissingData.rawValue, forKey: .treatMissingData)
+        }
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateInput {
+
+    static func urlPathProvider(_ value: CreateCloudWatchAlarmTemplateInput) -> Swift.String? {
+        return "/prod/cloudwatch-alarm-templates"
+    }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateRequest
+public struct CreateCloudWatchAlarmTemplateInput: Swift.Equatable {
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    /// This member is required.
+    public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+    public var datapointsToAlarm: Swift.Int?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// The number of periods over which data is compared to the specified threshold.
+    /// This member is required.
+    public var evaluationPeriods: Swift.Int?
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var groupIdentifier: Swift.String?
+    /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+    /// This member is required.
+    public var metricName: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// The period, in seconds, over which the specified statistic is applied.
+    /// This member is required.
+    public var period: Swift.Int?
+    /// The statistic to apply to the alarm's metric data.
+    /// This member is required.
+    public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    /// This member is required.
+    public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    /// The threshold value to compare with the specified statistic.
+    /// This member is required.
+    public var threshold: Swift.Double?
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    /// This member is required.
+    public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+    public init(
+        comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+        datapointsToAlarm: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        evaluationPeriods: Swift.Int? = nil,
+        groupIdentifier: Swift.String? = nil,
+        metricName: Swift.String? = nil,
+        name: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+    )
+    {
+        self.comparisonOperator = comparisonOperator
+        self.datapointsToAlarm = datapointsToAlarm
+        self.description = description
+        self.evaluationPeriods = evaluationPeriods
+        self.groupIdentifier = groupIdentifier
+        self.metricName = metricName
+        self.name = name
+        self.period = period
+        self.statistic = statistic
+        self.tags = tags
+        self.targetResourceType = targetResourceType
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
+}
+
+struct CreateCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+    let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    let datapointsToAlarm: Swift.Int?
+    let description: Swift.String?
+    let evaluationPeriods: Swift.Int?
+    let groupIdentifier: Swift.String?
+    let metricName: Swift.String?
+    let name: Swift.String?
+    let period: Swift.Int?
+    let statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    let tags: [Swift.String:Swift.String]?
+    let targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    let threshold: Swift.Double?
+    let treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+}
+
+extension CreateCloudWatchAlarmTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparisonOperator = "comparisonOperator"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupIdentifier = "groupIdentifier"
+        case metricName = "metricName"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupIdentifier)
+        groupIdentifier = groupIdentifierDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+extension CreateCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateCloudWatchAlarmTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.comparisonOperator = output.comparisonOperator
+            self.createdAt = output.createdAt
+            self.datapointsToAlarm = output.datapointsToAlarm
+            self.description = output.description
+            self.evaluationPeriods = output.evaluationPeriods
+            self.groupId = output.groupId
+            self.id = output.id
+            self.metricName = output.metricName
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.period = output.period
+            self.statistic = output.statistic
+            self.tags = output.tags
+            self.targetResourceType = output.targetResourceType
+            self.threshold = output.threshold
+            self.treatMissingData = output.treatMissingData
+        } else {
+            self.arn = nil
+            self.comparisonOperator = nil
+            self.createdAt = nil
+            self.datapointsToAlarm = nil
+            self.description = nil
+            self.evaluationPeriods = nil
+            self.groupId = nil
+            self.id = nil
+            self.metricName = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.period = nil
+            self.statistic = nil
+            self.tags = nil
+            self.targetResourceType = nil
+            self.threshold = nil
+            self.treatMissingData = nil
+        }
+    }
+}
+
+/// Placeholder documentation for CreateCloudWatchAlarmTemplateResponse
+public struct CreateCloudWatchAlarmTemplateOutput: Swift.Equatable {
+    /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+    public var datapointsToAlarm: Swift.Int?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// The number of periods over which data is compared to the specified threshold.
+    public var evaluationPeriods: Swift.Int?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// A cloudwatch alarm template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+    public var metricName: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// The period, in seconds, over which the specified statistic is applied.
+    public var period: Swift.Int?
+    /// The statistic to apply to the alarm's metric data.
+    public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    /// The threshold value to compare with the specified statistic.
+    public var threshold: Swift.Double?
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+    public init(
+        arn: Swift.String? = nil,
+        comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        datapointsToAlarm: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        evaluationPeriods: Swift.Int? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        metricName: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+    )
+    {
+        self.arn = arn
+        self.comparisonOperator = comparisonOperator
+        self.createdAt = createdAt
+        self.datapointsToAlarm = datapointsToAlarm
+        self.description = description
+        self.evaluationPeriods = evaluationPeriods
+        self.groupId = groupId
+        self.id = id
+        self.metricName = metricName
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.period = period
+        self.statistic = statistic
+        self.tags = tags
+        self.targetResourceType = targetResourceType
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
+}
+
+struct CreateCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    let createdAt: ClientRuntime.Date?
+    let datapointsToAlarm: Swift.Int?
+    let description: Swift.String?
+    let evaluationPeriods: Swift.Int?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let metricName: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let period: Swift.Int?
+    let statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    let tags: [Swift.String:Swift.String]?
+    let targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    let threshold: Swift.Double?
+    let treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+}
+
+extension CreateCloudWatchAlarmTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case comparisonOperator = "comparisonOperator"
+        case createdAt = "createdAt"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupId = "groupId"
+        case id = "id"
+        case metricName = "metricName"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+enum CreateCloudWatchAlarmTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateEventBridgeRuleTemplateGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateEventBridgeRuleTemplateGroupInput {
+
+    static func urlPathProvider(_ value: CreateEventBridgeRuleTemplateGroupInput) -> Swift.String? {
+        return "/prod/eventbridge-rule-template-groups"
+    }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateGroupRequest
+public struct CreateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEventBridgeRuleTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateGroupResponse
+public struct CreateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+    /// An eventbridge rule template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventBridgeRuleTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateEventBridgeRuleTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateEventBridgeRuleTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupIdentifier = "groupIdentifier"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eventTargets = eventTargets {
+            var eventTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTargets)
+            for eventbridgeruletemplatetarget0 in eventTargets {
+                try eventTargetsContainer.encode(eventbridgeruletemplatetarget0)
+            }
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let groupIdentifier = self.groupIdentifier {
+            try encodeContainer.encode(groupIdentifier, forKey: .groupIdentifier)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateEventBridgeRuleTemplateInput {
+
+    static func urlPathProvider(_ value: CreateEventBridgeRuleTemplateInput) -> Swift.String? {
+        return "/prod/eventbridge-rule-templates"
+    }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateRequest
+public struct CreateEventBridgeRuleTemplateInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
+    public var eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    /// The type of event to match with the rule.
+    /// This member is required.
+    public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var groupIdentifier: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        description: Swift.String? = nil,
+        eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil,
+        eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+        groupIdentifier: Swift.String? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.description = description
+        self.eventTargets = eventTargets
+        self.eventType = eventType
+        self.groupIdentifier = groupIdentifier
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateEventBridgeRuleTemplateInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    let groupIdentifier: Swift.String?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventBridgeRuleTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupIdentifier = "groupIdentifier"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateTarget?].self, forKey: .eventTargets)
+        var eventTargetsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil
+        if let eventTargetsContainer = eventTargetsContainer {
+            eventTargetsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]()
+            for structure0 in eventTargetsContainer {
+                if let structure0 = structure0 {
+                    eventTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventTargets = eventTargetsDecoded0
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupIdentifier)
+        groupIdentifier = groupIdentifierDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateEventBridgeRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.eventTargets = output.eventTargets
+            self.eventType = output.eventType
+            self.groupId = output.groupId
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.eventTargets = nil
+            self.eventType = nil
+            self.groupId = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for CreateEventBridgeRuleTemplateResponse
+public struct CreateEventBridgeRuleTemplateOutput: Swift.Equatable {
+    /// An eventbridge rule template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
+    public var eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    /// The type of event to match with the rule.
+    public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// An eventbridge rule template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil,
+        eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTargets = eventTargets
+        self.eventType = eventType
+        self.groupId = groupId
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateEventBridgeRuleTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupId = "groupId"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateTarget?].self, forKey: .eventTargets)
+        var eventTargetsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil
+        if let eventTargetsContainer = eventTargetsContainer {
+            eventTargetsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]()
+            for structure0 in eventTargetsContainer {
+                if let structure0 = structure0 {
+                    eventTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventTargets = eventTargetsDecoded0
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateEventBridgeRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -7401,6 +9080,425 @@ enum CreatePartnerInputOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension CreateSignalMapInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers {
+            var cloudWatchAlarmTemplateGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchAlarmTemplateGroupIdentifiers)
+            for __stringpatterns0 in cloudWatchAlarmTemplateGroupIdentifiers {
+                try cloudWatchAlarmTemplateGroupIdentifiersContainer.encode(__stringpatterns0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let discoveryEntryPointArn = self.discoveryEntryPointArn {
+            try encodeContainer.encode(discoveryEntryPointArn, forKey: .discoveryEntryPointArn)
+        }
+        if let eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers {
+            var eventBridgeRuleTemplateGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventBridgeRuleTemplateGroupIdentifiers)
+            for __stringpatterns0 in eventBridgeRuleTemplateGroupIdentifiers {
+                try eventBridgeRuleTemplateGroupIdentifiersContainer.encode(__stringpatterns0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+}
+
+extension CreateSignalMapInput {
+
+    static func urlPathProvider(_ value: CreateSignalMapInput) -> Swift.String? {
+        return "/prod/signal-maps"
+    }
+}
+
+/// Placeholder documentation for CreateSignalMapRequest
+public struct CreateSignalMapInput: Swift.Equatable {
+    /// Placeholder documentation for __listOf__stringPatternS
+    public var cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    /// This member is required.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Placeholder documentation for __listOf__stringPatternS
+    public var eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    /// This member is required.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct CreateSignalMapInputBody: Swift.Equatable {
+    let cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateSignalMapInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchAlarmTemplateGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIdentifiers)
+        var cloudWatchAlarmTemplateGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdentifiersContainer = cloudWatchAlarmTemplateGroupIdentifiersContainer {
+            cloudWatchAlarmTemplateGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let eventBridgeRuleTemplateGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIdentifiers)
+        var eventBridgeRuleTemplateGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdentifiersContainer = eventBridgeRuleTemplateGroupIdentifiersContainer {
+            eventBridgeRuleTemplateGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiersDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension CreateSignalMapOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateSignalMapOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cloudWatchAlarmTemplateGroupIds = output.cloudWatchAlarmTemplateGroupIds
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.discoveryEntryPointArn = output.discoveryEntryPointArn
+            self.errorMessage = output.errorMessage
+            self.eventBridgeRuleTemplateGroupIds = output.eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = output.failedMediaResourceMap
+            self.id = output.id
+            self.lastDiscoveredAt = output.lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = output.lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = output.mediaResourceMap
+            self.modifiedAt = output.modifiedAt
+            self.monitorChangesPendingDeployment = output.monitorChangesPendingDeployment
+            self.monitorDeployment = output.monitorDeployment
+            self.name = output.name
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.cloudWatchAlarmTemplateGroupIds = nil
+            self.createdAt = nil
+            self.description = nil
+            self.discoveryEntryPointArn = nil
+            self.errorMessage = nil
+            self.eventBridgeRuleTemplateGroupIds = nil
+            self.failedMediaResourceMap = nil
+            self.id = nil
+            self.lastDiscoveredAt = nil
+            self.lastSuccessfulMonitorDeployment = nil
+            self.mediaResourceMap = nil
+            self.modifiedAt = nil
+            self.monitorChangesPendingDeployment = nil
+            self.monitorDeployment = nil
+            self.name = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for CreateSignalMapResponse
+public struct CreateSignalMapOutput: Swift.Equatable {
+    /// A signal map's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Error message associated with a failed creation or failed update attempt of a signal map.
+    public var errorMessage: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    /// A map representing an incomplete AWS media workflow as a graph.
+    public var failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// A signal map's id.
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var lastDiscoveredAt: ClientRuntime.Date?
+    /// Represents the latest successful monitor deployment of a signal map.
+    public var lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    /// A map representing an AWS media workflow as a graph.
+    public var mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// If true, there are pending monitor changes for this signal map that can be deployed.
+    public var monitorChangesPendingDeployment: Swift.Bool?
+    /// Represents the latest monitor deployment of a signal map.
+    public var monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public var status: MediaLiveClientTypes.SignalMapStatus?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        cloudWatchAlarmTemplateGroupIds: [Swift.String]? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIds: [Swift.String]? = nil,
+        failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        id: Swift.String? = nil,
+        lastDiscoveredAt: ClientRuntime.Date? = nil,
+        lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment? = nil,
+        mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        monitorChangesPendingDeployment: Swift.Bool? = nil,
+        monitorDeployment: MediaLiveClientTypes.MonitorDeployment? = nil,
+        name: Swift.String? = nil,
+        status: MediaLiveClientTypes.SignalMapStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+        self.createdAt = createdAt
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.errorMessage = errorMessage
+        self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+        self.failedMediaResourceMap = failedMediaResourceMap
+        self.id = id
+        self.lastDiscoveredAt = lastDiscoveredAt
+        self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+        self.mediaResourceMap = mediaResourceMap
+        self.modifiedAt = modifiedAt
+        self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+        self.monitorDeployment = monitorDeployment
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct CreateSignalMapOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let errorMessage: Swift.String?
+    let eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    let failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let id: Swift.String?
+    let lastDiscoveredAt: ClientRuntime.Date?
+    let lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    let mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let modifiedAt: ClientRuntime.Date?
+    let monitorChangesPendingDeployment: Swift.Bool?
+    let monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    let name: Swift.String?
+    let status: MediaLiveClientTypes.SignalMapStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension CreateSignalMapOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+        case createdAt = "createdAt"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case errorMessage = "errorMessage"
+        case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+        case failedMediaResourceMap = "failedMediaResourceMap"
+        case id = "id"
+        case lastDiscoveredAt = "lastDiscoveredAt"
+        case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+        case mediaResourceMap = "mediaResourceMap"
+        case modifiedAt = "modifiedAt"
+        case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+        case monitorDeployment = "monitorDeployment"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cloudWatchAlarmTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIds)
+        var cloudWatchAlarmTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdsContainer = cloudWatchAlarmTemplateGroupIdsContainer {
+            cloudWatchAlarmTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIdsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let eventBridgeRuleTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIds)
+        var eventBridgeRuleTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdsContainer = eventBridgeRuleTemplateGroupIdsContainer {
+            eventBridgeRuleTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIdsDecoded0
+        let failedMediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .failedMediaResourceMap)
+        var failedMediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let failedMediaResourceMapContainer = failedMediaResourceMapContainer {
+            failedMediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in failedMediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    failedMediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        failedMediaResourceMap = failedMediaResourceMapDecoded0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastDiscoveredAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDiscoveredAt)
+        lastDiscoveredAt = lastDiscoveredAtDecoded
+        let lastSuccessfulMonitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SuccessfulMonitorDeployment.self, forKey: .lastSuccessfulMonitorDeployment)
+        lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeploymentDecoded
+        let mediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .mediaResourceMap)
+        var mediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let mediaResourceMapContainer = mediaResourceMapContainer {
+            mediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in mediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    mediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        mediaResourceMap = mediaResourceMapDecoded0
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorChangesPendingDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .monitorChangesPendingDeployment)
+        monitorChangesPendingDeployment = monitorChangesPendingDeploymentDecoded
+        let monitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MonitorDeployment.self, forKey: .monitorDeployment)
+        monitorDeployment = monitorDeploymentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum CreateSignalMapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CreateTagsInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case tags = "tags"
@@ -7913,6 +10011,242 @@ enum DeleteChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCloudWatchAlarmTemplateGroupInput {
+
+    static func urlPathProvider(_ value: DeleteCloudWatchAlarmTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for DeleteCloudWatchAlarmTemplateGroupRequest
+public struct DeleteCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+}
+
+extension DeleteCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCloudWatchAlarmTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteCloudWatchAlarmTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteCloudWatchAlarmTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for DeleteCloudWatchAlarmTemplateRequest
+public struct DeleteCloudWatchAlarmTemplateInput: Swift.Equatable {
+    /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+}
+
+extension DeleteCloudWatchAlarmTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteCloudWatchAlarmTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteCloudWatchAlarmTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteEventBridgeRuleTemplateGroupInput {
+
+    static func urlPathProvider(_ value: DeleteEventBridgeRuleTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for DeleteEventBridgeRuleTemplateGroupRequest
+public struct DeleteEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+}
+
+extension DeleteEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteEventBridgeRuleTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteEventBridgeRuleTemplateInput {
+
+    static func urlPathProvider(_ value: DeleteEventBridgeRuleTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for DeleteEventBridgeRuleTemplateRequest
+public struct DeleteEventBridgeRuleTemplateInput: Swift.Equatable {
+    /// An eventbridge rule template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteEventBridgeRuleTemplateInputBody: Swift.Equatable {
+}
+
+extension DeleteEventBridgeRuleTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteEventBridgeRuleTemplateOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteEventBridgeRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -8736,6 +11070,65 @@ enum DeleteScheduleOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension DeleteSignalMapInput {
+
+    static func urlPathProvider(_ value: DeleteSignalMapInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/signal-maps/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for DeleteSignalMapRequest
+public struct DeleteSignalMapInput: Swift.Equatable {
+    /// A signal map's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct DeleteSignalMapInputBody: Swift.Equatable {
+}
+
+extension DeleteSignalMapInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteSignalMapOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct DeleteSignalMapOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum DeleteSignalMapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
@@ -13705,6 +16098,374 @@ extension MediaLiveClientTypes {
 
 }
 
+extension MediaLiveClientTypes {
+    /// The type of event to match with the rule.
+    public enum EventBridgeRuleTemplateEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case mediaconnectAlert
+        case mediaconnectFlowStatusChange
+        case mediaconnectOutputHealth
+        case mediaconnectSourceHealth
+        case medialiveChannelAlert
+        case medialiveChannelInputChange
+        case medialiveChannelStateChange
+        case medialiveMultiplexAlert
+        case medialiveMultiplexStateChange
+        case mediapackageHarvestJobNotification
+        case mediapackageInputNotification
+        case mediapackageKeyProviderNotification
+        case signalMapActiveAlarm
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [EventBridgeRuleTemplateEventType] {
+            return [
+                .mediaconnectAlert,
+                .mediaconnectFlowStatusChange,
+                .mediaconnectOutputHealth,
+                .mediaconnectSourceHealth,
+                .medialiveChannelAlert,
+                .medialiveChannelInputChange,
+                .medialiveChannelStateChange,
+                .medialiveMultiplexAlert,
+                .medialiveMultiplexStateChange,
+                .mediapackageHarvestJobNotification,
+                .mediapackageInputNotification,
+                .mediapackageKeyProviderNotification,
+                .signalMapActiveAlarm,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .mediaconnectAlert: return "MEDIACONNECT_ALERT"
+            case .mediaconnectFlowStatusChange: return "MEDIACONNECT_FLOW_STATUS_CHANGE"
+            case .mediaconnectOutputHealth: return "MEDIACONNECT_OUTPUT_HEALTH"
+            case .mediaconnectSourceHealth: return "MEDIACONNECT_SOURCE_HEALTH"
+            case .medialiveChannelAlert: return "MEDIALIVE_CHANNEL_ALERT"
+            case .medialiveChannelInputChange: return "MEDIALIVE_CHANNEL_INPUT_CHANGE"
+            case .medialiveChannelStateChange: return "MEDIALIVE_CHANNEL_STATE_CHANGE"
+            case .medialiveMultiplexAlert: return "MEDIALIVE_MULTIPLEX_ALERT"
+            case .medialiveMultiplexStateChange: return "MEDIALIVE_MULTIPLEX_STATE_CHANGE"
+            case .mediapackageHarvestJobNotification: return "MEDIAPACKAGE_HARVEST_JOB_NOTIFICATION"
+            case .mediapackageInputNotification: return "MEDIAPACKAGE_INPUT_NOTIFICATION"
+            case .mediapackageKeyProviderNotification: return "MEDIAPACKAGE_KEY_PROVIDER_NOTIFICATION"
+            case .signalMapActiveAlarm: return "SIGNAL_MAP_ACTIVE_ALARM"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = EventBridgeRuleTemplateEventType(rawValue: rawValue) ?? EventBridgeRuleTemplateEventType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+        case templateCount = "templateCount"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+        if let templateCount = self.templateCount {
+            try encodeContainer.encode(templateCount, forKey: .templateCount)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let templateCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .templateCount)
+        templateCount = templateCountDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for EventBridgeRuleTemplateGroupSummary
+    public struct EventBridgeRuleTemplateGroupSummary: Swift.Equatable {
+        /// An eventbridge rule template group's ARN (Amazon Resource Name)
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// A resource's optional description.
+        public var description: Swift.String?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+        /// This member is required.
+        public var id: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        public var modifiedAt: ClientRuntime.Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents the tags associated with a resource.
+        public var tags: [Swift.String:Swift.String]?
+        /// The number of templates in a group.
+        /// This member is required.
+        public var templateCount: Swift.Int?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil,
+            templateCount: Swift.Int? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+            self.templateCount = templateCount
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.EventBridgeRuleTemplateSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case eventTargetCount = "eventTargetCount"
+        case eventType = "eventType"
+        case groupId = "groupId"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eventTargetCount = self.eventTargetCount {
+            try encodeContainer.encode(eventTargetCount, forKey: .eventTargetCount)
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let groupId = self.groupId {
+            try encodeContainer.encode(groupId, forKey: .groupId)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetCountDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .eventTargetCount)
+        eventTargetCount = eventTargetCountDecoded
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for EventBridgeRuleTemplateSummary
+    public struct EventBridgeRuleTemplateSummary: Swift.Equatable {
+        /// An eventbridge rule template's ARN (Amazon Resource Name)
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// A resource's optional description.
+        public var description: Swift.String?
+        /// The number of targets configured to send matching events.
+        /// This member is required.
+        public var eventTargetCount: Swift.Int?
+        /// The type of event to match with the rule.
+        /// This member is required.
+        public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+        /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+        /// This member is required.
+        public var groupId: Swift.String?
+        /// An eventbridge rule template's id. AWS provided templates have ids that start with aws-
+        /// This member is required.
+        public var id: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        public var modifiedAt: ClientRuntime.Date?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// Represents the tags associated with a resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            eventTargetCount: Swift.Int? = nil,
+            eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+            groupId: Swift.String? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            name: Swift.String? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.eventTargetCount = eventTargetCount
+            self.eventType = eventType
+            self.groupId = groupId
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.name = name
+            self.tags = tags
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.EventBridgeRuleTemplateTarget: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// The target to which to send matching events.
+    public struct EventBridgeRuleTemplateTarget: Swift.Equatable {
+        /// Target ARNs must be either an SNS topic or CloudWatch log group.
+        /// This member is required.
+        public var arn: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+        }
+    }
+
+}
+
 extension MediaLiveClientTypes.FailoverCondition: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case failoverConditionSettings = "failoverConditionSettings"
@@ -14659,6 +17420,1081 @@ extension GatewayTimeoutExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension GetCloudWatchAlarmTemplateGroupInput {
+
+    static func urlPathProvider(_ value: GetCloudWatchAlarmTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateGroupRequest
+public struct GetCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+}
+
+extension GetCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCloudWatchAlarmTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateGroupResponse
+public struct GetCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+    /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct GetCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetCloudWatchAlarmTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetCloudWatchAlarmTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetCloudWatchAlarmTemplateInput {
+
+    static func urlPathProvider(_ value: GetCloudWatchAlarmTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateRequest
+public struct GetCloudWatchAlarmTemplateInput: Swift.Equatable {
+    /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+}
+
+extension GetCloudWatchAlarmTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCloudWatchAlarmTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.comparisonOperator = output.comparisonOperator
+            self.createdAt = output.createdAt
+            self.datapointsToAlarm = output.datapointsToAlarm
+            self.description = output.description
+            self.evaluationPeriods = output.evaluationPeriods
+            self.groupId = output.groupId
+            self.id = output.id
+            self.metricName = output.metricName
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.period = output.period
+            self.statistic = output.statistic
+            self.tags = output.tags
+            self.targetResourceType = output.targetResourceType
+            self.threshold = output.threshold
+            self.treatMissingData = output.treatMissingData
+        } else {
+            self.arn = nil
+            self.comparisonOperator = nil
+            self.createdAt = nil
+            self.datapointsToAlarm = nil
+            self.description = nil
+            self.evaluationPeriods = nil
+            self.groupId = nil
+            self.id = nil
+            self.metricName = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.period = nil
+            self.statistic = nil
+            self.tags = nil
+            self.targetResourceType = nil
+            self.threshold = nil
+            self.treatMissingData = nil
+        }
+    }
+}
+
+/// Placeholder documentation for GetCloudWatchAlarmTemplateResponse
+public struct GetCloudWatchAlarmTemplateOutput: Swift.Equatable {
+    /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+    public var datapointsToAlarm: Swift.Int?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// The number of periods over which data is compared to the specified threshold.
+    public var evaluationPeriods: Swift.Int?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// A cloudwatch alarm template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+    public var metricName: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// The period, in seconds, over which the specified statistic is applied.
+    public var period: Swift.Int?
+    /// The statistic to apply to the alarm's metric data.
+    public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    /// The threshold value to compare with the specified statistic.
+    public var threshold: Swift.Double?
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+    public init(
+        arn: Swift.String? = nil,
+        comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        datapointsToAlarm: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        evaluationPeriods: Swift.Int? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        metricName: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+    )
+    {
+        self.arn = arn
+        self.comparisonOperator = comparisonOperator
+        self.createdAt = createdAt
+        self.datapointsToAlarm = datapointsToAlarm
+        self.description = description
+        self.evaluationPeriods = evaluationPeriods
+        self.groupId = groupId
+        self.id = id
+        self.metricName = metricName
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.period = period
+        self.statistic = statistic
+        self.tags = tags
+        self.targetResourceType = targetResourceType
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
+}
+
+struct GetCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    let createdAt: ClientRuntime.Date?
+    let datapointsToAlarm: Swift.Int?
+    let description: Swift.String?
+    let evaluationPeriods: Swift.Int?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let metricName: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let period: Swift.Int?
+    let statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    let tags: [Swift.String:Swift.String]?
+    let targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    let threshold: Swift.Double?
+    let treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+}
+
+extension GetCloudWatchAlarmTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case comparisonOperator = "comparisonOperator"
+        case createdAt = "createdAt"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupId = "groupId"
+        case id = "id"
+        case metricName = "metricName"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+enum GetCloudWatchAlarmTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEventBridgeRuleTemplateGroupInput {
+
+    static func urlPathProvider(_ value: GetEventBridgeRuleTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateGroupRequest
+public struct GetEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+}
+
+extension GetEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEventBridgeRuleTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateGroupResponse
+public struct GetEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+    /// An eventbridge rule template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct GetEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetEventBridgeRuleTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetEventBridgeRuleTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetEventBridgeRuleTemplateInput {
+
+    static func urlPathProvider(_ value: GetEventBridgeRuleTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateRequest
+public struct GetEventBridgeRuleTemplateInput: Swift.Equatable {
+    /// An eventbridge rule template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetEventBridgeRuleTemplateInputBody: Swift.Equatable {
+}
+
+extension GetEventBridgeRuleTemplateInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetEventBridgeRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.eventTargets = output.eventTargets
+            self.eventType = output.eventType
+            self.groupId = output.groupId
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.eventTargets = nil
+            self.eventType = nil
+            self.groupId = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for GetEventBridgeRuleTemplateResponse
+public struct GetEventBridgeRuleTemplateOutput: Swift.Equatable {
+    /// An eventbridge rule template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
+    public var eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    /// The type of event to match with the rule.
+    public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// An eventbridge rule template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil,
+        eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTargets = eventTargets
+        self.eventType = eventType
+        self.groupId = groupId
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct GetEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetEventBridgeRuleTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupId = "groupId"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateTarget?].self, forKey: .eventTargets)
+        var eventTargetsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil
+        if let eventTargetsContainer = eventTargetsContainer {
+            eventTargetsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]()
+            for structure0 in eventTargetsContainer {
+                if let structure0 = structure0 {
+                    eventTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventTargets = eventTargetsDecoded0
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetEventBridgeRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetSignalMapInput {
+
+    static func urlPathProvider(_ value: GetSignalMapInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/signal-maps/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for GetSignalMapRequest
+public struct GetSignalMapInput: Swift.Equatable {
+    /// A signal map's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct GetSignalMapInputBody: Swift.Equatable {
+}
+
+extension GetSignalMapInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetSignalMapOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetSignalMapOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cloudWatchAlarmTemplateGroupIds = output.cloudWatchAlarmTemplateGroupIds
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.discoveryEntryPointArn = output.discoveryEntryPointArn
+            self.errorMessage = output.errorMessage
+            self.eventBridgeRuleTemplateGroupIds = output.eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = output.failedMediaResourceMap
+            self.id = output.id
+            self.lastDiscoveredAt = output.lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = output.lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = output.mediaResourceMap
+            self.modifiedAt = output.modifiedAt
+            self.monitorChangesPendingDeployment = output.monitorChangesPendingDeployment
+            self.monitorDeployment = output.monitorDeployment
+            self.name = output.name
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.cloudWatchAlarmTemplateGroupIds = nil
+            self.createdAt = nil
+            self.description = nil
+            self.discoveryEntryPointArn = nil
+            self.errorMessage = nil
+            self.eventBridgeRuleTemplateGroupIds = nil
+            self.failedMediaResourceMap = nil
+            self.id = nil
+            self.lastDiscoveredAt = nil
+            self.lastSuccessfulMonitorDeployment = nil
+            self.mediaResourceMap = nil
+            self.modifiedAt = nil
+            self.monitorChangesPendingDeployment = nil
+            self.monitorDeployment = nil
+            self.name = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for GetSignalMapResponse
+public struct GetSignalMapOutput: Swift.Equatable {
+    /// A signal map's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Error message associated with a failed creation or failed update attempt of a signal map.
+    public var errorMessage: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    /// A map representing an incomplete AWS media workflow as a graph.
+    public var failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// A signal map's id.
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var lastDiscoveredAt: ClientRuntime.Date?
+    /// Represents the latest successful monitor deployment of a signal map.
+    public var lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    /// A map representing an AWS media workflow as a graph.
+    public var mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// If true, there are pending monitor changes for this signal map that can be deployed.
+    public var monitorChangesPendingDeployment: Swift.Bool?
+    /// Represents the latest monitor deployment of a signal map.
+    public var monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public var status: MediaLiveClientTypes.SignalMapStatus?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        cloudWatchAlarmTemplateGroupIds: [Swift.String]? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIds: [Swift.String]? = nil,
+        failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        id: Swift.String? = nil,
+        lastDiscoveredAt: ClientRuntime.Date? = nil,
+        lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment? = nil,
+        mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        monitorChangesPendingDeployment: Swift.Bool? = nil,
+        monitorDeployment: MediaLiveClientTypes.MonitorDeployment? = nil,
+        name: Swift.String? = nil,
+        status: MediaLiveClientTypes.SignalMapStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+        self.createdAt = createdAt
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.errorMessage = errorMessage
+        self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+        self.failedMediaResourceMap = failedMediaResourceMap
+        self.id = id
+        self.lastDiscoveredAt = lastDiscoveredAt
+        self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+        self.mediaResourceMap = mediaResourceMap
+        self.modifiedAt = modifiedAt
+        self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+        self.monitorDeployment = monitorDeployment
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct GetSignalMapOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let errorMessage: Swift.String?
+    let eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    let failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let id: Swift.String?
+    let lastDiscoveredAt: ClientRuntime.Date?
+    let lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    let mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let modifiedAt: ClientRuntime.Date?
+    let monitorChangesPendingDeployment: Swift.Bool?
+    let monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    let name: Swift.String?
+    let status: MediaLiveClientTypes.SignalMapStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension GetSignalMapOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+        case createdAt = "createdAt"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case errorMessage = "errorMessage"
+        case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+        case failedMediaResourceMap = "failedMediaResourceMap"
+        case id = "id"
+        case lastDiscoveredAt = "lastDiscoveredAt"
+        case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+        case mediaResourceMap = "mediaResourceMap"
+        case modifiedAt = "modifiedAt"
+        case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+        case monitorDeployment = "monitorDeployment"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cloudWatchAlarmTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIds)
+        var cloudWatchAlarmTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdsContainer = cloudWatchAlarmTemplateGroupIdsContainer {
+            cloudWatchAlarmTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIdsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let eventBridgeRuleTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIds)
+        var eventBridgeRuleTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdsContainer = eventBridgeRuleTemplateGroupIdsContainer {
+            eventBridgeRuleTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIdsDecoded0
+        let failedMediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .failedMediaResourceMap)
+        var failedMediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let failedMediaResourceMapContainer = failedMediaResourceMapContainer {
+            failedMediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in failedMediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    failedMediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        failedMediaResourceMap = failedMediaResourceMapDecoded0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastDiscoveredAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDiscoveredAt)
+        lastDiscoveredAt = lastDiscoveredAtDecoded
+        let lastSuccessfulMonitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SuccessfulMonitorDeployment.self, forKey: .lastSuccessfulMonitorDeployment)
+        lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeploymentDecoded
+        let mediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .mediaResourceMap)
+        var mediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let mediaResourceMapContainer = mediaResourceMapContainer {
+            mediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in mediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    mediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        mediaResourceMap = mediaResourceMapDecoded0
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorChangesPendingDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .monitorChangesPendingDeployment)
+        monitorChangesPendingDeployment = monitorChangesPendingDeploymentDecoded
+        let monitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MonitorDeployment.self, forKey: .monitorDeployment)
+        monitorDeployment = monitorDeploymentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum GetSignalMapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
     }
 }
 
@@ -23395,6 +27231,566 @@ enum ListChannelsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListCloudWatchAlarmTemplateGroupsInput {
+
+    static func queryItemProvider(_ value: ListCloudWatchAlarmTemplateGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let signalMapIdentifier = value.signalMapIdentifier {
+            let signalMapIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "signalMapIdentifier".urlPercentEncoding(), value: Swift.String(signalMapIdentifier).urlPercentEncoding())
+            items.append(signalMapIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let scope = value.scope {
+            let scopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
+            items.append(scopeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCloudWatchAlarmTemplateGroupsInput {
+
+    static func urlPathProvider(_ value: ListCloudWatchAlarmTemplateGroupsInput) -> Swift.String? {
+        return "/prod/cloudwatch-alarm-template-groups"
+    }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsRequest
+public struct ListCloudWatchAlarmTemplateGroupsInput: Swift.Equatable {
+    /// Placeholder documentation for MaxResults
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+    /// Represents the scope of a resource, with options for all scopes, AWS provided resources, or local resources.
+    public var scope: Swift.String?
+    /// A signal map's identifier. Can be either be its id or current name.
+    public var signalMapIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scope: Swift.String? = nil,
+        signalMapIdentifier: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scope = scope
+        self.signalMapIdentifier = signalMapIdentifier
+    }
+}
+
+struct ListCloudWatchAlarmTemplateGroupsInputBody: Swift.Equatable {
+}
+
+extension ListCloudWatchAlarmTemplateGroupsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCloudWatchAlarmTemplateGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCloudWatchAlarmTemplateGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cloudWatchAlarmTemplateGroups = output.cloudWatchAlarmTemplateGroups
+            self.nextToken = output.nextToken
+        } else {
+            self.cloudWatchAlarmTemplateGroups = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplateGroupsResponse
+public struct ListCloudWatchAlarmTemplateGroupsOutput: Swift.Equatable {
+    /// Placeholder documentation for __listOfCloudWatchAlarmTemplateGroupSummary
+    public var cloudWatchAlarmTemplateGroups: [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudWatchAlarmTemplateGroups: [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.cloudWatchAlarmTemplateGroups = cloudWatchAlarmTemplateGroups
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCloudWatchAlarmTemplateGroupsOutputBody: Swift.Equatable {
+    let cloudWatchAlarmTemplateGroups: [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCloudWatchAlarmTemplateGroupsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplateGroups = "cloudWatchAlarmTemplateGroups"
+        case nextToken = "nextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchAlarmTemplateGroupsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary?].self, forKey: .cloudWatchAlarmTemplateGroups)
+        var cloudWatchAlarmTemplateGroupsDecoded0:[MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]? = nil
+        if let cloudWatchAlarmTemplateGroupsContainer = cloudWatchAlarmTemplateGroupsContainer {
+            cloudWatchAlarmTemplateGroupsDecoded0 = [MediaLiveClientTypes.CloudWatchAlarmTemplateGroupSummary]()
+            for structure0 in cloudWatchAlarmTemplateGroupsContainer {
+                if let structure0 = structure0 {
+                    cloudWatchAlarmTemplateGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroups = cloudWatchAlarmTemplateGroupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCloudWatchAlarmTemplateGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCloudWatchAlarmTemplatesInput {
+
+    static func queryItemProvider(_ value: ListCloudWatchAlarmTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let signalMapIdentifier = value.signalMapIdentifier {
+            let signalMapIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "signalMapIdentifier".urlPercentEncoding(), value: Swift.String(signalMapIdentifier).urlPercentEncoding())
+            items.append(signalMapIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let scope = value.scope {
+            let scopeQueryItem = ClientRuntime.SDKURLQueryItem(name: "scope".urlPercentEncoding(), value: Swift.String(scope).urlPercentEncoding())
+            items.append(scopeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let groupIdentifier = value.groupIdentifier {
+            let groupIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupIdentifier".urlPercentEncoding(), value: Swift.String(groupIdentifier).urlPercentEncoding())
+            items.append(groupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCloudWatchAlarmTemplatesInput {
+
+    static func urlPathProvider(_ value: ListCloudWatchAlarmTemplatesInput) -> Swift.String? {
+        return "/prod/cloudwatch-alarm-templates"
+    }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplatesRequest
+public struct ListCloudWatchAlarmTemplatesInput: Swift.Equatable {
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    public var groupIdentifier: Swift.String?
+    /// Placeholder documentation for MaxResults
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+    /// Represents the scope of a resource, with options for all scopes, AWS provided resources, or local resources.
+    public var scope: Swift.String?
+    /// A signal map's identifier. Can be either be its id or current name.
+    public var signalMapIdentifier: Swift.String?
+
+    public init(
+        groupIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        scope: Swift.String? = nil,
+        signalMapIdentifier: Swift.String? = nil
+    )
+    {
+        self.groupIdentifier = groupIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.scope = scope
+        self.signalMapIdentifier = signalMapIdentifier
+    }
+}
+
+struct ListCloudWatchAlarmTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListCloudWatchAlarmTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCloudWatchAlarmTemplatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCloudWatchAlarmTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.cloudWatchAlarmTemplates = output.cloudWatchAlarmTemplates
+            self.nextToken = output.nextToken
+        } else {
+            self.cloudWatchAlarmTemplates = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Placeholder documentation for ListCloudWatchAlarmTemplatesResponse
+public struct ListCloudWatchAlarmTemplatesOutput: Swift.Equatable {
+    /// Placeholder documentation for __listOfCloudWatchAlarmTemplateSummary
+    public var cloudWatchAlarmTemplates: [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudWatchAlarmTemplates: [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.cloudWatchAlarmTemplates = cloudWatchAlarmTemplates
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCloudWatchAlarmTemplatesOutputBody: Swift.Equatable {
+    let cloudWatchAlarmTemplates: [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCloudWatchAlarmTemplatesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplates = "cloudWatchAlarmTemplates"
+        case nextToken = "nextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchAlarmTemplatesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.CloudWatchAlarmTemplateSummary?].self, forKey: .cloudWatchAlarmTemplates)
+        var cloudWatchAlarmTemplatesDecoded0:[MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]? = nil
+        if let cloudWatchAlarmTemplatesContainer = cloudWatchAlarmTemplatesContainer {
+            cloudWatchAlarmTemplatesDecoded0 = [MediaLiveClientTypes.CloudWatchAlarmTemplateSummary]()
+            for structure0 in cloudWatchAlarmTemplatesContainer {
+                if let structure0 = structure0 {
+                    cloudWatchAlarmTemplatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplates = cloudWatchAlarmTemplatesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCloudWatchAlarmTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEventBridgeRuleTemplateGroupsInput {
+
+    static func queryItemProvider(_ value: ListEventBridgeRuleTemplateGroupsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let signalMapIdentifier = value.signalMapIdentifier {
+            let signalMapIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "signalMapIdentifier".urlPercentEncoding(), value: Swift.String(signalMapIdentifier).urlPercentEncoding())
+            items.append(signalMapIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListEventBridgeRuleTemplateGroupsInput {
+
+    static func urlPathProvider(_ value: ListEventBridgeRuleTemplateGroupsInput) -> Swift.String? {
+        return "/prod/eventbridge-rule-template-groups"
+    }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplateGroupsRequest
+public struct ListEventBridgeRuleTemplateGroupsInput: Swift.Equatable {
+    /// Placeholder documentation for MaxResults
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+    /// A signal map's identifier. Can be either be its id or current name.
+    public var signalMapIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        signalMapIdentifier: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.signalMapIdentifier = signalMapIdentifier
+    }
+}
+
+struct ListEventBridgeRuleTemplateGroupsInputBody: Swift.Equatable {
+}
+
+extension ListEventBridgeRuleTemplateGroupsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEventBridgeRuleTemplateGroupsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEventBridgeRuleTemplateGroupsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventBridgeRuleTemplateGroups = output.eventBridgeRuleTemplateGroups
+            self.nextToken = output.nextToken
+        } else {
+            self.eventBridgeRuleTemplateGroups = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplateGroupsResponse
+public struct ListEventBridgeRuleTemplateGroupsOutput: Swift.Equatable {
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateGroupSummary
+    public var eventBridgeRuleTemplateGroups: [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+
+    public init(
+        eventBridgeRuleTemplateGroups: [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.eventBridgeRuleTemplateGroups = eventBridgeRuleTemplateGroups
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEventBridgeRuleTemplateGroupsOutputBody: Swift.Equatable {
+    let eventBridgeRuleTemplateGroups: [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEventBridgeRuleTemplateGroupsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventBridgeRuleTemplateGroups = "eventBridgeRuleTemplateGroups"
+        case nextToken = "nextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventBridgeRuleTemplateGroupsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary?].self, forKey: .eventBridgeRuleTemplateGroups)
+        var eventBridgeRuleTemplateGroupsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]? = nil
+        if let eventBridgeRuleTemplateGroupsContainer = eventBridgeRuleTemplateGroupsContainer {
+            eventBridgeRuleTemplateGroupsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateGroupSummary]()
+            for structure0 in eventBridgeRuleTemplateGroupsContainer {
+                if let structure0 = structure0 {
+                    eventBridgeRuleTemplateGroupsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroups = eventBridgeRuleTemplateGroupsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEventBridgeRuleTemplateGroupsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListEventBridgeRuleTemplatesInput {
+
+    static func queryItemProvider(_ value: ListEventBridgeRuleTemplatesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let signalMapIdentifier = value.signalMapIdentifier {
+            let signalMapIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "signalMapIdentifier".urlPercentEncoding(), value: Swift.String(signalMapIdentifier).urlPercentEncoding())
+            items.append(signalMapIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let groupIdentifier = value.groupIdentifier {
+            let groupIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "groupIdentifier".urlPercentEncoding(), value: Swift.String(groupIdentifier).urlPercentEncoding())
+            items.append(groupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListEventBridgeRuleTemplatesInput {
+
+    static func urlPathProvider(_ value: ListEventBridgeRuleTemplatesInput) -> Swift.String? {
+        return "/prod/eventbridge-rule-templates"
+    }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplatesRequest
+public struct ListEventBridgeRuleTemplatesInput: Swift.Equatable {
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    public var groupIdentifier: Swift.String?
+    /// Placeholder documentation for MaxResults
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+    /// A signal map's identifier. Can be either be its id or current name.
+    public var signalMapIdentifier: Swift.String?
+
+    public init(
+        groupIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        signalMapIdentifier: Swift.String? = nil
+    )
+    {
+        self.groupIdentifier = groupIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.signalMapIdentifier = signalMapIdentifier
+    }
+}
+
+struct ListEventBridgeRuleTemplatesInputBody: Swift.Equatable {
+}
+
+extension ListEventBridgeRuleTemplatesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListEventBridgeRuleTemplatesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListEventBridgeRuleTemplatesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.eventBridgeRuleTemplates = output.eventBridgeRuleTemplates
+            self.nextToken = output.nextToken
+        } else {
+            self.eventBridgeRuleTemplates = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+/// Placeholder documentation for ListEventBridgeRuleTemplatesResponse
+public struct ListEventBridgeRuleTemplatesOutput: Swift.Equatable {
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateSummary
+    public var eventBridgeRuleTemplates: [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+
+    public init(
+        eventBridgeRuleTemplates: [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.eventBridgeRuleTemplates = eventBridgeRuleTemplates
+        self.nextToken = nextToken
+    }
+}
+
+struct ListEventBridgeRuleTemplatesOutputBody: Swift.Equatable {
+    let eventBridgeRuleTemplates: [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListEventBridgeRuleTemplatesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case eventBridgeRuleTemplates = "eventBridgeRuleTemplates"
+        case nextToken = "nextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventBridgeRuleTemplatesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateSummary?].self, forKey: .eventBridgeRuleTemplates)
+        var eventBridgeRuleTemplatesDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateSummary]? = nil
+        if let eventBridgeRuleTemplatesContainer = eventBridgeRuleTemplatesContainer {
+            eventBridgeRuleTemplatesDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateSummary]()
+            for structure0 in eventBridgeRuleTemplatesContainer {
+                if let structure0 = structure0 {
+                    eventBridgeRuleTemplatesDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventBridgeRuleTemplates = eventBridgeRuleTemplatesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListEventBridgeRuleTemplatesOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListInputDeviceTransfersInput {
 
     static func queryItemProvider(_ value: ListInputDeviceTransfersInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -24554,6 +28950,146 @@ enum ListReservationsOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListSignalMapsInput {
+
+    static func queryItemProvider(_ value: ListSignalMapsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let cloudWatchAlarmTemplateGroupIdentifier = value.cloudWatchAlarmTemplateGroupIdentifier {
+            let cloudWatchAlarmTemplateGroupIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "cloudWatchAlarmTemplateGroupIdentifier".urlPercentEncoding(), value: Swift.String(cloudWatchAlarmTemplateGroupIdentifier).urlPercentEncoding())
+            items.append(cloudWatchAlarmTemplateGroupIdentifierQueryItem)
+        }
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "nextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "maxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let eventBridgeRuleTemplateGroupIdentifier = value.eventBridgeRuleTemplateGroupIdentifier {
+            let eventBridgeRuleTemplateGroupIdentifierQueryItem = ClientRuntime.SDKURLQueryItem(name: "eventBridgeRuleTemplateGroupIdentifier".urlPercentEncoding(), value: Swift.String(eventBridgeRuleTemplateGroupIdentifier).urlPercentEncoding())
+            items.append(eventBridgeRuleTemplateGroupIdentifierQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListSignalMapsInput {
+
+    static func urlPathProvider(_ value: ListSignalMapsInput) -> Swift.String? {
+        return "/prod/signal-maps"
+    }
+}
+
+/// Placeholder documentation for ListSignalMapsRequest
+public struct ListSignalMapsInput: Swift.Equatable {
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    public var cloudWatchAlarmTemplateGroupIdentifier: Swift.String?
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    public var eventBridgeRuleTemplateGroupIdentifier: Swift.String?
+    /// Placeholder documentation for MaxResults
+    public var maxResults: Swift.Int?
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+
+    public init(
+        cloudWatchAlarmTemplateGroupIdentifier: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIdentifier: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.cloudWatchAlarmTemplateGroupIdentifier = cloudWatchAlarmTemplateGroupIdentifier
+        self.eventBridgeRuleTemplateGroupIdentifier = eventBridgeRuleTemplateGroupIdentifier
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListSignalMapsInputBody: Swift.Equatable {
+}
+
+extension ListSignalMapsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListSignalMapsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListSignalMapsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.nextToken = output.nextToken
+            self.signalMaps = output.signalMaps
+        } else {
+            self.nextToken = nil
+            self.signalMaps = nil
+        }
+    }
+}
+
+/// Placeholder documentation for ListSignalMapsResponse
+public struct ListSignalMapsOutput: Swift.Equatable {
+    /// A token used to retrieve the next set of results in paginated list responses.
+    public var nextToken: Swift.String?
+    /// Placeholder documentation for __listOfSignalMapSummary
+    public var signalMaps: [MediaLiveClientTypes.SignalMapSummary]?
+
+    public init(
+        nextToken: Swift.String? = nil,
+        signalMaps: [MediaLiveClientTypes.SignalMapSummary]? = nil
+    )
+    {
+        self.nextToken = nextToken
+        self.signalMaps = signalMaps
+    }
+}
+
+struct ListSignalMapsOutputBody: Swift.Equatable {
+    let nextToken: Swift.String?
+    let signalMaps: [MediaLiveClientTypes.SignalMapSummary]?
+}
+
+extension ListSignalMapsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case nextToken = "nextToken"
+        case signalMaps = "signalMaps"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let signalMapsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.SignalMapSummary?].self, forKey: .signalMaps)
+        var signalMapsDecoded0:[MediaLiveClientTypes.SignalMapSummary]? = nil
+        if let signalMapsContainer = signalMapsContainer {
+            signalMapsDecoded0 = [MediaLiveClientTypes.SignalMapSummary]()
+            for structure0 in signalMapsContainer {
+                if let structure0 = structure0 {
+                    signalMapsDecoded0?.append(structure0)
+                }
+            }
+        }
+        signalMaps = signalMapsDecoded0
+    }
+}
+
+enum ListSignalMapsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
@@ -26595,6 +31131,187 @@ extension MediaLiveClientTypes {
     public struct MediaPackageOutputSettings: Swift.Equatable {
 
         public init() { }
+    }
+
+}
+
+extension MediaLiveClientTypes.MediaResource: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case destinations = "destinations"
+        case name = "name"
+        case sources = "sources"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let destinations = destinations {
+            var destinationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .destinations)
+            for mediaresourceneighbor0 in destinations {
+                try destinationsContainer.encode(mediaresourceneighbor0)
+            }
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let sources = sources {
+            var sourcesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .sources)
+            for mediaresourceneighbor0 in sources {
+                try sourcesContainer.encode(mediaresourceneighbor0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let destinationsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.MediaResourceNeighbor?].self, forKey: .destinations)
+        var destinationsDecoded0:[MediaLiveClientTypes.MediaResourceNeighbor]? = nil
+        if let destinationsContainer = destinationsContainer {
+            destinationsDecoded0 = [MediaLiveClientTypes.MediaResourceNeighbor]()
+            for structure0 in destinationsContainer {
+                if let structure0 = structure0 {
+                    destinationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        destinations = destinationsDecoded0
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let sourcesContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.MediaResourceNeighbor?].self, forKey: .sources)
+        var sourcesDecoded0:[MediaLiveClientTypes.MediaResourceNeighbor]? = nil
+        if let sourcesContainer = sourcesContainer {
+            sourcesDecoded0 = [MediaLiveClientTypes.MediaResourceNeighbor]()
+            for structure0 in sourcesContainer {
+                if let structure0 = structure0 {
+                    sourcesDecoded0?.append(structure0)
+                }
+            }
+        }
+        sources = sourcesDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// An AWS resource used in media workflows.
+    public struct MediaResource: Swift.Equatable {
+        /// Placeholder documentation for __listOfMediaResourceNeighbor
+        public var destinations: [MediaLiveClientTypes.MediaResourceNeighbor]?
+        /// The logical name of an AWS media resource.
+        public var name: Swift.String?
+        /// Placeholder documentation for __listOfMediaResourceNeighbor
+        public var sources: [MediaLiveClientTypes.MediaResourceNeighbor]?
+
+        public init(
+            destinations: [MediaLiveClientTypes.MediaResourceNeighbor]? = nil,
+            name: Swift.String? = nil,
+            sources: [MediaLiveClientTypes.MediaResourceNeighbor]? = nil
+        )
+        {
+            self.destinations = destinations
+            self.name = name
+            self.sources = sources
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.MediaResourceNeighbor: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// A direct source or destination neighbor to an AWS media resource.
+    public struct MediaResourceNeighbor: Swift.Equatable {
+        /// The ARN of a resource used in AWS media workflows.
+        /// This member is required.
+        public var arn: Swift.String?
+        /// The logical name of an AWS media resource.
+        public var name: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            name: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.name = name
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.MonitorDeployment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detailsUri = "detailsUri"
+        case errorMessage = "errorMessage"
+        case status = "status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let detailsUri = self.detailsUri {
+            try encodeContainer.encode(detailsUri, forKey: .detailsUri)
+        }
+        if let errorMessage = self.errorMessage {
+            try encodeContainer.encode(errorMessage, forKey: .errorMessage)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detailsUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detailsUri)
+        detailsUri = detailsUriDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapMonitorDeploymentStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Represents the latest monitor deployment of a signal map.
+    public struct MonitorDeployment: Swift.Equatable {
+        /// URI associated with a signal map's monitor deployment.
+        public var detailsUri: Swift.String?
+        /// Error message associated with a failed monitor deployment of a signal map.
+        public var errorMessage: Swift.String?
+        /// A signal map's monitor deployment status.
+        /// This member is required.
+        public var status: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus?
+
+        public init(
+            detailsUri: Swift.String? = nil,
+            errorMessage: Swift.String? = nil,
+            status: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus? = nil
+        )
+        {
+            self.detailsUri = detailsUri
+            self.errorMessage = errorMessage
+            self.status = status
+        }
     }
 
 }
@@ -33909,6 +38626,250 @@ extension MediaLiveClientTypes {
 }
 
 extension MediaLiveClientTypes {
+    /// A signal map's monitor deployment status.
+    public enum SignalMapMonitorDeploymentStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case deleteComplete
+        case deleteFailed
+        case deleteInProgress
+        case deploymentComplete
+        case deploymentFailed
+        case deploymentInProgress
+        case dryRunDeploymentComplete
+        case dryRunDeploymentFailed
+        case dryRunDeploymentInProgress
+        case notDeployed
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalMapMonitorDeploymentStatus] {
+            return [
+                .deleteComplete,
+                .deleteFailed,
+                .deleteInProgress,
+                .deploymentComplete,
+                .deploymentFailed,
+                .deploymentInProgress,
+                .dryRunDeploymentComplete,
+                .dryRunDeploymentFailed,
+                .dryRunDeploymentInProgress,
+                .notDeployed,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .deleteComplete: return "DELETE_COMPLETE"
+            case .deleteFailed: return "DELETE_FAILED"
+            case .deleteInProgress: return "DELETE_IN_PROGRESS"
+            case .deploymentComplete: return "DEPLOYMENT_COMPLETE"
+            case .deploymentFailed: return "DEPLOYMENT_FAILED"
+            case .deploymentInProgress: return "DEPLOYMENT_IN_PROGRESS"
+            case .dryRunDeploymentComplete: return "DRY_RUN_DEPLOYMENT_COMPLETE"
+            case .dryRunDeploymentFailed: return "DRY_RUN_DEPLOYMENT_FAILED"
+            case .dryRunDeploymentInProgress: return "DRY_RUN_DEPLOYMENT_IN_PROGRESS"
+            case .notDeployed: return "NOT_DEPLOYED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SignalMapMonitorDeploymentStatus(rawValue: rawValue) ?? SignalMapMonitorDeploymentStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public enum SignalMapStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case createComplete
+        case createFailed
+        case createInProgress
+        case notReady
+        case ready
+        case updateComplete
+        case updateFailed
+        case updateInProgress
+        case updateReverted
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [SignalMapStatus] {
+            return [
+                .createComplete,
+                .createFailed,
+                .createInProgress,
+                .notReady,
+                .ready,
+                .updateComplete,
+                .updateFailed,
+                .updateInProgress,
+                .updateReverted,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .createComplete: return "CREATE_COMPLETE"
+            case .createFailed: return "CREATE_FAILED"
+            case .createInProgress: return "CREATE_IN_PROGRESS"
+            case .notReady: return "NOT_READY"
+            case .ready: return "READY"
+            case .updateComplete: return "UPDATE_COMPLETE"
+            case .updateFailed: return "UPDATE_FAILED"
+            case .updateInProgress: return "UPDATE_IN_PROGRESS"
+            case .updateReverted: return "UPDATE_REVERTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = SignalMapStatus(rawValue: rawValue) ?? SignalMapStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension MediaLiveClientTypes.SignalMapSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case monitorDeploymentStatus = "monitorDeploymentStatus"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let createdAt = self.createdAt {
+            try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let id = self.id {
+            try encodeContainer.encode(id, forKey: .id)
+        }
+        if let modifiedAt = self.modifiedAt {
+            try encodeContainer.encodeTimestamp(modifiedAt, format: .dateTime, forKey: .modifiedAt)
+        }
+        if let monitorDeploymentStatus = self.monitorDeploymentStatus {
+            try encodeContainer.encode(monitorDeploymentStatus.rawValue, forKey: .monitorDeploymentStatus)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let tags = tags {
+            var tagsContainer = encodeContainer.nestedContainer(keyedBy: ClientRuntime.Key.self, forKey: .tags)
+            for (dictKey0, tagMap0) in tags {
+                try tagsContainer.encode(tagMap0, forKey: ClientRuntime.Key(stringValue: dictKey0))
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorDeploymentStatusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapMonitorDeploymentStatus.self, forKey: .monitorDeploymentStatus)
+        monitorDeploymentStatus = monitorDeploymentStatusDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Placeholder documentation for SignalMapSummary
+    public struct SignalMapSummary: Swift.Equatable {
+        /// A signal map's ARN (Amazon Resource Name)
+        /// This member is required.
+        public var arn: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        /// This member is required.
+        public var createdAt: ClientRuntime.Date?
+        /// A resource's optional description.
+        public var description: Swift.String?
+        /// A signal map's id.
+        /// This member is required.
+        public var id: Swift.String?
+        /// Placeholder documentation for __timestampIso8601
+        public var modifiedAt: ClientRuntime.Date?
+        /// A signal map's monitor deployment status.
+        /// This member is required.
+        public var monitorDeploymentStatus: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus?
+        /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+        /// This member is required.
+        public var name: Swift.String?
+        /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+        /// This member is required.
+        public var status: MediaLiveClientTypes.SignalMapStatus?
+        /// Represents the tags associated with a resource.
+        public var tags: [Swift.String:Swift.String]?
+
+        public init(
+            arn: Swift.String? = nil,
+            createdAt: ClientRuntime.Date? = nil,
+            description: Swift.String? = nil,
+            id: Swift.String? = nil,
+            modifiedAt: ClientRuntime.Date? = nil,
+            monitorDeploymentStatus: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus? = nil,
+            name: Swift.String? = nil,
+            status: MediaLiveClientTypes.SignalMapStatus? = nil,
+            tags: [Swift.String:Swift.String]? = nil
+        )
+        {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.description = description
+            self.id = id
+            self.modifiedAt = modifiedAt
+            self.monitorDeploymentStatus = monitorDeploymentStatus
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes {
     /// Smooth Group Audio Only Timecode Control
     public enum SmoothGroupAudioOnlyTimecodeControl: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case passthrough
@@ -34584,6 +39545,311 @@ enum StartChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension StartDeleteMonitorDeploymentInput {
+
+    static func urlPathProvider(_ value: StartDeleteMonitorDeploymentInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/signal-maps/\(identifier.urlPercentEncoding())/monitor-deployment"
+    }
+}
+
+/// Placeholder documentation for StartDeleteMonitorDeploymentRequest
+public struct StartDeleteMonitorDeploymentInput: Swift.Equatable {
+    /// A signal map's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        identifier: Swift.String? = nil
+    )
+    {
+        self.identifier = identifier
+    }
+}
+
+struct StartDeleteMonitorDeploymentInputBody: Swift.Equatable {
+}
+
+extension StartDeleteMonitorDeploymentInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension StartDeleteMonitorDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartDeleteMonitorDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cloudWatchAlarmTemplateGroupIds = output.cloudWatchAlarmTemplateGroupIds
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.discoveryEntryPointArn = output.discoveryEntryPointArn
+            self.errorMessage = output.errorMessage
+            self.eventBridgeRuleTemplateGroupIds = output.eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = output.failedMediaResourceMap
+            self.id = output.id
+            self.lastDiscoveredAt = output.lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = output.lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = output.mediaResourceMap
+            self.modifiedAt = output.modifiedAt
+            self.monitorChangesPendingDeployment = output.monitorChangesPendingDeployment
+            self.monitorDeployment = output.monitorDeployment
+            self.name = output.name
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.cloudWatchAlarmTemplateGroupIds = nil
+            self.createdAt = nil
+            self.description = nil
+            self.discoveryEntryPointArn = nil
+            self.errorMessage = nil
+            self.eventBridgeRuleTemplateGroupIds = nil
+            self.failedMediaResourceMap = nil
+            self.id = nil
+            self.lastDiscoveredAt = nil
+            self.lastSuccessfulMonitorDeployment = nil
+            self.mediaResourceMap = nil
+            self.modifiedAt = nil
+            self.monitorChangesPendingDeployment = nil
+            self.monitorDeployment = nil
+            self.name = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for StartDeleteMonitorDeploymentResponse
+public struct StartDeleteMonitorDeploymentOutput: Swift.Equatable {
+    /// A signal map's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Error message associated with a failed creation or failed update attempt of a signal map.
+    public var errorMessage: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    /// A map representing an incomplete AWS media workflow as a graph.
+    public var failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// A signal map's id.
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var lastDiscoveredAt: ClientRuntime.Date?
+    /// Represents the latest successful monitor deployment of a signal map.
+    public var lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    /// A map representing an AWS media workflow as a graph.
+    public var mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// If true, there are pending monitor changes for this signal map that can be deployed.
+    public var monitorChangesPendingDeployment: Swift.Bool?
+    /// Represents the latest monitor deployment of a signal map.
+    public var monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public var status: MediaLiveClientTypes.SignalMapStatus?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        cloudWatchAlarmTemplateGroupIds: [Swift.String]? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIds: [Swift.String]? = nil,
+        failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        id: Swift.String? = nil,
+        lastDiscoveredAt: ClientRuntime.Date? = nil,
+        lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment? = nil,
+        mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        monitorChangesPendingDeployment: Swift.Bool? = nil,
+        monitorDeployment: MediaLiveClientTypes.MonitorDeployment? = nil,
+        name: Swift.String? = nil,
+        status: MediaLiveClientTypes.SignalMapStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+        self.createdAt = createdAt
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.errorMessage = errorMessage
+        self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+        self.failedMediaResourceMap = failedMediaResourceMap
+        self.id = id
+        self.lastDiscoveredAt = lastDiscoveredAt
+        self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+        self.mediaResourceMap = mediaResourceMap
+        self.modifiedAt = modifiedAt
+        self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+        self.monitorDeployment = monitorDeployment
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct StartDeleteMonitorDeploymentOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let errorMessage: Swift.String?
+    let eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    let failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let id: Swift.String?
+    let lastDiscoveredAt: ClientRuntime.Date?
+    let lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    let mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let modifiedAt: ClientRuntime.Date?
+    let monitorChangesPendingDeployment: Swift.Bool?
+    let monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    let name: Swift.String?
+    let status: MediaLiveClientTypes.SignalMapStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartDeleteMonitorDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+        case createdAt = "createdAt"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case errorMessage = "errorMessage"
+        case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+        case failedMediaResourceMap = "failedMediaResourceMap"
+        case id = "id"
+        case lastDiscoveredAt = "lastDiscoveredAt"
+        case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+        case mediaResourceMap = "mediaResourceMap"
+        case modifiedAt = "modifiedAt"
+        case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+        case monitorDeployment = "monitorDeployment"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cloudWatchAlarmTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIds)
+        var cloudWatchAlarmTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdsContainer = cloudWatchAlarmTemplateGroupIdsContainer {
+            cloudWatchAlarmTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIdsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let eventBridgeRuleTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIds)
+        var eventBridgeRuleTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdsContainer = eventBridgeRuleTemplateGroupIdsContainer {
+            eventBridgeRuleTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIdsDecoded0
+        let failedMediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .failedMediaResourceMap)
+        var failedMediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let failedMediaResourceMapContainer = failedMediaResourceMapContainer {
+            failedMediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in failedMediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    failedMediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        failedMediaResourceMap = failedMediaResourceMapDecoded0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastDiscoveredAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDiscoveredAt)
+        lastDiscoveredAt = lastDiscoveredAtDecoded
+        let lastSuccessfulMonitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SuccessfulMonitorDeployment.self, forKey: .lastSuccessfulMonitorDeployment)
+        lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeploymentDecoded
+        let mediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .mediaResourceMap)
+        var mediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let mediaResourceMapContainer = mediaResourceMapContainer {
+            mediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in mediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    mediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        mediaResourceMap = mediaResourceMapDecoded0
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorChangesPendingDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .monitorChangesPendingDeployment)
+        monitorChangesPendingDeployment = monitorChangesPendingDeploymentDecoded
+        let monitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MonitorDeployment.self, forKey: .monitorDeployment)
+        monitorDeployment = monitorDeploymentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum StartDeleteMonitorDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension StartInputDeviceInput {
 
     static func urlPathProvider(_ value: StartInputDeviceInput) -> Swift.String? {
@@ -34703,6 +39969,335 @@ enum StartInputDeviceOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension StartMonitorDeploymentInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "dryRun"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
+    }
+}
+
+extension StartMonitorDeploymentInput {
+
+    static func urlPathProvider(_ value: StartMonitorDeploymentInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/signal-maps/\(identifier.urlPercentEncoding())/monitor-deployment"
+    }
+}
+
+/// Placeholder documentation for StartMonitorDeploymentRequest
+public struct StartMonitorDeploymentInput: Swift.Equatable {
+    /// Placeholder documentation for __boolean
+    public var dryRun: Swift.Bool?
+    /// A signal map's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.dryRun = dryRun
+        self.identifier = identifier
+    }
+}
+
+struct StartMonitorDeploymentInputBody: Swift.Equatable {
+    let dryRun: Swift.Bool?
+}
+
+extension StartMonitorDeploymentInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "dryRun"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
+    }
+}
+
+extension StartMonitorDeploymentOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartMonitorDeploymentOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cloudWatchAlarmTemplateGroupIds = output.cloudWatchAlarmTemplateGroupIds
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.discoveryEntryPointArn = output.discoveryEntryPointArn
+            self.errorMessage = output.errorMessage
+            self.eventBridgeRuleTemplateGroupIds = output.eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = output.failedMediaResourceMap
+            self.id = output.id
+            self.lastDiscoveredAt = output.lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = output.lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = output.mediaResourceMap
+            self.modifiedAt = output.modifiedAt
+            self.monitorChangesPendingDeployment = output.monitorChangesPendingDeployment
+            self.monitorDeployment = output.monitorDeployment
+            self.name = output.name
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.cloudWatchAlarmTemplateGroupIds = nil
+            self.createdAt = nil
+            self.description = nil
+            self.discoveryEntryPointArn = nil
+            self.errorMessage = nil
+            self.eventBridgeRuleTemplateGroupIds = nil
+            self.failedMediaResourceMap = nil
+            self.id = nil
+            self.lastDiscoveredAt = nil
+            self.lastSuccessfulMonitorDeployment = nil
+            self.mediaResourceMap = nil
+            self.modifiedAt = nil
+            self.monitorChangesPendingDeployment = nil
+            self.monitorDeployment = nil
+            self.name = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for StartMonitorDeploymentResponse
+public struct StartMonitorDeploymentOutput: Swift.Equatable {
+    /// A signal map's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Error message associated with a failed creation or failed update attempt of a signal map.
+    public var errorMessage: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    /// A map representing an incomplete AWS media workflow as a graph.
+    public var failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// A signal map's id.
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var lastDiscoveredAt: ClientRuntime.Date?
+    /// Represents the latest successful monitor deployment of a signal map.
+    public var lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    /// A map representing an AWS media workflow as a graph.
+    public var mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// If true, there are pending monitor changes for this signal map that can be deployed.
+    public var monitorChangesPendingDeployment: Swift.Bool?
+    /// Represents the latest monitor deployment of a signal map.
+    public var monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public var status: MediaLiveClientTypes.SignalMapStatus?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        cloudWatchAlarmTemplateGroupIds: [Swift.String]? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIds: [Swift.String]? = nil,
+        failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        id: Swift.String? = nil,
+        lastDiscoveredAt: ClientRuntime.Date? = nil,
+        lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment? = nil,
+        mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        monitorChangesPendingDeployment: Swift.Bool? = nil,
+        monitorDeployment: MediaLiveClientTypes.MonitorDeployment? = nil,
+        name: Swift.String? = nil,
+        status: MediaLiveClientTypes.SignalMapStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+        self.createdAt = createdAt
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.errorMessage = errorMessage
+        self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+        self.failedMediaResourceMap = failedMediaResourceMap
+        self.id = id
+        self.lastDiscoveredAt = lastDiscoveredAt
+        self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+        self.mediaResourceMap = mediaResourceMap
+        self.modifiedAt = modifiedAt
+        self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+        self.monitorDeployment = monitorDeployment
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct StartMonitorDeploymentOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let errorMessage: Swift.String?
+    let eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    let failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let id: Swift.String?
+    let lastDiscoveredAt: ClientRuntime.Date?
+    let lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    let mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let modifiedAt: ClientRuntime.Date?
+    let monitorChangesPendingDeployment: Swift.Bool?
+    let monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    let name: Swift.String?
+    let status: MediaLiveClientTypes.SignalMapStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartMonitorDeploymentOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+        case createdAt = "createdAt"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case errorMessage = "errorMessage"
+        case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+        case failedMediaResourceMap = "failedMediaResourceMap"
+        case id = "id"
+        case lastDiscoveredAt = "lastDiscoveredAt"
+        case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+        case mediaResourceMap = "mediaResourceMap"
+        case modifiedAt = "modifiedAt"
+        case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+        case monitorDeployment = "monitorDeployment"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cloudWatchAlarmTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIds)
+        var cloudWatchAlarmTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdsContainer = cloudWatchAlarmTemplateGroupIdsContainer {
+            cloudWatchAlarmTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIdsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let eventBridgeRuleTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIds)
+        var eventBridgeRuleTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdsContainer = eventBridgeRuleTemplateGroupIdsContainer {
+            eventBridgeRuleTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIdsDecoded0
+        let failedMediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .failedMediaResourceMap)
+        var failedMediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let failedMediaResourceMapContainer = failedMediaResourceMapContainer {
+            failedMediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in failedMediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    failedMediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        failedMediaResourceMap = failedMediaResourceMapDecoded0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastDiscoveredAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDiscoveredAt)
+        lastDiscoveredAt = lastDiscoveredAtDecoded
+        let lastSuccessfulMonitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SuccessfulMonitorDeployment.self, forKey: .lastSuccessfulMonitorDeployment)
+        lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeploymentDecoded
+        let mediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .mediaResourceMap)
+        var mediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let mediaResourceMapContainer = mediaResourceMapContainer {
+            mediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in mediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    mediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        mediaResourceMap = mediaResourceMapDecoded0
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorChangesPendingDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .monitorChangesPendingDeployment)
+        monitorChangesPendingDeployment = monitorChangesPendingDeploymentDecoded
+        let monitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MonitorDeployment.self, forKey: .monitorDeployment)
+        monitorDeployment = monitorDeploymentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum StartMonitorDeploymentOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -34950,6 +40545,419 @@ extension MediaLiveClientTypes {
         }
     }
 
+}
+
+extension StartUpdateSignalMapInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+        case forceRediscovery = "forceRediscovery"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers {
+            var cloudWatchAlarmTemplateGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .cloudWatchAlarmTemplateGroupIdentifiers)
+            for __stringpatterns0 in cloudWatchAlarmTemplateGroupIdentifiers {
+                try cloudWatchAlarmTemplateGroupIdentifiersContainer.encode(__stringpatterns0)
+            }
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let discoveryEntryPointArn = self.discoveryEntryPointArn {
+            try encodeContainer.encode(discoveryEntryPointArn, forKey: .discoveryEntryPointArn)
+        }
+        if let eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers {
+            var eventBridgeRuleTemplateGroupIdentifiersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventBridgeRuleTemplateGroupIdentifiers)
+            for __stringpatterns0 in eventBridgeRuleTemplateGroupIdentifiers {
+                try eventBridgeRuleTemplateGroupIdentifiersContainer.encode(__stringpatterns0)
+            }
+        }
+        if let forceRediscovery = self.forceRediscovery {
+            try encodeContainer.encode(forceRediscovery, forKey: .forceRediscovery)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension StartUpdateSignalMapInput {
+
+    static func urlPathProvider(_ value: StartUpdateSignalMapInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/signal-maps/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for StartUpdateSignalMapRequest
+public struct StartUpdateSignalMapInput: Swift.Equatable {
+    /// Placeholder documentation for __listOf__stringPatternS
+    public var cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Placeholder documentation for __listOf__stringPatternS
+    public var eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]?
+    /// If true, will force a rediscovery of a signal map if an unchanged discoveryEntryPointArn is provided.
+    public var forceRediscovery: Swift.Bool?
+    /// A signal map's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+
+    public init(
+        cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]? = nil,
+        forceRediscovery: Swift.Bool? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiers
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiers
+        self.forceRediscovery = forceRediscovery
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+struct StartUpdateSignalMapInputBody: Swift.Equatable {
+    let cloudWatchAlarmTemplateGroupIdentifiers: [Swift.String]?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let eventBridgeRuleTemplateGroupIdentifiers: [Swift.String]?
+    let forceRediscovery: Swift.Bool?
+    let name: Swift.String?
+}
+
+extension StartUpdateSignalMapInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cloudWatchAlarmTemplateGroupIdentifiers = "cloudWatchAlarmTemplateGroupIdentifiers"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case eventBridgeRuleTemplateGroupIdentifiers = "eventBridgeRuleTemplateGroupIdentifiers"
+        case forceRediscovery = "forceRediscovery"
+        case name = "name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let cloudWatchAlarmTemplateGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIdentifiers)
+        var cloudWatchAlarmTemplateGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdentifiersContainer = cloudWatchAlarmTemplateGroupIdentifiersContainer {
+            cloudWatchAlarmTemplateGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIdentifiers = cloudWatchAlarmTemplateGroupIdentifiersDecoded0
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let eventBridgeRuleTemplateGroupIdentifiersContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIdentifiers)
+        var eventBridgeRuleTemplateGroupIdentifiersDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdentifiersContainer = eventBridgeRuleTemplateGroupIdentifiersContainer {
+            eventBridgeRuleTemplateGroupIdentifiersDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdentifiersContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdentifiersDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIdentifiers = eventBridgeRuleTemplateGroupIdentifiersDecoded0
+        let forceRediscoveryDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .forceRediscovery)
+        forceRediscovery = forceRediscoveryDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension StartUpdateSignalMapOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartUpdateSignalMapOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.cloudWatchAlarmTemplateGroupIds = output.cloudWatchAlarmTemplateGroupIds
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.discoveryEntryPointArn = output.discoveryEntryPointArn
+            self.errorMessage = output.errorMessage
+            self.eventBridgeRuleTemplateGroupIds = output.eventBridgeRuleTemplateGroupIds
+            self.failedMediaResourceMap = output.failedMediaResourceMap
+            self.id = output.id
+            self.lastDiscoveredAt = output.lastDiscoveredAt
+            self.lastSuccessfulMonitorDeployment = output.lastSuccessfulMonitorDeployment
+            self.mediaResourceMap = output.mediaResourceMap
+            self.modifiedAt = output.modifiedAt
+            self.monitorChangesPendingDeployment = output.monitorChangesPendingDeployment
+            self.monitorDeployment = output.monitorDeployment
+            self.name = output.name
+            self.status = output.status
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.cloudWatchAlarmTemplateGroupIds = nil
+            self.createdAt = nil
+            self.description = nil
+            self.discoveryEntryPointArn = nil
+            self.errorMessage = nil
+            self.eventBridgeRuleTemplateGroupIds = nil
+            self.failedMediaResourceMap = nil
+            self.id = nil
+            self.lastDiscoveredAt = nil
+            self.lastSuccessfulMonitorDeployment = nil
+            self.mediaResourceMap = nil
+            self.modifiedAt = nil
+            self.monitorChangesPendingDeployment = nil
+            self.monitorDeployment = nil
+            self.name = nil
+            self.status = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for StartUpdateSignalMapResponse
+public struct StartUpdateSignalMapOutput: Swift.Equatable {
+    /// A signal map's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A top-level supported AWS resource ARN to discovery a signal map from.
+    public var discoveryEntryPointArn: Swift.String?
+    /// Error message associated with a failed creation or failed update attempt of a signal map.
+    public var errorMessage: Swift.String?
+    /// Placeholder documentation for __listOf__stringMin7Max11PatternAws097
+    public var eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    /// A map representing an incomplete AWS media workflow as a graph.
+    public var failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// A signal map's id.
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var lastDiscoveredAt: ClientRuntime.Date?
+    /// Represents the latest successful monitor deployment of a signal map.
+    public var lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    /// A map representing an AWS media workflow as a graph.
+    public var mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// If true, there are pending monitor changes for this signal map that can be deployed.
+    public var monitorChangesPendingDeployment: Swift.Bool?
+    /// Represents the latest monitor deployment of a signal map.
+    public var monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// A signal map's current status which is dependent on its lifecycle actions or associated jobs.
+    public var status: MediaLiveClientTypes.SignalMapStatus?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        cloudWatchAlarmTemplateGroupIds: [Swift.String]? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        discoveryEntryPointArn: Swift.String? = nil,
+        errorMessage: Swift.String? = nil,
+        eventBridgeRuleTemplateGroupIds: [Swift.String]? = nil,
+        failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        id: Swift.String? = nil,
+        lastDiscoveredAt: ClientRuntime.Date? = nil,
+        lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment? = nil,
+        mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        monitorChangesPendingDeployment: Swift.Bool? = nil,
+        monitorDeployment: MediaLiveClientTypes.MonitorDeployment? = nil,
+        name: Swift.String? = nil,
+        status: MediaLiveClientTypes.SignalMapStatus? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIds
+        self.createdAt = createdAt
+        self.description = description
+        self.discoveryEntryPointArn = discoveryEntryPointArn
+        self.errorMessage = errorMessage
+        self.eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIds
+        self.failedMediaResourceMap = failedMediaResourceMap
+        self.id = id
+        self.lastDiscoveredAt = lastDiscoveredAt
+        self.lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeployment
+        self.mediaResourceMap = mediaResourceMap
+        self.modifiedAt = modifiedAt
+        self.monitorChangesPendingDeployment = monitorChangesPendingDeployment
+        self.monitorDeployment = monitorDeployment
+        self.name = name
+        self.status = status
+        self.tags = tags
+    }
+}
+
+struct StartUpdateSignalMapOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let cloudWatchAlarmTemplateGroupIds: [Swift.String]?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let discoveryEntryPointArn: Swift.String?
+    let errorMessage: Swift.String?
+    let eventBridgeRuleTemplateGroupIds: [Swift.String]?
+    let failedMediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let id: Swift.String?
+    let lastDiscoveredAt: ClientRuntime.Date?
+    let lastSuccessfulMonitorDeployment: MediaLiveClientTypes.SuccessfulMonitorDeployment?
+    let mediaResourceMap: [Swift.String:MediaLiveClientTypes.MediaResource]?
+    let modifiedAt: ClientRuntime.Date?
+    let monitorChangesPendingDeployment: Swift.Bool?
+    let monitorDeployment: MediaLiveClientTypes.MonitorDeployment?
+    let name: Swift.String?
+    let status: MediaLiveClientTypes.SignalMapStatus?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension StartUpdateSignalMapOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case cloudWatchAlarmTemplateGroupIds = "cloudWatchAlarmTemplateGroupIds"
+        case createdAt = "createdAt"
+        case description = "description"
+        case discoveryEntryPointArn = "discoveryEntryPointArn"
+        case errorMessage = "errorMessage"
+        case eventBridgeRuleTemplateGroupIds = "eventBridgeRuleTemplateGroupIds"
+        case failedMediaResourceMap = "failedMediaResourceMap"
+        case id = "id"
+        case lastDiscoveredAt = "lastDiscoveredAt"
+        case lastSuccessfulMonitorDeployment = "lastSuccessfulMonitorDeployment"
+        case mediaResourceMap = "mediaResourceMap"
+        case modifiedAt = "modifiedAt"
+        case monitorChangesPendingDeployment = "monitorChangesPendingDeployment"
+        case monitorDeployment = "monitorDeployment"
+        case name = "name"
+        case status = "status"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let cloudWatchAlarmTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .cloudWatchAlarmTemplateGroupIds)
+        var cloudWatchAlarmTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let cloudWatchAlarmTemplateGroupIdsContainer = cloudWatchAlarmTemplateGroupIdsContainer {
+            cloudWatchAlarmTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in cloudWatchAlarmTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    cloudWatchAlarmTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        cloudWatchAlarmTemplateGroupIds = cloudWatchAlarmTemplateGroupIdsDecoded0
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let discoveryEntryPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .discoveryEntryPointArn)
+        discoveryEntryPointArn = discoveryEntryPointArnDecoded
+        let errorMessageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .errorMessage)
+        errorMessage = errorMessageDecoded
+        let eventBridgeRuleTemplateGroupIdsContainer = try containerValues.decodeIfPresent([Swift.String?].self, forKey: .eventBridgeRuleTemplateGroupIds)
+        var eventBridgeRuleTemplateGroupIdsDecoded0:[Swift.String]? = nil
+        if let eventBridgeRuleTemplateGroupIdsContainer = eventBridgeRuleTemplateGroupIdsContainer {
+            eventBridgeRuleTemplateGroupIdsDecoded0 = [Swift.String]()
+            for string0 in eventBridgeRuleTemplateGroupIdsContainer {
+                if let string0 = string0 {
+                    eventBridgeRuleTemplateGroupIdsDecoded0?.append(string0)
+                }
+            }
+        }
+        eventBridgeRuleTemplateGroupIds = eventBridgeRuleTemplateGroupIdsDecoded0
+        let failedMediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .failedMediaResourceMap)
+        var failedMediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let failedMediaResourceMapContainer = failedMediaResourceMapContainer {
+            failedMediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in failedMediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    failedMediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        failedMediaResourceMap = failedMediaResourceMapDecoded0
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let lastDiscoveredAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .lastDiscoveredAt)
+        lastDiscoveredAt = lastDiscoveredAtDecoded
+        let lastSuccessfulMonitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SuccessfulMonitorDeployment.self, forKey: .lastSuccessfulMonitorDeployment)
+        lastSuccessfulMonitorDeployment = lastSuccessfulMonitorDeploymentDecoded
+        let mediaResourceMapContainer = try containerValues.decodeIfPresent([Swift.String: MediaLiveClientTypes.MediaResource?].self, forKey: .mediaResourceMap)
+        var mediaResourceMapDecoded0: [Swift.String:MediaLiveClientTypes.MediaResource]? = nil
+        if let mediaResourceMapContainer = mediaResourceMapContainer {
+            mediaResourceMapDecoded0 = [Swift.String:MediaLiveClientTypes.MediaResource]()
+            for (key0, mediaresource0) in mediaResourceMapContainer {
+                if let mediaresource0 = mediaresource0 {
+                    mediaResourceMapDecoded0?[key0] = mediaresource0
+                }
+            }
+        }
+        mediaResourceMap = mediaResourceMapDecoded0
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let monitorChangesPendingDeploymentDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .monitorChangesPendingDeployment)
+        monitorChangesPendingDeployment = monitorChangesPendingDeploymentDecoded
+        let monitorDeploymentDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.MonitorDeployment.self, forKey: .monitorDeployment)
+        monitorDeployment = monitorDeploymentDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapStatus.self, forKey: .status)
+        status = statusDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum StartUpdateSignalMapOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension MediaLiveClientTypes.StaticImageActivateScheduleActionSettings: Swift.Codable {
@@ -36004,6 +42012,53 @@ extension MediaLiveClientTypes {
         {
             self.lastFrameClippingBehavior = lastFrameClippingBehavior
             self.timecode = timecode
+        }
+    }
+
+}
+
+extension MediaLiveClientTypes.SuccessfulMonitorDeployment: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case detailsUri = "detailsUri"
+        case status = "status"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let detailsUri = self.detailsUri {
+            try encodeContainer.encode(detailsUri, forKey: .detailsUri)
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let detailsUriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .detailsUri)
+        detailsUri = detailsUriDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.SignalMapMonitorDeploymentStatus.self, forKey: .status)
+        status = statusDecoded
+    }
+}
+
+extension MediaLiveClientTypes {
+    /// Represents the latest successful monitor deployment of a signal map.
+    public struct SuccessfulMonitorDeployment: Swift.Equatable {
+        /// URI associated with a signal map's monitor deployment.
+        /// This member is required.
+        public var detailsUri: Swift.String?
+        /// A signal map's monitor deployment status.
+        /// This member is required.
+        public var status: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus?
+
+        public init(
+            detailsUri: Swift.String? = nil,
+            status: MediaLiveClientTypes.SignalMapMonitorDeploymentStatus? = nil
+        )
+        {
+            self.detailsUri = detailsUri
+            self.status = status
         }
     }
 
@@ -37740,6 +43795,1069 @@ enum UpdateChannelOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "GatewayTimeoutException": return try await GatewayTimeoutException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnprocessableEntityException": return try await UnprocessableEntityException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateCloudWatchAlarmTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupRequest
+public struct UpdateCloudWatchAlarmTemplateGroupInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.identifier = identifier
+    }
+}
+
+struct UpdateCloudWatchAlarmTemplateGroupInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateCloudWatchAlarmTemplateGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCloudWatchAlarmTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateGroupResponse
+public struct UpdateCloudWatchAlarmTemplateGroupOutput: Swift.Equatable {
+    /// A cloudwatch alarm template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct UpdateCloudWatchAlarmTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateCloudWatchAlarmTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum UpdateCloudWatchAlarmTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparisonOperator = "comparisonOperator"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupIdentifier = "groupIdentifier"
+        case metricName = "metricName"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let comparisonOperator = self.comparisonOperator {
+            try encodeContainer.encode(comparisonOperator.rawValue, forKey: .comparisonOperator)
+        }
+        if let datapointsToAlarm = self.datapointsToAlarm {
+            try encodeContainer.encode(datapointsToAlarm, forKey: .datapointsToAlarm)
+        }
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let evaluationPeriods = self.evaluationPeriods {
+            try encodeContainer.encode(evaluationPeriods, forKey: .evaluationPeriods)
+        }
+        if let groupIdentifier = self.groupIdentifier {
+            try encodeContainer.encode(groupIdentifier, forKey: .groupIdentifier)
+        }
+        if let metricName = self.metricName {
+            try encodeContainer.encode(metricName, forKey: .metricName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let period = self.period {
+            try encodeContainer.encode(period, forKey: .period)
+        }
+        if let statistic = self.statistic {
+            try encodeContainer.encode(statistic.rawValue, forKey: .statistic)
+        }
+        if let targetResourceType = self.targetResourceType {
+            try encodeContainer.encode(targetResourceType.rawValue, forKey: .targetResourceType)
+        }
+        if let threshold = self.threshold {
+            try encodeContainer.encode(threshold, forKey: .threshold)
+        }
+        if let treatMissingData = self.treatMissingData {
+            try encodeContainer.encode(treatMissingData.rawValue, forKey: .treatMissingData)
+        }
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateCloudWatchAlarmTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/cloudwatch-alarm-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateRequest
+public struct UpdateCloudWatchAlarmTemplateInput: Swift.Equatable {
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+    public var datapointsToAlarm: Swift.Int?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// The number of periods over which data is compared to the specified threshold.
+    public var evaluationPeriods: Swift.Int?
+    /// A cloudwatch alarm template group's identifier. Can be either be its id or current name.
+    public var groupIdentifier: Swift.String?
+    /// A cloudwatch alarm template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+    public var metricName: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// The period, in seconds, over which the specified statistic is applied.
+    public var period: Swift.Int?
+    /// The statistic to apply to the alarm's metric data.
+    public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    /// The threshold value to compare with the specified statistic.
+    public var threshold: Swift.Double?
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+    public init(
+        comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+        datapointsToAlarm: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        evaluationPeriods: Swift.Int? = nil,
+        groupIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        metricName: Swift.String? = nil,
+        name: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+        targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+    )
+    {
+        self.comparisonOperator = comparisonOperator
+        self.datapointsToAlarm = datapointsToAlarm
+        self.description = description
+        self.evaluationPeriods = evaluationPeriods
+        self.groupIdentifier = groupIdentifier
+        self.identifier = identifier
+        self.metricName = metricName
+        self.name = name
+        self.period = period
+        self.statistic = statistic
+        self.targetResourceType = targetResourceType
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
+}
+
+struct UpdateCloudWatchAlarmTemplateInputBody: Swift.Equatable {
+    let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    let datapointsToAlarm: Swift.Int?
+    let description: Swift.String?
+    let evaluationPeriods: Swift.Int?
+    let groupIdentifier: Swift.String?
+    let metricName: Swift.String?
+    let name: Swift.String?
+    let period: Swift.Int?
+    let statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    let targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    let threshold: Swift.Double?
+    let treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+}
+
+extension UpdateCloudWatchAlarmTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case comparisonOperator = "comparisonOperator"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupIdentifier = "groupIdentifier"
+        case metricName = "metricName"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupIdentifier)
+        groupIdentifier = groupIdentifierDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+extension UpdateCloudWatchAlarmTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateCloudWatchAlarmTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.comparisonOperator = output.comparisonOperator
+            self.createdAt = output.createdAt
+            self.datapointsToAlarm = output.datapointsToAlarm
+            self.description = output.description
+            self.evaluationPeriods = output.evaluationPeriods
+            self.groupId = output.groupId
+            self.id = output.id
+            self.metricName = output.metricName
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.period = output.period
+            self.statistic = output.statistic
+            self.tags = output.tags
+            self.targetResourceType = output.targetResourceType
+            self.threshold = output.threshold
+            self.treatMissingData = output.treatMissingData
+        } else {
+            self.arn = nil
+            self.comparisonOperator = nil
+            self.createdAt = nil
+            self.datapointsToAlarm = nil
+            self.description = nil
+            self.evaluationPeriods = nil
+            self.groupId = nil
+            self.id = nil
+            self.metricName = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.period = nil
+            self.statistic = nil
+            self.tags = nil
+            self.targetResourceType = nil
+            self.threshold = nil
+            self.treatMissingData = nil
+        }
+    }
+}
+
+/// Placeholder documentation for UpdateCloudWatchAlarmTemplateResponse
+public struct UpdateCloudWatchAlarmTemplateOutput: Swift.Equatable {
+    /// A cloudwatch alarm template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// The comparison operator used to compare the specified statistic and the threshold.
+    public var comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// The number of datapoints within the evaluation period that must be breaching to trigger the alarm.
+    public var datapointsToAlarm: Swift.Int?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// The number of periods over which data is compared to the specified threshold.
+    public var evaluationPeriods: Swift.Int?
+    /// A cloudwatch alarm template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// A cloudwatch alarm template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// The name of the metric associated with the alarm. Must be compatible with targetResourceType.
+    public var metricName: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// The period, in seconds, over which the specified statistic is applied.
+    public var period: Swift.Int?
+    /// The statistic to apply to the alarm's metric data.
+    public var statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+    /// The resource type this template should dynamically generate cloudwatch metric alarms for.
+    public var targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    /// The threshold value to compare with the specified statistic.
+    public var threshold: Swift.Double?
+    /// Specifies how missing data points are treated when evaluating the alarm's condition.
+    public var treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+
+    public init(
+        arn: Swift.String? = nil,
+        comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        datapointsToAlarm: Swift.Int? = nil,
+        description: Swift.String? = nil,
+        evaluationPeriods: Swift.Int? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        metricName: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        period: Swift.Int? = nil,
+        statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic? = nil,
+        tags: [Swift.String:Swift.String]? = nil,
+        targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType? = nil,
+        threshold: Swift.Double? = nil,
+        treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData? = nil
+    )
+    {
+        self.arn = arn
+        self.comparisonOperator = comparisonOperator
+        self.createdAt = createdAt
+        self.datapointsToAlarm = datapointsToAlarm
+        self.description = description
+        self.evaluationPeriods = evaluationPeriods
+        self.groupId = groupId
+        self.id = id
+        self.metricName = metricName
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.period = period
+        self.statistic = statistic
+        self.tags = tags
+        self.targetResourceType = targetResourceType
+        self.threshold = threshold
+        self.treatMissingData = treatMissingData
+    }
+}
+
+struct UpdateCloudWatchAlarmTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let comparisonOperator: MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator?
+    let createdAt: ClientRuntime.Date?
+    let datapointsToAlarm: Swift.Int?
+    let description: Swift.String?
+    let evaluationPeriods: Swift.Int?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let metricName: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let period: Swift.Int?
+    let statistic: MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic?
+    let tags: [Swift.String:Swift.String]?
+    let targetResourceType: MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType?
+    let threshold: Swift.Double?
+    let treatMissingData: MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData?
+}
+
+extension UpdateCloudWatchAlarmTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case comparisonOperator = "comparisonOperator"
+        case createdAt = "createdAt"
+        case datapointsToAlarm = "datapointsToAlarm"
+        case description = "description"
+        case evaluationPeriods = "evaluationPeriods"
+        case groupId = "groupId"
+        case id = "id"
+        case metricName = "metricName"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case period = "period"
+        case statistic = "statistic"
+        case tags = "tags"
+        case targetResourceType = "targetResourceType"
+        case threshold = "threshold"
+        case treatMissingData = "treatMissingData"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let comparisonOperatorDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateComparisonOperator.self, forKey: .comparisonOperator)
+        comparisonOperator = comparisonOperatorDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let datapointsToAlarmDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .datapointsToAlarm)
+        datapointsToAlarm = datapointsToAlarmDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let evaluationPeriodsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .evaluationPeriods)
+        evaluationPeriods = evaluationPeriodsDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let metricNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metricName)
+        metricName = metricNameDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let periodDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .period)
+        period = periodDecoded
+        let statisticDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateStatistic.self, forKey: .statistic)
+        statistic = statisticDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+        let targetResourceTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTargetResourceType.self, forKey: .targetResourceType)
+        targetResourceType = targetResourceTypeDecoded
+        let thresholdDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .threshold)
+        threshold = thresholdDecoded
+        let treatMissingDataDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.CloudWatchAlarmTemplateTreatMissingData.self, forKey: .treatMissingData)
+        treatMissingData = treatMissingDataDecoded
+    }
+}
+
+enum UpdateCloudWatchAlarmTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateGroupInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateGroupInput {
+
+    static func urlPathProvider(_ value: UpdateEventBridgeRuleTemplateGroupInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-template-groups/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupRequest
+public struct UpdateEventBridgeRuleTemplateGroupInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        identifier: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.identifier = identifier
+    }
+}
+
+struct UpdateEventBridgeRuleTemplateGroupInputBody: Swift.Equatable {
+    let description: Swift.String?
+}
+
+extension UpdateEventBridgeRuleTemplateGroupInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateGroupOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEventBridgeRuleTemplateGroupOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateGroupResponse
+public struct UpdateEventBridgeRuleTemplateGroupOutput: Swift.Equatable {
+    /// An eventbridge rule template group's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct UpdateEventBridgeRuleTemplateGroupOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateEventBridgeRuleTemplateGroupOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum UpdateEventBridgeRuleTemplateGroupOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupIdentifier = "groupIdentifier"
+        case name = "name"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let description = self.description {
+            try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eventTargets = eventTargets {
+            var eventTargetsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .eventTargets)
+            for eventbridgeruletemplatetarget0 in eventTargets {
+                try eventTargetsContainer.encode(eventbridgeruletemplatetarget0)
+            }
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let groupIdentifier = self.groupIdentifier {
+            try encodeContainer.encode(groupIdentifier, forKey: .groupIdentifier)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateInput {
+
+    static func urlPathProvider(_ value: UpdateEventBridgeRuleTemplateInput) -> Swift.String? {
+        guard let identifier = value.identifier else {
+            return nil
+        }
+        return "/prod/eventbridge-rule-templates/\(identifier.urlPercentEncoding())"
+    }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateRequest
+public struct UpdateEventBridgeRuleTemplateInput: Swift.Equatable {
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
+    public var eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    /// The type of event to match with the rule.
+    public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    /// An eventbridge rule template group's identifier. Can be either be its id or current name.
+    public var groupIdentifier: Swift.String?
+    /// An eventbridge rule template's identifier. Can be either be its id or current name.
+    /// This member is required.
+    public var identifier: Swift.String?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+
+    public init(
+        description: Swift.String? = nil,
+        eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil,
+        eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+        groupIdentifier: Swift.String? = nil,
+        identifier: Swift.String? = nil,
+        name: Swift.String? = nil
+    )
+    {
+        self.description = description
+        self.eventTargets = eventTargets
+        self.eventType = eventType
+        self.groupIdentifier = groupIdentifier
+        self.identifier = identifier
+        self.name = name
+    }
+}
+
+struct UpdateEventBridgeRuleTemplateInputBody: Swift.Equatable {
+    let description: Swift.String?
+    let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    let groupIdentifier: Swift.String?
+    let name: Swift.String?
+}
+
+extension UpdateEventBridgeRuleTemplateInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupIdentifier = "groupIdentifier"
+        case name = "name"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateTarget?].self, forKey: .eventTargets)
+        var eventTargetsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil
+        if let eventTargetsContainer = eventTargetsContainer {
+            eventTargetsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]()
+            for structure0 in eventTargetsContainer {
+                if let structure0 = structure0 {
+                    eventTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventTargets = eventTargetsDecoded0
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdentifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupIdentifier)
+        groupIdentifier = groupIdentifierDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+    }
+}
+
+extension UpdateEventBridgeRuleTemplateOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: UpdateEventBridgeRuleTemplateOutputBody = try responseDecoder.decode(responseBody: data)
+            self.arn = output.arn
+            self.createdAt = output.createdAt
+            self.description = output.description
+            self.eventTargets = output.eventTargets
+            self.eventType = output.eventType
+            self.groupId = output.groupId
+            self.id = output.id
+            self.modifiedAt = output.modifiedAt
+            self.name = output.name
+            self.tags = output.tags
+        } else {
+            self.arn = nil
+            self.createdAt = nil
+            self.description = nil
+            self.eventTargets = nil
+            self.eventType = nil
+            self.groupId = nil
+            self.id = nil
+            self.modifiedAt = nil
+            self.name = nil
+            self.tags = nil
+        }
+    }
+}
+
+/// Placeholder documentation for UpdateEventBridgeRuleTemplateResponse
+public struct UpdateEventBridgeRuleTemplateOutput: Swift.Equatable {
+    /// An eventbridge rule template's ARN (Amazon Resource Name)
+    public var arn: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var createdAt: ClientRuntime.Date?
+    /// A resource's optional description.
+    public var description: Swift.String?
+    /// Placeholder documentation for __listOfEventBridgeRuleTemplateTarget
+    public var eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    /// The type of event to match with the rule.
+    public var eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    /// An eventbridge rule template group's id. AWS provided template groups have ids that start with aws-
+    public var groupId: Swift.String?
+    /// An eventbridge rule template's id. AWS provided templates have ids that start with aws-
+    public var id: Swift.String?
+    /// Placeholder documentation for __timestampIso8601
+    public var modifiedAt: ClientRuntime.Date?
+    /// A resource's name. Names must be unique within the scope of a resource type in a specific region.
+    public var name: Swift.String?
+    /// Represents the tags associated with a resource.
+    public var tags: [Swift.String:Swift.String]?
+
+    public init(
+        arn: Swift.String? = nil,
+        createdAt: ClientRuntime.Date? = nil,
+        description: Swift.String? = nil,
+        eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil,
+        eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType? = nil,
+        groupId: Swift.String? = nil,
+        id: Swift.String? = nil,
+        modifiedAt: ClientRuntime.Date? = nil,
+        name: Swift.String? = nil,
+        tags: [Swift.String:Swift.String]? = nil
+    )
+    {
+        self.arn = arn
+        self.createdAt = createdAt
+        self.description = description
+        self.eventTargets = eventTargets
+        self.eventType = eventType
+        self.groupId = groupId
+        self.id = id
+        self.modifiedAt = modifiedAt
+        self.name = name
+        self.tags = tags
+    }
+}
+
+struct UpdateEventBridgeRuleTemplateOutputBody: Swift.Equatable {
+    let arn: Swift.String?
+    let createdAt: ClientRuntime.Date?
+    let description: Swift.String?
+    let eventTargets: [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]?
+    let eventType: MediaLiveClientTypes.EventBridgeRuleTemplateEventType?
+    let groupId: Swift.String?
+    let id: Swift.String?
+    let modifiedAt: ClientRuntime.Date?
+    let name: Swift.String?
+    let tags: [Swift.String:Swift.String]?
+}
+
+extension UpdateEventBridgeRuleTemplateOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "arn"
+        case createdAt = "createdAt"
+        case description = "description"
+        case eventTargets = "eventTargets"
+        case eventType = "eventType"
+        case groupId = "groupId"
+        case id = "id"
+        case modifiedAt = "modifiedAt"
+        case name = "name"
+        case tags = "tags"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let createdAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .createdAt)
+        createdAt = createdAtDecoded
+        let descriptionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .description)
+        description = descriptionDecoded
+        let eventTargetsContainer = try containerValues.decodeIfPresent([MediaLiveClientTypes.EventBridgeRuleTemplateTarget?].self, forKey: .eventTargets)
+        var eventTargetsDecoded0:[MediaLiveClientTypes.EventBridgeRuleTemplateTarget]? = nil
+        if let eventTargetsContainer = eventTargetsContainer {
+            eventTargetsDecoded0 = [MediaLiveClientTypes.EventBridgeRuleTemplateTarget]()
+            for structure0 in eventTargetsContainer {
+                if let structure0 = structure0 {
+                    eventTargetsDecoded0?.append(structure0)
+                }
+            }
+        }
+        eventTargets = eventTargetsDecoded0
+        let eventTypeDecoded = try containerValues.decodeIfPresent(MediaLiveClientTypes.EventBridgeRuleTemplateEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let groupIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .groupId)
+        groupId = groupIdDecoded
+        let idDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .id)
+        id = idDecoded
+        let modifiedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .modifiedAt)
+        modifiedAt = modifiedAtDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let tagsContainer = try containerValues.decodeIfPresent([Swift.String: Swift.String?].self, forKey: .tags)
+        var tagsDecoded0: [Swift.String:Swift.String]? = nil
+        if let tagsContainer = tagsContainer {
+            tagsDecoded0 = [Swift.String:Swift.String]()
+            for (key0, __string0) in tagsContainer {
+                if let __string0 = __string0 {
+                    tagsDecoded0?[key0] = __string0
+                }
+            }
+        }
+        tags = tagsDecoded0
+    }
+}
+
+enum UpdateEventBridgeRuleTemplateOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "BadRequestException": return try await BadRequestException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ForbiddenException": return try await ForbiddenException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerErrorException": return try await InternalServerErrorException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "TooManyRequestsException": return try await TooManyRequestsException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }

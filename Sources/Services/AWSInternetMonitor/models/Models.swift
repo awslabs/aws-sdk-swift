@@ -167,6 +167,117 @@ extension BadRequestExceptionBody: Swift.Decodable {
     }
 }
 
+extension InternetMonitorClientTypes.ClientLocation: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case asName = "ASName"
+        case asNumber = "ASNumber"
+        case city = "City"
+        case country = "Country"
+        case latitude = "Latitude"
+        case longitude = "Longitude"
+        case metro = "Metro"
+        case subdivision = "Subdivision"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let asName = self.asName {
+            try encodeContainer.encode(asName, forKey: .asName)
+        }
+        if let asNumber = self.asNumber {
+            try encodeContainer.encode(asNumber, forKey: .asNumber)
+        }
+        if let city = self.city {
+            try encodeContainer.encode(city, forKey: .city)
+        }
+        if let country = self.country {
+            try encodeContainer.encode(country, forKey: .country)
+        }
+        if let latitude = self.latitude {
+            try encodeContainer.encode(latitude, forKey: .latitude)
+        }
+        if let longitude = self.longitude {
+            try encodeContainer.encode(longitude, forKey: .longitude)
+        }
+        if let metro = self.metro {
+            try encodeContainer.encode(metro, forKey: .metro)
+        }
+        if let subdivision = self.subdivision {
+            try encodeContainer.encode(subdivision, forKey: .subdivision)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let asNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .asName)
+        asName = asNameDecoded
+        let asNumberDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .asNumber)
+        asNumber = asNumberDecoded
+        let countryDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .country)
+        country = countryDecoded
+        let subdivisionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .subdivision)
+        subdivision = subdivisionDecoded
+        let metroDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .metro)
+        metro = metroDecoded
+        let cityDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .city)
+        city = cityDecoded
+        let latitudeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .latitude)
+        latitude = latitudeDecoded
+        let longitudeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .longitude)
+        longitude = longitudeDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// The impacted location, such as a city, that Amazon Web Services clients access application resources from.
+    public struct ClientLocation: Swift.Equatable {
+        /// The name of the internet service provider (ISP) or network (ASN).
+        /// This member is required.
+        public var asName: Swift.String?
+        /// The Autonomous System Number (ASN) of the network at an impacted location.
+        /// This member is required.
+        public var asNumber: Swift.Int?
+        /// The name of the city where the internet event is located.
+        /// This member is required.
+        public var city: Swift.String?
+        /// The name of the country where the internet event is located.
+        /// This member is required.
+        public var country: Swift.String?
+        /// The latitude where the internet event is located.
+        /// This member is required.
+        public var latitude: Swift.Double?
+        /// The longitude where the internet event is located.
+        /// This member is required.
+        public var longitude: Swift.Double?
+        /// The metro area where the health event is located. Metro indicates a metropolitan region in the United States, such as the region around New York City. In non-US countries, this is a second-level subdivision. For example, in the United Kingdom, it could be a county, a London borough, a unitary authority, council area, and so on.
+        public var metro: Swift.String?
+        /// The subdivision location where the health event is located. The subdivision usually maps to states in most countries (including the United States). For United Kingdom, it maps to a country (England, Scotland, Wales) or province (Northern Ireland).
+        public var subdivision: Swift.String?
+
+        public init(
+            asName: Swift.String? = nil,
+            asNumber: Swift.Int? = nil,
+            city: Swift.String? = nil,
+            country: Swift.String? = nil,
+            latitude: Swift.Double? = nil,
+            longitude: Swift.Double? = nil,
+            metro: Swift.String? = nil,
+            subdivision: Swift.String? = nil
+        )
+        {
+            self.asName = asName
+            self.asNumber = asNumber
+            self.city = city
+            self.country = country
+            self.latitude = latitude
+            self.longitude = longitude
+            self.metro = metro
+            self.subdivision = subdivision
+        }
+    }
+
+}
+
 extension ConflictException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -599,7 +710,7 @@ public struct GetHealthEventInput: Swift.Equatable {
     /// The internally-generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must URL-encode the EventID field in the request URL.
     /// This member is required.
     public var eventId: Swift.String?
-    /// TBD
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var linkedAccountId: Swift.String?
     /// The name of the monitor.
     /// This member is required.
@@ -796,6 +907,158 @@ enum GetHealthEventOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension GetInternetEventInput {
+
+    static func urlPathProvider(_ value: GetInternetEventInput) -> Swift.String? {
+        guard let eventId = value.eventId else {
+            return nil
+        }
+        return "/v20210603/InternetEvents/\(eventId.urlPercentEncoding())"
+    }
+}
+
+public struct GetInternetEventInput: Swift.Equatable {
+    /// The EventId of the internet event to return information for.
+    /// This member is required.
+    public var eventId: Swift.String?
+
+    public init(
+        eventId: Swift.String? = nil
+    )
+    {
+        self.eventId = eventId
+    }
+}
+
+struct GetInternetEventInputBody: Swift.Equatable {
+}
+
+extension GetInternetEventInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetInternetEventOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetInternetEventOutputBody = try responseDecoder.decode(responseBody: data)
+            self.clientLocation = output.clientLocation
+            self.endedAt = output.endedAt
+            self.eventArn = output.eventArn
+            self.eventId = output.eventId
+            self.eventStatus = output.eventStatus
+            self.eventType = output.eventType
+            self.startedAt = output.startedAt
+        } else {
+            self.clientLocation = nil
+            self.endedAt = nil
+            self.eventArn = nil
+            self.eventId = nil
+            self.eventStatus = nil
+            self.eventType = nil
+            self.startedAt = nil
+        }
+    }
+}
+
+public struct GetInternetEventOutput: Swift.Equatable {
+    /// The impacted location, such as a city, where clients access Amazon Web Services application resources.
+    /// This member is required.
+    public var clientLocation: InternetMonitorClientTypes.ClientLocation?
+    /// The time when the internet event ended. If the event hasn't ended yet, this value is empty.
+    public var endedAt: ClientRuntime.Date?
+    /// The Amazon Resource Name (ARN) of the internet event.
+    /// This member is required.
+    public var eventArn: Swift.String?
+    /// The internally-generated identifier of an internet event.
+    /// This member is required.
+    public var eventId: Swift.String?
+    /// The status of the internet event.
+    /// This member is required.
+    public var eventStatus: InternetMonitorClientTypes.InternetEventStatus?
+    /// The type of network impairment.
+    /// This member is required.
+    public var eventType: InternetMonitorClientTypes.InternetEventType?
+    /// The time when the internet event started.
+    /// This member is required.
+    public var startedAt: ClientRuntime.Date?
+
+    public init(
+        clientLocation: InternetMonitorClientTypes.ClientLocation? = nil,
+        endedAt: ClientRuntime.Date? = nil,
+        eventArn: Swift.String? = nil,
+        eventId: Swift.String? = nil,
+        eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
+        eventType: InternetMonitorClientTypes.InternetEventType? = nil,
+        startedAt: ClientRuntime.Date? = nil
+    )
+    {
+        self.clientLocation = clientLocation
+        self.endedAt = endedAt
+        self.eventArn = eventArn
+        self.eventId = eventId
+        self.eventStatus = eventStatus
+        self.eventType = eventType
+        self.startedAt = startedAt
+    }
+}
+
+struct GetInternetEventOutputBody: Swift.Equatable {
+    let eventId: Swift.String?
+    let eventArn: Swift.String?
+    let startedAt: ClientRuntime.Date?
+    let endedAt: ClientRuntime.Date?
+    let clientLocation: InternetMonitorClientTypes.ClientLocation?
+    let eventType: InternetMonitorClientTypes.InternetEventType?
+    let eventStatus: InternetMonitorClientTypes.InternetEventStatus?
+}
+
+extension GetInternetEventOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientLocation = "ClientLocation"
+        case endedAt = "EndedAt"
+        case eventArn = "EventArn"
+        case eventId = "EventId"
+        case eventStatus = "EventStatus"
+        case eventType = "EventType"
+        case startedAt = "StartedAt"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
+        eventId = eventIdDecoded
+        let eventArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventArn)
+        eventArn = eventArnDecoded
+        let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
+        startedAt = startedAtDecoded
+        let endedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endedAt)
+        endedAt = endedAtDecoded
+        let clientLocationDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.ClientLocation.self, forKey: .clientLocation)
+        clientLocation = clientLocationDecoded
+        let eventTypeDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let eventStatusDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetEventStatus.self, forKey: .eventStatus)
+        eventStatus = eventStatusDecoded
+    }
+}
+
+enum GetInternetEventOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension GetMonitorInput {
 
     static func queryItemProvider(_ value: GetMonitorInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -819,7 +1082,7 @@ extension GetMonitorInput {
 }
 
 public struct GetMonitorInput: Swift.Equatable {
-    /// TBD
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var linkedAccountId: Swift.String?
     /// The name of the monitor.
     /// This member is required.
@@ -1426,7 +1689,7 @@ extension InternetMonitorClientTypes {
         /// When a health event started.
         /// This member is required.
         public var startedAt: ClientRuntime.Date?
-        /// Health event list member.
+        /// The status of a health event.
         /// This member is required.
         public var status: InternetMonitorClientTypes.HealthEventStatus?
 
@@ -1713,7 +1976,7 @@ extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
 extension InternetMonitorClientTypes {
     /// Information about a location impacted by a health event in Amazon CloudWatch Internet Monitor. Geographic regions are hierarchically categorized into country, subdivision, metro and city geographic granularities. The geographic region is identified based on the IP address used at the client locations.
     public struct ImpactedLocation: Swift.Equatable {
-        /// The name of the network at an impacted location.
+        /// The name of the internet service provider (ISP) or network (ASN).
         /// This member is required.
         public var asName: Swift.String?
         /// The Autonomous System Number (ASN) of the network at an impacted location.
@@ -1893,6 +2156,171 @@ extension InternalServerExceptionBody: Swift.Decodable {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
         let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
         message = messageDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    public enum InternetEventStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case active
+        case resolved
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetEventStatus] {
+            return [
+                .active,
+                .resolved,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .active: return "ACTIVE"
+            case .resolved: return "RESOLVED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InternetEventStatus(rawValue: rawValue) ?? InternetEventStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension InternetMonitorClientTypes.InternetEventSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientLocation = "ClientLocation"
+        case endedAt = "EndedAt"
+        case eventArn = "EventArn"
+        case eventId = "EventId"
+        case eventStatus = "EventStatus"
+        case eventType = "EventType"
+        case startedAt = "StartedAt"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientLocation = self.clientLocation {
+            try encodeContainer.encode(clientLocation, forKey: .clientLocation)
+        }
+        if let endedAt = self.endedAt {
+            try encodeContainer.encodeTimestamp(endedAt, format: .dateTime, forKey: .endedAt)
+        }
+        if let eventArn = self.eventArn {
+            try encodeContainer.encode(eventArn, forKey: .eventArn)
+        }
+        if let eventId = self.eventId {
+            try encodeContainer.encode(eventId, forKey: .eventId)
+        }
+        if let eventStatus = self.eventStatus {
+            try encodeContainer.encode(eventStatus.rawValue, forKey: .eventStatus)
+        }
+        if let eventType = self.eventType {
+            try encodeContainer.encode(eventType.rawValue, forKey: .eventType)
+        }
+        if let startedAt = self.startedAt {
+            try encodeContainer.encodeTimestamp(startedAt, format: .dateTime, forKey: .startedAt)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let eventIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventId)
+        eventId = eventIdDecoded
+        let eventArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .eventArn)
+        eventArn = eventArnDecoded
+        let startedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .startedAt)
+        startedAt = startedAtDecoded
+        let endedAtDecoded = try containerValues.decodeTimestampIfPresent(.dateTime, forKey: .endedAt)
+        endedAt = endedAtDecoded
+        let clientLocationDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.ClientLocation.self, forKey: .clientLocation)
+        clientLocation = clientLocationDecoded
+        let eventTypeDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetEventType.self, forKey: .eventType)
+        eventType = eventTypeDecoded
+        let eventStatusDecoded = try containerValues.decodeIfPresent(InternetMonitorClientTypes.InternetEventStatus.self, forKey: .eventStatus)
+        eventStatus = eventStatusDecoded
+    }
+}
+
+extension InternetMonitorClientTypes {
+    /// A summary of information about an internet event in Amazon CloudWatch Internet Monitor. Internet events are issues that cause performance degradation or availability problems for impacted Amazon Web Services client locations. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers.
+    public struct InternetEventSummary: Swift.Equatable {
+        /// The impacted location, such as a city, that Amazon Web Services clients access application resources from.
+        /// This member is required.
+        public var clientLocation: InternetMonitorClientTypes.ClientLocation?
+        /// The time when an internet event ended. If the event hasn't ended yet, this value is empty.
+        public var endedAt: ClientRuntime.Date?
+        /// The Amazon Resource Name (ARN) of the internet event.
+        /// This member is required.
+        public var eventArn: Swift.String?
+        /// The internally-generated identifier of an internet event.
+        /// This member is required.
+        public var eventId: Swift.String?
+        /// The status of an internet event.
+        /// This member is required.
+        public var eventStatus: InternetMonitorClientTypes.InternetEventStatus?
+        /// The type of network impairment.
+        /// This member is required.
+        public var eventType: InternetMonitorClientTypes.InternetEventType?
+        /// The time when an internet event started.
+        /// This member is required.
+        public var startedAt: ClientRuntime.Date?
+
+        public init(
+            clientLocation: InternetMonitorClientTypes.ClientLocation? = nil,
+            endedAt: ClientRuntime.Date? = nil,
+            eventArn: Swift.String? = nil,
+            eventId: Swift.String? = nil,
+            eventStatus: InternetMonitorClientTypes.InternetEventStatus? = nil,
+            eventType: InternetMonitorClientTypes.InternetEventType? = nil,
+            startedAt: ClientRuntime.Date? = nil
+        )
+        {
+            self.clientLocation = clientLocation
+            self.endedAt = endedAt
+            self.eventArn = eventArn
+            self.eventId = eventId
+            self.eventStatus = eventStatus
+            self.eventType = eventType
+            self.startedAt = startedAt
+        }
+    }
+
+}
+
+extension InternetMonitorClientTypes {
+    public enum InternetEventType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case availability
+        case performance
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [InternetEventType] {
+            return [
+                .availability,
+                .performance,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .availability: return "AVAILABILITY"
+            case .performance: return "PERFORMANCE"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = InternetEventType(rawValue: rawValue) ?? InternetEventType.sdkUnknown(rawValue)
+        }
     }
 }
 
@@ -2080,7 +2508,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The status of a health event.
     public var eventStatus: InternetMonitorClientTypes.HealthEventStatus?
-    /// TBD
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var linkedAccountId: Swift.String?
     /// The number of health event objects that you want to return with this call.
     public var maxResults: Swift.Int?
@@ -2195,6 +2623,160 @@ enum ListHealthEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension ListInternetEventsInput {
+
+    static func queryItemProvider(_ value: ListInternetEventsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let endTime = value.endTime {
+            let endTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EndTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: endTime)).urlPercentEncoding())
+            items.append(endTimeQueryItem)
+        }
+        if let eventType = value.eventType {
+            let eventTypeQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventType".urlPercentEncoding(), value: Swift.String(eventType).urlPercentEncoding())
+            items.append(eventTypeQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "InternetEventMaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let startTime = value.startTime {
+            let startTimeQueryItem = ClientRuntime.SDKURLQueryItem(name: "StartTime".urlPercentEncoding(), value: Swift.String(TimestampFormatter(format: .dateTime).string(from: startTime)).urlPercentEncoding())
+            items.append(startTimeQueryItem)
+        }
+        if let eventStatus = value.eventStatus {
+            let eventStatusQueryItem = ClientRuntime.SDKURLQueryItem(name: "EventStatus".urlPercentEncoding(), value: Swift.String(eventStatus).urlPercentEncoding())
+            items.append(eventStatusQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListInternetEventsInput {
+
+    static func urlPathProvider(_ value: ListInternetEventsInput) -> Swift.String? {
+        return "/v20210603/InternetEvents"
+    }
+}
+
+public struct ListInternetEventsInput: Swift.Equatable {
+    /// The end time of the time window that you want to get a list of internet events for.
+    public var endTime: ClientRuntime.Date?
+    /// The status of an internet event.
+    public var eventStatus: Swift.String?
+    /// The type of network impairment.
+    public var eventType: Swift.String?
+    /// The number of query results that you want to return with this call.
+    public var maxResults: Swift.Int?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+    /// The start time of the time window that you want to get a list of internet events for.
+    public var startTime: ClientRuntime.Date?
+
+    public init(
+        endTime: ClientRuntime.Date? = nil,
+        eventStatus: Swift.String? = nil,
+        eventType: Swift.String? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        startTime: ClientRuntime.Date? = nil
+    )
+    {
+        self.endTime = endTime
+        self.eventStatus = eventStatus
+        self.eventType = eventType
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.startTime = startTime
+    }
+}
+
+struct ListInternetEventsInputBody: Swift.Equatable {
+}
+
+extension ListInternetEventsInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListInternetEventsOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListInternetEventsOutputBody = try responseDecoder.decode(responseBody: data)
+            self.internetEvents = output.internetEvents
+            self.nextToken = output.nextToken
+        } else {
+            self.internetEvents = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListInternetEventsOutput: Swift.Equatable {
+    /// A set of internet events returned for the list operation.
+    /// This member is required.
+    public var internetEvents: [InternetMonitorClientTypes.InternetEventSummary]?
+    /// The token for the next set of results. You receive this token from a previous call.
+    public var nextToken: Swift.String?
+
+    public init(
+        internetEvents: [InternetMonitorClientTypes.InternetEventSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.internetEvents = internetEvents
+        self.nextToken = nextToken
+    }
+}
+
+struct ListInternetEventsOutputBody: Swift.Equatable {
+    let internetEvents: [InternetMonitorClientTypes.InternetEventSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListInternetEventsOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case internetEvents = "InternetEvents"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let internetEventsContainer = try containerValues.decodeIfPresent([InternetMonitorClientTypes.InternetEventSummary?].self, forKey: .internetEvents)
+        var internetEventsDecoded0:[InternetMonitorClientTypes.InternetEventSummary]? = nil
+        if let internetEventsContainer = internetEventsContainer {
+            internetEventsDecoded0 = [InternetMonitorClientTypes.InternetEventSummary]()
+            for structure0 in internetEventsContainer {
+                if let structure0 = structure0 {
+                    internetEventsDecoded0?.append(structure0)
+                }
+            }
+        }
+        internetEvents = internetEventsDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListInternetEventsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ThrottlingException": return try await ThrottlingException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension ListMonitorsInput {
 
     static func queryItemProvider(_ value: ListMonitorsInput) throws -> [ClientRuntime.SDKURLQueryItem] {
@@ -2227,7 +2809,7 @@ extension ListMonitorsInput {
 }
 
 public struct ListMonitorsInput: Swift.Equatable {
-    /// TBD
+    /// A boolean option that you can set to TRUE to include monitors for linked accounts in a list of monitors, when you've set up cross-account sharing in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var includeLinkedAccounts: Swift.Bool?
     /// The number of monitor objects that you want to return with this call.
     public var maxResults: Swift.Int?
@@ -2724,9 +3306,9 @@ extension InternetMonitorClientTypes.Network: Swift.Codable {
 }
 
 extension InternetMonitorClientTypes {
-    /// An internet service provider (ISP) or network in Amazon CloudWatch Internet Monitor.
+    /// An internet service provider (ISP) or network (ASN) in Amazon CloudWatch Internet Monitor.
     public struct Network: Swift.Equatable {
-        /// The internet provider name or network name.
+        /// The name of the internet service provider (ISP) or network (ASN).
         /// This member is required.
         public var asName: Swift.String?
         /// The Autonomous System Number (ASN) of the internet provider or network.
@@ -2806,7 +3388,7 @@ extension InternetMonitorClientTypes {
         /// The combination of the Autonomous System Number (ASN) of the network and the name of the network.
         /// This member is required.
         public var asPath: [InternetMonitorClientTypes.Network]?
-        /// Type of network impairment.
+        /// The type of network impairment.
         /// This member is required.
         public var networkEventType: InternetMonitorClientTypes.TriangulationEventType?
         /// The networks that could be impacted by a network impairment event.
@@ -3313,7 +3895,7 @@ public struct StartQueryInput: Swift.Equatable {
     public var endTime: ClientRuntime.Date?
     /// The FilterParameters field that you use with Amazon CloudWatch Internet Monitor queries is a string the defines how you want a query to be filtered. The filter parameters that you can specify depend on the query type, since each query type returns a different set of Internet Monitor data. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var filterParameters: [InternetMonitorClientTypes.FilterParameter]?
-    /// TBD
+    /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var linkedAccountId: Swift.String?
     /// The name of the monitor to query.
     /// This member is required.
