@@ -519,7 +519,7 @@ extension CloudFrontClientTypes.CacheBehavior {
 }
 
 extension CloudFrontClientTypes {
-    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. Don't include an empty CacheBehavior element because this is invalid. To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
+    /// A complex type that describes how CloudFront processes requests. You must create at least as many cache behaviors (including the default cache behavior) as you have origins if you want CloudFront to serve objects from all of the origins. Each cache behavior specifies the one origin from which you want CloudFront to get objects. If you have two origins and only the default cache behavior, the default cache behavior will cause CloudFront to get objects from one of the origins, but the other origin is never used. For the current quota (formerly known as limit) on the number of cache behaviors that you can add to a distribution, see [Quotas](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/cloudfront-limits.html) in the Amazon CloudFront Developer Guide. If you don't want to specify any cache behaviors, include only an empty CacheBehaviors element. For more information, see [CacheBehaviors](https://docs.aws.amazon.com/cloudfront/latest/APIReference/API_CacheBehaviors.html). Don't include an empty CacheBehavior element because this is invalid. To delete all cache behaviors in an existing distribution, update the distribution configuration and include only an empty CacheBehaviors element. To add, change, or remove one or more cache behaviors, update the distribution configuration and specify all of the cache behaviors that you want to include in the updated distribution. For more information about cache behaviors, see [Cache Behavior Settings](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/distribution-web-values-specify.html#DownloadDistValuesCacheBehavior) in the Amazon CloudFront Developer Guide.
     public struct CacheBehavior: Swift.Equatable {
         /// A complex type that controls which HTTP methods CloudFront processes and forwards to your Amazon S3 bucket or your custom origin. There are three choices:
         ///
@@ -1388,7 +1388,7 @@ extension CannotDeleteEntityWhileInUse {
     }
 }
 
-/// The Key Value Store entity cannot be deleted while it is in use.
+/// The key value store entity cannot be deleted while it is in use.
 public struct CannotDeleteEntityWhileInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -2346,7 +2346,7 @@ extension CloudFrontClientTypes {
     public struct ContinuousDeploymentSingleWeightConfig: Swift.Equatable {
         /// Session stickiness provides the ability to define multiple requests from a single viewer as a single session. This prevents the potentially inconsistent experience of sending some of a given user's requests to your staging distribution, while others are sent to your primary distribution. Define the session duration using TTL values.
         public var sessionStickinessConfig: CloudFrontClientTypes.SessionStickinessConfig?
-        /// The percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and .15.
+        /// The percentage of traffic to send to a staging distribution, expressed as a decimal number between 0 and 0.15. For example, a value of 0.10 means 10% of traffic is sent to the staging distribution.
         /// This member is required.
         public var weight: Swift.Float?
 
@@ -3655,11 +3655,11 @@ extension CreateKeyValueStoreInput {
 }
 
 public struct CreateKeyValueStoreInput: Swift.Equatable {
-    /// The comment of the Key Value Store.
+    /// The comment of the key value store.
     public var comment: Swift.String?
     /// The S3 bucket that provides the source for the import. The source must be in a valid JSON format.
     public var importSource: CloudFrontClientTypes.ImportSource?
-    /// The name of the Key Value Store. The maximum length of the name is 32 characters.
+    /// The name of the key value store. The minimum length is 1 character and the maximum length is 64 characters.
     /// This member is required.
     public var name: Swift.String?
 
@@ -3695,11 +3695,11 @@ extension CreateKeyValueStoreOutput {
 }
 
 public struct CreateKeyValueStoreOutput: Swift.Equatable {
-    /// The ETag in the resulting Key Value Store.
+    /// The ETag in the resulting key value store.
     public var eTag: Swift.String?
-    /// The resulting Key Value Store.
+    /// The resulting key value store.
     public var keyValueStore: CloudFrontClientTypes.KeyValueStore?
-    /// The location of the resulting Key Value Store.
+    /// The location of the resulting key value store.
     public var location: Swift.String?
 
     public init(
@@ -3727,6 +3727,7 @@ enum CreateKeyValueStoreOutputError {
                 case "EntityLimitExceeded": return try await EntityLimitExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "EntitySizeLimitExceeded": return try await EntitySizeLimitExceeded.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
             }
         }
@@ -4092,7 +4093,7 @@ public struct CreateRealtimeLogConfigInput: Swift.Equatable {
     /// A unique name to identify this real-time log configuration.
     /// This member is required.
     public var name: Swift.String?
-    /// The sampling rate for this real-time log configuration. The sampling rate determines the percentage of viewer requests that are represented in the real-time log data. You must provide an integer between 1 and 100, inclusive.
+    /// The sampling rate for this real-time log configuration. You can specify a whole number between 1 and 100 (inclusive) to determine the percentage of viewer requests that are represented in the real-time log data.
     /// This member is required.
     public var samplingRate: Swift.Int?
 
@@ -4752,7 +4753,7 @@ extension CloudFrontClientTypes {
         /// This field is deprecated. We recommend that you use a cache policy or an origin request policy instead of this field. For more information, see [Working with policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/working-with-policies.html) in the Amazon CloudFront Developer Guide. If you want to include values in the cache key, use a cache policy. For more information, see [Creating cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-the-cache-key.html#cache-key-create-cache-policy) or [Using the managed cache policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-cache-policies.html) in the Amazon CloudFront Developer Guide. If you want to send values to the origin but not include them in the cache key, use an origin request policy. For more information, see [Creating origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/controlling-origin-requests.html#origin-request-create-origin-request-policy) or [Using the managed origin request policies](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/using-managed-origin-request-policies.html) in the Amazon CloudFront Developer Guide. A DefaultCacheBehavior must include either a CachePolicyId or ForwardedValues. We recommend that you use a CachePolicyId. A complex type that specifies how CloudFront handles query strings, cookies, and HTTP headers.
         @available(*, deprecated)
         public var forwardedValues: CloudFrontClientTypes.ForwardedValues?
-        /// A list of CloudFront functions that are associated with this cache behavior. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+        /// A list of CloudFront functions that are associated with this cache behavior. Your functions must be published to the LIVE stage to associate them with a cache behavior.
         public var functionAssociations: CloudFrontClientTypes.FunctionAssociations?
         /// A complex type that contains zero or more Lambda@Edge function associations for a cache behavior.
         public var lambdaFunctionAssociations: CloudFrontClientTypes.LambdaFunctionAssociations?
@@ -5447,10 +5448,10 @@ extension DeleteKeyValueStoreInput {
 }
 
 public struct DeleteKeyValueStoreInput: Swift.Equatable {
-    /// The Key Value Store to delete, if a match occurs.
+    /// The key value store to delete, if a match occurs.
     /// This member is required.
     public var ifMatch: Swift.String?
-    /// The name of the Key Value Store.
+    /// The name of the key value store.
     /// This member is required.
     public var name: Swift.String?
 
@@ -5491,6 +5492,7 @@ enum DeleteKeyValueStoreOutputError {
                 case "EntityNotFound": return try await EntityNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "PreconditionFailed": return try await PreconditionFailed.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
             }
         }
@@ -6071,7 +6073,7 @@ extension DescribeKeyValueStoreInput {
 }
 
 public struct DescribeKeyValueStoreInput: Swift.Equatable {
-    /// The name of the Key Value Store.
+    /// The name of the key value store.
     /// This member is required.
     public var name: Swift.String?
 
@@ -6100,9 +6102,9 @@ extension DescribeKeyValueStoreOutput {
 }
 
 public struct DescribeKeyValueStoreOutput: Swift.Equatable {
-    /// The ETag of the resulting Key Value Store.
+    /// The ETag of the resulting key value store.
     public var eTag: Swift.String?
-    /// The resulting Key Value Store.
+    /// The resulting key value store.
     public var keyValueStore: CloudFrontClientTypes.KeyValueStore?
 
     public init(
@@ -6126,6 +6128,7 @@ enum DescribeKeyValueStoreOutputError {
                 case "AccessDenied": return try await AccessDenied.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "EntityNotFound": return try await EntityNotFound.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
             }
         }
@@ -6364,7 +6367,7 @@ extension CloudFrontClientTypes {
         /// From this field, you can enable or disable the selected distribution.
         /// This member is required.
         public var enabled: Swift.Bool?
-        /// (Optional) Specify the maximum HTTP version(s) that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to switch networks without losing connection. For more information about connection migration, see [Connection Migration](https://www.rfc-editor.org/rfc/rfc9000.html#name-connection-migration) at RFC 9000. For more information about supported TLSv1.3 ciphers, see [Supported protocols and ciphers between viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
+        /// (Optional) Specify the HTTP version(s) that you want viewers to use to communicate with CloudFront. The default value for new web distributions is http2. Viewers that don't support HTTP/2 automatically use an earlier HTTP version. For viewers and CloudFront to use HTTP/2, viewers must support TLSv1.2 or later, and must support Server Name Indication (SNI). For viewers and CloudFront to use HTTP/3, viewers must support TLSv1.3 and Server Name Indication (SNI). CloudFront supports HTTP/3 connection migration to allow the viewer to switch networks without losing connection. For more information about connection migration, see [Connection Migration](https://www.rfc-editor.org/rfc/rfc9000.html#name-connection-migration) at RFC 9000. For more information about supported TLSv1.3 ciphers, see [Supported protocols and ciphers between viewers and CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/secure-connections-supported-viewer-protocols-ciphers.html).
         public var httpVersion: CloudFrontClientTypes.HttpVersion?
         /// If you want CloudFront to respond to IPv6 DNS requests with an IPv6 address for your distribution, specify true. If you specify false, CloudFront responds to IPv6 DNS requests with the DNS response code NOERROR and with no IP addresses. This allows viewers to submit a second request, for an IPv4 address for your distribution. In general, you should enable IPv6 if you have users on IPv6 networks who want to access your content. However, if you're using signed URLs or signed cookies to restrict access to your content, and if you're using a custom policy that includes the IpAddress parameter to restrict the IP addresses that can access your content, don't enable IPv6. If you want to restrict access to some content by IP address and not restrict access to other content (or restrict access but not by IP address), you can create two distributions. For more information, see [Creating a Signed URL Using a Custom Policy](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-creating-signed-url-custom-policy.html) in the Amazon CloudFront Developer Guide. If you're using an Route 53 Amazon Web Services Integration alias resource record set to route traffic to your CloudFront distribution, you need to create a second alias resource record set when both of the following are true:
         ///
@@ -6390,7 +6393,7 @@ extension CloudFrontClientTypes {
         public var staging: Swift.Bool?
         /// A complex type that determines the distribution's SSL/TLS configuration for communicating with viewers.
         public var viewerCertificate: CloudFrontClientTypes.ViewerCertificate?
-        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/473e64fd-f30b-4765-81a0-62ad96dd167a. To specify a web ACL created using WAF Classic, use the ACL ID, for example 473e64fd-f30b-4765-81a0-62ad96dd167a. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
+        /// A unique identifier that specifies the WAF web ACL, if any, to associate with this distribution. To specify a web ACL created using the latest version of WAF, use the ACL ARN, for example arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. To specify a web ACL created using WAF Classic, use the ACL ID, for example a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. WAF is a web application firewall that lets you monitor the HTTP and HTTPS requests that are forwarded to CloudFront, and lets you control access to your content. Based on conditions that you specify, such as the IP addresses that requests originate from or the values of query strings, CloudFront responds to requests either with the requested content or with an HTTP 403 status code (Forbidden). You can also configure CloudFront to return a custom error page when a request is blocked. For more information about WAF, see the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/what-is-aws-waf.html).
         public var webACLId: Swift.String?
 
         public init(
@@ -6771,7 +6774,7 @@ extension CloudFrontClientTypes {
         /// A complex type that identifies ways in which you want to restrict distribution of your content.
         /// This member is required.
         public var restrictions: CloudFrontClientTypes.Restrictions?
-        /// Whether the primary distribution has a staging distribution enabled.
+        /// A Boolean that indicates whether this is a staging distribution. When this value is true, this is a staging distribution. When this value is false, this is not a staging distribution.
         /// This member is required.
         public var staging: Swift.Bool?
         /// The current status of the distribution. When the status is Deployed, the distribution's information is propagated to all CloudFront edge locations.
@@ -6986,7 +6989,7 @@ extension EntityAlreadyExists {
     }
 }
 
-/// The Key Value Store entity already exists. You must provide a unique Key Value Store entity.
+/// The key value store entity already exists. You must provide a unique key value store entity.
 public struct EntityAlreadyExists: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7034,7 +7037,7 @@ extension EntityLimitExceeded {
     }
 }
 
-/// The Key Value Store entity limit has been exceeded.
+/// The key value store entity limit has been exceeded.
 public struct EntityLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7082,7 +7085,7 @@ extension EntityNotFound {
     }
 }
 
-/// The Key Value Store entity was not found.
+/// The key value store entity was not found.
 public struct EntityNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -7130,7 +7133,7 @@ extension EntitySizeLimitExceeded {
     }
 }
 
-/// The Key Value Store entity size limit was exceeded.
+/// The key value store entity size limit was exceeded.
 public struct EntitySizeLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -8123,9 +8126,9 @@ extension CloudFrontClientTypes.FunctionAssociations {
 }
 
 extension CloudFrontClientTypes {
-    /// A list of CloudFront functions that are associated with a cache behavior in a CloudFront distribution. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+    /// A list of CloudFront functions that are associated with a cache behavior in a CloudFront distribution. Your functions must be published to the LIVE stage to associate them with a cache behavior.
     public struct FunctionAssociations: Swift.Equatable {
-        /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution. CloudFront functions must be published to the LIVE stage to associate them with a cache behavior.
+        /// The CloudFront functions that are associated with a cache behavior in a CloudFront distribution. Your functions must be published to the LIVE stage to associate them with a cache behavior.
         public var items: [CloudFrontClientTypes.FunctionAssociation]?
         /// The number of CloudFront functions in the list.
         /// This member is required.
@@ -8170,7 +8173,7 @@ extension CloudFrontClientTypes {
         /// A comment to describe the function.
         /// This member is required.
         public var comment: Swift.String?
-        /// The configuration for the Key Value Store associations.
+        /// The configuration for the key value store associations.
         public var keyValueStoreAssociations: CloudFrontClientTypes.KeyValueStoreAssociations?
         /// The function's runtime environment version.
         /// This member is required.
@@ -10957,12 +10960,12 @@ extension CloudFrontClientTypes.ImportSource {
 }
 
 extension CloudFrontClientTypes {
-    /// The import source for the Key Value Store.
+    /// The import source for the key value store.
     public struct ImportSource: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the import source for the Key Value Store.
+        /// The Amazon Resource Name (ARN) of the import source for the key value store.
         /// This member is required.
         public var sourceARN: Swift.String?
-        /// The source type of the import source for the Key Value Store.
+        /// The source type of the import source for the key value store.
         /// This member is required.
         public var sourceType: CloudFrontClientTypes.ImportSourceType?
 
@@ -12886,24 +12889,24 @@ extension CloudFrontClientTypes.KeyValueStore {
 }
 
 extension CloudFrontClientTypes {
-    /// The Key Value Store. Use this to separate data from function code, allowing you to update data without having to publish a new version of a function. The Key Value Store holds keys and their corresponding values.
+    /// The key value store. Use this to separate data from function code, allowing you to update data without having to publish a new version of a function. The key value store holds keys and their corresponding values.
     public struct KeyValueStore: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Key Value Store.
+        /// The Amazon Resource Name (ARN) of the key value store.
         /// This member is required.
         public var arn: Swift.String?
-        /// A comment for the Key Value Store.
+        /// A comment for the key value store.
         /// This member is required.
         public var comment: Swift.String?
-        /// The unique Id for the Key Value Store.
+        /// The unique Id for the key value store.
         /// This member is required.
         public var id: Swift.String?
-        /// The last-modified time of the Key Value Store.
+        /// The last-modified time of the key value store.
         /// This member is required.
         public var lastModifiedTime: ClientRuntime.Date?
-        /// The name of the Key Value Store.
+        /// The name of the key value store.
         /// This member is required.
         public var name: Swift.String?
-        /// The status of the Key Value Store.
+        /// The status of the key value store.
         public var status: Swift.String?
 
         public init(
@@ -12944,9 +12947,9 @@ extension CloudFrontClientTypes.KeyValueStoreAssociation {
 }
 
 extension CloudFrontClientTypes {
-    /// The Key Value Store association.
+    /// The key value store association.
     public struct KeyValueStoreAssociation: Swift.Equatable {
-        /// The Amazon Resource Name (ARN) of the Key Value Store association.
+        /// The Amazon Resource Name (ARN) of the key value store association.
         /// This member is required.
         public var keyValueStoreARN: Swift.String?
 
@@ -12980,11 +12983,11 @@ extension CloudFrontClientTypes.KeyValueStoreAssociations {
 }
 
 extension CloudFrontClientTypes {
-    /// The Key Value Store associations.
+    /// The key value store associations.
     public struct KeyValueStoreAssociations: Swift.Equatable {
-        /// The items of the Key Value Store association.
+        /// The items of the key value store association.
         public var items: [CloudFrontClientTypes.KeyValueStoreAssociation]?
-        /// The quantity of Key Value Store associations.
+        /// The quantity of key value store associations.
         /// This member is required.
         public var quantity: Swift.Int?
 
@@ -13024,16 +13027,16 @@ extension CloudFrontClientTypes.KeyValueStoreList {
 }
 
 extension CloudFrontClientTypes {
-    /// The Key Value Store list.
+    /// The key value store list.
     public struct KeyValueStoreList: Swift.Equatable {
-        /// The items of the Key Value Store list.
+        /// The items of the key value store list.
         public var items: [CloudFrontClientTypes.KeyValueStore]?
-        /// The maximum number of items in the Key Value Store list.
+        /// The maximum number of items in the key value store list.
         /// This member is required.
         public var maxItems: Swift.Int?
-        /// The next marker associated with the Key Value Store list.
+        /// The next marker associated with the key value store list.
         public var nextMarker: Swift.String?
-        /// The quantity of the Key Value Store list.
+        /// The quantity of the key value store list.
         /// This member is required.
         public var quantity: Swift.Int?
 
@@ -14014,7 +14017,7 @@ public struct ListDistributionsByWebACLIdInput: Swift.Equatable {
     public var marker: Swift.String?
     /// The maximum number of distributions that you want CloudFront to return in the response body. The maximum and default values are both 100.
     public var maxItems: Swift.Int?
-    /// The ID of the WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL.
+    /// The ID of the WAF web ACL that you want to list the associated distributions. If you specify "null" for the ID, the request returns a list of the distributions that aren't associated with a web ACL. For WAFV2, this is the ARN of the web ACL, such as arn:aws:wafv2:us-east-1:123456789012:global/webacl/ExampleWebACL/a1b2c3d4-5678-90ab-cdef-EXAMPLE11111. For WAF Classic, this is the ID of the web ACL, such as a1b2c3d4-5678-90ab-cdef-EXAMPLE11111.
     /// This member is required.
     public var webACLId: Swift.String?
 
@@ -14597,11 +14600,11 @@ extension ListKeyValueStoresInput {
 }
 
 public struct ListKeyValueStoresInput: Swift.Equatable {
-    /// The marker associated with the Key Value Stores list.
+    /// The marker associated with the key value stores list.
     public var marker: Swift.String?
-    /// The maximum number of items in the Key Value Stores list.
+    /// The maximum number of items in the key value stores list.
     public var maxItems: Swift.Int?
-    /// The status of the request for the Key Value Stores list.
+    /// The status of the request for the key value stores list.
     public var status: Swift.String?
 
     public init(
@@ -14630,7 +14633,7 @@ extension ListKeyValueStoresOutput {
 }
 
 public struct ListKeyValueStoresOutput: Swift.Equatable {
-    /// The resulting Key Value Stores list.
+    /// The resulting key value stores list.
     public var keyValueStoreList: CloudFrontClientTypes.KeyValueStoreList?
 
     public init(
@@ -14651,6 +14654,7 @@ enum ListKeyValueStoresOutputError {
             switch restXMLError.code {
                 case "AccessDenied": return try await AccessDenied.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
             }
         }
@@ -16564,7 +16568,7 @@ extension CloudFrontClientTypes {
     public struct OriginAccessControlConfig: Swift.Equatable {
         /// A description of the origin access control.
         public var description: Swift.String?
-        /// A name to identify the origin access control.
+        /// A name to identify the origin access control. You can specify up to 64 characters.
         /// This member is required.
         public var name: Swift.String?
         /// The type of origin that this origin access control is for.
@@ -16718,12 +16722,16 @@ extension CloudFrontClientTypes {
 
 extension CloudFrontClientTypes {
     public enum OriginAccessControlOriginTypes: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case lambda
+        case mediapackagev2
         case mediastore
         case s3
         case sdkUnknown(Swift.String)
 
         public static var allCases: [OriginAccessControlOriginTypes] {
             return [
+                .lambda,
+                .mediapackagev2,
                 .mediastore,
                 .s3,
                 .sdkUnknown("")
@@ -16735,6 +16743,8 @@ extension CloudFrontClientTypes {
         }
         public var rawValue: Swift.String {
             switch self {
+            case .lambda: return "lambda"
+            case .mediapackagev2: return "mediapackagev2"
             case .mediastore: return "mediastore"
             case .s3: return "s3"
             case let .sdkUnknown(s): return s
@@ -20124,7 +20134,7 @@ extension CloudFrontClientTypes {
         public var frameOptions: CloudFrontClientTypes.ResponseHeadersPolicyFrameOptions?
         /// Determines whether CloudFront includes the Referrer-Policy HTTP response header and the header's value. For more information about the Referrer-Policy HTTP response header, see [Referrer-Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Referrer-Policy) in the MDN Web Docs.
         public var referrerPolicy: CloudFrontClientTypes.ResponseHeadersPolicyReferrerPolicy?
-        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header's value. For more information about the Strict-Transport-Security HTTP response header, see [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
+        /// Determines whether CloudFront includes the Strict-Transport-Security HTTP response header and the header's value. For more information about the Strict-Transport-Security HTTP response header, see [Security headers](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/understanding-response-headers-policies.html#understanding-response-headers-policies-security) in the Amazon CloudFront Developer Guide and [Strict-Transport-Security](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Strict-Transport-Security) in the MDN Web Docs.
         public var strictTransportSecurity: CloudFrontClientTypes.ResponseHeadersPolicyStrictTransportSecurity?
         /// Determines whether CloudFront includes the X-XSS-Protection HTTP response header and the header's value. For more information about the X-XSS-Protection HTTP response header, see [X-XSS-Protection](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection) in the MDN Web Docs.
         public var xssProtection: CloudFrontClientTypes.ResponseHeadersPolicyXSSProtection?
@@ -20463,7 +20473,7 @@ extension CloudFrontClientTypes.S3OriginConfig {
 extension CloudFrontClientTypes {
     /// A complex type that contains information about the Amazon S3 origin. If the origin is a custom origin or an S3 bucket that is configured as a website endpoint, use the CustomOriginConfig element instead.
     public struct S3OriginConfig: Swift.Equatable {
-        /// The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity where  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
+        /// If you're using origin access control (OAC) instead of origin access identity, specify an empty OriginAccessIdentity element. For more information, see [Restricting access to an Amazon Web Services](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-restricting-access-to-origin.html) in the Amazon CloudFront Developer Guide. The CloudFront origin access identity to associate with the origin. Use an origin access identity to configure the origin so that viewers can only access objects in an Amazon S3 bucket through CloudFront. The format of the value is: origin-access-identity/cloudfront/ID-of-origin-access-identity The  ID-of-origin-access-identity  is the value that CloudFront returned in the ID element when you created the origin access identity. If you want viewers to be able to access objects using either the CloudFront URL or the Amazon S3 URL, specify an empty OriginAccessIdentity element. To delete the origin access identity from an existing distribution, update the distribution configuration and include an empty OriginAccessIdentity element. To replace the origin access identity, update the distribution configuration and specify the new origin access identity. For more information about the origin access identity, see [Serving Private Content through CloudFront](https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/PrivateContent.html) in the Amazon CloudFront Developer Guide.
         /// This member is required.
         public var originAccessIdentity: Swift.String?
 
@@ -20537,7 +20547,7 @@ extension CloudFrontClientTypes {
         /// The amount of time after which you want sessions to cease if no requests are received. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to MaximumTTL.
         /// This member is required.
         public var idleTTL: Swift.Int?
-        /// The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be less than or equal to IdleTTL.
+        /// The maximum amount of time to consider requests from the viewer as being part of the same session. Allowed values are 300–3600 seconds (5–60 minutes). The value must be greater than or equal to IdleTTL.
         /// This member is required.
         public var maximumTTL: Swift.Int?
 
@@ -25632,13 +25642,13 @@ extension UpdateKeyValueStoreInput {
 }
 
 public struct UpdateKeyValueStoreInput: Swift.Equatable {
-    /// The comment of the Key Value Store to update.
+    /// The comment of the key value store to update.
     /// This member is required.
     public var comment: Swift.String?
-    /// The Key Value Store to update, if a match occurs.
+    /// The key value store to update, if a match occurs.
     /// This member is required.
     public var ifMatch: Swift.String?
-    /// The name of the Key Value Store to update.
+    /// The name of the key value store to update.
     /// This member is required.
     public var name: Swift.String?
 
@@ -25671,9 +25681,9 @@ extension UpdateKeyValueStoreOutput {
 }
 
 public struct UpdateKeyValueStoreOutput: Swift.Equatable {
-    /// The ETag of the resulting Key Value Store.
+    /// The ETag of the resulting key value store.
     public var eTag: Swift.String?
-    /// The resulting Key Value Store to update.
+    /// The resulting key value store to update.
     public var keyValueStore: CloudFrontClientTypes.KeyValueStore?
 
     public init(
@@ -25699,6 +25709,7 @@ enum UpdateKeyValueStoreOutputError {
                 case "InvalidArgument": return try await InvalidArgument.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "InvalidIfMatchVersion": return try await InvalidIfMatchVersion.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 case "PreconditionFailed": return try await PreconditionFailed.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
+                case "UnsupportedOperation": return try await UnsupportedOperation.responseErrorBinding(httpResponse: httpResponse, reader: errorBodyReader, message: restXMLError.message, requestID: restXMLError.requestID)
                 default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restXMLError.message, requestID: restXMLError.requestID, typeName: restXMLError.code)
             }
         }

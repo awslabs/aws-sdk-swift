@@ -2309,7 +2309,7 @@ public struct CreateMultipartReadSetUploadOutput: Swift.Equatable {
     public var subjectId: Swift.String?
     /// The tags to add to the read set.
     public var tags: [Swift.String:Swift.String]?
-    /// he ID for the initiated multipart upload.
+    /// The ID for the initiated multipart upload.
     /// This member is required.
     public var uploadId: Swift.String?
 
@@ -2866,6 +2866,7 @@ extension CreateSequenceStoreInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case description
+        case eTagAlgorithmFamily
         case fallbackLocation
         case name
         case sseConfig
@@ -2879,6 +2880,9 @@ extension CreateSequenceStoreInput: Swift.Encodable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eTagAlgorithmFamily = self.eTagAlgorithmFamily {
+            try encodeContainer.encode(eTagAlgorithmFamily.rawValue, forKey: .eTagAlgorithmFamily)
         }
         if let fallbackLocation = self.fallbackLocation {
             try encodeContainer.encode(fallbackLocation, forKey: .fallbackLocation)
@@ -2910,6 +2914,8 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     public var clientToken: Swift.String?
     /// A description for the store.
     public var description: Swift.String?
+    /// The ETag algorithm family to use for ingested read sets.
+    public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
     /// An S3 location that is used to store files that have failed a direct upload.
     public var fallbackLocation: Swift.String?
     /// A name for the store.
@@ -2923,6 +2929,7 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     public init(
         clientToken: Swift.String? = nil,
         description: Swift.String? = nil,
+        eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
         fallbackLocation: Swift.String? = nil,
         name: Swift.String? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil,
@@ -2931,6 +2938,7 @@ public struct CreateSequenceStoreInput: Swift.Equatable {
     {
         self.clientToken = clientToken
         self.description = description
+        self.eTagAlgorithmFamily = eTagAlgorithmFamily
         self.fallbackLocation = fallbackLocation
         self.name = name
         self.sseConfig = sseConfig
@@ -2945,12 +2953,14 @@ struct CreateSequenceStoreInputBody: Swift.Equatable {
     let tags: [Swift.String:Swift.String]?
     let clientToken: Swift.String?
     let fallbackLocation: Swift.String?
+    let eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
 }
 
 extension CreateSequenceStoreInputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case clientToken
         case description
+        case eTagAlgorithmFamily
         case fallbackLocation
         case name
         case sseConfig
@@ -2980,6 +2990,8 @@ extension CreateSequenceStoreInputBody: Swift.Decodable {
         clientToken = clientTokenDecoded
         let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
         fallbackLocation = fallbackLocationDecoded
+        let eTagAlgorithmFamilyDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ETagAlgorithmFamily.self, forKey: .eTagAlgorithmFamily)
+        eTagAlgorithmFamily = eTagAlgorithmFamilyDecoded
     }
 }
 
@@ -2991,6 +3003,7 @@ extension CreateSequenceStoreOutput: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.description = output.description
+            self.eTagAlgorithmFamily = output.eTagAlgorithmFamily
             self.fallbackLocation = output.fallbackLocation
             self.id = output.id
             self.name = output.name
@@ -2999,6 +3012,7 @@ extension CreateSequenceStoreOutput: ClientRuntime.HttpResponseBinding {
             self.arn = nil
             self.creationTime = nil
             self.description = nil
+            self.eTagAlgorithmFamily = nil
             self.fallbackLocation = nil
             self.id = nil
             self.name = nil
@@ -3016,6 +3030,8 @@ public struct CreateSequenceStoreOutput: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The store's description.
     public var description: Swift.String?
+    /// The algorithm family of the ETag.
+    public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
     /// An S3 location that is used to store files that have failed a direct upload.
     public var fallbackLocation: Swift.String?
     /// The store's ID.
@@ -3030,6 +3046,7 @@ public struct CreateSequenceStoreOutput: Swift.Equatable {
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
         fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
@@ -3039,6 +3056,7 @@ public struct CreateSequenceStoreOutput: Swift.Equatable {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
+        self.eTagAlgorithmFamily = eTagAlgorithmFamily
         self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
@@ -3054,6 +3072,7 @@ struct CreateSequenceStoreOutputBody: Swift.Equatable {
     let sseConfig: OmicsClientTypes.SseConfig?
     let creationTime: ClientRuntime.Date?
     let fallbackLocation: Swift.String?
+    let eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
 }
 
 extension CreateSequenceStoreOutputBody: Swift.Decodable {
@@ -3061,6 +3080,7 @@ extension CreateSequenceStoreOutputBody: Swift.Decodable {
         case arn
         case creationTime
         case description
+        case eTagAlgorithmFamily
         case fallbackLocation
         case id
         case name
@@ -3083,6 +3103,8 @@ extension CreateSequenceStoreOutputBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
         fallbackLocation = fallbackLocationDecoded
+        let eTagAlgorithmFamilyDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ETagAlgorithmFamily.self, forKey: .eTagAlgorithmFamily)
+        eTagAlgorithmFamily = eTagAlgorithmFamilyDecoded
     }
 }
 
@@ -4657,15 +4679,27 @@ extension OmicsClientTypes {
 extension OmicsClientTypes {
     public enum ETagAlgorithm: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case bamMd5up
+        case bamSha256up
+        case bamSha512up
         case cramMd5up
+        case cramSha256up
+        case cramSha512up
         case fastqMd5up
+        case fastqSha256up
+        case fastqSha512up
         case sdkUnknown(Swift.String)
 
         public static var allCases: [ETagAlgorithm] {
             return [
                 .bamMd5up,
+                .bamSha256up,
+                .bamSha512up,
                 .cramMd5up,
+                .cramSha256up,
+                .cramSha512up,
                 .fastqMd5up,
+                .fastqSha256up,
+                .fastqSha512up,
                 .sdkUnknown("")
             ]
         }
@@ -4676,8 +4710,14 @@ extension OmicsClientTypes {
         public var rawValue: Swift.String {
             switch self {
             case .bamMd5up: return "BAM_MD5up"
+            case .bamSha256up: return "BAM_SHA256up"
+            case .bamSha512up: return "BAM_SHA512up"
             case .cramMd5up: return "CRAM_MD5up"
+            case .cramSha256up: return "CRAM_SHA256up"
+            case .cramSha512up: return "CRAM_SHA512up"
             case .fastqMd5up: return "FASTQ_MD5up"
+            case .fastqSha256up: return "FASTQ_SHA256up"
+            case .fastqSha512up: return "FASTQ_SHA512up"
             case let .sdkUnknown(s): return s
             }
         }
@@ -4685,6 +4725,41 @@ extension OmicsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = ETagAlgorithm(rawValue: rawValue) ?? ETagAlgorithm.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OmicsClientTypes {
+    public enum ETagAlgorithmFamily: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case md5up
+        case sha256up
+        case sha512up
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [ETagAlgorithmFamily] {
+            return [
+                .md5up,
+                .sha256up,
+                .sha512up,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .md5up: return "MD5up"
+            case .sha256up: return "SHA256up"
+            case .sha512up: return "SHA512up"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = ETagAlgorithmFamily(rawValue: rawValue) ?? ETagAlgorithmFamily.sdkUnknown(rawValue)
         }
     }
 }
@@ -4961,6 +5036,7 @@ extension OmicsClientTypes.FileInformation: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case contentLength
         case partSize
+        case s3Access
         case totalParts
     }
 
@@ -4971,6 +5047,9 @@ extension OmicsClientTypes.FileInformation: Swift.Codable {
         }
         if let partSize = self.partSize {
             try encodeContainer.encode(partSize, forKey: .partSize)
+        }
+        if let s3Access = self.s3Access {
+            try encodeContainer.encode(s3Access, forKey: .s3Access)
         }
         if let totalParts = self.totalParts {
             try encodeContainer.encode(totalParts, forKey: .totalParts)
@@ -4985,6 +5064,8 @@ extension OmicsClientTypes.FileInformation: Swift.Codable {
         partSize = partSizeDecoded
         let contentLengthDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .contentLength)
         contentLength = contentLengthDecoded
+        let s3AccessDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ReadSetS3Access.self, forKey: .s3Access)
+        s3Access = s3AccessDecoded
     }
 }
 
@@ -4995,17 +5076,21 @@ extension OmicsClientTypes {
         public var contentLength: Swift.Int?
         /// The file's part size.
         public var partSize: Swift.Int?
+        /// The S3 URI metadata of a sequence store.
+        public var s3Access: OmicsClientTypes.ReadSetS3Access?
         /// The file's total parts.
         public var totalParts: Swift.Int?
 
         public init(
             contentLength: Swift.Int? = nil,
             partSize: Swift.Int? = nil,
+            s3Access: OmicsClientTypes.ReadSetS3Access? = nil,
             totalParts: Swift.Int? = nil
         )
         {
             self.contentLength = contentLength
             self.partSize = partSize
+            self.s3Access = s3Access
             self.totalParts = totalParts
         }
     }
@@ -8337,17 +8422,21 @@ extension GetSequenceStoreOutput: ClientRuntime.HttpResponseBinding {
             self.arn = output.arn
             self.creationTime = output.creationTime
             self.description = output.description
+            self.eTagAlgorithmFamily = output.eTagAlgorithmFamily
             self.fallbackLocation = output.fallbackLocation
             self.id = output.id
             self.name = output.name
+            self.s3Access = output.s3Access
             self.sseConfig = output.sseConfig
         } else {
             self.arn = nil
             self.creationTime = nil
             self.description = nil
+            self.eTagAlgorithmFamily = nil
             self.fallbackLocation = nil
             self.id = nil
             self.name = nil
+            self.s3Access = nil
             self.sseConfig = nil
         }
     }
@@ -8362,6 +8451,8 @@ public struct GetSequenceStoreOutput: Swift.Equatable {
     public var creationTime: ClientRuntime.Date?
     /// The store's description.
     public var description: Swift.String?
+    /// The algorithm family of the ETag.
+    public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
     /// An S3 location that is used to store files that have failed a direct upload.
     public var fallbackLocation: Swift.String?
     /// The store's ID.
@@ -8369,6 +8460,8 @@ public struct GetSequenceStoreOutput: Swift.Equatable {
     public var id: Swift.String?
     /// The store's name.
     public var name: Swift.String?
+    /// The S3 metadata of a sequence store, including the ARN and S3 URI of the S3 bucket.
+    public var s3Access: OmicsClientTypes.SequenceStoreS3Access?
     /// The store's server-side encryption (SSE) settings.
     public var sseConfig: OmicsClientTypes.SseConfig?
 
@@ -8376,18 +8469,22 @@ public struct GetSequenceStoreOutput: Swift.Equatable {
         arn: Swift.String? = nil,
         creationTime: ClientRuntime.Date? = nil,
         description: Swift.String? = nil,
+        eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
         fallbackLocation: Swift.String? = nil,
         id: Swift.String? = nil,
         name: Swift.String? = nil,
+        s3Access: OmicsClientTypes.SequenceStoreS3Access? = nil,
         sseConfig: OmicsClientTypes.SseConfig? = nil
     )
     {
         self.arn = arn
         self.creationTime = creationTime
         self.description = description
+        self.eTagAlgorithmFamily = eTagAlgorithmFamily
         self.fallbackLocation = fallbackLocation
         self.id = id
         self.name = name
+        self.s3Access = s3Access
         self.sseConfig = sseConfig
     }
 }
@@ -8400,6 +8497,8 @@ struct GetSequenceStoreOutputBody: Swift.Equatable {
     let sseConfig: OmicsClientTypes.SseConfig?
     let creationTime: ClientRuntime.Date?
     let fallbackLocation: Swift.String?
+    let s3Access: OmicsClientTypes.SequenceStoreS3Access?
+    let eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
 }
 
 extension GetSequenceStoreOutputBody: Swift.Decodable {
@@ -8407,9 +8506,11 @@ extension GetSequenceStoreOutputBody: Swift.Decodable {
         case arn
         case creationTime
         case description
+        case eTagAlgorithmFamily
         case fallbackLocation
         case id
         case name
+        case s3Access
         case sseConfig
     }
 
@@ -8429,6 +8530,10 @@ extension GetSequenceStoreOutputBody: Swift.Decodable {
         creationTime = creationTimeDecoded
         let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
         fallbackLocation = fallbackLocationDecoded
+        let s3AccessDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.SequenceStoreS3Access.self, forKey: .s3Access)
+        s3Access = s3AccessDecoded
+        let eTagAlgorithmFamilyDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ETagAlgorithmFamily.self, forKey: .eTagAlgorithmFamily)
+        eTagAlgorithmFamily = eTagAlgorithmFamilyDecoded
     }
 }
 
@@ -14425,6 +14530,41 @@ extension OmicsClientTypes {
     }
 }
 
+extension OmicsClientTypes.ReadSetS3Access: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3Uri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The S3 URI for each read set file.
+    public struct ReadSetS3Access: Swift.Equatable {
+        /// The S3 URI for each read set file.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.s3Uri = s3Uri
+        }
+    }
+
+}
+
 extension OmicsClientTypes {
     public enum ReadSetStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case activating
@@ -15859,6 +15999,7 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         case arn
         case creationTime
         case description
+        case eTagAlgorithmFamily
         case fallbackLocation
         case id
         case name
@@ -15875,6 +16016,9 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         }
         if let description = self.description {
             try encodeContainer.encode(description, forKey: .description)
+        }
+        if let eTagAlgorithmFamily = self.eTagAlgorithmFamily {
+            try encodeContainer.encode(eTagAlgorithmFamily.rawValue, forKey: .eTagAlgorithmFamily)
         }
         if let fallbackLocation = self.fallbackLocation {
             try encodeContainer.encode(fallbackLocation, forKey: .fallbackLocation)
@@ -15906,6 +16050,8 @@ extension OmicsClientTypes.SequenceStoreDetail: Swift.Codable {
         creationTime = creationTimeDecoded
         let fallbackLocationDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .fallbackLocation)
         fallbackLocation = fallbackLocationDecoded
+        let eTagAlgorithmFamilyDecoded = try containerValues.decodeIfPresent(OmicsClientTypes.ETagAlgorithmFamily.self, forKey: .eTagAlgorithmFamily)
+        eTagAlgorithmFamily = eTagAlgorithmFamilyDecoded
     }
 }
 
@@ -15920,6 +16066,8 @@ extension OmicsClientTypes {
         public var creationTime: ClientRuntime.Date?
         /// The store's description.
         public var description: Swift.String?
+        /// The algorithm family of the ETag.
+        public var eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily?
         /// An S3 location that is used to store files that have failed a direct upload.
         public var fallbackLocation: Swift.String?
         /// The store's ID.
@@ -15934,6 +16082,7 @@ extension OmicsClientTypes {
             arn: Swift.String? = nil,
             creationTime: ClientRuntime.Date? = nil,
             description: Swift.String? = nil,
+            eTagAlgorithmFamily: OmicsClientTypes.ETagAlgorithmFamily? = nil,
             fallbackLocation: Swift.String? = nil,
             id: Swift.String? = nil,
             name: Swift.String? = nil,
@@ -15943,6 +16092,7 @@ extension OmicsClientTypes {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
+            self.eTagAlgorithmFamily = eTagAlgorithmFamily
             self.fallbackLocation = fallbackLocation
             self.id = id
             self.name = name
@@ -16002,6 +16152,51 @@ extension OmicsClientTypes {
             self.createdAfter = createdAfter
             self.createdBefore = createdBefore
             self.name = name
+        }
+    }
+
+}
+
+extension OmicsClientTypes.SequenceStoreS3Access: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case s3AccessPointArn
+        case s3Uri
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let s3AccessPointArn = self.s3AccessPointArn {
+            try encodeContainer.encode(s3AccessPointArn, forKey: .s3AccessPointArn)
+        }
+        if let s3Uri = self.s3Uri {
+            try encodeContainer.encode(s3Uri, forKey: .s3Uri)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let s3UriDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3Uri)
+        s3Uri = s3UriDecoded
+        let s3AccessPointArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .s3AccessPointArn)
+        s3AccessPointArn = s3AccessPointArnDecoded
+    }
+}
+
+extension OmicsClientTypes {
+    /// The S3 access metadata of the sequence store.
+    public struct SequenceStoreS3Access: Swift.Equatable {
+        /// This is ARN of the access point associated with the S3 bucket storing read sets.
+        public var s3AccessPointArn: Swift.String?
+        /// The S3 URI of the sequence store.
+        public var s3Uri: Swift.String?
+
+        public init(
+            s3AccessPointArn: Swift.String? = nil,
+            s3Uri: Swift.String? = nil
+        )
+        {
+            self.s3AccessPointArn = s3AccessPointArn
+            self.s3Uri = s3Uri
         }
     }
 
@@ -17641,7 +17836,7 @@ public struct StartRunInput: Swift.Equatable {
     public var runGroupId: Swift.String?
     /// The ID of a run to duplicate.
     public var runId: Swift.String?
-    /// A storage capacity for the run in gigabytes.
+    /// A storage capacity for the run in gibibytes.
     public var storageCapacity: Swift.Int?
     /// Tags for the run.
     public var tags: [Swift.String:Swift.String]?

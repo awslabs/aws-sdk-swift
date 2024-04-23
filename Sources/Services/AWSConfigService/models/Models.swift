@@ -1097,7 +1097,7 @@ extension ConfigClientTypes {
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: ClientRuntime.Date?
-        /// The time when configuration changes for the resource were delivered.
+        /// The time when configuration changes for the resource were delivered. This field is optional and is not guaranteed to be present in a configuration item (CI). If you are using daily recording, this field will be populated. However, if you are using continuous recording, this field will be omitted since the delivery time is instantaneous as the CI is available right away. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
         public var configurationItemDeliveryTime: ClientRuntime.Date?
         /// The configuration item status. Valid values include:
         ///
@@ -2845,7 +2845,7 @@ extension ConfigClientTypes {
         public var configuration: Swift.String?
         /// The time when the recording of configuration changes was initiated for the resource.
         public var configurationItemCaptureTime: ClientRuntime.Date?
-        /// The time when configuration changes for the resource were delivered.
+        /// The time when configuration changes for the resource were delivered. This field is optional and is not guaranteed to be present in a configuration item (CI). If you are using daily recording, this field will be populated. However, if you are using continuous recording, this field will be omitted since the delivery time is instantaneous as the CI is available right away. For more information on daily recording and continuous recording, see [Recording Frequency](https://docs.aws.amazon.com/config/latest/developerguide/select-resources.html#select-resources-recording-frequency) in the Config Developer Guide.
         public var configurationItemDeliveryTime: ClientRuntime.Date?
         /// Unique MD5 hash that represents the configuration item's state. You can use MD5 hash to compare the states of two or more configuration items that are associated with the same resource.
         public var configurationItemMD5Hash: Swift.String?
@@ -6386,7 +6386,7 @@ extension DescribeConfigRuleEvaluationStatusInput {
 public struct DescribeConfigRuleEvaluationStatusInput: Swift.Equatable {
     /// The name of the Config managed rules for which you want status information. If you do not specify any names, Config returns status information for all Config managed rules that you use.
     public var configRuleNames: [Swift.String]?
-    /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 150 rules. For information about requesting a rule limit increase, see [Config Limits](http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config) in the Amazon Web Services General Reference Guide.
+    /// The number of rule evaluation results that you want returned. This parameter is required if the rule limit for your account is more than the default of 1000 rules. For information about requesting a rule limit increase, see [Config Limits](http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_config) in the Amazon Web Services General Reference Guide.
     public var limit: Swift.Int?
     /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
     public var nextToken: Swift.String?
@@ -15211,7 +15211,7 @@ extension MaxNumberOfConfigRulesExceededException {
     }
 }
 
-/// Failed to add the Config rule because the account already contains the maximum number of 150 rules. Consider deleting any deactivated rules before you add new rules.
+/// Failed to add the Config rule because the account already contains the maximum number of 1000 rules. Consider deleting any deactivated rules before you add new rules.
 public struct MaxNumberOfConfigRulesExceededException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
 
     public struct Properties {
@@ -22123,7 +22123,7 @@ extension ConfigClientTypes {
     public struct ResourceEvaluationFilters: Swift.Equatable {
         /// Filters evaluations for a given infrastructure deployment. For example: CFN Stack.
         public var evaluationContextIdentifier: Swift.String?
-        /// Filters all resource evaluations results based on an evaluation mode. the valid value for this API is Proactive.
+        /// Filters all resource evaluations results based on an evaluation mode. Currently, DECTECTIVE is not supported as a valid value. Ignore other documentation stating otherwise.
         public var evaluationMode: ConfigClientTypes.EvaluationMode?
         /// Returns a TimeWindow object.
         public var timeWindow: ConfigClientTypes.TimeWindow?

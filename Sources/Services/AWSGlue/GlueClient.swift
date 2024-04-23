@@ -7285,7 +7285,7 @@ extension GlueClient {
 
     /// Performs the `GetUnfilteredTableMetadata` operation on the `AWSGlue` service.
     ///
-    /// Retrieves table metadata from the Data Catalog that contains unfiltered metadata. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
+    /// Allows a third-party analytical engine to retrieve unfiltered table metadata from the Data Catalog. For IAM authorization, the public IAM action associated with this API is glue:GetTable.
     ///
     /// - Parameter GetUnfilteredTableMetadataInput : [no documentation found]
     ///

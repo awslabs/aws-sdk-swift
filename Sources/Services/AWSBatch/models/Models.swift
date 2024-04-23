@@ -316,6 +316,7 @@ extension BatchClientTypes.AttemptDetail: Swift.Codable {
         case startedAt
         case statusReason
         case stoppedAt
+        case taskProperties
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -332,6 +333,12 @@ extension BatchClientTypes.AttemptDetail: Swift.Codable {
         if let stoppedAt = self.stoppedAt {
             try encodeContainer.encode(stoppedAt, forKey: .stoppedAt)
         }
+        if let taskProperties = taskProperties {
+            var taskPropertiesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .taskProperties)
+            for attemptecstaskdetails0 in taskProperties {
+                try taskPropertiesContainer.encode(attemptecstaskdetails0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -344,6 +351,17 @@ extension BatchClientTypes.AttemptDetail: Swift.Codable {
         stoppedAt = stoppedAtDecoded
         let statusReasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .statusReason)
         statusReason = statusReasonDecoded
+        let taskPropertiesContainer = try containerValues.decodeIfPresent([BatchClientTypes.AttemptEcsTaskDetails?].self, forKey: .taskProperties)
+        var taskPropertiesDecoded0:[BatchClientTypes.AttemptEcsTaskDetails]? = nil
+        if let taskPropertiesContainer = taskPropertiesContainer {
+            taskPropertiesDecoded0 = [BatchClientTypes.AttemptEcsTaskDetails]()
+            for structure0 in taskPropertiesContainer {
+                if let structure0 = structure0 {
+                    taskPropertiesDecoded0?.append(structure0)
+                }
+            }
+        }
+        taskProperties = taskPropertiesDecoded0
     }
 }
 
@@ -358,18 +376,176 @@ extension BatchClientTypes {
         public var statusReason: Swift.String?
         /// The Unix timestamp (in milliseconds) for when the attempt was stopped (when the attempt transitioned from the RUNNING state to a terminal state, such as SUCCEEDED or FAILED).
         public var stoppedAt: Swift.Int?
+        /// The properties for a task definition that describes the container and volume definitions of an Amazon ECS task.
+        public var taskProperties: [BatchClientTypes.AttemptEcsTaskDetails]?
 
         public init(
             container: BatchClientTypes.AttemptContainerDetail? = nil,
             startedAt: Swift.Int? = nil,
             statusReason: Swift.String? = nil,
-            stoppedAt: Swift.Int? = nil
+            stoppedAt: Swift.Int? = nil,
+            taskProperties: [BatchClientTypes.AttemptEcsTaskDetails]? = nil
         )
         {
             self.container = container
             self.startedAt = startedAt
             self.statusReason = statusReason
             self.stoppedAt = stoppedAt
+            self.taskProperties = taskProperties
+        }
+    }
+
+}
+
+extension BatchClientTypes.AttemptEcsTaskDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case containerInstanceArn
+        case containers
+        case taskArn
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let containerInstanceArn = self.containerInstanceArn {
+            try encodeContainer.encode(containerInstanceArn, forKey: .containerInstanceArn)
+        }
+        if let containers = containers {
+            var containersContainer = encodeContainer.nestedUnkeyedContainer(forKey: .containers)
+            for attempttaskcontainerdetails0 in containers {
+                try containersContainer.encode(attempttaskcontainerdetails0)
+            }
+        }
+        if let taskArn = self.taskArn {
+            try encodeContainer.encode(taskArn, forKey: .taskArn)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let containerInstanceArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .containerInstanceArn)
+        containerInstanceArn = containerInstanceArnDecoded
+        let taskArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .taskArn)
+        taskArn = taskArnDecoded
+        let containersContainer = try containerValues.decodeIfPresent([BatchClientTypes.AttemptTaskContainerDetails?].self, forKey: .containers)
+        var containersDecoded0:[BatchClientTypes.AttemptTaskContainerDetails]? = nil
+        if let containersContainer = containersContainer {
+            containersDecoded0 = [BatchClientTypes.AttemptTaskContainerDetails]()
+            for structure0 in containersContainer {
+                if let structure0 = structure0 {
+                    containersDecoded0?.append(structure0)
+                }
+            }
+        }
+        containers = containersDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that represents the details of a task.
+    public struct AttemptEcsTaskDetails: Swift.Equatable {
+        /// The Amazon Resource Name (ARN) of the container instance that hosts the task.
+        public var containerInstanceArn: Swift.String?
+        /// A list of containers that are included in the taskProperties list.
+        public var containers: [BatchClientTypes.AttemptTaskContainerDetails]?
+        /// The ARN of the Amazon ECS task.
+        public var taskArn: Swift.String?
+
+        public init(
+            containerInstanceArn: Swift.String? = nil,
+            containers: [BatchClientTypes.AttemptTaskContainerDetails]? = nil,
+            taskArn: Swift.String? = nil
+        )
+        {
+            self.containerInstanceArn = containerInstanceArn
+            self.containers = containers
+            self.taskArn = taskArn
+        }
+    }
+
+}
+
+extension BatchClientTypes.AttemptTaskContainerDetails: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case exitCode
+        case logStreamName
+        case name
+        case networkInterfaces
+        case reason
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let exitCode = self.exitCode {
+            try encodeContainer.encode(exitCode, forKey: .exitCode)
+        }
+        if let logStreamName = self.logStreamName {
+            try encodeContainer.encode(logStreamName, forKey: .logStreamName)
+        }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
+        if let networkInterfaces = networkInterfaces {
+            var networkInterfacesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .networkInterfaces)
+            for networkinterface0 in networkInterfaces {
+                try networkInterfacesContainer.encode(networkinterface0)
+            }
+        }
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let exitCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exitCode)
+        exitCode = exitCodeDecoded
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let logStreamNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .logStreamName)
+        logStreamName = logStreamNameDecoded
+        let networkInterfacesContainer = try containerValues.decodeIfPresent([BatchClientTypes.NetworkInterface?].self, forKey: .networkInterfaces)
+        var networkInterfacesDecoded0:[BatchClientTypes.NetworkInterface]? = nil
+        if let networkInterfacesContainer = networkInterfacesContainer {
+            networkInterfacesDecoded0 = [BatchClientTypes.NetworkInterface]()
+            for structure0 in networkInterfacesContainer {
+                if let structure0 = structure0 {
+                    networkInterfacesDecoded0?.append(structure0)
+                }
+            }
+        }
+        networkInterfaces = networkInterfacesDecoded0
+    }
+}
+
+extension BatchClientTypes {
+    /// An object that represents the details of a container that's part of a job attempt.
+    public struct AttemptTaskContainerDetails: Swift.Equatable {
+        /// The exit code for the container’s attempt. A non-zero exit code is considered failed.
+        public var exitCode: Swift.Int?
+        /// The name of the Amazon CloudWatch Logs log stream that's associated with the container. The log group for Batch jobs is /aws/batch/job. Each container attempt receives a log stream name when they reach the RUNNING status.
+        public var logStreamName: Swift.String?
+        /// The name of a container.
+        public var name: Swift.String?
+        /// The network interfaces that are associated with the job attempt.
+        public var networkInterfaces: [BatchClientTypes.NetworkInterface]?
+        /// A short (255 max characters) string that's easy to understand and provides additional details for a running or stopped container.
+        public var reason: Swift.String?
+
+        public init(
+            exitCode: Swift.Int? = nil,
+            logStreamName: Swift.String? = nil,
+            name: Swift.String? = nil,
+            networkInterfaces: [BatchClientTypes.NetworkInterface]? = nil,
+            reason: Swift.String? = nil
+        )
+        {
+            self.exitCode = exitCode
+            self.logStreamName = logStreamName
+            self.name = name
+            self.networkInterfaces = networkInterfaces
+            self.reason = reason
         }
     }
 
@@ -4832,6 +5008,7 @@ extension BatchClientTypes {
 extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case exitCode
+        case name
         case reason
     }
 
@@ -4840,6 +5017,9 @@ extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
         if let exitCode = self.exitCode {
             try encodeContainer.encode(exitCode, forKey: .exitCode)
         }
+        if let name = self.name {
+            try encodeContainer.encode(name, forKey: .name)
+        }
         if let reason = self.reason {
             try encodeContainer.encode(reason, forKey: .reason)
         }
@@ -4847,6 +5027,8 @@ extension BatchClientTypes.EksAttemptContainerDetail: Swift.Codable {
 
     public init(from decoder: Swift.Decoder) throws {
         let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let nameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .name)
+        name = nameDecoded
         let exitCodeDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .exitCode)
         exitCode = exitCodeDecoded
         let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
@@ -4859,15 +5041,19 @@ extension BatchClientTypes {
     public struct EksAttemptContainerDetail: Swift.Equatable {
         /// The exit code returned for the job attempt. A non-zero exit code is considered failed.
         public var exitCode: Swift.Int?
+        /// The name of a container.
+        public var name: Swift.String?
         /// A short (255 max characters) human-readable string to provide additional details for a running or stopped container.
         public var reason: Swift.String?
 
         public init(
             exitCode: Swift.Int? = nil,
+            name: Swift.String? = nil,
             reason: Swift.String? = nil
         )
         {
             self.exitCode = exitCode
+            self.name = name
             self.reason = reason
         }
     }
@@ -6014,7 +6200,7 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
-        /// References a Kubernetes secret resource. This object must start and end with an alphanumeric character, is required to be lowercase, can include periods (.) and hyphens (-), and can't contain more than 253 characters. ImagePullSecret$name is required when this object is used.
+        /// References a Kubernetes secret resource. It holds a list of secrets. These secrets help to gain access to pull an images from a private registry. ImagePullSecret$name is required when this object is used.
         public var imagePullSecrets: [BatchClientTypes.ImagePullSecret]?
         /// These containers run before application containers, always runs to completion, and must complete successfully before the next container starts. These containers are registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store. For more information, see [Init Containers](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/) in the Kubernetes documentation. This object is limited to 10 elements
         public var initContainers: [BatchClientTypes.EksContainer]?
@@ -6189,7 +6375,7 @@ extension BatchClientTypes {
         public var dnsPolicy: Swift.String?
         /// Indicates if the pod uses the hosts' network IP address. The default value is true. Setting this to false enables the Kubernetes pod networking model. Most Batch workloads are egress-only and don't require the overhead of IP allocation for each pod for incoming connections. For more information, see [Host namespaces](https://kubernetes.io/docs/concepts/security/pod-security-policy/#host-namespaces) and [Pod networking](https://kubernetes.io/docs/concepts/workloads/pods/#pod-networking) in the Kubernetes documentation.
         public var hostNetwork: Swift.Bool?
-        /// Displays the reference pointer to the Kubernetes secret resource.
+        /// Displays the reference pointer to the Kubernetes secret resource. These secrets help to gain access to pull an images from a private registry.
         public var imagePullSecrets: [BatchClientTypes.ImagePullSecret]?
         /// The container registered with the Amazon EKS Connector agent and persists the registration information in the Kubernetes backend data store.
         public var initContainers: [BatchClientTypes.EksContainerDetail]?
@@ -6791,7 +6977,7 @@ extension BatchClientTypes.ImagePullSecret: Swift.Codable {
 }
 
 extension BatchClientTypes {
-    /// References a Kubernetes configuration resource that holds a list of secrets. These secrets help to gain access to pull an image from a private registry.
+    /// References a Kubernetes secret resource. This name of the secret must start and end with an alphanumeric character, is required to be lowercase, can include periods (.) and hyphens (-), and can't contain more than 253 characters.
     public struct ImagePullSecret: Swift.Equatable {
         /// Provides a unique identifier for the ImagePullSecret. This object is required when EksPodProperties$imagePullSecrets is used.
         /// This member is required.
@@ -7802,7 +7988,7 @@ extension BatchClientTypes.JobStateTimeLimitAction: Swift.Codable {
 extension BatchClientTypes {
     /// Specifies an action that Batch will take after the job has remained at the head of the queue in the specified state for longer than the specified time.
     public struct JobStateTimeLimitAction: Swift.Equatable {
-        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is "CANCEL", which will cancel the job.
+        /// The action to take when a job is at the head of the job queue in the specified state for the specified period of time. The only supported value is CANCEL, which will cancel the job.
         /// This member is required.
         public var action: BatchClientTypes.JobStateTimeLimitActionsAction?
         /// The approximate amount of time, in seconds, that must pass with the job in the specified state before the action is taken. The minimum value is 600 (10 minutes) and the maximum value is 86,400 (24 hours).
@@ -7811,7 +7997,7 @@ extension BatchClientTypes {
         /// The reason to log for the action being taken.
         /// This member is required.
         public var reason: Swift.String?
-        /// The state of the job needed to trigger the action. The only supported value is "RUNNABLE".
+        /// The state of the job needed to trigger the action. The only supported value is RUNNABLE.
         /// This member is required.
         public var state: BatchClientTypes.JobStateTimeLimitActionsState?
 

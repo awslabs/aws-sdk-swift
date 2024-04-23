@@ -130,6 +130,37 @@ extension PaginatorSequence where OperationStackInput == ListKeyPoliciesInput, O
     }
 }
 extension KMSClient {
+    /// Paginate over `[ListKeyRotationsOutput]` results.
+    ///
+    /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service
+    /// calls are made until the sequence is iterated over. This also means there is no guarantee that the request is valid
+    /// until then. If there are errors in your request, you will see the failures only after you start iterating.
+    /// - Parameters:
+    ///     - input: A `[ListKeyRotationsInput]` to start pagination
+    /// - Returns: An `AsyncSequence` that can iterate over `ListKeyRotationsOutput`
+    public func listKeyRotationsPaginated(input: ListKeyRotationsInput) -> ClientRuntime.PaginatorSequence<ListKeyRotationsInput, ListKeyRotationsOutput> {
+        return ClientRuntime.PaginatorSequence<ListKeyRotationsInput, ListKeyRotationsOutput>(input: input, inputKey: \.marker, outputKey: \.nextMarker, paginationFunction: self.listKeyRotations(input:))
+    }
+}
+
+extension ListKeyRotationsInput: ClientRuntime.PaginateToken {
+    public func usingPaginationToken(_ token: Swift.String) -> ListKeyRotationsInput {
+        return ListKeyRotationsInput(
+            keyId: self.keyId,
+            limit: self.limit,
+            marker: token
+        )}
+}
+
+extension PaginatorSequence where OperationStackInput == ListKeyRotationsInput, OperationStackOutput == ListKeyRotationsOutput {
+    /// This paginator transforms the `AsyncSequence` returned by `listKeyRotationsPaginated`
+    /// to access the nested member `[KMSClientTypes.RotationsListEntry]`
+    /// - Returns: `[KMSClientTypes.RotationsListEntry]`
+    public func rotations() async throws -> [KMSClientTypes.RotationsListEntry] {
+        return try await self.asyncCompactMap { item in item.rotations }
+    }
+}
+extension KMSClient {
     /// Paginate over `[ListKeysOutput]` results.
     ///
     /// When this operation is called, an `AsyncSequence` is created. AsyncSequences are lazy so no service

@@ -1069,6 +1069,7 @@ extension CleanRoomsClientTypes.AnalysisTemplate: Swift.Codable {
         case schema
         case source
         case updateTime
+        case validations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1118,6 +1119,12 @@ extension CleanRoomsClientTypes.AnalysisTemplate: Swift.Codable {
         if let updateTime = self.updateTime {
             try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
         }
+        if let validations = validations {
+            var validationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validations)
+            for analysistemplatevalidationstatusdetail0 in validations {
+                try validationsContainer.encode(analysistemplatevalidationstatusdetail0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1159,12 +1166,23 @@ extension CleanRoomsClientTypes.AnalysisTemplate: Swift.Codable {
             }
         }
         analysisParameters = analysisParametersDecoded0
+        let validationsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail?].self, forKey: .validations)
+        var validationsDecoded0:[CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
+        if let validationsContainer = validationsContainer {
+            validationsDecoded0 = [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]()
+            for structure0 in validationsContainer {
+                if let structure0 = structure0 {
+                    validationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        validations = validationsDecoded0
     }
 }
 
 extension CleanRoomsClientTypes.AnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "AnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), source: \"CONTENT_REDACTED\")"}
+        "AnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), membershipArn: \(Swift.String(describing: membershipArn)), membershipId: \(Swift.String(describing: membershipId)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), source: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -1210,6 +1228,8 @@ extension CleanRoomsClientTypes {
         /// The time that the analysis template was last updated.
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
+        /// Information about the validations performed on the analysis template.
+        public var validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]?
 
         public init(
             analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
@@ -1225,7 +1245,8 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: ClientRuntime.Date? = nil,
+            validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         )
         {
             self.analysisParameters = analysisParameters
@@ -1242,6 +1263,7 @@ extension CleanRoomsClientTypes {
             self.schema = schema
             self.source = source
             self.updateTime = updateTime
+            self.validations = validations
         }
     }
 
@@ -1379,6 +1401,175 @@ extension CleanRoomsClientTypes {
         }
     }
 
+}
+
+extension CleanRoomsClientTypes {
+    public enum AnalysisTemplateValidationStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case invalid
+        case unableToValidate
+        case valid
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisTemplateValidationStatus] {
+            return [
+                .invalid,
+                .unableToValidate,
+                .valid,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .invalid: return "INVALID"
+            case .unableToValidate: return "UNABLE_TO_VALIDATE"
+            case .valid: return "VALID"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalysisTemplateValidationStatus(rawValue: rawValue) ?? AnalysisTemplateValidationStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reasons
+        case status
+        case type
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reasons = reasons {
+            var reasonsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .reasons)
+            for analysistemplatevalidationstatusreason0 in reasons {
+                try reasonsContainer.encode(analysistemplatevalidationstatusreason0)
+            }
+        }
+        if let status = self.status {
+            try encodeContainer.encode(status.rawValue, forKey: .status)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplateValidationType.self, forKey: .type)
+        type = typeDecoded
+        let statusDecoded = try containerValues.decodeIfPresent(CleanRoomsClientTypes.AnalysisTemplateValidationStatus.self, forKey: .status)
+        status = statusDecoded
+        let reasonsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason?].self, forKey: .reasons)
+        var reasonsDecoded0:[CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]? = nil
+        if let reasonsContainer = reasonsContainer {
+            reasonsDecoded0 = [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]()
+            for structure0 in reasonsContainer {
+                if let structure0 = structure0 {
+                    reasonsDecoded0?.append(structure0)
+                }
+            }
+        }
+        reasons = reasonsDecoded0
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The status details of the analysis template validation. Clean Rooms Differential Privacy uses a general-purpose query structure to support complex SQL queries and validates whether an analysis template fits that general-purpose query structure. Validation is performed when analysis templates are created and fetched. Because analysis templates are immutable by design, we recommend that you create analysis templates after you associate the configured tables with their analysis rule to your collaboration. For more information, see [https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy](https://docs.aws.amazon.com/clean-rooms/latest/userguide/analysis-rules-custom.html#custom-diff-privacy).
+    public struct AnalysisTemplateValidationStatusDetail: Swift.Equatable {
+        /// The reasons for the validation results.
+        public var reasons: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]?
+        /// The status of the validation.
+        /// This member is required.
+        public var status: CleanRoomsClientTypes.AnalysisTemplateValidationStatus?
+        /// The type of validation that was performed.
+        /// This member is required.
+        public var type: CleanRoomsClientTypes.AnalysisTemplateValidationType?
+
+        public init(
+            reasons: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason]? = nil,
+            status: CleanRoomsClientTypes.AnalysisTemplateValidationStatus? = nil,
+            type: CleanRoomsClientTypes.AnalysisTemplateValidationType? = nil
+        )
+        {
+            self.reasons = reasons
+            self.status = status
+            self.type = type
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes.AnalysisTemplateValidationStatusReason: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension CleanRoomsClientTypes {
+    /// The reasons for the validation results.
+    public struct AnalysisTemplateValidationStatusReason: Swift.Equatable {
+        /// The validation message.
+        /// This member is required.
+        public var message: Swift.String?
+
+        public init(
+            message: Swift.String? = nil
+        )
+        {
+            self.message = message
+        }
+    }
+
+}
+
+extension CleanRoomsClientTypes {
+    public enum AnalysisTemplateValidationType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case differentialPrivacy
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AnalysisTemplateValidationType] {
+            return [
+                .differentialPrivacy,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .differentialPrivacy: return "DIFFERENTIAL_PRIVACY"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AnalysisTemplateValidationType(rawValue: rawValue) ?? AnalysisTemplateValidationType.sdkUnknown(rawValue)
+        }
+    }
 }
 
 extension CleanRoomsClientTypes.BatchGetCollaborationAnalysisTemplateError: Swift.Codable {
@@ -2209,6 +2400,7 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.Codable {
         case schema
         case source
         case updateTime
+        case validations
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -2255,6 +2447,12 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.Codable {
         if let updateTime = self.updateTime {
             try encodeContainer.encodeTimestamp(updateTime, format: .epochSeconds, forKey: .updateTime)
         }
+        if let validations = validations {
+            var validationsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .validations)
+            for analysistemplatevalidationstatusdetail0 in validations {
+                try validationsContainer.encode(analysistemplatevalidationstatusdetail0)
+            }
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -2294,12 +2492,23 @@ extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.Codable {
             }
         }
         analysisParameters = analysisParametersDecoded0
+        let validationsContainer = try containerValues.decodeIfPresent([CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail?].self, forKey: .validations)
+        var validationsDecoded0:[CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
+        if let validationsContainer = validationsContainer {
+            validationsDecoded0 = [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]()
+            for structure0 in validationsContainer {
+                if let structure0 = structure0 {
+                    validationsDecoded0?.append(structure0)
+                }
+            }
+        }
+        validations = validationsDecoded0
     }
 }
 
 extension CleanRoomsClientTypes.CollaborationAnalysisTemplate: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "CollaborationAnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), source: \"CONTENT_REDACTED\")"}
+        "CollaborationAnalysisTemplate(analysisParameters: \(Swift.String(describing: analysisParameters)), arn: \(Swift.String(describing: arn)), collaborationArn: \(Swift.String(describing: collaborationArn)), collaborationId: \(Swift.String(describing: collaborationId)), createTime: \(Swift.String(describing: createTime)), creatorAccountId: \(Swift.String(describing: creatorAccountId)), description: \(Swift.String(describing: description)), format: \(Swift.String(describing: format)), id: \(Swift.String(describing: id)), name: \(Swift.String(describing: name)), schema: \(Swift.String(describing: schema)), updateTime: \(Swift.String(describing: updateTime)), validations: \(Swift.String(describing: validations)), source: \"CONTENT_REDACTED\")"}
 }
 
 extension CleanRoomsClientTypes {
@@ -2342,6 +2551,8 @@ extension CleanRoomsClientTypes {
         /// The time that the analysis template in the collaboration was last updated.
         /// This member is required.
         public var updateTime: ClientRuntime.Date?
+        /// The validations that were performed.
+        public var validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]?
 
         public init(
             analysisParameters: [CleanRoomsClientTypes.AnalysisParameter]? = nil,
@@ -2356,7 +2567,8 @@ extension CleanRoomsClientTypes {
             name: Swift.String? = nil,
             schema: CleanRoomsClientTypes.AnalysisSchema? = nil,
             source: CleanRoomsClientTypes.AnalysisSource? = nil,
-            updateTime: ClientRuntime.Date? = nil
+            updateTime: ClientRuntime.Date? = nil,
+            validations: [CleanRoomsClientTypes.AnalysisTemplateValidationStatusDetail]? = nil
         )
         {
             self.analysisParameters = analysisParameters
@@ -2372,6 +2584,7 @@ extension CleanRoomsClientTypes {
             self.schema = schema
             self.source = source
             self.updateTime = updateTime
+            self.validations = validations
         }
     }
 

@@ -1247,6 +1247,7 @@ extension RDSClient {
     /// - Throws: One of the exceptions listed below __Possible Exceptions__.
     ///
     /// __Possible Exceptions:__
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBClusterNotFoundFault` : DBClusterIdentifier doesn't refer to an existing DB cluster.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.
@@ -7718,6 +7719,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBClusterSnapshotNotFoundFault` : DBClusterSnapshotIdentifier doesn't refer to an existing DB cluster snapshot.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
@@ -7789,6 +7791,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBParameterGroupNotFoundFault` : DBParameterGroupName doesn't refer to an existing DB parameter group.
     /// - `DBSecurityGroupNotFoundFault` : DBSecurityGroupName doesn't refer to an existing DB security group.
@@ -7855,6 +7858,7 @@ extension RDSClient {
     /// __Possible Exceptions:__
     /// - `AuthorizationNotFoundFault` : The specified CIDR IP range or Amazon EC2 security group might not be authorized for the specified DB security group. Or, RDS might not be authorized to perform necessary actions using IAM on your behalf.
     /// - `BackupPolicyNotFoundFault` : [no documentation found]
+    /// - `CertificateNotFoundFault` : CertificateIdentifier doesn't refer to an existing certificate.
     /// - `DBInstanceAlreadyExistsFault` : The user already has a DB instance with the given identifier.
     /// - `DBInstanceAutomatedBackupNotFoundFault` : No automated backup for this DB instance was found.
     /// - `DBInstanceNotFoundFault` : DBInstanceIdentifier doesn't refer to an existing DB instance.

@@ -3454,7 +3454,15 @@ public struct CreateCustomDBEngineVersionInput: Swift.Equatable {
     public var databaseInstallationFilesS3Prefix: Swift.String?
     /// An optional description of your CEV.
     public var description: Swift.String?
-    /// The database engine to use for your custom engine version (CEV). The only supported value is custom-oracle-ee.
+    /// The database engine. RDS Custom for Oracle supports the following values:
+    ///
+    /// * custom-oracle-ee
+    ///
+    /// * custom-oracle-ee-cdb
+    ///
+    /// * custom-oracle-se2
+    ///
+    /// * custom-oracle-se2-cdb
     /// This member is required.
     public var engine: Swift.String?
     /// The name of your CEV. The name format is 19.customized_string. For example, a valid CEV name is 19.my_cev1. This setting is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Region.
@@ -4276,7 +4284,7 @@ public struct CreateDBClusterInput: Swift.Equatable {
     /// The database engine to use for this DB cluster. Valid for Cluster Type: Aurora DB clusters and Multi-AZ DB clusters Valid Values: aurora-mysql | aurora-postgresql | mysql | postgres
     /// This member is required.
     public var engine: Swift.String?
-    /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. For information about limitations and requirements for Serverless DB clusters, see the following sections in the Amazon Aurora User Guide:
+    /// The DB engine mode of the DB cluster, either provisioned or serverless. The serverless engine mode only applies for Aurora Serverless v1 DB clusters. Aurora Serverless v2 DB clusters use the provisioned engine mode. For information about limitations and requirements for Serverless DB clusters, see the following sections in the Amazon Aurora User Guide:
     ///
     /// * [Limitations of Aurora Serverless v1](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/aurora-serverless.html#aurora-serverless.limitations)
     ///
@@ -5495,6 +5503,10 @@ public struct CreateDBInstanceInput: Swift.Equatable {
     ///
     /// * custom-oracle-ee-cdb (for RDS Custom for Oracle DB instances)
     ///
+    /// * custom-oracle-se2 (for RDS Custom for Oracle DB instances)
+    ///
+    /// * custom-oracle-se2-cdb (for RDS Custom for Oracle DB instances)
+    ///
     /// * custom-sqlserver-ee (for RDS Custom for SQL Server DB instances)
     ///
     /// * custom-sqlserver-se (for RDS Custom for SQL Server DB instances)
@@ -5901,6 +5913,7 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
         case allocatedStorage = "AllocatedStorage"
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
         case dbInstanceClass = "DBInstanceClass"
@@ -5954,6 +5967,9 @@ extension CreateDBInstanceReadReplicaInput: Swift.Encodable {
         }
         if let availabilityZone = availabilityZone {
             try container.encode(availabilityZone, forKey: ClientRuntime.Key("AvailabilityZone"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -6142,6 +6158,8 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Availability Zone (AZ) where the read replica will be created. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
     public var availabilityZone: Swift.String?
+    /// The CA certificate identifier to use for the read replica's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the read replica to snapshots of the read replica. By default, tags aren't copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:
@@ -6325,6 +6343,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         allocatedStorage: Swift.Int? = nil,
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
@@ -6371,6 +6390,7 @@ public struct CreateDBInstanceReadReplicaInput: Swift.Equatable {
         self.allocatedStorage = allocatedStorage
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
         self.dbInstanceClass = dbInstanceClass
@@ -6450,6 +6470,7 @@ enum CreateDBInstanceReadReplicaOutputError {
             let code: String? = try reader["Code"].readIfPresent()
             let message: String? = try reader["Message"].readIfPresent()
             switch code {
+                case "CertificateNotFound": return try await CertificateNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBClusterNotFoundFault": return try await DBClusterNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceNotFound": return try await DBInstanceNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -16493,7 +16514,15 @@ extension DeleteCustomDBEngineVersionInput {
 }
 
 public struct DeleteCustomDBEngineVersionInput: Swift.Equatable {
-    /// The database engine. The only supported engines are custom-oracle-ee and custom-oracle-ee-cdb.
+    /// The database engine. RDS Custom for Oracle supports the following values:
+    ///
+    /// * custom-oracle-ee
+    ///
+    /// * custom-oracle-ee-cdb
+    ///
+    /// * custom-oracle-se2
+    ///
+    /// * custom-oracle-se2-cdb
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) for your DB instance. This option is required for RDS Custom, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -20004,6 +20033,12 @@ public struct DescribeDBEngineVersionsInput: Swift.Equatable {
     ///
     /// * custom-oracle-ee
     ///
+    /// * custom-oracle-ee-cdb
+    ///
+    /// * custom-oracle-se2
+    ///
+    /// * custom-oracle-se2-cdb
+    ///
     /// * db2-ae
     ///
     /// * db2-se
@@ -22496,6 +22531,8 @@ public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
     ///
     /// * custom-oracle-ee-19
     ///
+    /// * custom-oracle-ee-cdb-19
+    ///
     /// * db2-ae
     ///
     /// * db2-se
@@ -23788,13 +23825,19 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
     public var availabilityZoneGroup: Swift.String?
     /// A filter to include only the available options for the specified DB instance class.
     public var dbInstanceClass: Swift.String?
-    /// The name of the engine to describe DB instance options for. Valid Values:
+    /// The name of the database engine to describe DB instance options for. Valid Values:
     ///
     /// * aurora-mysql
     ///
     /// * aurora-postgresql
     ///
     /// * custom-oracle-ee
+    ///
+    /// * custom-oracle-ee-cdb
+    ///
+    /// * custom-oracle-se2
+    ///
+    /// * custom-oracle-se2-cdb
     ///
     /// * db2-ae
     ///
@@ -23831,7 +23874,7 @@ public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
     public var licenseModel: Swift.String?
     /// An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
-    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 10000.
+    /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a pagination token called a marker is included in the response so that you can retrieve the remaining results. Default: 100 Constraints: Minimum 20, maximum 1000.
     public var maxRecords: Swift.Int?
     /// Specifies whether to show only VPC or non-VPC offerings. RDS Custom supports only VPC offerings. RDS Custom supports only VPC offerings. If you describe non-VPC offerings for RDS Custom, the output shows VPC offerings.
     public var vpc: Swift.Bool?
@@ -29677,7 +29720,15 @@ extension ModifyCustomDBEngineVersionInput {
 public struct ModifyCustomDBEngineVersionInput: Swift.Equatable {
     /// An optional description of your CEV.
     public var description: Swift.String?
-    /// The DB engine. The only supported values are custom-oracle-ee and custom-oracle-ee-cdb.
+    /// The database engine. RDS Custom for Oracle supports the following values:
+    ///
+    /// * custom-oracle-ee
+    ///
+    /// * custom-oracle-ee-cdb
+    ///
+    /// * custom-oracle-se2
+    ///
+    /// * custom-oracle-se2-cdb
     /// This member is required.
     public var engine: Swift.String?
     /// The custom engine version (CEV) that you want to modify. This option is required for RDS Custom for Oracle, but optional for Amazon RDS. The combination of Engine and EngineVersion is unique per customer per Amazon Web Services Region.
@@ -31150,7 +31201,9 @@ extension ModifyDBInstanceInput {
 
 ///
 public struct ModifyDBInstanceInput: Swift.Equatable {
-    /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance.
+    /// The new amount of storage in gibibytes (GiB) to allocate for the DB instance. For RDS for Db2, MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL, the value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value. For the valid values for allocated storage for each engine, see CreateDBInstance. Constraints:
+    ///
+    /// * When you increase the allocated storage for a DB instance that uses Provisioned IOPS (gp3, io1, or io2 storage type), you must also specify the Iops parameter. You can use the current value for Iops.
     public var allocatedStorage: Swift.Int?
     /// Specifies whether major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible. This setting doesn't apply to RDS Custom DB instances. Constraints:
     ///
@@ -31306,6 +31359,8 @@ public struct ModifyDBInstanceInput: Swift.Equatable {
     /// The new Provisioned IOPS (I/O operations per second) value for the RDS instance. Changing this setting doesn't result in an outage and the change is applied during the next maintenance window unless the ApplyImmediately parameter is enabled for this request. If you are migrating from Provisioned IOPS to standard storage, set this value to 0. The DB instance will require a reboot for the change in storage type to take effect. If you choose to migrate your DB instance from using standard storage to using Provisioned IOPS, or from using Provisioned IOPS to using standard storage, the process can take time. The duration of the migration depends on several factors such as database load, storage size, storage type (standard or Provisioned IOPS), amount of IOPS provisioned (if any), and the number of prior scale storage operations. Typical migration times are under 24 hours, but the process can take up to several days in some cases. During the migration, the DB instance is available for use, but might experience performance degradation. While the migration takes place, nightly backups for the instance are suspended. No other Amazon RDS operations can take place for the instance, including modifying the instance, rebooting the instance, deleting the instance, creating a read replica for the instance, and creating a DB snapshot of the instance. Constraints:
     ///
     /// * For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value. Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.
+    ///
+    /// * When you increase the Provisioned IOPS, you must also specify the AllocatedStorage parameter. You can use the current value for AllocatedStorage.
     ///
     ///
     /// Default: Uses existing setting
@@ -39435,6 +39490,7 @@ extension RestoreDBInstanceFromDBSnapshotInput: Swift.Encodable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case backupTarget = "BackupTarget"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
         case dbClusterSnapshotIdentifier = "DBClusterSnapshotIdentifier"
@@ -39486,6 +39542,9 @@ extension RestoreDBInstanceFromDBSnapshotInput: Swift.Encodable {
         }
         if let backupTarget = backupTarget {
             try container.encode(backupTarget, forKey: ClientRuntime.Key("BackupTarget"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -39662,6 +39721,8 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
     public var availabilityZone: Swift.String?
     /// Specifies where automated backups and manual snapshots are stored for the restored DB instance. Possible values are outposts (Amazon Web Services Outposts) and region (Amazon Web Services Region). The default is region. For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
+    /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. In most cases, tags aren't copied by default. However, when you restore a DB instance from a DB snapshot, RDS checks whether you specify new tags. If yes, the new tags are added to the restored DB instance. If there are no new tags, RDS looks for the tags from the source DB instance for the DB snapshot, and then adds those tags to the restored DB instance. For more information, see [ Copying tags to DB instance snapshots](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_Tagging.html#USER_Tagging.CopyTags) in the Amazon RDS User Guide.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:
@@ -39845,6 +39906,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         backupTarget: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
         dbClusterSnapshotIdentifier: Swift.String? = nil,
@@ -39887,6 +39949,7 @@ public struct RestoreDBInstanceFromDBSnapshotInput: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupTarget = backupTarget
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
         self.dbClusterSnapshotIdentifier = dbClusterSnapshotIdentifier
@@ -39963,6 +40026,7 @@ enum RestoreDBInstanceFromDBSnapshotOutputError {
             switch code {
                 case "AuthorizationNotFound": return try await AuthorizationNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "BackupPolicyNotFoundFault": return try await BackupPolicyNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "CertificateNotFound": return try await CertificateNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBClusterSnapshotNotFoundFault": return try await DBClusterSnapshotNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -39996,6 +40060,7 @@ extension RestoreDBInstanceFromS3Input: Swift.Encodable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case backupRetentionPeriod = "BackupRetentionPeriod"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case dbInstanceClass = "DBInstanceClass"
         case dbInstanceIdentifier = "DBInstanceIdentifier"
@@ -40056,6 +40121,9 @@ extension RestoreDBInstanceFromS3Input: Swift.Encodable {
         }
         if let backupRetentionPeriod = backupRetentionPeriod {
             try container.encode(backupRetentionPeriod, forKey: ClientRuntime.Key("BackupRetentionPeriod"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -40258,6 +40326,8 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
     public var availabilityZone: Swift.String?
     /// The number of days for which automated backups are retained. Setting this parameter to a positive number enables backups. For more information, see CreateDBInstance.
     public var backupRetentionPeriod: Swift.Int?
+    /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The compute and memory capacity of the DB instance, for example db.m4.large. Not all DB instance classes are available in all Amazon Web Services Regions, or for all database engines. For the full list of DB instance classes, and availability for your engine, see [DB Instance Class](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.DBInstanceClass.html) in the Amazon RDS User Guide. Importing from Amazon S3 isn't supported on the db.t2.micro DB instance class.
@@ -40442,6 +40512,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         backupRetentionPeriod: Swift.Int? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         dbInstanceClass: Swift.String? = nil,
         dbInstanceIdentifier: Swift.String? = nil,
@@ -40493,6 +40564,7 @@ public struct RestoreDBInstanceFromS3Input: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupRetentionPeriod = backupRetentionPeriod
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.dbInstanceClass = dbInstanceClass
         self.dbInstanceIdentifier = dbInstanceIdentifier
@@ -40578,6 +40650,7 @@ enum RestoreDBInstanceFromS3OutputError {
             switch code {
                 case "AuthorizationNotFound": return try await AuthorizationNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "BackupPolicyNotFoundFault": return try await BackupPolicyNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "CertificateNotFound": return try await CertificateNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBParameterGroupNotFound": return try await DBParameterGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBSecurityGroupNotFound": return try await DBSecurityGroupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
@@ -40606,6 +40679,7 @@ extension RestoreDBInstanceToPointInTimeInput: Swift.Encodable {
         case autoMinorVersionUpgrade = "AutoMinorVersionUpgrade"
         case availabilityZone = "AvailabilityZone"
         case backupTarget = "BackupTarget"
+        case caCertificateIdentifier = "CACertificateIdentifier"
         case copyTagsToSnapshot = "CopyTagsToSnapshot"
         case customIamInstanceProfile = "CustomIamInstanceProfile"
         case dbInstanceClass = "DBInstanceClass"
@@ -40661,6 +40735,9 @@ extension RestoreDBInstanceToPointInTimeInput: Swift.Encodable {
         }
         if let backupTarget = backupTarget {
             try container.encode(backupTarget, forKey: ClientRuntime.Key("BackupTarget"))
+        }
+        if let caCertificateIdentifier = caCertificateIdentifier {
+            try container.encode(caCertificateIdentifier, forKey: ClientRuntime.Key("CACertificateIdentifier"))
         }
         if let copyTagsToSnapshot = copyTagsToSnapshot {
             try container.encode(copyTagsToSnapshot, forKey: ClientRuntime.Key("CopyTagsToSnapshot"))
@@ -40861,6 +40938,8 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
     ///
     /// Default: region For more information, see [Working with Amazon RDS on Amazon Web Services Outposts](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/rds-on-outposts.html) in the Amazon RDS User Guide.
     public var backupTarget: Swift.String?
+    /// The CA certificate identifier to use for the DB instance's server certificate. This setting doesn't apply to RDS Custom DB instances. For more information, see [Using SSL/TLS to encrypt a connection to a DB instance](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html) in the Amazon RDS User Guide and [ Using SSL/TLS to encrypt a connection to a DB cluster](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html) in the Amazon Aurora User Guide.
+    public var caCertificateIdentifier: Swift.String?
     /// Specifies whether to copy all tags from the restored DB instance to snapshots of the DB instance. By default, tags are not copied.
     public var copyTagsToSnapshot: Swift.Bool?
     /// The instance profile associated with the underlying Amazon EC2 instance of an RDS Custom DB instance. The instance profile must meet the following requirements:
@@ -41062,6 +41141,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
         autoMinorVersionUpgrade: Swift.Bool? = nil,
         availabilityZone: Swift.String? = nil,
         backupTarget: Swift.String? = nil,
+        caCertificateIdentifier: Swift.String? = nil,
         copyTagsToSnapshot: Swift.Bool? = nil,
         customIamInstanceProfile: Swift.String? = nil,
         dbInstanceClass: Swift.String? = nil,
@@ -41108,6 +41188,7 @@ public struct RestoreDBInstanceToPointInTimeInput: Swift.Equatable {
         self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
         self.availabilityZone = availabilityZone
         self.backupTarget = backupTarget
+        self.caCertificateIdentifier = caCertificateIdentifier
         self.copyTagsToSnapshot = copyTagsToSnapshot
         self.customIamInstanceProfile = customIamInstanceProfile
         self.dbInstanceClass = dbInstanceClass
@@ -41188,6 +41269,7 @@ enum RestoreDBInstanceToPointInTimeOutputError {
             switch code {
                 case "AuthorizationNotFound": return try await AuthorizationNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "BackupPolicyNotFoundFault": return try await BackupPolicyNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
+                case "CertificateNotFound": return try await CertificateNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceAlreadyExists": return try await DBInstanceAlreadyExistsFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceAutomatedBackupNotFound": return try await DBInstanceAutomatedBackupNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)
                 case "DBInstanceNotFound": return try await DBInstanceNotFoundFault.responseErrorBinding(httpResponse: httpResponse, reader: reader, message: message, requestID: requestID)

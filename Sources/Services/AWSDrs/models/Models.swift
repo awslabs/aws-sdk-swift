@@ -1669,6 +1669,7 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         case lagDuration
         case replicatedDisks
         case stagingAvailabilityZone
+        case stagingOutpostArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -1697,6 +1698,9 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         if let stagingAvailabilityZone = self.stagingAvailabilityZone {
             try encodeContainer.encode(stagingAvailabilityZone, forKey: .stagingAvailabilityZone)
         }
+        if let stagingOutpostArn = self.stagingOutpostArn {
+            try encodeContainer.encode(stagingOutpostArn, forKey: .stagingOutpostArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -1724,6 +1728,8 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
         dataReplicationError = dataReplicationErrorDecoded
         let stagingAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingAvailabilityZone)
         stagingAvailabilityZone = stagingAvailabilityZoneDecoded
+        let stagingOutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingOutpostArn)
+        stagingOutpostArn = stagingOutpostArnDecoded
     }
 }
 
@@ -1744,6 +1750,8 @@ extension DrsClientTypes {
         public var replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]?
         /// AWS Availability zone into which data is being replicated.
         public var stagingAvailabilityZone: Swift.String?
+        /// The ARN of the staging Outpost
+        public var stagingOutpostArn: Swift.String?
 
         public init(
             dataReplicationError: DrsClientTypes.DataReplicationError? = nil,
@@ -1752,7 +1760,8 @@ extension DrsClientTypes {
             etaDateTime: Swift.String? = nil,
             lagDuration: Swift.String? = nil,
             replicatedDisks: [DrsClientTypes.DataReplicationInfoReplicatedDisk]? = nil,
-            stagingAvailabilityZone: Swift.String? = nil
+            stagingAvailabilityZone: Swift.String? = nil,
+            stagingOutpostArn: Swift.String? = nil
         )
         {
             self.dataReplicationError = dataReplicationError
@@ -1762,6 +1771,7 @@ extension DrsClientTypes {
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
             self.stagingAvailabilityZone = stagingAvailabilityZone
+            self.stagingOutpostArn = stagingOutpostArn
         }
     }
 
@@ -8719,6 +8729,7 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         case pointInTimeSnapshotDateTime
         case recoveryInstanceID
         case recoveryInstanceProperties
+        case sourceOutpostArn
         case sourceServerID
         case tags
     }
@@ -8763,6 +8774,9 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         }
         if let recoveryInstanceProperties = self.recoveryInstanceProperties {
             try encodeContainer.encode(recoveryInstanceProperties, forKey: .recoveryInstanceProperties)
+        }
+        if let sourceOutpostArn = self.sourceOutpostArn {
+            try encodeContainer.encode(sourceOutpostArn, forKey: .sourceOutpostArn)
         }
         if let sourceServerID = self.sourceServerID {
             try encodeContainer.encode(sourceServerID, forKey: .sourceServerID)
@@ -8816,12 +8830,14 @@ extension DrsClientTypes.RecoveryInstance: Swift.Codable {
         originAvailabilityZone = originAvailabilityZoneDecoded
         let agentVersionDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .agentVersion)
         agentVersion = agentVersionDecoded
+        let sourceOutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceOutpostArn)
+        sourceOutpostArn = sourceOutpostArnDecoded
     }
 }
 
 extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
     public var debugDescription: Swift.String {
-        "RecoveryInstance(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originAvailabilityZone: \(Swift.String(describing: originAvailabilityZone)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
+        "RecoveryInstance(agentVersion: \(Swift.String(describing: agentVersion)), arn: \(Swift.String(describing: arn)), dataReplicationInfo: \(Swift.String(describing: dataReplicationInfo)), ec2InstanceID: \(Swift.String(describing: ec2InstanceID)), ec2InstanceState: \(Swift.String(describing: ec2InstanceState)), failback: \(Swift.String(describing: failback)), isDrill: \(Swift.String(describing: isDrill)), jobID: \(Swift.String(describing: jobID)), originAvailabilityZone: \(Swift.String(describing: originAvailabilityZone)), originEnvironment: \(Swift.String(describing: originEnvironment)), pointInTimeSnapshotDateTime: \(Swift.String(describing: pointInTimeSnapshotDateTime)), recoveryInstanceID: \(Swift.String(describing: recoveryInstanceID)), recoveryInstanceProperties: \(Swift.String(describing: recoveryInstanceProperties)), sourceOutpostArn: \(Swift.String(describing: sourceOutpostArn)), sourceServerID: \(Swift.String(describing: sourceServerID)), tags: \"CONTENT_REDACTED\")"}
 }
 
 extension DrsClientTypes {
@@ -8853,6 +8869,8 @@ extension DrsClientTypes {
         public var recoveryInstanceID: Swift.String?
         /// Properties of the Recovery Instance machine.
         public var recoveryInstanceProperties: DrsClientTypes.RecoveryInstanceProperties?
+        /// The ARN of the source Outpost
+        public var sourceOutpostArn: Swift.String?
         /// The Source Server ID that this Recovery Instance is associated with.
         public var sourceServerID: Swift.String?
         /// An array of tags that are associated with the Recovery Instance.
@@ -8872,6 +8890,7 @@ extension DrsClientTypes {
             pointInTimeSnapshotDateTime: Swift.String? = nil,
             recoveryInstanceID: Swift.String? = nil,
             recoveryInstanceProperties: DrsClientTypes.RecoveryInstanceProperties? = nil,
+            sourceOutpostArn: Swift.String? = nil,
             sourceServerID: Swift.String? = nil,
             tags: [Swift.String:Swift.String]? = nil
         )
@@ -8889,6 +8908,7 @@ extension DrsClientTypes {
             self.pointInTimeSnapshotDateTime = pointInTimeSnapshotDateTime
             self.recoveryInstanceID = recoveryInstanceID
             self.recoveryInstanceProperties = recoveryInstanceProperties
+            self.sourceOutpostArn = sourceOutpostArn
             self.sourceServerID = sourceServerID
             self.tags = tags
         }
@@ -8950,6 +8970,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         case lagDuration
         case replicatedDisks
         case stagingAvailabilityZone
+        case stagingOutpostArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -8978,6 +8999,9 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         if let stagingAvailabilityZone = self.stagingAvailabilityZone {
             try encodeContainer.encode(stagingAvailabilityZone, forKey: .stagingAvailabilityZone)
         }
+        if let stagingOutpostArn = self.stagingOutpostArn {
+            try encodeContainer.encode(stagingOutpostArn, forKey: .stagingOutpostArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -9005,6 +9029,8 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
         dataReplicationError = dataReplicationErrorDecoded
         let stagingAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingAvailabilityZone)
         stagingAvailabilityZone = stagingAvailabilityZoneDecoded
+        let stagingOutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .stagingOutpostArn)
+        stagingOutpostArn = stagingOutpostArnDecoded
     }
 }
 
@@ -9025,6 +9051,8 @@ extension DrsClientTypes {
         public var replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]?
         /// AWS Availability zone into which data is being replicated.
         public var stagingAvailabilityZone: Swift.String?
+        /// The ARN of the staging Outpost
+        public var stagingOutpostArn: Swift.String?
 
         public init(
             dataReplicationError: DrsClientTypes.RecoveryInstanceDataReplicationError? = nil,
@@ -9033,7 +9061,8 @@ extension DrsClientTypes {
             etaDateTime: Swift.String? = nil,
             lagDuration: Swift.String? = nil,
             replicatedDisks: [DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk]? = nil,
-            stagingAvailabilityZone: Swift.String? = nil
+            stagingAvailabilityZone: Swift.String? = nil,
+            stagingOutpostArn: Swift.String? = nil
         )
         {
             self.dataReplicationError = dataReplicationError
@@ -9043,6 +9072,7 @@ extension DrsClientTypes {
             self.lagDuration = lagDuration
             self.replicatedDisks = replicatedDisks
             self.stagingAvailabilityZone = stagingAvailabilityZone
+            self.stagingOutpostArn = stagingOutpostArn
         }
     }
 
@@ -11047,6 +11077,7 @@ extension DrsClientTypes.SourceCloudProperties: Swift.Codable {
         case originAccountID
         case originAvailabilityZone
         case originRegion
+        case sourceOutpostArn
     }
 
     public func encode(to encoder: Swift.Encoder) throws {
@@ -11060,6 +11091,9 @@ extension DrsClientTypes.SourceCloudProperties: Swift.Codable {
         if let originRegion = self.originRegion {
             try encodeContainer.encode(originRegion, forKey: .originRegion)
         }
+        if let sourceOutpostArn = self.sourceOutpostArn {
+            try encodeContainer.encode(sourceOutpostArn, forKey: .sourceOutpostArn)
+        }
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -11070,6 +11104,8 @@ extension DrsClientTypes.SourceCloudProperties: Swift.Codable {
         originRegion = originRegionDecoded
         let originAvailabilityZoneDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .originAvailabilityZone)
         originAvailabilityZone = originAvailabilityZoneDecoded
+        let sourceOutpostArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceOutpostArn)
+        sourceOutpostArn = sourceOutpostArnDecoded
     }
 }
 
@@ -11082,16 +11118,20 @@ extension DrsClientTypes {
         public var originAvailabilityZone: Swift.String?
         /// AWS Region for an EC2-originated Source Server.
         public var originRegion: Swift.String?
+        /// The ARN of the source Outpost
+        public var sourceOutpostArn: Swift.String?
 
         public init(
             originAccountID: Swift.String? = nil,
             originAvailabilityZone: Swift.String? = nil,
-            originRegion: Swift.String? = nil
+            originRegion: Swift.String? = nil,
+            sourceOutpostArn: Swift.String? = nil
         )
         {
             self.originAccountID = originAccountID
             self.originAvailabilityZone = originAvailabilityZone
             self.originRegion = originRegion
+            self.sourceOutpostArn = sourceOutpostArn
         }
     }
 
@@ -15176,6 +15216,7 @@ extension DrsClientTypes {
         case containsMarketplaceProductCodes
         case missingVolumeAttributes
         case missingVolumeAttributesAndPrecheckUnavailable
+        case pending
         case regular
         case sdkUnknown(Swift.String)
 
@@ -15184,6 +15225,7 @@ extension DrsClientTypes {
                 .containsMarketplaceProductCodes,
                 .missingVolumeAttributes,
                 .missingVolumeAttributesAndPrecheckUnavailable,
+                .pending,
                 .regular,
                 .sdkUnknown("")
             ]
@@ -15197,6 +15239,7 @@ extension DrsClientTypes {
             case .containsMarketplaceProductCodes: return "CONTAINS_MARKETPLACE_PRODUCT_CODES"
             case .missingVolumeAttributes: return "MISSING_VOLUME_ATTRIBUTES"
             case .missingVolumeAttributesAndPrecheckUnavailable: return "MISSING_VOLUME_ATTRIBUTES_AND_PRECHECK_UNAVAILABLE"
+            case .pending: return "PENDING"
             case .regular: return "REGULAR"
             case let .sdkUnknown(s): return s
             }

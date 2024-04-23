@@ -681,7 +681,7 @@ extension MediaConvertClient {
     /// Send an request with an empty body to the regional API endpoint to get your account API endpoint.
     @available(*, deprecated, message: "DescribeEndpoints and account specific endpoints are no longer required. We recommend that you send your requests directly to the regional endpoint instead.")
     ///
-    /// - Parameter DescribeEndpointsInput : DescribeEndpointsRequest
+    /// - Parameter DescribeEndpointsInput : [no documentation found]
     ///
     /// - Returns: `DescribeEndpointsOutput` : [no documentation found]
     ///

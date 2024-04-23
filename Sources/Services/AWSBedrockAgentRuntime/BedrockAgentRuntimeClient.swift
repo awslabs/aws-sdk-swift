@@ -142,7 +142,7 @@ public struct BedrockAgentRuntimeClientLogHandlerFactory: ClientRuntime.SDKLogHa
 extension BedrockAgentRuntimeClient {
     /// Performs the `InvokeAgent` operation on the `AmazonBedrockAgentRunTimeService` service.
     ///
-    /// Sends a prompt for the agent to process and respond to. The CLI doesn't support InvokeAgent.
+    /// Sends a prompt for the agent to process and respond to. Use return control event type for function calling. The CLI doesn't support InvokeAgent.
     ///
     /// * To continue the same conversation with an agent, use the same sessionId value in the request.
     ///
@@ -150,7 +150,9 @@ extension BedrockAgentRuntimeClient {
     ///
     /// * End a conversation by setting endSession to true.
     ///
-    /// * Include attributes for the session or prompt in the sessionState object.
+    /// * In the sessionState object, you can include attributes for the session or prompt or parameters returned from the action group.
+    ///
+    /// * Use return control event type for function calling.
     ///
     ///
     /// The response is returned in the bytes field of the chunk object.
@@ -173,7 +175,7 @@ extension BedrockAgentRuntimeClient {
     /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
     /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -231,7 +233,7 @@ extension BedrockAgentRuntimeClient {
     /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
     /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.
@@ -289,7 +291,7 @@ extension BedrockAgentRuntimeClient {
     /// - `ConflictException` : There was a conflict performing an operation. Resolve the conflict and retry your request.
     /// - `DependencyFailedException` : There was an issue with a dependency. Check the resource configurations and retry the request.
     /// - `InternalServerException` : An internal server error occurred. Retry your request.
-    /// - `ResourceNotFoundException` : The specified resource ARN was not found. Check the ARN and try your request again.
+    /// - `ResourceNotFoundException` : The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.
     /// - `ServiceQuotaExceededException` : The number of requests exceeds the service quota. Resubmit your request later.
     /// - `ThrottlingException` : The number of requests exceeds the limit. Resubmit your request later.
     /// - `ValidationException` : Input validation failed. Check your request parameters and retry the request.

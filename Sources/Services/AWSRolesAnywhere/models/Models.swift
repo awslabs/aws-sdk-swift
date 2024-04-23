@@ -57,6 +57,98 @@ extension AccessDeniedExceptionBody: Swift.Decodable {
     }
 }
 
+extension RolesAnywhereClientTypes.AttributeMapping: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateField
+        case mappingRules
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateField = self.certificateField {
+            try encodeContainer.encode(certificateField.rawValue, forKey: .certificateField)
+        }
+        if let mappingRules = mappingRules {
+            var mappingRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappingRules)
+            for mappingrule0 in mappingRules {
+                try mappingRulesContainer.encode(mappingrule0)
+            }
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateFieldDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.CertificateField.self, forKey: .certificateField)
+        certificateField = certificateFieldDecoded
+        let mappingRulesContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.MappingRule?].self, forKey: .mappingRules)
+        var mappingRulesDecoded0:[RolesAnywhereClientTypes.MappingRule]? = nil
+        if let mappingRulesContainer = mappingRulesContainer {
+            mappingRulesDecoded0 = [RolesAnywhereClientTypes.MappingRule]()
+            for structure0 in mappingRulesContainer {
+                if let structure0 = structure0 {
+                    mappingRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappingRules = mappingRulesDecoded0
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    /// A mapping applied to the authenticating end-entity certificate.
+    public struct AttributeMapping: Swift.Equatable {
+        /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+        public var certificateField: RolesAnywhereClientTypes.CertificateField?
+        /// A list of mapping entries for every supported specifier or sub-field.
+        public var mappingRules: [RolesAnywhereClientTypes.MappingRule]?
+
+        public init(
+            certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
+            mappingRules: [RolesAnywhereClientTypes.MappingRule]? = nil
+        )
+        {
+            self.certificateField = certificateField
+            self.mappingRules = mappingRules
+        }
+    }
+
+}
+
+extension RolesAnywhereClientTypes {
+    public enum CertificateField: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case x509issuer
+        case x509san
+        case x509subject
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CertificateField] {
+            return [
+                .x509issuer,
+                .x509san,
+                .x509subject,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .x509issuer: return "x509Issuer"
+            case .x509san: return "x509SAN"
+            case .x509subject: return "x509Subject"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CertificateField(rawValue: rawValue) ?? CertificateField.sdkUnknown(rawValue)
+        }
+    }
+}
+
 extension CreateProfileInput: Swift.Encodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case durationSeconds
@@ -642,6 +734,121 @@ extension RolesAnywhereClientTypes {
         }
     }
 
+}
+
+extension DeleteAttributeMappingInput {
+
+    static func queryItemProvider(_ value: DeleteAttributeMappingInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        guard let certificateField = value.certificateField else {
+            let message = "Creating a URL Query Item failed. certificateField is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let certificateFieldQueryItem = ClientRuntime.SDKURLQueryItem(name: "certificateField".urlPercentEncoding(), value: Swift.String(certificateField.rawValue).urlPercentEncoding())
+        items.append(certificateFieldQueryItem)
+        if let specifiers = value.specifiers {
+            specifiers.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "specifiers".urlPercentEncoding(), value: Swift.String(queryItemValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        return items
+    }
+}
+
+extension DeleteAttributeMappingInput {
+
+    static func urlPathProvider(_ value: DeleteAttributeMappingInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/profiles/\(profileId.urlPercentEncoding())/mappings"
+    }
+}
+
+public struct DeleteAttributeMappingInput: Swift.Equatable {
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+    /// This member is required.
+    public var certificateField: RolesAnywhereClientTypes.CertificateField?
+    /// The unique identifier of the profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+    /// A list of specifiers of a certificate field; for example, CN, OU, UID from a Subject.
+    public var specifiers: [Swift.String]?
+
+    public init(
+        certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
+        profileId: Swift.String? = nil,
+        specifiers: [Swift.String]? = nil
+    )
+    {
+        self.certificateField = certificateField
+        self.profileId = profileId
+        self.specifiers = specifiers
+    }
+}
+
+struct DeleteAttributeMappingInputBody: Swift.Equatable {
+}
+
+extension DeleteAttributeMappingInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension DeleteAttributeMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteAttributeMappingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct DeleteAttributeMappingOutput: Swift.Equatable {
+    /// The state of the profile after a read or write operation.
+    /// This member is required.
+    public var profile: RolesAnywhereClientTypes.ProfileDetail?
+
+    public init(
+        profile: RolesAnywhereClientTypes.ProfileDetail? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct DeleteAttributeMappingOutputBody: Swift.Equatable {
+    let profile: RolesAnywhereClientTypes.ProfileDetail?
+}
+
+extension DeleteAttributeMappingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.ProfileDetail.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
+enum DeleteAttributeMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension DeleteCrlInput {
@@ -2556,6 +2763,42 @@ enum ListTrustAnchorsOutputError: ClientRuntime.HttpResponseErrorBinding {
     }
 }
 
+extension RolesAnywhereClientTypes.MappingRule: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case specifier
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let specifier = self.specifier {
+            try encodeContainer.encode(specifier, forKey: .specifier)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let specifierDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .specifier)
+        specifier = specifierDecoded
+    }
+}
+
+extension RolesAnywhereClientTypes {
+    /// A single mapping entry for each supported specifier or sub-field.
+    public struct MappingRule: Swift.Equatable {
+        /// Specifier within a certificate field, such as CN, OU, or UID from the Subject field.
+        /// This member is required.
+        public var specifier: Swift.String?
+
+        public init(
+            specifier: Swift.String? = nil
+        )
+        {
+            self.specifier = specifier
+        }
+    }
+
+}
+
 extension RolesAnywhereClientTypes {
     public enum NotificationChannel: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case all
@@ -2809,6 +3052,7 @@ extension RolesAnywhereClientTypes {
 
 extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case attributeMappings
         case createdAt
         case createdBy
         case durationSeconds
@@ -2825,6 +3069,12 @@ extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let attributeMappings = attributeMappings {
+            var attributeMappingsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .attributeMappings)
+            for attributemapping0 in attributeMappings {
+                try attributeMappingsContainer.encode(attributemapping0)
+            }
+        }
         if let createdAt = self.createdAt {
             try encodeContainer.encodeTimestamp(createdAt, format: .dateTime, forKey: .createdAt)
         }
@@ -2913,12 +3163,25 @@ extension RolesAnywhereClientTypes.ProfileDetail: Swift.Codable {
         updatedAt = updatedAtDecoded
         let durationSecondsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .durationSeconds)
         durationSeconds = durationSecondsDecoded
+        let attributeMappingsContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.AttributeMapping?].self, forKey: .attributeMappings)
+        var attributeMappingsDecoded0:[RolesAnywhereClientTypes.AttributeMapping]? = nil
+        if let attributeMappingsContainer = attributeMappingsContainer {
+            attributeMappingsDecoded0 = [RolesAnywhereClientTypes.AttributeMapping]()
+            for structure0 in attributeMappingsContainer {
+                if let structure0 = structure0 {
+                    attributeMappingsDecoded0?.append(structure0)
+                }
+            }
+        }
+        attributeMappings = attributeMappingsDecoded0
     }
 }
 
 extension RolesAnywhereClientTypes {
     /// The state of the profile after a read or write operation.
     public struct ProfileDetail: Swift.Equatable {
+        /// A mapping applied to the authenticating end-entity certificate.
+        public var attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]?
         /// The ISO-8601 timestamp when the profile was created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Web Services account that created the profile.
@@ -2945,6 +3208,7 @@ extension RolesAnywhereClientTypes {
         public var updatedAt: ClientRuntime.Date?
 
         public init(
+            attributeMappings: [RolesAnywhereClientTypes.AttributeMapping]? = nil,
             createdAt: ClientRuntime.Date? = nil,
             createdBy: Swift.String? = nil,
             durationSeconds: Swift.Int? = nil,
@@ -2959,6 +3223,7 @@ extension RolesAnywhereClientTypes {
             updatedAt: ClientRuntime.Date? = nil
         )
         {
+            self.attributeMappings = attributeMappings
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.durationSeconds = durationSeconds
@@ -2974,6 +3239,142 @@ extension RolesAnywhereClientTypes {
         }
     }
 
+}
+
+extension PutAttributeMappingInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateField
+        case mappingRules
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let certificateField = self.certificateField {
+            try encodeContainer.encode(certificateField.rawValue, forKey: .certificateField)
+        }
+        if let mappingRules = mappingRules {
+            var mappingRulesContainer = encodeContainer.nestedUnkeyedContainer(forKey: .mappingRules)
+            for mappingrule0 in mappingRules {
+                try mappingRulesContainer.encode(mappingrule0)
+            }
+        }
+    }
+}
+
+extension PutAttributeMappingInput {
+
+    static func urlPathProvider(_ value: PutAttributeMappingInput) -> Swift.String? {
+        guard let profileId = value.profileId else {
+            return nil
+        }
+        return "/profiles/\(profileId.urlPercentEncoding())/mappings"
+    }
+}
+
+public struct PutAttributeMappingInput: Swift.Equatable {
+    /// Fields (x509Subject, x509Issuer and x509SAN) within X.509 certificates.
+    /// This member is required.
+    public var certificateField: RolesAnywhereClientTypes.CertificateField?
+    /// A list of mapping entries for every supported specifier or sub-field.
+    /// This member is required.
+    public var mappingRules: [RolesAnywhereClientTypes.MappingRule]?
+    /// The unique identifier of the profile.
+    /// This member is required.
+    public var profileId: Swift.String?
+
+    public init(
+        certificateField: RolesAnywhereClientTypes.CertificateField? = nil,
+        mappingRules: [RolesAnywhereClientTypes.MappingRule]? = nil,
+        profileId: Swift.String? = nil
+    )
+    {
+        self.certificateField = certificateField
+        self.mappingRules = mappingRules
+        self.profileId = profileId
+    }
+}
+
+struct PutAttributeMappingInputBody: Swift.Equatable {
+    let certificateField: RolesAnywhereClientTypes.CertificateField?
+    let mappingRules: [RolesAnywhereClientTypes.MappingRule]?
+}
+
+extension PutAttributeMappingInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case certificateField
+        case mappingRules
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let certificateFieldDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.CertificateField.self, forKey: .certificateField)
+        certificateField = certificateFieldDecoded
+        let mappingRulesContainer = try containerValues.decodeIfPresent([RolesAnywhereClientTypes.MappingRule?].self, forKey: .mappingRules)
+        var mappingRulesDecoded0:[RolesAnywhereClientTypes.MappingRule]? = nil
+        if let mappingRulesContainer = mappingRulesContainer {
+            mappingRulesDecoded0 = [RolesAnywhereClientTypes.MappingRule]()
+            for structure0 in mappingRulesContainer {
+                if let structure0 = structure0 {
+                    mappingRulesDecoded0?.append(structure0)
+                }
+            }
+        }
+        mappingRules = mappingRulesDecoded0
+    }
+}
+
+extension PutAttributeMappingOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: PutAttributeMappingOutputBody = try responseDecoder.decode(responseBody: data)
+            self.profile = output.profile
+        } else {
+            self.profile = nil
+        }
+    }
+}
+
+public struct PutAttributeMappingOutput: Swift.Equatable {
+    /// The state of the profile after a read or write operation.
+    /// This member is required.
+    public var profile: RolesAnywhereClientTypes.ProfileDetail?
+
+    public init(
+        profile: RolesAnywhereClientTypes.ProfileDetail? = nil
+    )
+    {
+        self.profile = profile
+    }
+}
+
+struct PutAttributeMappingOutputBody: Swift.Equatable {
+    let profile: RolesAnywhereClientTypes.ProfileDetail?
+}
+
+extension PutAttributeMappingOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case profile
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let profileDecoded = try containerValues.decodeIfPresent(RolesAnywhereClientTypes.ProfileDetail.self, forKey: .profile)
+        profile = profileDecoded
+    }
+}
+
+enum PutAttributeMappingOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension PutNotificationSettingsInput: Swift.Encodable {

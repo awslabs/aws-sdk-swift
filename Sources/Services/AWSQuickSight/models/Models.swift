@@ -2480,6 +2480,7 @@ extension QuickSightClientTypes {
         case name
         case password
         case port
+        case productType
         case roleArn
         case secretArn
         case username
@@ -2501,6 +2502,7 @@ extension QuickSightClientTypes {
                 .name,
                 .password,
                 .port,
+                .productType,
                 .roleArn,
                 .secretArn,
                 .username,
@@ -2527,6 +2529,7 @@ extension QuickSightClientTypes {
             case .name: return "Name"
             case .password: return "Password"
             case .port: return "Port"
+            case .productType: return "ProductType"
             case .roleArn: return "RoleArn"
             case .secretArn: return "SecretArn"
             case .username: return "Username"
@@ -3066,7 +3069,7 @@ extension QuickSightClientTypes.AssetBundleExportJobValidationStrategy: Swift.Co
 }
 
 extension QuickSightClientTypes {
-    /// The option to relax the validation that is required to export each asset. When StrictModeForAllResource is set to true, validation is skipped for specific UI errors.
+    /// The option to relax the validation that is required to export each asset. When StrictModeForAllResource is set to false, validation is skipped for specific UI errors.
     public struct AssetBundleExportJobValidationStrategy: Swift.Equatable {
         /// A Boolean value that indicates whether to export resources under strict or lenient mode.
         public var strictModeForAllResources: Swift.Bool
@@ -5163,6 +5166,51 @@ extension QuickSightClientTypes {
         {
             self.tags = tags
             self.vpcConnectionIds = vpcConnectionIds
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.AssetBundleImportJobWarning: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case arn = "Arn"
+        case message = "Message"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let arn = self.arn {
+            try encodeContainer.encode(arn, forKey: .arn)
+        }
+        if let message = self.message {
+            try encodeContainer.encode(message, forKey: .message)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let arnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .arn)
+        arn = arnDecoded
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// Describes a warning that occurred during an Asset Bundle import job.
+    public struct AssetBundleImportJobWarning: Swift.Equatable {
+        /// The ARN of the resource that the warning occurred for.
+        public var arn: Swift.String?
+        /// A description of the warning that occurred during an Asset Bundle import job.
+        public var message: Swift.String?
+
+        public init(
+            arn: Swift.String? = nil,
+            message: Swift.String? = nil
+        )
+        {
+            self.arn = arn
+            self.message = message
         }
     }
 
@@ -8644,7 +8692,7 @@ extension QuickSightClientTypes.CategoryDrillDownFilter: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    /// The numeric equality type drill down filter.
+    /// The category drill down filter.
     public struct CategoryDrillDownFilter: Swift.Equatable {
         /// A list of the string inputs that are the values of the category drill down filter.
         /// This member is required.
@@ -8669,6 +8717,7 @@ extension QuickSightClientTypes.CategoryFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case column = "Column"
         case configuration = "Configuration"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case filterId = "FilterId"
     }
 
@@ -8679,6 +8728,9 @@ extension QuickSightClientTypes.CategoryFilter: Swift.Codable {
         }
         if let configuration = self.configuration {
             try encodeContainer.encode(configuration, forKey: .configuration)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let filterId = self.filterId {
             try encodeContainer.encode(filterId, forKey: .filterId)
@@ -8693,6 +8745,8 @@ extension QuickSightClientTypes.CategoryFilter: Swift.Codable {
         column = columnDecoded
         let configurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CategoryFilterConfiguration.self, forKey: .configuration)
         configuration = configurationDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -8705,6 +8759,8 @@ extension QuickSightClientTypes {
         /// The configuration for a CategoryFilter.
         /// This member is required.
         public var configuration: QuickSightClientTypes.CategoryFilterConfiguration?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
@@ -8712,11 +8768,13 @@ extension QuickSightClientTypes {
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
             configuration: QuickSightClientTypes.CategoryFilterConfiguration? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil
         )
         {
             self.column = column
             self.configuration = configuration
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
         }
     }
@@ -23687,6 +23745,315 @@ extension QuickSightClientTypes {
     }
 }
 
+extension QuickSightClientTypes.DefaultDateTimePickerControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlDateTimePickerType.self, forKey: .type)
+        type = typeDecoded
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DateTimePickerControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the filter control type of a DateTimePicker.
+    public struct DefaultDateTimePickerControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions?
+        /// The date time picker type of the DefaultDateTimePickerControlOptions. Choose one of the following options:
+        ///
+        /// * SINGLE_VALUED: The filter condition is a fixed date.
+        ///
+        /// * DATE_RANGE: The filter condition is a date time range.
+        public var type: QuickSightClientTypes.SheetControlDateTimePickerType?
+
+        public init(
+            displayOptions: QuickSightClientTypes.DateTimePickerControlDisplayOptions? = nil,
+            type: QuickSightClientTypes.SheetControlDateTimePickerType? = nil
+        )
+        {
+            self.displayOptions = displayOptions
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultFilterControlConfiguration: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case controlOptions = "ControlOptions"
+        case title = "Title"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let controlOptions = self.controlOptions {
+            try encodeContainer.encode(controlOptions, forKey: .controlOptions)
+        }
+        if let title = self.title {
+            try encodeContainer.encode(title, forKey: .title)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let titleDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .title)
+        title = titleDecoded
+        let controlOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlOptions.self, forKey: .controlOptions)
+        controlOptions = controlOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default configuration for all dependent controls of the filter.
+    public struct DefaultFilterControlConfiguration: Swift.Equatable {
+        /// The control option for the DefaultFilterControlConfiguration.
+        /// This member is required.
+        public var controlOptions: QuickSightClientTypes.DefaultFilterControlOptions?
+        /// The title of the DefaultFilterControlConfiguration. This title is shared by all controls that are tied to this filter.
+        /// This member is required.
+        public var title: Swift.String?
+
+        public init(
+            controlOptions: QuickSightClientTypes.DefaultFilterControlOptions? = nil,
+            title: Swift.String? = nil
+        )
+        {
+            self.controlOptions = controlOptions
+            self.title = title
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultFilterControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case defaultDateTimePickerOptions = "DefaultDateTimePickerOptions"
+        case defaultDropdownOptions = "DefaultDropdownOptions"
+        case defaultListOptions = "DefaultListOptions"
+        case defaultRelativeDateTimeOptions = "DefaultRelativeDateTimeOptions"
+        case defaultSliderOptions = "DefaultSliderOptions"
+        case defaultTextAreaOptions = "DefaultTextAreaOptions"
+        case defaultTextFieldOptions = "DefaultTextFieldOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let defaultDateTimePickerOptions = self.defaultDateTimePickerOptions {
+            try encodeContainer.encode(defaultDateTimePickerOptions, forKey: .defaultDateTimePickerOptions)
+        }
+        if let defaultDropdownOptions = self.defaultDropdownOptions {
+            try encodeContainer.encode(defaultDropdownOptions, forKey: .defaultDropdownOptions)
+        }
+        if let defaultListOptions = self.defaultListOptions {
+            try encodeContainer.encode(defaultListOptions, forKey: .defaultListOptions)
+        }
+        if let defaultRelativeDateTimeOptions = self.defaultRelativeDateTimeOptions {
+            try encodeContainer.encode(defaultRelativeDateTimeOptions, forKey: .defaultRelativeDateTimeOptions)
+        }
+        if let defaultSliderOptions = self.defaultSliderOptions {
+            try encodeContainer.encode(defaultSliderOptions, forKey: .defaultSliderOptions)
+        }
+        if let defaultTextAreaOptions = self.defaultTextAreaOptions {
+            try encodeContainer.encode(defaultTextAreaOptions, forKey: .defaultTextAreaOptions)
+        }
+        if let defaultTextFieldOptions = self.defaultTextFieldOptions {
+            try encodeContainer.encode(defaultTextFieldOptions, forKey: .defaultTextFieldOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let defaultDateTimePickerOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultDateTimePickerControlOptions.self, forKey: .defaultDateTimePickerOptions)
+        defaultDateTimePickerOptions = defaultDateTimePickerOptionsDecoded
+        let defaultListOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterListControlOptions.self, forKey: .defaultListOptions)
+        defaultListOptions = defaultListOptionsDecoded
+        let defaultDropdownOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterDropDownControlOptions.self, forKey: .defaultDropdownOptions)
+        defaultDropdownOptions = defaultDropdownOptionsDecoded
+        let defaultTextFieldOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultTextFieldControlOptions.self, forKey: .defaultTextFieldOptions)
+        defaultTextFieldOptions = defaultTextFieldOptionsDecoded
+        let defaultTextAreaOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultTextAreaControlOptions.self, forKey: .defaultTextAreaOptions)
+        defaultTextAreaOptions = defaultTextAreaOptionsDecoded
+        let defaultSliderOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultSliderControlOptions.self, forKey: .defaultSliderOptions)
+        defaultSliderOptions = defaultSliderOptionsDecoded
+        let defaultRelativeDateTimeOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultRelativeDateTimeControlOptions.self, forKey: .defaultRelativeDateTimeOptions)
+        defaultRelativeDateTimeOptions = defaultRelativeDateTimeOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The option that corresponds to the control type of the filter.
+    public struct DefaultFilterControlOptions: Swift.Equatable {
+        /// The default options that correspond to the filter control type of a DateTimePicker.
+        public var defaultDateTimePickerOptions: QuickSightClientTypes.DefaultDateTimePickerControlOptions?
+        /// The default options that correspond to the Dropdown filter control type.
+        public var defaultDropdownOptions: QuickSightClientTypes.DefaultFilterDropDownControlOptions?
+        /// The default options that correspond to the List filter control type.
+        public var defaultListOptions: QuickSightClientTypes.DefaultFilterListControlOptions?
+        /// The default options that correspond to the RelativeDateTime filter control type.
+        public var defaultRelativeDateTimeOptions: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions?
+        /// The default options that correspond to the Slider filter control type.
+        public var defaultSliderOptions: QuickSightClientTypes.DefaultSliderControlOptions?
+        /// The default options that correspond to the TextArea filter control type.
+        public var defaultTextAreaOptions: QuickSightClientTypes.DefaultTextAreaControlOptions?
+        /// The default options that correspond to the TextField filter control type.
+        public var defaultTextFieldOptions: QuickSightClientTypes.DefaultTextFieldControlOptions?
+
+        public init(
+            defaultDateTimePickerOptions: QuickSightClientTypes.DefaultDateTimePickerControlOptions? = nil,
+            defaultDropdownOptions: QuickSightClientTypes.DefaultFilterDropDownControlOptions? = nil,
+            defaultListOptions: QuickSightClientTypes.DefaultFilterListControlOptions? = nil,
+            defaultRelativeDateTimeOptions: QuickSightClientTypes.DefaultRelativeDateTimeControlOptions? = nil,
+            defaultSliderOptions: QuickSightClientTypes.DefaultSliderControlOptions? = nil,
+            defaultTextAreaOptions: QuickSightClientTypes.DefaultTextAreaControlOptions? = nil,
+            defaultTextFieldOptions: QuickSightClientTypes.DefaultTextFieldControlOptions? = nil
+        )
+        {
+            self.defaultDateTimePickerOptions = defaultDateTimePickerOptions
+            self.defaultDropdownOptions = defaultDropdownOptions
+            self.defaultListOptions = defaultListOptions
+            self.defaultRelativeDateTimeOptions = defaultRelativeDateTimeOptions
+            self.defaultSliderOptions = defaultSliderOptions
+            self.defaultTextAreaOptions = defaultTextAreaOptions
+            self.defaultTextFieldOptions = defaultTextFieldOptions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultFilterDropDownControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+        case selectableValues = "SelectableValues"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+        if let selectableValues = self.selectableValues {
+            try encodeContainer.encode(selectableValues, forKey: .selectableValues)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DropDownControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlListType.self, forKey: .type)
+        type = typeDecoded
+        let selectableValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterSelectableValues.self, forKey: .selectableValues)
+        selectableValues = selectableValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the Dropdown filter control type.
+    public struct DefaultFilterDropDownControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions?
+        /// A list of selectable values that are used in a control.
+        public var selectableValues: QuickSightClientTypes.FilterSelectableValues?
+        /// The type of the FilterDropDownControl. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from a dropdown menu.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from a dropdown menu.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            displayOptions: QuickSightClientTypes.DropDownControlDisplayOptions? = nil,
+            selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        )
+        {
+            self.displayOptions = displayOptions
+            self.selectableValues = selectableValues
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultFilterListControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+        case selectableValues = "SelectableValues"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+        if let selectableValues = self.selectableValues {
+            try encodeContainer.encode(selectableValues, forKey: .selectableValues)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ListControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlListType.self, forKey: .type)
+        type = typeDecoded
+        let selectableValuesDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterSelectableValues.self, forKey: .selectableValues)
+        selectableValues = selectableValuesDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the List filter control type.
+    public struct DefaultFilterListControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.ListControlDisplayOptions?
+        /// A list of selectable values that are used in a control.
+        public var selectableValues: QuickSightClientTypes.FilterSelectableValues?
+        /// The type of the DefaultFilterListControlOptions. Choose one of the following options:
+        ///
+        /// * MULTI_SELECT: The user can select multiple entries from the list.
+        ///
+        /// * SINGLE_SELECT: The user can select a single entry from the list.
+        public var type: QuickSightClientTypes.SheetControlListType?
+
+        public init(
+            displayOptions: QuickSightClientTypes.ListControlDisplayOptions? = nil,
+            selectableValues: QuickSightClientTypes.FilterSelectableValues? = nil,
+            type: QuickSightClientTypes.SheetControlListType? = nil
+        )
+        {
+            self.displayOptions = displayOptions
+            self.selectableValues = selectableValues
+            self.type = type
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DefaultFormatting: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case displayFormat = "DisplayFormat"
@@ -23939,6 +24306,41 @@ extension QuickSightClientTypes {
 
 }
 
+extension QuickSightClientTypes.DefaultRelativeDateTimeControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RelativeDateTimeControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the RelativeDateTime filter control type.
+    public struct DefaultRelativeDateTimeControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions?
+
+        public init(
+            displayOptions: QuickSightClientTypes.RelativeDateTimeControlDisplayOptions? = nil
+        )
+        {
+            self.displayOptions = displayOptions
+        }
+    }
+
+}
+
 extension QuickSightClientTypes.DefaultSectionBasedLayoutConfiguration: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case canvasSizeOptions = "CanvasSizeOptions"
@@ -23970,6 +24372,168 @@ extension QuickSightClientTypes {
         )
         {
             self.canvasSizeOptions = canvasSizeOptions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultSliderControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+        case maximumValue = "MaximumValue"
+        case minimumValue = "MinimumValue"
+        case stepSize = "StepSize"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+        if maximumValue != 0.0 {
+            try encodeContainer.encode(maximumValue, forKey: .maximumValue)
+        }
+        if minimumValue != 0.0 {
+            try encodeContainer.encode(minimumValue, forKey: .minimumValue)
+        }
+        if stepSize != 0.0 {
+            try encodeContainer.encode(stepSize, forKey: .stepSize)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SliderControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.SheetControlSliderType.self, forKey: .type)
+        type = typeDecoded
+        let maximumValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .maximumValue) ?? 0.0
+        maximumValue = maximumValueDecoded
+        let minimumValueDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .minimumValue) ?? 0.0
+        minimumValue = minimumValueDecoded
+        let stepSizeDecoded = try containerValues.decodeIfPresent(Swift.Double.self, forKey: .stepSize) ?? 0.0
+        stepSize = stepSizeDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the Slider filter control type.
+    public struct DefaultSliderControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
+        /// The larger value that is displayed at the right of the slider.
+        /// This member is required.
+        public var maximumValue: Swift.Double
+        /// The smaller value that is displayed at the left of the slider.
+        /// This member is required.
+        public var minimumValue: Swift.Double
+        /// The number of increments that the slider bar is divided into.
+        /// This member is required.
+        public var stepSize: Swift.Double
+        /// The type of the DefaultSliderControlOptions. Choose one of the following options:
+        ///
+        /// * SINGLE_POINT: Filter against(equals) a single data point.
+        ///
+        /// * RANGE: Filter data that is in a specified range.
+        public var type: QuickSightClientTypes.SheetControlSliderType?
+
+        public init(
+            displayOptions: QuickSightClientTypes.SliderControlDisplayOptions? = nil,
+            maximumValue: Swift.Double = 0.0,
+            minimumValue: Swift.Double = 0.0,
+            stepSize: Swift.Double = 0.0,
+            type: QuickSightClientTypes.SheetControlSliderType? = nil
+        )
+        {
+            self.displayOptions = displayOptions
+            self.maximumValue = maximumValue
+            self.minimumValue = minimumValue
+            self.stepSize = stepSize
+            self.type = type
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultTextAreaControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case delimiter = "Delimiter"
+        case displayOptions = "DisplayOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let delimiter = self.delimiter {
+            try encodeContainer.encode(delimiter, forKey: .delimiter)
+        }
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let delimiterDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .delimiter)
+        delimiter = delimiterDecoded
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TextAreaControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the TextArea filter control type.
+    public struct DefaultTextAreaControlOptions: Swift.Equatable {
+        /// The delimiter that is used to separate the lines in text.
+        public var delimiter: Swift.String?
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions?
+
+        public init(
+            delimiter: Swift.String? = nil,
+            displayOptions: QuickSightClientTypes.TextAreaControlDisplayOptions? = nil
+        )
+        {
+            self.delimiter = delimiter
+            self.displayOptions = displayOptions
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.DefaultTextFieldControlOptions: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case displayOptions = "DisplayOptions"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let displayOptions = self.displayOptions {
+            try encodeContainer.encode(displayOptions, forKey: .displayOptions)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let displayOptionsDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TextFieldControlDisplayOptions.self, forKey: .displayOptions)
+        displayOptions = displayOptionsDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// The default options that correspond to the TextField filter control type.
+    public struct DefaultTextFieldControlOptions: Swift.Equatable {
+        /// The display options of a control.
+        public var displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions?
+
+        public init(
+            displayOptions: QuickSightClientTypes.TextFieldControlDisplayOptions? = nil
+        )
+        {
+            self.displayOptions = displayOptions
         }
     }
 
@@ -28422,6 +28986,7 @@ extension DescribeAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding 
             self.overrideValidationStrategy = output.overrideValidationStrategy
             self.requestId = output.requestId
             self.rollbackErrors = output.rollbackErrors
+            self.warnings = output.warnings
         } else {
             self.arn = nil
             self.assetBundleImportJobId = nil
@@ -28437,6 +29002,7 @@ extension DescribeAssetBundleImportJobOutput: ClientRuntime.HttpResponseBinding 
             self.overrideValidationStrategy = nil
             self.requestId = nil
             self.rollbackErrors = nil
+            self.warnings = nil
         }
         self.status = httpResponse.statusCode.rawValue
     }
@@ -28481,6 +29047,8 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
     public var rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]?
     /// The HTTP status of the response.
     public var status: Swift.Int
+    /// An array of warning records that describe all permitted errors that are encountered during the import job.
+    public var warnings: [QuickSightClientTypes.AssetBundleImportJobWarning]?
 
     public init(
         arn: Swift.String? = nil,
@@ -28497,7 +29065,8 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
         overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy? = nil,
         requestId: Swift.String? = nil,
         rollbackErrors: [QuickSightClientTypes.AssetBundleImportJobError]? = nil,
-        status: Swift.Int = 0
+        status: Swift.Int = 0,
+        warnings: [QuickSightClientTypes.AssetBundleImportJobWarning]? = nil
     )
     {
         self.arn = arn
@@ -28515,6 +29084,7 @@ public struct DescribeAssetBundleImportJobOutput: Swift.Equatable {
         self.requestId = requestId
         self.rollbackErrors = rollbackErrors
         self.status = status
+        self.warnings = warnings
     }
 }
 
@@ -28534,6 +29104,7 @@ struct DescribeAssetBundleImportJobOutputBody: Swift.Equatable {
     let overridePermissions: QuickSightClientTypes.AssetBundleImportJobOverridePermissions?
     let overrideTags: QuickSightClientTypes.AssetBundleImportJobOverrideTags?
     let overrideValidationStrategy: QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy?
+    let warnings: [QuickSightClientTypes.AssetBundleImportJobWarning]?
 }
 
 extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
@@ -28553,6 +29124,7 @@ extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
         case requestId = "RequestId"
         case rollbackErrors = "RollbackErrors"
         case status = "Status"
+        case warnings = "Warnings"
     }
 
     public init(from decoder: Swift.Decoder) throws {
@@ -28605,6 +29177,17 @@ extension DescribeAssetBundleImportJobOutputBody: Swift.Decodable {
         overrideTags = overrideTagsDecoded
         let overrideValidationStrategyDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.AssetBundleImportJobOverrideValidationStrategy.self, forKey: .overrideValidationStrategy)
         overrideValidationStrategy = overrideValidationStrategyDecoded
+        let warningsContainer = try containerValues.decodeIfPresent([QuickSightClientTypes.AssetBundleImportJobWarning?].self, forKey: .warnings)
+        var warningsDecoded0:[QuickSightClientTypes.AssetBundleImportJobWarning]? = nil
+        if let warningsContainer = warningsContainer {
+            warningsDecoded0 = [QuickSightClientTypes.AssetBundleImportJobWarning]()
+            for structure0 in warningsContainer {
+                if let structure0 = structure0 {
+                    warningsDecoded0?.append(structure0)
+                }
+            }
+        }
+        warnings = warningsDecoded0
     }
 }
 
@@ -35784,6 +36367,7 @@ extension QuickSightClientTypes {
 
 extension QuickSightClientTypes.FilterControl: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case crossSheet = "CrossSheet"
         case dateTimePicker = "DateTimePicker"
         case dropdown = "Dropdown"
         case list = "List"
@@ -35795,6 +36379,9 @@ extension QuickSightClientTypes.FilterControl: Swift.Codable {
 
     public func encode(to encoder: Swift.Encoder) throws {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let crossSheet = self.crossSheet {
+            try encodeContainer.encode(crossSheet, forKey: .crossSheet)
+        }
         if let dateTimePicker = self.dateTimePicker {
             try encodeContainer.encode(dateTimePicker, forKey: .dateTimePicker)
         }
@@ -35834,12 +36421,16 @@ extension QuickSightClientTypes.FilterControl: Swift.Codable {
         slider = sliderDecoded
         let relativeDateTimeDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterRelativeDateTimeControl.self, forKey: .relativeDateTime)
         relativeDateTime = relativeDateTimeDecoded
+        let crossSheetDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterCrossSheetControl.self, forKey: .crossSheet)
+        crossSheet = crossSheetDecoded
     }
 }
 
 extension QuickSightClientTypes {
     /// The control of a filter that is used to interact with a dashboard or an analysis. This is a union type structure. For this structure to be valid, only one of the attributes can be defined.
     public struct FilterControl: Swift.Equatable {
+        /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
+        public var crossSheet: QuickSightClientTypes.FilterCrossSheetControl?
         /// A control from a date filter that is used to specify date and time.
         public var dateTimePicker: QuickSightClientTypes.FilterDateTimePickerControl?
         /// A control to display a dropdown list with buttons that are used to select a single value.
@@ -35856,6 +36447,7 @@ extension QuickSightClientTypes {
         public var textField: QuickSightClientTypes.FilterTextFieldControl?
 
         public init(
+            crossSheet: QuickSightClientTypes.FilterCrossSheetControl? = nil,
             dateTimePicker: QuickSightClientTypes.FilterDateTimePickerControl? = nil,
             dropdown: QuickSightClientTypes.FilterDropDownControl? = nil,
             list: QuickSightClientTypes.FilterListControl? = nil,
@@ -35865,6 +36457,7 @@ extension QuickSightClientTypes {
             textField: QuickSightClientTypes.FilterTextFieldControl? = nil
         )
         {
+            self.crossSheet = crossSheet
             self.dateTimePicker = dateTimePicker
             self.dropdown = dropdown
             self.list = list
@@ -35872,6 +36465,63 @@ extension QuickSightClientTypes {
             self.slider = slider
             self.textArea = textArea
             self.textField = textField
+        }
+    }
+
+}
+
+extension QuickSightClientTypes.FilterCrossSheetControl: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case cascadingControlConfiguration = "CascadingControlConfiguration"
+        case filterControlId = "FilterControlId"
+        case sourceFilterId = "SourceFilterId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let cascadingControlConfiguration = self.cascadingControlConfiguration {
+            try encodeContainer.encode(cascadingControlConfiguration, forKey: .cascadingControlConfiguration)
+        }
+        if let filterControlId = self.filterControlId {
+            try encodeContainer.encode(filterControlId, forKey: .filterControlId)
+        }
+        if let sourceFilterId = self.sourceFilterId {
+            try encodeContainer.encode(sourceFilterId, forKey: .sourceFilterId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let filterControlIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .filterControlId)
+        filterControlId = filterControlIdDecoded
+        let sourceFilterIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceFilterId)
+        sourceFilterId = sourceFilterIdDecoded
+        let cascadingControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.CascadingControlConfiguration.self, forKey: .cascadingControlConfiguration)
+        cascadingControlConfiguration = cascadingControlConfigurationDecoded
+    }
+}
+
+extension QuickSightClientTypes {
+    /// A control from a filter that is scoped across more than one sheet. This represents your filter control on a sheet
+    public struct FilterCrossSheetControl: Swift.Equatable {
+        /// The values that are displayed in a control can be configured to only show values that are valid based on what's selected in other controls.
+        public var cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration?
+        /// The ID of the FilterCrossSheetControl.
+        /// This member is required.
+        public var filterControlId: Swift.String?
+        /// The source filter ID of the FilterCrossSheetControl.
+        /// This member is required.
+        public var sourceFilterId: Swift.String?
+
+        public init(
+            cascadingControlConfiguration: QuickSightClientTypes.CascadingControlConfiguration? = nil,
+            filterControlId: Swift.String? = nil,
+            sourceFilterId: Swift.String? = nil
+        )
+        {
+            self.cascadingControlConfiguration = cascadingControlConfiguration
+            self.filterControlId = filterControlId
+            self.sourceFilterId = sourceFilterId
         }
     }
 
@@ -35934,11 +36584,11 @@ extension QuickSightClientTypes {
         /// The title of the FilterDateTimePickerControl.
         /// This member is required.
         public var title: Swift.String?
-        /// The date time picker type of a FilterDateTimePickerControl. Choose one of the following options:
+        /// The type of the FilterDropDownControl. Choose one of the following options:
         ///
-        /// * SINGLE_VALUED: The filter condition is a fixed date.
+        /// * MULTI_SELECT: The user can select multiple entries from a dropdown menu.
         ///
-        /// * DATE_RANGE: The filter condition is a date time range.
+        /// * SINGLE_SELECT: The user can select a single entry from a dropdown menu.
         public var type: QuickSightClientTypes.SheetControlDateTimePickerType?
 
         public init(
@@ -36315,7 +36965,7 @@ extension QuickSightClientTypes {
         /// The title of the FilterListControl.
         /// This member is required.
         public var title: Swift.String?
-        /// The type of FilterListControl. Choose one of the following options:
+        /// The type of the FilterListControl. Choose one of the following options:
         ///
         /// * MULTI_SELECT: The user can select multiple entries from the list.
         ///
@@ -36797,10 +37447,10 @@ extension QuickSightClientTypes {
         /// The ID of the FilterSliderControl.
         /// This member is required.
         public var filterControlId: Swift.String?
-        /// The smaller value that is displayed at the left of the slider.
+        /// The larger value that is displayed at the right of the slider.
         /// This member is required.
         public var maximumValue: Swift.Double
-        /// The larger value that is displayed at the right of the slider.
+        /// The smaller value that is displayed at the left of the slider.
         /// This member is required.
         public var minimumValue: Swift.Double
         /// The source filter ID of the FilterSliderControl.
@@ -36812,7 +37462,7 @@ extension QuickSightClientTypes {
         /// The title of the FilterSliderControl.
         /// This member is required.
         public var title: Swift.String?
-        /// The type of FilterSliderControl. Choose one of the following options:
+        /// The type of the FilterSliderControl. Choose one of the following options:
         ///
         /// * SINGLE_POINT: Filter against(equals) a single data point.
         ///
@@ -54249,7 +54899,7 @@ extension QuickSightClientTypes.NumericEqualityDrillDownFilter: Swift.Codable {
 }
 
 extension QuickSightClientTypes {
-    /// The category drill down filter.
+    /// The numeric equality type drill down filter.
     public struct NumericEqualityDrillDownFilter: Swift.Equatable {
         /// The column that the filter is applied to.
         /// This member is required.
@@ -54274,6 +54924,7 @@ extension QuickSightClientTypes.NumericEqualityFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationFunction = "AggregationFunction"
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case filterId = "FilterId"
         case matchOperator = "MatchOperator"
         case nullOption = "NullOption"
@@ -54289,6 +54940,9 @@ extension QuickSightClientTypes.NumericEqualityFilter: Swift.Codable {
         }
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let filterId = self.filterId {
             try encodeContainer.encode(filterId, forKey: .filterId)
@@ -54328,6 +54982,8 @@ extension QuickSightClientTypes.NumericEqualityFilter: Swift.Codable {
         parameterName = parameterNameDecoded
         let nullOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterNullOption.self, forKey: .nullOption)
         nullOption = nullOptionDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -54339,6 +54995,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
@@ -54366,6 +55024,7 @@ extension QuickSightClientTypes {
         public init(
             aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
             matchOperator: QuickSightClientTypes.NumericEqualityMatchOperator? = nil,
             nullOption: QuickSightClientTypes.FilterNullOption? = nil,
@@ -54376,6 +55035,7 @@ extension QuickSightClientTypes {
         {
             self.aggregationFunction = aggregationFunction
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.matchOperator = matchOperator
             self.nullOption = nullOption
@@ -54507,6 +55167,7 @@ extension QuickSightClientTypes.NumericRangeFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationFunction = "AggregationFunction"
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case filterId = "FilterId"
         case includeMaximum = "IncludeMaximum"
         case includeMinimum = "IncludeMinimum"
@@ -54523,6 +55184,9 @@ extension QuickSightClientTypes.NumericRangeFilter: Swift.Codable {
         }
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let filterId = self.filterId {
             try encodeContainer.encode(filterId, forKey: .filterId)
@@ -54567,6 +55231,8 @@ extension QuickSightClientTypes.NumericRangeFilter: Swift.Codable {
         aggregationFunction = aggregationFunctionDecoded
         let nullOptionDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.FilterNullOption.self, forKey: .nullOption)
         nullOption = nullOptionDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -54578,6 +55244,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
@@ -54606,6 +55274,7 @@ extension QuickSightClientTypes {
         public init(
             aggregationFunction: QuickSightClientTypes.AggregationFunction? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
             includeMaximum: Swift.Bool? = nil,
             includeMinimum: Swift.Bool? = nil,
@@ -54617,6 +55286,7 @@ extension QuickSightClientTypes {
         {
             self.aggregationFunction = aggregationFunction
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.includeMaximum = includeMaximum
             self.includeMinimum = includeMinimum
@@ -56040,10 +56710,10 @@ extension QuickSightClientTypes {
     public struct ParameterSliderControl: Swift.Equatable {
         /// The display options of a control.
         public var displayOptions: QuickSightClientTypes.SliderControlDisplayOptions?
-        /// The smaller value that is displayed at the left of the slider.
+        /// The larger value that is displayed at the right of the slider.
         /// This member is required.
         public var maximumValue: Swift.Double
-        /// The larger value that is displayed at the right of the slider.
+        /// The smaller value that is displayed at the left of the slider.
         /// This member is required.
         public var minimumValue: Swift.Double
         /// The ID of the ParameterSliderControl.
@@ -62224,6 +62894,7 @@ extension QuickSightClientTypes.RelativeDatesFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case anchorDateConfiguration = "AnchorDateConfiguration"
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case excludePeriodConfiguration = "ExcludePeriodConfiguration"
         case filterId = "FilterId"
         case minimumGranularity = "MinimumGranularity"
@@ -62241,6 +62912,9 @@ extension QuickSightClientTypes.RelativeDatesFilter: Swift.Codable {
         }
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let excludePeriodConfiguration = self.excludePeriodConfiguration {
             try encodeContainer.encode(excludePeriodConfiguration, forKey: .excludePeriodConfiguration)
@@ -62290,6 +62964,8 @@ extension QuickSightClientTypes.RelativeDatesFilter: Swift.Codable {
         nullOption = nullOptionDecoded
         let excludePeriodConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.ExcludePeriodConfiguration.self, forKey: .excludePeriodConfiguration)
         excludePeriodConfiguration = excludePeriodConfigurationDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -62302,6 +62978,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// The configuration for the exclude period of the filter.
         public var excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
@@ -62342,6 +63020,7 @@ extension QuickSightClientTypes {
         public init(
             anchorDateConfiguration: QuickSightClientTypes.AnchorDateConfiguration? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration? = nil,
             filterId: Swift.String? = nil,
             minimumGranularity: QuickSightClientTypes.TimeGranularity? = nil,
@@ -62354,6 +63033,7 @@ extension QuickSightClientTypes {
         {
             self.anchorDateConfiguration = anchorDateConfiguration
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.excludePeriodConfiguration = excludePeriodConfiguration
             self.filterId = filterId
             self.minimumGranularity = minimumGranularity
@@ -75078,6 +75758,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case filterId = "FilterId"
         case parameterName = "ParameterName"
         case rollingDate = "RollingDate"
@@ -75089,6 +75770,9 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let filterId = self.filterId {
             try encodeContainer.encode(filterId, forKey: .filterId)
@@ -75121,6 +75805,8 @@ extension QuickSightClientTypes.TimeEqualityFilter: Swift.Codable {
         timeGranularity = timeGranularityDecoded
         let rollingDateDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.RollingDateConfiguration.self, forKey: .rollingDate)
         rollingDate = rollingDateDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -75130,6 +75816,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
@@ -75144,6 +75832,7 @@ extension QuickSightClientTypes {
 
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
             parameterName: Swift.String? = nil,
             rollingDate: QuickSightClientTypes.RollingDateConfiguration? = nil,
@@ -75152,6 +75841,7 @@ extension QuickSightClientTypes {
         )
         {
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.parameterName = parameterName
             self.rollingDate = rollingDate
@@ -75287,6 +75977,7 @@ extension QuickSightClientTypes {
 extension QuickSightClientTypes.TimeRangeFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case excludePeriodConfiguration = "ExcludePeriodConfiguration"
         case filterId = "FilterId"
         case includeMaximum = "IncludeMaximum"
@@ -75301,6 +75992,9 @@ extension QuickSightClientTypes.TimeRangeFilter: Swift.Codable {
         var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let excludePeriodConfiguration = self.excludePeriodConfiguration {
             try encodeContainer.encode(excludePeriodConfiguration, forKey: .excludePeriodConfiguration)
@@ -75348,6 +76042,8 @@ extension QuickSightClientTypes.TimeRangeFilter: Swift.Codable {
         excludePeriodConfiguration = excludePeriodConfigurationDecoded
         let timeGranularityDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.TimeGranularity.self, forKey: .timeGranularity)
         timeGranularity = timeGranularityDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -75357,6 +76053,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// The exclude period of the time range filter.
         public var excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
@@ -75384,6 +76082,7 @@ extension QuickSightClientTypes {
 
         public init(
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             excludePeriodConfiguration: QuickSightClientTypes.ExcludePeriodConfiguration? = nil,
             filterId: Swift.String? = nil,
             includeMaximum: Swift.Bool? = nil,
@@ -75395,6 +76094,7 @@ extension QuickSightClientTypes {
         )
         {
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.excludePeriodConfiguration = excludePeriodConfiguration
             self.filterId = filterId
             self.includeMaximum = includeMaximum
@@ -75670,6 +76370,7 @@ extension QuickSightClientTypes.TopBottomFilter: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case aggregationSortConfigurations = "AggregationSortConfigurations"
         case column = "Column"
+        case defaultFilterControlConfiguration = "DefaultFilterControlConfiguration"
         case filterId = "FilterId"
         case limit = "Limit"
         case parameterName = "ParameterName"
@@ -75686,6 +76387,9 @@ extension QuickSightClientTypes.TopBottomFilter: Swift.Codable {
         }
         if let column = self.column {
             try encodeContainer.encode(column, forKey: .column)
+        }
+        if let defaultFilterControlConfiguration = self.defaultFilterControlConfiguration {
+            try encodeContainer.encode(defaultFilterControlConfiguration, forKey: .defaultFilterControlConfiguration)
         }
         if let filterId = self.filterId {
             try encodeContainer.encode(filterId, forKey: .filterId)
@@ -75724,6 +76428,8 @@ extension QuickSightClientTypes.TopBottomFilter: Swift.Codable {
         timeGranularity = timeGranularityDecoded
         let parameterNameDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .parameterName)
         parameterName = parameterNameDecoded
+        let defaultFilterControlConfigurationDecoded = try containerValues.decodeIfPresent(QuickSightClientTypes.DefaultFilterControlConfiguration.self, forKey: .defaultFilterControlConfiguration)
+        defaultFilterControlConfiguration = defaultFilterControlConfigurationDecoded
     }
 }
 
@@ -75736,6 +76442,8 @@ extension QuickSightClientTypes {
         /// The column that the filter is applied to.
         /// This member is required.
         public var column: QuickSightClientTypes.ColumnIdentifier?
+        /// The default configurations for the associated controls. This applies only for filters that are scoped to multiple sheets.
+        public var defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration?
         /// An identifier that uniquely identifies a filter within a dashboard, analysis, or template.
         /// This member is required.
         public var filterId: Swift.String?
@@ -75749,6 +76457,7 @@ extension QuickSightClientTypes {
         public init(
             aggregationSortConfigurations: [QuickSightClientTypes.AggregationSortConfiguration]? = nil,
             column: QuickSightClientTypes.ColumnIdentifier? = nil,
+            defaultFilterControlConfiguration: QuickSightClientTypes.DefaultFilterControlConfiguration? = nil,
             filterId: Swift.String? = nil,
             limit: Swift.Int? = nil,
             parameterName: Swift.String? = nil,
@@ -75757,6 +76466,7 @@ extension QuickSightClientTypes {
         {
             self.aggregationSortConfigurations = aggregationSortConfigurations
             self.column = column
+            self.defaultFilterControlConfiguration = defaultFilterControlConfiguration
             self.filterId = filterId
             self.limit = limit
             self.parameterName = parameterName

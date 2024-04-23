@@ -403,6 +403,71 @@ extension OutpostsClientTypes {
     }
 }
 
+extension CancelCapacityTaskInput {
+
+    static func urlPathProvider(_ value: CancelCapacityTaskInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        guard let capacityTaskId = value.capacityTaskId else {
+            return nil
+        }
+        return "/outposts/\(outpostIdentifier.urlPercentEncoding())/capacity/\(capacityTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct CancelCapacityTaskInput: Swift.Equatable {
+    /// ID of the capacity task that you want to cancel.
+    /// This member is required.
+    public var capacityTaskId: Swift.String?
+    /// ID or ARN of the Outpost associated with the capacity task that you want to cancel.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+
+    public init(
+        capacityTaskId: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil
+    )
+    {
+        self.capacityTaskId = capacityTaskId
+        self.outpostIdentifier = outpostIdentifier
+    }
+}
+
+struct CancelCapacityTaskInputBody: Swift.Equatable {
+}
+
+extension CancelCapacityTaskInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension CancelCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+    }
+}
+
+public struct CancelCapacityTaskOutput: Swift.Equatable {
+
+    public init() { }
+}
+
+enum CancelCapacityTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension CancelOrderInput {
 
     static func urlPathProvider(_ value: CancelOrderInput) -> Swift.String? {
@@ -458,6 +523,217 @@ enum CancelOrderOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension OutpostsClientTypes.CapacityTaskFailure: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case reason = "Reason"
+        case type = "Type"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let reason = self.reason {
+            try encodeContainer.encode(reason, forKey: .reason)
+        }
+        if let type = self.type {
+            try encodeContainer.encode(type.rawValue, forKey: .type)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let reasonDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .reason)
+        reason = reasonDecoded
+        let typeDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskFailureType.self, forKey: .type)
+        type = typeDecoded
+    }
+}
+
+extension OutpostsClientTypes {
+    /// The capacity tasks that failed.
+    public struct CapacityTaskFailure: Swift.Equatable {
+        /// The reason that the specified capacity task failed.
+        /// This member is required.
+        public var reason: Swift.String?
+        /// The type of failure.
+        public var type: OutpostsClientTypes.CapacityTaskFailureType?
+
+        public init(
+            reason: Swift.String? = nil,
+            type: OutpostsClientTypes.CapacityTaskFailureType? = nil
+        )
+        {
+            self.reason = reason
+            self.type = type
+        }
+    }
+
+}
+
+extension OutpostsClientTypes {
+    public enum CapacityTaskFailureType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case unsupportedCapacityConfiguration
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityTaskFailureType] {
+            return [
+                .unsupportedCapacityConfiguration,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .unsupportedCapacityConfiguration: return "UNSUPPORTED_CAPACITY_CONFIGURATION"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapacityTaskFailureType(rawValue: rawValue) ?? CapacityTaskFailureType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OutpostsClientTypes {
+    public enum CapacityTaskStatus: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case cancelled
+        case completed
+        case failed
+        case inProgress
+        case requested
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [CapacityTaskStatus] {
+            return [
+                .cancelled,
+                .completed,
+                .failed,
+                .inProgress,
+                .requested,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .cancelled: return "CANCELLED"
+            case .completed: return "COMPLETED"
+            case .failed: return "FAILED"
+            case .inProgress: return "IN_PROGRESS"
+            case .requested: return "REQUESTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = CapacityTaskStatus(rawValue: rawValue) ?? CapacityTaskStatus.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension OutpostsClientTypes.CapacityTaskSummary: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityTaskId = "CapacityTaskId"
+        case capacityTaskStatus = "CapacityTaskStatus"
+        case completionDate = "CompletionDate"
+        case creationDate = "CreationDate"
+        case lastModifiedDate = "LastModifiedDate"
+        case orderId = "OrderId"
+        case outpostId = "OutpostId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let capacityTaskId = self.capacityTaskId {
+            try encodeContainer.encode(capacityTaskId, forKey: .capacityTaskId)
+        }
+        if let capacityTaskStatus = self.capacityTaskStatus {
+            try encodeContainer.encode(capacityTaskStatus.rawValue, forKey: .capacityTaskStatus)
+        }
+        if let completionDate = self.completionDate {
+            try encodeContainer.encodeTimestamp(completionDate, format: .epochSeconds, forKey: .completionDate)
+        }
+        if let creationDate = self.creationDate {
+            try encodeContainer.encodeTimestamp(creationDate, format: .epochSeconds, forKey: .creationDate)
+        }
+        if let lastModifiedDate = self.lastModifiedDate {
+            try encodeContainer.encodeTimestamp(lastModifiedDate, format: .epochSeconds, forKey: .lastModifiedDate)
+        }
+        if let orderId = self.orderId {
+            try encodeContainer.encode(orderId, forKey: .orderId)
+        }
+        if let outpostId = self.outpostId {
+            try encodeContainer.encode(outpostId, forKey: .outpostId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityTaskId)
+        capacityTaskId = capacityTaskIdDecoded
+        let outpostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostId)
+        outpostId = outpostIdDecoded
+        let orderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orderId)
+        orderId = orderIdDecoded
+        let capacityTaskStatusDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskStatus.self, forKey: .capacityTaskStatus)
+        capacityTaskStatus = capacityTaskStatusDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let completionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completionDate)
+        completionDate = completionDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+extension OutpostsClientTypes {
+    /// The summary of the capacity task.
+    public struct CapacityTaskSummary: Swift.Equatable {
+        /// The ID of the specified capacity task.
+        public var capacityTaskId: Swift.String?
+        /// The status of the capacity task.
+        public var capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
+        /// The date that the specified capacity task successfully ran.
+        public var completionDate: ClientRuntime.Date?
+        /// The date that the specified capacity task was created.
+        public var creationDate: ClientRuntime.Date?
+        /// The date that the specified capacity was last modified.
+        public var lastModifiedDate: ClientRuntime.Date?
+        /// The ID of the Amazon Web Services Outposts order of the host associated with the capacity task.
+        public var orderId: Swift.String?
+        /// The ID of the Outpost associated with the specified capacity task.
+        public var outpostId: Swift.String?
+
+        public init(
+            capacityTaskId: Swift.String? = nil,
+            capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
+            completionDate: ClientRuntime.Date? = nil,
+            creationDate: ClientRuntime.Date? = nil,
+            lastModifiedDate: ClientRuntime.Date? = nil,
+            orderId: Swift.String? = nil,
+            outpostId: Swift.String? = nil
+        )
+        {
+            self.capacityTaskId = capacityTaskId
+            self.capacityTaskStatus = capacityTaskStatus
+            self.completionDate = completionDate
+            self.creationDate = creationDate
+            self.lastModifiedDate = lastModifiedDate
+            self.orderId = orderId
+            self.outpostId = outpostId
+        }
+    }
+
 }
 
 extension OutpostsClientTypes.CatalogItem: Swift.Codable {
@@ -1479,7 +1755,7 @@ extension DeleteOutpostInput {
 }
 
 public struct DeleteOutpostInput: Swift.Equatable {
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+    /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
 
@@ -1665,6 +1941,205 @@ extension OutpostsClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = FiberOpticCableType(rawValue: rawValue) ?? FiberOpticCableType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension GetCapacityTaskInput {
+
+    static func urlPathProvider(_ value: GetCapacityTaskInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        guard let capacityTaskId = value.capacityTaskId else {
+            return nil
+        }
+        return "/outposts/\(outpostIdentifier.urlPercentEncoding())/capacity/\(capacityTaskId.urlPercentEncoding())"
+    }
+}
+
+public struct GetCapacityTaskInput: Swift.Equatable {
+    /// ID of the capacity task.
+    /// This member is required.
+    public var capacityTaskId: Swift.String?
+    /// ID or ARN of the Outpost associated with the specified capacity task.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+
+    public init(
+        capacityTaskId: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil
+    )
+    {
+        self.capacityTaskId = capacityTaskId
+        self.outpostIdentifier = outpostIdentifier
+    }
+}
+
+struct GetCapacityTaskInputBody: Swift.Equatable {
+}
+
+extension GetCapacityTaskInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetCapacityTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.capacityTaskId = output.capacityTaskId
+            self.capacityTaskStatus = output.capacityTaskStatus
+            self.completionDate = output.completionDate
+            self.creationDate = output.creationDate
+            self.dryRun = output.dryRun
+            self.failed = output.failed
+            self.lastModifiedDate = output.lastModifiedDate
+            self.orderId = output.orderId
+            self.outpostId = output.outpostId
+            self.requestedInstancePools = output.requestedInstancePools
+        } else {
+            self.capacityTaskId = nil
+            self.capacityTaskStatus = nil
+            self.completionDate = nil
+            self.creationDate = nil
+            self.dryRun = false
+            self.failed = nil
+            self.lastModifiedDate = nil
+            self.orderId = nil
+            self.outpostId = nil
+            self.requestedInstancePools = nil
+        }
+    }
+}
+
+public struct GetCapacityTaskOutput: Swift.Equatable {
+    /// ID of the capacity task.
+    public var capacityTaskId: Swift.String?
+    /// Status of the capacity task. A capacity task can have one of the following statuses:
+    ///
+    /// * REQUESTED - The capacity task was created and is awaiting the next step by Amazon Web Services Outposts.
+    ///
+    /// * IN_PROGRESS - The capacity task is running and cannot be cancelled.
+    ///
+    /// * WAITING_FOR_EVACUATION - The capacity task requires capacity to run. You must stop the recommended EC2 running instances to free up capacity for the task to run.
+    public var capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
+    /// The date the capacity task ran successfully.
+    public var completionDate: ClientRuntime.Date?
+    /// The date the capacity task was created.
+    public var creationDate: ClientRuntime.Date?
+    /// Performs a dry run to determine if you are above or below instance capacity.
+    public var dryRun: Swift.Bool
+    /// Reason why the capacity task failed.
+    public var failed: OutpostsClientTypes.CapacityTaskFailure?
+    /// The date the capacity task was last modified.
+    public var lastModifiedDate: ClientRuntime.Date?
+    /// ID of the Amazon Web Services Outposts order associated with the specified capacity task.
+    public var orderId: Swift.String?
+    /// ID of the Outpost associated with the specified capacity task.
+    public var outpostId: Swift.String?
+    /// List of instance pools requested in the capacity task.
+    public var requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+
+    public init(
+        capacityTaskId: Swift.String? = nil,
+        capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
+        completionDate: ClientRuntime.Date? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        dryRun: Swift.Bool = false,
+        failed: OutpostsClientTypes.CapacityTaskFailure? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil,
+        orderId: Swift.String? = nil,
+        outpostId: Swift.String? = nil,
+        requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil
+    )
+    {
+        self.capacityTaskId = capacityTaskId
+        self.capacityTaskStatus = capacityTaskStatus
+        self.completionDate = completionDate
+        self.creationDate = creationDate
+        self.dryRun = dryRun
+        self.failed = failed
+        self.lastModifiedDate = lastModifiedDate
+        self.orderId = orderId
+        self.outpostId = outpostId
+        self.requestedInstancePools = requestedInstancePools
+    }
+}
+
+struct GetCapacityTaskOutputBody: Swift.Equatable {
+    let capacityTaskId: Swift.String?
+    let outpostId: Swift.String?
+    let orderId: Swift.String?
+    let requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+    let dryRun: Swift.Bool
+    let capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
+    let failed: OutpostsClientTypes.CapacityTaskFailure?
+    let creationDate: ClientRuntime.Date?
+    let completionDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension GetCapacityTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityTaskId = "CapacityTaskId"
+        case capacityTaskStatus = "CapacityTaskStatus"
+        case completionDate = "CompletionDate"
+        case creationDate = "CreationDate"
+        case dryRun = "DryRun"
+        case failed = "Failed"
+        case lastModifiedDate = "LastModifiedDate"
+        case orderId = "OrderId"
+        case outpostId = "OutpostId"
+        case requestedInstancePools = "RequestedInstancePools"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityTaskId)
+        capacityTaskId = capacityTaskIdDecoded
+        let outpostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostId)
+        outpostId = outpostIdDecoded
+        let orderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orderId)
+        orderId = orderIdDecoded
+        let requestedInstancePoolsContainer = try containerValues.decodeIfPresent([OutpostsClientTypes.InstanceTypeCapacity?].self, forKey: .requestedInstancePools)
+        var requestedInstancePoolsDecoded0:[OutpostsClientTypes.InstanceTypeCapacity]? = nil
+        if let requestedInstancePoolsContainer = requestedInstancePoolsContainer {
+            requestedInstancePoolsDecoded0 = [OutpostsClientTypes.InstanceTypeCapacity]()
+            for structure0 in requestedInstancePoolsContainer {
+                if let structure0 = structure0 {
+                    requestedInstancePoolsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requestedInstancePools = requestedInstancePoolsDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        dryRun = dryRunDecoded
+        let capacityTaskStatusDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskStatus.self, forKey: .capacityTaskStatus)
+        capacityTaskStatus = capacityTaskStatusDecoded
+        let failedDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskFailure.self, forKey: .failed)
+        failed = failedDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let completionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completionDate)
+        completionDate = completionDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+enum GetCapacityTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -1946,7 +2421,7 @@ extension GetOutpostInput {
 }
 
 public struct GetOutpostInput: Swift.Equatable {
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+    /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
 
@@ -1998,7 +2473,7 @@ public struct GetOutpostInstanceTypesInput: Swift.Equatable {
     public var maxResults: Swift.Int?
     /// The pagination token.
     public var nextToken: Swift.String?
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+    /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
 
@@ -2157,6 +2632,146 @@ extension GetOutpostOutputBody: Swift.Decodable {
 }
 
 enum GetOutpostOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension GetOutpostSupportedInstanceTypesInput {
+
+    static func queryItemProvider(_ value: GetOutpostSupportedInstanceTypesInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        guard let orderId = value.orderId else {
+            let message = "Creating a URL Query Item failed. orderId is required and must not be nil."
+            throw ClientRuntime.ClientError.unknownError(message)
+        }
+        let orderIdQueryItem = ClientRuntime.SDKURLQueryItem(name: "OrderId".urlPercentEncoding(), value: Swift.String(orderId).urlPercentEncoding())
+        items.append(orderIdQueryItem)
+        return items
+    }
+}
+
+extension GetOutpostSupportedInstanceTypesInput {
+
+    static func urlPathProvider(_ value: GetOutpostSupportedInstanceTypesInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        return "/outposts/\(outpostIdentifier.urlPercentEncoding())/supportedInstanceTypes"
+    }
+}
+
+public struct GetOutpostSupportedInstanceTypesInput: Swift.Equatable {
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+    /// The ID for the Amazon Web Services Outposts order.
+    /// This member is required.
+    public var orderId: Swift.String?
+    /// The ID or ARN of the Outpost.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+
+    public init(
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        orderId: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil
+    )
+    {
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.orderId = orderId
+        self.outpostIdentifier = outpostIdentifier
+    }
+}
+
+struct GetOutpostSupportedInstanceTypesInputBody: Swift.Equatable {
+}
+
+extension GetOutpostSupportedInstanceTypesInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension GetOutpostSupportedInstanceTypesOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetOutpostSupportedInstanceTypesOutputBody = try responseDecoder.decode(responseBody: data)
+            self.instanceTypes = output.instanceTypes
+            self.nextToken = output.nextToken
+        } else {
+            self.instanceTypes = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct GetOutpostSupportedInstanceTypesOutput: Swift.Equatable {
+    /// Information about the instance types.
+    public var instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        instanceTypes: [OutpostsClientTypes.InstanceTypeItem]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.instanceTypes = instanceTypes
+        self.nextToken = nextToken
+    }
+}
+
+struct GetOutpostSupportedInstanceTypesOutputBody: Swift.Equatable {
+    let instanceTypes: [OutpostsClientTypes.InstanceTypeItem]?
+    let nextToken: Swift.String?
+}
+
+extension GetOutpostSupportedInstanceTypesOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case instanceTypes = "InstanceTypes"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceTypesContainer = try containerValues.decodeIfPresent([OutpostsClientTypes.InstanceTypeItem?].self, forKey: .instanceTypes)
+        var instanceTypesDecoded0:[OutpostsClientTypes.InstanceTypeItem]? = nil
+        if let instanceTypesContainer = instanceTypesContainer {
+            instanceTypesDecoded0 = [OutpostsClientTypes.InstanceTypeItem]()
+            for structure0 in instanceTypesContainer {
+                if let structure0 = structure0 {
+                    instanceTypesDecoded0?.append(structure0)
+                }
+            }
+        }
+        instanceTypes = instanceTypesDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum GetOutpostSupportedInstanceTypesOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -2379,6 +2994,53 @@ enum GetSiteOutputError: ClientRuntime.HttpResponseErrorBinding {
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
+}
+
+extension OutpostsClientTypes.InstanceTypeCapacity: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case count = "Count"
+        case instanceType = "InstanceType"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if count != 0 {
+            try encodeContainer.encode(count, forKey: .count)
+        }
+        if let instanceType = self.instanceType {
+            try encodeContainer.encode(instanceType, forKey: .instanceType)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let instanceTypeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .instanceType)
+        instanceType = instanceTypeDecoded
+        let countDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .count) ?? 0
+        count = countDecoded
+    }
+}
+
+extension OutpostsClientTypes {
+    /// The instance type that you specify determines the combination of CPU, memory, storage, and networking capacity.
+    public struct InstanceTypeCapacity: Swift.Equatable {
+        /// The number of instances for the specified instance type.
+        /// This member is required.
+        public var count: Swift.Int
+        /// The instance type of the hosts.
+        /// This member is required.
+        public var instanceType: Swift.String?
+
+        public init(
+            count: Swift.Int = 0,
+            instanceType: Swift.String? = nil
+        )
+        {
+            self.count = count
+            self.instanceType = instanceType
+        }
+    }
+
 }
 
 extension OutpostsClientTypes.InstanceTypeItem: Swift.Codable {
@@ -2879,6 +3541,145 @@ extension ListAssetsOutputBody: Swift.Decodable {
 }
 
 enum ListAssetsOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension ListCapacityTasksInput {
+
+    static func queryItemProvider(_ value: ListCapacityTasksInput) throws -> [ClientRuntime.SDKURLQueryItem] {
+        var items = [ClientRuntime.SDKURLQueryItem]()
+        if let nextToken = value.nextToken {
+            let nextTokenQueryItem = ClientRuntime.SDKURLQueryItem(name: "NextToken".urlPercentEncoding(), value: Swift.String(nextToken).urlPercentEncoding())
+            items.append(nextTokenQueryItem)
+        }
+        if let capacityTaskStatusFilter = value.capacityTaskStatusFilter {
+            capacityTaskStatusFilter.forEach { queryItemValue in
+                let queryItem = ClientRuntime.SDKURLQueryItem(name: "CapacityTaskStatusFilter".urlPercentEncoding(), value: Swift.String(queryItemValue.rawValue).urlPercentEncoding())
+                items.append(queryItem)
+            }
+        }
+        if let maxResults = value.maxResults {
+            let maxResultsQueryItem = ClientRuntime.SDKURLQueryItem(name: "MaxResults".urlPercentEncoding(), value: Swift.String(maxResults).urlPercentEncoding())
+            items.append(maxResultsQueryItem)
+        }
+        if let outpostIdentifierFilter = value.outpostIdentifierFilter {
+            let outpostIdentifierFilterQueryItem = ClientRuntime.SDKURLQueryItem(name: "OutpostIdentifierFilter".urlPercentEncoding(), value: Swift.String(outpostIdentifierFilter).urlPercentEncoding())
+            items.append(outpostIdentifierFilterQueryItem)
+        }
+        return items
+    }
+}
+
+extension ListCapacityTasksInput {
+
+    static func urlPathProvider(_ value: ListCapacityTasksInput) -> Swift.String? {
+        return "/capacity/tasks"
+    }
+}
+
+public struct ListCapacityTasksInput: Swift.Equatable {
+    /// A list of statuses. For example, REQUESTED or WAITING_FOR_EVACUATION.
+    public var capacityTaskStatusFilter: [OutpostsClientTypes.CapacityTaskStatus]?
+    /// The maximum page size.
+    public var maxResults: Swift.Int?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+    /// Filters the results by an Outpost ID or an Outpost ARN.
+    public var outpostIdentifierFilter: Swift.String?
+
+    public init(
+        capacityTaskStatusFilter: [OutpostsClientTypes.CapacityTaskStatus]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil,
+        outpostIdentifierFilter: Swift.String? = nil
+    )
+    {
+        self.capacityTaskStatusFilter = capacityTaskStatusFilter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+        self.outpostIdentifierFilter = outpostIdentifierFilter
+    }
+}
+
+struct ListCapacityTasksInputBody: Swift.Equatable {
+}
+
+extension ListCapacityTasksInputBody: Swift.Decodable {
+
+    public init(from decoder: Swift.Decoder) throws {
+    }
+}
+
+extension ListCapacityTasksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListCapacityTasksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.capacityTasks = output.capacityTasks
+            self.nextToken = output.nextToken
+        } else {
+            self.capacityTasks = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListCapacityTasksOutput: Swift.Equatable {
+    /// Lists all the capacity tasks.
+    public var capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]?
+    /// The pagination token.
+    public var nextToken: Swift.String?
+
+    public init(
+        capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.capacityTasks = capacityTasks
+        self.nextToken = nextToken
+    }
+}
+
+struct ListCapacityTasksOutputBody: Swift.Equatable {
+    let capacityTasks: [OutpostsClientTypes.CapacityTaskSummary]?
+    let nextToken: Swift.String?
+}
+
+extension ListCapacityTasksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityTasks = "CapacityTasks"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityTasksContainer = try containerValues.decodeIfPresent([OutpostsClientTypes.CapacityTaskSummary?].self, forKey: .capacityTasks)
+        var capacityTasksDecoded0:[OutpostsClientTypes.CapacityTaskSummary]? = nil
+        if let capacityTasksContainer = capacityTasksContainer {
+            capacityTasksDecoded0 = [OutpostsClientTypes.CapacityTaskSummary]()
+            for structure0 in capacityTasksContainer {
+                if let structure0 = structure0 {
+                    capacityTasksDecoded0?.append(structure0)
+                }
+            }
+        }
+        capacityTasks = capacityTasksDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListCapacityTasksOutputError: ClientRuntime.HttpResponseErrorBinding {
     static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
         let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
         let requestID = httpResponse.requestId
@@ -4646,6 +5447,7 @@ extension OutpostsClientTypes {
     public enum ShipmentCarrier: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case dbs
         case dhl
+        case expeditors
         case fedex
         case ups
         case sdkUnknown(Swift.String)
@@ -4654,6 +5456,7 @@ extension OutpostsClientTypes {
             return [
                 .dbs,
                 .dhl,
+                .expeditors,
                 .fedex,
                 .ups,
                 .sdkUnknown("")
@@ -4667,6 +5470,7 @@ extension OutpostsClientTypes {
             switch self {
             case .dbs: return "DBS"
             case .dhl: return "DHL"
+            case .expeditors: return "EXPEDITORS"
             case .fedex: return "FEDEX"
             case .ups: return "UPS"
             case let .sdkUnknown(s): return s
@@ -4870,6 +5674,254 @@ extension OutpostsClientTypes {
         }
     }
 
+}
+
+extension StartCapacityTaskInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
+        case instancePools = "InstancePools"
+        case orderId = "OrderId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let dryRun = self.dryRun {
+            try encodeContainer.encode(dryRun, forKey: .dryRun)
+        }
+        if let instancePools = instancePools {
+            var instancePoolsContainer = encodeContainer.nestedUnkeyedContainer(forKey: .instancePools)
+            for instancetypecapacity0 in instancePools {
+                try instancePoolsContainer.encode(instancetypecapacity0)
+            }
+        }
+        if let orderId = self.orderId {
+            try encodeContainer.encode(orderId, forKey: .orderId)
+        }
+    }
+}
+
+extension StartCapacityTaskInput {
+
+    static func urlPathProvider(_ value: StartCapacityTaskInput) -> Swift.String? {
+        guard let outpostIdentifier = value.outpostIdentifier else {
+            return nil
+        }
+        return "/outposts/\(outpostIdentifier.urlPercentEncoding())/capacity"
+    }
+}
+
+public struct StartCapacityTaskInput: Swift.Equatable {
+    /// You can request a dry run to determine if the instance type and instance size changes is above or below available instance capacity. Requesting a dry run does not make any changes to your plan.
+    public var dryRun: Swift.Bool?
+    /// The instance pools specified in the capacity task.
+    /// This member is required.
+    public var instancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+    /// The ID of the Amazon Web Services Outposts order associated with the specified capacity task.
+    /// This member is required.
+    public var orderId: Swift.String?
+    /// The ID or ARN of the Outposts associated with the specified capacity task.
+    /// This member is required.
+    public var outpostIdentifier: Swift.String?
+
+    public init(
+        dryRun: Swift.Bool? = nil,
+        instancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil,
+        orderId: Swift.String? = nil,
+        outpostIdentifier: Swift.String? = nil
+    )
+    {
+        self.dryRun = dryRun
+        self.instancePools = instancePools
+        self.orderId = orderId
+        self.outpostIdentifier = outpostIdentifier
+    }
+}
+
+struct StartCapacityTaskInputBody: Swift.Equatable {
+    let orderId: Swift.String?
+    let instancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+    let dryRun: Swift.Bool?
+}
+
+extension StartCapacityTaskInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dryRun = "DryRun"
+        case instancePools = "InstancePools"
+        case orderId = "OrderId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let orderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orderId)
+        orderId = orderIdDecoded
+        let instancePoolsContainer = try containerValues.decodeIfPresent([OutpostsClientTypes.InstanceTypeCapacity?].self, forKey: .instancePools)
+        var instancePoolsDecoded0:[OutpostsClientTypes.InstanceTypeCapacity]? = nil
+        if let instancePoolsContainer = instancePoolsContainer {
+            instancePoolsDecoded0 = [OutpostsClientTypes.InstanceTypeCapacity]()
+            for structure0 in instancePoolsContainer {
+                if let structure0 = structure0 {
+                    instancePoolsDecoded0?.append(structure0)
+                }
+            }
+        }
+        instancePools = instancePoolsDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun)
+        dryRun = dryRunDecoded
+    }
+}
+
+extension StartCapacityTaskOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: StartCapacityTaskOutputBody = try responseDecoder.decode(responseBody: data)
+            self.capacityTaskId = output.capacityTaskId
+            self.capacityTaskStatus = output.capacityTaskStatus
+            self.completionDate = output.completionDate
+            self.creationDate = output.creationDate
+            self.dryRun = output.dryRun
+            self.failed = output.failed
+            self.lastModifiedDate = output.lastModifiedDate
+            self.orderId = output.orderId
+            self.outpostId = output.outpostId
+            self.requestedInstancePools = output.requestedInstancePools
+        } else {
+            self.capacityTaskId = nil
+            self.capacityTaskStatus = nil
+            self.completionDate = nil
+            self.creationDate = nil
+            self.dryRun = false
+            self.failed = nil
+            self.lastModifiedDate = nil
+            self.orderId = nil
+            self.outpostId = nil
+            self.requestedInstancePools = nil
+        }
+    }
+}
+
+public struct StartCapacityTaskOutput: Swift.Equatable {
+    /// ID of the capacity task that you want to start.
+    public var capacityTaskId: Swift.String?
+    /// Status of the specified capacity task.
+    public var capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
+    /// Date that the specified capacity task ran successfully.
+    public var completionDate: ClientRuntime.Date?
+    /// Date that the specified capacity task was created.
+    public var creationDate: ClientRuntime.Date?
+    /// Results of the dry run showing if the specified capacity task is above or below the available instance capacity.
+    public var dryRun: Swift.Bool
+    /// Reason that the specified capacity task failed.
+    public var failed: OutpostsClientTypes.CapacityTaskFailure?
+    /// Date that the specified capacity task was last modified.
+    public var lastModifiedDate: ClientRuntime.Date?
+    /// ID of the Amazon Web Services Outposts order of the host associated with the capacity task.
+    public var orderId: Swift.String?
+    /// ID of the Outpost associated with the capacity task.
+    public var outpostId: Swift.String?
+    /// List of the instance pools requested in the specified capacity task.
+    public var requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+
+    public init(
+        capacityTaskId: Swift.String? = nil,
+        capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus? = nil,
+        completionDate: ClientRuntime.Date? = nil,
+        creationDate: ClientRuntime.Date? = nil,
+        dryRun: Swift.Bool = false,
+        failed: OutpostsClientTypes.CapacityTaskFailure? = nil,
+        lastModifiedDate: ClientRuntime.Date? = nil,
+        orderId: Swift.String? = nil,
+        outpostId: Swift.String? = nil,
+        requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]? = nil
+    )
+    {
+        self.capacityTaskId = capacityTaskId
+        self.capacityTaskStatus = capacityTaskStatus
+        self.completionDate = completionDate
+        self.creationDate = creationDate
+        self.dryRun = dryRun
+        self.failed = failed
+        self.lastModifiedDate = lastModifiedDate
+        self.orderId = orderId
+        self.outpostId = outpostId
+        self.requestedInstancePools = requestedInstancePools
+    }
+}
+
+struct StartCapacityTaskOutputBody: Swift.Equatable {
+    let capacityTaskId: Swift.String?
+    let outpostId: Swift.String?
+    let orderId: Swift.String?
+    let requestedInstancePools: [OutpostsClientTypes.InstanceTypeCapacity]?
+    let dryRun: Swift.Bool
+    let capacityTaskStatus: OutpostsClientTypes.CapacityTaskStatus?
+    let failed: OutpostsClientTypes.CapacityTaskFailure?
+    let creationDate: ClientRuntime.Date?
+    let completionDate: ClientRuntime.Date?
+    let lastModifiedDate: ClientRuntime.Date?
+}
+
+extension StartCapacityTaskOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case capacityTaskId = "CapacityTaskId"
+        case capacityTaskStatus = "CapacityTaskStatus"
+        case completionDate = "CompletionDate"
+        case creationDate = "CreationDate"
+        case dryRun = "DryRun"
+        case failed = "Failed"
+        case lastModifiedDate = "LastModifiedDate"
+        case orderId = "OrderId"
+        case outpostId = "OutpostId"
+        case requestedInstancePools = "RequestedInstancePools"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let capacityTaskIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .capacityTaskId)
+        capacityTaskId = capacityTaskIdDecoded
+        let outpostIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .outpostId)
+        outpostId = outpostIdDecoded
+        let orderIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orderId)
+        orderId = orderIdDecoded
+        let requestedInstancePoolsContainer = try containerValues.decodeIfPresent([OutpostsClientTypes.InstanceTypeCapacity?].self, forKey: .requestedInstancePools)
+        var requestedInstancePoolsDecoded0:[OutpostsClientTypes.InstanceTypeCapacity]? = nil
+        if let requestedInstancePoolsContainer = requestedInstancePoolsContainer {
+            requestedInstancePoolsDecoded0 = [OutpostsClientTypes.InstanceTypeCapacity]()
+            for structure0 in requestedInstancePoolsContainer {
+                if let structure0 = structure0 {
+                    requestedInstancePoolsDecoded0?.append(structure0)
+                }
+            }
+        }
+        requestedInstancePools = requestedInstancePoolsDecoded0
+        let dryRunDecoded = try containerValues.decodeIfPresent(Swift.Bool.self, forKey: .dryRun) ?? false
+        dryRun = dryRunDecoded
+        let capacityTaskStatusDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskStatus.self, forKey: .capacityTaskStatus)
+        capacityTaskStatus = capacityTaskStatusDecoded
+        let failedDecoded = try containerValues.decodeIfPresent(OutpostsClientTypes.CapacityTaskFailure.self, forKey: .failed)
+        failed = failedDecoded
+        let creationDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .creationDate)
+        creationDate = creationDateDecoded
+        let completionDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .completionDate)
+        completionDate = completionDateDecoded
+        let lastModifiedDateDecoded = try containerValues.decodeTimestampIfPresent(.epochSeconds, forKey: .lastModifiedDate)
+        lastModifiedDate = lastModifiedDateDecoded
+    }
+}
+
+enum StartCapacityTaskOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "NotFoundException": return try await NotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension StartConnectionInput: Swift.Encodable {
@@ -5291,7 +6343,7 @@ public struct UpdateOutpostInput: Swift.Equatable {
     public var description: Swift.String?
     /// The name of the Outpost.
     public var name: Swift.String?
-    /// The ID or the Amazon Resource Name (ARN) of the Outpost.
+    /// The ID or ARN of the Outpost.
     /// This member is required.
     public var outpostId: Swift.String?
     /// The type of hardware for this Outpost.

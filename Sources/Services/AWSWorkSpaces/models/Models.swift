@@ -2,6 +2,122 @@
 import AWSClientRuntime
 import ClientRuntime
 
+extension AcceptAccountLinkInvitationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let linkId = self.linkId {
+            try encodeContainer.encode(linkId, forKey: .linkId)
+        }
+    }
+}
+
+extension AcceptAccountLinkInvitationInput {
+
+    static func urlPathProvider(_ value: AcceptAccountLinkInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct AcceptAccountLinkInvitationInput: Swift.Equatable {
+    /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    public var clientToken: Swift.String?
+    /// The identifier of the account link.
+    /// This member is required.
+    public var linkId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        linkId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.linkId = linkId
+    }
+}
+
+struct AcceptAccountLinkInvitationInputBody: Swift.Equatable {
+    let linkId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension AcceptAccountLinkInvitationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkId)
+        linkId = linkIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension AcceptAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: AcceptAccountLinkInvitationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLink = output.accountLink
+        } else {
+            self.accountLink = nil
+        }
+    }
+}
+
+public struct AcceptAccountLinkInvitationOutput: Swift.Equatable {
+    /// Information about the account link.
+    public var accountLink: WorkSpacesClientTypes.AccountLink?
+
+    public init(
+        accountLink: WorkSpacesClientTypes.AccountLink? = nil
+    )
+    {
+        self.accountLink = accountLink
+    }
+}
+
+struct AcceptAccountLinkInvitationOutputBody: Swift.Equatable {
+    let accountLink: WorkSpacesClientTypes.AccountLink?
+}
+
+extension AcceptAccountLinkInvitationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLink = "AccountLink"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLink.self, forKey: .accountLink)
+        accountLink = accountLinkDecoded
+    }
+}
+
+enum AcceptAccountLinkInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension AccessDeniedException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -85,6 +201,112 @@ extension WorkSpacesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = AccessPropertyValue(rawValue: rawValue) ?? AccessPropertyValue.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkSpacesClientTypes.AccountLink: Swift.Codable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLinkId = "AccountLinkId"
+        case accountLinkStatus = "AccountLinkStatus"
+        case sourceAccountId = "SourceAccountId"
+        case targetAccountId = "TargetAccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let accountLinkId = self.accountLinkId {
+            try encodeContainer.encode(accountLinkId, forKey: .accountLinkId)
+        }
+        if let accountLinkStatus = self.accountLinkStatus {
+            try encodeContainer.encode(accountLinkStatus.rawValue, forKey: .accountLinkStatus)
+        }
+        if let sourceAccountId = self.sourceAccountId {
+            try encodeContainer.encode(sourceAccountId, forKey: .sourceAccountId)
+        }
+        if let targetAccountId = self.targetAccountId {
+            try encodeContainer.encode(targetAccountId, forKey: .targetAccountId)
+        }
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .accountLinkId)
+        accountLinkId = accountLinkIdDecoded
+        let accountLinkStatusDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLinkStatusEnum.self, forKey: .accountLinkStatus)
+        accountLinkStatus = accountLinkStatusDecoded
+        let sourceAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .sourceAccountId)
+        sourceAccountId = sourceAccountIdDecoded
+        let targetAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetAccountId)
+        targetAccountId = targetAccountIdDecoded
+    }
+}
+
+extension WorkSpacesClientTypes {
+    /// Information about about the account link.
+    public struct AccountLink: Swift.Equatable {
+        /// The identifier of the account link.
+        public var accountLinkId: Swift.String?
+        /// The status of the account link.
+        public var accountLinkStatus: WorkSpacesClientTypes.AccountLinkStatusEnum?
+        /// The identifier of the source account.
+        public var sourceAccountId: Swift.String?
+        /// The identifier of the target account.
+        public var targetAccountId: Swift.String?
+
+        public init(
+            accountLinkId: Swift.String? = nil,
+            accountLinkStatus: WorkSpacesClientTypes.AccountLinkStatusEnum? = nil,
+            sourceAccountId: Swift.String? = nil,
+            targetAccountId: Swift.String? = nil
+        )
+        {
+            self.accountLinkId = accountLinkId
+            self.accountLinkStatus = accountLinkStatus
+            self.sourceAccountId = sourceAccountId
+            self.targetAccountId = targetAccountId
+        }
+    }
+
+}
+
+extension WorkSpacesClientTypes {
+    public enum AccountLinkStatusEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case linked
+        case linkingFailed
+        case linkNotFound
+        case pendingAcceptanceByTargetAccount
+        case rejected
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [AccountLinkStatusEnum] {
+            return [
+                .linked,
+                .linkingFailed,
+                .linkNotFound,
+                .pendingAcceptanceByTargetAccount,
+                .rejected,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .linked: return "LINKED"
+            case .linkingFailed: return "LINKING_FAILED"
+            case .linkNotFound: return "LINK_NOT_FOUND"
+            case .pendingAcceptanceByTargetAccount: return "PENDING_ACCEPTANCE_BY_TARGET_ACCOUNT"
+            case .rejected: return "REJECTED"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = AccountLinkStatusEnum(rawValue: rawValue) ?? AccountLinkStatusEnum.sdkUnknown(rawValue)
         }
     }
 }
@@ -1452,6 +1674,61 @@ extension WorkSpacesClientTypes {
 
 }
 
+extension ConflictException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ConflictExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// The TargetAccountId is already linked or invited.
+public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ConflictException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ConflictExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ConflictExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension WorkSpacesClientTypes.ConnectClientAddIn: Swift.Codable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
         case addInId = "AddInId"
@@ -1949,6 +2226,121 @@ enum CopyWorkspaceImageOutputError: ClientRuntime.HttpResponseErrorBinding {
             case "ResourceLimitExceededException": return try await ResourceLimitExceededException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "ResourceUnavailableException": return try await ResourceUnavailableException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension CreateAccountLinkInvitationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case targetAccountId = "TargetAccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let targetAccountId = self.targetAccountId {
+            try encodeContainer.encode(targetAccountId, forKey: .targetAccountId)
+        }
+    }
+}
+
+extension CreateAccountLinkInvitationInput {
+
+    static func urlPathProvider(_ value: CreateAccountLinkInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct CreateAccountLinkInvitationInput: Swift.Equatable {
+    /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    public var clientToken: Swift.String?
+    /// The identifier of the target account.
+    /// This member is required.
+    public var targetAccountId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        targetAccountId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.targetAccountId = targetAccountId
+    }
+}
+
+struct CreateAccountLinkInvitationInputBody: Swift.Equatable {
+    let targetAccountId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension CreateAccountLinkInvitationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case targetAccountId = "TargetAccountId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let targetAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .targetAccountId)
+        targetAccountId = targetAccountIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension CreateAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: CreateAccountLinkInvitationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLink = output.accountLink
+        } else {
+            self.accountLink = nil
+        }
+    }
+}
+
+public struct CreateAccountLinkInvitationOutput: Swift.Equatable {
+    /// Information about the account link.
+    public var accountLink: WorkSpacesClientTypes.AccountLink?
+
+    public init(
+        accountLink: WorkSpacesClientTypes.AccountLink? = nil
+    )
+    {
+        self.accountLink = accountLink
+    }
+}
+
+struct CreateAccountLinkInvitationOutputBody: Swift.Equatable {
+    let accountLink: WorkSpacesClientTypes.AccountLink?
+}
+
+extension CreateAccountLinkInvitationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLink = "AccountLink"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLink.self, forKey: .accountLink)
+        accountLink = accountLinkDecoded
+    }
+}
+
+enum CreateAccountLinkInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -3425,6 +3817,38 @@ extension WorkSpacesClientTypes {
 }
 
 extension WorkSpacesClientTypes {
+    public enum DedicatedTenancyAccountType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
+        case sourceAccount
+        case targetAccount
+        case sdkUnknown(Swift.String)
+
+        public static var allCases: [DedicatedTenancyAccountType] {
+            return [
+                .sourceAccount,
+                .targetAccount,
+                .sdkUnknown("")
+            ]
+        }
+        public init?(rawValue: Swift.String) {
+            let value = Self.allCases.first(where: { $0.rawValue == rawValue })
+            self = value ?? Self.sdkUnknown(rawValue)
+        }
+        public var rawValue: Swift.String {
+            switch self {
+            case .sourceAccount: return "SOURCE_ACCOUNT"
+            case .targetAccount: return "TARGET_ACCOUNT"
+            case let .sdkUnknown(s): return s
+            }
+        }
+        public init(from decoder: Swift.Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(RawValue.self)
+            self = DedicatedTenancyAccountType(rawValue: rawValue) ?? DedicatedTenancyAccountType.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension WorkSpacesClientTypes {
     public enum DedicatedTenancyModificationStateEnum: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case completed
         case failed
@@ -3852,6 +4276,122 @@ extension WorkSpacesClientTypes {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(RawValue.self)
             self = DeletableSamlProperty(rawValue: rawValue) ?? DeletableSamlProperty.sdkUnknown(rawValue)
+        }
+    }
+}
+
+extension DeleteAccountLinkInvitationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let linkId = self.linkId {
+            try encodeContainer.encode(linkId, forKey: .linkId)
+        }
+    }
+}
+
+extension DeleteAccountLinkInvitationInput {
+
+    static func urlPathProvider(_ value: DeleteAccountLinkInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct DeleteAccountLinkInvitationInput: Swift.Equatable {
+    /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
+    public var clientToken: Swift.String?
+    /// The identifier of the account link.
+    /// This member is required.
+    public var linkId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        linkId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.linkId = linkId
+    }
+}
+
+struct DeleteAccountLinkInvitationInputBody: Swift.Equatable {
+    let linkId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension DeleteAccountLinkInvitationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkId)
+        linkId = linkIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension DeleteAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: DeleteAccountLinkInvitationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLink = output.accountLink
+        } else {
+            self.accountLink = nil
+        }
+    }
+}
+
+public struct DeleteAccountLinkInvitationOutput: Swift.Equatable {
+    /// Information about the account link.
+    public var accountLink: WorkSpacesClientTypes.AccountLink?
+
+    public init(
+        accountLink: WorkSpacesClientTypes.AccountLink? = nil
+    )
+    {
+        self.accountLink = accountLink
+    }
+}
+
+struct DeleteAccountLinkInvitationOutputBody: Swift.Equatable {
+    let accountLink: WorkSpacesClientTypes.AccountLink?
+}
+
+extension DeleteAccountLinkInvitationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLink = "AccountLink"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLink.self, forKey: .accountLink)
+        accountLink = accountLinkDecoded
+    }
+}
+
+enum DeleteAccountLinkInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
 }
@@ -4769,9 +5309,11 @@ extension DescribeAccountOutput: ClientRuntime.HttpResponseBinding {
         if let data = try await httpResponse.body.readData(),
             let responseDecoder = decoder {
             let output: DescribeAccountOutputBody = try responseDecoder.decode(responseBody: data)
+            self.dedicatedTenancyAccountType = output.dedicatedTenancyAccountType
             self.dedicatedTenancyManagementCidrRange = output.dedicatedTenancyManagementCidrRange
             self.dedicatedTenancySupport = output.dedicatedTenancySupport
         } else {
+            self.dedicatedTenancyAccountType = nil
             self.dedicatedTenancyManagementCidrRange = nil
             self.dedicatedTenancySupport = nil
         }
@@ -4779,16 +5321,20 @@ extension DescribeAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 public struct DescribeAccountOutput: Swift.Equatable {
+    /// The type of linked account.
+    public var dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType?
     /// The IP address range, specified as an IPv4 CIDR block, used for the management network interface. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     public var dedicatedTenancyManagementCidrRange: Swift.String?
     /// The status of BYOL (whether BYOL is enabled or disabled).
     public var dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
 
     public init(
+        dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType? = nil,
         dedicatedTenancyManagementCidrRange: Swift.String? = nil,
         dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum? = nil
     )
     {
+        self.dedicatedTenancyAccountType = dedicatedTenancyAccountType
         self.dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRange
         self.dedicatedTenancySupport = dedicatedTenancySupport
     }
@@ -4797,10 +5343,12 @@ public struct DescribeAccountOutput: Swift.Equatable {
 struct DescribeAccountOutputBody: Swift.Equatable {
     let dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
     let dedicatedTenancyManagementCidrRange: Swift.String?
+    let dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType?
 }
 
 extension DescribeAccountOutputBody: Swift.Decodable {
     enum CodingKeys: Swift.String, Swift.CodingKey {
+        case dedicatedTenancyAccountType = "DedicatedTenancyAccountType"
         case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
         case dedicatedTenancySupport = "DedicatedTenancySupport"
     }
@@ -4811,6 +5359,8 @@ extension DescribeAccountOutputBody: Swift.Decodable {
         dedicatedTenancySupport = dedicatedTenancySupportDecoded
         let dedicatedTenancyManagementCidrRangeDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .dedicatedTenancyManagementCidrRange)
         dedicatedTenancyManagementCidrRange = dedicatedTenancyManagementCidrRangeDecoded
+        let dedicatedTenancyAccountTypeDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.DedicatedTenancyAccountType.self, forKey: .dedicatedTenancyAccountType)
+        dedicatedTenancyAccountType = dedicatedTenancyAccountTypeDecoded
     }
 }
 
@@ -8247,6 +8797,120 @@ extension WorkSpacesClientTypes {
 
 }
 
+extension GetAccountLinkInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkId = "LinkId"
+        case linkedAccountId = "LinkedAccountId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let linkId = self.linkId {
+            try encodeContainer.encode(linkId, forKey: .linkId)
+        }
+        if let linkedAccountId = self.linkedAccountId {
+            try encodeContainer.encode(linkedAccountId, forKey: .linkedAccountId)
+        }
+    }
+}
+
+extension GetAccountLinkInput {
+
+    static func urlPathProvider(_ value: GetAccountLinkInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct GetAccountLinkInput: Swift.Equatable {
+    /// The identifier of the account to link.
+    public var linkId: Swift.String?
+    /// The identifier of the account link
+    public var linkedAccountId: Swift.String?
+
+    public init(
+        linkId: Swift.String? = nil,
+        linkedAccountId: Swift.String? = nil
+    )
+    {
+        self.linkId = linkId
+        self.linkedAccountId = linkedAccountId
+    }
+}
+
+struct GetAccountLinkInputBody: Swift.Equatable {
+    let linkId: Swift.String?
+    let linkedAccountId: Swift.String?
+}
+
+extension GetAccountLinkInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkId = "LinkId"
+        case linkedAccountId = "LinkedAccountId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkId)
+        linkId = linkIdDecoded
+        let linkedAccountIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkedAccountId)
+        linkedAccountId = linkedAccountIdDecoded
+    }
+}
+
+extension GetAccountLinkOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: GetAccountLinkOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLink = output.accountLink
+        } else {
+            self.accountLink = nil
+        }
+    }
+}
+
+public struct GetAccountLinkOutput: Swift.Equatable {
+    /// The account link of the account link to retrieve.
+    public var accountLink: WorkSpacesClientTypes.AccountLink?
+
+    public init(
+        accountLink: WorkSpacesClientTypes.AccountLink? = nil
+    )
+    {
+        self.accountLink = accountLink
+    }
+}
+
+struct GetAccountLinkOutputBody: Swift.Equatable {
+    let accountLink: WorkSpacesClientTypes.AccountLink?
+}
+
+extension GetAccountLinkOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLink = "AccountLink"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLink.self, forKey: .accountLink)
+        accountLink = accountLinkDecoded
+    }
+}
+
+enum GetAccountLinkOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
 extension WorkSpacesClientTypes {
     public enum ImageAssociatedResourceType: Swift.Equatable, Swift.RawRepresentable, Swift.CaseIterable, Swift.Codable, Swift.Hashable {
         case application
@@ -8880,6 +9544,61 @@ public struct IncompatibleApplicationsException: ClientRuntime.ModeledError, AWS
     public init() { }
 }
 
+extension InternalServerException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: InternalServerExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// Unexpected server error occured.
+public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "InternalServerException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct InternalServerExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension InternalServerExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
+}
+
 extension InvalidParameterValuesException {
     public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
         if let data = try await httpResponse.body.readData(),
@@ -9264,6 +9983,162 @@ extension WorkSpacesClientTypes {
         }
     }
 
+}
+
+extension ListAccountLinksInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkStatusFilter = "LinkStatusFilter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let linkStatusFilter = linkStatusFilter {
+            var linkStatusFilterContainer = encodeContainer.nestedUnkeyedContainer(forKey: .linkStatusFilter)
+            for accountlinkstatusenum0 in linkStatusFilter {
+                try linkStatusFilterContainer.encode(accountlinkstatusenum0.rawValue)
+            }
+        }
+        if let maxResults = self.maxResults {
+            try encodeContainer.encode(maxResults, forKey: .maxResults)
+        }
+        if let nextToken = self.nextToken {
+            try encodeContainer.encode(nextToken, forKey: .nextToken)
+        }
+    }
+}
+
+extension ListAccountLinksInput {
+
+    static func urlPathProvider(_ value: ListAccountLinksInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct ListAccountLinksInput: Swift.Equatable {
+    /// Filters the account based on their link status.
+    public var linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]?
+    /// The maximum number of accounts to return.
+    public var maxResults: Swift.Int?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]? = nil,
+        maxResults: Swift.Int? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.linkStatusFilter = linkStatusFilter
+        self.maxResults = maxResults
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAccountLinksInputBody: Swift.Equatable {
+    let linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]?
+    let nextToken: Swift.String?
+    let maxResults: Swift.Int?
+}
+
+extension ListAccountLinksInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case linkStatusFilter = "LinkStatusFilter"
+        case maxResults = "MaxResults"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkStatusFilterContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.AccountLinkStatusEnum?].self, forKey: .linkStatusFilter)
+        var linkStatusFilterDecoded0:[WorkSpacesClientTypes.AccountLinkStatusEnum]? = nil
+        if let linkStatusFilterContainer = linkStatusFilterContainer {
+            linkStatusFilterDecoded0 = [WorkSpacesClientTypes.AccountLinkStatusEnum]()
+            for enum0 in linkStatusFilterContainer {
+                if let enum0 = enum0 {
+                    linkStatusFilterDecoded0?.append(enum0)
+                }
+            }
+        }
+        linkStatusFilter = linkStatusFilterDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+        let maxResultsDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .maxResults)
+        maxResults = maxResultsDecoded
+    }
+}
+
+extension ListAccountLinksOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ListAccountLinksOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLinks = output.accountLinks
+            self.nextToken = output.nextToken
+        } else {
+            self.accountLinks = nil
+            self.nextToken = nil
+        }
+    }
+}
+
+public struct ListAccountLinksOutput: Swift.Equatable {
+    /// Information about the account links.
+    public var accountLinks: [WorkSpacesClientTypes.AccountLink]?
+    /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+    public var nextToken: Swift.String?
+
+    public init(
+        accountLinks: [WorkSpacesClientTypes.AccountLink]? = nil,
+        nextToken: Swift.String? = nil
+    )
+    {
+        self.accountLinks = accountLinks
+        self.nextToken = nextToken
+    }
+}
+
+struct ListAccountLinksOutputBody: Swift.Equatable {
+    let accountLinks: [WorkSpacesClientTypes.AccountLink]?
+    let nextToken: Swift.String?
+}
+
+extension ListAccountLinksOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLinks = "AccountLinks"
+        case nextToken = "NextToken"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinksContainer = try containerValues.decodeIfPresent([WorkSpacesClientTypes.AccountLink?].self, forKey: .accountLinks)
+        var accountLinksDecoded0:[WorkSpacesClientTypes.AccountLink]? = nil
+        if let accountLinksContainer = accountLinksContainer {
+            accountLinksDecoded0 = [WorkSpacesClientTypes.AccountLink]()
+            for structure0 in accountLinksContainer {
+                if let structure0 = structure0 {
+                    accountLinksDecoded0?.append(structure0)
+                }
+            }
+        }
+        accountLinks = accountLinksDecoded0
+        let nextTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .nextToken)
+        nextToken = nextTokenDecoded
+    }
+}
+
+enum ListAccountLinksOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
 }
 
 extension ListAvailableManagementCidrRangesInput: Swift.Encodable {
@@ -11383,6 +12258,122 @@ enum RegisterWorkspaceDirectoryOutputError: ClientRuntime.HttpResponseErrorBindi
             case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "UnsupportedNetworkConfigurationException": return try await UnsupportedNetworkConfigurationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             case "WorkspacesDefaultRoleNotFoundException": return try await WorkspacesDefaultRoleNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
+        }
+    }
+}
+
+extension RejectAccountLinkInvitationInput: Swift.Encodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public func encode(to encoder: Swift.Encoder) throws {
+        var encodeContainer = encoder.container(keyedBy: CodingKeys.self)
+        if let clientToken = self.clientToken {
+            try encodeContainer.encode(clientToken, forKey: .clientToken)
+        }
+        if let linkId = self.linkId {
+            try encodeContainer.encode(linkId, forKey: .linkId)
+        }
+    }
+}
+
+extension RejectAccountLinkInvitationInput {
+
+    static func urlPathProvider(_ value: RejectAccountLinkInvitationInput) -> Swift.String? {
+        return "/"
+    }
+}
+
+public struct RejectAccountLinkInvitationInput: Swift.Equatable {
+    /// The client token of the account link invitation to reject.
+    public var clientToken: Swift.String?
+    /// The identifier of the account link
+    /// This member is required.
+    public var linkId: Swift.String?
+
+    public init(
+        clientToken: Swift.String? = nil,
+        linkId: Swift.String? = nil
+    )
+    {
+        self.clientToken = clientToken
+        self.linkId = linkId
+    }
+}
+
+struct RejectAccountLinkInvitationInputBody: Swift.Equatable {
+    let linkId: Swift.String?
+    let clientToken: Swift.String?
+}
+
+extension RejectAccountLinkInvitationInputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case clientToken = "ClientToken"
+        case linkId = "LinkId"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let linkIdDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .linkId)
+        linkId = linkIdDecoded
+        let clientTokenDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .clientToken)
+        clientToken = clientTokenDecoded
+    }
+}
+
+extension RejectAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: RejectAccountLinkInvitationOutputBody = try responseDecoder.decode(responseBody: data)
+            self.accountLink = output.accountLink
+        } else {
+            self.accountLink = nil
+        }
+    }
+}
+
+public struct RejectAccountLinkInvitationOutput: Swift.Equatable {
+    /// Information about the account link.
+    public var accountLink: WorkSpacesClientTypes.AccountLink?
+
+    public init(
+        accountLink: WorkSpacesClientTypes.AccountLink? = nil
+    )
+    {
+        self.accountLink = accountLink
+    }
+}
+
+struct RejectAccountLinkInvitationOutputBody: Swift.Equatable {
+    let accountLink: WorkSpacesClientTypes.AccountLink?
+}
+
+extension RejectAccountLinkInvitationOutputBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case accountLink = "AccountLink"
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let accountLinkDecoded = try containerValues.decodeIfPresent(WorkSpacesClientTypes.AccountLink.self, forKey: .accountLink)
+        accountLink = accountLinkDecoded
+    }
+}
+
+enum RejectAccountLinkInvitationOutputError: ClientRuntime.HttpResponseErrorBinding {
+    static func makeError(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil) async throws -> Swift.Error {
+        let restJSONError = try await AWSClientRuntime.RestJSONError(httpResponse: httpResponse)
+        let requestID = httpResponse.requestId
+        switch restJSONError.errorType {
+            case "AccessDeniedException": return try await AccessDeniedException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ConflictException": return try await ConflictException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "InternalServerException": return try await InternalServerException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ResourceNotFoundException": return try await ResourceNotFoundException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
+            case "ValidationException": return try await ValidationException(httpResponse: httpResponse, decoder: decoder, message: restJSONError.errorMessage, requestID: requestID)
             default: return try await AWSClientRuntime.UnknownAWSHTTPServiceError.makeError(httpResponse: httpResponse, message: restJSONError.errorMessage, requestID: requestID, typeName: restJSONError.errorType)
         }
     }
@@ -13740,6 +14731,61 @@ extension WorkSpacesClientTypes {
         }
     }
 
+}
+
+extension ValidationException {
+    public init(httpResponse: ClientRuntime.HttpResponse, decoder: ClientRuntime.ResponseDecoder? = nil, message: Swift.String? = nil, requestID: Swift.String? = nil) async throws {
+        if let data = try await httpResponse.body.readData(),
+            let responseDecoder = decoder {
+            let output: ValidationExceptionBody = try responseDecoder.decode(responseBody: data)
+            self.properties.message = output.message
+        } else {
+            self.properties.message = nil
+        }
+        self.httpResponse = httpResponse
+        self.requestID = requestID
+        self.message = message
+    }
+}
+
+/// You either haven't provided a TargetAccountId or are using the same value for TargetAccountId and SourceAccountId.
+public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.AWSServiceError, ClientRuntime.HTTPError, Swift.Error {
+
+    public struct Properties {
+        public internal(set) var message: Swift.String? = nil
+    }
+
+    public internal(set) var properties = Properties()
+    public static var typeName: Swift.String { "ValidationException" }
+    public static var fault: ErrorFault { .client }
+    public static var isRetryable: Swift.Bool { false }
+    public static var isThrottling: Swift.Bool { false }
+    public internal(set) var httpResponse = HttpResponse()
+    public internal(set) var message: Swift.String?
+    public internal(set) var requestID: Swift.String?
+
+    public init(
+        message: Swift.String? = nil
+    )
+    {
+        self.properties.message = message
+    }
+}
+
+struct ValidationExceptionBody: Swift.Equatable {
+    let message: Swift.String?
+}
+
+extension ValidationExceptionBody: Swift.Decodable {
+    enum CodingKeys: Swift.String, Swift.CodingKey {
+        case message
+    }
+
+    public init(from decoder: Swift.Decoder) throws {
+        let containerValues = try decoder.container(keyedBy: CodingKeys.self)
+        let messageDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .message)
+        message = messageDecoded
+    }
 }
 
 extension WorkSpacesClientTypes.WorkSpaceApplication: Swift.Codable {

@@ -9841,6 +9841,7 @@ extension PinpointClientTypes.EmailChannelRequest: Swift.Codable {
         case enabled = "Enabled"
         case fromAddress = "FromAddress"
         case identity = "Identity"
+        case orchestrationSendingRoleArn = "OrchestrationSendingRoleArn"
         case roleArn = "RoleArn"
     }
 
@@ -9857,6 +9858,9 @@ extension PinpointClientTypes.EmailChannelRequest: Swift.Codable {
         }
         if let identity = self.identity {
             try encodeContainer.encode(identity, forKey: .identity)
+        }
+        if let orchestrationSendingRoleArn = self.orchestrationSendingRoleArn {
+            try encodeContainer.encode(orchestrationSendingRoleArn, forKey: .orchestrationSendingRoleArn)
         }
         if let roleArn = self.roleArn {
             try encodeContainer.encode(roleArn, forKey: .roleArn)
@@ -9875,6 +9879,8 @@ extension PinpointClientTypes.EmailChannelRequest: Swift.Codable {
         identity = identityDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let orchestrationSendingRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orchestrationSendingRoleArn)
+        orchestrationSendingRoleArn = orchestrationSendingRoleArnDecoded
     }
 }
 
@@ -9891,6 +9897,8 @@ extension PinpointClientTypes {
         /// The Amazon Resource Name (ARN) of the identity, verified with Amazon Simple Email Service (Amazon SES), that you want to use when you send email through the channel.
         /// This member is required.
         public var identity: Swift.String?
+        /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.
+        public var orchestrationSendingRoleArn: Swift.String?
         /// The ARN of the AWS Identity and Access Management (IAM) role that you want Amazon Pinpoint to use when it submits email-related event data for the channel.
         public var roleArn: Swift.String?
 
@@ -9899,6 +9907,7 @@ extension PinpointClientTypes {
             enabled: Swift.Bool? = nil,
             fromAddress: Swift.String? = nil,
             identity: Swift.String? = nil,
+            orchestrationSendingRoleArn: Swift.String? = nil,
             roleArn: Swift.String? = nil
         )
         {
@@ -9906,6 +9915,7 @@ extension PinpointClientTypes {
             self.enabled = enabled
             self.fromAddress = fromAddress
             self.identity = identity
+            self.orchestrationSendingRoleArn = orchestrationSendingRoleArn
             self.roleArn = roleArn
         }
     }
@@ -9926,6 +9936,7 @@ extension PinpointClientTypes.EmailChannelResponse: Swift.Codable {
         case lastModifiedBy = "LastModifiedBy"
         case lastModifiedDate = "LastModifiedDate"
         case messagesPerSecond = "MessagesPerSecond"
+        case orchestrationSendingRoleArn = "OrchestrationSendingRoleArn"
         case platform = "Platform"
         case roleArn = "RoleArn"
         case version = "Version"
@@ -9969,6 +9980,9 @@ extension PinpointClientTypes.EmailChannelResponse: Swift.Codable {
         if let messagesPerSecond = self.messagesPerSecond {
             try encodeContainer.encode(messagesPerSecond, forKey: .messagesPerSecond)
         }
+        if let orchestrationSendingRoleArn = self.orchestrationSendingRoleArn {
+            try encodeContainer.encode(orchestrationSendingRoleArn, forKey: .orchestrationSendingRoleArn)
+        }
         if let platform = self.platform {
             try encodeContainer.encode(platform, forKey: .platform)
         }
@@ -10010,6 +10024,8 @@ extension PinpointClientTypes.EmailChannelResponse: Swift.Codable {
         platform = platformDecoded
         let roleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .roleArn)
         roleArn = roleArnDecoded
+        let orchestrationSendingRoleArnDecoded = try containerValues.decodeIfPresent(Swift.String.self, forKey: .orchestrationSendingRoleArn)
+        orchestrationSendingRoleArn = orchestrationSendingRoleArnDecoded
         let versionDecoded = try containerValues.decodeIfPresent(Swift.Int.self, forKey: .version)
         version = versionDecoded
     }
@@ -10042,6 +10058,8 @@ extension PinpointClientTypes {
         public var lastModifiedDate: Swift.String?
         /// The maximum number of emails that can be sent through the channel each second.
         public var messagesPerSecond: Swift.Int?
+        /// The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.
+        public var orchestrationSendingRoleArn: Swift.String?
         /// The type of messaging or notification platform for the channel. For the email channel, this value is EMAIL.
         /// This member is required.
         public var platform: Swift.String?
@@ -10063,6 +10081,7 @@ extension PinpointClientTypes {
             lastModifiedBy: Swift.String? = nil,
             lastModifiedDate: Swift.String? = nil,
             messagesPerSecond: Swift.Int? = nil,
+            orchestrationSendingRoleArn: Swift.String? = nil,
             platform: Swift.String? = nil,
             roleArn: Swift.String? = nil,
             version: Swift.Int? = nil
@@ -10080,6 +10099,7 @@ extension PinpointClientTypes {
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedDate = lastModifiedDate
             self.messagesPerSecond = messagesPerSecond
+            self.orchestrationSendingRoleArn = orchestrationSendingRoleArn
             self.platform = platform
             self.roleArn = roleArn
             self.version = version
@@ -11089,8 +11109,6 @@ extension PinpointClientTypes {
         /// * TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.
         ///
         /// * THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint.
-        ///
-        /// * TIMEOUT - The message couldn't be sent within the timeout period.
         ///
         /// * UNKNOWN_FAILURE - An unknown error occurred.
         /// This member is required.
@@ -22841,8 +22859,6 @@ extension PinpointClientTypes {
         /// * TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.
         ///
         /// * THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address.
-        ///
-        /// * TIMEOUT - The message couldn't be sent within the timeout period.
         ///
         /// * UNKNOWN_FAILURE - An unknown error occurred.
         /// This member is required.
