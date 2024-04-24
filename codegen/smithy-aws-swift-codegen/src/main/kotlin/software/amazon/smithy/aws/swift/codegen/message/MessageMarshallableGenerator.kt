@@ -3,7 +3,6 @@ package software.amazon.smithy.aws.swift.codegen.message
 import software.amazon.smithy.codegen.core.CodegenException
 import software.amazon.smithy.codegen.core.Symbol
 import software.amazon.smithy.model.shapes.MemberShape
-import software.amazon.smithy.model.shapes.Shape
 import software.amazon.smithy.model.shapes.ShapeType
 import software.amazon.smithy.model.shapes.UnionShape
 import software.amazon.smithy.model.traits.EventHeaderTrait
@@ -14,6 +13,7 @@ import software.amazon.smithy.swift.codegen.SwiftWriter
 import software.amazon.smithy.swift.codegen.integration.ProtocolGenerator
 import software.amazon.smithy.swift.codegen.integration.serde.readwrite.NodeInfoUtils
 import software.amazon.smithy.swift.codegen.integration.serde.readwrite.WritingClosureUtils
+import software.amazon.smithy.swift.codegen.integration.serde.readwrite.requestWireProtocol
 import software.amazon.smithy.swift.codegen.integration.serde.readwrite.responseWireProtocol
 import software.amazon.smithy.swift.codegen.integration.serde.struct.writerSymbol
 import software.amazon.smithy.swift.codegen.model.eventStreamEvents
@@ -70,7 +70,19 @@ class MessageMarshallableGenerator(
                                     eventPayloadBinding != null -> renderSerializeEventPayload(ctx, eventPayloadBinding, writer)
                                     unbound.isNotEmpty() -> {
                                         writer.addStringHeader(":content-type", payloadContentType)
-                                        renderPayloadSerialization(ctx, writer, variant)
+                                        writer.addImport(ctx.service.writerSymbol.namespace)
+                                        val nodeInfo = NodeInfoUtils(ctx, writer, ctx.service.requestWireProtocol).nodeInfo(member, true)
+                                        writer.write("let writer = \$N(nodeInfo: \$L)", ctx.service.writerSymbol, nodeInfo)
+                                        unbound.forEach {
+                                            val writingClosure = WritingClosureUtils(ctx, writer).writingClosure(ctx.model.expectShape(it.target))
+                                            writer.write(
+                                                "try writer[\$S].write(value.\$L, with: \$L)",
+                                                it.memberName,
+                                                ctx.symbolProvider.toMemberName(it),
+                                                writingClosure,
+                                            )
+                                        }
+                                        writer.write("payload = try writer.data()")
                                     }
                                 }
                                 writer.dedent()
@@ -108,7 +120,7 @@ class MessageMarshallableGenerator(
             }
             ShapeType.STRUCTURE, ShapeType.UNION -> {
                 writer.addStringHeader(":content-type", payloadContentType)
-                renderPayloadSerialization(ctx, writer, target)
+                renderPayloadSerialization(ctx, writer, member)
             }
             else -> throw CodegenException("unsupported shape type `${target.type}` for target: $target; expected blob, string, structure, or union for eventPayload member: $member")
         }
@@ -175,14 +187,16 @@ class MessageMarshallableGenerator(
         write("headers.append(.init(name: \$S, value: .string(\$S)))", name, value)
     }
 
-    private fun renderPayloadSerialization(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, shape: Shape) {
+    private fun renderPayloadSerialization(ctx: ProtocolGenerator.GenerationContext, writer: SwiftWriter, memberShape: MemberShape) {
         // get a payload serializer for the given members of the variant
         val nodeInfoUtils = NodeInfoUtils(ctx, writer, ctx.service.responseWireProtocol)
-        val rootNodeInfo = nodeInfoUtils.nodeInfo(shape)
-        val valueWritingClosure = WritingClosureUtils(ctx, writer).writingClosure(shape)
+        val rootNodeInfo = nodeInfoUtils.nodeInfo(memberShape, true)
+        val valueWritingClosure = WritingClosureUtils(ctx, writer).writingClosure(memberShape)
+        writer.addImport(ctx.service.writerSymbol.namespace)
         writer.write(
-            "payload = try \$N.write(value, rootNodeInfo: \$L, with: \$L)",
+            "payload = try \$N.write(value.\$L, rootNodeInfo: \$L, with: \$L)",
             ctx.service.writerSymbol,
+            ctx.symbolProvider.toMemberName(memberShape),
             rootNodeInfo,
             valueWritingClosure,
         )

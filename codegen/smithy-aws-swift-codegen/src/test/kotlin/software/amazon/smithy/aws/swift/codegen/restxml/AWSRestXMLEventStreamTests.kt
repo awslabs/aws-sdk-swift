@@ -54,7 +54,7 @@ extension EventStreamTestClientTypes.TestEvents {
                     headers.append(.init(name: "exampleHeader", value: .string(headerValue)))
                 }
                 headers.append(.init(name: ":content-type", value: .string("application/xml")))
-                payload = try SmithyXML.Writer.write(value, rootNodeInfo: "Audio", with: EventStreamTestClientTypes.Audio.write(value:to:))
+                payload = try SmithyXML.Writer.write(value.audio, rootNodeInfo: "Audio", with: EventStreamTestClientTypes.Audio.write(value:to:))
             case .sdkUnknown(_):
                 throw ClientRuntime.ClientError.unknownError("cannot serialize the unknown event type!")
             }

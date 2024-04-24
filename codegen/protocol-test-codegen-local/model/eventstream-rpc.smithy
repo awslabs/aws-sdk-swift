@@ -1,13 +1,13 @@
 namespace aws.protocoltests.eventstream
 
-use aws.protocols#restJson1
+use aws.protocols#awsJson1_1
 use aws.api#service
 use aws.auth#sigv4
 
-@restJson1
-@sigv4(name: "event-stream-test")
-@service(sdkId: "EventStreamTest")
-service TestService { version: "123", operations: [TestStreamOp] }
+@awsJson1_1
+@sigv4(name: "rpc-event-stream-test")
+@service(sdkId: "RPCEventStreamTest")
+service RPCTestService { version: "123", operations: [TestStreamOp] }
 
 @http(method: "POST", uri: "/test")
 operation TestStreamOp {

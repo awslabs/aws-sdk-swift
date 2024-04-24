@@ -54,7 +54,7 @@ extension InitialRequestTestClientTypes.TestStream {
         )
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
-        let initialRequestMessage = try input.makeInitialRequestMessage(encoder: encoder)
+        let initialRequestMessage = try input.makeInitialRequestMessage()
         operation.serializeStep.intercept(position: .after, middleware: ClientRuntime.EventStreamBodyMiddleware<EventStreamOpInput, EventStreamOpOutput, InitialRequestTestClientTypes.TestStream>(keyPath: \.eventStream, defaultBody: "{}", marshalClosure: InitialRequestTestClientTypes.TestStream.marshal, initialRequestMessage: initialRequestMessage))
 """
         contents.shouldContainOnlyOnce(expectedContents)
@@ -97,9 +97,9 @@ extension EventStreamOpInput {
         contents.shouldSyntacticSanityCheck()
         val expectedContents = """
 extension EventStreamOpInput {
-    func makeInitialRequestMessage(encoder: ClientRuntime.RequestEncoder) throws -> EventStream.Message {
+    func makeInitialRequestMessage() throws -> EventStream.Message {
         let writer = SmithyJSON.Writer(nodeInfo: "")
-        try writer.write(self, writingClosure: EventStreamOpInput.write(value:to:))
+        try writer.write(self, with: EventStreamOpInput.write(value:to:))
         let initialRequestPayload = try writer.data()
         let initialRequestMessage = EventStream.Message(
             headers: [
