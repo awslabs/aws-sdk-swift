@@ -53,8 +53,6 @@ public struct Sha256TreeHashMiddleware<OperationStackOutput>: Middleware {
                       input.withHeader(name: X_AMZ_SHA256_TREE_HASH_HEADER_NAME, value: treeHash)
                       input.withHeader(name: X_AMZ_CONTENT_SHA256_HEADER_NAME, value: linearHash)
                   }
-              case .empty:
-                  break
               case .noStream:
                   break
               }
